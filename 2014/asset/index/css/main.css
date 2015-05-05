@@ -1,0 +1,613 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-family: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle;
+}
+caption,
+th,
+td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+a img {
+  border: none;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary,
+main {
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-family: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+audio,
+canvas,
+video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+audio:not([controls]),
+[hidden] {
+  display: none;
+}
+body {
+  font-family: "Helvetica Neue", 'Microsoft YaHei', "\5B8B\4F53", Arial, sans-serif;
+}
+.section .wrap {
+  margin: 0 auto;
+  width: 960px;
+}
+/**
+ * fullPage 1.6.7
+ * https://github.com/alvarotrigo/fullPage.js
+ * MIT licensed
+ *
+ * Copyright (C) 2013 alvarotrigo.com - A project by Alvaro Trigo
+ */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+#superContainer {
+  height: 100%;
+  position: relative;
+  /* Touch detection for Windows 8 */
+  -ms-touch-action: none;
+}
+.section {
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.slide {
+  float: left;
+}
+.slide,
+.slidesContainer {
+  height: 100%;
+  display: block;
+}
+.slides {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+.section.table,
+.slide.table {
+  display: table;
+  width: 100%;
+}
+.tableCell {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%;
+  height: 100%;
+}
+.slidesContainer {
+  float: left;
+  position: relative;
+}
+.controlArrow {
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  margin-top: -38px;
+}
+.controlArrow.prev {
+  left: 15px;
+  width: 0;
+  border-width: 38.5px 34px 38.5px 0;
+  border-color: transparent #fff transparent transparent;
+}
+.controlArrow.next {
+  right: 15px;
+  border-width: 38.5px 0 38.5px 34px;
+  border-color: transparent transparent transparent #fff;
+}
+.scrollable {
+  overflow: scroll;
+}
+.easing {
+  -webkit-transition: all 0.7s ease-out;
+  -moz-transition: all 0.7s ease-out;
+  -o-transition: all 0.7s ease-out;
+  transition: all 0.7s ease-out;
+}
+#fullPage-nav {
+  position: fixed;
+  z-index: 100;
+  margin-top: -32px;
+  top: 50%;
+  opacity: 1;
+}
+#fullPage-nav.right {
+  right: 17px;
+}
+#fullPage-nav.left {
+  left: 17px;
+}
+.fullPage-slidesNav {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  opacity: 1;
+}
+.fullPage-slidesNav.bottom {
+  bottom: 17px;
+}
+.fullPage-slidesNav.top {
+  top: 17px;
+}
+#fullPage-nav ul,
+.fullPage-slidesNav ul {
+  margin: 0;
+  padding: 0;
+}
+#fullPage-nav li,
+.fullPage-slidesNav li {
+  display: block;
+  width: 14px;
+  height: 13px;
+  margin: 7px;
+  position: relative;
+}
+.fullPage-slidesNav li {
+  display: inline-block;
+}
+#fullPage-nav li a,
+.fullPage-slidesNav li a {
+  display: block;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  text-decoration: none;
+}
+#fullPage-nav li .active span,
+.fullPage-slidesNav .active span {
+  background: #333;
+}
+#fullPage-nav span,
+.fullPage-slidesNav span {
+  top: 2px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #000;
+  background: rgba(0, 0, 0, 0);
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 1;
+}
+.fullPage-tooltip {
+  position: absolute;
+  color: #fff;
+  font-size: 14px;
+  font-family: arial, helvetica, sans-serif;
+  top: -2px;
+}
+.fullPage-tooltip.right {
+  right: 20px;
+}
+.fullPage-tooltip.left {
+  left: 20px;
+}
+#filter,
+#filter1 {
+  position: absolute;
+  left: 137px;
+  top: 10px;
+  width: 740px;
+  padding-left: 15px;
+}
+#filter table,
+#filter1 table {
+  width: 100%;
+}
+#filter table a,
+#filter1 table a {
+  cursor: pointer;
+}
+#filter table th,
+#filter1 table th {
+  padding: 5px 0 7px 3px;
+}
+#filter table th a,
+#filter1 table th a {
+  color: #7bc0dd;
+  text-decoration: underline;
+}
+#filter table td,
+#filter1 table td {
+  padding: 0 0 0 3px ;
+}
+#filter table td i,
+#filter1 table td i {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  width: 17px;
+  height: 17px;
+  line-height: 25px;
+  vertical-align: middle;
+}
+#filter table td img,
+#filter1 table td img {
+  margin-right: 2px;
+  height: 25px;
+  width: 25px;
+  vertical-align: middle;
+}
+.section1 {
+  background: url('../../img/finalA.png') 50% 10px no-repeat;
+}
+.next {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  margin-left: -16px;
+  width: 32px;
+  height: 32px;
+  background: url('../../img/next.png') 0 0 no-repeat;
+  cursor: pointer;
+}
+.next:hover {
+  background: url('../../img/next-hover.png') 0 0 no-repeat;
+}
+.section1-bg1 {
+  background: url('../../img/finalB.png') 50% 10px no-repeat;
+}
+.section2 {
+  background: url('../../img/section2-bg.gif') 50% 50% no-repeat;
+}
+.title {
+  position: relative;
+  height: 54px;
+  padding: 0 50px;
+  margin-bottom: 30px;
+  color: #fff;
+}
+.title .master {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  height: 54px;
+  width: 194px;
+  margin-right: 70px;
+  font-size: 40px;
+  background: url('../../img/title.png') 0 0 no-repeat;
+}
+.title .secondary {
+  position: absolute;
+  left: 290px;
+  bottom: 8px;
+  width: 600px;
+  font-size: 13px;
+  line-height: 20px;
+}
+.section3 {
+  background: url('../../img/section3-bg.gif') 50% 50% no-repeat;
+}
+.section4 {
+  background: url('../../img/section4-bg.png') 50% 50% no-repeat;
+}
+.section4 .title .master {
+  background: url('../../img/title-history.png') 0 0 no-repeat;
+}
+.section5 {
+  background: url('../../img/section5-bg.png') 50% 50% no-repeat;
+}
+.section5 .title .master {
+  width: 290px;
+  background: url('../../img/title5.png') 0 0 no-repeat;
+}
+.section5 .title .secondary {
+  left: 390px;
+  bottom: -8px;
+  width: 500px;
+}
+.section6 {
+  background: url('../../img/section6-bg.png') 50% 50% no-repeat;
+}
+.section-last .end {
+  margin: 0 auto;
+  width: 548px;
+  padding-top: 110px;
+  text-align: center;
+  background: url('../../img/end.png') 0 0 no-repeat;
+  color: #fff;
+  font-size: 18px;
+  line-height: 30px;
+}
+.section-last .end a {
+  color: #fff;
+}
+.rank-chart-content,
+.history-chart-content,
+.player-chart-content {
+  height: 505px;
+  color: #666;
+}
+.player-chart-content {
+  height: 514px;
+}
+.rank-chart-content {
+  background: url('../../img/chart2-bg.png') 50% 50% no-repeat;
+}
+.history-chart-content {
+  background: url('../../img/chart4-bg.png') 50% 50% no-repeat;
+}
+.player-chart-content {
+  background: url('../../img/chart5-bg.png') 50% 50% no-repeat;
+}
+.filter-wrap {
+  position: relative;
+  height: 165px;
+}
+.filter-wrap #groupDimen,
+.filter-wrap #regionDimen {
+  position: absolute;
+  width: 50px;
+  text-align: right;
+  left: 80px;
+  cursor: default;
+}
+.filter-wrap #groupDimen {
+  top: 60px;
+}
+.filter-wrap #regionDimen {
+  top: 90px;
+}
+.filter-wrap.group {
+  background: url('../../img/group-col.png') 65px 10px no-repeat;
+}
+.filter-wrap.group #regionDimen {
+  color: #fff;
+}
+.filter-wrap.region {
+  background: url('../../img/region-col.png') 69px 10px no-repeat;
+}
+.filter-wrap.region #groupDimen {
+  color: #fff;
+}
+.filter-wrap1 {
+  position: relative;
+  height: 165px;
+}
+.filter-wrap1 #groupDimen1,
+.filter-wrap1 #regionDimen1 {
+  position: absolute;
+  width: 50px;
+  text-align: right;
+  left: 80px;
+  cursor: default;
+}
+.filter-wrap1 #groupDimen1 {
+  top: 60px;
+}
+.filter-wrap1 #regionDimen1 {
+  top: 90px;
+}
+.filter-wrap1.group {
+  background: url('../../img/group-col1.png') 65px 10px no-repeat;
+}
+.filter-wrap1.group #regionDimen {
+  color: #fff;
+}
+.filter-wrap1.region {
+  background: url('../../img/region-col1.png') 69px 10px no-repeat;
+}
+.filter-wrap1.region #groupDimen {
+  color: #fff;
+}
+.filter4-wrap {
+  height: 140px;
+  padding: 25px 0 0 90px;
+}
+.filter4-wrap div {
+  *zoom: 1;
+  margin: 0 0 10px 0;
+}
+.filter4-wrap div:before,
+.filter4-wrap div:after {
+  display: table;
+  content: "";
+}
+.filter4-wrap div:after {
+  clear: both;
+}
+.filter4-wrap p {
+  float: left;
+  margin-right: 15px;
+  width: 70px;
+  color: #F8E38E;
+  line-height: 26px;
+}
+.filter4-wrap ul {
+  *zoom: 1;
+  float: left;
+}
+.filter4-wrap ul:before,
+.filter4-wrap ul:after {
+  display: table;
+  content: "";
+}
+.filter4-wrap ul:after {
+  clear: both;
+}
+.filter4-wrap ul li {
+  float: left;
+  margin-right: 5px;
+  color: #fff;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.filter4-wrap ul li.selected {
+  background: #fff;
+  color: #e27c5d;
+}
+.filter4-wrap ul li:hover {
+  background: #fff;
+  color: #e27c5d;
+}
+#rankChart,
+#historyChart,
+#playerChart {
+  margin: 0 auto;
+  width: 840px;
+  height: 305px;
+  background: #fff;
+}
+#playerChart {
+  height: 330px;
+}
+#rank-timeline {
+  margin-left: 60px;
+  width: 840px;
+  height: 505px;
+  background: #fff;
+}
+.wrap-wide {
+  position: relative;
+  margin: 0 auto;
+  width: 1200px;
+  height: 585px;
+}
+.money-title {
+  height: 48px;
+  background: url('../../img/money-title.png') 0 0 no-repeat;
+  margin-left: 80px;
+  margin-bottom: 20px;
+  padding: 5px 80px 0 350px;
+  color: #878787;
+  line-height: 20px;
+  font-size: 13px;
+}
+.money-legend {
+  width: 301px;
+  height: 15px;
+  position: absolute;
+  left: 826px;
+  top: 560px;
+  background: url('../../img/legend.png') 0 0 no-repeat;
+}
+#moneyChartBar {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+}
+#moneyChartScatter {
+  position: absolute;
+  left: 500px;
+  width: 650px;
+  height: 500px;
+}

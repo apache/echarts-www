@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="ECharts">
+    <meta name="keywords" content="数据,世界杯,数说世界杯,图表,可视化,ECharts,Charts">
+    <meta name="description" content="2014年巴西世界杯，世界级可视化产品ECharts，用独特的视角，用数据说话，带你一起看不一样的世界杯">
+    <html xmlns:wb=“http://open.weibo.com/wb”>
+    <link href="../../doc/asset/ico/favicon.png" rel="shortcut icon">
+    <link rel="stylesheet" href="./asset/index/css/main.css?v=0623" />
+    <title>ECharts数说世界杯</title>
+</head>
+<body>
+    <div id="fullpage">
+        <div class="section section1 section1-bg1">
+            <a class="next"></a>
+        </div>
+        <div class="section section2">
+            <div class="wrap">
+                <div class="title">
+                    <span class="master"></span>
+                    <p class="secondary">巴西世界杯32强球队过去四年排名折线对比图，数据来源于FIFA；点击国旗可选择想要查看的球队，也可通过小组和洲分布快速选择；在图表上方移动鼠标，可获得更详细的排名数据。</p>
+                </div>
+                <div class="rank-chart-content">
+                    <div class="filter-wrap group">
+                        <div id="groupDimen">小组</div>
+                        <div id="regionDimen">洲分布</div>
+                        <div id="filter"></div>
+                    </div>
+                    <div id="rankChart"></div>
+                </div>
+            </div>
+            <a class="next"></a>
+        </div>
+        <div class="section section3">
+            <div class="wrap">
+                <div class="title">
+                    <span class="master"></span>
+                    <p class="secondary">巴西世界杯32强球队过去四年排名动态变化图，数据来源于FIFA；哪只国家队更加稳定，哪只球队爱坐过山车，ECharts新特性“时间轴”让数据演起来</p>
+                </div>
+                <div id="rank-timeline"></div>
+            </div>
+            <a class="next"></a>
+        </div>
+        <div class="section section4">
+            <div class="wrap">
+                <div class="title">
+                    <span class="master"></span>
+                    <p class="secondary">32强，谁是历史最强者，谁是百年老龙套，谁是鱼腩，谁是新贵。多个维度，任您组合，不同视角，呈现世界杯90年精彩历史</p>
+                </div>
+                <div class="history-chart-content">
+                    <div class="filter4-wrap">
+                        <div>
+                            <p>横坐标</p>
+                            <ul>
+                                <li class="selected">参赛届数</li>
+                                <li>比赛场次</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p>纵坐标</p>
+                            <ul>
+                                <li class="selected">胜率</li>
+                                <li>不败率</li>
+                                <li>胜球场次</li>
+                                <li>平球场次</li>
+                                <li>输球场次</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p>国旗面积</p>
+                            <ul>
+                                <li class="selected">平均每场进球数</li>
+                                <li>平均每场失球数</li>
+                                <li>平均每场黄牌数</li>
+                                <li>平均每场红牌数</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="historyChart"></div>
+                </div>
+            </div>
+            <a class="next"></a>
+        </div>
+        <div class="section section5">
+            <div class="wrap">
+                <div class="title">
+                    <span class="master"></span>
+                    <p class="secondary">西甲英超谁是老大？意甲是否真的没落？葡萄牙、土耳其，谁更能冲击五大联赛的地位？非洲人真的更偏爱法国联赛？南美自产自销的能力究竟如何？32强，736名球星，ECharts为你呈现，联赛球星分布图。</p>
+                </div>
+                <div class="player-chart-content">
+                    <div class="filter-wrap1 group">
+                        <div id="groupDimen1">小组</div>
+                        <div id="regionDimen1">洲分布</div>
+                        <div id="filter1"></div>
+                    </div>
+                    <div id="playerChart"></div>
+                </div>
+            </div>
+            <a class="next"></a>
+        </div>
+        <div class="section section6">
+            <div class="wrap-wide">
+                <div class="money-title">谁是足坛第一人，谁又是足坛第一贵？一个C罗能顶半只队？英格兰球员身价真的虚高？ECharts多图连动，多维度，多视角，由你来分析！</div>
+                <div id="moneyChartBar"></div>
+                <div id="moneyChartScatter"></div>
+                <div class="money-legend"></div>
+            </div>
+            <a class="next"></a>
+        </div>
+        <div class="section section-last">
+            <div class="end">
+                <p>更多精彩世界杯数据，敬请期待</p>
+                <p>
+                    欢迎关注 
+                    <a href="http://echarts.baidu.com">ECharts官网</a> 
+                    <a href="http://weibo.com/echarts">微博</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="http://s1.bdstatic.com/r/www/cache/ecom/esl/1-8-2/esl.min.js"></script>
+    <script type="text/javascript">
+    require.config({
+        baseUrl: './asset/index/js',
+        packages: [
+            {
+                name: 'echarts',
+                location: '../../dep/echarts/src',
+                main: 'echarts'
+            },
+            {
+                name: 'zrender',
+                location: '../../dep/zrender/src',
+                main: 'zrender'
+            }
+        ],
+        urlArgs: {
+            main: 'v=0623-5'
+        }
+    });
+
+    require(['main'], function(main) {
+        main.init();
+    });
+    </script>
+    <script type="text/javascript">
+    if (document.location.href.indexOf('dev052') == -1) {
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fb78830c9a5dad062d08b90b2bc0cf5da' type='text/javascript'%3E%3C/script%3E"));   
+    }
+    </script>
+</body>
+</html>
