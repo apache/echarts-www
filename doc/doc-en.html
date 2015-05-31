@@ -56,7 +56,9 @@
                                 <li><a href="#Funnel">funnel</a></li>
                                 <li><a href="#eventRiver">eventRiver</a></li>
                                 <li><a href="#treemap">treemap</a></li>
+                                <li><a href="#treeChart">tree</a></li>
                                 <li><a href="#venn">venn</a></li>
+                                <li><a href="#wordCloud">wordCloud</a></li>
                             </ul>
                             <li><a href="#Import-ECharts">Import ECharts</a></li>
                             <ul>
@@ -103,7 +105,10 @@
                                     <li><a href="#SeriesFunnel">series (funnel) </a></li>
                                     <li><a href="#SeriesEventRiver">series (eventRiver)</a></li>
                                     <li><a href="#SeriesTreemap">series (treemap)</a></li>
+                                    <li><a href="#SeriesTree">series (tree)</a></li>
+
                                     <li><a href="#SeriesVenn">series (venn)</a></li>
+                                    <li><a href="#SeriesWordCloud">series (wordCloud)</a></li>
                                     <li><a href="#SeriesData">data</a></li>
                                     <li><a href="#SeriesMarkPoint">markPoint</a></li>
                                     <ul>
@@ -498,13 +503,34 @@
                         </tr>
                     </table>
 
-                    <h4>single chart type：venn<a name="venn"> </a></h4>
+                    <h4>single chart type：tree<a name="treeChart"> </a></h4>
                     <table cellspacing="0" class="ADoc_table full">
+                        <tr>
+                            <th colspan=2> tree </th>
+                        </tr>
+                        <tr>
+                            <td><img src="./asset/img/example/tree1.png" title="" alt="tree"/></td>
+                            <td><img src="./asset/img/example/tree2.png" title="" alt="tree"/></td>
+                        </tr>
+                    </table>
+
+                    <h4>single chart type：venn<a name="venn"> </a></h4>
+                    <table cellspacing="0" class="ADoc_table full" style="width:600px;">
                         <tr>
                             <th colspan=1> Venn </th>
                         </tr>
                         <tr>
                             <td><img src="./asset/img/example/venn.png" title="" alt="Venn"/></td>
+                        </tr>
+                    </table>
+
+                    <h4>single chart type：wordCloud<a name="wordCloud"> </a></h4>
+                    <table cellspacing="0" class="ADoc_table full" style="width:600px;">
+                        <tr>
+                            <th colspan=1> Venn </th>
+                        </tr>
+                        <tr>
+                            <td><img src="./asset/img/example/wordCloud.png" title="" alt="Venn"/></td>
                         </tr>
                     </table>
 
@@ -543,18 +569,18 @@ require.config({
                                 <li>echarts.js : The echarts core file which should be import by a &lt;script&gt tag, an AMD loader (<a href="https://github.com/ecomfe/esl" target="_blank">esl.js</a>) has been included in this file.</li>
                                 <li>chart ( folder ) : Via dependency analysis, echarts-optimizer generates a single file for every chart types, you can choose one of them according to your needs:
                                     <ul>
-                                        <li>echarts-line.js : Line ( require echarts/chart/bar as the same time if Magic switch is needed )</li>
-                                        <li>echarts-bar.js : Bar ( require echarts/chart/line as the same time if Magic switch is needed )</li>
-                                        <li>echarts-scatter.js : Scatter</li>
-                                        <li>echarts-k.js : Candlestick</li>
-                                        <li>echarts-pie.js : Pie ( require echarts/chart/funnel as the same time if Magic switch is needed )</li>
-                                        <li>echarts-radar.js : Radar</li>
-                                        <li>echarts-map.js : Map</li>
-                                        <li>echarts-force.js : Force-directed Chart ( require echarts/chart/chord as the same time if Magic switch is needed )</li>
-                                        <li>echarts-chord.js : Chord ( require echarts/chart/force as the same time if Magic switch is needed )</li>
-                                        <li>echarts-funnel.js : Funnel ( require echarts/chart/pie as the same time if Magic switch is needed )</li>
-                                        <li>echarts-gauge.js : Gauge</li>
-                                        <li>echarts-eventRiver.js : EventRiver</li>
+                                        <li>line.js : Line ( require echarts/chart/bar as the same time if Magic switch is needed )</li>
+                                        <li>bar.js : Bar ( require echarts/chart/line as the same time if Magic switch is needed )</li>
+                                        <li>scatter.js : Scatter</li>
+                                        <li>k.js : Candlestick</li>
+                                        <li>pie.js : Pie ( require echarts/chart/funnel as the same time if Magic switch is needed )</li>
+                                        <li>radar.js : Radar</li>
+                                        <li>map.js : Map</li>
+                                        <li>force.js : Force-directed Chart ( require echarts/chart/chord as the same time if Magic switch is needed )</li>
+                                        <li>chord.js : Chord ( require echarts/chart/force as the same time if Magic switch is needed )</li>
+                                        <li>funnel.js : Funnel ( require echarts/chart/pie as the same time if Magic switch is needed )</li>
+                                        <li>gauge.js : Gauge</li>
+                                        <li>eventRiver.js : EventRiver</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -1908,12 +1934,12 @@ require(['echarts'], function (ec){
                         <tr>
                             <td> <b>{number}</b> min </td>
                             <td> null </td>
-                            <td> The specified minimum value, such as 0. Defaults to null. Required parameter. </td>
+                            <td> The specified minimum value, such as 0. Defaults to null. Required parameter. Only when splitList is used, min can be ignored.</td>
                         </tr>
                         <tr>
                             <td> <b>{number}</b> max </td>
                             <td> null </td>
-                            <td> The specified maximum value, such as 100. Defaults to null. Required parameter. </td>
+                            <td> The specified maximum value, such as 100. Defaults to null. Required parameter. Only when splitList is used, max can be ignored.</td>
                         </tr>
                         <tr>
                             <td> <b>{number}</b> precision </td>
@@ -1926,6 +1952,31 @@ require(['echarts'], function (ec){
                             <td> the number of segments. Defaults to 5. Linear gradient when set to 0. When calculable is true, it is equally split into 100 parts by default. </td>
                         </tr>
                         <tr>
+                            <td> <b>{Array.&lt;Object&gt;}</b> splitList </td>
+                            <td> null </td>
+                            <td>
+                                Customizing that how to split dataRange. When splitList is specified, splitNumber is ignored. <br />
+                                splitList is an Array, which can not be empty. Each item of the Array is Object like: <br />
+                                { <br />
+                                &nbsp;&nbsp;start: 10 &nbsp;&nbsp;&nbsp; The start of the domain of this item. <br />
+                                &nbsp;&nbsp;end: 30 &nbsp;&nbsp;&nbsp; The end of the domain of this item. <br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'start' and 'end' can be set to the same value, <br />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in which case this item is coresponding to the single value rather than an interval. <br />
+                                &nbsp;&nbsp;label: '10 to 30' &nbsp;&nbsp;&nbsp; text label of this item. If ignoring this attribute, Text label will be auto generated.  <br />
+                                &nbsp;&nbsp;color: '#333' &nbsp;&nbsp;&nbsp; Color of this item. If ignoring attribute, color can be auto generated.  <br />
+                                } <br />
+                                example: <a href="./example/dataRange2.html" target="_blank">this 》</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> <b>{Object}</b> range </td>
+                            <td> null </td>
+                            <td>
+                                This option is used to set the initial selected range of dataRange. This option works when "calculable" is true. <br />
+                                The value of this option likes: {start: 10, end: 50}
+                            </td>
+                        </tr>
+                        <tr>
                             <td> <b>{boolean | string}</b> selectedMode </td>
                             <td> true </td>
                             <td> selection mode. Enable dataRange switch by default. Can be one of: single, multiple </td>
@@ -1933,7 +1984,7 @@ require(['echarts'], function (ec){
                         <tr>
                             <td> <b>{boolean}</b> calculable </td>
                             <td> false </td>
-                            <td> Specifies whether the scale roaming feature will be enabled. When enabled, ignore splitNumber, dataRange shows as linear gradient. </td>
+                            <td> Specifies whether the scale roaming feature will be enabled. When enabled, ignore splitNumber and splitList, dataRange shows as linear gradient. </td>
                         </tr>
                         <tr>
                             <td> <b>{boolean}</b> hoverLink </td>
@@ -3729,9 +3780,71 @@ indicator : [
                             <th> Description </th>
                         </tr>
                         <tr>
+                            <td> <b>{Array}</b> center </td>
+                            <td> ['50%', '50%']</td>
+                            <td> coordinate of the center, in pixels or percent.</td>
+                        </tr> 
+                        <tr>
+                            <td> <b>{Array}</b> size </td>
+                            <td> ['80%', '80%']</td>
+                            <td> size of the chart, in pixels or percent.</td>
+                        </tr>
+                        <tr>
                             <td> <b>{Object}</b> itemStyle </td>
                             <td> {} </td>
-                            <td>see <a href="#ItemStyle" title="">itemStyle</a></td>
+                            <td>see <a href="#ItemStyle" title="">itemStyle</a>
+                                peculiar properties of treemap
+                                <table cellspacing="0" class="ADoc_table full">
+                                    <tr>
+                                        <th> Property </th>
+                                        <th> Default </th>
+                                        <th> Description </th>
+                                    </tr>
+                                    <tr>
+                                        <td> <b>{Object}</b> breadcrumb </td>
+                                        <td> <pre>
+{
+    show: true,
+    textStyle: {}
+} </pre>
+                                        </td>
+                                        <td> bread crumb
+                                            <table cellspacing="0" class="ADoc_table full">
+                                                <tr>
+                                                    <th> Property </th>
+                                                    <th> Default </th>
+                                                    <th> Description </th>
+                                                </tr>
+                                                <tr>
+                                                    <td> <b>{Boolean}</b> show </td>
+                                                    <td> true </td>
+                                                    <td> shown or not  </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> <b>{Object}</b> textStyle </td>
+                                                    <td> null </td>
+                                                    <td>see <a href="#TextStyle" title="">textStyle</a> </td>
+                                                </tr>
+                                                
+                                                </tr>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> <b>{number}</b> childBorderWidth </td>
+                                        <td> 1 </td>
+                                        <td> width of borders of sub rectangles </td>
+                                    </tr>
+                                    <tr>
+                                        <td> <b>{string}</b> childBorderColor </td>
+                                        <td> '' </td>
+                                        <td>
+                                            color of borders of sub rectangles 
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                         <tr>
                             <td> <b>{Array}</b> data </td>
@@ -3754,10 +3867,122 @@ indicator : [
                                         <td> value </td>
                                     </tr>
                                     <tr>
+                                        <td> {Array} children </td>
+                                        <td> []</td>
+                                        <td> children，same properties like parent's </td>
+                                    </tr>
+                                    <tr>
                                         <td> <b>{Object}</b> itemStyle </td>
                                         <td> {} </td>
                                         <td>
                                             see
+                                            <a href="#ItemStyle" title="">
+                                                itemStyle
+                                            </a>
+                                            , highest weight
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h5>series（tree）<a name="SeriesTree"> </a></h5>
+                    <P> Here is the data array generated by data-driven chart. Each item in the array stands for a series' options and data.</P>
+                    <table cellspacing="0" class="ADoc_table full">
+                        <tr>
+                            <th> Property </th>
+                            <th> Default </th>
+                            <th> Description </th>
+                        </tr>
+                        <tr>
+                            <td> <b>{Object}</b> rootLocation </td>
+                            <td> 
+                                varying             
+                            </td>
+                            <td> coordinate of the location of the root, in pixels, percent or keywords.
+                                <pre>
+{
+    x: 'center' | 'left' | 'right' | 'x%' | {number},
+    y: 'center' | 'top' | 'bottom' | 'y%' | {number}
+}</pre>
+                            </td>
+                        </tr> 
+                        <tr>
+                            <td> <b>{number}</b> layerPadding </td>
+                            <td> 100</td>
+                            <td> padding of layers</td>
+                        </tr>
+                        <tr>
+                            <td> <b>{number}</b> nodePadding </td>
+                            <td> 30</td>
+                            <td> padding of brothers</td>
+                        </tr>
+                        <tr>
+                            <td> <b>{string}</b> orient </td>
+                            <td> 'vertical'</td>
+                            <td> direction of the tree, 'vertical' | 'horizontal' | 'radial'</td>
+                        </tr>
+                        <tr>
+                            <td> <b>{boolean | string}</b> roam </td>
+                            <td> false </td>
+                            <td> Specifies whether the wheel zoom and drag roam will be enabled. Default to false (boolean), can be true (boolean) and 'scale' (string) for just enable the zoom(in/out), 'move' (string) for just enable the move.</td>
+                        </tr>
+                        <tr>
+                            <td> <b>{string}</b> symbol </td>
+                            <td> 'circle' </td>
+                            <td> see <a href="#SeriesCartesian" title="">series (Cartesian) </a></td>
+                        </tr>
+                        <tr>
+                            <td> {number|Array} symbolSize </td>
+                            <td> 20</td>
+                            <td> size of nodes </td>
+                        </tr>
+                        <tr>
+                            <td> <b>{Object}</b> itemStyle </td>
+                            <td> {} </td>
+                            <td>参见<a href="#ItemStyle" title="">itemStyle</a></td>
+                        </tr>
+                        <tr>
+                            <td> <b>{Array}</b> data </td>
+                            <td> [] </td>
+                            <td> only one item，is Object {}，has properties：
+                                <table cellspacing="0" class="ADoc_table full">
+                                    <tr>
+                                        <th> Property </th>
+                                        <th> Default </th>
+                                        <th> Description </th>
+                                    </tr>
+                                    <tr>
+                                        <td> <b>{string}</b> name </td>
+                                        <td> null </td>
+                                        <td> name </td>
+                                    </tr>
+                                    <tr>
+                                        <td> <b>{number}</b> value </td>
+                                        <td> null </td>
+                                        <td> value </td>
+                                    </tr>
+                                    <tr>
+                                        <td> <b>{string}</b> symbol </td>
+                                        <td> 'circle' </td>
+                                        <td> see <a href="#SeriesCartesian" title="">series (Cartesian)</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td> {number|Array} symbolSize </td>
+                                        <td> 20</td>
+                                        <td> size of the node </td>
+                                    </tr>
+                                    <tr>
+                                        <td> {Array} children </td>
+                                        <td> []</td>
+                                        <td> children nodes，same properties like parent's </td>
+                                    </tr>
+                                    <tr>
+                                        <td> <b>{Object}</b> itemStyle </td>
+                                        <td> {} </td>
+                                        <td>
+                                            see 
                                             <a href="#ItemStyle" title="">
                                                 itemStyle
                                             </a>
@@ -3814,6 +4039,45 @@ indicator : [
                                     </tr>
                                 </table>
                             </td>
+                        </tr>
+                    </table>
+
+                    <h5>series（wordCloud）<a name="SeriesWordCloud"> </a></h5>
+                    <P>  Here is the data array generated by data-driven chart. Each item in the array stands for a series' options and data.</P>
+                    <table cellspacing="0" class="ADoc_table full">
+                        <tr>
+                            <th> Property </th>
+                            <th> Default </th>
+                            <th> Description </th>
+                        </tr>
+                        <tr>
+                            <td> <b>{Array}</b> center </td>
+                            <td> <pre> ['50%', '50%'] </pre></td>
+                            <td>Center of the word cloud. Can be relatively percent or absolutely pixel.</td>
+                        </tr>
+                        <tr>
+                            <td> <b>{Array}</b> size </td>
+                            <td> <pre> ['40%', '40%'] </pre></td>
+                            <td>Center of the word cloud. Can be relatively percent or absolutely pixel.</td>
+                        </tr>
+                        <tr>
+                            <td> <b>{Array}</b> textRotation </td>
+                            <td> <pre>[0, 90]</pre> </td>
+                            <td> List of optional text rotation. In default it has two options: horizontal(0) and vertical(90).</td>
+                        </tr>
+                        <tr>
+                            <td> <b>{Object}</b> autoSize </td>
+                            <td>
+                            <pre>{ 
+    enable: true,
+    minSize: 12
+} </pre> </td>
+                            <td> If enable text size auto calculation. It is recommand to enable to have a better result.</td>
+                        </tr>
+                        <tr>
+                            <td> <b>{Object}</b> itemStyle </td>
+                            <td> {} </td>
+                            <td>参见<a href="#ItemStyle" title="">itemStyle</a></td>
                         </tr>
                     </table>
 
@@ -4331,6 +4595,16 @@ geoCoord : {
                             <td> null </td>
                             <td> style for label text, (see <a href="#TextStyle" title="">textStyle</a>). </td>
                         </tr>
+                        <tr>
+                            <td> <b>{Number}</b> x </td>
+                            <td> varying </td>
+                            <td> only in treemap，x-coordinate in px of text </td>
+                        </tr>
+                        <tr>
+                            <td> <b>{Number}</b> y </td>
+                            <td> varying </td>
+                            <td> only in treemap，y-coordinate in px of text </td>
+                        </tr>
                     </table>
                     <P> labelLine property is the object. It includes:</P>
                     <table cellspacing="0" class="ADoc_table full">
@@ -4411,7 +4685,7 @@ geoCoord : {
                         <tr>
                             <td> <b>{string}</b> type </td>
                             <td> 'solid' </td>
-                            <td> line style. Valid values are: 'solid' | 'dotted' | 'dashed' </td>
+                            <td> line style. Valid values are: 'solid' | 'dotted' | 'dashed', and can be 'curve' | 'broken' in tree structures. </td>
                         </tr>
                         <tr>
                             <td> <b>{number}</b> width </td>

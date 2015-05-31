@@ -1,4 +1,4 @@
-var version = '2.2.2';
+var version = '2.2.3';
 var sp = location.href.lastIndexOf('/');
 var ep = location.href.lastIndexOf('.html');
 var curPage = sp < ep ? location.href.slice(sp + 1, ep) : 'index';
@@ -92,6 +92,7 @@ $('#head')[0].innerHTML =
               + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + (enVersion ? 'Download' : '下载') + '<b class="caret"></b></a>'
               + '<ul class="dropdown-menu">'
                 + '<li><a href="http://ecomfe.github.io/echarts-builder-web/">' + (enVersion ? 'Online builder' : '在线构建工具') + '</a></li>'
+                + '<li><a href="http://ecomfe.github.io/echarts-map-tool/">' + (enVersion ? 'Map tool' : '地图数据生成工具') + '</a></li>'
                 + '<li class="divider"></li>'
                 + '<li><a href="http://echarts.baidu.com/build/echarts-' + version + '.zip"> echarts-' + version + ' (from Baidu)</a></li>'
                 + '<li><a href="https://github.com/ecomfe/echarts/archive/' + version + '.zip"> echarts-' + version + ' (from GitHub)</a></li>'
