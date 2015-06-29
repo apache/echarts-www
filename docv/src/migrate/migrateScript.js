@@ -1377,6 +1377,8 @@ define(function (require) {
         seriesProperties.nodes = {
             type: 'Array',
             items: {
+                descriptionCN: '和series[i].data相同。',
+                descriptionEN: 'The same as series[i].data',
                 '$ref': '#definitions/dataNodeData'
             },
             applicable: ['chord', 'force']
@@ -1727,6 +1729,17 @@ define(function (require) {
             };
         }
 
+
+        // force 和 chord 的data 和 nodes一样
+        seriesProperties.data.oneOf.push({
+            applicable: ['force', 'chord'],
+            type: 'Array',
+            items: {
+                descriptionCN: '和series[i].nodes相同。',
+                descriptionEN: 'The same as series[i].nodes',
+                '$ref': '#definitions/dataNodeData'
+            }
+        });
 
         // 事件河流图的data在表格中
         var seriesEventRiverProperties = schema.definitions.seriesEventRiver.properties;
@@ -2343,12 +2356,14 @@ define(function (require) {
         };
         properties.childBorderWidth = {
             type: 'number',
+            applicable: 'treemap/itemStyle',
             'default': 1,
             descriptionCN: '二级边框宽度',
             descriptionEN: 'width of second level border.'
         };
         properties.childBorderColor = {
             type: 'color',
+            applicable: 'treemap/itemStyle',
             'default': '',
             descriptionCN: '二级边框颜色',
             descriptionEN: 'color of second level border.'
@@ -2413,6 +2428,10 @@ define(function (require) {
         properties = schema.definitions.noDataLoadingOption.properties;
         addRef(properties.textStyle, '#definitions/textStyle');
 
+        schema.definitions.option.properties.noDataLoadingOption = {
+            type: 'Object',
+            '$ref': '#definitions/noDataLoadingOption'
+        };
     }
 
     return init;

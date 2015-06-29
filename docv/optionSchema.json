@@ -204,6 +204,10 @@
                     "descriptionCN": "主元素的缓动效果，详见<a href=\"http://ecomfe.github.io/zrender/doc/doc.html#animation.easing\" target=\"_blank\">zrender.animation.easing</a>，可选有：<br>'Linear',<br>'QuadraticIn', 'QuadraticOut', 'QuadraticInOut',<br>'CubicIn', 'CubicOut', 'CubicInOut',<br>'QuarticIn', 'QuarticOut', 'QuarticInOut',<br>'QuinticIn', 'QuinticOut', 'QuinticInOut',<br>'SinusoidalIn', 'SinusoidalOut', 'SinusoidalInOut',<br>'ExponentialIn', 'ExponentialOut', 'ExponentialInOut',<br>'CircularIn', 'CircularOut', 'CircularInOut',<br>'ElasticIn', 'ElasticOut', 'ElasticInOut',<br>'BackIn', 'BackOut', 'BackInOut',<br>'BounceIn', 'BounceOut', 'BounceInOut'<br></p>",
                     "descriptionEN": "easing effect of the main element. Supports multi-level control. See<a href=\"http://ecomfe.github.io/zrender/doc/doc.html#animation.easing\" target=\"_blank\">zrender.animation.easing</a>, Possible values are: <br>'Linear',<br>'QuadraticIn', 'QuadraticOut', 'QuadraticInOut',<br>'CubicIn', 'CubicOut', 'CubicInOut',<br>'QuarticIn', 'QuarticOut', 'QuarticInOut',<br>'QuinticIn', 'QuinticOut', 'QuinticInOut',<br>'SinusoidalIn', 'SinusoidalOut', 'SinusoidalInOut',<br>'ExponentialIn', 'ExponentialOut', 'ExponentialInOut',<br>'CircularIn', 'CircularOut', 'CircularInOut',<br>'ElasticIn', 'ElasticOut', 'ElasticInOut',<br>'BackIn', 'BackOut', 'BackInOut',<br>'BounceIn', 'BounceOut', 'BounceInOut'<br></p>",
                     "default": "ExponentialOut"
+                },
+                "noDataLoadingOption": {
+                    "type": "Object",
+                    "$ref": "#definitions/noDataLoadingOption"
                 }
             }
         },
@@ -2711,6 +2715,18 @@
                             "default": []
                         },
                         {
+                            "applicable": [
+                                "force",
+                                "chord"
+                            ],
+                            "type": "Array",
+                            "items": {
+                                "descriptionCN": "和series[i].nodes相同。",
+                                "descriptionEN": "The same as series[i].nodes",
+                                "$ref": "#definitions/dataNodeData"
+                            }
+                        },
+                        {
                             "type": "Array",
                             "applicable": "eventRiver",
                             "items": {
@@ -4093,6 +4109,8 @@
                 "nodes": {
                     "type": "Array",
                     "items": {
+                        "descriptionCN": "和series[i].data相同。",
+                        "descriptionEN": "The same as series[i].data",
                         "$ref": "#definitions/dataNodeData"
                     },
                     "applicable": [
@@ -4705,12 +4723,14 @@
                 },
                 "childBorderWidth": {
                     "type": "number",
+                    "applicable": "treemap/itemStyle",
                     "default": 1,
                     "descriptionCN": "二级边框宽度",
                     "descriptionEN": "width of second level border."
                 },
                 "childBorderColor": {
                     "type": "color",
+                    "applicable": "treemap/itemStyle",
                     "default": "",
                     "descriptionCN": "二级边框颜色",
                     "descriptionEN": "color of second level border."
