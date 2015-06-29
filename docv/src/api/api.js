@@ -1,5 +1,5 @@
 /**
- * api doc sample
+ * API doc.
  */
 define(function (require) {
 
@@ -7,6 +7,7 @@ define(function (require) {
     var Component = require('dt/ui/Component');
     var schemaHelper = require('../common/schemaHelper');
     var dtLib = require('dt/lib');
+    var lang = require('./lang');
 
     require('dt/componentConfig');
 
@@ -47,6 +48,10 @@ define(function (require) {
                     apiTreeHighlighted: dtLib.obArray()
                 };
             }
+        },
+
+        getLang: function () {
+            return lang;
         },
 
         _prepare: function () {

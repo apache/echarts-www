@@ -29,13 +29,13 @@
                 dataList: [
                     {
                         value: 'fuzzyPath',
-                        placeholder: '搜索。快捷键\'/\'。例如输入：ser(line).emph',
-                        text: '在属性中搜索'
+                        placeholder: lang.queryBoxPlaceholderFuzzyPath,
+                        text: lang.queryBoxTextFuzzyPath
                     },
                     {
                         value: 'anyText',
-                        placeholder: '搜索。快捷键\'/\'。例如输入：样式',
-                        text: '全文搜索'
+                        placeholder: lang.queryBoxPlaceholderAnyText,
+                        text: lang.queryBoxTextAnyText
                     }
                 ]
             }">
@@ -46,9 +46,9 @@
     </div>
     <div class="ecdoc-api-desc-area ecdoc-fixed-panel">
         <div class="ecdoc-api-left">
-            <label>类型</label>
+            <label>${lang.descAreaLabelType}</label>
             <div class="ecdoc-api-type"></div>
-            <label>默认值</label>
+            <label>${lang.descAreaLabelDefaultValue}</label>
             <pre class="ecdoc-api-default"></pre>
         </div>
         <div class="ecdoc-api-desc"></div>
