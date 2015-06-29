@@ -129,12 +129,18 @@ define(function (require) {
             var $el = this.$el();
             var treeItem = ob.peekValueInfo('dataItem');
             if (treeItem) {
+                var type = treeItem.type || '';
+                if ($.isArray(type)) {
+                    type = type.join(', ');
+                }
                 var desc = {
-                    type: treeItem.type || [],
-                    cnDesc: treeItem.descriptionCN || '无说明',
-                    enDesc: treeItem.descriptionEN || 'No description',
-                    defaultValueText: dtLib.encodeHTML(treeItem.defaultValueText),
-                    defaultExplanation: treeItem.defaultExplanation || ''
+                    type: dtLib.encodeHTML(type),
+                    descText: dtLib.encodeHTML(
+                        lang.langCode === 'en'
+                            ? (treeItem.descriptionEN || '')
+                            : (treeItem.descriptionCN || '')
+                    ),
+                    defaultValueText: dtLib.encodeHTML(treeItem.defaultValueText)
                 };
 
                 if (persistent) {
@@ -149,7 +155,7 @@ define(function (require) {
 
             function doShow(desc) {
                 $el.find(SELECTOR_TYPE)[0].innerHTML = desc.type;
-                $el.find(SELECTOR_DESC)[0].innerHTML = desc.cnDesc;
+                $el.find(SELECTOR_DESC)[0].innerHTML = desc.descText;
                 $el.find(SELECTOR_DEFAULT)[0].innerHTML = desc.defaultValueText;
             }
         },
@@ -179,7 +185,7 @@ define(function (require) {
             });
 
             if (!result.length) {
-                alert('没有检索到 “' + queryStr + '”');
+                alert(dtLib.strTemplate(lang.queryBoxNoResult, {queryStr: queryStr}));
                 return;
             }
 
