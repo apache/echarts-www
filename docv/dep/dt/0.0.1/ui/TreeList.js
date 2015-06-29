@@ -36,7 +36,7 @@ define(function (require) {
                      *     collapseLevel: number 用于达到“先折叠再展开”的效果。
                      *                           默认null即不collapse。
                      *                           传入collapse level，即最高折叠到树的这层，最高是0层。
-                     *     onSlideEnd: Function 动画结束的回调。关闭动画时也会异步触发之。
+                     *     always: Function 动画结束的回调。即使关闭动画，这个函数也会总会被异步触发。
                      * }
                      * 可以对此ob进行监听：
                      * treeList.viewModel('selected').subscribe(function (nextValue, ob) {
@@ -346,7 +346,7 @@ define(function (require) {
                 {
                     noAnimation: ob.peekValueInfo('noAnimation'),
                     collapseLevel: ob.peekValueInfo('collapseLevel'),
-                    onSlideEnd: ob.peekValueInfo('onSlideEnd'),
+                    always: ob.peekValueInfo('always'),
                     scrollToTarget: ob.peekValueInfo('scrollToTarget')
                 }
             );
@@ -377,7 +377,7 @@ define(function (require) {
                 {
                     noAnimation: ob.peekValueInfo('noAnimation'),
                     collapseLevel: ob.peekValueInfo('collapseLevel'),
-                    onSlideEnd: ob.peekValueInfo('onSlideEnd'),
+                    always: ob.peekValueInfo('always'),
                     scrollToTarget: ob.peekValueInfo('scrollToTarget')
                 }
             );
@@ -389,7 +389,7 @@ define(function (require) {
          * @param {Object=} options
          * @param {number=} [options.collapseLevel]
          * @param {boolean=} [options.noAnimation]
-         * @param {Function=} [options.onSlideEnd]
+         * @param {Function=} [options.always]
          * @param {boolean=} [options.scrollToTarget]
          */
         _showItems: function ($itemEls, options) {
@@ -399,13 +399,13 @@ define(function (require) {
             this._collapseAll({
                 collapseLevel: options.collapseLevel,
                 noAnimation: options.noAnimation,
-                onSlideEnd: $.proxy(doExpand, this)
+                always: $.proxy(doExpand, this)
             });
 
             function doExpand() {
                 this._expandOrCollapse(
                     $ancestors, 'expand',
-                    {noAnimation: options.noAnimation, onSlideEnd: $.proxy(doFinal, this)}
+                    {noAnimation: options.noAnimation, always: $.proxy(doFinal, this)}
                 );
             }
 
@@ -417,7 +417,7 @@ define(function (require) {
                         scrollTop: scrollTarget.offset().top - (scrollToTarget.clientX || 30)
                     });
                 }
-                options.onSlideEnd && options.onSlideEnd();
+                options.always && options.always();
             }
         },
 
@@ -481,7 +481,7 @@ define(function (require) {
          * @param {Object} options
          * @param {boolean} [options.collapseLevel]
          * @param {boolean=} [options.noAnimation]
-         * @param {Function=} [options.onSlideEnd]
+         * @param {Function=} [options.always]
          */
         _collapseAll: function (options) {
             var collapseLevel = options.collapseLevel;
@@ -497,12 +497,12 @@ define(function (require) {
 
                 this._expandOrCollapse(
                     $changeItems, 'collapse',
-                    {noAnimation: options.noAnimation, onSlideEnd: doFinal}
+                    {noAnimation: options.noAnimation, always: doFinal}
                 );
             }
 
             function doFinal() {
-                options.onSlideEnd && options.onSlideEnd();
+                options.always && options.always();
             }
         },
 
@@ -514,7 +514,7 @@ define(function (require) {
          * @param {string} type 'expand' or 'collapse'
          * @param {Object} options
          * @param {boolean=} [options.noAnimation] default false
-         * @param {Function=} [options.onSlideEnd]
+         * @param {Function=} [options.always]
          */
         _expandOrCollapse: function ($itemEls, type, options) {
             options = options || {};
@@ -587,7 +587,7 @@ define(function (require) {
                     that._resetItemText($toBeChangedItemEls);
                 }
                 viewModel.resizeEvent({});
-                options.onSlideEnd && options.onSlideEnd();
+                options.always && options.always();
             }
         },
 

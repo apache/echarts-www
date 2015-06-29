@@ -8,6 +8,7 @@ define(function (require) {
     var schemaHelper = require('../common/schemaHelper');
     var dtLib = require('dt/lib');
     var lang = require('./lang');
+    var hasher = require('hasher');
 
     require('dt/componentConfig');
 
@@ -25,12 +26,29 @@ define(function (require) {
     var api = {};
 
     /**
+     * @type {Object}
+     */
+    var apiMai;
+
+    /**
      * @public
      */
     api.init = function () {
-        var instance = new APIMain($('.ecdoc-apidoc'));
-        instance.traversalRun();
+        apiMai = new APIMain($('.ecdoc-apidoc'));
+
+        hasher.initialized.add(parseHash);
+        hasher.changed.add(parseHash);
+        hasher.init();
     };
+
+    /**
+     * @inner
+     */
+    function parseHash(newHash) {
+        if (newHash) {
+            apiMai.doQuery(newHash, 'optionPath', true);
+        }
+    }
 
     /**
      * @class
@@ -159,10 +177,15 @@ define(function (require) {
         },
 
         /**
-         * 检索并对应到树的相应选项上
-         * queryStr like 'series[i](applicable:pie,line).itemStyle.normal.borderColor'
+         * Query doc tree and scroll to result.
+         * QueryStr like 'series[i](applicable:pie,line).itemStyle.normal.borderColor'
+         *
+         * @public
+         * @param {string} queryStr Query string.
+         * @param {string} queryArgName Value can be 'optionPath', 'fuzzyPath', 'anyText'.
+         * @param {boolean} selectFirst Whether to select first result, default: false.
          */
-        doQuery: function (queryStr, queryArgName) {
+        doQuery: function (queryStr, queryArgName, selectFirst) {
             var result;
 
             try {
@@ -192,9 +215,26 @@ define(function (require) {
                 valueSet.push(result[i].value);
             }
 
-            this._viewModel().apiTreeHighlighted(
-                valueSet, {scrollToTarget: {clientX: 180}, collapseLevel: collapseLevel}
-            );
+            var viewModel = this._viewModel();
+            if (selectFirst) {
+                viewModel.apiTreeHighlighted(
+                    valueSet,
+                    {scrollToTarget: false, collapseLevel: collapseLevel, always: next}
+                );
+            }
+            else { // Only highlight
+                viewModel.apiTreeHighlighted(
+                    valueSet,
+                    {scrollToTarget: {clientX: 180}, collapseLevel: collapseLevel}
+                );
+            }
+
+            function next() {
+                viewModel.apiTreeSelected(
+                    result[0].value,
+                    {scrollToTarget: {clientX: 180}, collapseLevel: collapseLevel}
+                );
+            }
         }
     });
 
