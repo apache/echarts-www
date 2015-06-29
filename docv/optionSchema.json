@@ -4682,7 +4682,15 @@
                         "force",
                         "map",
                         "markLine",
-                        "markPoint"
+                        "markPoint",
+                        "chord",
+                        "treemap",
+                        "treemap/itemStyle",
+                        "radar",
+                        "gauge",
+                        "eventRiver",
+                        "tree",
+                        "venn"
                     ],
                     "descriptionCN": "标签，饼图默认显示在外部，离饼图距离由labelLine.length决定，\n                                <br>漏斗图默认显示在右侧，离图形距离由labelLine.length决定\n                                <br>地图标签不可指定位置，\n                                <br> 折线图，柱形图，K线图，散点图可指定position见下",
                     "descriptionEN": "In pie, displayed on the outside by default. labelLine.length controls the label's distance from the pie.\n                                <br>In funnel, displayed on the right by default. labelLine.length controls the label's distance from the funnel.\n                                <br>In map, the location of labels cannot be specified.\n                                <br> position can be specified in line, column, candlestick, scatter. See below.",
@@ -4747,21 +4755,53 @@
                     "default": true
                 },
                 "position": {
-                    "type": "string",
-                    "descriptionCN": "标签显示位置，地图标签不可指定位置\n                                 <br>饼图可选为：'outer'（外部） | 'inner'（内部），\n                                 <br>漏斗图可选为：'inner'（内部）| 'left' | 'right'（默认），\n                                 <br>折线图，柱形图，K线图，散点图默认根据布局自适应为'top'或者'right'，可选的还有：'inside' | 'left' | 'bottom'\n                                 <br>柱形图可选的还有，'insideLeft' | 'insideRight' | 'insideTop' | 'insideBottom'",
-                    "descriptionEN": "the position to show label. Cannot be specified in maps.\n                                 <br>In pie, valid values are: 'outer' | 'inner';\n                                 <br>In funnel, valid value are: 'inner' | 'left' | 'right' (default)，\n                                 <br>In line, column, candlestick and scatter, the default value is 'top' (for vertical layout) or 'right' (for horizontal layout). Can also be one of: 'inside' | 'left' | 'bottom';\n                                 <br>In column, other possible values are: 'insideLeft' | 'insideRight' | 'insideTop' | 'insideBottom'.",
-                    "default": "'outer' | null"
+                    "oneOf": [
+                        {
+                            "applicable": "pie",
+                            "type": "string",
+                            "default": "outer",
+                            "descriptionCN": "标签显示位置。饼图可选为：'outer'（外部） | 'inner'（内部）",
+                            "descriptionEN": "Position of label. Value can be 'outer' | 'inner'"
+                        },
+                        {
+                            "applicable": "funel",
+                            "type": "string",
+                            "default": "right",
+                            "descriptionCN": "标签显示位置。漏斗图可选为：'inner'（内部）| 'left' | 'right'（默认）",
+                            "descriptionEN": "Position of label. Value can be 'inner' | 'left' | 'right'"
+                        },
+                        {
+                            "applicable": [
+                                "line",
+                                "k",
+                                "scatter"
+                            ],
+                            "type": "string",
+                            "defaultExplanation": "'top' | 'right'",
+                            "descriptionCN": "标签显示位置。默认根据布局自适应为'top'或者'right'，可选的还有：'inside' | 'left' | 'bottom' ",
+                            "descriptionEN": "Position of label. The default value is 'top' (for vertical layout) or 'right' (for horizontal layout). Can also be one of: 'inside' | 'left' | 'bottom'; "
+                        },
+                        {
+                            "applicable": "bar",
+                            "type": "string",
+                            "defaultExplanation": "'top' | 'right'",
+                            "descriptionCN": "标签显示位置。默认根据布局自适应为'top'或者'right'，可选的还有：'inside' | 'left' | 'bottom' | 'insideLeft' | 'insideRight' | 'insideTop' | 'insideBottom' ",
+                            "descriptionEN": "Position of label. The default value is 'top' (for vertical layout) or 'right' (for horizontal layout). Can also be one of: 'inside' | 'left' | 'bottom' | 'insideLeft' | 'insideRight' | 'insideTop' | 'insideBottom'"
+                        }
+                    ]
                 },
                 "rotate": {
                     "type": "boolean",
                     "descriptionCN": "和弦图有效，文本标签自动旋转",
                     "descriptionEN": "applicable to chord. Label rotates automatically.",
+                    "applicable": "chord",
                     "default": false
                 },
                 "distance": {
                     "type": "number",
                     "descriptionCN": "和弦图: 文本标签旋转后于弦的间隔\n                              <br>饼图: 当label position为inner时有效，为label位置到圆心的距离与圆半径(环状图为内外半径和)的比例系数，默认为0.5。",
                     "descriptionEN": "In chord, Label's distance from chord after it rotates automatically.\n                              <br> In pie, this distance means the factor of label distance and pie radius(In ring chart, is sum of inner and outer radius), default to <b>0.5</b>.",
+                    "applicable": "chord",
                     "default": 10
                 },
                 "formatter": {
@@ -4785,12 +4825,14 @@
                     "type": "number",
                     "descriptionCN": "仅矩形树图使用，标签横坐标",
                     "descriptionEN": "only in treemap，x-coordinate in px of text",
+                    "applicable": "treemap/itemStyle",
                     "defaultExplanation": "各异"
                 },
                 "y": {
                     "type": "number",
                     "descriptionCN": "仅矩形树图使用，标签纵坐标",
                     "descriptionEN": "only in treemap，y-coordinate in px of text",
+                    "applicable": "treemap/itemStyle",
                     "defaultExplanation": "各异"
                 }
             }

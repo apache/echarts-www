@@ -2326,11 +2326,48 @@ define(function (require) {
         addRef(properties.nodeStyle, '#definitions/nodeStyle');
         addRef(properties.linkStyle, '#definitions/linkStyle');
         addRef(properties.label, '#definitions/itemStyleLabel');
+        properties.label.applicable.push('chord', 'treemap', 'treemap/itemStyle', 'radar', 'gauge', 'eventRiver', 'tree', 'venn');
         addRef(properties.labelLine, '#definitions/itemStyleLabelLine');
 
         var labelProperties = schema.definitions.itemStyleLabel.properties;
         addRef(labelProperties.textStyle, '#definitions/textStyle');
         addRef(labelProperties.formatter, '#definitions/tooltip/properties/formatter');
+        labelProperties.rotate.applicable = 'chord';
+        labelProperties.distance.applicable = 'chord';
+        labelProperties.x.applicable = 'treemap/itemStyle';
+        labelProperties.y.applicable = 'treemap/itemStyle';
+        labelProperties.position = {
+            oneOf: [
+                {
+                    applicable: 'pie',
+                    type: 'string',
+                    'default': 'outer',
+                    descriptionCN: '标签显示位置。饼图可选为：\'outer\'（外部） | \'inner\'（内部）',
+                    descriptionEN: 'Position of label. Value can be \'outer\' | \'inner\''
+                },
+                {
+                    applicable: 'funel',
+                    type: 'string',
+                    'default': 'right',
+                    descriptionCN: '标签显示位置。漏斗图可选为：\'inner\'（内部）| \'left\' | \'right\'（默认）',
+                    descriptionEN: 'Position of label. Value can be \'inner\' | \'left\' | \'right\''
+                },
+                {
+                    applicable: ['line', 'k', 'scatter'],
+                    type: 'string',
+                    defaultExplanation: '\'top\' | \'right\'',
+                    descriptionCN: '标签显示位置。默认根据布局自适应为\'top\'或者\'right\'，可选的还有：\'inside\' | \'left\' | \'bottom\' ',
+                    descriptionEN: 'Position of label. The default value is \'top\' (for vertical layout) or \'right\' (for horizontal layout). Can also be one of: \'inside\' | \'left\' | \'bottom\'; '
+                },
+                {
+                    applicable: 'bar',
+                    type: 'string',
+                    defaultExplanation: '\'top\' | \'right\'',
+                    descriptionCN: '标签显示位置。默认根据布局自适应为\'top\'或者\'right\'，可选的还有：\'inside\' | \'left\' | \'bottom\' | \'insideLeft\' | \'insideRight\' | \'insideTop\' | \'insideBottom\' ',
+                    descriptionEN: 'Position of label. The default value is \'top\' (for vertical layout) or \'right\' (for horizontal layout). Can also be one of: \'inside\' | \'left\' | \'bottom\' | \'insideLeft\' | \'insideRight\' | \'insideTop\' | \'insideBottom\''
+                }
+            ]
+        };
 
         var labelLineProperties = schema.definitions.itemStyleLabelLine.properties;
         addRef(labelLineProperties.lineStyle, '#definitions/lineStyle');

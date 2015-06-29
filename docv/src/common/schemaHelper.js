@@ -730,7 +730,6 @@ define(function (require) {
         function handleObject(renderBase, schemaItem, context) {
             context.selfInfo = BuildDocInfo.HAS_OBJECT_PROPERTIES;
             var subRenderBase = context.docRenderer(renderBase, schemaItem, context);
-
             var properties = schemaItem.properties;
             for (var propertyName in properties) {
                 if (properties.hasOwnProperty(propertyName)) {
@@ -913,7 +912,7 @@ define(function (require) {
             descriptionEN: schemaItem.descriptionEN,
             type: schemaItem.type,
             ref: schemaItem['$ref'],
-            applicable: new dtLib.Set(schemaItem.applicable),
+            applicable: schemaItem.applicable,
             enumerateBy: schemaItem.enumerateBy,
             setApplicable: schemaItem.setApplicable,
             defaultValue: schemaItem['default'],
@@ -933,7 +932,7 @@ define(function (require) {
         );
         defualtValue = defualtValue ? (': ' + defualtValue) : '';
 
-        var applicable = subRenderBase.applicable.list();
+        var applicable = new dtLib.Set(subRenderBase.applicable);
         applicable = applicable.length
             ? ' (applicable: ' + subRenderBase.applicable.list().join(', ') + ')'
             : '';
@@ -1179,7 +1178,7 @@ define(function (require) {
         }
         else {
             if (options.getBrief) {
-                var type = schemaHelper.normalizeSchemaItemType(defau.type);
+                var type = schemaHelper.normalizeToArray(defau.type);
                 return type.length === 1 // Only one type, can be sure what the brief looks like.
                     && briefMapping[type[0].toLowerCase()]
                     || briefMapping['?'];
@@ -1220,16 +1219,20 @@ define(function (require) {
     };
 
     /**
+     * Normalize <string> or Array.<string> to Array.<string>
+     *
      * @public
+     * @param {string|Array.<string>} value
+     * @return {Array} result, must be array.
      */
-    schemaHelper.normalizeSchemaItemType = function (type) {
-        if (!type) {
+    schemaHelper.normalizeToArray = function (value) {
+        if (!value) {
             return [];
         }
-        if (!$.isArray(type)) {
-            return [type];
+        if (!$.isArray(value)) {
+            return [value];
         }
-        return type;
+        return value;
     };
 
     /**

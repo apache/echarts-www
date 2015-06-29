@@ -195,19 +195,19 @@ define(function (require) {
             },
             applicable: {
                 reset: function (cpt, treeItem) {
-                    var list = treeItem.applicable && treeItem.applicable.list() || [];
+                    var list = schemaHelper.normalizeToArray(treeItem.applicable);
                     cpt.viewModel('value')(list.join(','));
                 }
             },
             enumerateBy: {
                 reset: function (cpt, treeItem) {
-                    var list = treeItem.enumerateBy || [];
+                    var list = schemaHelper.normalizeToArray(treeItem.enumerateBy);
                     cpt.viewModel('value')(list.join(','));
                 }
             },
             setApplicable: {
                 reset: function (cpt, treeItem) {
-                    var list = treeItem.setApplicable || [];
+                    var list = schemaHelper.normalizeToArray(treeItem.setApplicable);
                     cpt.viewModel('value')(list.join(','));
                 }
             },
