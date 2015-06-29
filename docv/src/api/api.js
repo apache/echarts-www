@@ -35,20 +35,7 @@ define(function (require) {
      */
     api.init = function () {
         apiMai = new APIMain($('.ecdoc-apidoc'));
-
-        hasher.initialized.add(parseHash);
-        hasher.changed.add(parseHash);
-        hasher.init();
     };
-
-    /**
-     * @inner
-     */
-    function parseHash(newHash) {
-        if (newHash) {
-            apiMai.doQuery(newHash, 'optionPath', true);
-        }
-    }
 
     /**
      * @class
@@ -111,6 +98,20 @@ define(function (require) {
             );
 
             this._initQueryBox();
+            this._initHash(); // The last step.
+        },
+
+        _initHash: function () {
+            var that = this;
+            hasher.initialized.add(parseHash);
+            hasher.changed.add(parseHash);
+            hasher.init();
+
+            function parseHash(newHash) {
+                if (newHash) {
+                    that.doQuery(newHash, 'optionPath', true);
+                }
+            }
         },
 
         _initQueryBox: function () {
