@@ -1,0 +1,69 @@
+@import "./common.less";
+
+.dtui-chkbtn {
+}
+.dtui-chkbtn-i {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+
+    .user-select(none);
+
+    i {
+        display: none;
+    }
+    em {
+        display: none;
+    }
+    span {
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        vertical-align: middle;
+        line-height: 18px;
+        text-align: center;
+        cursor: pointer;
+        margin: 0 10px 0 0;
+        padding: 0 5px;
+        font-size: 12px;
+        .border-radius(@dtui-checkbutton-item-border-radius);
+        border: @dtui-checkbutton-item-text-border;
+        background: @dtui-checkbutton-item-text-background;
+        color: @dtui-checkbutton-item-text-color;
+    }
+}
+.dtui-chkbtn-i-hover {
+    i {
+    }
+    em {
+    }
+    span {
+        border: @dtui-checkbutton-item-text-hover-border;
+        color: @dtui-checkbutton-item-text-hover-color;
+        background: @dtui-checkbutton-item-text-hover-background;
+    }
+}
+.dtui-chkbtn-i-active {
+    i {
+    }
+    em {
+    }
+    span {
+        border: @dtui-checkbutton-item-text-active-border;
+        color: @dtui-checkbutton-item-text-active-color;
+        background: @dtui-checkbutton-item-text-active-background;
+    }
+}
+.dtui-chkbtn-disabled {
+    i {
+        cursor: default;
+    }
+    em {
+    }
+    span {
+        border: @dtui-checkbutton-item-text-disabled-border;
+        color: @dtui-checkbutton-item-text-disabled-color;
+        background: @dtui-checkbutton-item-text-disabled-background;
+        cursor: default;
+    }
+}

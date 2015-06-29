@@ -1,0 +1,113 @@
+{{ target: APIDocSample }}
+<div class="ecdoc-api-link">
+    这是生成的doc例子。<br>
+    <a href="./SchemaEditor.html" target="_blank">点我看schema</a>&nbsp;&nbsp;&nbsp;
+    <a href="./docMigrate.html" target="_blank">点我看迁移工具页</a>
+</div>
+
+<div class="ecdoc-api-tree-area">
+    <div class="ecdoc-api-tree" data-cpt="
+        type: 'TreeList',
+        name: 'apiDocTree',
+        viewModel: {
+            selected: viewModel.apiTreeSelected,
+            highlighted: viewModel.apiTreeHighlighted,
+            datasource: viewModel.apiTreeDatasource
+        }">
+    </div>
+</div>
+<div class="ecdoc-api-desc-area">
+
+    <div class="ecdoc-scmedt-query-box ecdoc-fixed-panel">
+        <div data-cpt="
+            type: 'TextInput',
+            name: 'queryInput',
+            viewModel: {}">
+        </div>
+        <div data-cpt="
+            type: 'CheckButton',
+            name: 'queryMode',
+            viewModel: {
+                css: 'query-mode',
+                checked: lib.ob('fuzzyPath'),
+                dataList: [
+                    {
+                        value: 'fuzzyPath',
+                        placeholder: '检索。快捷键\'/\'。例如输入：ser(line).emph',
+                        text: '按路径模糊检索'
+                    },
+                    {
+                        value: 'optionPath',
+                        placeholder: '检索。快捷键\'/\'。例如输入：series[i](pie,line).itemStyle.normal.borderColor',
+                        text: '按路径精确检索'
+                    },
+                    {
+                        value: 'anyText',
+                        placeholder: '检索。快捷键\'/\'。例如输入：文字样式',
+                        text: '全文模糊检索'
+                    }
+                ]
+            }">
+        </div>
+    </div>
+
+    <div class="ecdoc-api-type ecdoc-fixed-panel"><label>类型</label><div></div></div>
+    <div class="ecdoc-api-default ecdoc-fixed-panel"><label>默认值</label><pre></pre></div>
+    <div class="ecdoc-api-desc-cn ecdoc-fixed-panel"><label>中文说明</label><div></div></div>
+    <div class="ecdoc-api-desc-en ecdoc-fixed-panel"><label>Description in English</label><div></div></div>
+    <div class="ecdoc-api-query-area ecdoc-fixed-panel">
+
+        <div class="query-tabs">
+            <p>检索试验：</p>
+            <div class="query-tab query-tab-by-path query-tab-active" data-box=".query-box-by-path">按路径精确检索</div>
+            <div class="query-tab query-tab-by-property" data-box=".query-box-by-property">按路径模糊检索</div>
+            <div class="query-tab query-tab-by-full"  data-box=".query-box-by-full">全文检索</div>
+        </div>
+
+        <div class="query-collapse-radio">
+            <input type="radio" name="collapse-first" value="1" checked="checked" />每次折叠
+            <input type="radio" name="collapse-first" value="0" />每次不折叠
+            <input type="button" class="reset-btn" value="reset" />
+        </div>
+
+        <div class="query-box query-box-by-path" data-arg-name="optionPath">
+            <textarea class="query-input">
+series[i](pie,line).itemStyle.normal.borderColor
+            </textarea><input type="button" class="query-btn" value=" query "/>
+            <textarea class="query-input">
+series[i].symbol
+            </textarea><input type="button" class="query-btn" value=" query "/>
+            <textarea class="query-input">
+series[i].markLine(chord).itemStyle.emphasis.color
+            </textarea><input type="button" class="query-btn" value=" query "/>
+            <textarea class="query-input">
+series[i]
+            </textarea><input type="button" class="query-btn" value=" query "/>
+            <textarea class="query-input">
+series
+            </textarea><input type="button" class="query-btn" value=" query "/>
+        </div>
+
+        <div class="query-box query-box-by-property" data-arg-name="fuzzyPath" style="display:none">
+            <textarea class="query-input">
+ser(line).emph
+            </textarea><input type="button" class="query-btn" value=" query "/>
+            <textarea class="query-input">
+xaxis(log).pos
+            </textarea><input type="button" class="query-btn" value=" query "/>
+            <textarea class="query-input">
+xaxis.pos
+            </textarea><input type="button" class="query-btn" value=" query "/>
+        </div>
+
+        <div class="query-box query-box-by-full" data-arg-name="anyText" style="display:none">
+            <textarea class="query-input">
+折线图
+            </textarea><input type="button" class="query-btn" value=" query "/>
+        </div>
+
+    </div>
+</div>
+<div class="ecdoc-opt-path-sample">
+</div>
+{{ /target }}

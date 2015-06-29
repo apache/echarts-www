@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="Echarts">
+    <title>Echarts</title>
+    <script src="http://s1.bdstatic.com/r/www/cache/ecom/esl/1-8-6/esl.js"></script>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            font-size: 12px;
+            height: 100%;
+        }
+        .head {
+            height: 6%;
+        }
+        .main {
+            height: 94%;
+            position: relative;
+            background-color: green;
+            overflow: hidden;
+        }
+        .doc {
+            border-width: 0;
+            height: 100%;
+            width: 100%;
+        }
+        .schema {
+            width: 30%;
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border: 3px solid #2B77FF;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="head">
+        <input id="lang-btn" type="button" value="Switch CN-EN">
+        <input id="gen-btn" type="button" value="Generate Scheme">
+        <input id="schema-btn" type="button" value="Toggle Scheme">
+    </div>
+    <div class="main">
+        <iframe class="doc" id="doc-ifr-cn" src="doc-2.2.3/doc.html"></iframe>
+        <iframe class="doc" id="doc-ifr-en" src="doc-2.2.3/doc-en.html" style="display:none"></iframe>
+        <textarea id="schema-content" class="schema"></textarea>
+    </div>
+
+    <script type="text/javascript">
+        require.config({
+            baseUrl: '../src',
+            paths: {
+                jquery: '../dep/jquery/1.11.0/jquery.min',
+                dt: '../dep/dt/0.0.1'
+            }
+        });
+
+        require(['migrate/migrateScript'], function (migrateScript) {
+            migrateScript();
+        });
+    </script>
+</body>
+</html>

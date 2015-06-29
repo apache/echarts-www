@@ -1,0 +1,56 @@
+@import "./common.less";
+
+.dtui-txipt {
+    display: inline-block;
+    padding: 0 6px;
+    height: 26px;
+    line-height: 26px;
+    .border-radius(3px);
+    background: #fff;
+    border: 1px solid #979bb2;
+    margin-left: 6px;
+    margin-top: 4px;
+    width: 100px;
+    height: 20px;
+    line-height: 20px;
+
+    textarea,
+    input {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        line-height: 14px;
+        font-size: 12px;
+        color: #000;
+        background: #fff;
+        border-width: 0;
+    }
+}
+.dtui-txipt-type-text {
+    height: 26px;
+    line-height: 26px;
+}
+.dtui-txipt-type-textarea {
+    height: 66px;
+    line-height: 66px;
+
+    div {
+        position: relative;
+        height: 100%;
+    }
+
+    textarea {
+        position: absolute;
+        top: 3px;
+        bottom: 3px;
+        resize: none;
+    }
+}
+.dtui-txipt-disabled {
+    background: #fff;
+
+    input {
+        background: #bbb;
+        color: #333;
+    }
+}

@@ -1,0 +1,80 @@
+/**
+ * @file 公共less
+ */
+
+@import "./normalize.less";
+
+* {
+    font-family: "Helvetica Neue", "Segoe UI", Tahoma, Arial, "Hiragino Sans GB", STHeiti, "Microsoft Yahei", "WenQuanYi Micro Hei", sans-serif;
+}
+html {
+    background-color: #f7f7f7; // override bg color in echartsHome.css
+}
+
+.ecdoc-fixed-panel {
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    color: #333;
+    position: fixed;
+    padding: 5px 10px;
+    line-height: 25px;
+    z-index: 99999;
+    .border-radius(4px);
+    // .box-shadow(
+    //     rgba(0, 0, 0, 0.6) 0px 1px 3px,
+    //     rgba(255, 255, 255, 0.1) 0px 1px 0px inset,
+    //     rgba(0, 0, 0, 0.2) 0px -1px 0px inset
+    // );
+    & a,
+    & a:visited {
+        color: #428bca;
+    }
+}
+
+/**
+ * Question 问号图标
+ */
+.ecdoc-question {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle;
+    text-align: center;
+    background: #999;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-weight: 700;
+    font-size: 16px;
+    .border-radius(10px);
+    cursor: pointer;
+
+    &:before {
+        content: '?'
+    }
+}
+
+/**
+ * 鼠标hover提示
+ */
+.dt-global-tooltip {
+    // position:absolute;
+    position: fixed!important;
+    top: 20px!important;
+    left: 400px!important;
+    max-width: 200px;
+    //background: #111;
+    background: #fff;
+    //border: 2px solid #999;
+    color: #111;
+    padding: 5px 10px;
+    line-height: 25px;
+    border-radius: 3px;
+    z-index: 99999;
+    .border-radius(4px);
+    .box-shadow(
+        rgba(0, 0, 0, 0.6) 0px 1px 3px,
+        rgba(255, 255, 255, 0.1) 0px 1px 0px inset,
+        rgba(0, 0, 0, 0.2) 0px -1px 0px inset
+    );
+}

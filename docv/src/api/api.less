@@ -1,0 +1,92 @@
+
+@import "../../dep/dt/0.0.1/ui/all.less";
+@import "../common/common.less";
+
+.ecdoc-api-query-box {
+    top: 65px;
+    left: 25px;
+    padding: 10px 10px 5px 10px;
+    opacity: 0.95;
+
+    &:after {
+        content: ' '; // For mask
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 20px;
+        bottom: -21px;
+        left: 0;
+        background: #f7f7f7;
+        opacity: 0.85;
+    }
+    .dtui-txipt {
+        background: #fff;
+        color: #000;
+        height: 30px;
+        width: 320px;
+        display: block;
+        margin: 0;
+
+        input {
+            background: #fff;
+            color: #000;
+        }
+    }
+    .query-mode {
+        margin-top: 4px;
+        font-size: 12px;
+        text-align: center;
+    }
+}
+.ecdoc-api-tree-area {
+    width: 340px;
+    margin-top: 160px;
+    margin-left: 15px;
+    float: left;
+    overflow: hidden;
+}
+.ecdoc-api-chart-query-area {
+    position: fixed;
+    left: 400px;
+    right: 25px;
+    top: 65px;
+    bottom: 200px
+}
+.ecdoc-api-desc-area {
+    position: fixed;
+    left: 400px;
+    right: 25px;
+    height: 175px;
+    bottom: 15px;
+
+    label {
+
+    }
+    pre {
+        word-break:break-all;
+        word-wrap:break-word;
+        border-width: 0;
+        padding: 0;
+        line-height: 25px;
+    }
+    .ecdoc-api-left {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        bottom: 10px;
+        width: 160px;
+        overflow: auto;
+    }
+    .ecdoc-api-desc {
+        position: absolute;
+        top: 15px;
+        left: 175px;
+        bottom: 10px;
+        right: 10px;
+        padding-left: 10px;
+        border-left: 1px solid #ccc;
+        overflow: auto;
+        word-break:break-all;
+        word-wrap:break-word;
+    }
+}

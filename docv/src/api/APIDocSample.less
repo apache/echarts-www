@@ -1,0 +1,151 @@
+
+@import "../../dep/dt/0.0.1/ui/all.less";
+@import "../common/common.less";
+
+body {
+    padding: 21px;
+    margin: 0;
+    font-size: 14px;
+    background: #222;
+    color: #efe;
+}
+.ecdoc-api-link {
+    margin: 10px 0 20px 0;
+    & a {
+        color: #fff;
+    }
+    & a:visited {
+        color: #fff;
+    }
+}
+.ecdoc-api-tree-area {
+    width: 340px;
+    float: left;
+    overflow: hidden;
+}
+.ecdoc-api-desc-area {
+    margin-left: 305px;
+}
+.ecdoc-api-opt-path-sample {
+    position: fixed;
+    widows: 200px;
+    height: 400px;
+    right: 10px;
+    top: 10px;
+    border: 2px solid blue;
+    -webkit-box-shadow:  10px 10px 5px #888888;
+    box-shadow:  10px 10px 5px #888888;
+}
+
+.ecdoc-scmedt-query-box {
+    top: 20px;
+    right: 500px;
+    padding: 10px;
+
+    .dtui-txipt {
+        background: #fff;
+        color: #000;
+        height: 30px;
+        width: 400px;
+        display: block;
+        margin: 0;
+
+        input {
+            background: #fff;
+            color: #000;
+        }
+    }
+    .query-mode {
+        margin-top: 8px;
+        font-size: 12px;
+        text-align: center;
+    }
+}
+.ecdoc-api-type,
+.ecdoc-api-desc-cn,
+.ecdoc-api-desc-en,
+.ecdoc-api-default,
+.ecdoc-api-default-explanation,
+.ecdoc-api-query-area {
+    max-width: 200px;
+
+    label {
+        background: #EAB81A;
+        padding: 3px 5px;
+        color: #000;
+        .border-radius(2px);
+    }
+    div {
+        word-break:break-all;
+        word-wrap:break-word;
+    }
+}
+.ecdoc-api-desc-cn {
+    top: 340px;
+    left: 400px;
+}
+.ecdoc-api-desc-en {
+    top: 340px;
+    left: 680px;
+}
+.ecdoc-api-default {
+    top: 120px;
+    left: 540px;
+
+}
+.ecdoc-api-default-explanation {
+    top: 120px;
+    left: 680px;
+}
+.ecdoc-api-type {
+    top: 120px;
+    left: 400px;
+}
+.ecdoc-api-query-area {
+    top: 20px;
+    bottom: 20px;
+    right: 30px;
+    max-width: 280px;
+    width: 280px;
+    overflow: auto;
+
+    .query-input {
+        border: 1px solid #888;
+        padding: 5px;
+        margin-top: 10px;
+        min-height: 60px;
+    }
+    .query-btn {
+        margin: 3px;
+        cursor: pointer;
+        padding: 3px 5px;
+        font-size: 14px;
+        background: green;
+        color: #fff;
+    }
+    .query-tabs {
+        padding-bottom: 10px;
+        border-bottom: 1px solid green;
+        overflow: hidden;
+    }
+    .query-tab {
+        padding: 0 2px;
+        float: left;
+        border: 1px solid green;
+        margin: 1px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+    .query-tab-active {
+        background: green;
+        color: #fff;
+    }
+    .reset-btn {
+        padding: 3px 5px;
+        margin-left: 7px;
+        font-size: 14px;
+        cursor: pointer;
+        background: green;
+        color: #fff;
+    }
+}

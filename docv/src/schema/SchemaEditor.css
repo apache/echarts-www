@@ -1,0 +1,523 @@
+/**
+ * @file 公共normalize & 部分reset。wave和product共同import。
+ * @author sushuang(sushuang@baidu.com)
+ * @date 2014-03
+ */
+html,
+body,
+div,
+span,
+object,
+iframe,
+a,
+img,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+form,
+label,
+input,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle;
+}
+caption,
+th,
+td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+a img {
+  border: none;
+}
+/**
+ * 基本按钮。写成mixin因为有的地方不方便设class。
+ */
+/**
+ * 按钮基本样式
+ */
+.dtui-btn {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-block;
+  cursor: pointer;
+  color: #fff;
+  background: #3498DB;
+  text-align: center;
+  font-size: 14px;
+  min-width: 60px;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 8px;
+}
+.dtui-btn-hover {
+  background: #2980B9;
+}
+.dtui-btn-active {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+/**
+ * Close cross
+ */
+.dtui-close-cross {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  position: absolute;
+  text-align: center;
+  font-size: 13px;
+  top: -15px;
+  right: -15px;
+  cursor: pointer;
+  color: #fff;
+  background: #2a2a2a;
+}
+.dtui-close-cross:hover {
+  background: #333;
+}
+/**
+ * dialog panel
+ */
+.dtui-dlg {
+  min-width: 200px;
+  max-width: 600px;
+}
+.dtui-dlg .dtui-con {
+  padding: 10px;
+  font-size: 14px;
+}
+.dtui-dlg .dtui-btns {
+  text-align: right;
+  margin-top: 10px;
+}
+.dtui-dlg .dtui-btn {
+  margin: 0 2px;
+}
+.dtui-txipt {
+  display: inline-block;
+  padding: 0 6px;
+  height: 26px;
+  line-height: 26px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #fff;
+  border: 1px solid #979bb2;
+  margin-left: 6px;
+  margin-top: 4px;
+  width: 100px;
+  height: 20px;
+  line-height: 20px;
+}
+.dtui-txipt textarea,
+.dtui-txipt input {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  line-height: normal;
+  font-size: 12px;
+  color: #000;
+  background: #fff;
+  border-width: 0;
+}
+.dtui-txipt-type-text {
+  height: 26px;
+  line-height: 26px;
+}
+.dtui-txipt-type-textarea {
+  height: 66px;
+  line-height: 66px;
+}
+.dtui-txipt-type-textarea div {
+  position: relative;
+  height: 100%;
+}
+.dtui-txipt-type-textarea textarea {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  resize: none;
+}
+.dtui-txipt-disabled {
+  background: #fff;
+}
+.dtui-txipt-disabled input {
+  background: #bbb;
+  color: #333;
+}
+.dtui-chkbtn-i {
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.dtui-chkbtn-i i {
+  display: none;
+}
+.dtui-chkbtn-i em {
+  display: none;
+}
+.dtui-chkbtn-i span {
+  display: inline-block;
+  height: 16px;
+  line-height: 16px;
+  vertical-align: middle;
+  text-align: center;
+  min-width: 46px;
+  cursor: pointer;
+  margin: 0 10px 0 0;
+  padding: 2px 4px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  background: #5e5e5e;
+  color: #aaa;
+}
+.dtui-chkbtn-i-active span {
+  background: #eee;
+  color: #000;
+}
+.dtui-chkbtn-disabled i {
+  cursor: default;
+}
+.dtui-chkbtn-disabled span {
+  cursor: default;
+}
+.dtui-treelist-i {
+  position: relative;
+  padding-left: 1.3em;
+  line-height: 20px;
+}
+.dtui-treelist-thumb {
+  margin: -1px 0 0 -1em;
+  position: absolute;
+  cursor: pointer;
+  font-style: normal;
+  width: 1.5em;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.dtui-treelist-expanded > .dtui-treelist-thumb:after {
+  content: '▾';
+}
+.dtui-treelist-collapsed > .dtui-treelist-thumb:after {
+  content: '▸';
+}
+.dtui-treelist-thumb:hover {
+  color: #7DA7BA;
+}
+.dtui-treelist-text {
+  cursor: pointer;
+  display: block;
+  padding: 0 0.5em;
+  text-decoration: none;
+  color: #efe;
+}
+.dtui-treelist-text-highlight {
+  background: #EAB810;
+  color: #000;
+}
+.dtui-treelist-text-active {
+  background: #FFE384;
+  color: #000;
+}
+.dtui-treelist-text-hover {
+  background: #5B5D6B;
+  color: #fff;
+}
+.dtui-treelist-post {
+  display: block;
+  padding: 0 0.5em;
+}
+.dtui-treelist-disabled .dtui-treelist-text {
+  background: transparent;
+  color: #828599;
+}
+.dtui-winpn {
+  background: #3f3f3f;
+  color: #efe;
+  padding: 5px 10px;
+  line-height: 25px;
+  z-index: 9999;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -50%;
+  overflow: visible;
+  padding: 10px;
+}
+.dtui-winpn a,
+.dtui-winpn a:visited {
+  color: #99D0FF;
+}
+.dtui-winpn-con {
+  overflow: hidden;
+}
+body {
+  padding: 21px;
+  margin: 0;
+  font-size: 14px;
+  background: #222;
+  color: #efe;
+}
+.ecdoc-api-link {
+  margin: 10px 0 20px 0;
+}
+.ecdoc-api-link a {
+  color: #fff;
+}
+.ecdoc-api-link a:visited {
+  color: #fff;
+}
+.ecdoc-app-desc h2,
+.ecdoc-app-desc h3,
+.ecdoc-app-desc strong {
+  color: yellow;
+}
+.ecdoc-app-desc strong {
+  margin: 0 3px;
+}
+.ecdoc-question {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+  text-align: center;
+  background: #999;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-weight: 700;
+  font-size: 16px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.ecdoc-question:before {
+  content: '?';
+}
+.ecdoc-scmedt-head-desc {
+  width: 320px;
+  border: 1px solid #555;
+  padding: 10px;
+  margin: 10px;
+  font-size: 12px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.ecdoc-scmedt-tree-area {
+  width: 700px;
+  float: left;
+  overflow: hidden;
+}
+.ecdoc-scmedt-desc-area {
+  margin-left: 305px;
+}
+.ecdoc-scmedt-opt-path-sample {
+  position: fixed;
+  widows: 200px;
+  height: 400px;
+  right: 10px;
+  top: 10px;
+  border: 2px solid blue;
+  -webkit-box-shadow: 10px 10px 5px #888888;
+  box-shadow: 10px 10px 5px #888888;
+}
+.dtui-txipt-type-textarea {
+  width: 314px;
+  height: 200px;
+}
+.ecdoc-scmedt-panel {
+  position: fixed;
+  background: #3f3f3f;
+  color: #efe;
+  padding: 5px 10px;
+  line-height: 25px;
+  z-index: 99999;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+}
+.ecdoc-scmedt-panel a,
+.ecdoc-scmedt-panel a:visited {
+  color: #99D0FF;
+}
+.ecdoc-scmedt-query-box {
+  top: 20px;
+  right: 500px;
+  padding: 10px;
+}
+.ecdoc-scmedt-query-box .dtui-txipt {
+  background: #fff;
+  color: #000;
+  height: 30px;
+  width: 280px;
+  display: block;
+  margin: 0;
+}
+.ecdoc-scmedt-query-box .dtui-txipt input {
+  background: #fff;
+  color: #000;
+}
+.ecdoc-scmedt-edit-area {
+  top: 20px;
+  bottom: 20px;
+  right: 30px;
+  width: 350px;
+  overflow: auto;
+}
+.ecdoc-scmedt-edit-area .query-input {
+  border: 1px solid #888;
+  padding: 5px;
+  margin-top: 10px;
+  min-height: 60px;
+}
+.ecdoc-scmedt-edit-area .query-btn {
+  margin: 3px;
+  cursor: pointer;
+  padding: 3px 5px;
+  font-size: 14px;
+  background: green;
+  color: #fff;
+}
+.ecdoc-scmedt-edit-area .query-tabs {
+  padding-bottom: 10px;
+  border-bottom: 1px solid green;
+  overflow: hidden;
+}
+.ecdoc-scmedt-edit-area .query-tab {
+  padding: 0 2px;
+  float: left;
+  border: 1px solid green;
+  margin: 1px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.ecdoc-scmedt-edit-area .query-tab-active {
+  background: green;
+  color: #fff;
+}
+.ecdoc-scmedt-edit-area .reset-btn {
+  padding: 3px 5px;
+  margin-left: 7px;
+  font-size: 14px;
+  cursor: pointer;
+  background: green;
+  color: #fff;
+}
+.ecdoc-scmedt-edit-area .ecdoc-scmedt-typesel {
+  border-bottom: 1px solid #828599;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+.ecdoc-scmedt-edit-area .ecdoc-scmedt-block-label {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+  min-width: 150px;
+}
+.ecdoc-scmedt-edit-area .ecdoc-scmedt-block-line .dtui-txipt-type-text {
+  width: 150px;
+}
+.ecdoc-scmedt-edit-area .expalanation {
+  height: 60px;
+}
+.ecdoc-scmedt-edit-area .label-continue {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+}
+.ecdoc-scmedt-edit-area .desc-rendered-cn,
+.ecdoc-scmedt-edit-area .desc-rendered-en {
+  min-height: 200px;
+  background: #fff;
+  border: 1px solid #979bb2;
+  color: #000;
+  margin: 5px;
+  padding: 5px;
+  overflow: auto;
+}
+.ecdoc-scmedt-edit-area .desc-rendered-cn td,
+.ecdoc-scmedt-edit-area .desc-rendered-en td {
+  border: 1px solid #222;
+  padding: 2px;
+}
+.ecdoc-scmedt-edit-area .desc-rendered-cn a,
+.ecdoc-scmedt-edit-area .desc-rendered-en a,
+.ecdoc-scmedt-edit-area .desc-rendered-cn a:visited,
+.ecdoc-scmedt-edit-area .desc-rendered-en a:visited {
+  color: blue;
+}
+/**
+ * 鼠标hover提示
+ */
+.dt-global-tooltip {
+  position: fixed!important;
+  top: 20px!important;
+  left: 400px!important;
+  max-width: 200px;
+  background: #fff;
+  color: #111;
+  padding: 5px 10px;
+  line-height: 25px;
+  border-radius: 3px;
+  z-index: 99999;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+}
