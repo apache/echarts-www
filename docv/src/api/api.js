@@ -135,11 +135,9 @@ define(function (require) {
                 }
                 var desc = {
                     type: dtLib.encodeHTML(type),
-                    descText: dtLib.encodeHTML(
-                        lang.langCode === 'en'
-                            ? (treeItem.descriptionEN || '')
-                            : (treeItem.descriptionCN || '')
-                    ),
+                    descText: lang.langCode === 'en' // 不需要encodeHTML，本身就是html
+                        ? (treeItem.descriptionEN || '')
+                        : (treeItem.descriptionCN || ''),
                     defaultValueText: dtLib.encodeHTML(treeItem.defaultValueText)
                 };
 
