@@ -385,16 +385,22 @@ html {
   padding: 10px 10px 5px 10px;
   opacity: 0.95;
 }
+.ecdoc-api-query-box:before,
 .ecdoc-api-query-box:after {
   content: ' ';
   display: block;
   position: absolute;
   width: 100%;
   height: 20px;
-  bottom: -21px;
   left: 0;
   background: #f7f7f7;
-  opacity: 0.85;
+  opacity: 0.7;
+}
+.ecdoc-api-query-box:before {
+  top: -21px;
+}
+.ecdoc-api-query-box:after {
+  bottom: -21px;
 }
 .ecdoc-api-query-box .dtui-txipt {
   background: #fff;
@@ -423,14 +429,14 @@ html {
 .ecdoc-api-chart-query-area {
   position: fixed;
   left: 400px;
-  right: 25px;
+  right: 35px;
   top: 65px;
   bottom: 200px;
 }
 .ecdoc-api-desc-area {
   position: fixed;
   left: 400px;
-  right: 25px;
+  right: 35px;
   height: 175px;
   bottom: 15px;
 }
