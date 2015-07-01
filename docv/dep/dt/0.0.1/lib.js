@@ -19,12 +19,12 @@ define(function (require) {
         require('./lib/model'),
         require('./lib/event'),
         require('./lib/enumeration'),
-        require('./lib/tooltip'),
         require('./lib/disable'),
         require('./lib/number'),
         require('./lib/throttle'),
         require('./lib/htmlCleaner'),
-        require('./lib/others')
+        require('./lib/others'),
+        require('./ui/tooltip')
     );
 
     /**

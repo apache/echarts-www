@@ -11,7 +11,7 @@ define(function (require) {
      *     bindEl: this.el(),
      *     followMouse: true,
      *     selector: '.the-css-selecotr-of-the-target-element-which-needs-tooltip',
-     *     encodeHTML: false, // Setting to false if we do encodeHTML in 'text' handler function.
+     *     encodeHTML: false // Setting to false if we do encodeHTML in 'text' handler function.
      *     location: {
      *         x: 0,
      *         y: -15,
@@ -31,8 +31,9 @@ define(function (require) {
      */
 
     var $ = require('jquery');
-    var base = require('./base');
-    var model = require('./model');
+    // Must not requrire('../lib'), because tooltip is required in ../lib.js.
+    var base = require('../lib/base');
+    var model = require('../lib/model');
     var isFunction = $.isFunction;
     var extend = $.extend;
 
