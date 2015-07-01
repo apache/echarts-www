@@ -1,0 +1,463 @@
+/**
+ * 基本按钮。写成mixin因为有的地方不方便设class。
+ */
+/**
+ * 按钮基本样式
+ */
+.dtui-btn {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-block;
+  cursor: pointer;
+  color: #fff;
+  background: #3498DB;
+  text-align: center;
+  font-size: 14px;
+  min-width: 60px;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 8px;
+}
+.dtui-btn-hover {
+  background: #2980B9;
+}
+.dtui-btn-active {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+/**
+ * Close cross
+ */
+.dtui-close-cross {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  position: absolute;
+  text-align: center;
+  font-size: 13px;
+  top: -15px;
+  right: -15px;
+  cursor: pointer;
+  color: #fff;
+  background: #2a2a2a;
+}
+.dtui-close-cross:hover {
+  background: #333;
+}
+/**
+ * dialog panel
+ */
+.dtui-dlg {
+  min-width: 200px;
+  max-width: 600px;
+}
+.dtui-dlg .dtui-con {
+  padding: 10px;
+  font-size: 14px;
+}
+.dtui-dlg .dtui-btns {
+  text-align: right;
+  margin-top: 10px;
+}
+.dtui-dlg .dtui-btn {
+  margin: 0 2px;
+}
+.dtui-txipt {
+  display: inline-block;
+  padding: 0 6px;
+  height: 26px;
+  line-height: 26px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #fff;
+  border: 1px solid #979bb2;
+  margin-left: 6px;
+  margin-top: 4px;
+  width: 100px;
+  height: 20px;
+  line-height: 20px;
+}
+.dtui-txipt textarea,
+.dtui-txipt input {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  line-height: 14px;
+  font-size: 12px;
+  color: #000;
+  background: #fff;
+  border-width: 0;
+}
+.dtui-txipt-type-text {
+  height: 26px;
+  line-height: 26px;
+}
+.dtui-txipt-type-textarea {
+  height: 66px;
+  line-height: 66px;
+}
+.dtui-txipt-type-textarea div {
+  position: relative;
+  height: 100%;
+}
+.dtui-txipt-type-textarea textarea {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  resize: none;
+}
+.dtui-txipt-disabled {
+  background: #fff;
+}
+.dtui-txipt-disabled input {
+  background: #bbb;
+  color: #333;
+}
+.dtui-chkbtn-i {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.dtui-chkbtn-i i {
+  display: none;
+}
+.dtui-chkbtn-i em {
+  display: none;
+}
+.dtui-chkbtn-i span {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+  line-height: 18px;
+  text-align: center;
+  cursor: pointer;
+  margin: 0 10px 0 0;
+  padding: 0 5px;
+  font-size: 12px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border: 0 solid #828599;
+  background: transparent;
+  color: #aaaaaa;
+}
+.dtui-chkbtn-i-hover span {
+  border: 0 solid #828599;
+  color: #828599;
+  background: transparent;
+}
+.dtui-chkbtn-i-active span {
+  border: 0 solid #d2d2d2;
+  color: #f0f0f0;
+  background: #828599;
+}
+.dtui-chkbtn-disabled i {
+  cursor: default;
+}
+.dtui-chkbtn-disabled span {
+  border: 0 solid #828599;
+  color: #828599;
+  background: transparent;
+  cursor: default;
+}
+.dtui-treelist-i {
+  position: relative;
+  padding-left: 1.3em;
+  line-height: 20px;
+}
+.dtui-treelist-thumb {
+  margin: -1px 0 0 -1em;
+  position: absolute;
+  cursor: pointer;
+  font-style: normal;
+  width: 1.5em;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.dtui-treelist-expanded > .dtui-treelist-thumb:after {
+  content: '▾';
+}
+.dtui-treelist-collapsed > .dtui-treelist-thumb:after {
+  content: '▸';
+}
+.dtui-treelist-thumb:hover {
+  color: #7DA7BA;
+}
+.dtui-treelist-text {
+  cursor: pointer;
+  display: block;
+  padding: 0 0.5em;
+  text-decoration: none;
+  color: #333333;
+}
+.dtui-treelist-text-highlight {
+  background: #efd689;
+  color: #000000;
+}
+.dtui-treelist-text-active {
+  background: #428bca;
+  color: #ffffff;
+}
+.dtui-treelist-text-hover {
+  background: #a2d0f7;
+  color: #000000;
+}
+.dtui-treelist-post {
+  display: block;
+  padding: 0 0.5em;
+}
+.dtui-treelist-disabled .dtui-treelist-text {
+  background: transparent;
+  color: #828599;
+}
+.dtui-winpn {
+  background: #3f3f3f;
+  color: #efe;
+  padding: 5px 10px;
+  line-height: 25px;
+  z-index: 9999;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -50%;
+  overflow: visible;
+  padding: 10px;
+}
+.dtui-winpn a,
+.dtui-winpn a:visited {
+  color: #99D0FF;
+}
+.dtui-winpn-con {
+  overflow: hidden;
+}
+/**
+ * @file 公共less
+ */
+/**
+ * @file 公共normalize & 部分reset。
+ * @author sushuang(sushuang@baidu.com)
+ */
+html,
+body,
+div,
+span,
+object,
+iframe,
+a,
+img,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+form,
+label,
+input,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle;
+}
+caption,
+th,
+td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+a img {
+  border: none;
+}
+* {
+  font-family: "Helvetica Neue", "Segoe UI", Tahoma, Arial, "Hiragino Sans GB", STHeiti, "Microsoft Yahei", "WenQuanYi Micro Hei", sans-serif;
+}
+html {
+  background-color: #f7f7f7;
+}
+.ecdoc-fixed-panel {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  color: #333;
+  position: fixed;
+  padding: 5px 10px;
+  line-height: 25px;
+  z-index: 99999;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.ecdoc-fixed-panel a,
+.ecdoc-fixed-panel a:visited {
+  color: #428bca;
+}
+/**
+ * Question 问号图标
+ */
+.ecdoc-question {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+  text-align: center;
+  background: #999;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-weight: 700;
+  font-size: 16px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.ecdoc-question:before {
+  content: '?';
+}
+/**
+ * 鼠标hover提示
+ */
+.dt-global-tooltip {
+  position: fixed!important;
+  top: 20px!important;
+  left: 400px!important;
+  max-width: 200px;
+  background: #fff;
+  color: #111;
+  padding: 5px 10px;
+  line-height: 25px;
+  border-radius: 3px;
+  z-index: 99999;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+}
+.ecdoc-api-query-box {
+  top: 65px;
+  left: 25px;
+  padding: 10px 10px 5px 10px;
+  opacity: 0.95;
+}
+.ecdoc-api-query-box:after {
+  content: ' ';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  bottom: -21px;
+  left: 0;
+  background: #f7f7f7;
+  opacity: 0.85;
+}
+.ecdoc-api-query-box .dtui-txipt {
+  background: #fff;
+  color: #000;
+  height: 30px;
+  width: 320px;
+  display: block;
+  margin: 0;
+}
+.ecdoc-api-query-box .dtui-txipt input {
+  background: #fff;
+  color: #000;
+}
+.ecdoc-api-query-box .query-mode {
+  margin-top: 4px;
+  font-size: 12px;
+  text-align: center;
+}
+.ecdoc-api-tree-area {
+  width: 340px;
+  margin-top: 160px;
+  margin-left: 15px;
+  float: left;
+  overflow: hidden;
+}
+.ecdoc-api-chart-query-area {
+  position: fixed;
+  left: 400px;
+  right: 25px;
+  top: 65px;
+  bottom: 200px;
+}
+.ecdoc-api-desc-area {
+  position: fixed;
+  left: 400px;
+  right: 25px;
+  height: 175px;
+  bottom: 15px;
+}
+.ecdoc-api-desc-area pre {
+  word-break: break-all;
+  word-wrap: break-word;
+  border-width: 0;
+  padding: 0;
+  line-height: 25px;
+}
+.ecdoc-api-desc-area .ecdoc-api-left {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  bottom: 10px;
+  width: 160px;
+  overflow: auto;
+}
+.ecdoc-api-desc-area .ecdoc-api-desc {
+  position: absolute;
+  top: 15px;
+  left: 175px;
+  bottom: 10px;
+  right: 10px;
+  padding-left: 10px;
+  border-left: 1px solid #ccc;
+  overflow: auto;
+  word-break: break-all;
+  word-wrap: break-word;
+}

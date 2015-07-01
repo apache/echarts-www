@@ -15,7 +15,7 @@
     <link href="./asset/css/bootstrap.css" rel="stylesheet">
     <link href="./asset/css/carousel.css" rel="stylesheet">
     <link href="./asset/css/echartsHome.css" rel="stylesheet">
-    <link href="../docv/src/api/api.css" rel="stylesheet"/>
+    <link href="../docv/src/spreadsheet/spreadsheet.css" rel="stylesheet"/>
     <script src="http://s1.bdstatic.com/r/www/cache/ecom/esl/1-8-6/esl.js"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -28,7 +28,7 @@
     <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation" id="head"></div>
 
-    <div class="ecdoc-apidoc"></div>
+    <div class="ecdoc-spreadsheet"></div>
 
     <script src="../docv/dep/jquery/1.11.0/jquery.min.js"></script>
     <script src="./asset/js/bootstrap.min.js"></script>
@@ -42,12 +42,15 @@
                 tpl: '../dep/dt/0.0.1/tplLoader',
                 etpl: '../dep/etpl/3.0.0/etpl.min',
                 signals: '../dep/signals/1.0.0/signals.min',
-                hasher: '../dep/hasher/1.2.0/hasher.min'
+                hasher: '../dep/hasher/1.2.0/hasher.min',
+                'jquery-handsontable': '../dep/jquery-handsontable/0.10.5.1/jquery.handsontable.dt.min',
+                'jquery-mousewheel': '../dep/jquery-mousewheel/3.1.11/jquery.mousewheel.min',
+                numeral: '../dep/numeral/1.4.7/numeral.min'
             }
         });
 
-        require(['api/api'], function (api) {
-            api.init();
+        require(['spreadsheet/spreadsheet'], function (spreadsheet) {
+            spreadsheet.init();
         });
     </script>
 </body>
