@@ -17,4 +17,5 @@ define(function (require) {
     cptClasses['CheckButton'] = require('./ui/CheckButton');
     cptClasses['WinPanel'] = require('./ui/WinPanel');
     cptClasses['Button'] = require('./ui/Button');
+    cptClasses['Foreach'] = require('./ui/Foreach');
 });

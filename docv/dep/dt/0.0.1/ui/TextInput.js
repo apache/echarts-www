@@ -17,6 +17,7 @@ define(function (require) {
      *      viewModel: {
      *          value: viewModel.value0,
      *          css: 'dtm-msrggt-tx0',
+     *          type: 'textarea', // 默认为'text'
      *          disabled: viewModel.disabled,
      *          placeholder: lib.ob('asdf')
      *      }">
@@ -35,7 +36,7 @@ define(function (require) {
                     // 或者需要对输入进行parse，
                     // 则使用ob.extendWriter，把验证逻辑扩展进ob即可。
                     value: lib.ob(''),
-                    mouseEnterSelect: false,
+                    mouseEnterSelect: false, // 也可以是lib.ob(true)，这样可以动态更改。
                     type: 'text', // 可选值：'text'（默认）, 'textarea'
                     placeholder: lib.ob(''), // 可以是lib.ob('asdf')
                     confirmPoint: {
@@ -44,7 +45,7 @@ define(function (require) {
                     }
                 };
             },
-            viewModelPublic: ['value', 'placeholder', 'text']
+            viewModelPublic: ['value', 'placeholder', 'text', 'mouseEnterSelect', 'type']
         },
 
         /**
@@ -64,14 +65,14 @@ define(function (require) {
                 : '<div><input type="text"/></div>';
             this._$input = $($(html).appendTo(this.$el())[0].firstChild);
 
-            if (viewModel.mouseEnterSelect) {
-                this._$input.on(
-                    this._event('mouseenter'),
-                    function () {
+            this._$input.on(
+                this._event('mouseenter'),
+                function () {
+                    if (lib.peek(viewModel.mouseEnterSelect)) {
                         this.select && this.select();
                     }
-                );
-            }
+                }
+            );
 
             this._initPlaceHolder();
             this._initViewUpdater();
@@ -177,9 +178,7 @@ define(function (require) {
                 }
 
                 viewModel.value(
-                    $input.val(),
-                    lib.valueInfo(lib.valueInfo.CONFIRMED, insUID),
-                    {force: true}
+                    $input.val(), lib.valueInfoForConfirmed(insUID), {force: true}
                 );
                 // 因为 value 写入时会负责校验，所以写入完后，还应把当前状态回显到屏幕上
                 $input.val(viewModel.value());

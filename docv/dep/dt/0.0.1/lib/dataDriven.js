@@ -529,7 +529,7 @@ define(function (require) {
          * @return {Array} 被删除的内容
          */
         removeAll: function () {
-            return this.splice(0);
+            return this.splice(0, this.count());
         },
 
         /**
@@ -776,21 +776,36 @@ define(function (require) {
      *
      * @public
      * @param {(Object|string)} infoOrType 如果是Object，表示info对象。如果是string表示type
-     * @param {*=} key
+     * @param {*=} info 例如可为控件的uid。
      */
-    var valueInfo = lib.valueInfo = function (infoOrType, key) {
+    lib.valueInfo = function (infoOrType, info) {
         if (base.isObject(infoOrType)) {
-            return base.assign({}, infoOrType, ['type', 'key']);
+            return base.assign({}, infoOrType, ['type', 'info']);
         }
         else {
-            return {type: infoOrType, key: key};
+            return {type: infoOrType, info: info};
         }
     };
 
     /**
      * valueInfo类型，作为常量是为了统一概念
      */
-    valueInfo.CONFIRMED = 'confirmed'; // 确认值变更，从而可以向server端发起存储
+    lib.valueInfo.CONFIRMED = 'confirmed'; // 确认值变更，从而可以向server端发起存储
+
+    /**
+     * 一个常用简写
+     *
+     * @public
+     * @param {*=} uid 控件的uid。
+     * @param {Object=} extraData 额外的信息
+     */
+    lib.valueInfoForConfirmed = function (uid, extraData) {
+        var valueInfo = lib.valueInfo(lib.valueInfo.CONFIRMED, uid);
+        if (extraData) {
+            base.assign(valueInfo, extraData, null, ['type', 'info']);
+        }
+        return valueInfo;
+    };
 
     /**
      * 检查valueInfo的方便方法
@@ -798,17 +813,29 @@ define(function (require) {
      * @public
      * @param {(Object|string)} obOrValueInfo。为空时总返回false。
      * @param {string=} type 参见lib.valueInfo的类型，不传则不检查此项
-     * @param {*=} key 不传则不检查此项
+     * @param {*=} info 不传则不检查此项
      * @return {boolean} 是否通过检查
      */
-    lib.checkValueInfo = function (obOrValueInfo, type, key) {
+    lib.checkValueInfo = function (obOrValueInfo, type, info) {
         var valueInfo = lib.obTypeOf(obOrValueInfo) === 'ob'
             ? obOrValueInfo.peekValueInfo()
             : obOrValueInfo;
 
         return base.isObject(valueInfo) // 须是标准的valueInfo
             && (type == null || valueInfo.type === type)
-            && (key == null || valueInfo.key === key);
+            && (info == null || valueInfo.info === info);
+    };
+
+    /**
+     * 一个常用简写
+     *
+     * @public
+     * @param {Object} ob observable object
+     * @param {*=} uid 控件的uid。如果不传，则不检查uid。
+     * @return {boolean} whether confirmed.
+     */
+    lib.checkValueInfoForConfirmed = function (ob, uid) {
+        return lib.checkValueInfo(ob, lib.valueInfo.CONFIRMED, uid);
     };
 
     /**
