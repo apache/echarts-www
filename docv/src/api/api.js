@@ -9,6 +9,7 @@ define(function (require) {
     var dtLib = require('dt/lib');
     var lang = require('./lang');
     var hasher = require('hasher');
+    var markRender = require('./markrender');
 
     require('dt/componentConfig');
 
