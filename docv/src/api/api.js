@@ -98,6 +98,8 @@ define(function (require) {
                     .subscribe($.proxy(this._updateDesc, this, true))
             );
 
+
+            this._initMark();
             this._initQueryBox();
             this._initHash(); // The last step.
         },
@@ -237,6 +239,10 @@ define(function (require) {
                     {scrollToTarget: {clientX: 180}, collapseLevel: collapseLevel}
                 );
             }
+        },
+
+        _initMark: function() {
+            markRender.init($('.api-chart-layout'));
         }
     });
 

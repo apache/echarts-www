@@ -69,15 +69,6 @@ define(function(require) {
       return this.markList = widgets;
     };
 
-    MarkFactory.prototype.remove = function(mark) {
-      _.remove(this.markList, mark);
-      return $(mark).mark('destroy');
-    };
-
-    MarkFactory.prototype.getMark = function() {
-      return this.markList;
-    };
-
     return MarkFactory;
 
   })();

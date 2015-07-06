@@ -68,12 +68,13 @@ define((require) ->
             @markList = widgets
 
 
-        remove: (mark) ->
-            _.remove @markList, mark
-            $(mark).mark('destroy')
+#        remove: (mark) ->
+#            _.remove @markList, mark
+#            $(mark).mark('destroy')
 
-        getMark: () ->
-            @markList
+#        getMark: () ->
+#            @markList
+
 
     new MarkFactory()
 )

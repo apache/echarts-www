@@ -1,14 +1,11 @@
-{
-    "fileName": "ECharts.png",
-    "data": [
-        {
-            "style": "top: 137px; left: 350px; z-index: 10; color: #000000; opacity: 0.5; filter: alpha(opacity=50);",
-            "data": {"title": "", "list": []},
-            "type": "icon-arrow-up-left"
-        }, {
-            "style": "top: 110px; left: 651px; z-index: 11; color: #000000; opacity: 0.5; filter: alpha(opacity=50);",
-            "data": {"title": "", "list": []},
-            "type": "icon-arrow-up-left"
-        }
-    ]
-}
+[
+    {
+        "style": "top: 137px; left: 350px; z-index: 10; color: #000000; opacity: 0.5; filter: alpha(opacity=50);",
+        "data": {"title": "", "list": []},
+        "type": "icon-arrow-up-left"
+    }, {
+        "style": "top: 110px; left: 651px; z-index: 11; color: #000000; opacity: 0.5; filter: alpha(opacity=50);",
+        "data": {"title": "", "list": []},
+        "type": "icon-arrow-up-left"
+    }
+]
