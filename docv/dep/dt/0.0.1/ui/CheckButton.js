@@ -211,9 +211,10 @@ define(function (require) {
                     currValue = checkedValues;
                 }
 
-                var valueInfo = lib.valueInfo(lib.valueInfo.CONFIRMED, insUID);
-                valueInfo.dataItem = item;
-                viewModel.checked(currValue, valueInfo);
+                viewModel.checked(
+                    currValue,
+                    lib.valueInfoForConfirmed(insUID, {dataItem: item})
+                );
             }
         }
 

@@ -7,8 +7,12 @@ define(function (require) {
     var Component = require('dt/ui/Component');
     var dtLib = require('dt/lib');
     var lang = require('./lang');
+    var dataTable = require('./dataTable');
+    var jsDataFactory = require('./jsDataFactory');
 
-    require('dt/componentConfig');
+    require('./componentConfig');
+    require('jqueryhandsontable');
+    require('jquerymousewheel');
 
     /**
      * @public
@@ -35,16 +39,13 @@ define(function (require) {
             css: 'ecdoc-sprsht',
             viewModel: function () {
                 return {
+                    jsDataOb: jsDataFactory.create()
                 };
             }
         },
 
         getLang: function () {
             return lang;
-        },
-
-        _prepare: function () {
-            // $.getJSON(SCHEMA_URL, $.proxy(this._handleSchemaLoaded, this));
         }
 
     });

@@ -1,6 +1,52 @@
 {{ target: SpreadsheetMain }}
-<div class="ecdoc-sprsht-switch" data-cpt="type: 'Button', name: 'switch'"></div>
+<!-- <div class="ecdoc-sprsht-switch" data-cpt="type: 'Button', name: 'switch'"></div> -->
 
-<div class="ecdoc-sprsht-table-area">
+<div class="ecdoc-sprsht-main ecdoc-sprsht-datatable-to-codeinputs">
+    <div class="ecdoc-sprsht-datatable-area">
+        <div data-cpt="
+            type: 'spreadsheet/DataTable',
+            name: 'dataTable',
+            viewModel: {
+                jsDataOb: viewModel.jsDataOb
+            }"></div>
+    </div>
+    <div class="ecdoc-sprsht-codeinputs-area">
+        <div data-cpt="
+            type: 'spreadsheet/CodeInputs',
+            name: 'codeInputs',
+            viewModel: {
+                jsDataOb: viewModel.jsDataOb
+            }"></div>
+    </div>
+</div>
+{{ /target }}
+
+
+
+{{ target: DataTable }}
+<div class="ecdoc-sprsht-ht"></div>
+{{ /target }}
+
+
+
+{{ target: CodeInputs }}
+<div class="ecdoc-sprsht-mainlist" data-cpt="
+    type: 'Foreach',
+    viewModelGet: 'mainListViewModels',
+    itemType: 'spreadsheet/CodeInput'
+"></div>
+{{ /target }}
+
+
+
+{{ target: CodeInput }}
+<div data-cpt="
+    type: 'TextInput',
+    name: 'textInput',
+    viewModel: {
+        type: 'textarea',
+        mouseEnterSelect: lib.ob(true),
+        value: viewModel.codeTextOb
+    }">
 </div>
 {{ /target }}
