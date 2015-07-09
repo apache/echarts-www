@@ -6,7 +6,8 @@
         viewModel: {
             selected: viewModel.apiTreeSelected,
             highlighted: viewModel.apiTreeHighlighted,
-            datasource: viewModel.apiTreeDatasource
+            hovered: viewModel.apiTreeHovered,
+            datasource: viewModel.apiTreeDatasource,
         }">
     </div>
 </div>
@@ -64,6 +65,7 @@
         </div>
     </div>
     <div class="ecdoc-api-desc-area ecdoc-fixed-panel">
+        <div class="ecdoc-api-option-path"></div>
         <div class="ecdoc-api-left">
             <label>${lang.descAreaLabelType}</label>
             <div class="ecdoc-api-type"></div>

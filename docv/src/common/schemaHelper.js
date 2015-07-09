@@ -927,8 +927,12 @@ define(function (require) {
                 descriptionCN: result.descriptionCN,
                 descriptionEN: result.descriptionEN,
                 defau: result.defau,
-                optionPathForHash: schemaHelper.stringifyOptionPath(context.optionPath, false),
-                optionPath: schemaHelper.stringifyOptionPath(context.optionPath, true),
+                optionPathForHash: schemaHelper.stringifyOptionPath(
+                    context.optionPath, {useSquareBrackets: false}
+                ),
+                optionPath: schemaHelper.stringifyOptionPath(
+                    context.optionPath, {useSquareBrackets: true}
+                ),
                 defaultValueText: schemaHelper.getDefaultValueText(result.defau),
                 tooltipEncodeHTML: false
             };
