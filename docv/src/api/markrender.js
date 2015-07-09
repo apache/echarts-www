@@ -6,7 +6,7 @@ define(function(require) {
   tip = require('./tip');
   category = require('./category');
   helper = require('./helper');
-  apiIndex = 0;
+  apiIndex = -1;
   apiData = {};
   layout = null;
   imgLayout = null;
@@ -37,7 +37,11 @@ define(function(require) {
     return this.go(nextIndex);
   };
   exports.go = function(index, category) {
-    var chartName, imgFile, jsonFile, path;
+    var chartName, curCategory, imgFile, jsonFile, path, ref;
+    curCategory = (ref = apiData[apiIndex]) != null ? ref[0] : void 0;
+    if (category === curCategory) {
+      return;
+    }
     path = '../docv/data/api/';
     if (index === -1) {
       index = _.findIndex(apiData, function(item) {

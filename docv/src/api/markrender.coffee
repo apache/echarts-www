@@ -6,7 +6,7 @@ define(
         category = require './category'
         helper = require './helper'
 
-        apiIndex = 0
+        apiIndex = -1
         apiData = {}
         layout = null
         imgLayout = null
@@ -38,6 +38,11 @@ define(
 
 
         exports.go = (index, category) ->
+            curCategory = apiData[apiIndex]?[0]
+
+            if category is curCategory
+                return
+
             path = '../docv/data/api/'
             if index is -1
                 index = _.findIndex apiData, (item) ->
