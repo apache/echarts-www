@@ -73,22 +73,24 @@
 }
 .dtui-txipt {
   display: inline-block;
-  padding: 0 6px;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
   background: #fff;
   border: 1px solid #979bb2;
-  margin-left: 6px;
-  margin-top: 4px;
+  margin: 3px 5px;
   width: 100px;
 }
 .dtui-txipt textarea,
 .dtui-txipt input {
+  display: block;
   padding: 0;
-  margin: 0;
   width: 100%;
-  line-height: 14px;
+  height: 100%;
+  line-height: 16px;
   font-size: 12px;
   color: #000;
   background: #fff;
@@ -96,24 +98,16 @@
   outline: medium;
 }
 .dtui-txipt-type-text {
+  padding: 0 6px;
   height: 26px;
   line-height: 26px;
 }
-.dtui-txipt-type-text div {
-  line-height: 24px;
-}
 .dtui-txipt-type-textarea {
+  padding: 6px;
   height: 66px;
   line-height: 66px;
 }
-.dtui-txipt-type-textarea div {
-  position: relative;
-  height: 100%;
-}
 .dtui-txipt-type-textarea textarea {
-  position: absolute;
-  top: 3px;
-  bottom: 3px;
   resize: none;
 }
 .dtui-txipt-disabled {
@@ -123,30 +117,37 @@
   background: #bbb;
   color: #333;
 }
-.dtui-chkbtn-i {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.dtui-chkbtn-i i {
-  display: none;
-}
-.dtui-chkbtn-i em {
-  display: none;
-}
-.dtui-chkbtn-i span {
+.dtui-tx {
   display: inline-block;
   *display: inline;
   *zoom: 1;
   vertical-align: middle;
+}
+.dtui-chkbtn {
+  display: inline-block;
+  *display: inline;
+  vertical-align: middle;
+  *zoom: 1;
+}
+.dtui-chkbtn:before,
+.dtui-chkbtn:after {
+  display: table;
+  content: "";
+}
+.dtui-chkbtn:after {
+  clear: both;
+}
+.dtui-chkbtn-i {
+  float: left;
+  height: 18px;
   line-height: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   text-align: center;
   cursor: pointer;
-  margin: 0 10px 0 0;
+  margin: 3px 5px;
   padding: 0 5px;
   font-size: 12px;
   -webkit-border-radius: 2px;
@@ -156,20 +157,17 @@
   background: transparent;
   color: #777777;
 }
-.dtui-chkbtn-i-hover span {
+.dtui-chkbtn-i-hover {
   border: 0 solid #828599;
   color: #333333;
   background: #e0e0e0;
 }
-.dtui-chkbtn-i-active span {
+.dtui-chkbtn-i-active {
   border: 0 solid #d2d2d2;
   color: #f0f0f0;
   background: #828599;
 }
-.dtui-chkbtn-disabled i {
-  cursor: default;
-}
-.dtui-chkbtn-disabled span {
+.dtui-chkbtn-disabled {
   border: 0 solid #828599;
   color: #828599;
   background: transparent;
@@ -356,7 +354,7 @@ html {
   -moz-border-radius: 4px;
   border-radius: 4px;
   position: fixed;
-  z-index: 99999;
+  z-index: 9999;
 }
 .ecdoc-fixed-panel a,
 .ecdoc-fixed-panel a:visited {
@@ -394,9 +392,9 @@ html {
 .ecdoc-sprsht-datatable-area {
   position: fixed;
   left: 0;
-  top: 70px;
+  top: 53px;
   width: 55%;
-  bottom: 20px;
+  bottom: 0;
 }
 .ecdoc-sprsht-datatable-area .handsontable {
   color: #333;
@@ -405,7 +403,7 @@ html {
   position: absolute;
   overflow: visible;
   top: 0;
-  left: 20px;
+  left: 0;
   right: 0;
   bottom: 0;
   background: #FFF;
@@ -429,6 +427,7 @@ html {
 }
 .ecdoc-sprsht-ctrl-area {
   margin: 0 35px 0 20px;
+  padding: 5px 15px;
   position: relative;
 }
 .ecdoc-sprsht-ctrl-area h1 {
@@ -438,6 +437,8 @@ html {
 .ecdoc-sprsht-ctrl-area .ecdoc-sprsht-desc {
   color: #999;
   margin-bottom: 10px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ccc;
 }
 .ecdoc-sprsht-ctrl-area .ecdoc-sprsht-desc strong {
   color: #333;
@@ -445,9 +446,15 @@ html {
   margin: auto 4px auto 4px;
 }
 .ecdoc-sprsht-ctrl-area .ecdoc-sprsht-line {
-  margin-bottom: 10px;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
+  margin-bottom: 6px;
+  padding-top: 6px;
+}
+.ecdoc-sprsht-ctrl-area .ecdoc-sprsht-line label {
+  vertical-align: middle;
+}
+.ecdoc-sprsht-ctrl-area .ecdoc-attr-info {
+  font-size: 12px;
+  line-height: 32px;
 }
 .ecdoc-sprsht-ctrl-area .ecdoc-sprsht-attr-change {
   margin: -26px 0 0 100px;
@@ -463,6 +470,30 @@ html {
   -moz-border-radius: 11px;
   border-radius: 11px;
   padding: 0;
+}
+.ecdoc-sprsht-ctrl-area .ecdoc-attr-item {
+  line-height: 32px;
+}
+.ecdoc-sprsht-ctrl-area .ecdoc-attr-block {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+  margin: 0 3px;
+}
+.ecdoc-sprsht-ctrl-area .ecdoc-attr-block label {
+  font-weight: normal;
+  vertical-align: middle;
+}
+.ecdoc-sprsht-ctrl-area .ecdoc-attr-block .dtui-txipt {
+  margin-left: 0;
+  margin-right: 0;
+}
+.ecdoc-sprsht-ctrl-area .ecdoc-attr-title {
+  font-family: "Andale Mono", Monospace;
+}
+.ecdoc-sprsht-ctrl-area .ecdoc-attr-data-type .dtui-chkbtn-i {
+  margin: 0 2px 0 0;
 }
 .ecdoc-sprsht-codeinputs-area {
   margin: 20px 35px 0 20px;
