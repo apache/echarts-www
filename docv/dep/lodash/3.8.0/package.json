@@ -1,0 +1,14 @@
+{
+    "name": "lodash",
+    "version": "3.8.0",
+    "author": {
+        "name": "Leo Wang",
+        "email": "leowang721@gmail.com",
+        "url": "http://leowang721.github.io"
+    },
+    "contributors": [],
+    "main": "main",
+    "description": "A JavaScript utility library delivering consistency, modularity, performance, & extras. https://lodash.com/",
+    "homepage": "https://github.com/leowang721/lodash",
+    "repository": "https://github.com/leowang721/lodash"
+}

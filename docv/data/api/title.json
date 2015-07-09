@@ -1,0 +1,119 @@
+﻿[
+    {
+        "style": "top: 11.44%;54px; left: 30.95%; z-index: 10; color: #ff0000; opacity: 0.5;",
+        "data": {
+            "title": "主标题",
+            "list": [
+                {
+                    "query": "title.textStyle(fontSize)",
+                    "desc": "字体大小"
+                },
+                {
+                    "query": "title.textStyle(color)",
+                    "desc": "字体颜色"
+                },
+                {
+                    "query": "title.textStyle(fontStyle)",
+                    "desc": "字体样式"
+                },
+                {
+                    "query": "title.textStyle(fontWeight)",
+                    "desc": "字体粗细"
+                },
+                {
+                    "query": "title.link",
+                    "desc": "设置超链接"
+                },
+                {
+                    "query": "title.text",
+                    "desc": "文本内容"
+                }
+            ]
+        },
+        "type": "icon-arrow-up-left"
+    },
+    {
+        "style": "top: 12.5%; left: 13.57%; z-index: 11; color: #ff0000; opacity: 0.5;",
+        "data": {
+            "title": "间距",
+            "list": [
+                {
+                    "query": "title.itemGap",
+                    "desc": "主副标题纵向间隔"
+                },
+                {
+                    "query": "title.padding",
+                    "desc": "标题内边距"
+                }
+            ]
+        },
+        "type": "icon-arrow-left"
+    },
+    {
+        "style": "top: 19.7%; left: 15.48%; z-index: 12; color: #ff0000; opacity: 0.5;",
+        "data": {
+            "title": "副标题",
+            "list": [
+                {
+                    "query": "title.subtextStyle(fontSize)",
+                    "desc": "字体大小"
+                },
+                {
+                    "query": "title.subtextStyle(color)",
+                    "desc": "字体颜色"
+                },
+                {
+                    "query": "title.subtextStyle(fontWeight)",
+                    "desc": "字体粗细"
+                },
+                {
+                    "query": "title.subtextStyle(fontStyle)",
+                    "desc": "字体样式"
+                },
+                {
+                    "query": "title.subtext",
+                    "desc": "标题内容"
+                }
+            ]
+        },
+        "type": "icon-arrow-up-left"
+    },
+    {
+        "style": "top: 14.83%; left: 39.88%; z-index: 13; color: #ff0000; opacity: 0.5;",
+        "data": {
+            "title": "边框",
+            "list": [
+                {
+                    "query": "title.borderColor",
+                    "desc": "边框颜色"
+                },
+                {
+                    "query": "title.borderWidth",
+                    "desc": "边框宽度"
+                }
+            ]
+        },
+        "type": "icon-arrow-left"
+    },
+    {
+        "style": "top: 13.35%; left: 3.69%; z-index: 14; color: #ff0000; opacity: 0.5;",
+        "data": {
+            "title": "主副标题共同属性",
+            "list": [
+                {
+                    "query": "title.show",
+                    "desc": "显示或隐藏"
+                },
+                {
+                    "query": "title.backgroundColor",
+                    "desc": "背景颜色"
+                },
+                {
+                    "query": "title.textAlign",
+                    "desc": "水平对齐方式"
+                }
+            ]
+        },
+        "type": "icon-arrow-up-left"
+    }
+]

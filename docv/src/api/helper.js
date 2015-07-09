@@ -40,13 +40,21 @@ define(function (require) {
 
     /**
      * @public
+     * @returns {Object} {category: ..., queryString: ...}
+     */
+    helper.getHashInfo = function () {
+        return helper.parseHash(hasher.getHash());
+    };
+
+    /**
+     * @public
      * @param {Object} options
      * @param {string=} [options.category] 为空则当前hash中此项保留
      * @param {string=} [options.queryString] 为空则当前hash中此项保留
      */
     helper.hashRoute = function (options) {
         dtLib.assert(hasher.isActive());
-        var hashInfo = helper.parseHash(hasher.getHash());
+        var hashInfo = helper.getHashInfo();
         dtLib.assign(hashInfo, options);
 
         var hashString = '';

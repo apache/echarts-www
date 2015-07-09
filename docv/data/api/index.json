@@ -1,0 +1,6 @@
+[
+    [ "title", "标题" ],
+    [ "legend", "图例" ],
+    [ "tooltip-line1", "提示框(1)" ],
+    [ "tooltip-type", "提示框(2)" ]
+]
