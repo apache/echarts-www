@@ -23,6 +23,7 @@ define(function (require) {
         require('./lib/number'),
         require('./lib/throttle'),
         require('./lib/htmlCleaner'),
+        require('./lib/codeStringify'),
         require('./lib/others'),
         require('./ui/tooltip')
     );

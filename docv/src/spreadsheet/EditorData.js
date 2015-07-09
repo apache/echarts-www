@@ -109,6 +109,7 @@ define(function (require) {
      * @param {string=} dataType 提供数据过滤的功能（如适当地处理null、非法number、trim等情况）。
      *                           可以是'string', 'number', 'auto'（能转成number则为number，否则为string）。
      *                           如果不传，则返回原始值。
+     *                           注意，number支持 111e2 这种形式。也就是说，excel中输入了111e2，得到的值是11100。
      * @return {*} value
      *             string时返回值必为string.
      *             number时如果非法则返回null.

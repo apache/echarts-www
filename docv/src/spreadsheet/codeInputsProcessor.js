@@ -6,9 +6,8 @@ define(function (require) {
 
     var $ = require('jquery');
     var dtLib = require('dt/lib');
-    var docUtil = require('../common/docUtil');
-    var renderers = require('./dataTableCellRenderers');
     var helper = require('./helper');
+    var lang = require('./lang');
     var constant = require('./constant');
 
     /**
@@ -16,24 +15,18 @@ define(function (require) {
      */
     var processor = {};
 
-    processor.getJSDataChangeHandler = function (mainListViewModels) {
-        return function (jsData, jsDataOb) {
-            // 自己引发的改变，不更新自己
-            if (!dtLib.checkValueInfoForConfirmed(jsDataOb, constant.UI_CODE_INPUTS)) {
-                fillFromJSData(jsDataOb, mainListViewModels);
-            }
-        };
-    };
-
     /**
+     * 此方法只可在jsDataFactory中使用。
      * 此方法不做throttle，因为只用于监听ob。
      * 约定在ob更新的上游进行throttle（即dataTableProcessor.fillJSData）
      *
-     * @inner
-     * @param {Object} mainListViewModels
+     * @public
+     * @param {Object} jsDataOb
      */
-    function fillFromJSData(jsDataOb, mainListViewModels) {
+    processor.fillFromJSData = function (jsDataOb) {
         var jsData = jsDataOb();
+        var mainListViewModels = jsDataOb.getCodeInputsListViewModels();
+        var jsDataType = jsDataOb.getType();
 
         // Clear
         mainListViewModels.removeAll();
@@ -41,37 +34,39 @@ define(function (require) {
         // Render
         var toAddArr = [];
         for (var seriesIndex = 0, lenS = jsData.length; seriesIndex < lenS; seriesIndex++) {
-            var codeText = docUtil.stringifyJSObject(jsData[seriesIndex]);
+
+            var codeText = dtLib.stringifyJSObject(
+                jsData[seriesIndex], jsDataOb.getCodeStringifyParam()
+            );
             var codeTextOb = dtLib.ob(codeText);
-            toAddArr.push({codeTextOb: codeTextOb});
+            var colDesc = jsDataOb.getColDescBySeries(seriesIndex, jsDataType);
+            var rangeDesc = (colDesc.single ? colDesc.start : (colDesc.start + ' - ' + colDesc.end));
+            var title = dtLib.strTemplate(lang.codeInputTitle, {rangeDesc: rangeDesc});
+
+            toAddArr.push({codeTextOb: codeTextOb, title: title});
             codeTextOb.subscribe(onCodeTextChange, processor);
         }
         toAddArr.length && mainListViewModels.pushArray(toAddArr);
 
         function onCodeTextChange(nextCodeText, codeTextOb) {
             if (dtLib.checkValueInfoForConfirmed(codeTextOb)) {
-                processor.fillJSData(jsDataOb, mainListViewModels);
+                jsDataOb.fillJSDataByCodeInputs();
             }
         }
-    }
+    };
 
     /**
-     * 统一throttle而非在调用点throttle，是为了让所有此方法的调用有一致的时序。
+     * 此方法只可在jsDataFactory中使用。
      *
      * @public
+     * @param {Object} jsDataOb
      */
-    processor.fillJSData = dtLib.throttle(fillJSData, constant.JSDATA_UPDATE_DELAY, true, true);
-
-    /**
-     * @public
-     * @param {Object} mainListViewModels
-     */
-    function fillJSData(jsDataOb, mainListViewModels) {
+    processor.fillJSData = function (jsDataOb) {
         var jsData = [];
-        var vms = mainListViewModels();
+        var vms = jsDataOb.getCodeInputsListViewModels()();
         var colCount = jsDataOb.getColCount();
-        var seriesInfo = jsDataOb.getSeriesInfo(colCount);
         var jsDataType = jsDataOb.getType();
+        var seriesInfo = jsDataOb.getSeriesInfo(jsDataType, colCount);
 
         // 取数据
         for (var seriesIndex = 0, lenS = vms.length; seriesIndex < lenS; seriesIndex++) {
@@ -96,27 +91,6 @@ define(function (require) {
         }
 
         jsDataOb(jsData, dtLib.valueInfoForConfirmed(constant.UI_CODE_INPUTS));
-    }
-
-    /**
-     * @public
-     */
-    processor.processCell = function (colSettings, htIns, row, col) {
-        var colCount = htIns.countCols();
-        var jsDataOb = htIns.jsDataOb;
-        var seriesInfo = jsDataOb.getSeriesInfo(colCount);
-
-        if (seriesInfo.colStep > 1) {
-            if (Math.floor(col / seriesInfo.colStep) % 2 === 0) {
-                colSettings.renderer = renderers.high;
-            }
-            else {
-                colSettings.renderer = renderers.normal;
-            }
-        }
-        else { // 两个else分开写是为了逻辑上好读。
-            colSettings.renderer = renderers.normal;
-        }
     };
 
     return processor;

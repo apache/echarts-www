@@ -6,6 +6,9 @@ define(function (require) {
 
     var constant = {};
 
+
+    constant.EC_EMPTY_VALUE = '-'; // ECharts 标准 empty value.
+
     constant.JSDATA_UPDATE_DELAY = 700;
 
     constant.JSDATA_DIM_ARRAY = 'dimArray';

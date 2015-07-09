@@ -198,6 +198,7 @@ define(function (require) {
     /**
      * @see number.validateNumeric
      * 如果是Numeric，就返回数值。否则返回 null。
+     * 注意，number支持 111e2 这种形式。也就是说，输入是'111e2'，得到的值是11100。
      *
      * @public
      * @param {*} v 输入，可以是123、'123'、'  123  '

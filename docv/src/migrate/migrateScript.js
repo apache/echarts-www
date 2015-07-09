@@ -2,7 +2,7 @@
 // (1) 从 resetLink 打印出点东西来看，还有些大块东西没有拆开，如timeLine中，
 // 还有些desc中有 <table> 继续整理下
 // (2) 从 resetLink 中，继续整理link。
-
+// (3) 添加属性路径的显示。
 
 
 
@@ -617,7 +617,7 @@ define(function (require) {
 
 
         optionProperties.backgroundColor.defaultValueHTML = 'rgba(0,0,0,0)';
-        optionProperties.color.defaultValueHTML = docUtil.stringifyJSObject2HTML([
+        optionProperties.color.defaultValueHTML = dtLib.stringifyJSObject2HTML([
             '#ff7f50','#87cefa','#da70d6','#32cd32','#6495ed',
             '#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0',
             '#1e90ff','#ff6347','#7b68ee','#00fa9a','#ffd700',
@@ -637,7 +637,7 @@ define(function (require) {
 
         optionProperties.symbolList = {};
         optionProperties.symbolList.type = 'Array';
-        optionProperties.symbolList.defaultValueHTML = docUtil.stringifyJSObject2HTML([
+        optionProperties.symbolList.defaultValueHTML = dtLib.stringifyJSObject2HTML([
                 'circle', 'rectangle', 'triangle', 'diamond', 'emptyCircle',
                 'emptyRectangle', 'emptyTriangle', 'emptyDiamond'
         ]);
@@ -1152,7 +1152,7 @@ define(function (require) {
             },
             lineStyle: {
                 type: 'Object',
-                defaultValueHTML: docUtil.stringifyJSObject2HTML({
+                defaultValueHTML: dtLib.stringifyJSObject2HTML({
                     color: '#48b',
                     width: 2,
                     type: 'solid'
@@ -1163,7 +1163,7 @@ define(function (require) {
             },
             crossStyle: {
                 type: 'Object',
-                defaultValueHTML: docUtil.stringifyJSObject2HTML({
+                defaultValueHTML: dtLib.stringifyJSObject2HTML({
                     color: '#1e90ff',
                     width: 1,
                     type: 'dashed'
@@ -1174,7 +1174,7 @@ define(function (require) {
             },
             shadowStyle: {
                 type: 'Object',
-                defaultValueHTML: docUtil.stringifyJSObject2HTML({
+                defaultValueHTML: dtLib.stringifyJSObject2HTML({
                     color: 'rgba(150,150,150,0.3)',
                     width: 'auto',
                     type: 'default',
@@ -1186,7 +1186,7 @@ define(function (require) {
             },
             textStyle: {
                 type: 'Object',
-                defaultValueHTML: docUtil.stringifyJSObject2HTML({
+                defaultValueHTML: dtLib.stringifyJSObject2HTML({
                     color: '#fff'
                 }),
                 descriptionCN: '文本样式',
@@ -1289,14 +1289,14 @@ define(function (require) {
         addRef(properties.splitLine, '#definitions/axisSplitLine');
         addRef(properties.splitArea, '#definitions/axisSplitArea');
 
-        properties.indicator.descriptionCN += '<br>' + docUtil.stringifyJSObject2HTML([
+        properties.indicator.descriptionCN += '<br>' + dtLib.stringifyJSObject2HTML([
             {text: '外观'},
             {text: '拍照', min: 0},
             {text: '系统', min: 0, max: 100},
             {text: '性能', axisLabel: {}},
             {text: '屏幕'}
         ]);
-        properties.indicator.descriptionCN += '<br>' + docUtil.stringifyJSObject2HTML([
+        properties.indicator.descriptionCN += '<br>' + dtLib.stringifyJSObject2HTML([
             {text: 'outlook'},
             {text: 'photo', min: 0},
             {text: 'system', min: 0, max: 100},

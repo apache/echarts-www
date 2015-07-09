@@ -2312,6 +2312,7 @@ DefaultSettings.prototype = {
   autoWrapCol: false,
   copyRowsLimit: 1000,
   copyColsLimit: 1000,
+  trimWhitespace: false,
   pasteMode: 'overwrite',
   currentRowClassName: void 0,
   currentColClassName: void 0,
@@ -4828,9 +4829,11 @@ Handsontable.SelectionPoint.prototype.arr = function (arr) {
 
       }
 
-
       var val = [
-        [String.prototype.trim.call(this.getValue())] //String.prototype.trim is defined in Walkontable polyfill.js
+        // Modify by sushuang at 2015-07-07
+        this.instance.getSettings().trimWhitespace
+          ? [this.getValue() + '']
+          : [String.prototype.trim.call(this.getValue())] //String.prototype.trim is defined in Walkontable polyfill.js
       ];
 
       this.state = Handsontable.EditorState.WAITING;

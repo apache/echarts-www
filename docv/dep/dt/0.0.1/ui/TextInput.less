@@ -1,25 +1,21 @@
 @import "./common.less";
 
 .dtui-txipt {
-    display: inline-block;
-    padding: 0 6px;
-    height: 26px;
-    line-height: 26px;
+    .inline-block();
+    vertical-align: middle;
     .border-radius(3px);
     background: #fff;
     border: 1px solid #979bb2;
-    margin-left: 6px;
-    margin-top: 4px;
+    margin: 3px 5px;
     width: 100px;
-    height: 20px;
-    line-height: 20px;
 
     textarea,
     input {
+        display: block;
         padding: 0;
-        margin: 0;
         width: 100%;
-        line-height: 14px;
+        height: 100%;
+        line-height: 16px;
         font-size: 12px;
         color: #000;
         background: #fff;
@@ -28,22 +24,16 @@
     }
 }
 .dtui-txipt-type-text {
+    padding: 0 6px;
     height: 26px;
     line-height: 26px;
 }
 .dtui-txipt-type-textarea {
+    padding: 6px;
     height: 66px;
     line-height: 66px;
 
-    div {
-        position: relative;
-        height: 100%;
-    }
-
     textarea {
-        position: absolute;
-        top: 3px;
-        bottom: 3px;
         resize: none;
     }
 }

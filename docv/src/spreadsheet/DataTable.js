@@ -39,7 +39,7 @@ define(function (require) {
              */
             this._htIns = null;
             // 行列选中，在handsontable尚未找到设置或API
-            this._createHandsontable(this._makeHandsontableOptions());
+            this._createHandsontable();
         },
 
         /**
@@ -48,6 +48,15 @@ define(function (require) {
         clearContent: function () {
             if (this._htIns) {
                 this._htIns.dtEditorData.clear();
+            }
+        },
+
+        /**
+         * @public
+         */
+        refresh: function () {
+            if (this._htIns) {
+                this._htIns.render();
             }
         },
 
@@ -61,8 +70,8 @@ define(function (require) {
         /**
          * @private
          */
-        _createHandsontable: function (options) {
-            var jsDataOb = this._viewModel().jsDataOb;
+        _createHandsontable: function () {
+            var options = this._makeHandsontableOptions();
             if (!options.data) {
                 // 初始数据
                 options.data = [[]];
@@ -77,7 +86,6 @@ define(function (require) {
             // 直接使用htIns.dtEditorData即可引用editorData实例。
             // 加dt前缀是防止与handsontable自身的属性冲突。
             htIns.dtEditorData = new EditorData(htIns);
-            htIns.jsDataOb = jsDataOb;
 
             // Enhance features for handsontable
             $dataTable.on(
@@ -95,7 +103,7 @@ define(function (require) {
                 }
             );
 
-            jsDataOb.subscribe(dataTableProcessor.getJSDataChangeHandler(htIns));
+            this._viewModel().jsDataOb.bindDataTable(htIns);
         },
 
         /**
@@ -107,8 +115,11 @@ define(function (require) {
                 cells: function (row, col) {
                     // 此函数将在循环体中被频繁调用。（每次更改handsontable时调用）
                     if (that._htIns) {
-                        dataTableProcessor.processCell(this, that._htIns, row, col);
+                        dataTableProcessor.processCell(
+                            this, that._viewModel().jsDataOb, row, col
+                        );
                     }
+                    // this.readOnly = true;
                 },
                 afterChange: function (change, source) {
                     // source可为：
@@ -141,6 +152,7 @@ define(function (require) {
                 stretchH: 'last', // 设为'all'时，列拖拽改变宽度时体验稍有问题。
                 // width: function //??
                 // height: function //??
+                trimWhitespace: true,
                 minRows: 50,
                 minCols: 15,
                 manualColumnResize: true,
@@ -158,11 +170,9 @@ define(function (require) {
                 persistentState: false
             };
 
+            // 注意这个方法会频繁调用，所以在processor中统一使用throttle。
             function refreshJSData() {
-                // 注意这个方法会频繁调用，所以在processor中统一使用throttle。
-                if (that._htIns) {
-                    dataTableProcessor.fillJSData(that._htIns);
-                }
+                that._viewModel().jsDataOb.fillJSDataByDataTable();
             }
         }
 

@@ -1,12 +1,15 @@
 /**
- * @file js data
+ * @file js data 是一个封装了数据和行为的model，并作为各方的接口。
  * @author sushuang(sushuang@baidu.com)
  */
 define(function (require) {
 
+    var $ = require('jquery');
     var dtLib = require('dt/lib');
     var helper = require('./helper');
     var constant = require('./constant');
+    var dataTableProcessor = require('./dataTableProcessor');
+    var codeInputsProcessor = require('./codeInputsProcessor');
 
     /**
      * [Usage]
@@ -59,11 +62,13 @@ define(function (require) {
     var jsDataFactory = {};
 
     jsDataFactory.create = function () {
-        var ob = dtLib.ob();
+        var ob = dtLib.ob([]);
         dtLib.assign(ob, methods);
 
-        ob._dataMeta = {};
         ob.setType(constant.JSDATA_DIM_ARRAY, null, true); // init
+
+        ob.fillJSDataByDataTable = makeThrottle(dataTableProcessor.fillJSData, ob);
+        ob.fillJSDataByCodeInputs = makeThrottle(codeInputsProcessor.fillJSData, ob);
 
         return ob;
     };
@@ -107,7 +112,7 @@ define(function (require) {
      * @inner
      */
     function setDataMeta(inputDataMeta) {
-        var dataMeta = this._dataMeta;
+        var dataMeta = this._dataMeta || (this._dataMeta = {});
 
         if (dataMeta != null) {
             dtLib.merge(dataMeta, inputDataMeta, {clone: true});
@@ -121,9 +126,69 @@ define(function (require) {
             dataMeta.itemDataType = 'auto';
         }
         if (!dataMeta.hasOwnProperty('emptyValue')) {
-            dataMeta.emptyValue = '-';
+            dataMeta.emptyValue = constant.EC_EMPTY_VALUE;
         }
+        this.setCodeInfo();
     }
+
+    /**
+     * Available after bindDataTable called.
+     *
+     * @public
+     */
+    methods.fillJSDataByDataTable = $.noop;
+
+    /**
+     * Available after bindCodeInputs called.
+     *
+     * @public
+     */
+    methods.fillJSDataByCodeInputs = $.noop;
+
+    /**
+     * @public
+     */
+    methods.bindDataTable = function (htIns) {
+        this._htIns = htIns;
+        this.subscribe(onJSDataChanged, this);
+
+        function onJSDataChanged(jsData, jsDataOb) {
+            // 自己更新导致的jsData变化，不刷新自己。
+            if (!dtLib.checkValueInfoForConfirmed(jsDataOb, constant.UI_TABLE_DATA)) {
+                dataTableProcessor.fillFromJSData(jsDataOb);
+                htIns.render();
+            }
+        }
+    };
+
+    /**
+     * @public
+     */
+    methods.bindCodeInputs = function (codeInputsListViewModels) {
+        this._codeInputsListViewModels = codeInputsListViewModels;
+        this.subscribe(onJSDataChanged, this);
+
+        function onJSDataChanged(jsData, jsDataOb) {
+            // 自己引发的改变，不更新自己
+            if (!dtLib.checkValueInfoForConfirmed(jsDataOb, constant.UI_CODE_INPUTS)) {
+                codeInputsProcessor.fillFromJSData(jsDataOb);
+            }
+        }
+    };
+
+    /**
+     * @public
+     */
+    methods.getHTIns = function () {
+        return this._htIns;
+    };
+
+    /**
+     * @public
+     */
+    methods.getCodeInputsListViewModels = function () {
+        return this._codeInputsListViewModels;
+    };
 
     /**
      * @public
@@ -137,6 +202,38 @@ define(function (require) {
      */
     methods.setEmptyValue = function (value) {
         this._dataMeta.emptyValue = value;
+    };
+
+    /**
+     * @public
+     */
+    methods.setCodeInfo = function (options) {
+        if (options == null) {
+            // Default values.
+            this._dataMeta.codeInfo = {
+                quotationMark: '\'',
+                indentBase: 4,
+                compress: false
+            };
+        }
+        dtLib.assign(
+            this._dataMeta.codeInfo,
+            options,
+            ['quotationMark', 'indentBase', 'compress']
+        );
+    };
+
+    /**
+     * @public
+     */
+    methods.getCodeStringifyParam = function (value) {
+        return dtLib.assign(
+            {
+                errorMessage: 'Error: illegal data!',
+                singleLineDepth: this.getSeriesDim() === 2 ? 1 : null
+            },
+            this._dataMeta.codeInfo
+        );
     };
 
     /**
@@ -208,28 +305,44 @@ define(function (require) {
 
     /**
      * @public
-     * @param  {number} dataTableColCount
-     * @return {Object} {count: ..., colStep: ..., seriesDim: ...}
+     * @param {string} jsDataType
+     * @param  {number=} dataTableColCount Auto calculate when ignore.
+     * @return {Object} {
+     *                      count: ..., >= 0
+     *                      colStep: ..., >= 1
+     *                      seriesDim: ... the same as getSeriesDim()
+     *                  }
      */
-    methods.getSeriesInfo = function (dataTableColCount) {
-        if (arguments.length === 0) {
+    methods.getSeriesInfo = function (jsDataType, dataTableColCount) {
+        if (dataTableColCount == null) {
             dataTableColCount = this.getColCount();
         }
+
         var dimColStep = this.getDimColStep();
         var count;
         var colStep;
-        if (dimColStep === 'max') {
-            count = 1;
-            colStep = dataTableColCount;
+
+        if (jsDataType === constant.JSDATA_DIM_ARRAY) {
+            if (dimColStep === 'max') {
+                colStep = dataTableColCount;
+                count = dataTableColCount ? 1 : 0;
+            }
+            else if (dimColStep) {
+                colStep = dimColStep;
+                count = Math.ceil(dataTableColCount / colStep);
+            }
+            else {
+                count = dataTableColCount;
+                colStep = 1;
+            }
         }
-        else if (dimColStep) {
-            dimColStep = Math.min(dataTableColCount, dimColStep);
-            count = Math.ceil(dataTableColCount / dimColStep);
-            colStep = dimColStep;
+        else if (jsDataType === constant.JSDATA_ARRAY_OBJECT) {
+            var propertyMetas = this.getPropertyMetas();
+            colStep = propertyMetas.length;
+            count = Math.ceil(dataTableColCount / colStep);
         }
         else {
-            count = dataTableColCount;
-            colStep = 1;
+            dtLib.assert(false, 'MUST input jsDataType!');
         }
 
         return {
@@ -253,6 +366,23 @@ define(function (require) {
      */
     methods.getPropertyMetas = function () {
         return dtLib.clone(this._dataMeta.propertyMetas);
+    };
+
+    /**
+     * @public
+     */
+    methods.setPropertyMetas = function (inputPropertyMetas) {
+        var propertyMetas = this._dataMeta.propertyMetas;
+        var i = 0;
+        for (var len = inputPropertyMetas.length; i < len; i++) {
+            var meta = propertyMetas[i] || (
+                propertyMetas[i] = {propertyName: '', itemDataType: 'auto'}
+            );
+            dtLib.assign(meta, inputPropertyMetas[i]);
+        }
+
+        // Remove remains.
+        propertyMetas.splice(i, propertyMetas.length - i);
     };
 
     /**
@@ -292,7 +422,7 @@ define(function (require) {
             var dimColStep = this.getDimColStep();
             // Find max length.
             colMax = dimColStep === 'max'
-                ? getColMax[this.type()](jsData)
+                ? getColMax[this.getType()](jsData)
                 : jsData.length * dimColStep;
         }
 
@@ -302,7 +432,49 @@ define(function (require) {
         return colMax + colBuffer;
     };
 
+    /**
+     * @public
+     */
+    methods.getColDescBySeries = function (seriesIndex, jsDataType) {
+        var seriesInfo = this.getSeriesInfo(jsDataType);
+        var colStart = seriesIndex * seriesInfo.colStep;
+        var colEnd = colStart + seriesInfo.colStep - 1;
 
+        return {
+            start: this.getColDesc(colStart),
+            end: this.getColDesc(colEnd),
+            single: colStart === colEnd
+        };
+    };
+
+    /**
+     * @public
+     */
+    methods.getColDescInSeries = function (seriesIndexList, offset, jsDataType) {
+        var seriesInfo = this.getSeriesInfo(jsDataType);
+        offset = offset % seriesInfo.colStep;
+        var ret = [];
+
+        for (var i = 0, len = seriesIndexList.length; i < len; i++) {
+            var colStart = seriesIndexList[i] * seriesInfo.colStep;
+            ret.push(this.getColDesc(colStart + offset));
+        }
+
+        return ret;
+    };
+
+    /**
+     * @public
+     */
+    methods.getColDesc = function (colIndex) {
+        // colIndex可以超出边界
+        return this._htIns.getColHeader(colIndex);
+    };
+
+    /**
+     * @inner
+     * @type {Object} Contains functions
+     */
     var getColMax = {};
 
     getColMax[constant.JSDATA_DIM_ARRAY] = function (jsData) {
@@ -331,6 +503,19 @@ define(function (require) {
         }
         return colMax;
     };
+
+    /**
+     * 统一throttle而非在调用点throttle，是为了让所有此方法的调用有一致的时序。
+     *
+     * @inner
+     */
+    function makeThrottle(fillJSData, jsDataOb) {
+        return dtLib.throttle(
+            dtLib.curry(fillJSData, jsDataOb),
+            constant.JSDATA_UPDATE_DELAY,
+            true, true
+        );
+    }
 
     return jsDataFactory;
 });

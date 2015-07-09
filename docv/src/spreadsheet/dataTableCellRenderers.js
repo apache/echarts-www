@@ -9,8 +9,8 @@ define(function (require) {
     var TextRenderer = Handsontable.renderers.TextRenderer;
 
     // Constants
-    var HIGH_BG_COLOR = '#EFEFEF';
-    var LOW_BG_COLOR = '#FFF';
+    var HIGH_BG_COLOR = '#E5ECF2';
+    var LOW_BG_COLOR = '#fff';
 
     /**
      * Cell renderers

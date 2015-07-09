@@ -6,6 +6,7 @@ define(function (require) {
     var $ = require('jquery');
     var Component = require('dt/ui/Component');
     var schemaHelper = require('../common/schemaHelper');
+    var helper = require('./helper');
     var dtLib = require('dt/lib');
     var lang = require('./lang');
     var hasher = require('hasher');
@@ -112,7 +113,14 @@ define(function (require) {
 
             function parseHash(newHash) {
                 if (newHash) {
-                    that.doQuery(newHash, 'optionPath', true);
+                    var hashInfo = helper.parseHash(newHash);
+
+                    if (hashInfo.queryString) {
+                        that.doQuery(hashInfo.queryString, 'optionPath', true);
+                    }
+                    if (hashInfo.category) {
+                        // that.aaaa(hashInfo.category);
+                    }
                 }
             }
         },

@@ -12,7 +12,7 @@ define(function (require) {
     var setByPath = lib.setByPath;
 
     // 基础css class
-    var BASE_CSS = 'cpt';
+    var BASE_CSS = 'dtui';
     var DISPOSABLE_AREA = '\x0E\x0E-component-disposable-area';
 
     /**
@@ -699,7 +699,8 @@ define(function (require) {
          * @protected
          */
         getLang: function () {
-            return {};
+            // 可以在业务中自己配置，或者重载 getLang 方法
+            return Component.defaultLanguageSet;
         },
 
         /**
@@ -707,7 +708,8 @@ define(function (require) {
          * @protected
          */
         getConstant: function () {
-            return {};
+            // 可以在业务中自己配置，或者重载 getLang 方法
+            return Component.defaultConstant;
         },
 
         /**
@@ -818,6 +820,22 @@ define(function (require) {
      * @public
      */
     Component.cptClasses = {};
+
+    /**
+     * 各种语言的话术集合。
+     * 约定外部只在componentConfig.js中使用。
+     *
+     * @public
+     */
+    Component.defaultLanguageSet = {};
+
+    /**
+     * 常量集合。
+     * 约定外部只在componentConfig.js中使用。
+     *
+     * @public
+     */
+    Component.defaultConstant = {};
 
     /**
      * @inner

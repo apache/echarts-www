@@ -395,26 +395,5 @@ define(function (require) {
 
     })();
 
-    /**
-     * 打印函数（这个实现不保证浏览器兼容，不保证效果完全好，只是chrome、ff能看）
-     *
-     * @public
-     * @param {Function} fn 方法
-     * @param {number} indent 缩进层级
-     * @param {number} indentBase 每层级空格数
-     * @return {string} 函数字符串
-     */
-    lib.printFunction = function (fn, indent, indentBase) {
-        var indentStr = (new Array((indent + 1) * indentBase)).join(' ');
-        var fnArr = (fn + '').split('\n');
-        var last = '';
-        // 处理最后一个“}”
-        if (fnArr.length > 1 && $.trim(fnArr[fnArr.length - 1]) === '}') {
-            fnArr.pop();
-            last = '\n' + (new Array(indent * indentBase)).join(' ') + '}';
-        }
-        return fnArr.join('\n' + indentStr) + last;
-    };
-
     return lib;
 });
