@@ -5,19 +5,19 @@
             "title": "主标题",
             "list": [
                 {
-                    "query": "title.textStyle(fontSize)",
+                    "query": "title.textStyle.fontSize",
                     "desc": "字体大小"
                 },
                 {
-                    "query": "title.textStyle(color)",
+                    "query": "title.textStyle.color",
                     "desc": "字体颜色"
                 },
                 {
-                    "query": "title.textStyle(fontStyle)",
+                    "query": "title.textStyle.fontStyle",
                     "desc": "字体样式"
                 },
                 {
-                    "query": "title.textStyle(fontWeight)",
+                    "query": "title.textStyle.fontWeight",
                     "desc": "字体粗细"
                 },
                 {
@@ -55,19 +55,19 @@
             "title": "副标题",
             "list": [
                 {
-                    "query": "title.subtextStyle(fontSize)",
+                    "query": "title.subtextStyle.fontSize",
                     "desc": "字体大小"
                 },
                 {
-                    "query": "title.subtextStyle(color)",
+                    "query": "title.subtextStyle.color",
                     "desc": "字体颜色"
                 },
                 {
-                    "query": "title.subtextStyle(fontWeight)",
+                    "query": "title.subtextStyle.fontWeight",
                     "desc": "字体粗细"
                 },
                 {
-                    "query": "title.subtextStyle(fontStyle)",
+                    "query": "title.subtextStyle.fontStyle",
                     "desc": "字体样式"
                 },
                 {
