@@ -101,6 +101,120 @@ define(function (require) {
     );
 
     /**
+     * option path 是类似于这样的东西：
+     *
+     * 'tooltip.formatter'
+     * 'axis[i].symbol' 或 'axis-i.symbol'
+     *     当路途中有数组时，[i]表示直接进入数组元素定义继续检索。
+     *     为什么兼容两种方式？因为url上[]是unsafe character，须encode，不好看。所以url上使用'-'。
+     * 'series[i](applicable:pie,line).itemStyle.normal.borderColor'
+     *     表示，解析到series[i]将当前context中applicable设置成pie。
+     *     context中的applicable用于oneOf的选取和properties限定。
+     *
+     * Input: 'asdf(bb,cc)[i](dd,ee).zzz[i][i]. ee() .ff',
+     * Output:
+     * When arrayOnlyAtom is false: [
+     *     {propertyName: 'asdf', applicable: new Set('bb,cc')},
+     *     {arrayName: 'asdf[i]', applicable: new Set('dd,ee')},
+     *     {propertyName: 'zzz'},
+     *     {arrayName: 'zzz[i]'},
+     *     {arrayName: 'zzz[i][i]'},
+     *     {propertyName: 'ee', applicable: new Set()},
+     *     {propertyName: 'ff'}
+     * ]
+     * When arrayOnlyAtom is true: [
+     *     {arrayName: 'asdf[i]', applicable: new Set().reset('bb,cc').reset('dd,ee')},
+     *     {arrayName: 'zzz[i][i]'},
+     *     {propertyName: 'ee', applicable: new Set()},
+     *     {propertyName: 'ff'}
+     * ]
+     *
+     * optionPath总共占用的字符总结（中文顿号不算）：a-z、A-Z、0-9、.、(、)、_、-
+     *
+     * @public
+     */
+    schemaHelper.parseOptionPath = function (optionPath, arrayOnlyAtom) {
+        var errorInfo = 'Path is illegal: \'' + optionPath + '\'';
+        dtLib.assert(
+            optionPath && (optionPath = $.trim(optionPath)), errorInfo
+        );
+        optionPath = optionPath.replace(/\-i/g, '-i]'); // 兼容 series-i表示数组的情况。
+        var pathArr = optionPath.split(/\.|\[|\-/);
+        var retArr = [];
+
+        for (var i = 0, len = pathArr.length; i < len; i++) {
+            // match: 'asdf(bb,cc,ee/ff/gg)' 'i](bb)' 'xx()' 'asdf' 'i]'
+            var regResult = /^(\w+|i\])(\(([a-zA-Z_ \/,]*)\))?$/.exec($.trim(pathArr[i])) || [];
+            dtLib.assert(regResult, errorInfo);
+
+            var propertyName = regResult[1];
+            var ctxVar = regResult[2];
+            var ctxVarValue = regResult[3];
+            var pa = {};
+            var lastPa = retArr[retArr.length - 1];
+
+            if (propertyName === 'i]') {
+                pa.arrayName = (lastPa.arrayName || lastPa.propertyName) + '[i]';
+            }
+            else {
+                pa.propertyName = propertyName;
+            }
+
+            if (ctxVar) {
+                pa.applicable = new dtLib.Set(ctxVarValue);
+            }
+            retArr.push(pa);
+        }
+
+        if (arrayOnlyAtom) {
+            for (var i = 0, len = retArr.length; i < len;) {
+                var thisItem = retArr[i];
+                var nextItem = retArr[i + 1];
+                if (nextItem && nextItem.arrayName) {
+                    if (thisItem.applicable && !nextItem.applicable) {
+                        nextItem.applicable = new dtLib.Set(thisItem.applicable);
+                    }
+                    retArr.splice(i, 1);
+                }
+                else {
+                    i++;
+                }
+            }
+        }
+
+        return retArr;
+    };
+
+    /**
+     * @see schemaHelper.parseOptionPath
+     * @public
+     * @param {string} optionsPathArr
+     * @param {Object} options
+     * @param {boolean} [options.useSquareBrackets] default false, using '-' to indicate array item.
+     */
+    schemaHelper.stringifyOptionPath = function (optionPathArr, options) {
+        options = options || {};
+        var strArr = [];
+
+        for (var i = 0, len = optionPathArr.length; i < len; i++) {
+            var item = optionPathArr[i];
+            var arrayName = item.arrayName;
+            if (arrayName != null && !options.useSquareBrackets) {
+                arrayName = arrayName.replace(/\[/g, '-').replace(/\]/, '');
+            }
+            var itemStr = item.propertyName || arrayName;
+
+            var applicable = schemaHelper.normalizeToArray(item.applicable);
+            if (applicable.length) {
+                itemStr += '(' + applicable.join(',') + ')';
+            }
+            strArr.push(itemStr);
+        }
+
+        return strArr.join('.');
+    };
+
+    /**
      * 用于在 docJsonRenderer 绘制出的doctree中检索定义内容。
      * 可以返回多个检索结果。
      * optionPath和fuzzyPath的解释，参见 parseOptionPath。
@@ -232,14 +346,11 @@ define(function (require) {
         }
 
         function pathFuzzyMatch(child, propertyName, arrayName) {
-            if (propertyName == null) {
-                return;
-            }
             if (propertyName != null) {
                 propertyName = propertyName.toLowerCase();
             }
             if (arrayName != null) {
-                arrayName = arrayName.toLowerCase();
+                arrayName = arrayName.replace(/\[i\]/g, '').toLowerCase();
             }
             return (child.propertyName != null
                     && child.propertyName.toLowerCase().indexOf(propertyName) >= 0
@@ -377,87 +488,6 @@ define(function (require) {
     }
 
     /**
-     * option path 是类似于这样的东西：
-     *
-     * 'tooltip.formatter'
-     * 'axis[i].symbol'
-     *     当路途中有数组时，[i]表示直接进入数组元素定义继续检索。
-     * 'series[i](applicable:pie,line).itemStyle.normal.borderColor'
-     *     表示，解析到series[i]将当前context中applicable设置成pie。
-     *     context中的applicable用于oneOf的选取和properties限定。
-     *
-     * Input: 'asdf(bb,cc)[i](dd,ee).zzz[i][i]. ee() .ff',
-     * Output:
-     * When arrayOnlyAtom is false: [
-     *     {propertyName: 'asdf', applicable: new Set('bb,cc')},
-     *     {arrayName: 'asdf[i]', applicable: new Set('dd,ee')},
-     *     {propertyName: 'zzz'},
-     *     {arrayName: 'zzz[i]'},
-     *     {arrayName: 'zzz[i][i]'},
-     *     {propertyName: 'ee', applicable: new Set()},
-     *     {propertyName: 'ff'}
-     * ]
-     * When arrayOnlyAtom is true: [
-     *     {arrayName: 'asdf[i]', applicable: new Set().reset('bb,cc').reset('dd,ee')},
-     *     {arrayName: 'zzz[i][i]'},
-     *     {propertyName: 'ee', applicable: new Set()},
-     *     {propertyName: 'ff'}
-     * ]
-     *
-     * @public
-     */
-    schemaHelper.parseOptionPath = function (optionPath, arrayOnlyAtom) {
-        var errorInfo = 'Path is illegal: \'' + optionPath + '\'';
-        dtLib.assert(
-            optionPath && (optionPath = $.trim(optionPath)), errorInfo
-        );
-        var pathArr = optionPath.split(/\.|\[/);
-        var retArr = [];
-
-        for (var i = 0, len = pathArr.length; i < len; i++) {
-            // match: 'asdf(bb,cc,ee/ff/gg)' 'i](bb)' 'xx()' 'asdf' 'i]'
-            var regResult = /^(\w+|i\])(\(([a-zA-Z_ \/,]*)\))?$/.exec($.trim(pathArr[i])) || [];
-            dtLib.assert(regResult, errorInfo);
-
-            var propertyName = regResult[1];
-            var ctxVar = regResult[2];
-            var ctxVarValue = regResult[3];
-            var pa = {};
-            var lastPa = retArr[retArr.length - 1];
-
-            if (propertyName === 'i]') {
-                pa.arrayName = (lastPa.arrayName || lastPa.propertyName) + '[i]';
-            }
-            else {
-                pa.propertyName = propertyName;
-            }
-
-            if (ctxVar) {
-                pa.applicable = new dtLib.Set(ctxVarValue);
-            }
-            retArr.push(pa);
-        }
-
-        if (arrayOnlyAtom) {
-            for (var i = 0, len = retArr.length; i < len;) {
-                var thisItem = retArr[i];
-                var nextItem = retArr[i + 1];
-                if (nextItem && nextItem.arrayName) {
-                    if (thisItem.applicable && !nextItem.applicable) {
-                        nextItem.applicable = new dtLib.Set(thisItem.applicable);
-                    }
-                    retArr.splice(i, 1);
-                }
-                else {
-                    i++;
-                }
-            }
-        }
-
-        return retArr;
-    };
-
-    /**
      * Build doc by schema.
      * A doc json will be generated, which is different from schema json.
      * Some business rules will be applied when doc being built.
@@ -477,7 +507,10 @@ define(function (require) {
      *                                   oneOfInfo: {BuildDocInfo},
      *                                   refFrom {Array.<Object>},
      *                                   arrayFrom {Array.<Object>},
-     *                                   applicable: {string|Array.<string>}
+     *                                   applicable: {string|Array.<string>},
+     *                                   optionPath: {Array} Available only in 'doc' mode.
+     *                                                       @see parseOptionPath method,
+     *                                                       in arrayOnlyAtom mode
      *                               }
      * @param {string} mode Value can be:
      *                      'doc' render doc (default);
@@ -488,7 +521,8 @@ define(function (require) {
         docRenderer = docRenderer || schemaHelper.buildDoc.docJsonRenderer;
         mode = mode || 'doc';
 
-        buildRecursively(renderBase, schema, makeContext());
+        var baseParam = mode === 'doc' ? {optionPath: []}: {};
+        buildRecursively(renderBase, schema, makeContext(baseParam));
 
         return renderBase;
 
@@ -587,6 +621,14 @@ define(function (require) {
                 var originalApplicableValue = applicable.list();
                 applicable.reset(enumerateBy[j]);
 
+                // Make subOptionPath
+                var subOptionPath;
+                if (context.optionPath) {
+                    subOptionPath = dtLib.clone(context.optionPath);
+                    var optionPathItem = getLastOptionPathItem(subOptionPath);
+                    optionPathItem.applicable = enumerateBy[j];
+                }
+
                 buildRecursively(
                     subRenderBase,
                     schemaItem,
@@ -595,7 +637,8 @@ define(function (require) {
                         relationInfo: context.relationInfo,
                         enumInfo: BuildDocInfo.IS_ENUM_ITEM,
                         refFrom: context.refFrom ? context.refFrom.slice() : UNDEFINED,
-                        arrayFrom: context.arrayFrom ? context.arrayFrom.slice() : UNDEFINED
+                        arrayFrom: context.arrayFrom ? context.arrayFrom.slice() : UNDEFINED,
+                        optionPath: subOptionPath
                     })
                 );
 
@@ -654,7 +697,8 @@ define(function (require) {
                         itemName: context.itemName,
                         relationInfo: context.relationInfo,
                         refFrom: context.refFrom,
-                        arrayFrom: context.arrayFrom
+                        arrayFrom: context.arrayFrom,
+                        optionPath: context.optionPath
                     })
                 );
             }
@@ -696,7 +740,8 @@ define(function (require) {
                     refFrom: refFrom
                         ? (refFrom.push(schemaItem), refFrom)
                         : [schemaItem],
-                    arrayFrom: context.arrayFrom
+                    arrayFrom: context.arrayFrom,
+                    optionPath: context.optionPath
                 })
             );
         }
@@ -711,6 +756,18 @@ define(function (require) {
             var subRenderBase = context.docRenderer(renderBase, schemaItem, context);
             var arrayFrom = context.arrayFrom;
 
+            // Make subOptionPath
+            var subOptionPath;
+            if (context.optionPath) {
+                subOptionPath = dtLib.clone(context.optionPath);
+                var lastOptionPathItem = getLastOptionPathItem(subOptionPath);
+                if (lastOptionPathItem.hasOwnProperty('propertyName')) {
+                    lastOptionPathItem.arrayName = lastOptionPathItem.propertyName;
+                    delete lastOptionPathItem.propertyName;
+                }
+                lastOptionPathItem.arrayName += '[i]';
+            }
+
             buildRecursively(
                 subRenderBase,
                 schemaItem.items,
@@ -720,7 +777,8 @@ define(function (require) {
                     refFrom: UNDEFINED,
                     arrayFrom: arrayFrom
                         ? (arrayFrom.push(schemaItem), arrayFrom)
-                        : [schemaItem]
+                        : [schemaItem],
+                    optionPath: subOptionPath
                 })
             );
         }
@@ -729,8 +787,17 @@ define(function (require) {
             context.selfInfo = BuildDocInfo.HAS_OBJECT_PROPERTIES;
             var subRenderBase = context.docRenderer(renderBase, schemaItem, context);
             var properties = schemaItem.properties;
+
             for (var propertyName in properties) {
                 if (properties.hasOwnProperty(propertyName)) {
+
+                    // Make subOptionPath
+                    var subOptionPath;
+                    if (context.optionPath) {
+                        subOptionPath = dtLib.clone(context.optionPath);
+                        subOptionPath.push({propertyName: propertyName});
+                    }
+
                     buildRecursively(
                         subRenderBase,
                         properties[propertyName],
@@ -738,7 +805,8 @@ define(function (require) {
                             itemName: propertyName,
                             relationInfo: BuildDocInfo.IS_OBJECT_ITEM,
                             refFrom: UNDEFINED,
-                            arrayFrom: UNDEFINED
+                            arrayFrom: UNDEFINED,
+                            optionPath: subOptionPath
                         })
                     );
                 }
@@ -748,6 +816,10 @@ define(function (require) {
         function handleAtom(renderBase, schemaItem, context) {
             context.selfInfo = BuildDocInfo.IS_ATOM;
             context.docRenderer(renderBase, schemaItem, context);
+        }
+
+        function getLastOptionPathItem(optionPath) {
+            return optionPath.length > 0 ? optionPath[optionPath.length - 1] : null;
         }
     };
 
@@ -855,6 +927,8 @@ define(function (require) {
                 descriptionCN: result.descriptionCN,
                 descriptionEN: result.descriptionEN,
                 defau: result.defau,
+                optionPathForHash: schemaHelper.stringifyOptionPath(context.optionPath, false),
+                optionPath: schemaHelper.stringifyOptionPath(context.optionPath, true),
                 defaultValueText: schemaHelper.getDefaultValueText(result.defau),
                 tooltipEncodeHTML: false
             };
@@ -1040,6 +1114,34 @@ define(function (require) {
                     // dtLib.assert(o.descriptionCN.indexOf('参见'));
                 // }
             });
+        },
+
+        validateApplicable: function (schema) {
+            schemaHelper.travelSchema(schema, function (o) {
+                doCheck(o, 'applicable');
+                doCheck(o, 'setApplicable');
+                doCheck(o, 'enumerateBy');
+            });
+
+            function doCheck(o, name) {
+                if (o[name] != null) {
+                    var toCheck = makeArray(o[name]);
+                    for (var i = 0, len = toCheck.length; i < len; i++) {
+                        checkApplicableItem(toCheck[i]);
+                    }
+                }
+            }
+
+            function makeArray(some) {
+                if (!$.isArray(some)) {
+                    some = [some];
+                }
+                return some;
+            }
+
+            function checkApplicableItem(item) {
+                dtLib.assert(item && $.trim(item) && /^[a-zA-Z0-9_]+$/.test(item));
+            }
         }
     };
 

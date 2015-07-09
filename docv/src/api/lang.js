@@ -17,7 +17,9 @@ define(function (require) {
         queryBoxTextAnyText: '全文搜索',
         descAreaLabelType: '类型',
         descAreaLabelDefaultValue: '默认值',
-        queryBoxNoResult: '没有检索到 “#{queryStr}”'
+        collapseAll: '折叠',
+        queryResultInfo: '共 #{count} 条结果',
+        queryBoxNoResult: '没有搜索到信息'
     };
 
     /**
@@ -32,7 +34,9 @@ define(function (require) {
         queryBoxTextAnyText: 'Full-text search',
         descAreaLabelType: 'Type',
         descAreaLabelDefaultValue: 'Default Value',
-        queryBoxNoResult: 'No result by "#{queryStr}"'
+        collapseAll: 'Collapse',
+        queryResultInfo: 'Got #{count} results.',
+        queryBoxNoResult: 'No result'
     };
 
     // Setting in html.

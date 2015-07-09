@@ -2,8 +2,7 @@ var version = '2.2.5';
 var sp = location.href.lastIndexOf('/');
 var ep = location.href.lastIndexOf('.html');
 var curPage = sp < ep ? location.href.slice(sp + 1, ep) : 'index';
-var enVersion = (location.hash && location.hash.indexOf('-en') != -1)
-                || location.href.indexOf('-en') != -1;
+var enVersion = location.href.indexOf('-en.html') != -1;
 
 var activeClass = {};
 var loc = {};

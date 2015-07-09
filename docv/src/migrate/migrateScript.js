@@ -1,11 +1,3 @@
-// TODO
-// (1) 从 resetLink 打印出点东西来看，还有些大块东西没有拆开，如timeLine中，
-// 还有些desc中有 <table> 继续整理下
-// (2) 从 resetLink 中，继续整理link。
-// (3) 添加属性路径的显示。
-
-
-
 /**
  * 此文件只是从老doc提取schema的工具。用完即作废。所以代码混乱且有很多复制粘贴。
  * 之所以用js写，是为了能发现错误时重新生成。
@@ -561,11 +553,76 @@ define(function (require) {
     function resetLink(schema) {
         schemaHelper.travelSchema(schema, function (o) {
             if (o.descriptionCN) {
+                var r = $.proxy(replace, o, 'descriptionCN');
                 if (o.descriptionCN.indexOf('<a') >= 0) {
-                    console.log('----------------' + o.descriptionCN);
+                    r('href="#CalculableColor"', 'href="#calculableColor"');
+                    r('href="#CalculableHolderColor"', 'href="#calculableHolderColor"');
+                    r('href="#NameConnector"', 'href="#nameConnector"');
+                    r('href="#ValueConnector"', 'href="#valueConnector"');
+                    r('href="#实例方法"', 'href="/doc/doc.html#实例方法"');
+                    // dtUtil.assert(o.descriptionCN.indexOf('href="#TextStyle') < 0);
+                    r('lineStyle设置直线指示器（详见<a href="#LineStyle"', 'lineStyle设置直线指示器（详见<a href="#tooltip.axisPointer.lineStyle"');
+                    r('crossStyle设置十字准星指示器（详见<a href="#LineStyle"', 'crossStyle设置十字准星指示器（详见<a href="#tooltip.axisPointer.crossStyle"');
+                    r('shadowStyle设置阴影指示器（详见<a href="#AreaStyle" title="">areaStyle', 'shadowStyle设置阴影指示器（详见<a href="#tooltip.axisPointer.shadowStyle" title="">shadowStyle');
+                    r('<a href="#Series"', '<a href="#series"');
+                    r('坐标轴线，默认显示，属性show控制显示与否，属性lineStyle（详见<a href="#LineStyle"', '坐标轴线，默认显示，属性show控制显示与否，属性lineStyle（详见<a href="#polar.axisLine.lineStyle"');
+                    r('，详见<a href="#AxisAxislabel" title="">axis.axisLabel</a>', '');
+                    r('<a href="#AxisData" title="">axis.data</a>', 'axis.data');
+                    r('href="#Xaxis"', 'href="#xAxis"');
+                    r('href="#Yaxis"', 'href="#yAxis"');
+                    r('（详见<a href="#AxisAxislabel" title="">axis.axislabel</a>）', '');
+                    r('属性textStyle（详见<a href="#TextStyle" title="">textStyle</a>）控制文本样式', '属性textStyle控制文本样式');
+                    r('href="#Tooltip"', 'href="#tooltip"');
+                    r('同<a href="#SeriesCartesian" title="">series（直角系）</a>', '同 series（直角系）');
+                    r('<a href="#ItemStyle">itemStyle</a>', 'itemStyle');
+                    r('<a href="#LinkStyle">linkStyle</a>', 'linkStyle');
+                    r('<a href="#TextStyle" title="">textStyle</a>', 'textStyle');
+                    // console.log('----------------');
+                    // console.log(o.descriptionCN);
+                }
+
+                if (o.descriptionCN.indexOf('table') >= 0) {
+                    console.log('----------------');
+                    console.log(o.descriptionCN);
+                }
+            }
+            if (o.descriptionEN) {
+                var r = $.proxy(replace, o, 'descriptionEN');
+                if (o.descriptionEN.indexOf('<a') >= 0) {
+                    r('href="#CalculableColor"', 'href="#calculableColor"');
+                    r('href="#CalculableHolderColor"', 'href="#calculableHolderColor"');
+                    r('href="#NameConnector"', 'href="#nameConnector"');
+                    r('href="#ValueConnector"', 'href="#valueConnector"');
+                    r('href="#Instance Methods', 'href="/doc/doc-en.html#Instance Methods"');
+                    r('lineStyle: style for line pointer, (see <a href="#LineStyle"', 'lineStyle: style for line pointer, (see <a href="#tooltip.axisPointer.lineStyle"');
+                    r('crossStyle: style for crosshairs pointer, (see <a href="#LineStyle" title="">lineStyle</a>', 'crossStyle: style for crosshairs pointer, (see <a href="#tooltip.axisPointer.crossStyle" title="">crossStyle</a>');
+                    r('shadowStyle: style for shadow pointer, (see <a href="#AreaStyle" title="">areaStyle</a>', 'shadowStyle: style for shadow pointer, (see <a href="#tooltip.axisPointer.shadowStyle" title="">shadowStyle</a>');
+                    r('<a href="#Series"', '<a href="#series"');
+                    r('The property "show" specifies whether to show axisLine or not. The property "lineStyle" (see <a href="#LineStyle"', 'The property "show" specifies whether to show axisLine or not. The property "lineStyle" (see <a href="#polar.axisLine.lineStyle"');
+                    r(', see <a href="#AxisAxislabel" title="">axis.axisLabel</a>', '');
+                    r('<a href="#AxisData" title="">axis.data</a>', 'axis.data');
+                    r('href="#Xaxis"', 'href="#xAxis"');
+                    r('href="#Yaxis"', 'href="#yAxis"');
+                    r(', (see <a href="#AxisAxislabel" title="">axis.axislabel</a>)', '');
+                    r('The property "textStyle" (see <a href="#TextStyle" title="">textStyle</a>) controls text style', 'The property "textStyle" controls text style');
+                    r('href="#Tooltip"', 'href="#tooltip"');
+                    r('See <a href="#SeriesCartesian" title="">series (Cartesian)</a>', 'See series (Cartesian)');
+                    r('<a href="#ItemStyle">itemStyle</a>', 'itemStyle');
+                    r('<a href="#LinkStyle">linkStyle</a>', 'linkStyle');
+                    r('<a href="#TextStyle" title="">textStyle</a>', 'textStyle');
+                    // console.log('++++++++++++++++');
+                    // console.log(o.descriptionEN);
+                }
+                if (o.descriptionEN.indexOf('table') >= 0) {
+                    console.log('----------------');
+                    console.log(o.descriptionEN);
                 }
             }
         });
+
+        function replace(name, a, b) {
+            this[name] = this[name].replace(a, b);
+        }
     }
 
     function countQuote(str) {
@@ -615,6 +672,10 @@ define(function (require) {
         addRef(optionProperties.yAxis, '#definitions/axis');
         addRef(optionProperties.series, '#definitions/series');
 
+        optionProperties.polar = {
+            type: 'Object',
+            $ref: '#definitions/polar'
+        };
 
         optionProperties.backgroundColor.defaultValueHTML = 'rgba(0,0,0,0)';
         optionProperties.color.defaultValueHTML = dtLib.stringifyJSObject2HTML([
@@ -908,7 +969,7 @@ define(function (require) {
                     lineStyle : {
                         type: 'Object',
                         '$ref': '#definitions/lineStyle',
-                        setApplicable: 'toolbox/mark/lineStyle'
+                        setApplicable: 'toolbox_mark_lineStyle'
                     }
                 }
             },
@@ -1140,7 +1201,7 @@ define(function (require) {
     function completeTooltip(schema) {
         var properties = schema.definitions.tooltip.properties;
 
-        schema.definitions.tooltip.properties.textStyle.setApplicable = 'tooltip/textStyle';
+        schema.definitions.tooltip.properties.textStyle.setApplicable = 'tooltip_textStyle';
 
         addRef(properties.textStyle, '#definitions/textStyle');
         properties.axisPointer.properties = {
@@ -1339,7 +1400,6 @@ define(function (require) {
                         continue;
                     }
                     if (seriesProperties[name]) { // 不同表格中重复定义的情况
-                        // console.log('series property repeat in tables: ' + name);
                         if (!seriesProperties[name].oneOf) {
                             var origin = seriesProperties[name];
                             seriesProperties[name] = {oneOf: [origin]};
@@ -1413,7 +1473,7 @@ define(function (require) {
         // gauge
         seriesProperties.axisLine = {
             type: 'Object',
-            setApplicable: 'gauge/axisLine',
+            setApplicable: 'gauge_axisLine',
             applicable: 'gauge',
             descriptionCN: '坐标轴线，默认显示',
             descriptionEN: 'axis line. Defaults to show.',
@@ -1431,7 +1491,7 @@ define(function (require) {
         };
         seriesProperties.axisTick = {
             type: 'Object',
-            setApplicable: 'gauge/axisTick',
+            setApplicable: 'gauge_axisTick',
             applicable: 'gauge',
             descriptionCN: '坐标轴小标记，默认显示 ',
             descriptionEN: 'axis tick. Defaults to show. ',
@@ -1463,7 +1523,7 @@ define(function (require) {
         seriesProperties.splitLine = {
             type: 'Object',
             applicable: 'gauge',
-            setApplicable: 'gauge/splitLine',
+            setApplicable: 'gauge_splitLine',
             descriptionCN: '主分隔线，默认显示 ',
             descriptionEN: 'split line. Defaults to show. ',
             properties: {
@@ -1513,7 +1573,7 @@ define(function (require) {
         seriesProperties.title = {
             type: 'Object',
             applicable: 'gauge',
-            setApplicable: 'gauge/title',
+            setApplicable: 'gauge_title',
             descriptionCN: '仪表盘标题',
             descriptionEN: 'title of gauge',
             properties: {
@@ -1537,7 +1597,7 @@ define(function (require) {
         seriesProperties.detail = {
             type: 'Object',
             applicable: 'gauge',
-            setApplicable: 'gauge/detail',
+            setApplicable: 'gauge_detail',
             descriptionCN: '仪表盘详情',
             descriptionEN: 'detail of gauge',
             properties: {
@@ -1599,7 +1659,7 @@ define(function (require) {
         var treemapItemStyle = seriesProperties.itemStyle.oneOf[1];
         dtLib.assert(treemapItemStyle.applicable === 'treemap');
         treemapItemStyle['$ref'] = '#definitions/itemStyle';
-        treemapItemStyle.setApplicable = 'treemap/itemStyle';
+        treemapItemStyle.setApplicable = 'treemap_itemStyle';
         treemapItemStyle.descriptionCN = ' ';
         treemapItemStyle.descriptionEN = ' ';
 
@@ -2212,7 +2272,7 @@ define(function (require) {
                 origin,
                 {
                     type: 'Array',
-                    applicable: 'gauge/axisLine',
+                    applicable: 'gauge_axisLine',
                     'default': [
                         [0.2, '#228b22'],
                         [0.8, '#48b'],
@@ -2223,21 +2283,21 @@ define(function (require) {
                 },
                 {
                     type: 'color',
-                    applicable: ['gauge/axisTick'],
+                    applicable: ['gauge_axisTick'],
                     'default': '#eee',
                     descriptionCN: '颜色',
                     descriptionEN: 'color'
                 },
                 {
                     type: 'color',
-                    applicable: ['gauge/splitLine'],
+                    applicable: ['gauge_splitLine'],
                     'default': '#eee',
                     descriptionCN: '颜色',
                     descriptionEN: 'color'
                 },
                 {
                     type: 'color',
-                    applicable: 'toolbox/mark/lineStyle',
+                    applicable: 'toolbox_mark_lineStyle',
                     'default': '#1e90ff',
                     descriptionCN: '颜色',
                     descriptionEN: 'color'
@@ -2251,28 +2311,28 @@ define(function (require) {
                 origin,
                 {
                     type: 'number',
-                    applicable: 'gauge/axisLine',
+                    applicable: 'gauge_axisLine',
                     'default': 30,
                     descriptionCN: '线宽',
                     descriptionEN: 'width of the line.'
                 },
                 {
                     type: 'number',
-                    applicable: 'gauge/axisTick',
+                    applicable: 'gauge_axisTick',
                     'default': 1,
                     descriptionCN: '线宽',
                     descriptionEN: 'width of the line.'
                 },
                 {
                     type: 'number',
-                    applicable: 'gauge/splitLine',
+                    applicable: 'gauge_splitLine',
                     'default': 2,
                     descriptionCN: '线宽',
                     descriptionEN: 'width of the line.'
                 },
                 {
                     type: 'number',
-                    applicable: 'toolbox/mark/lineStyle',
+                    applicable: 'toolbox_mark_lineStyle',
                     'default': 2,
                     descriptionCN: '线宽',
                     descriptionEN: 'width of the line.'
@@ -2286,7 +2346,7 @@ define(function (require) {
                 origin,
                 {
                     type: 'string',
-                    applicable: 'toolbox/mark/lineStyle',
+                    applicable: 'toolbox_mark_lineStyle',
                     'default': 'dashed',
                     descriptionCN: origin.descriptionCN,
                     descriptionEN: origin.descriptionEN
@@ -2326,7 +2386,7 @@ define(function (require) {
         addRef(properties.nodeStyle, '#definitions/nodeStyle');
         addRef(properties.linkStyle, '#definitions/linkStyle');
         addRef(properties.label, '#definitions/itemStyleLabel');
-        properties.label.applicable.push('chord', 'treemap', 'treemap/itemStyle', 'radar', 'gauge', 'eventRiver', 'tree', 'venn');
+        properties.label.applicable.push('chord', 'treemap', 'treemap_itemStyle', 'radar', 'gauge', 'eventRiver', 'tree', 'venn');
         addRef(properties.labelLine, '#definitions/itemStyleLabelLine');
 
         var labelProperties = schema.definitions.itemStyleLabel.properties;
@@ -2334,8 +2394,8 @@ define(function (require) {
         addRef(labelProperties.formatter, '#definitions/tooltip/properties/formatter');
         labelProperties.rotate.applicable = 'chord';
         labelProperties.distance.applicable = 'chord';
-        labelProperties.x.applicable = 'treemap/itemStyle';
-        labelProperties.y.applicable = 'treemap/itemStyle';
+        labelProperties.x.applicable = 'treemap_itemStyle';
+        labelProperties.y.applicable = 'treemap_itemStyle';
         labelProperties.position = {
             oneOf: [
                 {
@@ -2376,7 +2436,7 @@ define(function (require) {
         // treemap itemStyle
         properties.breadcrumb = {
             type: 'Object',
-            applicable: 'treemap/itemStyle',
+            applicable: 'treemap_itemStyle',
             descriptionCN: '面包屑',
             descriptionEN: 'breadcrumb',
             properties: {
@@ -2393,14 +2453,14 @@ define(function (require) {
         };
         properties.childBorderWidth = {
             type: 'number',
-            applicable: 'treemap/itemStyle',
+            applicable: 'treemap_itemStyle',
             'default': 1,
             descriptionCN: '二级边框宽度',
             descriptionEN: 'width of second level border.'
         };
         properties.childBorderColor = {
             type: 'color',
-            applicable: 'treemap/itemStyle',
+            applicable: 'treemap_itemStyle',
             'default': '',
             descriptionCN: '二级边框颜色',
             descriptionEN: 'color of second level border.'
@@ -2409,7 +2469,7 @@ define(function (require) {
 
     function completeTextStyle(schema) {
         var props = schema.definitions.textStyle.properties;
-        props.decoration.applicable = 'tooltip/textStyle';
+        props.decoration.applicable = 'tooltip_textStyle';
 
         var props = schema.definitions.textStyle.properties;
         var origin;
@@ -2420,14 +2480,14 @@ define(function (require) {
                 origin,
                 {
                     type: 'color',
-                    applicable: ['gauge/title'],
+                    applicable: ['gauge_title'],
                     'default': '#333',
                     descriptionCN: '颜色',
                     descriptionEN: 'color'
                 },
                 {
                     type: 'color',
-                    applicable: ['gauge/detail'],
+                    applicable: ['gauge_detail'],
                     'default': 'auto',
                     descriptionCN: '颜色',
                     descriptionEN: 'color'
@@ -2440,14 +2500,14 @@ define(function (require) {
                 origin,
                 {
                     type: 'number',
-                    applicable: ['gauge/title'],
+                    applicable: ['gauge_title'],
                     'default': 15,
                     descriptionCN: '字号，单位px',
                     descriptionEN: 'font size, in px.'
                 },
                 {
                     type: 'number',
-                    applicable: ['gauge/detail'],
+                    applicable: ['gauge_detail'],
                     'default': 30,
                     descriptionCN: '字号，单位px',
                     descriptionEN: 'font size, in px.'

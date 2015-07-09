@@ -14,6 +14,16 @@ define(function (require) {
 
     /**
      * @public
+     */
+    helper.initHash = function (parseHash) {
+        hasher.prependHash = '';
+        hasher.initialized.add(parseHash);
+        hasher.changed.add(parseHash);
+        hasher.init();
+    };
+
+    /**
+     * @public
      * @param {string} hash 'asdf' 可以不包括'#'
      * @return {Object} {category: ..., queryString: ...}
      */

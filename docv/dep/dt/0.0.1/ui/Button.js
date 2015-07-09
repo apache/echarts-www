@@ -149,6 +149,9 @@ define(function (require) {
             if (cptDef.text != null) {
                 inputViewModel.text = cptDef.text;
             }
+            if (cptDef.css != null) {
+                inputViewModel.css = cptDef.css;
+            }
             if (cptDef.dontEncodeHTML != null) {
                 inputViewModel.dontEncodeHTML = cptDef.dontEncodeHTML;
             }

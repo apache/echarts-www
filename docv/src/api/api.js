@@ -9,7 +9,6 @@ define(function (require) {
     var helper = require('./helper');
     var dtLib = require('dt/lib');
     var lang = require('./lang');
-    var hasher = require('hasher');
 
     require('dt/componentConfig');
 
@@ -19,6 +18,7 @@ define(function (require) {
     var SELECTOR_DESC = '.ecdoc-api-desc';
     var SELECTOR_DEFAULT = '.ecdoc-api-default';
     var SELECTOR_COLLAPSE_RADIO = '.query-collapse-radio input[type=radio]';
+    var SELECTOR_QUERY_RESULT_INFO = '.query-result-info';
 
     /**
      * @public
@@ -104,15 +104,14 @@ define(function (require) {
 
         _initHash: function () {
             var that = this;
-            hasher.initialized.add(parseHash);
-            hasher.changed.add(parseHash);
-            hasher.init();
+            helper.initHash(parseHash);
 
             function parseHash(newHash) {
                 if (newHash) {
                     var hashInfo = helper.parseHash(newHash);
 
                     if (hashInfo.queryString) {
+                        // if (that._viewModel().apiTreeSelected().
                         that.doQuery(hashInfo.queryString, 'optionPath', true);
                     }
                     if (hashInfo.category) {
@@ -125,11 +124,14 @@ define(function (require) {
         _initQueryBox: function () {
             var queryInput = this._sub('queryInput');
             var queryMode = this._sub('queryMode');
-            queryInput.viewModel('value').subscribe(queryBoxGo, this);
+            var queryValueOb = queryInput.viewModel('value');
+            queryValueOb.subscribe(queryBoxGo, this);
             var checked = queryMode.viewModel('checked');
 
             checked.subscribe(onModeChanged, this);
             onModeChanged.call(this, checked());
+
+            this._sub('collapseAll').on('click', $.proxy(collapseAll, this));
 
             $(document).keypress(function (e) {
                 var tagName = (e.target.tagName || '').toLowerCase();
@@ -143,12 +145,19 @@ define(function (require) {
             function onModeChanged(nextValue) {
                 var dataItem = queryMode.getDataItem(nextValue);
                 queryInput.viewModel('placeholder')(dataItem.placeholder);
+                queryBoxGo.call(this);
             }
 
-            function queryBoxGo(queryStr) {
+            function queryBoxGo() {
+                var queryStr = queryValueOb();
                 if (queryStr) {
-                    this.doQuery(queryStr, checked());
+                    this.doQuery(queryStr, checked(), false, true);
                 }
+            }
+
+            function collapseAll() {
+                this._setResultInfo(null);
+                this._viewModel().apiTreeHighlighted([], {collapseLevel: 1});
             }
         },
 
@@ -170,6 +179,10 @@ define(function (require) {
 
                 if (persistent) {
                     this._desc = desc;
+                    // 更新hash
+                    if (treeItem.optionPathForHash) {
+                        helper.hashRoute({queryString: treeItem.optionPathForHash});
+                    }
                 }
 
                 doShow(desc);
@@ -193,8 +206,9 @@ define(function (require) {
          * @param {string} queryStr Query string.
          * @param {string} queryArgName Value can be 'optionPath', 'fuzzyPath', 'anyText'.
          * @param {boolean} selectFirst Whether to select first result, default: false.
+         * @param {boolean} showResult
          */
-        doQuery: function (queryStr, queryArgName, selectFirst) {
+        doQuery: function (queryStr, queryArgName, selectFirst, showResult) {
             var result;
 
             try {
@@ -207,6 +221,10 @@ define(function (require) {
                 return;
             }
 
+            if (showResult) {
+                this._setResultInfo(result.length);
+            }
+
             var collapseLevel = null;
             $(SELECTOR_COLLAPSE_RADIO).each(function () {
                 if (this.checked && this.value === '1') {
@@ -215,7 +233,6 @@ define(function (require) {
             });
 
             if (!result.length) {
-                alert(dtLib.strTemplate(lang.queryBoxNoResult, {queryStr: queryStr}));
                 return;
             }
 
@@ -244,6 +261,22 @@ define(function (require) {
                     {scrollToTarget: {clientX: 180}, collapseLevel: collapseLevel}
                 );
             }
+        },
+
+        /**
+         * @private
+         * @param {number=} count null means clear.
+         */
+        _setResultInfo: function (count) {
+            var text = count == null
+                ? ''
+                : (count === 0
+                    ? lang.queryBoxNoResult
+                    : dtLib.strTemplate(
+                        lang.queryResultInfo, {count: count}
+                    )
+                );
+            this.$el().find(SELECTOR_QUERY_RESULT_INFO)[0].innerHTML = text;
         }
     });
 

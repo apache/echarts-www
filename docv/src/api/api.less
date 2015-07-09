@@ -6,7 +6,7 @@
     top: 65px;
     left: 25px;
     padding: 10px 10px 5px 10px;
-    text-align: center;
+    .clearfix();
 
     // Just for mask
     &:before,
@@ -41,8 +41,30 @@
         }
     }
     .query-mode {
+        float: left;
         margin-top: 4px;
         font-size: 12px;
+    }
+    .collapse-all {
+        margin-top: 7px;
+        width: auto;
+        min-width: 0;
+        float: right;
+        background: transparent;
+        height: 18px;
+        line-height: 18px;
+        font-size: 12px;
+        color: #666;
+    }
+    .query-result-info {
+        font-size: 12px;
+        color: #aaa;
+        width: 94px;
+        float: left;
+        height: 18px;
+        line-height: 18px;
+        margin-top: 7px;
+        margin-left: 13px;
     }
 }
 .ecdoc-api-tree-area {
