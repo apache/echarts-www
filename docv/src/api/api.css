@@ -88,10 +88,8 @@
 }
 .dtui-txipt textarea,
 .dtui-txipt input {
-  display: block;
   padding: 0;
   width: 100%;
-  height: 100%;
   line-height: 16px;
   font-size: 12px;
   color: #000;
@@ -110,6 +108,8 @@
   line-height: 66px;
 }
 .dtui-txipt-type-textarea textarea {
+  display: block;
+  height: 100%;
   resize: none;
 }
 .dtui-txipt-disabled {
@@ -460,6 +460,7 @@ html {
   top: 65px;
   left: 25px;
   padding: 10px 10px 5px 10px;
+  z-index: 1020;
   *zoom: 1;
 }
 .ecdoc-api-query-box:before,

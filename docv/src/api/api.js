@@ -13,7 +13,7 @@ define(function (require) {
 
     require('dt/componentConfig');
 
-    var SCHEMA_URL = '../docv/optionSchema.json';
+    var SCHEMA_URL = '../docv/data/schema/optionSchema.json';
     var CATEGORY_URL = '../docv/data/api/index.json';
     var TPL_TARGET = 'APIMain';
     var SELECTOR_TYPE = '.ecdoc-api-type';
