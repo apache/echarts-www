@@ -16,28 +16,16 @@ define(function (require) {
     var processor = {};
 
     /**
-     * @public
-     */
-    processor.getJSDataChangeHandler = function (htIns) {
-        return function (jsData, jsDataOb) {
-            // 自己更新导致的jsData变化，不刷新自己。
-            if (!dtLib.checkValueInfoForConfirmed(jsDataOb, constant.UI_TABLE_DATA)) {
-                fillFromJSData(htIns);
-                htIns.render();
-            }
-        };
-    };
-
-    /**
+     * 此方法只可在jsDataFactory中使用。
      * 此方法不做throttle，因为只用于监听ob。
      * 约定在ob更新的上游进行throttle（即codeInputsProcessor.fillJSData）
      *
-     * @inner
-     * @param {Object} htIns handsontable实例
+     * @public
+     * @param {Object} jsDataOb
      */
-    function fillFromJSData(htIns) {
+    processor.fillFromJSData = function (jsDataOb) {
+        var htIns = jsDataOb.getHTIns();
         var editorData = htIns.dtEditorData;
-        var jsDataOb = htIns.jsDataOb;
         var colCount = jsDataOb.getColCount();
         var rowCount = jsDataOb.getRowCount();
         var jsData = jsDataOb();
@@ -46,7 +34,7 @@ define(function (require) {
         editorData.enlarge(colCount, rowCount);
 
         // Render
-        var seriesInfo = jsDataOb.getSeriesInfo(colCount);
+        var seriesInfo = jsDataOb.getSeriesInfo(jsDataType, colCount);
         for (var seriesIndex = 0, lenS = jsData.length; seriesIndex < lenS; seriesIndex++) {
             var oneSeriesData = jsData[seriesIndex] || [];
 
@@ -57,25 +45,20 @@ define(function (require) {
                 );
             }
         }
-    }
+    };
 
     /**
-     * 统一throttle而非在调用点throttle，是为了让所有此方法的调用有一致的时序。
+     * 此方法只可在jsDataFactory中使用。
      *
      * @public
      */
-    processor.fillJSData = dtLib.throttle(fillJSData, constant.JSDATA_UPDATE_DELAY, true, true);
-
-    /**
-     * @inner
-     */
-    function fillJSData(htIns) {
+    processor.fillJSData = function (jsDataOb) {
+        var htIns = jsDataOb.getHTIns();
         var editorData = htIns.dtEditorData;
-        var jsDataOb = htIns.jsDataOb;
         var jsData = [];
         var dataWindow = editorData.getDataWindowSize();
-        var seriesInfo = jsDataOb.getSeriesInfo(dataWindow.colCount);
         var jsDataType = jsDataOb.getType();
+        var seriesInfo = jsDataOb.getSeriesInfo(jsDataType, dataWindow.colCount);
 
         // 取数据
         for (var seriesIndex = 0; seriesIndex < seriesInfo.count; seriesIndex++) {
@@ -90,15 +73,15 @@ define(function (require) {
         }
 
         jsDataOb(jsData, dtLib.valueInfoForConfirmed(constant.UI_DATA_TABLE));
-    }
+    };
 
     /**
      * @public
      */
-    processor.processCell = function (colSettings, htIns, row, col) {
+    processor.processCell = function (colSettings, jsDataOb, row, col) {
+        var htIns = jsDataOb.getHTIns();
         var colCount = htIns.countCols();
-        var jsDataOb = htIns.jsDataOb;
-        var seriesInfo = jsDataOb.getSeriesInfo(colCount);
+        var seriesInfo = jsDataOb.getSeriesInfo(jsDataOb.getType(), colCount);
 
         if (seriesInfo.colStep > 1) {
             if (Math.floor(col / seriesInfo.colStep) % 2 === 0) {
@@ -144,7 +127,7 @@ define(function (require) {
         rowIndex, seriesIndex, line, seriesInfo, jsDataOb, editorData
     ) {
         var seriesIndexBase = seriesIndex * seriesInfo.colStep;
-        var propertyMetas = jsDataOb.getPropertyMetas;
+        var propertyMetas = jsDataOb.getPropertyMetas();
         for (var i = 0, len = propertyMetas.length; i < len; i++) {
             var meta = propertyMetas[i];
 
@@ -189,17 +172,17 @@ define(function (require) {
     };
 
     getJSDataLine[constant.JSDATA_ARRAY_OBJECT] = function (
-        rowIndex, seriesIndex, line, seriesInfo, jsDataOb, editorData
+        rowIndex, seriesIndex, seriesInfo, jsDataOb, editorData
     ) {
         var seriesIndexBase = seriesIndex * seriesInfo.colStep;
-        var propertyMetas = jsDataOb.getPropertyMetas;
+        var propertyMetas = jsDataOb.getPropertyMetas();
         var line = {};
 
         for (var colRelatedIndex = 0, len = propertyMetas.length;
             colRelatedIndex < len;
             colRelatedIndex++
         ) {
-            var meta = propertyMetas[rowIndex];
+            var meta = propertyMetas[colRelatedIndex];
             var finalValue = editorData.get(
                 rowIndex, colRelatedIndex + seriesIndexBase, meta.itemDataType
             );

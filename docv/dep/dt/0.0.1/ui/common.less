@@ -3,6 +3,32 @@
 
 @import "./theme/@{theme}.less";
 
+// clearfix via http://h5bp.com/q
+.clearfix() {
+    *zoom: 1;
+    &:before,
+    &:after {
+        display: table;
+        content: "";
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+// 不支持IE 6/7
+.box-sizing(@boxmodel) {
+    -webkit-box-sizing: @boxmodel;
+       -moz-box-sizing: @boxmodel;
+            box-sizing: @boxmodel;
+}
+
+.inline-block() {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
 .user-select(@type) {
     -webkit-user-select: @type;
        -moz-user-select: @type;

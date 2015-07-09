@@ -14,34 +14,168 @@ define(function (require) {
     var ITEMS_PROP = '\x0E\x0E-foreach-items-prop';
 
     /**
-     * 顺序表。能够根据viewModel的变化动态改变。
-     * 输入的viewModel须是一个lib.obArray。
-     * 模板中的声明方式：
+     * [常见的使用例子一]
+     *
+     * 1. 模板中声明：
+     *    {{ target: parentTplTarget }}
+     *    ...
+     *    <div data-cpt="
+     *        type: 'Foreach',
+     *        viewModelGet: 'listViewModels',
+     *        itemTplTarget: 'myItemTplTarget'
+     *    "></div>
+     *    ...
+     *    {{ /target }}
+     *
+     *    {{ target: myItemTplTarget }}
+     *    <!-- 注意必须有唯一的根element !!! -->
+     *    <div class="my-item ${viewModel.itemCssClass}">  <!-- 这个itemCssClass在viewModel中传入。 -->
+     *        This is the item No. ${viewModel.index} <!-- 这个index是默认存在的，base 0。 -->
+     *        <div data-cpt="type: 'TextInput', value: viewModel.v1"></div>
+     *        <div data-cpt="type: 'TextInput', value: viewModel.v2"></div>
+     *    </div>
+     *    {{ /target }}
+     *
+     *
+     * 2. Parent component中对 listViewModels 进行操作即可控制列表的增删改查。
+     *    如Parent component的声明中，
+     *        _define: {
+     *            ...,
+     *            viewModel: function () {
+     *                return {
+     *                    listViewModel: lib.obArray([])
+     *                }
+     *            }
+     *        }
+     *    然后，就可以在Parent component中操作 listViewModel 来增删改列表节点。
+     *    如创建节点：
+     *
+     *    var listViewModels = this._viewModel().listViewModels;
+     *    var myItemViewModel = {
+     *        v1: lib.ob('aaaaaa'),
+     *        v2: lib.ob('bbbbbb'),
+     *        itemCssClass: listViewModels.count() % 2 === 0 ? 'my-item-highlight' : ''
+     *    };
+     *    listViewModels.push(myItemViewModel);
+     *
+     *    这样就完成了新加节点，并且传入了viewModel。
+     *    并且可以通过v1和v2，来修改或读取myItem中textinput的值。
+     *    如果要进行删除节点等操作，直接对listViewModel进行splice等操作即可（参见dataDriven.js#obArray）
+     */
+
+
+    /**
+     * [常见的使用例子二]（只有 text input 的简单列表）
+     *
+     * 1. 模板中声明：
+     *    ...
+     *    <div data-cpt="
+     *        type: 'Foreach',
+     *        viewModelGet: 'listViewModels',
+     *        itemType: 'TextInput' // 这里直接声明子节点的组件为TextInput。
+     *                              // 当然也可以是别的内建的或自定义的组件。
+     *    "></div>
+     *    ...
+     *
+     *
+     * 2. Parent component中对 listViewModels 进行操作即可控制列表的增删改查。
+     *    如创建节点：
+     *    var listViewModels = this._viewModel().listViewModels;
+     *    var myItemViewModel = {value: lib.ob('aaaaaa')};
+     *    listViewModels.push(myItemViewModel);
+     *    其他同上。
+     */
+
+
+    /**
+     * [常见的使用例子三]（自定义子节点的组件类）
+     *
+     * 1. 模板中声明：
+     *    ...
+     *    <div data-cpt="
+     *        type: 'Foreach',
+     *        viewModelGet: 'listViewModels',
+     *        itemType: 'my/MyItem'
+     *    "></div>
+     *    ...
+     *
+     *
+     * 2. componentConfig.js中声明：
+     *    cptClasses['my/MyItem'] = require('./xxx/xxx/MyItem');
+     *
+     *
+     * 3. ./xxx/xxx/MyItem文件：
+     *    define(function (require) {
+     *        var Component = require('dt/ui/Component')
+     *        var MyItem = Component.extend({
+     *              _define: {
+     *                  tpl: require('tpl!./my.tpl.html'),
+     *                  tplTarget: 'MyItemTarget',
+     *                  css: 'some-css',
+     *                  viewModel: function () {
+     *                      return {
+     *                          someOb: null, // 由父来构造并传入
+     *                          something: '' // 由父来构造并传入
+     *                      };
+     *                  }
+     *              },
+     *              // 其他MyItem的逻辑
+     *        });
+     *        return MyItem;
+     *    })
+     *
+     *
+     * 4. 外层component中对 listViewModels 进行操作即可控制列表的增删改查。
+     *    如：
+     *    var myItemViewModel = {
+     *        someOb: lib.ob('aaaaaa'),
+     *        something: 123456
+     *    };
+     *    this._viewModel().listViewModels.push(myItemViewModel);
+     *    这样就完成了新加节点，并且传入了viewModel。
+     */
+
+
+    /**
+     * [API详细说明]
      *
      * <div data-cpt="
      *     type: 'foreach',
      *     viewModelGet: 'someObArray', // foreach本身的viewModel，是一个lib.obArray。
      *                                  // 里面每项是item的viewModel。
      *     itemType: 'someItemClz', // 表示每项使用的Component类，缺省则使用默认的Foreach.prototype.Item。
-     *     itemTplTarget: 'xxx', // 表示用于渲染每项节点html的tplTarget，缺省则为一个空的<div></div>。
-     *                           // 注意，此tpl中的dom须有个单个根节点，而不可多个dom根节点并列。
-     *     itemTplParam: {aaa: 'xxx', bbb: 'yyy', ... } // 表示渲染节点时可传入的参数，可缺省。
-     *                                                  // 只用于模板渲染。如果只是用viewModel向item传递参数，
-     *                                                  // 不需要这个，只需在someObArray中定义即可。
-     *                                                  // 可在模板中这么使用${viewModel.itemTplParam.aaa}。
+     *     itemTplTarget: 'xxx',    // 表示用于渲染每项节点html的tplTarget，缺省则为一个空的<div></div>。
+     *                              // 注意：
+     *                              //      (1) 此tpl中的dom须有个单个根节点，而不可多个dom根节点并列。
+     *                              //      (2) 根节点不可有data-cpt属性。
+     *
+     *     itemTplParam: {          // 只有在指定了itemTplTarget时有效，表示渲染节点时可传入的参数，可缺省（很少需要使用这个东西）。
+     *         aaa: 'xxx',          // 只用于模板渲染。如果只是用viewModel向item传递参数，
+     *         bbb: 'yyy',          // 不需要这个，只需在someObArray中定义即可。
+     *         ...                  // 可在每个子节点模板渲染时使用${viewModel.itemTplParam.aaa}渲染出字符'xxx'。
+     *     }                        // 如果需要每个节点不同的渲染内容，则使用下面的itemConfigAttr。
      *     "></div>
      *
      * 如果需要对每个item分别定义，则：
      *
      * <div data-cpt="
      *     type: 'foreach',
-     *     itemConfigAttr: 'attr1', // 表示从item的viewModel的attr1中取itemConfig。
+     *     itemConfigAttr: 'attr1', // 表示从item的 viewModel.attr1 中取item config。
      *     ...
-     * itemConfig的结构是 {
-     *     itemType: 'TheItemType', // 解释同上
-     *     itemTplTarget: 'xxx', // 解释同上
-     *     itemTplParam: {aaa: 'xxx', bbb: 'yyy', ... } // 解释同上
-     * }
+     * 即，
+     * itemViewModel.attr1 = {
+     *     itemType: 'TheItemType', // 解释同上，如不设则取外层foreach上的设置
+     *     itemTplTarget: 'xxx', // 解释同上，如不设则取外层foreach上的设置
+     *     itemTplParam: {aaa: 'xxx', bbb: 'yyy', ... } // 解释同上，如不设则取外层foreach上的设置
+     * };
+     */
+
+
+    /**
+     * 顺序表。能够根据viewModel的变化动态改变。
+     * 输入的viewModel须是一个lib.obArray。
+     *
+     * @class
      */
     var Foreach = Component.extend({
 
@@ -224,11 +358,15 @@ define(function (require) {
                 itemTplTarget
                     ? this._renderTpl(
                         itemTplTarget,
-                        {index: index + i, itemTplParam: itemTplParam}
+                        $.extend(
+                            {index: index + i, itemTplParam: itemTplParam},
+                            subViewModel
+                        ) // 为了tpl中引用方便，把所有viewModel都传入
                     )
                     : '<div></div>'
             );
-            lib.assert($newEl.length === 1); // 需要有单个根节点，而不可是多个根节点并列。
+            // 需要有单个根节点，而不可是多个根节点并列。
+            lib.assert($newEl.length === 1, 'MUST be only one root element in item tpl!');
             insertItemEl.call(this, $newEl, index + i);
 
             // 初始化item实例

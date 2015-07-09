@@ -2,6 +2,8 @@
 @import "../../dep/dt/0.0.1/ui/all.less";
 @import "../common/common.less";
 
+@middle-percent: 55%;
+
 .ecdoc-sprsht {
     margin-top: 70px;
 }
@@ -13,10 +15,11 @@
 }
 .ecdoc-sprsht-datatable-area {
     position: fixed;
-    left: 20px;
-    top: 70px;
-    width: 55%;
-    bottom: 20px;
+    left: 0;
+    top: 53px;
+    width: @middle-percent;
+    // bottom: 20px;
+    bottom: 0;
 
     .handsontable {
         color: #333;
@@ -25,6 +28,7 @@
         position: absolute;
         overflow: visible; // hidden则影响handsontable的滚动条计算
         top: 0;
+        // left: 20px;
         left: 0;
         right: 0;
         bottom: 0;
@@ -46,21 +50,112 @@
         }
     }
 }
-.ecdoc-sprsht-codeinputs-area {
-    margin: 0 30px 0 60%;
+.ecdoc-sprsht-right {
+    margin: 0 0 0 @middle-percent;
+}
+.ecdoc-sprsht-ctrl-area {
+    margin: 0 35px 0 20px;
+    padding: 5px 15px;
+    position: relative;
 
+    h1 {
+        margin: 10px 0 10px 0;
+        font-size: 26px;
+    }
+    .ecdoc-sprsht-desc {
+        color: #999;
+        margin-bottom: 10px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ccc;
+
+        strong {
+            color: #333;
+            font-weight: 700;
+            margin: auto 4px auto 4px;
+        }
+    }
+
+    .ecdoc-sprsht-line {
+        margin-bottom: 6px;
+        padding-top: 6px;
+
+        label {
+            vertical-align: middle;
+        }
+    }
+
+    .ecdoc-attr-info {
+        font-size: 12px;
+        line-height: 32px;
+    }
+    .ecdoc-sprsht-attr-change {
+        margin: -26px 0 0 100px;
+
+        .dtui-btn {
+            width: 22px;
+            min-width: 22px;
+            height: 22px;
+            line-height: 22px;
+            font-size: 20px;
+            font-family: Arial;
+            .border-radius(11px);
+            padding: 0;
+        }
+    }
+    .ecdoc-attr-item {
+        line-height: 32px;
+    }
+    .ecdoc-attr-block {
+        .inline-block();
+        vertical-align: middle;
+        margin: 0 3px;
+
+        label {
+            font-weight: normal;
+            vertical-align: middle;
+        }
+        .dtui-txipt {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+    .ecdoc-attr-title {
+        font-family: "Andale Mono", Monospace; // 等宽字体，从而字母纵向对齐
+    }
+    .ecdoc-attr-data-type {
+
+        .dtui-chkbtn-i {
+            margin: 0 2px 0 0;
+        }
+    }
+}
+.ecdoc-sprsht-codeinputs-area {
+    margin: 20px 35px 0 20px;
+
+    label {
+        margin-left: 10px;
+    }
+    .ecdoc-sprsht-title {
+        height: 25px;
+        line-height: 25px;
+        font-size: 12px;
+        padding-left: 10px;
+    }
     .ecdoc-sprsht-codeinput {
         position: relative;
-        height: 80px;
+        height: 105px;
     }
     .dtui-txipt-type-textarea {
         display: block;
         position: absolute;
         width: auto;
-        top: 0;
+        top: 25px;
         left: 0;
         bottom: 0;
         right: 30px;
         margin: 0;
+    }
+    .ecdoc-sprsht-codeinputs {
+        margin-top: 20px;
     }
 }

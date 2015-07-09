@@ -14,7 +14,7 @@ define(function (require) {
 
     /**
      * @class
-     * @extends common/component/Component
+     * @extends dt/ui/Component
      */
     var CheckButton = Component.extend({
 
@@ -90,10 +90,9 @@ define(function (require) {
 
             for (var i = 0, data; data = dataList[i]; i++) {
                 html.push(
-                    '<div class="', itemCss, '" data-', INDEX_ATTR, '="', i, '">',
-                        '<i><em></em></i>', // 每项的标志，如果需要的话可用css设外观。
-                        '<span>', encodeHTML(data.text), '</span>',
-                    '</div>'
+                    '<span class="', itemCss, '" data-', INDEX_ATTR, '="', i, '">',
+                        encodeHTML(data.text),
+                    '</span>'
                 );
             }
 

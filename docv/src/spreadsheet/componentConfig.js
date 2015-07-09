@@ -6,6 +6,8 @@
 define(function (require) {
 
     var Component = require('dt/ui/Component');
+    var lang = require('./lang');
+    var constant = require('./constant');
 
     require('dt/componentConfig');
 
@@ -15,6 +17,9 @@ define(function (require) {
 
     // common component
     cptClasses['spreadsheet/DataTable'] = require('./DataTable');
-    cptClasses['spreadsheet/CodeInput'] = require('./CodeInput');
     cptClasses['spreadsheet/CodeInputs'] = require('./CodeInputs');
+
+    // Language and terms and constant
+    Component.defaultLanguageSet = lang;
+    Component.defaultConstant = constant;
 });

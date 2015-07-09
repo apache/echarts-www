@@ -31,9 +31,7 @@ define(function (require) {
          */
         _init: function () {
             var viewModel = this._viewModel();
-            viewModel.jsDataOb.subscribe(
-                codeInputsProcessor.getJSDataChangeHandler(viewModel.mainListViewModels)
-            );
+            viewModel.jsDataOb.bindCodeInputs(viewModel.mainListViewModels);
         },
 
         /**

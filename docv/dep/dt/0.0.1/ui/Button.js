@@ -78,16 +78,17 @@ define(function (require) {
             });
 
             // binding ob
-            this._disposable(
-                lib.obSubscribe(viewModel.text, updateViewByModel)
-            );
+            if (lib.obTypeOf(viewModel.text) === 'ob') {
+                this._disposable(
+                    viewModel.text.subscribe(updateViewByModel, this)
+                );
+            }
 
             // 设初始值
             var initVal = lib.value(viewModel.text);
             $el.html(
                 viewModel.dontEncodeHTML ? initVal : lib.encodeHTML(initVal)
             );
-
 
             function onMouseEnter() {
                 if (viewModel.disabled()) {
@@ -136,7 +137,6 @@ define(function (require) {
                         : lib.encodeHTML(nextText)
                 );
             }
-
         },
 
         /**

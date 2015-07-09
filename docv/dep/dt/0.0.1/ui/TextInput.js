@@ -12,11 +12,11 @@ define(function (require) {
     /**
      * 模板中的声明方法举例：
      *  <div data-cpt="
-     *      type: 'input/TextInput',
-     *      name: 'textInput0',
+     *      type: 'dt/ui/TextInput',
+     *      name: 'myTextInput',
      *      viewModel: {
-     *          value: viewModel.value0,
-     *          css: 'dtm-msrggt-tx0',
+     *          value: viewModel.valueOb,
+     *          css: 'dtm-text-input',
      *          type: 'textarea', // 默认为'text'
      *          disabled: viewModel.disabled,
      *          placeholder: lib.ob('asdf')
@@ -24,7 +24,7 @@ define(function (require) {
      *  </div>
      *
      * @class
-     * @extends common/component/Component
+     * @extends dt/ui/Component
      */
     var TextInput = Component.extend({
 
@@ -60,10 +60,9 @@ define(function (require) {
             ).join(' '));
 
             var html = type === 'textarea'
-                // 套个div是为了使input宽度设100%
-                ? '<div><textarea></textarea></div>'
-                : '<div><input type="text"/></div>';
-            this._$input = $($(html).appendTo(this.$el())[0].firstChild);
+                ? '<textarea></textarea>'
+                : '<input type="text"/>';
+            this._$input = $(this.$el().html(html)[0].firstChild);
 
             this._$input.on(
                 this._event('mouseenter'),

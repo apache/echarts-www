@@ -12,9 +12,10 @@ define(function (require) {
     var cptClasses = Component.cptClasses;
 
     // common component
-    cptClasses['TreeList'] = require('./ui/TreeList');
+    cptClasses['Text'] = require('./ui/Text');
     cptClasses['TextInput'] = require('./ui/TextInput');
     cptClasses['CheckButton'] = require('./ui/CheckButton');
+    cptClasses['TreeList'] = require('./ui/TreeList');
     cptClasses['WinPanel'] = require('./ui/WinPanel');
     cptClasses['Button'] = require('./ui/Button');
     cptClasses['Foreach'] = require('./ui/Foreach');
