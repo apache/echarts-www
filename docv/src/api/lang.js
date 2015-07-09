@@ -19,7 +19,8 @@ define(function (require) {
         descAreaLabelDefaultValue: '默认值',
         collapseAll: '折叠',
         queryResultInfo: '共 #{count} 条结果',
-        queryBoxNoResult: '没有搜索到信息'
+        queryBoxNoResult: '没有搜索到信息',
+        exampleCategory: '示例类型'
     };
 
     /**
@@ -30,13 +31,14 @@ define(function (require) {
         langCode: 'en',
         queryBoxPlaceholderFuzzyPath: 'Search (Short cut:\'/\'). Try input: ser(line).emph',
         queryBoxPlaceholderAnyText: 'Search (Short cut:\'/\'). Try input: style',
-        queryBoxTextFuzzyPath: 'Search in properties',
-        queryBoxTextAnyText: 'Full-text search',
+        queryBoxTextFuzzyPath: 'In properties',
+        queryBoxTextAnyText: 'Full-text',
         descAreaLabelType: 'Type',
         descAreaLabelDefaultValue: 'Default Value',
         collapseAll: 'Collapse',
         queryResultInfo: 'Got #{count} results.',
-        queryBoxNoResult: 'No result'
+        queryBoxNoResult: 'No result',
+        exampleCategory: 'Category'
     };
 
     // Setting in html.

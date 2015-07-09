@@ -220,8 +220,7 @@ define(function (require) {
                 $el.find(SELECTOR_TYPE)[0].innerHTML = desc.type;
                 $el.find(SELECTOR_DESC)[0].innerHTML = desc.descText;
                 $el.find(SELECTOR_DEFAULT)[0].innerHTML = desc.defaultValueText;
-                $el.find(SELECTOR_OPTION_PATH)[0].innerHTML = desc.optionPath
-                    ? (desc.optionPath + ' : ') : '';
+                $el.find(SELECTOR_OPTION_PATH)[0].innerHTML = desc.optionPath;
             }
         },
 
