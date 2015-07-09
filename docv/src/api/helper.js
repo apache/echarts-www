@@ -21,7 +21,7 @@ define(function (require) {
         dtLib.assert(hasher.isActive());
         var result = {};
         if (hash) {
-            var regResult = /^#?(?:\[([^\[\]]*)\])?(.*)$/.exec(hash);
+            var regResult = /^#?(?:([^~]*)~)?(.*)$/.exec(hash);
             result.category = regResult[1];
             result.queryString = regResult[2];
         }
@@ -41,7 +41,7 @@ define(function (require) {
 
         var hashString = '';
         if (hashInfo.category) {
-            hashString += '[' + hashInfo.category + ']';
+            hashString += hashInfo.category + '~';
         }
         if (hashInfo.queryString) {
             hashString += hashInfo.queryString;
