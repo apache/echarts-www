@@ -2,30 +2,21 @@ define(
     (require) ->
         _ = require 'lodash'
         mark = require './mark_view'
-#        tip = require './tip'
+        tip = require './tip'
+        category = require './category'
+        helper = require './helper'
 
         apiIndex = 0
-        apiData = []
-        layoutEle = null
+        apiData = {}
+        layout = null
+        imgLayout = null
+        markLayout = null
+        categoryLayout = null
 
         exports = {}
 
-        exports.init = (ele) ->
-            layoutEle = $ ele
-
-            apiData = JSON.parse require('tpl!../../data/api/index.json')
-
-            # 模拟hover事件，增加一个500ms的debounce
-            layoutEle.find('div').on('mouseover', '.mark-item',
-                _.debounce(
-                    (event) ->
-                        console.log event
-#                        tip.render(event)
-                    , 500
-                )
-            )
-
-            @go(0)
+        exports.init = (data) ->
+            apiData = data
 
 
         exports.prev = () ->
@@ -46,25 +37,48 @@ define(
             @go(nextIndex)
 
 
-        exports.go = (index) ->
-            imgPath = '/docv/data/api/'
+        exports.go = (index, category) ->
+            path = '../docv/data/api/'
+            if index is -1
+                index = _.findIndex apiData, (item) ->
+                    item[0] is category
 
-            chartName = apiData[apiIndex = index]
+            chartName = apiData[apiIndex = index][0]
+            jsonFile = path + chartName + '.json'
+            imgFile = path + chartName + '.png'
 
-            $.getJSON(imgPath + chartName + '.json', (data) ->
+            imgLayout.attr({
+                src: imgFile
+            })
 
-                layoutEle?.find('img').attr({
-                    src: imgPath + chartName + '.png'
-                })
+            # clean layout marks
+            markLayout.html('')
+#            mark.clear()
 
-                # clean layout marks
-                layout = layoutEle.find('div').html('')
-
+            $.getJSON(jsonFile, (data) ->
                 marks = mark.render(data)
 
-                $(marks).appendTo(layout)
+                tip.wrap marks
+
+                $(marks).appendTo(markLayout)
+
             )
 
+        exports.initCategory  = (ele) ->
+            layout = $ ele
+            imgLayout = layout.find('img.api-chart-img')
+            markLayout = layout.find('div.marks-layout')
+            categoryLayout = layout.find('div.api-category-list')
+
+            tip.bindEvent(markLayout)
+
+            category.init(categoryLayout, apiData)
+
+        exports.initCategoryHash = () ->
+            if !helper.getHashInfo().category
+                helper.hashRoute({
+                    category: apiData?[0]?[0] or ''
+                })
 
         exports
 )

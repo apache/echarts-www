@@ -17,9 +17,9 @@ define((require) ->
         _create: () ->
             @ele = $ @element
 
-        _destroy: () ->
-            @ele.remove()
-            @ele = null
+#        _destroy: () ->
+#            @element.remove()
+#            @ele = null
 
         getData: () ->
             JSON.parse(@ele.attr(CONST.DATA_KEY) || {})
@@ -68,13 +68,17 @@ define((require) ->
             @markList = widgets
 
 
-#        remove: (mark) ->
-#            _.remove @markList, mark
-#            $(mark).mark('destroy')
+        remove: (mark) ->
+            _.remove @markList, mark
+            $(mark).mark('destroy')
 
-#        getMark: () ->
-#            @markList
+        getMark: () ->
+            @markList
 
+        clear: () ->
+            _.each(@markList, (mark) ->
+                $(mark).mark('destroy')
+            )
 
     new MarkFactory()
 )

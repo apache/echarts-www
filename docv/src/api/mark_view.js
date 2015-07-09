@@ -16,10 +16,6 @@ define(function(require) {
     _create: function() {
       return this.ele = $(this.element);
     },
-    _destroy: function() {
-      this.ele.remove();
-      return this.ele = null;
-    },
     getData: function() {
       return JSON.parse(this.ele.attr(CONST.DATA_KEY) || {});
     },
@@ -67,6 +63,21 @@ define(function(require) {
       }).join('');
       widgets = $(html).mark();
       return this.markList = widgets;
+    };
+
+    MarkFactory.prototype.remove = function(mark) {
+      _.remove(this.markList, mark);
+      return $(mark).mark('destroy');
+    };
+
+    MarkFactory.prototype.getMark = function() {
+      return this.markList;
+    };
+
+    MarkFactory.prototype.clear = function() {
+      return _.each(this.markList, function(mark) {
+        return $(mark).mark('destroy');
+      });
     };
 
     return MarkFactory;

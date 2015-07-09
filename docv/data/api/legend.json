@@ -1,0 +1,130 @@
+﻿[
+    {
+        "style": "top: 2.54%; left: 38.1%; z-index: 10; color: #000000; opacity: 0.5;",
+        "data": {
+            "title": "图例初始展示",
+            "list": [
+                {
+                    "query": "legend.show",
+                    "desc": "是否显示"
+                },
+                {
+                    "query": "legend.data",
+                    "desc": "图例数据内容"
+                },
+                {
+                    "query": "legend.selectedMode",
+                    "desc": "选择模式"
+                },
+                {
+                    "query": "legend.orient",
+                    "desc": "布局方向(水平|垂直)"
+                },
+                {
+                    "query": "legend.x",
+                    "desc": "水平安放位置(中|左|右|{自定义x坐标})"
+                },
+                {
+                    "query": "legend.y",
+                    "desc": "垂直安放位置(上|下|中|{自定义y坐标})"
+                }
+            ]
+        },
+        "type": "icon-arrow-left"
+    },
+    {
+        "style": "top: 9.32%; left: 36.07%; z-index: 11; color: #000000; opacity: 0.5;",
+        "data": {
+            "title": "图例的基本样式",
+            "list": [
+                {
+                    "query": "legend.backgroundColor",
+                    "desc": "图例背景颜色"
+                },
+                {
+                    "query": "legend.borderColor",
+                    "desc": "图例边框颜色"
+                },
+                {
+                    "query": "legend.borderWidth",
+                    "desc": "图例边框线宽"
+                },
+                {
+                    "query": "legend.padding",
+                    "desc": "图例内边距"
+                }
+            ]
+        },
+        "type": "icon-arrow-up-left"
+    },
+    {
+        "style": "top: 6.78%; left: 17.26%; z-index: 12; color: #000000; opacity: 0.5;",
+        "data": {
+            "title": "各图例元素样式",
+            "list": [
+                {
+                    "query": "legend.itemGap",
+                    "desc": "各元素之间的间隔"
+                },
+                {
+                    "query": "legend.itemWidth",
+                    "desc": "图例图像宽度"
+                },
+                {
+                    "query": "legend.itemHeight",
+                    "desc": "图例图像高度"
+                },
+                {
+                    "query": "legend.selected",
+                    "desc": "默认选中状态"
+                }
+            ]
+        },
+        "type": "icon-arrow-up"
+    },
+    {
+        "style": "top: 7.63%; left: 10.71%; z-index: 13; color: #000000; opacity: 0.5;",
+        "data": {
+            "title": "图例字体样式",
+            "list": [
+                {
+                    "query": "legend.textStyle.color",
+                    "desc": "字体颜色"
+                },
+                {
+                    "query": "legend.textStyle.decoration",
+                    "desc": "字体修饰"
+                },
+                {
+                    "query": "legend.textStyle.align",
+                    "desc": "字体水平对齐方式"
+                },
+                {
+                    "query": "legend.textStyle.baseline",
+                    "desc": "字体垂直对齐方式"
+                },
+                {
+                    "query": "legend.textStyle.fontFamily",
+                    "desc": "字体系列"
+                },
+                {
+                    "query": "legend.textStyle.fontSize",
+                    "desc": "字体大小"
+                },
+                {
+                    "query": "legend.textStyle.fontStyle",
+                    "desc": "字体样式"
+                },
+                {
+                    "query": "legend.textStyle.fontWeight",
+                    "desc": "字体粗细"
+                },
+                {
+                    "query": "legend.formatter",
+                    "desc": "文本格式器"
+                }
+            ]
+        },
+        "type": "icon-arrow-up-right"
+    }
+]

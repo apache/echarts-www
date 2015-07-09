@@ -15,6 +15,7 @@ define(function (require) {
     require('dt/componentConfig');
 
     var SCHEMA_URL = '../docv/optionSchema.json';
+    var CATEGORY_URL = '../docv/data/api/index.json';
     var TPL_TARGET = 'APIMain';
     var SELECTOR_TYPE = '.ecdoc-api-type';
     var SELECTOR_DESC = '.ecdoc-api-desc';
@@ -62,12 +63,17 @@ define(function (require) {
         },
 
         _prepare: function () {
-            $.getJSON(SCHEMA_URL, $.proxy(this._handleSchemaLoaded, this));
+            $.when($.getJSON(SCHEMA_URL), $.getJSON(CATEGORY_URL)).done($.proxy(function(schema, catagory) {
+                this._initMark(catagory[0]);
+                this._handleSchemaLoaded(schema[0]);
+            }, this));
+            //$.getJSON(SCHEMA_URL, $.proxy(this._handleSchemaLoaded, this));
         },
 
         _handleSchemaLoaded: function (schema) {
             this._prepareAsync(schema);
             this._applyTpl(this.$el(), TPL_TARGET);
+            this._initCategory();
             this._initAsync();
         },
 
@@ -100,9 +106,10 @@ define(function (require) {
             );
 
 
-            this._initMark();
             this._initQueryBox();
             this._initHash(); // The last step.
+            this._initCategoryHash();
+
         },
 
         _initHash: function () {
@@ -119,7 +126,7 @@ define(function (require) {
                         that.doQuery(hashInfo.queryString, 'optionPath', true);
                     }
                     if (hashInfo.category) {
-                        // that.aaaa(hashInfo.category);
+                        markRender.go(-1, hashInfo.category)
                     }
                 }
             }
@@ -249,8 +256,16 @@ define(function (require) {
             }
         },
 
-        _initMark: function() {
-            markRender.init($('.api-chart-layout'));
+        _initMark: function(category) {
+            markRender.init(category);
+        },
+
+        _initCategory: function() {
+            markRender.initCategory($('.api-chart'));
+        },
+
+        _initCategoryHash: function() {
+            markRender.initCategoryHash();
         }
     });
 

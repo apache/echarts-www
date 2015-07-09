@@ -1,0 +1,41 @@
+﻿[
+    {
+        "style": "top: 48.94%; left: 25.71%; z-index: 10; color: #000000; opacity: 0.5;",
+        "data": {
+            "title": "tooltip-type",
+            "list": [
+                {
+                    "query": "tooltip.axisPointer.shadowStyle.color",
+                    "desc": "当坐标指示器type值为shadow时，设置阴影指示器颜色为黑色"
+                }
+            ]
+        },
+        "type": "icon-arrow-up-left"
+    },
+    {
+        "style": "top: 47.46%; left: 54.17%; z-index: 11; color: #000000; opacity: 0.5;",
+        "data": {
+            "title": "tooltip-type",
+            "list": [
+                {
+                    "query": "tooltip.axisPointer.crossStyle.color",
+                    "desc": "当坐标指示器type值为cross时，设置十字准星指示器颜色为黑色"
+                }
+            ]
+        },
+        "type": "icon-arrow-up-left"
+    },
+    {
+        "style": "top: 54.66%; left: 85.95%; z-index: 12; color: #000000; opacity: 0.5;",
+        "data": {
+            "title": "tooltip-type",
+            "list": [
+                {
+                    "query": "tooltip.axisPointer.lineStyle.color",
+                    "desc": "当坐标指示器type值为line时，设置直线指示器颜色为黄色"
+                }
+            ]
+        },
+        "type": "icon-arrow-up-left"
+    }
+]

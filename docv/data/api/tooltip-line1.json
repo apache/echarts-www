@@ -1,0 +1,80 @@
+﻿[
+    {
+        "style": "top: 44.92%; left: 41.9%; z-index: 10; color: #000000; opacity: 0.5;",
+        "data": {
+            "title": "tooltip",
+            "list": [
+                {
+                    "query": "tooltip.trigger",
+                    "desc": "触发类型"
+                },
+                {
+                    "query": "tooltip.axisPointer.type",
+                    "desc": "坐标轴指示器样式"
+                },
+                {
+                    "query": "tooltip.axisPointer.crossStyle.type",
+                    "desc": "设置十字准星指示器线条样式"
+                },
+                {
+                    "query": "tooltip.axisPointer.crossStyle.width",
+                    "desc": "坐标轴线宽"
+                }
+            ]
+        },
+        "type": "icon-arrow-up-left"
+    },
+    {
+        "style": "top: 38.56%; left: 53.33%; z-index: 11; color: #000000; opacity: 0.5;",
+        "data": {
+            "title": "tooltip",
+            "list": [
+                {
+                    "query": "tooltip.formatter",
+                    "desc": "内容格式器"
+                },
+                {
+                    "query": "tooltip.backgroundColor",
+                    "desc": "提示背景颜色，默认为透明度为0.7的黑色"
+                },
+                {
+                    "query": "tooltip.show",
+                    "desc": "显示策略"
+                },
+                {
+                    "query": "tooltip.showDelay",
+                    "desc": "显示延迟,避免频繁切换"
+                },
+                {
+                    "query": "tooltip.borderColor",
+                    "desc": "提示边框颜色"
+                },
+                {
+                    "query": "tooltip.borderRadius",
+                    "desc": "提示边框圆角，单位px，默认为4"
+                },
+                {
+                    "query": "tooltip.borderWidth",
+                    "desc": "提示边框线宽,默认无边框"
+                },
+                {
+                    "query": "tooltip.padding",
+                    "desc": "提示内边距,默认各方向为5"
+                },
+                {
+                    "query": "tooltip.textStyle.color",
+                    "desc": "文本颜色"
+                },
+                {
+                    "query": "tooltip.textStyle.align",
+                    "desc": "文本水平对齐方式"
+                },
+                {
+                    "query": "tooltip.textStyle.fontSize",
+                    "desc": "文本字号,单位px"
+                }
+            ]
+        },
+        "type": "icon-arrow-up"
+    }
+]

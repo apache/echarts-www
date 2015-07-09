@@ -2,6 +2,7 @@
 @import "../../dep/dt/0.0.1/ui/all.less";
 @import "../common/common.less";
 @import "../common/fonts.css";
+@import "./preview.less";
 
 .ecdoc-api-query-box {
     top: 65px;
@@ -59,34 +60,6 @@
     right: 35px;
     top: 65px;
     bottom: 200px;
-    overflow: auto;
-    
-    .api-chart-bg {
-        background-color: #fff;
-        overflow: auto;
-        .api-chart-layout {
-            position: relative;
-            margin: auto;
-            width: 870px;
-
-            .marks-layout {
-                position: absolute;
-                z-index: 1;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-
-                .mark-item {
-                    position: absolute;
-                    z-index: 10;
-                    width: 16px;
-                    height: 16px;
-                    cursor: pointer;
-                }
-            }
-        }
-    }
 }
 .ecdoc-api-desc-area {
     position: fixed;
