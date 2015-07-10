@@ -4,23 +4,43 @@ define(
         helper = require './helper'
         _ = require 'lodash'
 
+        CLZ =
+            SELECT: 'selected'
+            LIST: 'api-category-list'
+
+        SELECTOR =
+            SELECT: '.' + CLZ.SELECT
+            LIST: '.' + CLZ.LIST
+            DATA: 'data-category'
+
+
+
         template = (list) ->
             "<ol>" +
             _.map(list, (item) ->
                 "<li>
-                    <a href='javascript:void(0)' data-category='#{item[0]}'>#{item[1]}</a>
+                    <a href='javascript:void(0)' #{SELECTOR.DATA}='#{item[0]}'>#{item[1]}</a>
                 </li>"
             ).join('') + "</ol>"
+
 
         exports.init = (ele, list) ->
             ele = $ ele
             category = $(template(list)).appendTo(ele)
+            me = @
 
             ele.on('click', 'a', (event) ->
-                helper.hashRoute({
-                    category: $(@).attr('data-category')
-                })
+                me.hashRoute($(@).attr('data-category'))
             )
+
+        exports.hashRoute = (hash) ->
+            $(SELECTOR.LIST).find(SELECTOR.SELECT).removeClass(CLZ.SELECT)
+            $(SELECTOR.LIST).find("a[#{SELECTOR.DATA}=#{hash}]").parent('li').addClass(CLZ.SELECT)
+
+            if helper.getHashInfo().category != hash
+                helper.hashRoute({
+                    category: hash
+                })
 
         exports
 )

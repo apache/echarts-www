@@ -89,5 +89,20 @@
             padding-left: 5px;
             border-bottom: 1px solid #ccc;
         }
+        .api-category-list {
+            li {
+                padding: 0 5px;
+                a,
+                a:hover {
+                    text-decoration: none;
+                }
+            }
+            .selected {
+                background-color: #428bca;
+                a {
+                    color: #fff;
+                }
+            }
+        }
     }
 }

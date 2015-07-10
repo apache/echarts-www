@@ -37,16 +37,16 @@ define(
             @go(nextIndex)
 
 
-        exports.go = (index, category) ->
+        exports.go = (index, hash) ->
             curCategory = apiData[apiIndex]?[0]
 
-            if category is curCategory
+            if hash is curCategory
                 return
 
             path = '../docv/data/api/'
             if index is -1
                 index = _.findIndex apiData, (item) ->
-                    item[0] is category
+                    item[0] is hash
 
             chartName = apiData[apiIndex = index][0]
             jsonFile = path + chartName + '.json'
@@ -56,9 +56,9 @@ define(
                 src: imgFile
             })
 
+            category.hashRoute hash
             # clean layout marks
             markLayout.html('')
-#            mark.clear()
 
             $.getJSON(jsonFile, (data) ->
                 marks = mark.render(data)
@@ -81,9 +81,7 @@ define(
 
         exports.initCategoryHash = () ->
             if !helper.getHashInfo().category
-                helper.hashRoute({
-                    category: apiData?[0]?[0] or ''
-                })
+                category.hashRoute(apiData?[0]?[0] or '')
 
         exports
 )
