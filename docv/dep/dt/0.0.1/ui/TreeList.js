@@ -42,20 +42,25 @@ define(function (require) {
                      * treeList.viewModel('selected').subscribe(function (nextValue, ob) {
                      *     // 这里nextValue 就是树节点上的value字段
                      *     // 如果要获取整个树节点的信息(dataItem)，使用：
-                     *     var dataItem = ob.peekValueInfo('dataItem');
+                     *     var dataItem = ob.getTreeDataItem();
+                     *     // 如果enhanceSelected设为了false，则没有此功能，只能手动使用findDataItemByOb来完成此功能。
+                     *     // 如果一个ob会被多个组件共享，为避免冲突，enhanceSelected可以关掉。
                      * });
                      */
                     selected: lib.ob(),
+                    enhanceSelected: true,
                     /**
                      * hovered
                      * 可在valueInfo中设置参数以及监听：同viewModel.selected
                      */
                     hovered: lib.ob(),
+                    enhanceHovered: true,
                     /**
                      * highlighted
                      * 可在valueInfo中设置参数：同viewModel.selected
                      */
                     highlighted: lib.obArray(),
+                    enhanceHighlighted: true,
                     /**
                      * @type {Array.<Object>}
                      *
@@ -91,11 +96,36 @@ define(function (require) {
             lib.assert(lib.obTypeOf(viewModel.selected));
             lib.assert(lib.obTypeOf(viewModel.highlighted) === 'obArray');
 
+            this._enhanceOb();
             this._initContent();
             this._initTooltip();
             this._initChange();
             this._initMouse();
             this._initExpand();
+        },
+
+        /**
+         * 向ob添加方法，便于外界使用
+         *
+         * @private
+         */
+        _enhanceOb: function () {
+            var viewModel = this._viewModel();
+
+            if (viewModel.enhanceSelected) {
+                var selectedOb = viewModel.selected;
+                selectedOb.getTreeDataItem = $.proxy(this.findDataItemByOb, this, selectedOb);
+            }
+
+            if (viewModel.enhanceHighlighted) {
+                var highlightedOb = viewModel.highlighted;
+                highlightedOb.getTreeDataItem = $.proxy(this.findDataItemByOb, this, highlightedOb);
+            }
+
+            if (viewModel.enhanceHovered) {
+                var hoveredOb = viewModel.hovered;
+                hoveredOb.getTreeDataItem = $.proxy(this.findDataItemByOb, this, hoveredOb);
+            }
         },
 
         /**
@@ -639,6 +669,39 @@ define(function (require) {
             }
 
             return has;
+        },
+
+        /**
+         * @public
+         * @param {Object} ob
+         * @param {boolean} single 如果为true，返回第一个结果。如果为false，返回数组。
+         *                         默认为false。
+         * @return {(Array.<Object>|Object)}
+         */
+        findDataItemByOb: function (ob, single) {
+            var result = [];
+            var type = lib.obTypeOf(ob);
+            var values;
+
+            if (type === 'obArray') {
+                values = ob();
+            }
+            else {
+                values = [ob()];
+            }
+
+            this._travelData(
+                this._viewModel().datasource,
+                {preChildren: visitItem}
+            );
+
+            function visitItem(dataItem) {
+                if (lib.arrayIndexOf(values, dataItem.value) >= 0) {
+                    result.push(dataItem);
+                }
+            }
+
+            return single ? result[0] : result;
         },
 
         /**

@@ -13,12 +13,13 @@ define(function (require) {
 
     require('dt/componentConfig');
 
-    var SCHEMA_URL = '../docv/optionSchema.json';
+    var SCHEMA_URL = '../docv/data/schema/optionSchema.json';
     var CATEGORY_URL = '../docv/data/api/index.json';
     var TPL_TARGET = 'APIMain';
     var SELECTOR_TYPE = '.ecdoc-api-type';
     var SELECTOR_DESC = '.ecdoc-api-desc';
     var SELECTOR_DEFAULT = '.ecdoc-api-default';
+    var SELECTOR_OPTION_PATH = '.ecdoc-api-option-path';
     var SELECTOR_COLLAPSE_RADIO = '.query-collapse-radio input[type=radio]';
     var SELECTOR_QUERY_RESULT_INFO = '.query-result-info';
 
@@ -53,7 +54,8 @@ define(function (require) {
                 return {
                     apiTreeDatasource: [],
                     apiTreeSelected: dtLib.ob(),
-                    apiTreeHighlighted: dtLib.obArray()
+                    apiTreeHighlighted: dtLib.obArray(),
+                    apiTreeHovered: dtLib.ob()
                 };
             }
         },
@@ -63,21 +65,30 @@ define(function (require) {
         },
 
         _prepare: function () {
-            $.when($.getJSON(SCHEMA_URL), $.getJSON(CATEGORY_URL)).done($.proxy(function(schema, catagory) {
+            $.when(
+                $.getJSON(SCHEMA_URL),
+                $.getJSON(CATEGORY_URL)
+            ).done($.proxy(onLoaded, this));
+
+            function onLoaded(schema, catagory) {
+                // Before render page
                 this._initMark(catagory[0]);
-                this._handleSchemaLoaded(schema[0]);
-            }, this));
-            //$.getJSON(SCHEMA_URL, $.proxy(this._handleSchemaLoaded, this));
+                this._prepareDoc(schema[0]);
+
+                // Render page
+                this._applyTpl(this.$el(), TPL_TARGET);
+
+                // After render page
+                this._initCategory();
+                this._initDoc();
+
+                // The last steps.
+                this._initHash();
+                this._initCategoryHash();
+            }
         },
 
-        _handleSchemaLoaded: function (schema) {
-            this._prepareAsync(schema);
-            this._applyTpl(this.$el(), TPL_TARGET);
-            this._initCategory();
-            this._initAsync();
-        },
-
-        _prepareAsync: function (schema) {
+        _prepareDoc: function (schema) {
             var renderBase = {};
 
             schemaHelper.buildDoc(schema, renderBase);
@@ -95,21 +106,30 @@ define(function (require) {
             this._viewModel().apiTreeDatasource = [this._docTree];
         },
 
-        _initAsync: function () {
-            this._disposable(
-                this._sub('apiDocTree').viewModel('hovered')
-                    .subscribe($.proxy(this._updateDesc, this, false))
-            );
-            this._disposable(
-                this._sub('apiDocTree').viewModel('selected')
-                    .subscribe($.proxy(this._updateDesc, this, true))
-            );
-
-
+        _initDoc: function () {
+            this._initTree();
             this._initQueryBox();
-            this._initHash(); // The last step.
-            this._initCategoryHash();
+        },
 
+        _initTree: function () {
+            var viewModel = this._viewModel();
+            this._disposable(viewModel.apiTreeHovered.subscribe(
+                $.proxy(handleChange, this, false)
+            ));
+            this._disposable(viewModel.apiTreeSelected.subscribe(
+                $.proxy(handleChange, this, true)
+            ));
+
+            function handleChange(persistent, nextValue, ob) {
+                var treeItem = ob.getTreeDataItem(true);
+
+                this._updateDesc(persistent, nextValue, treeItem);
+
+                // 更新hash
+                if (persistent && treeItem.optionPathForHash) {
+                    helper.hashRoute({queryString: treeItem.optionPathForHash});
+                }
+            }
         },
 
         _initHash: function () {
@@ -121,8 +141,7 @@ define(function (require) {
                     var hashInfo = helper.parseHash(newHash);
 
                     if (hashInfo.queryString) {
-                        // if (that._viewModel().apiTreeSelected().
-                        that.doQuery(hashInfo.queryString, 'optionPath', true);
+                        that._handleHashQuery(hashInfo.queryString);
                     }
                     if (hashInfo.category) {
                         markRender.go(-1, hashInfo.category);
@@ -171,9 +190,8 @@ define(function (require) {
             }
         },
 
-        _updateDesc: function (persistent, nextValue, ob) {
+        _updateDesc: function (persistent, nextValue, treeItem) {
             var $el = this.$el();
-            var treeItem = ob.peekValueInfo('dataItem');
             if (treeItem) {
                 var type = treeItem.type || '';
                 if ($.isArray(type)) {
@@ -184,27 +202,35 @@ define(function (require) {
                     descText: lang.langCode === 'en' // 不需要encodeHTML，本身就是html
                         ? (treeItem.descriptionEN || '')
                         : (treeItem.descriptionCN || ''),
-                    defaultValueText: dtLib.encodeHTML(treeItem.defaultValueText)
+                    defaultValueText: dtLib.encodeHTML(treeItem.defaultValueText),
+                    optionPath: dtLib.encodeHTML(treeItem.optionPath || '')
                 };
 
                 if (persistent) {
                     this._desc = desc;
-                    // 更新hash
-                    if (treeItem.optionPathForHash) {
-                        helper.hashRoute({queryString: treeItem.optionPathForHash});
-                    }
                 }
 
-                doShow(desc);
+                renderDesc(desc);
             }
             else if (this._desc) { // nothing hovered. restore
-                doShow(this._desc);
+                renderDesc(this._desc);
             }
 
-            function doShow(desc) {
+            function renderDesc(desc) {
                 $el.find(SELECTOR_TYPE)[0].innerHTML = desc.type;
                 $el.find(SELECTOR_DESC)[0].innerHTML = desc.descText;
                 $el.find(SELECTOR_DEFAULT)[0].innerHTML = desc.defaultValueText;
+                $el.find(SELECTOR_OPTION_PATH)[0].innerHTML = desc.optionPath;
+            }
+        },
+
+        /**
+         * @private
+         */
+        _handleHashQuery: function (queryString) {
+            var dataItem = this._viewModel().apiTreeSelected.getTreeDataItem(true);
+            if (!dataItem || queryString !== dataItem.optionPathForHash) {
+                this.doQuery(queryString, 'optionPath', true);
             }
         },
 
