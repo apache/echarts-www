@@ -36,16 +36,16 @@ define(function(require) {
     }
     return this.go(nextIndex);
   };
-  exports.go = function(index, category) {
+  exports.go = function(index, hash) {
     var chartName, curCategory, imgFile, jsonFile, path, ref;
     curCategory = (ref = apiData[apiIndex]) != null ? ref[0] : void 0;
-    if (category === curCategory) {
+    if (hash === curCategory) {
       return;
     }
     path = '../docv/data/api/';
     if (index === -1) {
       index = _.findIndex(apiData, function(item) {
-        return item[0] === category;
+        return item[0] === hash;
       });
     }
     chartName = apiData[apiIndex = index][0];
@@ -54,6 +54,7 @@ define(function(require) {
     imgLayout.attr({
       src: imgFile
     });
+    category.hashRoute(hash);
     markLayout.html('');
     return $.getJSON(jsonFile, function(data) {
       var marks;
@@ -73,9 +74,7 @@ define(function(require) {
   exports.initCategoryHash = function() {
     var ref;
     if (!helper.getHashInfo().category) {
-      return helper.hashRoute({
-        category: (apiData != null ? (ref = apiData[0]) != null ? ref[0] : void 0 : void 0) || ''
-      });
+      return category.hashRoute((apiData != null ? (ref = apiData[0]) != null ? ref[0] : void 0 : void 0) || '');
     }
   };
   return exports;
