@@ -13,14 +13,16 @@ define(function (require) {
         langCode: 'cn',
         queryBoxPlaceholderFuzzyPath: '搜索（快捷键\'/\'） 例如输入：ser(line).emph',
         queryBoxPlaceholderAnyText: '搜索（快捷键\'/\'） 例如输入：样式',
-        queryBoxTextFuzzyPath: '在属性中搜索',
+        queryBoxTextFuzzyPath: '搜索配置项',
         queryBoxTextAnyText: '全文搜索',
         descAreaLabelType: '类型',
         descAreaLabelDefaultValue: '默认值',
         collapseAll: '折叠',
         queryResultInfo: '共 #{count} 条结果',
         queryBoxNoResult: '没有搜索到信息',
-        exampleCategory: '示例类型'
+        exampleCategory: '示例类型',
+        apiMainTitle: 'ECharts API检索工具',
+        apiChartDesc: '使用说明：鼠标移动到<strong>箭头</strong>上，可以查看并定位到对应的<strong>ECharts配置项</strong>。'
     };
 
     /**
@@ -38,7 +40,9 @@ define(function (require) {
         collapseAll: 'Collapse',
         queryResultInfo: 'Got #{count} results.',
         queryBoxNoResult: 'No result',
-        exampleCategory: 'Category'
+        exampleCategory: 'Category',
+        apiMainTitle: 'ECharts API Tool',
+        apiChartDesc: 'Tip: Mouse hover on <strong>arrors</strong> to get <strong>option details</strong>.'
     };
 
     // Setting in html.
