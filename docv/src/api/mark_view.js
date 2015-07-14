@@ -4,10 +4,11 @@ define(function(require) {
   _ = require('lodash');
   require('jqueryui');
   markTemplate = function(mark) {
-    return "<div class='mark-item " + mark.type + "' " + CONST.DATA_KEY + "='" + (JSON.stringify(mark.data)) + "' style='" + mark.style + "'> </div>";
+    return "<div class='mark-item " + mark.type + "' " + CONST.DATA_KEY + "='" + (JSON.stringify(mark.data)) + "' " + CONST.SIZE_KEY + "='" + mark.size.width + "," + mark.size.height + "' style='" + mark.style + "'> </div>";
   };
   CONST = {
     DATA_KEY: 'data-mark',
+    SIZE_KEY: 'data-size',
     TYPE_REG: /\s*(icon-arrow-[\w\-]+)\s*/i,
     SELECTOR: '.mark-item',
     TITLE: ''
@@ -23,8 +24,13 @@ define(function(require) {
       var ref;
       return (ref = this.ele.attr('class').match(CONST.TYPE_REG)) != null ? ref[1] : void 0;
     },
-    toJSON: function() {
-      var data, ref, style, type;
+    toJSON: function(unit) {
+      var data, height, ref, size, style, type, width;
+      if (unit == null) {
+        unit = 'precent';
+      }
+      size = this.getSize();
+      width = size.width, height = size.height;
       ref = [this.ele.attr('style'), this.getData(), this.getType()], style = ref[0], data = ref[1], type = ref[2];
       style = style.replace(/rgb\((.+)\)/i, function() {
         var b, dec, g, hex, i, len, r, ref1, ref2;
@@ -37,10 +43,23 @@ define(function(require) {
         }
         return hex;
       });
+      if (unit === 'precent') {
+        style = style.replace(/top:(\s*\d+)px;/i, function() {
+          var top;
+          top = _.round(arguments[1] / height * 100, 2);
+          return "top: " + top + "%;";
+        });
+        style = style.replace(/left:(\s*\d+)px;/i, function() {
+          var left;
+          left = _.round(arguments[1] / width * 100, 2);
+          return "left: " + left + "%;";
+        });
+      }
       return {
         style: style,
         data: data,
-        type: type
+        type: type,
+        size: size
       };
     }
   });
@@ -53,13 +72,7 @@ define(function(require) {
     MarkFactory.prototype.render = function(marks) {
       var html, widgets;
       html = _.map(marks, function(mark) {
-        var data, style, type;
-        data = mark.data, type = mark.type, style = mark.style;
-        return markTemplate({
-          data: data,
-          type: type,
-          style: style
-        });
+        return markTemplate(mark);
       }).join('');
       widgets = $(html).mark();
       return this.markList = widgets;
@@ -72,12 +85,6 @@ define(function(require) {
 
     MarkFactory.prototype.getMark = function() {
       return this.markList;
-    };
-
-    MarkFactory.prototype.clear = function() {
-      return _.each(this.markList, function(mark) {
-        return $(mark).mark('destroy');
-      });
     };
 
     return MarkFactory;

@@ -10,7 +10,11 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left"
+        "type": "icon-arrow-up-left",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     },
     {
         "style": "top: 47.46%; left: 54.17%; z-index: 11; color: #000000; opacity: 0.5;",
@@ -23,7 +27,11 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left"
+        "type": "icon-arrow-up-left",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     },
     {
         "style": "top: 54.66%; left: 85.95%; z-index: 12; color: #000000; opacity: 0.5;",
@@ -36,6 +44,10 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left"
+        "type": "icon-arrow-up-left",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     }
 ]

@@ -4,11 +4,14 @@ define((require) ->
 
     markTemplate = (mark) ->
         "<div class='mark-item #{mark.type}'
-                #{CONST.DATA_KEY}='#{JSON.stringify(mark.data)}' style='#{mark.style}'>
+                #{CONST.DATA_KEY}='#{JSON.stringify(mark.data)}'
+                #{CONST.SIZE_KEY}='#{mark.size.width},#{mark.size.height}'
+                style='#{mark.style}'>
          </div>"
 
     CONST =
         DATA_KEY: 'data-mark'
+        SIZE_KEY: 'data-size'
         TYPE_REG: /\s*(icon-arrow-[\w\-]+)\s*/i
         SELECTOR: '.mark-item'
         TITLE: ''
@@ -17,17 +20,16 @@ define((require) ->
         _create: () ->
             @ele = $ @element
 
-#        _destroy: () ->
-#            @element.remove()
-#            @ele = null
-
         getData: () ->
             JSON.parse(@ele.attr(CONST.DATA_KEY) || {})
 
         getType: () ->
             @ele.attr('class').match(CONST.TYPE_REG)?[1]
 
-        toJSON: () ->
+        toJSON: (unit = 'precent') ->
+            size = @getSize()
+            {width, height} = size
+
             [style, data, type] =
                 [
                     @ele.attr('style')
@@ -45,7 +47,18 @@ define((require) ->
                 hex
             )
 
-            { style, data, type }
+            if unit is 'precent'
+                style = style.replace(/top:(\s*\d+)px;/i, () ->
+                    top = _.round arguments[1] / height * 100, 2
+                    "top: #{top}%;"
+                )
+
+                style = style.replace(/left:(\s*\d+)px;/i, () ->
+                    left = _.round arguments[1] / width * 100, 2
+                    "left: #{left}%;"
+                )
+
+            { style, data, type, size }
 
     })
 
@@ -58,9 +71,7 @@ define((require) ->
         # 根据数据，反绘标记点
         render: (marks) ->
             html = _.map(marks, (mark) ->
-                {data, type, style} = mark
-
-                markTemplate { data, type, style }
+                markTemplate mark
             ).join('')
 
             widgets = $(html).mark()
@@ -75,10 +86,6 @@ define((require) ->
         getMark: () ->
             @markList
 
-        clear: () ->
-            _.each(@markList, (mark) ->
-                $(mark).mark('destroy')
-            )
 
     new MarkFactory()
 )
