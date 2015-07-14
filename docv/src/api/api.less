@@ -1,7 +1,6 @@
 
 @import "../../dep/dt/0.0.1/ui/all.less";
 @import "../common/common.less";
-@import "../common/fonts.css";
 @import "./preview.less";
 
 .ecdoc-api-query-box {
@@ -84,6 +83,16 @@
     top: 65px;
     bottom: 200px;
 }
+.ecdoc-api-chart-query-area-close {
+    bottom: auto;
+    height: 35px;
+
+    .api-chart-desc,
+    .api-category,
+    .api-chart-layout {
+        display: none;
+    }
+}
 .ecdoc-api-desc-area {
     position: fixed;
     left: 400px;
@@ -103,7 +112,7 @@
     }
     .ecdoc-api-left {
         position: absolute;
-        top: 38px;
+        top: 42px;
         left: 10px;
         bottom: 10px;
         width: 160px;
@@ -111,7 +120,7 @@
     }
     .ecdoc-api-desc {
         position: absolute;
-        top: 15px;
+        top: 20px;
         left: 175px;
         bottom: 10px;
         right: 10px;
@@ -127,9 +136,16 @@
         top: 7px;
         left: 10px;
         white-space: nowrap;
-        background: #f5f5f5;
-        margin-top: 3px;
-        padding-right: 30px;
+        background: #428bca;
+        .border-radius(2px);
+        font-weight: normal;
+        color: #fff;
+        margin: 3px 0;
+        padding: 0 5px;
         z-index: 999;
     }
+}
+.ecdoc-api-desc-area-full {
+    height: auto;
+    top: 110px;
 }

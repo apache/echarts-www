@@ -3,6 +3,15 @@
 .api-chart {
     z-index: 99999;
 
+    .api-chart-close-btn {
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 10px;
+        cursor: pointer;
+        .user-select(none);
+    }
+
     .panel{
         margin: 0 5px 0 0;
     }
@@ -15,20 +24,38 @@
     }
 
     .api-chart-desc {
-        margin: 8px 0 0 90px;
-        // color: #777;
+        margin: 0 0 0 90px;
         font-size: 14px;
         text-align: center;
+        vertical-align: middle;
 
-        span {
-            line-height: 15px;
-            padding: 12px
-            // .inline-block();
-        }
-        strong {
-            color: #555;
-            font-weight: 700;
-            margin: 0 2px;
+        .api-chart-desc-content {
+            .inline-block();
+            height: 40px;
+            line-height: 38px;
+            padding: 0;
+            margin: 0;
+            color: #a94442;
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+            .border-radius(4px);
+            padding: 0 12px;
+
+            em {
+                white-space: nowrap;
+                font-style: normal;
+            }
+            span {
+                .inline-block();
+                vertical-align: middle;
+                font-size: 14px;
+                line-height: 15px;
+            }
+            strong {
+                color: #555;
+                font-weight: 700;
+                margin: 0 2px;
+            }
         }
     }
 

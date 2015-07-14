@@ -18,10 +18,17 @@ define(function (require) {
     var TPL_TARGET = 'APIMain';
     var SELECTOR_TYPE = '.ecdoc-api-type';
     var SELECTOR_DESC = '.ecdoc-api-desc';
+    var SELECTOR_DESC_AREA = '.ecdoc-api-desc-area';
     var SELECTOR_DEFAULT = '.ecdoc-api-default';
     var SELECTOR_OPTION_PATH = '.ecdoc-api-option-path';
     var SELECTOR_COLLAPSE_RADIO = '.query-collapse-radio input[type=radio]';
     var SELECTOR_QUERY_RESULT_INFO = '.query-result-info';
+    var SELECTOR_CHART_CLOSE_BUTTON = '.api-chart-close-btn';
+    var SELECTOR_CHART_AREA = '.ecdoc-api-chart-query-area';
+    var CSS_CHART_AREA_CLOSE = 'ecdoc-api-chart-query-area-close';
+    var CSS_DESC_AREA_FULL = 'ecdoc-api-desc-area-full';
+    var CSS_CLOSE_BUTTON = 'glyphicon glyphicon-resize-small';
+    var CSS_OPEN_BUTTON = 'glyphicon glyphicon-resize-full';
 
     /**
      * @public
@@ -81,6 +88,7 @@ define(function (require) {
                 // After render page
                 this._initCategory();
                 this._initDoc();
+                this._initResize();
 
                 // The last steps.
                 this._initHash();
@@ -325,6 +333,21 @@ define(function (require) {
 
         _initCategoryHash: function() {
             markRender.initCategoryHash();
+        },
+
+        _initResize: function () {
+            var $chartCloseBtn = $(SELECTOR_CHART_CLOSE_BUTTON);
+            var $chartArea = $(SELECTOR_CHART_AREA);
+            var $descArea = $(SELECTOR_DESC_AREA);
+            $chartCloseBtn
+                .addClass(CSS_CLOSE_BUTTON)
+                .on('click', onClick);
+
+            function onClick() {
+                $chartArea.toggleClass(CSS_CHART_AREA_CLOSE);
+                $descArea.toggleClass(CSS_DESC_AREA_FULL);
+                $chartCloseBtn.toggleClass(CSS_CLOSE_BUTTON).toggleClass(CSS_OPEN_BUTTON);
+            }
         }
     });
 

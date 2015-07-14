@@ -1,7 +1,7 @@
 var version = '2.2.5';
-var sp = location.href.lastIndexOf('/');
-var ep = location.href.lastIndexOf('.html');
-var curPage = sp < ep ? location.href.slice(sp + 1, ep) : 'index';
+var sp = location.pathname.lastIndexOf('/');
+var ep = location.pathname.lastIndexOf('.html');
+var curPage = sp < ep ? location.pathname.slice(sp + 1, ep) : 'index';
 var enVersion = location.href.indexOf('-en.html') != -1;
 
 var activeClass = {};
@@ -18,12 +18,15 @@ switch (curPage) {
         loc.doc = './doc';
         loc.about = './doc';
         loc.changelog = './doc';
+        loc.spreadsheet = './doc';
         loc.start = './doc';
         loc.img = './doc';
         break;
     case 'feature' :
     case 'example' :
     case 'doc' :
+    case 'api' :
+    case 'spreadsheet' :
     case 'about' :
     case 'changelog' :
     case 'start' :
@@ -41,6 +44,7 @@ switch (curPage) {
         loc.doc = extSub + '../../doc';
         loc.about = extSub + '../../doc';
         loc.changelog = extSub + '../../doc';
+        loc.spreadsheet = extSub + '../../doc';
         loc.start = extSub + '../../doc';
         loc.img = extSub + '../../doc';
         break;
@@ -75,11 +79,19 @@ $('#head')[0].innerHTML =
                 + '<li class="' + (activeClass.example || '') + '"><a href="' + (loc.example || '.') + '/example.html">实例</a></li>'
                 // + '<li class="' + (activeClass.doc || '') + '"><a href="' + (loc.doc || '.') + '/doc.html">文档</a></li>'
             ))
-            + '<li class="dropdown">'
+            + '<li class="dropdown ' + (activeClass.doc || activeClass.api || '') + '">'
               + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + (enVersion ? 'API & Doc' : '文档') + '<b class="caret"></b></a>'
               + '<ul class="dropdown-menu">'
-                + '<li class=""><a href="' + (loc.doc || '.') + '/doc' + (enVersion ? '-en.html">Document' : '.html">基础文档') + '</a></li>'
-                + '<li class=""><a href="' + (loc.doc || '.') + '/api' + (enVersion ? '-en.html">API' : '.html">API文档') + '</a></li>'
+                + '<li class=""><a href="' + (loc.doc || '.') + '/doc' + (enVersion ? '-en.html">Base Document' : '.html">参考手册') + '</a></li>'
+                + '<li class=""><a href="' + (loc.doc || '.') + '/api' + (enVersion ? '-en.html">Option Manual' : '.html">Option查找工具') + '</a></li>'
+              + '</ul>'
+            + '</li>'
+            + '<li class="dropdown ' + (activeClass.spreadsheet || '') + '">'
+              + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + (enVersion ? 'Tool' : '工具') + '<b class="caret"></b></a>'
+              + '<ul class="dropdown-menu">'
+                + '<li><a href="http://ecomfe.github.io/echarts-builder-web/">' + (enVersion ? 'Online Builder' : '在线构建工具') + '</a></li>'
+                + '<li><a href="http://ecomfe.github.io/echarts-map-tool/">' + (enVersion ? 'Map Data Tool' : '地图数据生成工具') + '</a></li>'
+                + '<li><a href="' + (loc.spreadsheet || '.') + '/spreadsheet' + (enVersion ? '-en.html">Spreadsheet Data Tool' : '.html">表格数据转换工具') + '</a></li>'
               + '</ul>'
             + '</li>'
             /*
@@ -97,10 +109,6 @@ $('#head')[0].innerHTML =
             + '<li class="dropdown">'
               + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + (enVersion ? 'Download' : '下载') + '<b class="caret"></b></a>'
               + '<ul class="dropdown-menu">'
-                + '<li><a href="http://ecomfe.github.io/echarts-builder-web/">' + (enVersion ? 'Online builder' : '在线构建工具') + '</a></li>'
-                + '<li><a href="http://ecomfe.github.io/echarts-map-tool/">' + (enVersion ? 'Map tool' : '地图数据生成工具') + '</a></li>'
-                + '<li><a href="http://echarts.baidu.com/doc/spreadsheet' + (enVersion ? '-en.html">Spreadsheet tool' : '.html">表格数据转换工具') + '</a></li>'
-                + '<li class="divider"></li>'
                 + '<li><a href="http://echarts.baidu.com/build/echarts-' + version + '.zip"> echarts-' + version + ' (from Baidu)</a></li>'
                 + '<li><a href="https://github.com/ecomfe/echarts/archive/' + version + '.zip"> echarts-' + version + ' (from GitHub)</a></li>'
                 + '<li><a href="http://echarts.baidu.com/build/echarts-m-1.0.0.zip"> echarts-m-1.0.0 (beta)</a></li>'
