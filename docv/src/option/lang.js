@@ -42,7 +42,7 @@ define(function (require) {
         queryBoxNoResult: 'No result',
         exampleCategory: 'Category',
         apiMainTitle: 'ECharts API Tool',
-        apiChartDesc: 'Tip: Mouse hover on <strong>arrors</strong> to get <strong>option details</strong>.'
+        apiChartDesc: 'Tip: Mouse hover on <strong>arrows</strong> to get <strong>option details</strong>.'
     };
 
     // Setting in html.

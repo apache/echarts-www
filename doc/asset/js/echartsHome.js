@@ -18,7 +18,7 @@ switch (curPage) {
         loc.doc = './doc';
         loc.about = './doc';
         loc.changelog = './doc';
-        loc.api = './doc';
+        loc.option = './doc';
         loc.spreadsheet = './doc';
         loc.start = './doc';
         loc.img = './doc';
@@ -26,7 +26,7 @@ switch (curPage) {
     case 'feature' :
     case 'example' :
     case 'doc' :
-    case 'api' :
+    case 'option' :
     case 'spreadsheet' :
     case 'about' :
     case 'changelog' :
@@ -45,7 +45,7 @@ switch (curPage) {
         loc.doc = extSub + '../../doc';
         loc.about = extSub + '../../doc';
         loc.changelog = extSub + '../../doc';
-        loc.api = extSub + '../../doc';
+        loc.option = extSub + '../../doc';
         loc.spreadsheet = extSub + '../../doc';
         loc.start = extSub + '../../doc';
         loc.img = extSub + '../../doc';
@@ -55,7 +55,7 @@ switch (curPage) {
 // Those pages only exist in echarts-www project,
 // but not in http://ecomfe.github.io/echarts/ and doc in echarts project.
 if (location.href.indexOf('.baidu.com') < 0) {
-    loc.api = 'http://echarts.baidu.com/doc';
+    loc.option = 'http://echarts.baidu.com/doc';
     loc.spreadsheet = 'http://echarts.baidu.com/doc';
 }
 
@@ -88,11 +88,11 @@ $('#head')[0].innerHTML =
                 + '<li class="' + (activeClass.example || '') + '"><a href="' + (loc.example || '.') + '/example.html">实例</a></li>'
                 // + '<li class="' + (activeClass.doc || '') + '"><a href="' + (loc.doc || '.') + '/doc.html">文档</a></li>'
             ))
-            + '<li class="dropdown ' + (activeClass.doc || activeClass.api || '') + '">'
+            + '<li class="dropdown ' + (activeClass.doc || activeClass.option || '') + '">'
               + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + (enVersion ? 'API & Doc' : '文档') + '<b class="caret"></b></a>'
               + '<ul class="dropdown-menu">'
                 + '<li class=""><a href="' + (loc.doc || '.') + '/doc' + (enVersion ? '-en.html">Base Document' : '.html">参考手册') + '</a></li>'
-                + '<li class=""><a href="' + (loc.api || '.') + '/api' + (enVersion ? '-en.html">Option Manual' : '.html">配置项查找工具') + '</a></li>'
+                + '<li class=""><a href="' + (loc.option || '.') + '/option' + (enVersion ? '-en.html">Option Manual' : '.html">配置项查找工具') + '</a></li>'
               + '</ul>'
             + '</li>'
             + '<li class="dropdown ' + (activeClass.spreadsheet || '') + '">'
