@@ -9,6 +9,10 @@ define(
             ITEM: '.mark-item'
             POP: '.popover'
 
+        PIN =
+            UNFIX: 'icon-pin'
+            FIX: 'icon-pin2'
+
         HIDE_DELAY = 200
         DATA_TIMER = 'timer'
 
@@ -17,7 +21,7 @@ define(
                 <div class='arrow'></div>
                 <div class='title-bar clearfix'>
                     <h3 class='popover-title'></h3>
-                    <span class='#{CLZ.LOCK} icon-lock-open '></span>
+                    <span class='#{CLZ.LOCK} #{PIN.UNFIX}'></span>
                 </div>
                 <div class='popover-list clearfix'>
                     #{listTemplate(data.list)}
@@ -93,9 +97,9 @@ define(
 
             layout.on('click', '.' + CLZ.LOCK, (event) ->
                 self = $ @
-                self.toggleClass('icon-lock-open icon-lock-closed')
+                self.toggleClass("#{PIN.UNFIX} #{PIN.FIX}")
                 item = self.parents(CLZ.POP).prev(CLZ.ITEM)
-                item.data(CLZ.LOCK, !!self.hasClass('icon-lock-closed'))
+                item.data(CLZ.LOCK, !!self.hasClass(PIN.FIX))
             )
 
             layout.on('click', '.popover-list a', (event) ->
