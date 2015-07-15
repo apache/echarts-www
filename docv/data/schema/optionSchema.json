@@ -2631,6 +2631,13 @@
                             "descriptionEN": "universal",
                             "applicable": "wordCloud",
                             "default": "wordCloud"
+                        },
+                        {
+                            "type": "string",
+                            "descriptionCN": "通用",
+                            "descriptionEN": "universal",
+                            "applicable": "heatmap",
+                            "default": "heatmap"
                         }
                     ]
                 },
@@ -2906,6 +2913,12 @@
                                 }
                             },
                             "default": []
+                        },
+                        {
+                            "applicable": "heatmap",
+                            "type": "Array",
+                            "descriptionCN": "二维数组。每项例如[100, 80, 0.67]，前两项为坐标，第三项为0-1区间的值表示热力。",
+                            "descriptionEN": "2-dimension array, like [100, 80, 0.67]. The first two items indicate location, and the third item indicates heat, which is between 0 and 1."
                         }
                     ]
                 },
@@ -4129,6 +4142,74 @@
                         "force"
                     ]
                 },
+                "blurSize": {
+                    "type": "number",
+                    "applicable": "heatmap",
+                    "default": 30,
+                    "descriptionCN": "一个热力图数据点的模糊范围，单位是像素",
+                    "descriptionEN": "Blur size of a data point."
+                },
+                "gradientColors": {
+                    "type": "Array",
+                    "applicable": "heatmap",
+                    "default": [
+                        "blue",
+                        "cyan",
+                        "lime",
+                        "yellow",
+                        "red"
+                    ],
+                    "descriptionCN": "可以是一个包含 offset 和 color 的 Object 的数组，如 [{ offset: 0.2, color: 'blue' }, { offset 0.8, color: 'cyan' }]；也可以是一个颜色字符串的数组如 ['blue', 'cyan', 'lime', 'yellow', 'red']，颜色将均匀分布。",
+                    "descriptionEN": "It could be an array of offset and color like [{ offset: 0.2, color: 'blue' }, { offset 0.8, color: 'cyan' }] or an array of color strings like ['blue', 'cyan', 'lime', 'yellow', 'red'], with which the color will transform evenly."
+                },
+                "minAlpha": {
+                    "type": "number",
+                    "applicable": "heatmap",
+                    "default": 0.05,
+                    "descriptionCN": "当均一化后的数据点的值小于这个值时，将被设为该值。该值保证了数据值很小的数据也能在地图上展示。",
+                    "descriptionEN": "If the unified value is less than minAlpha, it will be set to minAlpha to ensure small data value can also be visible on the chart."
+                },
+                "valueScale": {
+                    "type": "number",
+                    "applicable": "heatmap",
+                    "default": 1,
+                    "descriptionCN": "所有数据点的值将乘以这个值再进行绘制。",
+                    "descriptionEN": "All data values will multiply this value."
+                },
+                "opacity": {
+                    "type": "number",
+                    "applicable": "heatmap",
+                    "default": 1,
+                    "descriptionCN": "整个热力图的不透明度。",
+                    "descriptionEN": "Opacity of the heatmap."
+                },
+                "heatmap": {
+                    "type": "Object",
+                    "setApplicable": "heatmap",
+                    "applicable": "map",
+                    "descriptionCN": "叠加在地图上的热力图，数据位置为经纬度。参见<a target=\"_blank\" href=\"./example/heatmap_map.html\">heatmap on map</a>",
+                    "descriptionEN": "Heatmap overlaid on map, measured by longitude and latitude. see <a target=\"_blank\" href=\"./example/heatmap_map.html\">heatmap on map</a>",
+                    "properties": {
+                        "blurSize": {
+                            "$ref": "#definitions/seriesItem/properties/blurSize"
+                        },
+                        "gradientColors": {
+                            "$ref": "#definitions/seriesItem/properties/gradientColors"
+                        },
+                        "minAlpha": {
+                            "$ref": "#definitions/seriesItem/properties/minAlpha"
+                        },
+                        "valueScale": {
+                            "$ref": "#definitions/seriesItem/properties/valueScale"
+                        },
+                        "opacity": {
+                            "$ref": "#definitions/seriesItem/properties/opacity"
+                        },
+                        "data": {
+                            "$ref": "#definitions/seriesItem/properties/data"
+                        }
+                    }
+                },
                 "markPoint": {
                     "type": "Object",
                     "descriptionCN": "通用",
@@ -4172,7 +4253,8 @@
                 "venn",
                 "treemap",
                 "tree",
-                "wordCloud"
+                "wordCloud",
+                "heatmap"
             ]
         },
         "markPoint": {

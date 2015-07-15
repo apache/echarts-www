@@ -12,6 +12,7 @@ define(function (require) {
     // Constant
     var PATH_ATTR = 'data-item-path';
     var LEVEL_ATTR = 'data-item-level';
+    var ENCODE_HTML_ATTR = 'data-item-encode-html';
     var SLIDE_INTERVAL = 500;
     var UNDEFINED;
 
@@ -68,6 +69,7 @@ define(function (require) {
                      * {
                      *  value: ..., // 不禁止value重复。如果重复，同value的项会同时被选中。不可为undefined。
                      *  text: ...,
+                     *  itemEncodeHTML: // 每项的文字是否encodeHTML，默认为true。
                      *  tooltip: ..., // 鼠标hover提示文字，如果需要的话，string。
                      *  tooltipEncodeHTML: ... // 文字是否要encdeHTML，默认为true。
                      *  children: [ {同构子项}, {}, ... ]
@@ -179,31 +181,31 @@ define(function (require) {
                             : '';
                         var dataPath = ' ' + PATH_ATTR + '="' + thisPath + '" ';
                         var dataLevel = ' ' + LEVEL_ATTR + '="' + level + '" ';
+                        var dataEncodeHTML = ' ' + ENCODE_HTML_ATTR + '="'
+                            + (dataItem.itemEncodeHTML !== false ? '1' : '0') + '" ';
                         var anchor = dataItem.anchor ? ' name="' + dataItem.anchor + '" ' : ' ';
-                        var textHTML = encodeHTML(dataItem.text);
-                        var childrenPreHTML = encodeHTML(dataItem.childrenPre || '');
-                        var childrenPostHTML = encodeHTML(dataItem.childrenPost || '');
-                        var childrenBriefHTML = encodeHTML(dataItem.childrenBrief || '');
+                        var encode = dataItem.itemEncodeHTML !== false ? encodeHTML : returnInput;
+                        var textHTML = encode(toText(dataItem.text));
+                        var childrenPreHTML = encode(toText(dataItem.childrenPre));
+                        var childrenPostHTML = encode(toText(dataItem.childrenPost));
+                        var childrenBriefHTML = encode(toText(dataItem.childrenBrief));
 
                         html.push(
-                            '<li class="', itemCss, ' ', otherCss, '" ', dataPath, dataLevel, '>',
+                            '<li class="', itemCss, ' ', otherCss, '" ',
+                                dataPath, dataLevel, dataEncodeHTML, '>',
                             '<i class="', thumbCss, '"></i>', // 展开收起的控制器。
                             anchor,
-                            '<span href="#', thisPath,
-                                '" class="', textCss, '" ', dataPath,
-                                ' data-text="', textHTML,
-                                '" data-children-pre="', childrenPreHTML,
-                                '" data-children-post="', childrenPostHTML,
-                                '" data-children-brief="', childrenBriefHTML,
-                                '">',
+                            '<span ',
+                                ' class="', textCss, '" ', dataPath, '>',
                                 textHTML, childrenPreHTML, childrenBriefHTML, childrenPostHTML,
                             '</span>'
                         );
                     },
                     postChildren: function (dataItem, thisPath, parent, isLast) {
                         html.push('</li>');
+                        var encode = dataItem.itemEncodeHTML !== false ? encodeHTML : returnInput;
                         if (isLast && parent && parent.childrenPost) {
-                            html.push('<li class="' , postCss, '">', encodeHTML(parent.childrenPost), '</li>');
+                            html.push('<li class="' , postCss, '">', encode(parent.childrenPost), '</li>');
                         }
                     }
                 }
@@ -759,7 +761,7 @@ define(function (require) {
          * @private
          * @param {Array.<Object>} treeList 在这里面find。
          * @param {string} path 节点的位置信息, 形如'4,1,5'。
-         * @param {boolean} forOutput
+         * @param {boolean} forOutput true则去除children。
          * @return {Object=} 找到的节点对象，没找到返回空。
          */
         _findDataItemByPath: function (treeList, path, forOutput) {
@@ -810,26 +812,40 @@ define(function (require) {
          */
         _resetItemText: function ($itemEls) {
             var that = this;
+            var datasource = this._viewModel().datasource;
+
             $itemEls.each(function () {
                 var $itemEl = $(this);
+                var dataItem = that._findDataItemByPath(datasource, $itemEl.attr(PATH_ATTR));
+                var encode = $itemEl.attr(ENCODE_HTML_ATTR) === '0' ? returnInput : encodeHTML;
                 var $textEl = that._findElInItem($itemEl, 'text');
+
                 if ($itemEl.hasClass(that._getCss('collapsed'))) {
-                    $textEl[0].innerHTML = encodeHTML([
-                        $textEl.attr('data-text'),
-                        $textEl.attr('data-children-pre'),
-                        $textEl.attr('data-children-brief'),
-                        $textEl.attr('data-children-post')
+                    $textEl[0].innerHTML = encode([
+                        toText(dataItem.text),
+                        toText(dataItem.childrenPre),
+                        toText(dataItem.childrenBrief),
+                        toText(dataItem.childrenPost)
                     ].join(''));
                 }
                 else if ($itemEl.hasClass(that._getCss('expanded'))) {
-                    $textEl[0].innerHTML = encodeHTML([
-                        $textEl.attr('data-text'),
-                        $textEl.attr('data-children-pre')
+                    $textEl[0].innerHTML = encode([
+                        toText(dataItem.text),
+                        toText(dataItem.childrenPre)
                     ].join(''));
                 }
             });
         }
+
     });
+
+    function returnInput(v) {
+        return v;
+    }
+
+    function toText(val) {
+        return val != null ? val : '';
+    }
 
     return TreeSelect;
 });
