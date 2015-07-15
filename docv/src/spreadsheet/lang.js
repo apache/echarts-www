@@ -12,8 +12,8 @@ define(function (require) {
      */
     var cn = {
         langCode: 'cn',
-        pageTitle: '电子表格数据转换工具',
-        pageDescHTML: '在<strong>左侧</strong>贴入数据&nbsp;&nbsp;<strong>下方</strong>立刻产生结果',
+        pageTitle: '表格数据转换工具',
+        pageDescHTML: '使用说明：在<strong>左侧</strong>贴入数据&nbsp;&nbsp;<strong>下方</strong>立刻产生结果',
         typeSetting: '类型设置：',
         emptyValueSetting: '空值设置：',
         quotationMarkSetting: '引号设置：',
@@ -55,7 +55,7 @@ define(function (require) {
     var en = {
         langCode: 'en',
         pageTitle: 'Spreadsheet Data Convert Tool',
-        pageDescHTML: 'Paste data on the <strong>left</strong>, and get result <strong>below</strong> immediately.',
+        pageDescHTML: 'Tip: Paste data on the <strong>left</strong>, and get result <strong>below</strong> immediately.',
         typeSetting: 'Type: ',
         emptyValueSetting: 'Empty Value: ',
         quotationMarkSetting: 'Quotation Mark: ',

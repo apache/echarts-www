@@ -57,6 +57,7 @@ define(function (require) {
     // References
     var $ = require('jquery');
     var dtLib = require('dt/lib');
+    var encodeHTML = dtLib.encodeHTML;
 
     // Inner constants
     var UNDEFINED;
@@ -89,7 +90,7 @@ define(function (require) {
      */
     schemaHelper.EC_SERIES_APPLICABLE = [
         'line', 'bar', 'scatter', 'k', 'pie', 'radar', 'chord', 'force', 'map', 'gauge',
-        'funnel', 'eventRiver', 'venn', 'treemap', 'tree', 'wordCloud'
+        'funnel', 'eventRiver', 'venn', 'treemap', 'tree', 'wordCloud', 'heatmap'
     ];
     /**
      * ec option itemStyle的适用类型枚举
@@ -871,7 +872,7 @@ define(function (require) {
         if (context.enumInfo !== BuildDocInfo.IS_ENUM_ITEM) {
             var itemName = context.itemName;
             if (itemName) {
-                prefix = itemName + ': ';
+                prefix = '<span class="ecdoc-api-tree-text-prop">' + encodeHTML(itemName) + '</span>: ';
             }
             var arrayFrom = context.arrayFrom;
             if (arrayFrom) {
@@ -881,7 +882,7 @@ define(function (require) {
             }
         }
         else {
-            childrenBrief = ' type: \'' + context.applicable.list()[0] + '\', ... ';
+            childrenBrief = ' type: \'' + encodeHTML(context.applicable.list()[0]) + '\', ... ';
         }
 
         // Make tree item text and children.
@@ -893,9 +894,12 @@ define(function (require) {
             children.push(subRenderBase);
         }
         else if (selfInfo === BuildDocInfo.IS_ATOM) {
+            var defaultValueText = schemaHelper.getDefaultValueText(
+                subRenderBase.defau, {getBrief: true}
+            );
             subRenderBase.text = ''
                 + prefix
-                + schemaHelper.getDefaultValueText(subRenderBase.defau, {getBrief: true})
+                + '<span class="ecdoc-api-tree-text-default">' + encodeHTML(defaultValueText) + '</span>'
                 + suffix + ',';
             children.push(subRenderBase);
         }
@@ -934,6 +938,7 @@ define(function (require) {
                     context.optionPath, {useSquareBrackets: true}
                 ),
                 defaultValueText: schemaHelper.getDefaultValueText(result.defau),
+                itemEncodeHTML: false,
                 tooltipEncodeHTML: false
             };
 

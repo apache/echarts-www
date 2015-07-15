@@ -1,10 +1,9 @@
-@import "../common/fonts.css";
 @import "../common/preview-fonts.css";
 /**
- * 基本按钮。写成mixin因为有的地方不方便设class。
+ * åŸºæœ¬æŒ‰é’®ã€‚å†™æˆmixinå› ä¸ºæœ‰çš„åœ°æ–¹ä¸æ–¹ä¾¿è®¾classã€‚
  */
 /**
- * 按钮基本样式
+ * æŒ‰é’®åŸºæœ¬æ ·å¼
  */
 .dtui-btn {
   -webkit-border-radius: 2px;
@@ -192,10 +191,10 @@
   user-select: none;
 }
 .dtui-treelist-expanded > .dtui-treelist-thumb:after {
-  content: '▾';
+  content: 'â–¾';
 }
 .dtui-treelist-collapsed > .dtui-treelist-thumb:after {
-  content: '▸';
+  content: 'â–¸';
 }
 .dtui-treelist-thumb:hover {
   color: #7DA7BA;
@@ -268,10 +267,10 @@
   border-radius: 3px;
 }
 /**
- * @file 公共less
+ * @file å…¬å…±less
  */
 /**
- * @file 公共normalize & 部分reset。
+ * @file å…¬å…±normalize & éƒ¨åˆ†resetã€‚
  * @author sushuang(sushuang@baidu.com)
  */
 html,
@@ -363,7 +362,7 @@ html {
   color: #428bca;
 }
 /**
- * Question 问号图标
+ * Question é—®å·å›¾æ ‡
  */
 .ecdoc-question {
   display: inline-block;
@@ -385,11 +384,19 @@ html {
 .ecdoc-question:before {
   content: '?';
 }
-.ecdoc-api-chart-query-area {
+.api-chart {
   z-index: 99999;
 }
-.api-chart {
-  background-color: #fff;
+.api-chart .api-chart-close-btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 10px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .api-chart .panel {
   margin: 0 5px 0 0;
@@ -400,10 +407,49 @@ html {
 .api-chart .api-category {
   float: left;
 }
+.api-chart .api-chart-desc {
+  margin: 0 0 0 90px;
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+}
+.api-chart .api-chart-desc .api-chart-desc-content {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  height: 40px;
+  line-height: 38px;
+  padding: 0;
+  margin: 0;
+  color: #a94442;
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  padding: 0 12px;
+}
+.api-chart .api-chart-desc .api-chart-desc-content em {
+  white-space: nowrap;
+  font-style: normal;
+}
+.api-chart .api-chart-desc .api-chart-desc-content span {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+  font-size: 14px;
+  line-height: 15px;
+}
+.api-chart .api-chart-desc .api-chart-desc-content strong {
+  color: #555;
+  font-weight: 700;
+  margin: 0 2px;
+}
 .api-chart .api-chart-layout {
   margin-left: 100px;
   position: absolute;
-  top: 0;
+  top: 50px;
   left: 0;
   bottom: 0;
   right: 0;
@@ -452,9 +498,28 @@ html {
 .api-chart .popover .popover-list .list-group {
   margin-bottom: 0;
 }
+.api-chart .api-category {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+}
 .api-chart .api-category .panel-heading {
   padding-left: 5px;
   border-bottom: 1px solid #ccc;
+  color: #777;
+}
+.api-chart .api-category .api-category-list li {
+  padding: 0 5px;
+}
+.api-chart .api-category .api-category-list li a,
+.api-chart .api-category .api-category-list li a:hover {
+  text-decoration: none;
+}
+.api-chart .api-category .api-category-list .selected {
+  background-color: #428bca;
+}
+.api-chart .api-category .api-category-list .selected a {
+  color: #fff;
 }
 .ecdoc-api-query-box {
   top: 65px;
@@ -540,6 +605,15 @@ html {
   top: 65px;
   bottom: 200px;
 }
+.ecdoc-api-chart-query-area-close {
+  bottom: auto;
+  height: 35px;
+}
+.ecdoc-api-chart-query-area-close .api-chart-desc,
+.ecdoc-api-chart-query-area-close .api-category,
+.ecdoc-api-chart-query-area-close .api-chart-layout {
+  display: none;
+}
 .ecdoc-api-desc-area {
   position: fixed;
   left: 400px;
@@ -556,7 +630,7 @@ html {
 }
 .ecdoc-api-desc-area .ecdoc-api-left {
   position: absolute;
-  top: 38px;
+  top: 42px;
   left: 10px;
   bottom: 10px;
   width: 160px;
@@ -564,7 +638,7 @@ html {
 }
 .ecdoc-api-desc-area .ecdoc-api-desc {
   position: absolute;
-  top: 15px;
+  top: 20px;
   left: 175px;
   bottom: 10px;
   right: 10px;
@@ -580,8 +654,17 @@ html {
   top: 7px;
   left: 10px;
   white-space: nowrap;
-  background: #f5f5f5;
-  margin-top: 3px;
-  padding-right: 30px;
+  background: #428bca;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  font-weight: normal;
+  color: #fff;
+  margin: 3px 0;
+  padding: 0 5px;
   z-index: 999;
+}
+.ecdoc-api-desc-area-full {
+  height: auto;
+  top: 110px;
 }
