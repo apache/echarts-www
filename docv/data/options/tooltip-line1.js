@@ -3,6 +3,7 @@ var option = {
         text: '双数值轴折线',
         subtext: '纯属虚构'
     },
+    color: ['#ccc', '#ccc'],
     tooltip : {
         show: true,
         trigger: 'axis',
@@ -13,12 +14,12 @@ var option = {
             crossStyle: {
                 type : 'dashed',
                 width : 10,
-                color: 'black'
+                color: '#777'
             }
         },
-        backgroundColor: 'rgba(0,0,0,1)',
-        borderColor: '#eee',
-        borderWidth: 10,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        borderColor: 'rgba(200,200,200,0.4)',
+        borderWidth: 7,
         borderRadius: 10,
         padding: 20,
         formatter : function (params) {
@@ -33,10 +34,14 @@ var option = {
         }
     },
     legend: {
-        data:['数据1','数据2']
+        data:['数据1','数据2'],
+        textStyle: {
+            color: '#aaa'
+        }
     },
     toolbox: {
         show : true,
+        color: ['#aaa','#aaa','#aaa','#aaa','#aaa','#aaa','#aaa','#aaa','#aaa','#aaa'],
         feature : {
             mark : {show: true},
             dataZoom : {show: true},
@@ -49,15 +54,30 @@ var option = {
     calculable : true,
     xAxis : [
         {
-            type: 'value'
+            type: 'value',
+            axisLabel: {
+                textStyle: {
+                    color: '#ccc'
+                }
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#ccc'
+                }
+            }
         }
     ],
     yAxis : [
         {
             type: 'value',
+            axisLabel: {
+                textStyle: {
+                    color: '#ccc'
+                }
+            },
             axisLine: {
                 lineStyle: {
-                    color: '#dc143c'
+                    color: '#ccc'
                 }
             }
         }
@@ -68,29 +88,29 @@ var option = {
             type:'line',
             data:[
                 [1.5, 10], [5, 7], [8, 8], [12, 6], [11, 12], [16, 9], [14, 6], [17, 4], [19, 9]
-            ],
-            markPoint : {
-                data : [
-                    // 纵轴，默认
-                    {type : 'max', name: '最大值',symbol: 'emptyCircle', itemStyle:{normal:{color:'#dc143c',label:{position:'top'}}}},
-                    {type : 'min', name: '最小值',symbol: 'emptyCircle', itemStyle:{normal:{color:'#dc143c',label:{position:'bottom'}}}},
-                    // 横轴
-                    {type : 'max', name: '最大值', valueIndex: 0, symbol: 'emptyCircle', itemStyle:{normal:{color:'#1e90ff',label:{position:'right'}}}},
-                    {type : 'min', name: '最小值', valueIndex: 0, symbol: 'emptyCircle', itemStyle:{normal:{color:'#1e90ff',label:{position:'left'}}}}
-                ]
-            },
-            markLine : {
-                data : [
-                    // 纵轴，默认
-                    {type : 'max', name: '最大值', itemStyle:{normal:{color:'#dc143c'}}},
-                    {type : 'min', name: '最小值', itemStyle:{normal:{color:'#dc143c'}}},
-                    {type : 'average', name : '平均值', itemStyle:{normal:{color:'#dc143c'}}},
-                    // 横轴
-                    {type : 'max', name: '最大值', valueIndex: 0, itemStyle:{normal:{color:'#1e90ff'}}},
-                    {type : 'min', name: '最小值', valueIndex: 0, itemStyle:{normal:{color:'#1e90ff'}}},
-                    {type : 'average', name : '平均值', valueIndex: 0, itemStyle:{normal:{color:'#1e90ff'}}}
-                ]
-            }
+            ]
+            // markPoint : {
+            //     data : [
+            //         // 纵轴，默认
+            //         {type : 'max', name: '最大值',symbol: 'emptyCircle', itemStyle:{normal:{color:'#dc143c',label:{position:'top'}}}},
+            //         {type : 'min', name: '最小值',symbol: 'emptyCircle', itemStyle:{normal:{color:'#dc143c',label:{position:'bottom'}}}},
+            //         // 横轴
+            //         {type : 'max', name: '最大值', valueIndex: 0, symbol: 'emptyCircle', itemStyle:{normal:{color:'#1e90ff',label:{position:'right'}}}},
+            //         {type : 'min', name: '最小值', valueIndex: 0, symbol: 'emptyCircle', itemStyle:{normal:{color:'#1e90ff',label:{position:'left'}}}}
+            //     ]
+            // },
+            // markLine : {
+            //     data : [
+            //         // 纵轴，默认
+            //         {type : 'max', name: '最大值', },
+            //         {type : 'min', name: '最小值', itemStyle:{normal:{color:'#dc143c'}}},
+            //         {type : 'average', name : '平均值', itemStyle:{normal:{color:'#dc143c'}}},
+            //         // 横轴
+            //         {type : 'max', name: '最大值', valueIndex: 0, itemStyle:{normal:{color:'#1e90ff'}}},
+            //         {type : 'min', name: '最小值', valueIndex: 0, itemStyle:{normal:{color:'#1e90ff'}}},
+            //         {type : 'average', name : '平均值', valueIndex: 0, itemStyle:{normal:{color:'#1e90ff'}}}
+            //     ]
+            // }
         },
         {
             name:'数据2',

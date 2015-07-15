@@ -19,10 +19,10 @@ var option = {
         selectedMode: 'multiple',
         orient: 'horizontal',
         x: 50,
-        y: 'top',
+        y: 25,
 
-        backgroundColor: '#CBCBCB',
-        borderColor: 'red',
+        backgroundColor: '#eee',
+        borderColor: '#ccc',
         borderWidth: 5,
         padding: [10, 60, 15, 20],
 
@@ -34,7 +34,7 @@ var option = {
         },
 
         textStyle: {
-            color: 'black',
+            color: '#333',
             align: 'middle',
             baseline: 'bottom',
             fontSize: 20,
@@ -45,6 +45,7 @@ var option = {
     },
     toolbox: {
         show : true,
+        color: ['#aaa','#aaa','#aaa','#aaa','#aaa','#aaa','#aaa','#aaa','#aaa','#aaa'],
         feature : {
             mark : {show: true},
             dataView : {show: true, readOnly: false},
@@ -52,6 +53,9 @@ var option = {
             restore : {show: true},
             saveAsImage : {show: true}
         }
+    },
+    grid: {
+        y: 100
     },
     calculable : true,
     xAxis : [

@@ -183,6 +183,7 @@
   position: absolute;
   cursor: pointer;
   font-style: normal;
+  font-family: Arial;
   width: 1.5em;
   -webkit-user-select: none;
   -moz-user-select: none;

@@ -1,61 +1,4 @@
 /**
- * @file 公共normalize & 部分reset。wave和product共同import。
- * @author sushuang(sushuang@baidu.com)
- * @date 2014-03
- */
-html,
-body,
-div,
-span,
-object,
-iframe,
-a,
-img,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-form,
-label,
-input,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  outline: 0;
-}
-body {
-  line-height: 1;
-}
-ol,
-ul {
-  list-style: none;
-}
-table {
-  border-collapse: separate;
-  border-spacing: 0;
-  vertical-align: middle;
-}
-caption,
-th,
-td {
-  text-align: left;
-  font-weight: normal;
-  vertical-align: middle;
-}
-a img {
-  border: none;
-}
-/**
  * 基本按钮。写成mixin因为有的地方不方便设class。
  */
 /**
@@ -130,47 +73,41 @@ a img {
 }
 .dtui-txipt {
   display: inline-block;
-  padding: 0 6px;
-  height: 26px;
-  line-height: 26px;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
   background: #fff;
   border: 1px solid #979bb2;
-  margin-left: 6px;
-  margin-top: 4px;
+  margin: 3px 5px;
   width: 100px;
-  height: 20px;
-  line-height: 20px;
 }
 .dtui-txipt textarea,
 .dtui-txipt input {
   padding: 0;
-  margin: 0;
   width: 100%;
-  line-height: normal;
+  line-height: 16px;
   font-size: 12px;
   color: #000;
   background: #fff;
-  border-width: 0;
+  border: none;
+  outline: medium;
 }
 .dtui-txipt-type-text {
+  padding: 0 6px;
   height: 26px;
   line-height: 26px;
 }
 .dtui-txipt-type-textarea {
+  padding: 6px;
   height: 66px;
   line-height: 66px;
 }
-.dtui-txipt-type-textarea div {
-  position: relative;
-  height: 100%;
-}
 .dtui-txipt-type-textarea textarea {
-  position: absolute;
-  top: 3px;
-  bottom: 3px;
+  display: block;
+  height: 100%;
   resize: none;
 }
 .dtui-txipt-disabled {
@@ -180,43 +117,60 @@ a img {
   background: #bbb;
   color: #333;
 }
-.dtui-chkbtn-i {
+.dtui-tx {
   display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+}
+.dtui-chkbtn {
+  display: inline-block;
+  *display: inline;
+  vertical-align: middle;
+  *zoom: 1;
+}
+.dtui-chkbtn:before,
+.dtui-chkbtn:after {
+  display: table;
+  content: "";
+}
+.dtui-chkbtn:after {
+  clear: both;
+}
+.dtui-chkbtn-i {
+  float: left;
+  height: 18px;
+  line-height: 18px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-.dtui-chkbtn-i i {
-  display: none;
-}
-.dtui-chkbtn-i em {
-  display: none;
-}
-.dtui-chkbtn-i span {
-  display: inline-block;
-  height: 16px;
-  line-height: 16px;
-  vertical-align: middle;
   text-align: center;
-  min-width: 46px;
   cursor: pointer;
-  margin: 0 10px 0 0;
-  padding: 2px 4px;
+  margin: 3px 5px;
+  padding: 0 5px;
+  font-size: 12px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
-  background: #5e5e5e;
-  color: #aaa;
+  border: 0 solid #828599;
+  background: transparent;
+  color: #777777;
 }
-.dtui-chkbtn-i-active span {
-  background: #eee;
-  color: #000;
+.dtui-chkbtn-i-hover {
+  border: 0 solid #828599;
+  color: #333333;
+  background: #e0e0e0;
 }
-.dtui-chkbtn-disabled i {
-  cursor: default;
+.dtui-chkbtn-i-active {
+  border: 0 solid #d2d2d2;
+  color: #f0f0f0;
+  background: #828599;
 }
-.dtui-chkbtn-disabled span {
+.dtui-chkbtn-disabled {
+  border: 0 solid #828599;
+  color: #828599;
+  background: transparent;
   cursor: default;
 }
 .dtui-treelist-i {
@@ -229,6 +183,7 @@ a img {
   position: absolute;
   cursor: pointer;
   font-style: normal;
+  font-family: Arial;
   width: 1.5em;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -249,19 +204,19 @@ a img {
   display: block;
   padding: 0 0.5em;
   text-decoration: none;
-  color: #efe;
+  color: #333333;
 }
 .dtui-treelist-text-highlight {
-  background: #EAB810;
-  color: #000;
+  background: #efd689;
+  color: #000000;
 }
 .dtui-treelist-text-active {
-  background: #FFE384;
-  color: #000;
+  background: #428bca;
+  color: #ffffff;
 }
 .dtui-treelist-text-hover {
-  background: #5B5D6B;
-  color: #fff;
+  background: #a2d0f7;
+  color: #000000;
 }
 .dtui-treelist-post {
   display: block;
@@ -298,6 +253,137 @@ a img {
 .dtui-winpn-con {
   overflow: hidden;
 }
+.dtui-global-tooltip {
+  position: absolute;
+  max-width: 200px;
+  background: #ffffff;
+  border: 1px solid #bbbbbb;
+  color: #111111;
+  padding: 5px 10px;
+  line-height: 25px;
+  z-index: 99999;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+/**
+ * @file 公共less
+ */
+/**
+ * @file 公共normalize & 部分reset。
+ * @author sushuang(sushuang@baidu.com)
+ */
+html,
+body,
+div,
+span,
+object,
+iframe,
+a,
+img,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+form,
+label,
+input,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle;
+}
+caption,
+th,
+td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+a img {
+  border: none;
+}
+* {
+  font-family: "Helvetica Neue", "Segoe UI", Tahoma, Arial, "Hiragino Sans GB", STHeiti, "Microsoft Yahei", "WenQuanYi Micro Hei", sans-serif;
+}
+html {
+  background-color: #f7f7f7;
+}
+.ecdoc-normal-panel {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 5px 10px;
+  line-height: 25px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.ecdoc-normal-panel a,
+.ecdoc-normal-panel a:visited {
+  color: #428bca;
+}
+.ecdoc-fixed-panel {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 5px 10px;
+  line-height: 25px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  position: fixed;
+  z-index: 9999;
+}
+.ecdoc-fixed-panel a,
+.ecdoc-fixed-panel a:visited {
+  color: #428bca;
+}
+/**
+ * Question 问号图标
+ */
+.ecdoc-question {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: middle;
+  text-align: center;
+  background: #999;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-weight: 700;
+  font-size: 16px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.ecdoc-question:before {
+  content: '?';
+}
 body {
   padding: 21px;
   margin: 0;
@@ -321,26 +407,6 @@ body {
 }
 .ecdoc-app-desc strong {
   margin: 0 3px;
-}
-.ecdoc-question {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-  vertical-align: middle;
-  text-align: center;
-  background: #999;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  font-weight: 700;
-  font-size: 16px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-.ecdoc-question:before {
-  content: '?';
 }
 .ecdoc-scmedt-head-desc {
   width: 320px;
@@ -373,24 +439,6 @@ body {
 .dtui-txipt-type-textarea {
   width: 314px;
   height: 200px;
-}
-.ecdoc-scmedt-panel {
-  position: fixed;
-  background: #3f3f3f;
-  color: #efe;
-  padding: 5px 10px;
-  line-height: 25px;
-  z-index: 99999;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
-  -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
-  box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
-}
-.ecdoc-scmedt-panel a,
-.ecdoc-scmedt-panel a:visited {
-  color: #99D0FF;
 }
 .ecdoc-scmedt-query-box {
   top: 20px;
@@ -499,25 +547,4 @@ body {
 .ecdoc-scmedt-edit-area .desc-rendered-cn a:visited,
 .ecdoc-scmedt-edit-area .desc-rendered-en a:visited {
   color: blue;
-}
-/**
- * 鼠标hover提示
- */
-.dt-global-tooltip {
-  position: fixed!important;
-  top: 20px!important;
-  left: 400px!important;
-  max-width: 200px;
-  background: #fff;
-  color: #111;
-  padding: 5px 10px;
-  line-height: 25px;
-  border-radius: 3px;
-  z-index: 99999;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
-  -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
-  box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 3px, rgba(255, 255, 255, 0.1) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
 }

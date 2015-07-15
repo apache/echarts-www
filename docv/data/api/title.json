@@ -1,6 +1,6 @@
 ﻿[
     {
-        "style": "top: 11.44%;54px; left: 30.95%; z-index: 10; color: #ff0000; opacity: 0.5;",
+        "style": "top: 59.875px; left: 200.359375px; z-index: 10; color: #ff0000; opacity: 0.5;",
         "data": {
             "title": "主标题",
             "list": [
@@ -32,12 +32,12 @@
         },
         "type": "icon-arrow-up-left",
         "size": {
-            "height": 472,
-            "width": 848
+            "width": "848",
+            "height": "472"
         }
     },
     {
-        "style": "top: 12.5%; left: 13.57%; z-index: 11; color: #ff0000; opacity: 0.5;",
+        "style": "top: 56.875px; left: 53.703125px; z-index: 11; color: #ff0000; opacity: 0.5;",
         "data": {
             "title": "间距",
             "list": [
@@ -53,12 +53,12 @@
         },
         "type": "icon-arrow-left",
         "size": {
-            "height": 472,
-            "width": 848
+            "width": "848",
+            "height": "472"
         }
     },
     {
-        "style": "top: 19.7%; left: 15.48%; z-index: 12; color: #ff0000; opacity: 0.5;",
+        "style": "top: 93.78125px; left: 101.71875px; z-index: 12; color: #ff0000; opacity: 0.5;",
         "data": {
             "title": "副标题",
             "list": [
@@ -86,12 +86,12 @@
         },
         "type": "icon-arrow-up-left",
         "size": {
-            "height": 472,
-            "width": 848
+            "width": "848",
+            "height": "472"
         }
     },
     {
-        "style": "top: 14.83%; left: 39.88%; z-index: 13; color: #ff0000; opacity: 0.5;",
+        "style": "top: 113.84375px; left: 199.1875px; z-index: 13; color: #ff0000; opacity: 0.5;",
         "data": {
             "title": "边框",
             "list": [
@@ -107,12 +107,12 @@
         },
         "type": "icon-arrow-left",
         "size": {
-            "height": 472,
-            "width": 848
+            "width": "848",
+            "height": "472"
         }
     },
     {
-        "style": "top: 13.35%; left: 3.69%; z-index: 14; color: #ff0000; opacity: 0.5;",
+        "style": "top: 56.875px; left: 268.921875px; z-index: 14; color: #ff0000; opacity: 0.5;",
         "data": {
             "title": "主副标题共同属性",
             "list": [
@@ -132,8 +132,8 @@
         },
         "type": "icon-arrow-up-left",
         "size": {
-            "height": 472,
-            "width": 848
+            "width": "848",
+            "height": "472"
         }
     }
 ]

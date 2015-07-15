@@ -1,10 +1,10 @@
+/**
+ * 基本按钮。写成mixin因为有的地方不方便设class。
+ */
+/**
+ * 按钮基本样式
+ */
 @import "../common/preview-fonts.css";
-/**
- * åŸºæœ¬æŒ‰é’®ã€‚å†™æˆmixinå› ä¸ºæœ‰çš„åœ°æ–¹ä¸æ–¹ä¾¿è®¾classã€‚
- */
-/**
- * æŒ‰é’®åŸºæœ¬æ ·å¼
- */
 .dtui-btn {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -184,6 +184,7 @@
   position: absolute;
   cursor: pointer;
   font-style: normal;
+  font-family: Arial;
   width: 1.5em;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -191,10 +192,10 @@
   user-select: none;
 }
 .dtui-treelist-expanded > .dtui-treelist-thumb:after {
-  content: 'â–¾';
+  content: '▾';
 }
 .dtui-treelist-collapsed > .dtui-treelist-thumb:after {
-  content: 'â–¸';
+  content: '▸';
 }
 .dtui-treelist-thumb:hover {
   color: #7DA7BA;
@@ -267,10 +268,10 @@
   border-radius: 3px;
 }
 /**
- * @file å…¬å…±less
+ * @file 公共less
  */
 /**
- * @file å…¬å…±normalize & éƒ¨åˆ†resetã€‚
+ * @file 公共normalize & 部分reset。
  * @author sushuang(sushuang@baidu.com)
  */
 html,
@@ -362,7 +363,7 @@ html {
   color: #428bca;
 }
 /**
- * Question é—®å·å›¾æ ‡
+ * Question 问号图标
  */
 .ecdoc-question {
   display: inline-block;
@@ -495,6 +496,10 @@ html {
   margin-bottom: -1px;
   background-color: #fff;
 }
+.api-chart .popover .popover-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
 .api-chart .popover .popover-list .list-group {
   margin-bottom: 0;
 }
@@ -517,6 +522,9 @@ html {
 }
 .api-chart .api-category .api-category-list .selected {
   background-color: #428bca;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
 }
 .api-chart .api-category .api-category-list .selected a {
   color: #fff;
@@ -598,6 +606,11 @@ html {
   float: left;
   overflow: hidden;
 }
+.ecdoc-api-tree-area .dtui-treelist-text .ecdoc-api-tree-text-default {
+  color: #999;
+  font-style: normal;
+  margin-left: 5px;
+}
 .ecdoc-api-chart-query-area {
   position: fixed;
   left: 400px;
@@ -651,13 +664,14 @@ html {
 }
 .ecdoc-api-desc-area .ecdoc-api-option-path {
   position: absolute;
-  top: 7px;
-  left: 10px;
+  top: 2px;
+  left: 5px;
+  border: 5px solid #f7f7f7;
   white-space: nowrap;
   background: #428bca;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
   font-weight: normal;
   color: #fff;
   margin: 3px 0;
