@@ -30,7 +30,11 @@
                 }
             ]
         },
-        "type": "icon-arrow-left"
+        "type": "icon-arrow-left",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     },
     {
         "style": "top: 9.32%; left: 36.07%; z-index: 11; color: #000000; opacity: 0.5;",
@@ -55,7 +59,11 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left"
+        "type": "icon-arrow-up-left",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     },
     {
         "style": "top: 6.78%; left: 17.26%; z-index: 12; color: #000000; opacity: 0.5;",
@@ -80,7 +88,11 @@
                 }
             ]
         },
-        "type": "icon-arrow-up"
+        "type": "icon-arrow-up",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     },
     {
         "style": "top: 7.63%; left: 10.71%; z-index: 13; color: #000000; opacity: 0.5;",
@@ -125,6 +137,10 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-right"
+        "type": "icon-arrow-up-right",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     }
 ]

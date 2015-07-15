@@ -30,7 +30,11 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left"
+        "type": "icon-arrow-up-left",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     },
     {
         "style": "top: 12.5%; left: 13.57%; z-index: 11; color: #ff0000; opacity: 0.5;",
@@ -47,7 +51,11 @@
                 }
             ]
         },
-        "type": "icon-arrow-left"
+        "type": "icon-arrow-left",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     },
     {
         "style": "top: 19.7%; left: 15.48%; z-index: 12; color: #ff0000; opacity: 0.5;",
@@ -76,7 +84,11 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left"
+        "type": "icon-arrow-up-left",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     },
     {
         "style": "top: 14.83%; left: 39.88%; z-index: 13; color: #ff0000; opacity: 0.5;",
@@ -93,7 +105,11 @@
                 }
             ]
         },
-        "type": "icon-arrow-left"
+        "type": "icon-arrow-left",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     },
     {
         "style": "top: 13.35%; left: 3.69%; z-index: 14; color: #ff0000; opacity: 0.5;",
@@ -114,6 +130,10 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left"
+        "type": "icon-arrow-up-left",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     }
 ]

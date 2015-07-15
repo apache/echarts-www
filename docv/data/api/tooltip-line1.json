@@ -22,7 +22,11 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left"
+        "type": "icon-arrow-up-left",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     },
     {
         "style": "top: 38.56%; left: 53.33%; z-index: 11; color: #000000; opacity: 0.5;",
@@ -75,6 +79,10 @@
                 }
             ]
         },
-        "type": "icon-arrow-up"
+        "type": "icon-arrow-up",
+        "size": {
+            "height": 472,
+            "width": 848
+        }
     }
 ]
