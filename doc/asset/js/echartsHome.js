@@ -18,6 +18,7 @@ switch (curPage) {
         loc.doc = './doc';
         loc.about = './doc';
         loc.changelog = './doc';
+        loc.api = './doc';
         loc.spreadsheet = './doc';
         loc.start = './doc';
         loc.img = './doc';
@@ -44,10 +45,18 @@ switch (curPage) {
         loc.doc = extSub + '../../doc';
         loc.about = extSub + '../../doc';
         loc.changelog = extSub + '../../doc';
+        loc.api = extSub + '../../doc';
         loc.spreadsheet = extSub + '../../doc';
         loc.start = extSub + '../../doc';
         loc.img = extSub + '../../doc';
         break;
+}
+
+// Those pages only exist in echarts-www project,
+// but not in http://ecomfe.github.io/echarts/ and doc in echarts project.
+if (location.href.indexOf('.baidu.com') < 0) {
+    loc.api = 'http://echarts.baidu.com/doc';
+    loc.spreadsheet = 'http://echarts.baidu.com/doc';
 }
 
 $('#head')[0].innerHTML =
@@ -83,7 +92,7 @@ $('#head')[0].innerHTML =
               + '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + (enVersion ? 'API & Doc' : '文档') + '<b class="caret"></b></a>'
               + '<ul class="dropdown-menu">'
                 + '<li class=""><a href="' + (loc.doc || '.') + '/doc' + (enVersion ? '-en.html">Base Document' : '.html">参考手册') + '</a></li>'
-                + '<li class=""><a href="' + (loc.doc || '.') + '/api' + (enVersion ? '-en.html">Option Manual' : '.html">配置项查找工具') + '</a></li>'
+                + '<li class=""><a href="' + (loc.api || '.') + '/api' + (enVersion ? '-en.html">Option Manual' : '.html">配置项查找工具') + '</a></li>'
               + '</ul>'
             + '</li>'
             + '<li class="dropdown ' + (activeClass.spreadsheet || '') + '">'

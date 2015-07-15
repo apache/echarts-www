@@ -1,6 +1,6 @@
-﻿[
+[
     {
-        "style": "top: 27.953125px; left: 323.265625px; z-index: 10; color: #000000; opacity: 0.5;",
+        "style": "top: 5.32034%;                      left: 38.08962%;                       z-index: 10;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "图例初始展示",
             "list": [
@@ -37,7 +37,7 @@
         }
     },
     {
-        "style": "top: 51.890625px; left: 287.265625px; z-index: 11; color: #000000; opacity: 0.5;",
+        "style": "top: 10.80508%;                      left: 33.84434%;                       z-index: 11;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "图例的基本样式",
             "list": [
@@ -66,7 +66,7 @@
         }
     },
     {
-        "style": "top: 51.921875px; left: 167.625px; z-index: 12; color: #000000; opacity: 0.5;",
+        "style": "top: 10.80508%;                      left: 19.69340%;                       z-index: 12;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "各图例元素样式",
             "list": [
@@ -95,7 +95,7 @@
         }
     },
     {
-        "style": "top: 52.921875px; left: 95.734375px; z-index: 13; color: #000000; opacity: 0.5;",
+        "style": "top: 10.80508%;                      left: 11.20283%;                       z-index: 13;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "图例字体样式",
             "list": [
@@ -137,7 +137,7 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-right",
+        "type": "icon-arrow-up",
         "size": {
             "width": "848",
             "height": "472"

@@ -1,6 +1,6 @@
-﻿[
+[
     {
-        "style": "top: 143.5625px; left: 289.109375px; z-index: 10; color: #000000; opacity: 0.5;",
+        "style": "top: 30.29661%;             left: 34.08019%;              z-index: 10;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "tooltip",
             "list": [
@@ -22,14 +22,14 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left",
+        "type": "icon-arrow-down",
         "size": {
             "width": "848",
             "height": "472"
         }
     },
     {
-        "style": "top: 129.609375px; left: 499.890625px; z-index: 11; color: #000000; opacity: 0.5;",
+        "style": "top: 27.33051%;             left: 58.84434%;              z-index: 11;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "tooltip",
             "list": [
@@ -79,7 +79,7 @@
                 }
             ]
         },
-        "type": "icon-arrow-up",
+        "type": "icon-arrow-down",
         "size": {
             "width": "848",
             "height": "472"

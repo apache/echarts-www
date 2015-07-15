@@ -1,6 +1,6 @@
-﻿[
+[
     {
-        "style": "top: 59.875px; left: 200.359375px; z-index: 10; color: #ff0000; opacity: 0.5;",
+        "style": "top: 12.50000%;             left: 23.46698%;              z-index: 10;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "主标题",
             "list": [
@@ -30,14 +30,14 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left",
+        "type": "icon-arrow-up",
         "size": {
             "width": "848",
             "height": "472"
         }
     },
     {
-        "style": "top: 56.875px; left: 53.703125px; z-index: 11; color: #ff0000; opacity: 0.5;",
+        "style": "top: 10.66441%;             left: 4.65000%;              z-index: 11;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "间距",
             "list": [
@@ -51,14 +51,14 @@
                 }
             ]
         },
-        "type": "icon-arrow-left",
+        "type": "icon-arrow-right",
         "size": {
             "width": "848",
             "height": "472"
         }
     },
     {
-        "style": "top: 93.78125px; left: 101.71875px; z-index: 12; color: #ff0000; opacity: 0.5;",
+        "style": "top: 19.70339%;             left: 10.81038%;              z-index: 12;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "副标题",
             "list": [
@@ -84,14 +84,14 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left",
+        "type": "icon-arrow-up",
         "size": {
             "width": "848",
             "height": "472"
         }
     },
     {
-        "style": "top: 113.84375px; left: 199.1875px; z-index: 13; color: #ff0000; opacity: 0.5;",
+        "style": "top: 23.94068%;             left: 23.46698%;              z-index: 13;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "边框",
             "list": [
@@ -105,14 +105,14 @@
                 }
             ]
         },
-        "type": "icon-arrow-left",
+        "type": "icon-arrow-up",
         "size": {
             "width": "848",
             "height": "472"
         }
     },
     {
-        "style": "top: 56.875px; left: 268.921875px; z-index: 14; color: #ff0000; opacity: 0.5;",
+        "style": "top: 10.66441%;             left: 31.60377%;              z-index: 14;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "主副标题共同属性",
             "list": [
@@ -130,7 +130,7 @@
                 }
             ]
         },
-        "type": "icon-arrow-up-left",
+        "type": "icon-arrow-left",
         "size": {
             "width": "848",
             "height": "472"

@@ -1,6 +1,6 @@
-﻿[
+[
     {
-        "style": "top: 48.94%; left: 25.71%; z-index: 10; color: #000000; opacity: 0.5;",
+        "style": "top: 48.94%;            left: 25.71%;            z-index: 10;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "tooltip-type",
             "list": [
@@ -17,7 +17,7 @@
         }
     },
     {
-        "style": "top: 47.46%; left: 54.17%; z-index: 11; color: #000000; opacity: 0.5;",
+        "style": "top: 47.46%;            left: 54.17%;            z-index: 11;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "tooltip-type",
             "list": [
@@ -34,7 +34,7 @@
         }
     },
     {
-        "style": "top: 54.66%; left: 85.95%; z-index: 12; color: #000000; opacity: 0.5;",
+        "style": "top: 54.66%;            left: 85.95%;            z-index: 12;  color: #ff7c30; opacity: 1;",
         "data": {
             "title": "tooltip-type",
             "list": [
