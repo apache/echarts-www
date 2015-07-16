@@ -8,6 +8,7 @@ define(function (require) {
     var schemaHelper = require('../common/schemaHelper');
     var helper = require('./helper');
     var dtLib = require('dt/lib');
+    var docUtil = require('../common/docUtil');
     var lang = require('./lang');
     var markRender = require('./markrender');
 
@@ -73,8 +74,8 @@ define(function (require) {
 
         _prepare: function () {
             $.when(
-                $.getJSON(SCHEMA_URL),
-                $.getJSON(CATEGORY_URL)
+                $.getJSON(docUtil.addVersionArg(SCHEMA_URL)),
+                $.getJSON(docUtil.addVersionArg(CATEGORY_URL))
             ).done($.proxy(onLoaded, this));
 
             function onLoaded(schema, catagory) {

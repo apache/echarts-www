@@ -1,3 +1,4 @@
+# Build docv
 rm -r ../tmp-echarts-www-build
 mkdir ../tmp-echarts-www-build
 cp -r ./* ../tmp-echarts-www-build

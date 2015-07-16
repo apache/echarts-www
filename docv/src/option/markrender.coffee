@@ -5,6 +5,7 @@ define(
         tip = require './tip'
         category = require './category'
         helper = require './helper'
+        docUtil = require '../common/docUti'
 
         apiIndex = -1
         apiData = {}
@@ -49,8 +50,8 @@ define(
                     item[0] is hash
 
             chartName = apiData[apiIndex = index][0]
-            jsonFile = path + chartName + '.json'
-            imgFile = path + chartName + '.png'
+            jsonFile = docUtil.addVersionArg(path + chartName + '.json')
+            imgFile = docUtil.addVersionArg(path + chartName + '.png')
 
             imgLayout.attr({
                 src: imgFile

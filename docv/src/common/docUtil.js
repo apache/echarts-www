@@ -14,6 +14,22 @@ define(function (require) {
     var util = {};
 
     /**
+     * Avoid browser cache.
+     *
+     * @public
+     */
+    util.getVersionArg = function () {
+        return window.VERSION_ARG || '';
+    };
+
+    /**
+     * @pubilc
+     */
+    util.addVersionArg = function (url) {
+        return url + (url.indexOf('?') >= 0 ? '&' : '?') + util.getVersionArg();
+    };
+
+    /**
      * @public
      * @param {string} data
      * @return {Object|Array}

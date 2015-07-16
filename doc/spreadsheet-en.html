@@ -14,9 +14,9 @@
     <link href="./asset/css/font-awesome.min.css" rel="stylesheet">
     <link href="./asset/css/bootstrap.css" rel="stylesheet">
     <link href="./asset/css/carousel.css" rel="stylesheet">
-    <link href="./asset/css/echartsHome.css" rel="stylesheet">
-    <link href="../docv/dep/jquery-handsontable/0.10.5.1/jquery.handsontable.dt.css" rel="stylesheet"/>
-    <link href="../docv/src/spreadsheet/spreadsheet.css" rel="stylesheet"/>
+    <link href="./asset/css/echartsHome.css?_v_=1.0.0" rel="stylesheet">
+    <link href="../docv/dep/jquery-handsontable/0.10.5.1/jquery.handsontable.dt.css?_v_=1.0.0" rel="stylesheet"/>
+    <link href="../docv/src/spreadsheet/spreadsheet.css?_v_=1.0.0" rel="stylesheet"/>
     <!-- Refer local esl for for outline available. -->
     <script src="../docv/dep/esl/1.8.2/esl.js"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -36,6 +36,8 @@
     <script src="./asset/js/bootstrap.min.js"></script>
     <script src="./asset/js/echartsHome.js"></script>
     <script type="text/javascript">
+        window.VERSION_ARG = '_v_=1.0.0';
+
         require.config({
             baseUrl: '../docv/src',
             paths: {
@@ -49,7 +51,7 @@
                 jquerymousewheel: '../dep/jquery-mousewheel/3.1.11/jquery.mousewheel.min',
                 numeral: '../dep/numeral/1.4.7/numeral.min'
             },
-            urlArgs: '_v_=1.0.0'
+            urlArgs: window.VERSION_ARG
         });
 
         require(['spreadsheet/spreadsheet'], function (spreadsheet) {
