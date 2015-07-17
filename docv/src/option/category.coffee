@@ -3,6 +3,7 @@ define(
         exports = {}
         helper = require './helper'
         _ = require 'lodash'
+        lang = require './lang'
 
         CLZ =
             SELECT: 'selected'
@@ -19,7 +20,7 @@ define(
             "<ol>" +
             _.map(list, (item) ->
                 "<li>
-                    <a href='javascript:void(0)' #{SELECTOR.DATA}='#{item[0]}'>#{item[1]}</a>
+                    <a href='javascript:void(0)' #{SELECTOR.DATA}='#{item[0]}'>#{item[if lang.langCode is 'en' then 2 else 1]}</a>
                 </li>"
             ).join('') + "</ol>"
 

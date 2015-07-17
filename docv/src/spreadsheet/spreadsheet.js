@@ -9,6 +9,7 @@ define(function (require) {
     var lang = require('./lang');
     var constant = require('./constant');
     var jsDataFactory = require('./jsDataFactory');
+    var feedback = require('../common/feedback');
 
     require('./componentConfig');
     require('jqueryhandsontable');
@@ -32,6 +33,8 @@ define(function (require) {
      */
     spreadsheet.init = function () {
         var instance = new SpreadsheetMain($('.ecdoc-sprsht')); // jshint ignore:line
+
+        feedback.init('spreadsheet');
     };
 
     /**
@@ -92,7 +95,7 @@ define(function (require) {
                             compress: false,
                             indentBase: 4
                         }
-                    }
+                    };
                     jsDataOb.setCodeInfo(codeInfoMapping[value]);
                     jsDataOb.fillJSDataByDataTable();
                 }

@@ -57,6 +57,7 @@ define(function (require) {
     // References
     var $ = require('jquery');
     var dtLib = require('dt/lib');
+    var docUtil = require('./docUtil');
     var encodeHTML = dtLib.encodeHTML;
 
     // Inner constants
@@ -205,7 +206,7 @@ define(function (require) {
             }
             var itemStr = item.propertyName || arrayName;
 
-            var applicable = schemaHelper.normalizeToArray(item.applicable);
+            var applicable = docUtil.normalizeToArray(item.applicable);
             if (applicable.length) {
                 itemStr += '(' + applicable.join(',') + ')';
             }
@@ -509,9 +510,10 @@ define(function (require) {
      *                                   refFrom {Array.<Object>},
      *                                   arrayFrom {Array.<Object>},
      *                                   applicable: {string|Array.<string>},
-     *                                   optionPath: {Array} Available only in 'doc' mode.
-     *                                                       @see parseOptionPath method,
-     *                                                       in arrayOnlyAtom mode
+     *                                   optionPath: {Array.<Object>} Available only in 'doc' mode.
+     *                                                                @see parseOptionPath method,
+     *                                                                in arrayOnlyAtom mode
+     *                                   schemaPath: {Array.<string>} Available only in 'schema' mode.
      *                               }
      * @param {string} mode Value can be:
      *                      'doc' render doc (default);
@@ -522,7 +524,7 @@ define(function (require) {
         docRenderer = docRenderer || schemaHelper.buildDoc.docJsonRenderer;
         mode = mode || 'doc';
 
-        var baseParam = mode === 'doc' ? {optionPath: []}: {};
+        var baseParam = mode === 'doc' ? {optionPath: []}: {schemaPath: []};
         buildRecursively(renderBase, schema, makeContext(baseParam));
 
         return renderBase;
@@ -655,12 +657,16 @@ define(function (require) {
             var definitions = schemaItem.definitions;
             for (var name in definitions) {
                 if (definitions.hasOwnProperty(name)) {
+                    var subSchemaPath = context.schemaPath.slice();
+                    subSchemaPath.push(name);
+
                     buildRecursively(
                         subRenderBase,
                         definitions[name],
                         makeContext({
                             itemName: name,
-                            relationInfo: BuildDocInfo.IS_DEFINITION_ITEM
+                            relationInfo: BuildDocInfo.IS_DEFINITION_ITEM,
+                            schemaPath: subSchemaPath
                         })
                     );
                 }
@@ -715,6 +721,9 @@ define(function (require) {
 
             var oneOf = schemaItem.oneOf;
             for (var i = 0, len = oneOf.length; i < len; i++) {
+                var subSchemaPath = context.schemaPath.slice();
+                subSchemaPath.push('oneOf', i);
+
                 buildRecursively(
                     subRenderBase,
                     oneOf[i],
@@ -723,7 +732,8 @@ define(function (require) {
                         relationInfo: context.relationInfo,
                         oneOfInfo: BuildDocInfo.IS_ONE_OF_ITEM,
                         refFrom: context.refFrom ? context.refFrom.slice() : UNDEFINED,
-                        arrayFrom: context.arrayFrom ? context.arrayFrom.slice() : UNDEFINED
+                        arrayFrom: context.arrayFrom ? context.arrayFrom.slice() : UNDEFINED,
+                        schemaPath: subSchemaPath
                     })
                 );
             }
@@ -769,6 +779,13 @@ define(function (require) {
                 lastOptionPathItem.arrayName += '[i]';
             }
 
+            // Make subSchemaPath
+            var subSchemaPath;
+            if (context.schemaPath) {
+                subSchemaPath = context.schemaPath.slice();
+                subSchemaPath.push('items');
+            }
+
             buildRecursively(
                 subRenderBase,
                 schemaItem.items,
@@ -779,7 +796,8 @@ define(function (require) {
                     arrayFrom: arrayFrom
                         ? (arrayFrom.push(schemaItem), arrayFrom)
                         : [schemaItem],
-                    optionPath: subOptionPath
+                    optionPath: subOptionPath,
+                    schemaPath: subSchemaPath
                 })
             );
         }
@@ -799,6 +817,13 @@ define(function (require) {
                         subOptionPath.push({propertyName: propertyName});
                     }
 
+                    // Make subSchemaPath
+                    var subSchemaPath;
+                    if (context.schemaPath) {
+                        subSchemaPath = context.schemaPath.slice();
+                        subSchemaPath.push(propertyName);
+                    }
+
                     buildRecursively(
                         subRenderBase,
                         properties[propertyName],
@@ -807,7 +832,8 @@ define(function (require) {
                             relationInfo: BuildDocInfo.IS_OBJECT_ITEM,
                             refFrom: UNDEFINED,
                             arrayFrom: UNDEFINED,
-                            optionPath: subOptionPath
+                            optionPath: subOptionPath,
+                            schemaPath: subSchemaPath
                         })
                     );
                 }
@@ -996,6 +1022,7 @@ define(function (require) {
             applicable: schemaItem.applicable,
             enumerateBy: schemaItem.enumerateBy,
             setApplicable: schemaItem.setApplicable,
+            schemaPath: context.schemaPath,
             defaultValue: schemaItem['default'],
             defaultExplanation: schemaItem.defaultExplanation,
             tooltipEncodeHTML: false
@@ -1287,7 +1314,7 @@ define(function (require) {
         }
         else {
             if (options.getBrief) {
-                var type = schemaHelper.normalizeToArray(defau.type);
+                var type = docUtil.normalizeToArray(defau.type);
                 return type.length === 1 // Only one type, can be sure what the brief looks like.
                     && briefMapping[type[0].toLowerCase()]
                     || briefMapping['?'];
@@ -1325,23 +1352,6 @@ define(function (require) {
             dtLib.assert(refArr.length);
             return refArr;
         }
-    };
-
-    /**
-     * Normalize <string> or Array.<string> to Array.<string>
-     *
-     * @public
-     * @param {string|Array.<string>} value
-     * @return {Array} result, must be array.
-     */
-    schemaHelper.normalizeToArray = function (value) {
-        if (!value) {
-            return [];
-        }
-        if (!$.isArray(value)) {
-            return [value];
-        }
-        return value;
     };
 
     return schemaHelper;

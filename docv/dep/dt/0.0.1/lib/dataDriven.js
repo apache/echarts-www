@@ -817,7 +817,7 @@ define(function (require) {
      * @return {boolean} 是否通过检查
      */
     lib.checkValueInfo = function (obOrValueInfo, type, info) {
-        var valueInfo = lib.obTypeOf(obOrValueInfo) === 'ob'
+        var valueInfo = lib.obTypeOf(obOrValueInfo)
             ? obOrValueInfo.peekValueInfo()
             : obOrValueInfo;
 

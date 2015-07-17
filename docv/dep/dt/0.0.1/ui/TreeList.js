@@ -43,7 +43,8 @@ define(function (require) {
                      * treeList.viewModel('selected').subscribe(function (nextValue, ob) {
                      *     // 这里nextValue 就是树节点上的value字段
                      *     // 如果要获取整个树节点的信息(dataItem)，使用：
-                     *     var dataItem = ob.getTreeDataItem();
+                     *     var dataItemArray = ob.getTreeDataItem();
+                     *     var dataItem = ob.getTreeDataItem(true);
                      *     // 如果enhanceSelected设为了false，则没有此功能，只能手动使用findDataItemByOb来完成此功能。
                      *     // 如果一个ob会被多个组件共享，为避免冲突，enhanceSelected可以关掉。
                      * });
@@ -699,7 +700,7 @@ define(function (require) {
 
             function visitItem(dataItem) {
                 if (lib.arrayIndexOf(values, dataItem.value) >= 0) {
-                    result.push(dataItem);
+                    result.push(lib.assign({}, dataItem));
                 }
             }
 

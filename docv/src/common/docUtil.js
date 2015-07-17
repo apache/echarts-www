@@ -101,5 +101,31 @@ define(function (require) {
         return newObj;
     };
 
+    /**
+     * Normalize <string> or Array.<string> to Array.<string>
+     *
+     * @public
+     * @param {string|Array.<string>} value
+     * @return {Array} result, must be array.
+     */
+    util.normalizeToArray = function (value) {
+        if (!value) {
+            return [];
+        }
+        if (!$.isArray(value)) {
+            return [value];
+        }
+        return value;
+    };
+
+    /**
+     * @public
+     */
+    util.log = function (txt) {
+        if (console && $.isFunction(console.log)) {
+            console.log(txt);
+        }
+    };
+
     return util;
 });

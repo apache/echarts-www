@@ -56,6 +56,42 @@ html {
     cursor: pointer;
 
     &:before {
-        content: '?'
+        content: '?';
+        color: #fff;
+    }
+}
+
+/**
+ * 问题反馈
+ */
+.ec-feedback {
+    .box-sizing(content-box);
+    position: fixed;
+    right: -95px;
+    bottom: 100px;
+    height: 36px;
+    line-height: 36px;
+    width: 100px;
+    padding: 0 12px;
+    background: #61ACCD;
+    color: #FFF;
+    font-size: 16px;
+    z-index: 51000;
+    cursor: pointer;
+    white-space: nowrap;
+    .border-top-left-radius(18px);
+    .border-bottom-left-radius(18px);
+    .transition(right 0.5s ease);
+
+    i {
+        font-style: normal;
+        font-family: Arial;
+        font-weight: 700;
+        font-size: 20px;
+        padding-right: 18px;
+    }
+
+    &:hover {
+        right:0px;
     }
 }

@@ -2522,149 +2522,150 @@
                     "oneOf": [
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "line",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "line"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "bar",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "bar"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "scatter",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "scatter"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "k",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "k"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "pie",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "pie"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "radar",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "radar"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "chord",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "chord"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "force",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "force"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "map",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "map"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "gauge",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "gauge"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "funnel",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "funnel"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "eventRiver",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "eventRiver"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "venn",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "venn"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "treemap",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "treemap"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "tree",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "tree"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "wordCloud",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "wordCloud"
                         },
                         {
                             "type": "string",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
                             "applicable": "heatmap",
+                            "descriptionCN": "图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：\n                                <br>'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）\n                                <br> 'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）",
+                            "descriptionEN": "chart type. Required parameter. If null or unsupported type, the data of this series will not be shown. Valid values are:\n                                <br>'line' | 'bar' | 'scatter' | 'candlestick'\n                                <br> 'pie' | 'radar' | 'chord' | 'force' | 'map'",
                             "default": "heatmap"
                         }
                     ]
                 },
                 "name": {
                     "type": "string",
-                    "descriptionCN": "通用",
-                    "descriptionEN": "universal",
+                    "descriptionCN": "系列名称，如启用legend，该值将被legend.data索引相关",
+                    "descriptionEN": "name of series. if the legend is enabled, the value will be indexed to legend.data.",
                     "default": null
                 },
                 "tooltip": {
                     "type": "Object",
-                    "descriptionCN": "通用",
-                    "descriptionEN": "universal",
+                    "descriptionCN": "提示框样式，仅对本系列有效，如不设则用option.tooltip,鼠标悬浮交互时的信息提示",
+                    "descriptionEN": "style of the tooltip. Applicable to this series only. If unspecified, use option.tooltip (See <a href=\"#tooltip\" title=\"\">tooltip</a>), a small \"hover box\" with detailed information about the item being hovered over.",
+                    "$ref": "#definitions/tooltip",
                     "default": null
                 },
                 "clickable": {
                     "type": "boolean",
-                    "descriptionCN": "通用",
-                    "descriptionEN": "universal",
+                    "descriptionCN": "数据图形是否可点击，默认开启，如果没有click事件响应可以关闭",
+                    "descriptionEN": "Specifies data graphic clickable or not, default to true, recommend to false when you do not have a click event handler.",
                     "default": true
                 },
                 "itemStyle": {
                     "oneOf": [
                         {
                             "type": "Object",
-                            "descriptionCN": "通用",
-                            "descriptionEN": "universal",
+                            "descriptionCN": "图形样式",
+                            "descriptionEN": "item style.",
                             "$ref": "#definitions/itemStyle",
                             "default": null
                         },
@@ -2689,40 +2690,40 @@
                         },
                         {
                             "type": "Array",
-                            "descriptionCN": " 系列中的数据内容数组，折线图以及柱状图时数组长度等于所使用类目轴文本标签数组axis.data的长度，并且他们间是一一对应的。数组项通常为数值，如:\n                        <pre>[12, 34, 56, ..., 10, 23]</pre>\n                     当某类目对应数据不存在时（ps：'不存在' 不代表值为 0），可用'-'表示，无数据在折线图中表现为折线在该点断开，在柱状图中表现为该点无柱形，如：\n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                     当需要对个别内容进行个性化定义时，数组项可用对象，如：\n                        <pre>[\n    12, 34,\n    {\n        value : 56,\n        tooltip:{},             //自定义特殊tooltip，仅对该item有效，详见tooltip\n        itemStyle:{}            //自定义特殊itemStyle，仅对该item有效，详见itemStyle\n    },\n    ..., 10, 23\n]\n</pre>\n                    ",
-                            "descriptionEN": " Data array in the series. In line and column, length of the array is equal to the length of category axis text label array axis.data, and there is one-to-one correspondence between them. The array item is usually value, such as: \n                        <pre>[12, 34, 56, ..., 10, 23]</pre>\n                     When the data corresponding to a category does not exist (ps: 'no data' is not equal to 0), you can use '-' to indicate 'no data'. In line, 'no data' is showed by a breakpoint; in column, 'no data' is showed by a missing column, such as: \n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                     When you need to customize individual contents, array items can use objects, such as: \n                        <pre>[\n    12, 34,\n    {\n        value : 56,\n        tooltip:{},     //custom tooltip，applicable to the item only, see tooltip\n        itemStyle:{}    //custom itemStyle=，applicable to the item only, see itemStyle\n    },\n    ..., 10, 23\n]\n</pre>\n                    ",
                             "applicable": [
                                 "line",
                                 "bar"
                             ],
+                            "descriptionCN": " 系列中的数据内容数组，折线图以及柱状图时数组长度等于所使用类目轴文本标签数组axis.data的长度，并且他们间是一一对应的。数组项通常为数值，如:\n                        <pre>[12, 34, 56, ..., 10, 23]</pre>\n                     当某类目对应数据不存在时（ps：'不存在' 不代表值为 0），可用'-'表示，无数据在折线图中表现为折线在该点断开，在柱状图中表现为该点无柱形，如：\n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                     当需要对个别内容进行个性化定义时，数组项可用对象，如：\n                        <pre>[\n    12, 34,\n    {\n        value : 56,\n        tooltip:{},             //自定义特殊tooltip，仅对该item有效，详见tooltip\n        itemStyle:{}            //自定义特殊itemStyle，仅对该item有效，详见itemStyle\n    },\n    ..., 10, 23\n]\n</pre>\n                    ",
+                            "descriptionEN": " Data array in the series. In line and column, length of the array is equal to the length of category axis text label array axis.data, and there is one-to-one correspondence between them. The array item is usually value, such as: \n                        <pre>[12, 34, 56, ..., 10, 23]</pre>\n                     When the data corresponding to a category does not exist (ps: 'no data' is not equal to 0), you can use '-' to indicate 'no data'. In line, 'no data' is showed by a breakpoint; in column, 'no data' is showed by a missing column, such as: \n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                     When you need to customize individual contents, array items can use objects, such as: \n                        <pre>[\n    12, 34,\n    {\n        value : 56,\n        tooltip:{},     //custom tooltip，applicable to the item only, see tooltip\n        itemStyle:{}    //custom itemStyle=，applicable to the item only, see itemStyle\n    },\n    ..., 10, 23\n]\n</pre>\n                    ",
                             "default": []
                         },
                         {
                             "type": "Array",
+                            "applicable": "scatter",
                             "descriptionCN": " 当某类目对应数据不存在时（ps：'不存在' 不代表值为 0），可用'-'表示，无数据在折线图中表现为折线在该点断开，在柱状图中表现为该点无柱形，如：\n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                     当图表类型为scatter（散点图或气泡图）时，其数值设置比较特殊，他的横纵坐标轴都可能为数值型，并且气泡图时需要指定气泡大小，所以scatter型图表设置为：\n                        <pre>[\n    {\n        value : [10, 25, 5]     //[xValue, yValue, rValue]，数组内依次为横值，纵值，大小(可选)\n    },\n    [12, 15, 1]\n    ...\n]\n</pre>\n                    ",
                             "descriptionEN": " When the data corresponding to a category does not exist (ps: 'no data' is not equal to 0), you can use '-' to indicate 'no data'. In line, 'no data' is showed by a breakpoint; in column, 'no data' is showed by a missing column, such as: \n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                     In scatter & bubble, value configuration is quite special. Both its x-axis and y-axis can be value axis, and you need to specify bubble size in the bubble chart. Hence the configuration for scatter: \n                        <pre>[\n    {\n        value : [10, 25, 5]     //[xValue, yValue, rValue] (x-axis value, y-axis value, size(optional))\n    },\n    [12, 15, 1]\n    ...\n]\n</pre>\n                    ",
-                            "applicable": "scatter",
                             "default": []
                         },
                         {
                             "type": "Array",
+                            "applicable": "k",
                             "descriptionCN": " 当某类目对应数据不存在时（ps：'不存在' 不代表值为 0），可用'-'表示，无数据在折线图中表现为折线在该点断开，在柱状图中表现为该点无柱形，如：\n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                     当图表类型为K线图时，其数值设置比较特殊，他的数值内容为长度为4的数组，分别代表[开盘价，收盘价，最低值，最高值]\n                        <pre>[\n    {\n        value : [2190.1, 2148.35, 2126.22, 2190.1] // // 开盘，收盘，最低，最高\n    },\n    [2242.26, 2210.9, 2205.07, 2250.63],\n    ...\n]\n</pre>\n                    ",
                             "descriptionEN": " When the data corresponding to a category does not exist (ps: 'no data' is not equal to 0), you can use '-' to indicate 'no data'. In line, 'no data' is showed by a breakpoint; in column, 'no data' is showed by a missing column, such as: \n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                     In candlestick, value configuration is quite special. Its value content is an array with the length of 4, which respectively represents [opening price, closing price, the minimum value, the maximum value]\n                        <pre>[\n    {\n        value : [2190.1, 2148.35, 2126.22, 2190.1] // opening price, closing price, the minimum value, the maximum value\n    },\n    [2242.26, 2210.9, 2205.07, 2250.63],\n    ...\n]\n</pre>\n                    ",
-                            "applicable": "k",
                             "default": []
                         },
                         {
                             "type": "Array",
+                            "applicable": "pie",
                             "descriptionCN": " 当某类目对应数据不存在时（ps：'不存在' 不代表值为 0），可用'-'表示，无数据在折线图中表现为折线在该点断开，在柱状图中表现为该点无柱形，如：\n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                     当图表类型为饼图时，需要说明每部分数据的名称name，可设置选中状态，所以设置为：\n                        <pre>[\n    {\n        value : 12，\n        name : 'apple'          //每部分数据的名称\n    },\n    ...\n]\n</pre>\n                    ",
                             "descriptionEN": " When the data corresponding to a category does not exist (ps: 'no data' is not equal to 0), you can use '-' to indicate 'no data'. In line, 'no data' is showed by a breakpoint; in column, 'no data' is showed by a missing column, such as: \n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                     In pie, you need to specify the name for each part of data. Selected mode can be set. Hence the configuration: \n                        <pre>[\n    {\n        value : 12，\n        name : 'apple'          //the name for each part of data\n    },\n    ...\n]\n</pre>\n                    ",
-                            "applicable": "pie",
                             "default": []
                         },
                         {
                             "type": "Array",
+                            "applicable": "map",
                             "descriptionCN": " 当某类目对应数据不存在时（ps：'不存在' 不代表值为 0），可用'-'表示，无数据在折线图中表现为折线在该点断开，在柱状图中表现为该点无柱形，如：\n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                     当图表类型为地图时，需要说明每部分数据对应的省份，可设置选中状态，所以设置为：\n                        <pre>[\n    {\n        name: '北京',\n        value: 1234,\n        selected: true\n    },\n    {\n        name: '天津',\n        value: 321\n    },\n    ...\n]\n</pre>\n                    ",
                             "descriptionEN": " When the data corresponding to a category does not exist (ps: 'no data' is not equal to 0), you can use '-' to indicate 'no data'. In line, 'no data' is showed by a breakpoint; in column, 'no data' is showed by a missing column, such as: \n                        <pre>[12, '-', 56, ..., 10, 23]</pre>\n                      In map, you need to specify the province for each part of data. Selected mode can be set. Hence the configuration: \n                        <pre>[\n    {\n        name: '北京',\n        value: 1234,\n        selected: true\n    },\n    {\n        name: '天津',\n        value: 321\n    },\n    ...\n]\n</pre>\n                    ",
-                            "applicable": "map",
                             "default": []
                         },
                         {
@@ -4212,28 +4213,28 @@
                 },
                 "markPoint": {
                     "type": "Object",
-                    "descriptionCN": "通用",
-                    "descriptionEN": "universal",
+                    "descriptionCN": "标注",
+                    "descriptionEN": "markPoint.",
                     "$ref": "#definitions/markPoint",
                     "default": {}
                 },
                 "markLine": {
                     "type": "Object",
-                    "descriptionCN": "通用",
-                    "descriptionEN": "universal",
+                    "descriptionCN": "标线",
+                    "descriptionEN": "markLine.",
                     "$ref": "#definitions/markLine",
                     "default": {}
                 },
                 "z": {
                     "type": "number",
-                    "descriptionCN": "通用",
-                    "descriptionEN": "universal",
+                    "descriptionCN": "二级层叠控制，同一个canvas（相同zlevel）上z越高约靠顶层。",
+                    "descriptionEN": "The second grade cascading control, In the same canvas (zlevel), the higher z the closer to the top.",
                     "default": 2
                 },
                 "zlevel": {
                     "type": "number",
-                    "descriptionCN": "通用",
-                    "descriptionEN": "universal",
+                    "descriptionCN": "一级层叠控制。每一个不同的zlevel将产生一个独立的canvas，相同zlevel的组件或图标将在同一个canvas上渲染。zlevel越高越靠顶层，canvas对象增多会消耗更多的内存和性能，并不建议设置过多的zlevel，大部分情况可以通过二级层叠控制z实现层叠控制。",
+                    "descriptionEN": "The first grade cascading control. Every zlevel will be allocated to a independent canvas, charts and components with the same zlevel will be rendered in the same canvas. The higher zlevel the closer to the top. More canvas dom will need more memory and performance, so never set too many zlevel. Most of the time, the second grade cascading control 'z' is recommended.",
                     "default": 0
                 }
             },

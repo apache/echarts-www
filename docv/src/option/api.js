@@ -11,6 +11,7 @@ define(function (require) {
     var docUtil = require('../common/docUtil');
     var lang = require('./lang');
     var markRender = require('./markrender');
+    var feedback = require('../common/feedback');
 
     require('dt/componentConfig');
 
@@ -47,6 +48,8 @@ define(function (require) {
      */
     api.init = function () {
         apiMai = new APIMain($('.ecdoc-apidoc'));
+
+        feedback.init('option');
     };
 
     /**

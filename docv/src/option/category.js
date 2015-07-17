@@ -4,6 +4,7 @@ define(function(require) {
   exports = {};
   helper = require('./helper');
   _ = require('lodash');
+  lang = require('./lang');
   CLZ = {
     SELECT: 'selected',
     LIST: 'api-category-list'
@@ -15,7 +16,7 @@ define(function(require) {
   };
   template = function(list) {
     return "<ol>" + _.map(list, function(item) {
-      return "<li> <a href='javascript:void(0)' " + SELECTOR.DATA + "='" + item[0] + "'>" + item[1] + "</a> </li>";
+      return "<li> <a href='javascript:void(0)' " + SELECTOR.DATA + "='" + item[0] + "'>" + item[lang.langCode === 'en' ? 2 : 1] + "</a> </li>";
     }).join('') + "</ol>";
   };
   exports.init = function(ele, list) {

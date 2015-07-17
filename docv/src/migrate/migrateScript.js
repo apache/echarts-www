@@ -150,7 +150,7 @@ define(function (require) {
                     [
                         'Axis', 'AxisAxisline', 'AxisAxistick',
                         'AxisAxislabel', 'AxisSplitline', 'AxisSplitArea',
-                        'SeriesItem', 'SeriesCartesian',
+                        'Series', 'SeriesCartesian',
                         'ItemStyle'
                     ],
                     tableName
@@ -447,6 +447,7 @@ define(function (require) {
                     || o.descriptionCN.indexOf('非IE8-支持渲染为图片') >= 0
                     || o.descriptionCN.indexOf('是否启用拖拽重计算特性') >= 0
                     || o.descriptionCN.indexOf('副标题文本样式') >= 0
+                    || o.descriptionCN.indexOf('提示框样式，仅对本系列有效，') >= 0
                 ) {
                     o.descriptionCN = o.descriptionCN.replace(/，?\s*（?详见\s*<a[^<>]+>[^<>]+<\/a>）?/g, '');
                     o.descriptionEN = o.descriptionEN.replace(/,?\s*\(?see\s*<a[^<>]+>[^<>]+<\/a>\)?/g, '');
@@ -1413,6 +1414,8 @@ define(function (require) {
             }
             delete schema.definitions[sers[i]];
         }
+
+        seriesProperties.tooltip.$ref = '#definitions/tooltip';
 
         // radar
         seriesProperties.symbol.oneOf[0].applicable.push('radar', 'force', 'chord', 'tree');
