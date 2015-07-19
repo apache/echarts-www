@@ -241,7 +241,7 @@ define(function (require) {
          */
         _event: function (eventName) {
             var ns = this._prop('eventNamespace');
-            return (eventName != null ? eventName : '') + '.' + ns;
+            return (eventName != null ? eventName : '') + ns;
         },
 
         /**
@@ -293,7 +293,7 @@ define(function (require) {
 
             this._prop('cptDef', def);
             // 事件的名空间
-            this._prop('eventNamespace', 'namespace_' + lib.localUID());
+            this._prop('eventNamespace', '.namespace' + lib.localUID());
             // 存放子组件，格式为：{name: someSubComponent}
             this._prop('subComponents', {});
             this._prop('sub$Els', {});
@@ -323,6 +323,8 @@ define(function (require) {
          */
         dispose: function () {
             if (!this._prop('disposed')) {
+                var el = this.el();
+                var originInnerHTML = this._prop('originInnerHTML') || '';
                 // 最先自己进行清除
                 this._dispose();
                 disposeSub.call(this);
@@ -331,6 +333,7 @@ define(function (require) {
                 disposeBase.call(this);
                 // 最后一次机会自己清除
                 this._disposeFinally();
+                el.innerHTML = originInnerHTML;
                 this._prop('disposed', true);
             }
         },
@@ -456,35 +459,63 @@ define(function (require) {
             lib.assert($container.length);
 
             if (includeContainer && $container.data('cpt')) {
-                constructEachCpt.call(this, -1, container);
+                this._constructSubCpt.call(this, container);
             }
 
-            $('*[data-cpt]', $container).each(
-                $.proxy(constructEachCpt, this)
+            var that = this;
+            $('*[data-cpt]', $container).each(function (index, subEl) {
+                that._constructSubCpt(subEl);
+            });
+        },
+
+        /**
+         * @protected
+         */
+        _constructSubCpt: function (subEl) {
+            var $subEl = $(subEl);
+            var originInnerHTML = subEl.innerHTML;
+            var thisViewModel = this._viewModel();
+
+            var def = this._parseCptDef(
+                (new Function(
+                    'viewModel', 'lib', 'lang', 'constant',
+                    'return {' + $subEl.data('cpt') + '};'
+                )).call(this, thisViewModel, lib, this.getLang(), this.getConstant())
             );
+            var Clz = this.getCptClass(def.type);
 
-            function constructEachCpt(index, el) {
-                var $el = $(el);
-                var thisViewModel = this._viewModel();
+            var subViewModel = def.viewModelGet
+                 ? getByPath(def.viewModelGet, thisViewModel)
+                 : def.viewModel;
 
-                var def = this._parseCptDef(
-                    (new Function(
-                        'viewModel', 'lib', 'lang', 'constant',
-                        'return {' + $el.data('cpt') + '};'
-                    )).call(this, thisViewModel, lib, this.getLang(), this.getConstant())
-                );
-                var Clz = this.getCptClass(def.type);
+            var subCpt = new Clz(subEl, subViewModel, def);
+            subCpt._prop('originInnerHTML', originInnerHTML);
 
-                var subViewModel = def.viewModelGet
-                     ? getByPath(def.viewModelGet, thisViewModel)
-                     : def.viewModel;
+            return this._sub(
+                // 如果没定义name，则表示匿名
+                def.name || ('\x0E\x0F-sub-cpt-name-' + lib.localUID()),
+                subCpt
+            );
+        },
 
-                return this._sub(
-                    // 如果没定义name，则表示匿名
-                    def.name || ('\x0E\x0F-sub-cpt-name-' + lib.localUID()),
-                    new Clz(el, subViewModel, def)
-                );
+        /**
+         * 依照模板的定义，重新创建子component，旧的子component被dispose。
+         * 如果组件的dispose没有写完整，则可能出现内存泄露、事件处理器指向旧对象等问题。
+         *
+         * @public
+         * @param {string} subPath 如：'zzz.xxx'
+         */
+        recreateSubCpt: function (subPath) {
+            var subCpt = this._sub(subPath);
+            if (!subCpt) {
+                return;
             }
+
+            var originInnerHTML = subCpt._prop('originInnerHTML');
+            var subEl = subCpt.el();
+            subCpt.dispose();
+            this._sub(subPath, null);
+            this._constructSubCpt(subEl);
         },
 
         /**

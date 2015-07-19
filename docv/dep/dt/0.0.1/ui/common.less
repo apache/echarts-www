@@ -164,39 +164,6 @@
 }
 
 /**
- * 基本按钮。写成mixin因为有的地方不方便设class。
- */
-.dtui-mixin-btn() {
-    .border-radius(2px);
-    .user-select(none);
-    display: inline-block;
-    cursor: pointer;
-    color: #fff;
-    background: #3498DB;
-    text-align: center;
-    font-size: 14px;
-    min-width: 60px;
-    height: 24px;
-    line-height: 24px;
-    padding: 0 8px;
-
-    &-hover {
-        background: #2980B9;
-    }
-
-    &-active {
-        .box-shadow(none);
-    }
-}
-
-/**
- * 按钮基本样式
- */
-.dtui-btn {
-    .dtui-mixin-btn();
-}
-
-/**
  * Close cross
  */
 .dtui-close-cross {

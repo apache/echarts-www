@@ -821,7 +821,7 @@ define(function (require) {
                     var subSchemaPath;
                     if (context.schemaPath) {
                         subSchemaPath = context.schemaPath.slice();
-                        subSchemaPath.push(propertyName);
+                        subSchemaPath.push('properties', propertyName);
                     }
 
                     buildRecursively(
@@ -1013,7 +1013,7 @@ define(function (require) {
      */
     schemaHelper.buildDoc.schemaJsonRenderer = function (renderBase, schemaItem, context) {
         var subRenderBase = {
-            value: 'ecschemadocid-' + dtLib.localUID(),
+            value: context.schemaPath.join('.'),
             itemName: context.itemName, // for query
             descriptionCN: schemaItem.descriptionCN,
             descriptionEN: schemaItem.descriptionEN,
@@ -1059,9 +1059,13 @@ define(function (require) {
             subRenderBase.text = context.itemName + defualtValue + applicable + ref;
         }
 
-        if (context.relationInfo === BuildDocInfo.IS_OBJECT_ITEM) {
-            subRenderBase.propertyName = context.itemName;
-        }
+        subRenderBase.editable = {
+            propertyName: context.relationInfo === BuildDocInfo.IS_DEFINITION_ITEM
+                || (context.relationInfo === BuildDocInfo.IS_OBJECT_ITEM
+                    && context.oneOfInfo !== BuildDocInfo.IS_ONE_OF_ITEM
+                ),
+            type: context.oneOfInfo !== BuildDocInfo.IS_ONE_OF_PARENT
+        };
 
         (renderBase.children = (renderBase.children || [])).push(subRenderBase);
 

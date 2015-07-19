@@ -269,7 +269,38 @@ define(function (require) {
 
     var sbpActionChoiceDefault = sbpActionChoice.notObjectThrow;
 
+    /**
+     * 根据对象路径删除数据。
+     * 路径中支持特殊字符（只要不和分隔符冲突即可），如asdf.xxx-b.eee。
+     * 注意：此方法不会去trim路径中的中英文空格tab等。
+     * 例如：
+     *      var obj = {asdf: {zxcv: [43, 44]} };
+     *      可：lib.deleteByPath('asdf.zxcv');
+     *      使obj值最终为：
+     *          {
+     *              asdf: {
+     *              }
+     *          };
+     *
+     * @public
+     * @param {string} path 如xxx.sss.aaa[2][3].some
+     * @param {Object} context 设置的目标
+     * @param {Function=} actionChoice 过程中判断当前context、pathUnit时接下来行为
+     *                                 返回 lib.setByPath.Action 枚举值。
+     * @return {*} value
+     */
+    lib.deleteByPath = function (
+        path, context, actionChoice, setter
+    ) {
+        var ret;
+        setByPath(path, UNDEFINED, context, actionChoice, deleteSetter);
+        return ret;
 
+        function deleteSetter(lastContext, pathUnit) {
+            ret = lastContext[pathUnit];
+            delete lastContext[pathUnit];
+        }
+    };
 
     /**
      * 根据realpath缩减path，保留原先的[]等标记

@@ -6,21 +6,26 @@ body {
     padding: 21px;
     margin: 0;
     font-size: 14px;
-    background: #222;
-    color: #efe;
+    color: #222;
+}
+.dtui-dlg {
+    max-width: 800px;
 }
 .ecdoc-api-link {
     margin: 10px 0 20px 0;
     & a {
-        color: #fff;
+        color: #222;
     }
     & a:visited {
-        color: #fff;
+        color: #222;
     }
 }
 .ecdoc-app-desc {
     h2, h3, strong {
-        color: yellow;
+        color: #0070B5;
+    }
+    h3 {
+        margin: 6px 0;
     }
     strong {
         margin: 0 3px;
@@ -42,22 +47,6 @@ body {
 .ecdoc-scmedt-desc-area {
     margin-left: 305px;
 }
-.ecdoc-scmedt-opt-path-sample {
-    position: fixed;
-    widows: 200px;
-    height: 400px;
-    right: 10px;
-    top: 10px;
-    border: 2px solid blue;
-    -webkit-box-shadow:  10px 10px 5px #888888;
-    box-shadow:  10px 10px 5px #888888;
-}
-
-
-.dtui-txipt-type-textarea {
-    width: 314px;
-    height: 200px;
-}
 
 .ecdoc-scmedt-query-box {
     top: 20px;
@@ -67,7 +56,6 @@ body {
     .dtui-txipt {
         background: #fff;
         color: #000;
-        height: 30px;
         width: 280px;
         display: block;
         margin: 0;
@@ -82,47 +70,36 @@ body {
     top: 20px;
     bottom: 20px;
     right: 30px;
-    width: 350px;
+    width: 380px;
     overflow: auto;
 
-    .query-input {
-        border: 1px solid #888;
-        padding: 5px;
-        margin-top: 10px;
-        min-height: 60px;
+    h2 {
+        font-size: 16px;
     }
-    .query-btn {
-        margin: 3px;
-        cursor: pointer;
-        padding: 3px 5px;
-        font-size: 14px;
-        background: green;
-        color: #fff;
+
+    .ecdoc-scmedt-schema-path {
+        word-break:break-all;
+        word-wrap:break-word;
+        background: rgba(66, 139, 202, 0.15);
+        border: 1px solid rgba(66, 139, 202, 0.55);
+        .border-radius(2px);
+        font-family: Monaco, Monospace;
+        font-weight: normal;
+        color: #1D598C;
+        margin: 5px 0 20px 0;
+        padding: 0 5px;
+        line-height: 28px;
     }
-    .query-tabs {
-        padding-bottom: 10px;
-        border-bottom: 1px solid green;
-        overflow: hidden;
+    .ecdoc-scmedt-schema-timeline {
+        .dtui-btn {
+            min-width: 0;
+            font-family: Arial;
+        }
     }
-    .query-tab {
-        padding: 0 2px;
-        float: left;
-        border: 1px solid green;
-        margin: 1px;
-        cursor: pointer;
-        font-size: 12px;
-    }
-    .query-tab-active {
-        background: green;
-        color: #fff;
-    }
-    .reset-btn {
-        padding: 3px 5px;
-        margin-left: 7px;
-        font-size: 14px;
-        cursor: pointer;
-        background: green;
-        color: #fff;
+
+    .dtui-txipt-type-textarea {
+        width: 314px;
+        height: 200px;
     }
 
     .ecdoc-scmedt-typesel {
@@ -136,6 +113,10 @@ body {
         *zoom: 1;
         vertical-align: middle;
         min-width: 150px;
+    }
+    .ecdoc-scmedt-split {
+        border-bottom: 1px solid #ddd;
+        margin: 20px 0;
     }
     .ecdoc-scmedt-block-line .dtui-txipt-type-text {
         width: 150px

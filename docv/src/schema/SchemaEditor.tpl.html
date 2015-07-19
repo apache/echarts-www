@@ -2,9 +2,6 @@
 <div class="ecdoc-scmedt-head-desc">
 这是只供我们自己简单用用的 doc schema 编辑和浏览器。<br>
 注意，这是 doc schema，和api doc不一样，api doc是基于 doc schema 渲染出来的，里面有很多根据不同echarts series type以及“引用”而重复渲染的东西。
-<div class="ecdoc-api-link">
-    <a href="../api/APIDocSample.html" target="_blank">点我看生成的doc例子</a>
-</div>
 </div>
 
 <div class="ecdoc-scmedt-tree-area">
@@ -12,9 +9,9 @@
         type: 'TreeList',
         name: 'schemaTree',
         viewModel: {
-            selected: viewModel.apiTreeSelected,
-            highlighted: viewModel.apiTreeHighlighted,
-            datasource: viewModel.apiTreeDatasource
+            selected: viewModel.schemaTreeSelected,
+            highlighted: viewModel.schemaTreeHighlighted,
+            datasource: viewModel.schemaTreeDatasource
         }">
     </div>
 </div>
@@ -31,40 +28,7 @@
     </div>
 
     <div class="ecdoc-scmedt-edit-area ecdoc-fixed-panel">
-        <div class="query-tabs">
-            <div class="query-tab query-tab-edit query-tab-active" data-box=".query-box-edit">编辑（现在只能读不能编辑）</div>
-            <div class="query-tab query-tab-by-path" data-box=".query-box-by-path">XX</div>
-            <div class="query-tab query-tab-by-property" data-box=".query-box-by-property">XX</div>
-            <div class="query-tab query-tab-by-full"  data-box=".query-box-by-full">XX</div>
-        </div>
-
-        <div class="query-box query-box-edit" data-arg-name="xxx">
-            {{ import: EditBlock }}
-        </div>
-
-        <div class="query-box query-box-by-path" data-arg-name="optionPath" style="display:none">
-            <div class="query-collapse-radio">
-                <input type="radio" name="collapse-first" value="1" checked="checked" />每次折叠
-                <input type="radio" name="collapse-first" value="0" />每次不折叠
-                <input type="button" class="reset-btn" value="reset" />
-            </div>
-            <textarea class="query-input">
-series[i](applicable:pie,line).itemStyle.normal.borderColor
-            </textarea><input type="button" class="query-btn" value=" query "/>
-        </div>
-
-        <div class="query-box query-box-by-property" data-arg-name="fuzzyPath" style="display:none">
-            <textarea class="query-input">
-serie
-            </textarea><input type="button" class="query-btn" value=" query "/>
-        </div>
-
-        <div class="query-box query-box-by-full" data-arg-name="anyText" style="display:none">
-            <textarea class="query-input">
-折线图
-            </textarea><input type="button" class="query-btn" value=" query "/>
-        </div>
-
+        {{ import: EditBlock }}
     </div>
 </div>
 <div class="ecdoc-opt-path-sample">
@@ -73,16 +37,37 @@ serie
 
 
 {{ target: EditBlock }}
-<!-- <div class="ecdoc-scmedt-block-line ecdoc-scmedt-typesel">
-    节点类型:
+<div class="ecdoc-scmedt-schema-path"></div>
+<div class="ecdoc-scmedt-schema-timeline">
+    <div data-cpt="type: 'Button', name: 'undo', text: '◄ UNDO'"></div>
+    <div data-cpt="type: 'Button', name: 'redo', text: 'REDO ►'"></div>
+</div>
+<div class="ecdoc-scmedt-split"></div>
+<h2>以当前选中节点为基准的增删操作：</h2>
+<div class="ecdoc-scmedt-block-line">
     <div data-cpt="
-        type: 'CheckButton',
-        name: 'editBlock.blockType',
-        viewModel: {
-            dataList: viewModel.blockTypes
-        }">
+        type: 'Button',
+        name: 'manipulator.addDefinition',
+        text: '增加 definition'" style="display:none">
     </div>
-</div> -->
+    <div data-cpt="
+        type: 'Button',
+        name: 'manipulator.addArrayItem',
+        text: '增加 Array Item'" style="display:none">
+    </div>
+    <div data-cpt="
+        type: 'Button',
+        name: 'manipulator.addObjectProperty',
+        text: '增加 Object Property'" style="display:none">
+    </div>
+    <div data-cpt="
+        type: 'Button',
+        name: 'manipulator.addOneOf',
+        text: '增加 OneOf'" style="display:none">
+    </div>
+</div>
+<div class="ecdoc-scmedt-split"></div>
+<h2>修改或查看当前选中节点内容：</h2>
 <div class="ecdoc-scmedt-block-line">
     <span class="ecdoc-scmedt-block-label">property name:</span>
     <div data-cpt="
@@ -123,7 +108,7 @@ serie
     <span class="ecdoc-question" data-tip-tpl="tipApplicable"></span>
 </div>
 <div class="ecdoc-scmedt-block-line">
-    <span class="ecdoc-scmedt-block-label">type（注意是多选）:</span>
+    <span class="ecdoc-scmedt-block-label">type（可以多选）:</span>
     <div data-cpt="
         type: 'CheckButton',
         name: 'editBlock.type',
@@ -154,7 +139,7 @@ serie
 </div>
 <div class="ecdoc-scmedt-block-line">
     <span class="ecdoc-scmedt-block-label">默认值解释<br>
-    （当默认值不好表达时用这个字段）:</span>
+    （当默认值不好表达时用这个字段，尽量不要去用）:</span>
     <div data-cpt="
         type: 'TextInput',
         name: 'editBlock.defaultExplanation',
@@ -172,7 +157,7 @@ serie
             checked: lib.ob('rendered'),
             dataList: [
                 {value: 'rawHTML', text: '编辑 HTML'},
-                {value: 'rendered', text: 'render'}
+                {value: 'rendered', text: '渲染 HTML'}
             ]
         }" class="label-continue">
     </div>
@@ -194,7 +179,7 @@ serie
             checked: lib.ob('rendered'),
             dataList: [
                 {value: 'rawHTML', text: '编辑 HTML'},
-                {value: 'rendered', text: 'render'}
+                {value: 'rendered', text: '渲染 HTML'}
             ]
         }" class="label-continue">
     </div>

@@ -7,22 +7,20 @@ define(function (require) {
     var Component = require('dt/ui/Component');
     var schemaHelper = require('../common/schemaHelper');
     var dtLib = require('dt/lib');
+    var docUtil = require('../common/docUtil');
     var dialog = require('dt/ui/dialog');
+    var editDataMgr = require('./editDataMgr');
 
     require('dt/componentConfig');
 
-    var SCHEMA_URL = '../optionSchema.json';
+    var SCHEMA_URL = '../data/schema/optionSchema.json';
     var TPL_TARGET = 'SchemaEditor';
-    var SELECTOR_QUERY_AREA = '.ecdoc-scmedt-query-area';
-    var SELECTOR_QUERY_TAB = '.query-tab';
-    var CSS_QUERY_TAB_ACTIVE = 'query-tab-active';
-    var SELECTOR_QUERY_BOX = '.query-box';
     var SELECTOR_COLLAPSE_RADIO = '.query-collapse-radio input[type=radio]';
-    var SELECTOR_RESET_BUTTON = '.reset-btn';
     var SELECTOR_DESC_RENDERED_CN = '.desc-rendered-cn';
     var SELECTOR_DESC_RENDERED_EN = '.desc-rendered-en';
     var SELECTOR_QUESTION = '.ecdoc-question';
-    var ATTR_TIP_TPL_TARGET = 'data-tip-tpl'
+    var SELECTOR_SCHEMA_PATH = '.ecdoc-scmedt-schema-path';
+    var ATTR_TIP_TPL_TARGET = 'data-tip-tpl';
 
     /**
      * 编辑端入口
@@ -37,9 +35,9 @@ define(function (require) {
             css: 'ecdoc-scmedt',
             viewModel: function () {
                 return {
-                    apiTreeDatasource: null,
-                    apiTreeSelected: dtLib.ob(),
-                    apiTreeHighlighted: dtLib.obArray()
+                    schemaTreeDatasource: null,
+                    schemaTreeSelected: dtLib.ob(),
+                    schemaTreeHighlighted: dtLib.obArray()
                 };
             }
         },
@@ -47,17 +45,12 @@ define(function (require) {
         _prepare: function () {
             var viewModel = this._viewModel();
 
-            viewModel.apiTreeDatasource = [];
+            viewModel.schemaTreeDatasource = [];
 
-            var blockTypes = viewModel.blockTypes = [];
-            blockTypes.push(
-                {value: 'object', text: 'Object'},
-                {value: 'array', text: 'Array'},
-                {value: 'primary', text: 'Primary'},
-                {value: 'ref', text: '引用'},
-                {value: 'oneOfParent', text: 'OneOf（表示此节点有多种可能）'},
-                {value: 'definition', text: 'Definition'}
-            );
+            // definition
+            // oneOfParent
+            // addArrayItem
+            // addProperty
 
             var valueTypes = viewModel.valueTypes = [];
             for (var i = 0, len = schemaHelper.EC_OPTION_TYPE.length; i < len; i++) {
@@ -66,6 +59,159 @@ define(function (require) {
             }
 
             $.getJSON(SCHEMA_URL, $.proxy(this._handleSchemaLoaded, this));
+        },
+
+        _handleSchemaLoaded: function (schema) {
+            editDataMgr.init(schema);
+
+            this._viewModel().schemaTreeDatasource = [editDataMgr.getSchemaRenderTree()];
+            this._applyTpl(this.$el(), TPL_TARGET);
+
+            this._initEditPanel();
+            this._initTimeline();
+            this._initDescViewHTML();
+            this._initQuery();
+            this._initTip();
+        },
+
+        _initEditPanel: function () {
+            // 首先挂载写入事件
+            var editInputs = this._sub('editBlock');
+            for (var prop in editInputs) {
+                if (editInputs.hasOwnProperty(prop)) {
+                    var persistentObName = this._editPanelDefine[prop].persistentObName;
+                    if (persistentObName) {
+                        editInputs[prop].viewModel(persistentObName).subscribe(
+                            $.proxy(this._onEditInputChanged, this, prop)
+                        );
+                    }
+                }
+            }
+
+            // 然后一些特定的其他事件
+            // this._disposable(
+            //     this._sub('editBlock.type').viewModel('checked').subscribe(onTypeSelected, this)
+            // );
+
+            // function onTypeSelected(val, ob) {
+            //     if (dtLib.checkValueInfoForConfirmed(ob)) { // 只有用户点击才触发，程序设值不触发。
+            //         this._resetEditPanel();
+            //     }
+            // }
+
+            this._disposable(
+                this._viewModel().schemaTreeSelected.subscribe(this._resetEditPanel, this)
+            );
+
+            this._resetEditPanel();
+        },
+
+        /**
+         * 所有刷新
+         */
+        _refreshBySchema: function (options) {
+            this._viewModel().schemaTreeDatasource = [editDataMgr.getSchemaRenderTree()];
+            this.recreateSubCpt('schemaTree');
+
+            this._resetEditPanel();
+            if (options && options.selectedValue) {
+                var selOb = this._viewModel().schemaTreeSelected;
+                selOb(options.selectedValue);
+            }
+        },
+
+        /**
+         * 所有edit reset的入口
+         */
+        _resetEditPanel: function () {
+            this._resetEditEnable();
+            this._resetEditRead();
+        },
+
+        _resetEditEnable: function () {
+            var isTreeSelecting = this._isTreeSelecting();
+            var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
+
+            var editInputs = this._sub('editBlock');
+            for (var name in editInputs) {
+                if (editInputs.hasOwnProperty(name)) {
+                    editInputs[name].viewModel('disabled')(
+                        !isTreeSelecting
+                            || !this._editPanelDefine[name].isEnabled(editInputs[name], treeItem)
+                    );
+                }
+            }
+            this._sub('descViewTypeCN').viewModel('disabled')(!isTreeSelecting);
+            this._sub('descViewTypeEN').viewModel('disabled')(!isTreeSelecting);
+
+            var typeOb = this._sub('editBlock.type').viewModel('checked');
+            var types = docUtil.normalizeToArray(typeOb());
+            var treeSelectValue = this._viewModel().schemaTreeSelected();
+            var isOnRoot = editDataMgr.isOnRoot(treeSelectValue);
+
+            this._sub('manipulator.addArrayItem').viewModel('visible')(
+                isTreeSelecting && types.length === 1 && types[0] === 'Array'
+            );
+            this._sub('manipulator.addObjectProperty').viewModel('visible')(
+                isTreeSelecting && types.length === 1 && types[0] === 'Object'
+            );
+            this._sub('manipulator.addDefinition').viewModel('visible')(
+                isTreeSelecting && isOnRoot
+            );
+            this._sub('manipulator.addOneOf').viewModel('visible')(
+                isTreeSelecting && !isOnRoot
+            );
+        },
+
+        _resetEditRead: function () {
+            var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
+            if (treeItem) {
+                for (var key in this._editPanelDefine) {
+                    if (this._editPanelDefine.hasOwnProperty(key)) {
+                        var o = this._editPanelDefine[key];
+                        o.reader.call(this, this._sub('editBlock.' + key), treeItem);
+                    }
+                }
+
+                this.$el().find(SELECTOR_SCHEMA_PATH)[0].innerHTML =
+                    'Path: ' + treeItem.schemaPath.join('.');
+            }
+        },
+
+        _onEditInputChanged: function (prop, val, ob) {
+            if (dtLib.checkValueInfoForConfirmed(ob)) {
+                try {
+                    var dataItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
+                    var writer = this._editPanelDefine[prop].writer;
+                    writer(val, dataItem);
+                }
+                catch (e) {
+                    docUtil.log('error input: ' + prop + ' = ' + val);
+                }
+            }
+        },
+
+        _initTimeline: function () {
+            // Undo and redo
+            editDataMgr.subscribeTimelineMove(onTimelineMove, this);
+            resetBtns.call(this);
+
+            this._sub('undo').on('click', dtLib.curry(editDataMgr.timelineJump, -1));
+            this._sub('redo').on('click', dtLib.curry(editDataMgr.timelineJump, 1));
+
+            function onTimelineMove(args) {
+                resetBtns.call(this);
+                this._refreshBySchema(args);
+            }
+
+            function resetBtns() {
+                this._sub('undo').viewModel('disabled')(!editDataMgr.canTimelineJump(-1));
+                this._sub('redo').viewModel('disabled')(!editDataMgr.canTimelineJump(1));
+            }
+        },
+
+        _isTreeSelecting: function () {
+            return this._viewModel().schemaTreeSelected() != null;
         },
 
         _initDescViewHTML: function () {
@@ -86,35 +232,6 @@ define(function (require) {
                     rawCptVisible(true);
                 }
             }
-        },
-
-        _handleSchemaLoaded: function (schema) {
-            var renderBase = {};
-            schemaHelper.buildDoc(
-                schema, renderBase, schemaHelper.buildDoc.schemaJsonRenderer, 'schema'
-            );
-
-            this._docTree = {
-                value: 'root',
-                text: 'definitions',
-                children: renderBase.children[0].children,
-                expanded: true
-            };
-
-            var viewModel = this._viewModel();
-            viewModel.apiTreeDatasource = [this._docTree];
-            this._applyTpl(this.$el(), TPL_TARGET);
-
-            this._initDescViewHTML();
-            this._initQuery();
-            this._initTip();
-
-            this._disposable(
-                this._sub('schemaTree').viewModel('selected')
-                    .subscribe($.proxy(this._updateEditPanel, this, true))
-            );
-
-            this._initQueryArea();
         },
 
         _initTip: function () {
@@ -156,117 +273,9 @@ define(function (require) {
                     valueList.push(dataItem.value);
                 }
             }
-            this._viewModel().apiTreeHighlighted(
+            this._viewModel().schemaTreeHighlighted(
                 valueList, {collapseLevel: 1, scrollToTarget: {clientX: 30}}
             );
-        },
-
-        _updateEditPanel: function (persistent, nextValue, ob) {
-            var treeItem = ob.peekValueInfo('dataItem');
-            if (!treeItem) {
-                return;
-            }
-
-            for (var key in this._editPanelDefine) {
-                if (this._editPanelDefine.hasOwnProperty(key)) {
-                    var o = this._editPanelDefine[key];
-                    o.reset.call(this, this._sub('editBlock.' + key), treeItem);
-                }
-            }
-        },
-
-        _editPanelDefine: {
-            propertyName: {
-                reset: function (cpt, treeItem) {
-                    cpt.viewModel('value')(treeItem.propertyName);
-                }
-            },
-            type: {
-                reset: function (cpt, treeItem) {
-                    var type = treeItem.type;
-                    if (!type) {
-                        type = [];
-                    }
-                    else if (!$.isArray(type)) {
-                        type = [type];
-                    }
-                    cpt.viewModel('checked')(type);
-                }
-            },
-            applicable: {
-                reset: function (cpt, treeItem) {
-                    var list = schemaHelper.normalizeToArray(treeItem.applicable);
-                    cpt.viewModel('value')(list.join(','));
-                }
-            },
-            enumerateBy: {
-                reset: function (cpt, treeItem) {
-                    var list = schemaHelper.normalizeToArray(treeItem.enumerateBy);
-                    cpt.viewModel('value')(list.join(','));
-                }
-            },
-            setApplicable: {
-                reset: function (cpt, treeItem) {
-                    var list = schemaHelper.normalizeToArray(treeItem.setApplicable);
-                    cpt.viewModel('value')(list.join(','));
-                }
-            },
-            ref: {
-                reset: function (cpt, treeItem) {
-                    cpt.viewModel('value')(treeItem.ref || '无');
-                }
-            },
-            defaultValue: {
-                reset: function (cpt, treeItem) {
-                    cpt.viewModel('value')(stringifyValue(treeItem.defaultValue));
-                }
-            },
-            defaultExplanation: {
-                reset: function (cpt, treeItem) {
-                    cpt.viewModel('value')(treeItem.defaultExplanation || '无');
-                }
-            },
-            descCN: {
-                reset: function (cpt, treeItem) {
-                    var html = treeItem.descriptionCN || '无';
-                    cpt.viewModel('value')(html);
-                    this.$el().find(SELECTOR_DESC_RENDERED_CN)[0].innerHTML = html;
-                }
-            },
-            descEN: {
-                reset: function (cpt, treeItem) {
-                    var html = treeItem.descriptionEN || '无';
-                    cpt.viewModel('value')(html);
-                    this.$el().find(SELECTOR_DESC_RENDERED_EN)[0].innerHTML = html;
-                }
-            }
-        },
-
-        _initQueryArea: function () {
-            var $area = $(SELECTOR_QUERY_AREA);
-            var that = this;
-            $(SELECTOR_QUERY_TAB).on('click', function () {
-                var $tab = $(this);
-                var $target = $area.find($tab.attr('data-box'));
-                $area.find(SELECTOR_QUERY_TAB).removeClass(CSS_QUERY_TAB_ACTIVE);
-                $tab.addClass(CSS_QUERY_TAB_ACTIVE);
-                $area.find(SELECTOR_QUERY_BOX).hide();
-                $target.show();
-            });
-
-            $area.find(SELECTOR_QUERY_BOX).each(function () {
-                var $box = $(this);
-                var queryArgName = $box.attr('data-arg-name');
-                $box.find('.query-btn').on('click', function () {
-                    var queryStr = $.trim($(this).prev().val());
-                    that.doQuery(queryStr, queryArgName);
-                });
-            });
-
-            $area.find(SELECTOR_RESET_BUTTON).on('click', function () {
-                that._viewModel().apiTreeSelected(null, {collapseLevel: 1});
-                that._viewModel().apiTreeHighlighted([], {collapseLevel: 1});
-            });
         },
 
         /**
@@ -279,7 +288,7 @@ define(function (require) {
             try {
                 var args = {};
                 args[queryArgName] = queryStr;
-                result = schemaHelper.queryDocTree(this._docTree, args);
+                result = schemaHelper.queryDocTree(editDataMgr.getSchemaRenderTree(), args);
             }
             catch (e) {
                 alert(e);
@@ -303,12 +312,137 @@ define(function (require) {
                 valueSet.push(result[i].value);
             }
 
-            this._viewModel().apiTreeHighlighted(
+            this._viewModel().schemaTreeHighlighted(
                 valueSet, {scrollToTarget: {clientX: 30}, collapseLevel: collapseLevel}
             );
 
             console.log(result);
+        },
+
+        _editPanelDefine: {
+            propertyName: {
+                isEnabled: function (cpt, treeItem) {
+                    return treeItem
+                        && !editDataMgr.isOnRoot(treeItem.value)
+                        && treeItem.editable.propertyName;
+                },
+                reader: function (cpt, treeItem) {
+                    cpt.viewModel('value')(treeItem.itemName);
+                },
+                persistentObName: 'value',
+                writer: function (val, dataItem) {
+                    var path = dataItem.schemaPath.slice();
+                    editDataMgr.renamePropertySchemaDataItem(path, val);
+                }
+            },
+            type: {
+                isEnabled: function (cpt, treeItem) {
+                    return treeItem
+                        && !editDataMgr.isOnRoot(treeItem.value)
+                        && treeItem.editable.type;
+                },
+                reader: function (cpt, treeItem) {
+                    var type = treeItem.type;
+                    if (!type) {
+                        type = [];
+                    }
+                    else if (!$.isArray(type)) {
+                        type = [type];
+                    }
+                    cpt.viewModel('checked')(type);
+                },
+                persistentObName: 'checked',
+                writer: dtLib.curry(defaultPropertyWriter, 'type', 'type')
+            },
+            applicable: {
+                isEnabled: function (cpt, treeItem) {
+                    return !!treeItem;
+                },
+                reader: function (cpt, treeItem) {
+                    var list = docUtil.normalizeToArray(treeItem.applicable);
+                    cpt.viewModel('value')(list.join(','));
+                },
+                persistentObName: 'value',
+                writer: dtLib.curry(defaultPropertyWriter, 'applicable', 'applicable')
+            },
+            enumerateBy: {
+                isEnabled: function (cpt, treeItem) {
+                    return !!treeItem;
+                },
+                reader: function (cpt, treeItem) {
+                    var list = docUtil.normalizeToArray(treeItem.enumerateBy);
+                    cpt.viewModel('value')(list.join(','));
+                },
+                persistentObName: 'value',
+                writer: dtLib.curry(defaultPropertyWriter, 'enumerateBy', 'enumerateBy')
+            },
+            setApplicable: {
+                isEnabled: function (cpt, treeItem) {
+                    return !!treeItem;
+                },
+                reader: function (cpt, treeItem) {
+                    var list = docUtil.normalizeToArray(treeItem.setApplicable);
+                    cpt.viewModel('value')(list.join(','));
+                },
+                persistentObName: 'value',
+                writer: dtLib.curry(defaultPropertyWriter, 'setApplicable', 'setApplicable')
+            },
+            ref: {
+                isEnabled: function (cpt, treeItem) {
+                    return !!treeItem;
+                },
+                reader: function (cpt, treeItem) {
+                    cpt.viewModel('value')(treeItem.ref || '');
+                },
+                persistentObName: 'value',
+                writer: dtLib.curry(defaultPropertyWriter, 'ref', 'ref')
+            },
+            defaultValue: {
+                isEnabled: function (cpt, treeItem) {
+                    return !!treeItem;
+                },
+                reader: function (cpt, treeItem) {
+                    cpt.viewModel('value')(stringifyValue(treeItem.defaultValue));
+                },
+                persistentObName: 'value',
+                writer: dtLib.curry(defaultPropertyWriter, 'default', 'defaultValue')
+            },
+            defaultExplanation: {
+                isEnabled: function (cpt, treeItem) {
+                    return !!treeItem;
+                },
+                reader: function (cpt, treeItem) {
+                    cpt.viewModel('value')(treeItem.defaultExplanation || '');
+                },
+                persistentObName: 'value',
+                writer: dtLib.curry(defaultPropertyWriter, 'defaultExplanation', 'defaultExplanation')
+            },
+            descCN: {
+                isEnabled: function (cpt, treeItem) {
+                    return !!treeItem;
+                },
+                reader: function (cpt, treeItem) {
+                    var html = treeItem.descriptionCN || '';
+                    cpt.viewModel('value')(html);
+                    this.$el().find(SELECTOR_DESC_RENDERED_CN)[0].innerHTML = html;
+                },
+                persistentObName: 'value',
+                writer: dtLib.curry(defaultPropertyWriter, 'descriptionCN', 'descriptionCN')
+            },
+            descEN: {
+                isEnabled: function (cpt, treeItem) {
+                    return !!treeItem;
+                },
+                reader: function (cpt, treeItem) {
+                    var html = treeItem.descriptionEN || '';
+                    cpt.viewModel('value')(html);
+                    this.$el().find(SELECTOR_DESC_RENDERED_EN)[0].innerHTML = html;
+                },
+                persistentObName: 'value',
+                writer: dtLib.curry(defaultPropertyWriter, 'descriptionEN', 'descriptionEN')
+            }
         }
+
     });
 
     function stringifyValue(value) {
@@ -318,6 +452,12 @@ define(function (require) {
         catch (e) {
         }
         return value + '';
+    }
+
+    function defaultPropertyWriter(schemaItemPropertyName, dataItemPropertyName, val, dataItem) {
+        var path = dataItem.schemaPath.slice();
+        path.push(schemaItemPropertyName);
+        editDataMgr.updateSchemaDataItem(path, val);
     }
 
     return SchemaEditor;

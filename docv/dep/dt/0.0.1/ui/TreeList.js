@@ -682,17 +682,19 @@ define(function (require) {
          * @return {(Array.<Object>|Object)}
          */
         findDataItemByOb: function (ob, single) {
+            var values = lib.obTypeOf(ob) === 'obArray' ? ob() : [ob()];
+            return this.findDataItemByValues(values, single);
+        },
+
+        /**
+         * @public
+         * @param {Array.<*>} values
+         * @param {boolean} single 如果为true，返回第一个结果。如果为false，返回数组。
+         *                         默认为false。
+         * @return {(Array.<Object>|Object)}
+         */
+        findDataItemByValues: function (values, single) {
             var result = [];
-            var type = lib.obTypeOf(ob);
-            var values;
-
-            if (type === 'obArray') {
-                values = ob();
-            }
-            else {
-                values = [ob()];
-            }
-
             this._travelData(
                 this._viewModel().datasource,
                 {preChildren: visitItem}
