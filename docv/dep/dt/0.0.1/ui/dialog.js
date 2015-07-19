@@ -52,7 +52,7 @@ define(function (require) {
      *
      * 使用方法0（原生）：
      * dialog.create({
-     *     key: 'someKey', // 自己定义，每个key对应一个Dialog实例
+     *     key: 'myKey', // 自己定义，每个key对应一个Dialog实例
      *     buttons: [
      *         {value: 'save', text: '保存' },
      *         {value: 'nosave', text: '不保存' },
@@ -60,7 +60,7 @@ define(function (require) {
      *     ] // 其中value值会放在按钮的css上（以dtm-dlg-btn-为前缀），text值会被自动encodeHTML
      * });
      * dialog.open({
-     *     key: 'someKey',
+     *     key: 'myKey',
      *     content: '这是显示的文字',
      *     encodeHTML: true, // 缺省是true，如果需要显示原生html，则设置为false
      *     buttonHandler: function,
@@ -70,6 +70,23 @@ define(function (require) {
      *         btnValue: newText
      *     }
      * });
+     *
+     * 使用方法-1（预定义模板）：
+     * 先创建实例（持久存在）：
+     * dialog.create({
+     *     key: 'myKey', // 自己定义，每个key对应一个Dialog实例
+     *     tplTarget: 'someTplTarget', // 模板target名
+     *     afterInit: function ($content) { ..在此进行dom事件绑定等逻辑.. }
+     *     dialogType: 'alert' // 只能是 'confirm' 'alert' 'ask'
+     * });
+     * 再打开面板：
+     * dialog.alert({
+     *     key: 'myKey',
+     *     afterShow: function ($content, options) { ..在此进行内容更新逻辑.. }
+     *     onYes: function, // 可缺省
+     *     textYes: '' // 缺省为"确定"
+     * });
+     * 'confirm' 和 'ask' 类同。
      *
      * 所有buttonHandler，如果返回false，则表示什么也不做，dialog不会关闭。
      *
@@ -84,11 +101,30 @@ define(function (require) {
          * @public
          * @param {Object} viewModel
          * @param {string} viewModel.key
+         * @param {string=} viewModel.tplTarget
+         * @param {string=} viewModel.dialogType 只能是'confirm' 'alert' 'ask'
+         * @param {Function=} viewModel.afterInit function ($content) { ... }
          * @param {Array.<Object>=} viewModel.buttons
          */
         create: function (viewModel) {
-            lib.assert(viewModel.key && !instances[viewModel.key]);
-            instances[viewModel.key] = new Dialog(viewModel);
+            lib.assert(
+                viewModel.key && !instances[viewModel.key],
+                'Key "' + viewModel.key + '" has been taken, change a new key please.'
+            );
+            var vm = lib.assign({}, viewModel, null, ['tplTarget', 'dialogType']);
+            vm.subTplTarget = viewModel.tplTarget;
+
+            if (viewModel.dialogType) {
+                lib.assert(
+                    btnStyles[viewModel.dialogType],
+                    'can only be \'confirm\', \'alert\', \'ask\'.'
+                );
+                if (!vm.buttons) {
+                    vm.buttons = btnStyles[viewModel.dialogType]();
+                }
+            }
+
+            instances[viewModel.key] = new Dialog(vm);
         },
 
         /**
@@ -122,8 +158,9 @@ define(function (require) {
                 confirm: options.textYes,
                 cancel: options.textCancel
             };
+            var key = options.key != null ? options.key : 'confirm';
 
-            doOpen('confirm', options, mapping, buttonText);
+            doOpen(key, options, mapping, buttonText);
         },
 
         /**
@@ -132,8 +169,9 @@ define(function (require) {
         alert: function (options) {
             var mapping = {confirm: options.onYes};
             var buttonText = {confirm: options.textYes};
+            var key = options.key != null ? options.key : 'alert';
 
-            doOpen('alert', options, mapping, buttonText);
+            doOpen(key, options, mapping, buttonText);
         },
 
         /**
@@ -152,8 +190,9 @@ define(function (require) {
                 no: options.textNo,
                 cancel: options.textCancel
             };
+            var key = options.key != null ? options.key : 'ask';
 
-            doOpen('ask', options, mapping, buttonText);
+            doOpen(key, options, mapping, buttonText);
         }
 
     };
@@ -166,6 +205,7 @@ define(function (require) {
             key: key,
             content: options.content,
             encodeHTML: options.encodeHTML,
+            afterShow: options.afterShow,
             buttonHandler: function (value) {
                 var handler = mapping[value];
                 return handler ? handler() : null;
@@ -185,7 +225,9 @@ define(function (require) {
             viewModel: function () {
                 return {
                     key: null,
-                    buttons: []
+                    buttons: [],
+                    subTplTarget: null,
+                    afterInit: null
                 };
             }
         },
@@ -200,15 +242,23 @@ define(function (require) {
                 initContent.call(this, $content);
             }
 
+            var $subContent = $content.find(SELECTOR_CON);
+
             // 填入信息内容
-            $content.find(SELECTOR_CON)[0].innerHTML = options.encodeHTML === false
-                ? options.content : lib.encodeHTML(options.content);
+            if (options.content != null) {
+                $subContent[0].innerHTML = options.encodeHTML === false
+                    ? options.content : lib.encodeHTML(options.content);
+            }
 
             // btn的text更新，如果需要的话
             updateButtonText.call(this, options.buttonText);
 
             // 挂监听
             this._buttonHandler = options.buttonHandler;
+
+            if (options.afterShow) {
+                options.afterShow($subContent, options);
+            }
         },
 
         /**
@@ -239,6 +289,10 @@ define(function (require) {
 
         // 渲染
         this._renderTpl(TPL_TARGET, null, $content);
+        var $subContent = $content.find(SELECTOR_CON);
+        if (viewModel.subTplTarget) {
+            this._renderTpl(viewModel.subTplTarget, null, $subContent);
+        }
         this._constructSub($content);
 
         // 按钮的click事件
@@ -252,9 +306,13 @@ define(function (require) {
         // 空字符串''表示点击了关闭按钮
         this._onCloseBtnClick = $.proxy(clickHandler, this, CLOSE_BUTTON_VALUE);
 
+        if (viewModel.afterInit) {
+            viewModel.afterInit($subContent);
+        }
+
         function clickHandler(value) {
             if (!this._buttonHandler || this._buttonHandler(value) !== false) {
-                this.close(); // 任何按钮click都会关闭Dialog
+                this.close(); // 默认任何按钮click都会关闭Dialog
             }
         }
     }
@@ -272,29 +330,41 @@ define(function (require) {
         }
     }
 
+    var btnStyles = {
+        confirm: function () {
+            return [
+                {value: 'confirm', text: config('langDialogConfirm')},
+                {value: 'cancel', text: config('langDialogCancel')}
+            ];
+        },
+        alert: function () {
+            return [
+                {value: 'confirm', text: config('langDialogConfirm')}
+            ];
+        },
+        ask: function () {
+            return [
+                {value: 'yes', text: config('langDialogYes')},
+                {value: 'no', text: config('langDialogNo')},
+                {value: 'cancel', text: config('langDialogCancel')}
+            ];
+        }
+    };
+
     // 初始化默认实例
     dialog.create({
         key: 'confirm',
-        buttons: [
-            {value: 'confirm', text: config('langDialogConfirm')},
-            {value: 'cancel', text: config('langDialogCancel')}
-        ]
+        buttons: btnStyles.confirm()
     });
 
     dialog.create({
         key: 'alert',
-        buttons: [
-            {value: 'confirm', text: config('langDialogConfirm')}
-        ]
+        buttons: btnStyles.alert()
     });
 
     dialog.create({
         key: 'ask',
-        buttons: [
-            {value: 'yes', text: config('langDialogYes')},
-            {value: 'no', text: config('langDialogNo')},
-            {value: 'cancel', text: config('langDialogCancel')}
-        ]
+        buttons: btnStyles.ask()
     });
 
     return dialog;

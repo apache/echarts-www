@@ -72,6 +72,7 @@ body {
     right: 30px;
     width: 380px;
     overflow: auto;
+    padding: 20px;
 
     h2 {
         font-size: 16px;
@@ -86,14 +87,26 @@ body {
         font-family: Monaco, Monospace;
         font-weight: normal;
         color: #1D598C;
-        margin: 5px 0 20px 0;
+        margin: 5px 105px 20px 0;
         padding: 0 5px;
         line-height: 28px;
+        min-height: 30px;
+    }
+    .ecdoc-scmedt-gen-schema {
+        position: absolute;
+        top: 25px;
+        right: 20px;
+        height: 32px;
+        line-height: 32px;
     }
     .ecdoc-scmedt-schema-timeline {
         .dtui-btn {
             min-width: 0;
             font-family: Arial;
+        }
+        .ecdoc-scmedt-edit-count {
+            margin-left: 10px;
+            color: #555;
         }
     }
 
@@ -112,7 +125,7 @@ body {
         *display: inline;
         *zoom: 1;
         vertical-align: middle;
-        min-width: 150px;
+        min-width: 170px;
     }
     .ecdoc-scmedt-split {
         border-bottom: 1px solid #ddd;
@@ -150,4 +163,19 @@ body {
         }
 
     }
+}
+
+.ecdoc-scmedt-schema-text {
+    padding: 0;
+    width: 600px;
+    line-height: 16px;
+    font-size: 12px;
+    font-family: Monaco, monospace;
+    color: #000;
+    background: #fff;
+    border: none;
+    outline: medium;
+    display: block;
+    resize: none;
+    min-height: 500px;
 }

@@ -20,6 +20,9 @@ define(function (require) {
     var SELECTOR_DESC_RENDERED_EN = '.desc-rendered-en';
     var SELECTOR_QUESTION = '.ecdoc-question';
     var SELECTOR_SCHEMA_PATH = '.ecdoc-scmedt-schema-path';
+    var SELECTOR_EDIT_COUNT = '.ecdoc-scmedt-edit-count';
+    var SELECTOR_GEN_SCHEMA = '.ecdoc-scmedt-gen-schema';
+    var SELECTOR_SCHEMA_TEXT = '.ecdoc-scmedt-schema-text';
     var ATTR_TIP_TPL_TARGET = 'data-tip-tpl';
 
     /**
@@ -47,11 +50,6 @@ define(function (require) {
 
             viewModel.schemaTreeDatasource = [];
 
-            // definition
-            // oneOfParent
-            // addArrayItem
-            // addProperty
-
             var valueTypes = viewModel.valueTypes = [];
             for (var i = 0, len = schemaHelper.EC_OPTION_TYPE.length; i < len; i++) {
                 var item = schemaHelper.EC_OPTION_TYPE[i];
@@ -68,6 +66,7 @@ define(function (require) {
             this._applyTpl(this.$el(), TPL_TARGET);
 
             this._initEditPanel();
+            this._initGenSchema();
             this._initTimeline();
             this._initDescViewHTML();
             this._initQuery();
@@ -106,6 +105,36 @@ define(function (require) {
             this._resetEditPanel();
         },
 
+        _initGenSchema: function () {
+            this.$el().find(SELECTOR_GEN_SCHEMA).on(
+                this._event('click'), $.proxy(genSchema, this)
+            );
+
+            dialog.create({
+                key: 'genShema',
+                tplTarget: 'genSchema',
+                afterInit: afterInit,
+                dialogType: 'alert'
+            });
+
+            function afterInit($subContent) {
+                $subContent.find(SELECTOR_SCHEMA_TEXT).on('mouseenter', function () {
+                    this.select && this.select();
+                });
+            }
+
+            function afterShow($subContent) {
+                $subContent.find(SELECTOR_SCHEMA_TEXT).val(editDataMgr.getSchemaText());
+            }
+
+            function genSchema() {
+                dialog.alert({
+                    key: 'genShema',
+                    afterShow: afterShow
+                });
+            }
+        },
+
         /**
          * 所有刷新
          */
@@ -113,10 +142,13 @@ define(function (require) {
             this._viewModel().schemaTreeDatasource = [editDataMgr.getSchemaRenderTree()];
             this.recreateSubCpt('schemaTree');
 
-            this._resetEditPanel();
             if (options && options.selectedValue) {
                 var selOb = this._viewModel().schemaTreeSelected;
-                selOb(options.selectedValue);
+                selOb(options.selectedValue, null, {force: true});
+                // 选中则会触发 _resetEditPanel
+            }
+            else {
+                this._resetEditPanel();
             }
         },
 
@@ -165,14 +197,14 @@ define(function (require) {
 
         _resetEditRead: function () {
             var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
-            if (treeItem) {
-                for (var key in this._editPanelDefine) {
-                    if (this._editPanelDefine.hasOwnProperty(key)) {
-                        var o = this._editPanelDefine[key];
-                        o.reader.call(this, this._sub('editBlock.' + key), treeItem);
-                    }
+            for (var key in this._editPanelDefine) {
+                if (this._editPanelDefine.hasOwnProperty(key)) {
+                    var o = this._editPanelDefine[key];
+                    o.reader.call(this, this._sub('editBlock.' + key), treeItem);
                 }
+            }
 
+            if (treeItem) {
                 this.$el().find(SELECTOR_SCHEMA_PATH)[0].innerHTML =
                     'Path: ' + treeItem.schemaPath.join('.');
             }
@@ -207,6 +239,12 @@ define(function (require) {
             function resetBtns() {
                 this._sub('undo').viewModel('disabled')(!editDataMgr.canTimelineJump(-1));
                 this._sub('redo').viewModel('disabled')(!editDataMgr.canTimelineJump(1));
+
+                this.$el().find(SELECTOR_EDIT_COUNT)[0].innerHTML = ''
+                    + 'Edit Record: '
+                    + editDataMgr.getHistoryNextIndex()
+                    + ' / '
+                    + editDataMgr.getHistoryCount();
             }
         },
 
@@ -319,6 +357,11 @@ define(function (require) {
             console.log(result);
         },
 
+        _renderDescHTML: function (selector, html) {
+            // 用ifr隔离，防止html出错扩散影响。
+            this.$el().find(selector)[0].contentWindow.document.body.innerHTML = html;
+        },
+
         _editPanelDefine: {
             propertyName: {
                 isEnabled: function (cpt, treeItem) {
@@ -327,7 +370,7 @@ define(function (require) {
                         && treeItem.editable.propertyName;
                 },
                 reader: function (cpt, treeItem) {
-                    cpt.viewModel('value')(treeItem.itemName);
+                    cpt.viewModel('value')(treeItem ? treeItem.itemName : '');
                 },
                 persistentObName: 'value',
                 writer: function (val, dataItem) {
@@ -342,14 +385,19 @@ define(function (require) {
                         && treeItem.editable.type;
                 },
                 reader: function (cpt, treeItem) {
-                    var type = treeItem.type;
-                    if (!type) {
-                        type = [];
+                    if (treeItem) {
+                        var type = treeItem.type;
+                        if (!type) {
+                            type = [];
+                        }
+                        else if (!$.isArray(type)) {
+                            type = [type];
+                        }
+                        cpt.viewModel('checked')(type);
                     }
-                    else if (!$.isArray(type)) {
-                        type = [type];
+                    else {
+                        cpt.viewModel('checked')('');
                     }
-                    cpt.viewModel('checked')(type);
                 },
                 persistentObName: 'checked',
                 writer: dtLib.curry(defaultPropertyWriter, 'type', 'type')
@@ -359,7 +407,7 @@ define(function (require) {
                     return !!treeItem;
                 },
                 reader: function (cpt, treeItem) {
-                    var list = docUtil.normalizeToArray(treeItem.applicable);
+                    var list = treeItem ? docUtil.normalizeToArray(treeItem.applicable) : [];
                     cpt.viewModel('value')(list.join(','));
                 },
                 persistentObName: 'value',
@@ -370,7 +418,7 @@ define(function (require) {
                     return !!treeItem;
                 },
                 reader: function (cpt, treeItem) {
-                    var list = docUtil.normalizeToArray(treeItem.enumerateBy);
+                    var list = treeItem ? docUtil.normalizeToArray(treeItem.enumerateBy) : [];
                     cpt.viewModel('value')(list.join(','));
                 },
                 persistentObName: 'value',
@@ -381,7 +429,7 @@ define(function (require) {
                     return !!treeItem;
                 },
                 reader: function (cpt, treeItem) {
-                    var list = docUtil.normalizeToArray(treeItem.setApplicable);
+                    var list = treeItem ? docUtil.normalizeToArray(treeItem.setApplicable) : [];
                     cpt.viewModel('value')(list.join(','));
                 },
                 persistentObName: 'value',
@@ -392,7 +440,7 @@ define(function (require) {
                     return !!treeItem;
                 },
                 reader: function (cpt, treeItem) {
-                    cpt.viewModel('value')(treeItem.ref || '');
+                    cpt.viewModel('value')(treeItem && treeItem.ref || '');
                 },
                 persistentObName: 'value',
                 writer: dtLib.curry(defaultPropertyWriter, 'ref', 'ref')
@@ -402,7 +450,13 @@ define(function (require) {
                     return !!treeItem;
                 },
                 reader: function (cpt, treeItem) {
-                    cpt.viewModel('value')(stringifyValue(treeItem.defaultValue));
+                    if (treeItem) {
+                        var val = stringifyValue(treeItem.defaultValue);
+                        cpt.viewModel('value')(val != null ? val : '');
+                    }
+                    else {
+                        cpt.viewModel('value')('');
+                    }
                 },
                 persistentObName: 'value',
                 writer: dtLib.curry(defaultPropertyWriter, 'default', 'defaultValue')
@@ -412,7 +466,7 @@ define(function (require) {
                     return !!treeItem;
                 },
                 reader: function (cpt, treeItem) {
-                    cpt.viewModel('value')(treeItem.defaultExplanation || '');
+                    cpt.viewModel('value')(treeItem && treeItem.defaultExplanation || '');
                 },
                 persistentObName: 'value',
                 writer: dtLib.curry(defaultPropertyWriter, 'defaultExplanation', 'defaultExplanation')
@@ -422,9 +476,9 @@ define(function (require) {
                     return !!treeItem;
                 },
                 reader: function (cpt, treeItem) {
-                    var html = treeItem.descriptionCN || '';
+                    var html = treeItem && treeItem.descriptionCN || '';
                     cpt.viewModel('value')(html);
-                    this.$el().find(SELECTOR_DESC_RENDERED_CN)[0].innerHTML = html;
+                    this._renderDescHTML(SELECTOR_DESC_RENDERED_CN, html);
                 },
                 persistentObName: 'value',
                 writer: dtLib.curry(defaultPropertyWriter, 'descriptionCN', 'descriptionCN')
@@ -434,9 +488,9 @@ define(function (require) {
                     return !!treeItem;
                 },
                 reader: function (cpt, treeItem) {
-                    var html = treeItem.descriptionEN || '';
+                    var html = treeItem && treeItem.descriptionEN || '';
                     cpt.viewModel('value')(html);
-                    this.$el().find(SELECTOR_DESC_RENDERED_EN)[0].innerHTML = html;
+                    this._renderDescHTML(SELECTOR_DESC_RENDERED_EN, html);
                 },
                 persistentObName: 'value',
                 writer: dtLib.curry(defaultPropertyWriter, 'descriptionEN', 'descriptionEN')
@@ -451,7 +505,6 @@ define(function (require) {
         }
         catch (e) {
         }
-        return value + '';
     }
 
     function defaultPropertyWriter(schemaItemPropertyName, dataItemPropertyName, val, dataItem) {

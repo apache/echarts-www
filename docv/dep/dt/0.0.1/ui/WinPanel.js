@@ -66,6 +66,8 @@ define(function (require) {
                 $.proxy(onCloseBtnClick, this)
             );
 
+            this._afterInit(this.$content());
+
             function onCloseBtnClick() {
                 if (!this._onCloseBtnClick || this._onCloseBtnClick() !== false) {
                     this.close();
@@ -182,6 +184,15 @@ define(function (require) {
         isOpen: function () {
             return this._prop(IS_OPEN);
         },
+
+        /**
+         * 子类可实现
+         *
+         * @protected
+         * @abstract
+         * @param {jQuery} $content 内容容器
+         */
+        _afterInit: $.noop,
 
         /**
          * 子类可实现

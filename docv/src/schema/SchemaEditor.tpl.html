@@ -1,5 +1,6 @@
 {{ target: SchemaEditor }}
 <div class="ecdoc-scmedt-head-desc">
+【这货还没做完，现在只能看不能编辑】<br><br>
 这是只供我们自己简单用用的 doc schema 编辑和浏览器。<br>
 注意，这是 doc schema，和api doc不一样，api doc是基于 doc schema 渲染出来的，里面有很多根据不同echarts series type以及“引用”而重复渲染的东西。
 </div>
@@ -38,9 +39,11 @@
 
 {{ target: EditBlock }}
 <div class="ecdoc-scmedt-schema-path"></div>
+<div class="ecdoc-scmedt-gen-schema" data-cpt="type: 'Button', name: 'genSchema', text: '生成Schema'"></div>
 <div class="ecdoc-scmedt-schema-timeline">
     <div data-cpt="type: 'Button', name: 'undo', text: '◄ UNDO'"></div>
     <div data-cpt="type: 'Button', name: 'redo', text: 'REDO ►'"></div>
+    <span class="ecdoc-scmedt-edit-count"></span>
 </div>
 <div class="ecdoc-scmedt-split"></div>
 <h2>以当前选中节点为基准的增删操作：</h2>
@@ -129,13 +132,14 @@
     <span class="ecdoc-question" data-tip-tpl="tipRef"></span>
 </div>
 <div class="ecdoc-scmedt-block-line">
-    <span class="ecdoc-scmedt-block-label">默认值:</span>
+    <span class="ecdoc-scmedt-block-label">默认值（用代码格式写）:</span>
     <div data-cpt="
         type: 'TextInput',
         name: 'editBlock.defaultValue',
         viewModel: {
         }">
     </div>
+    <span class="ecdoc-question" data-tip-tpl="tipDefaultValue"></span>
 </div>
 <div class="ecdoc-scmedt-block-line">
     <span class="ecdoc-scmedt-block-label">默认值解释<br>
@@ -168,7 +172,7 @@
             type: 'textarea'
         }" style="display:none">
     </div>
-    <div class="desc-rendered-cn"></div>
+    <iframe class="desc-rendered-cn"></iframe>
 </div>
 <div class="ecdoc-scmedt-block-line">
     <span class="ecdoc-scmedt-block-label">英文文档描述:</span>
@@ -190,7 +194,7 @@
             type: 'textarea'
         }" style="display:none">
     </div>
-    <div class="desc-rendered-en"></div>
+    <iframe class="desc-rendered-en"></iframe>
 </div>
 {{ /target }}
 
@@ -198,9 +202,18 @@
 
 
 
+{{ target: genSchema }}
+<textarea class="ecdoc-scmedt-schema-text"></textarea>
+{{ /target }}
+
+
+
+
+
+
 {{ target: tipApplicable }}
 <div class="ecdoc-app-desc">
-    <h2>applicable的解释：</h2>
+    <h2>applicable / setApplicable / enumerateBy 的解释：</h2>
     <p> schemaItem上的applicable属性，形如：'line' 或 ['line', 'gauge/axisTick', 'gauge'] 等， <br>
         定义了这个属性适用的场景。如果没有applicable属性，表示适用于所有场景。<br>
         检索和构建文档中的路径/属性选取，是靠context.applicable 和 schemaItem.applicable来完成的。<br>
@@ -229,10 +242,9 @@
 
 
 
-
 {{ target: tipRef }}
 <div class="ecdoc-app-desc">
-    <h2>ref的解释：</h2>
+    <h2>引用（ref）的解释：</h2>
     <p> 从一schema节点（schemaItem）引用到另一个地方。构建文档和检索时，都直接顺着引用路径深入下去。<br>
     </p>
     <p>
@@ -248,3 +260,24 @@
     </p>
 </div>
 {{ /target }}
+
+
+
+
+
+{{ target: tipDefaultValue }}
+<div class="ecdoc-app-desc">
+    <h2>默认值的解释：</h2>
+    默认值在存储时是有真实JSON类型的。“用代码格式写”的意思是，会这样处理：<br>
+    <pre>
+    var inputText = '默认值输入框中填入的内容';
+    var defaultValue = JSON.parse(inputText);
+    </pre>
+    也就是说<br>
+    如果默认值是string类型的，<strong>书写时要加双引号</strong> <br>
+    JSON primitive type 只有：array boolean integer number null object string <br>
+    <strong>如果要用JSON primitive type以外的类型</strong>，请在“默认值解释”里面写，直接写任意字符串就行，“默认值解释”只存字符串。
+</div>
+
+
+

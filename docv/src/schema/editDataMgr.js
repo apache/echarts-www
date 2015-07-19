@@ -54,6 +54,19 @@ define(function (require) {
     /**
      * @public
      */
+    mgr.getSchemaText = function () {
+        var schema = this.getSchema();
+        try {
+            return JSON.stringify(schema, null, 4);
+        }
+        catch (e) {
+            docUtil.log('Generate schema error!');
+        }
+    };
+
+    /**
+     * @public
+     */
     mgr.getSchemaRenderTree = function () {
         if (!currentSchemaRenderTree) {
             currentSchemaRenderTree = makeRenderTree();
@@ -90,6 +103,20 @@ define(function (require) {
     mgr.isOnRoot = function (val) {
         var renderTree = mgr.getSchemaRenderTree();
         return renderTree && renderTree.value === val;
+    };
+
+    /**
+     * @public
+     */
+    mgr.getHistoryNextIndex = function () {
+        return historyNextIndex;
+    };
+
+    /**
+     * @public
+     */
+    mgr.getHistoryCount = function () {
+        return historyStack.length;
     };
 
     /**
@@ -212,7 +239,7 @@ define(function (require) {
         var proto = Immu.prototype;
 
         proto.toJS = function () {
-            return this._raw;
+            return dtLib.clone(this._raw, true);
         };
 
         proto.setIn = function (path, val) {
@@ -236,7 +263,7 @@ define(function (require) {
 
         return {
             fromJS: function (raw) {
-                return new Immu(raw);
+                return new Immu(dtLib.clone(raw, true));
             }
         };
     }
