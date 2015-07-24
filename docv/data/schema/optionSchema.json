@@ -4680,6 +4680,15 @@
                     "$ref": "#definitions/areaStyle",
                     "defaultExplanation": "图表各异"
                 },
+                "textStyle": {
+                    "type": "Object",
+                    "applicable": [
+                        "wordCloud"
+                    ],
+                    "descriptionCN": "文字样式",
+                    "descriptionEN": "text style.",
+                    "$ref": "#definitions/textStyle"
+                },
                 "chordStyle": {
                     "type": "Object",
                     "applicable": [

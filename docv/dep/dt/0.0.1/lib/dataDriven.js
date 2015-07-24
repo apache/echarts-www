@@ -246,6 +246,7 @@ define(function (require) {
          * @param {Object=} options
          * @param {string=} options.authKey
          * @param {boolea=} options.force
+         * @param {boolea=} options.silent
          */
         function observable(value, valueInfo, options) {
             // Write
@@ -277,7 +278,9 @@ define(function (require) {
          * @param {*=} valueInfo
          * @param {Object=} options
          * @param {string=} options.authKey
-         * @param {boolea=} options.force
+         * @param {boolea=} options.force 默认false
+         * @param {boolea=} options.silent 默认false
+         * @param {Array=} options.volatiles 例如['aa']，表示valueInfo中aa字段不持久化，事件触发完即删除。
          */
         observable[PROP + 'writer'] = function (value, valueInfo, options) {
             observable.validateAuthKey(options ? options.authKey : null);
@@ -289,10 +292,12 @@ define(function (require) {
             // 如果值没有变化，则不会设值，除非extend了always
             var force = options && options.force;
             if (force || observable.isDifferent(observable[PROP + 'currValue'], value)) {
-                observable.valueWillMutate();
+                (!options || !options.silent) && observable.valueWillMutate();
                 observable[PROP + 'currValue'] = value;
-                observable.valueHasMutated();
+                (!options || !options.silent) && observable.valueHasMutated();
             }
+
+            deleteVolatiles(this, options);
         };
 
         return observable;
@@ -308,7 +313,8 @@ define(function (require) {
          * @param {*=} valueInfo
          * @param {Object=} options
          * @param {string=} options.authKey
-         * @param {boolea=} options.force
+         * @param {boolean=} options.silent
+         * @param {Array=} options.volatiles
          */
         force: function (value, valueInfo, options) {
             options = options || {};
@@ -420,21 +426,27 @@ define(function (require) {
      * 设置属性值的时候，如果于源属性值不同，则会触发change事件。
      *
      * @public
-     * @param  {string} key 属性名
-     * @param  {*=} value 如不传，表示取值
+     * @param {string} key 属性名
+     * @param {*=} value 如不传，表示取值
+     * @param {Object=} options
+     * @param {boolean=} options.force
+     * @param {boolean=} options.silent
+     * @param {Array=} options.volatiles
      * @return {*} 取到的值，或者设置的值回传
      */
-    function obHashProp(key, value, valueInfo) {
+    function obHashProp(key, value, valueInfo, options) {
         // Write
         if (arguments.length > 1) {
             this[PROP + 'currValueInfo'] = valueInfo;
             var innerObj = this();
 
-            if (this.isDifferent(innerObj[key], value)) {
-                this.valueWillMutate();
+            if ((options && options.force) || this.isDifferent(innerObj[key], value)) {
+                (!options || !options.silent) && this.valueWillMutate();
                 innerObj[key] = value;
-                this.valueHasMutated();
+                (!options || !options.silent) && this.valueHasMutated();
             }
+
+            deleteVolatiles(this, options);
         }
         // Read
         else {
@@ -858,6 +870,17 @@ define(function (require) {
      */
     function isValueOb(o) {
         return ({ob: 1, obArray: 1, obHash: 1}).hasOwnProperty(obTypeOf(o));
+    }
+
+    /**
+     * @private
+     */
+    function deleteVolatiles(ob, options) {
+        var volatiles = options && options.volatiles || [];
+        var valueInfo = ob[PROP + 'currValueInfo'];
+        for (var i = 0, len = volatiles.length; i < len; i++) {
+            delete valueInfo[volatiles[i]];
+        }
     }
 
     return lib;

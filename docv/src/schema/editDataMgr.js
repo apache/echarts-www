@@ -38,7 +38,7 @@ define(function (require) {
     mgr.init = function (schema) {
         dtLib.assert(schema);
         originalSchema = schema;
-        worldMoveOn(immutable.fromJS(schema));
+        worldMoveOn({immutableSchema: immutable.fromJS(schema)});
     };
 
     /**
@@ -123,10 +123,17 @@ define(function (require) {
      * @public
      */
     mgr.updateSchemaDataItem = function (path, val) {
-        path = path.slice();
-        path.unshift('definitions');
-        docUtil.log('persistent: [' + path.join('.') + '] = ' + val);
-        worldMoveOn(getCurrent().immutableSchema.setIn(path, val));
+        var newPath = path.slice();
+        var basePath = path.slice(0, path.length - 1);
+        newPath.unshift('definitions');
+        docUtil.log('persistent: [' + newPath.join('.') + '] = ' + val);
+
+        var eventArgs = {selectedValue: basePath.join('.')};
+        var record = {
+            immutableSchema: getCurrent().immutableSchema.setIn(newPath, val),
+            selectedValue: eventArgs.selectedValue
+        };
+        worldMoveOn(record, eventArgs);
     };
 
     /**
@@ -134,8 +141,8 @@ define(function (require) {
      */
     mgr.renamePropertySchemaDataItem = function (path, newPropertyName) {
         dtLib.assert(path.length);
-        var subPath = path.slice(0, path.length - 1);
-        subPath.unshift('definitions');
+        var basePath = path.slice(0, path.length - 1);
+        basePath.unshift('definitions');
         var originalPropertyName = path[path.length - 1];
 
         if (originalPropertyName === newPropertyName) {
@@ -146,17 +153,17 @@ define(function (require) {
 
         // 需要更新完后顺序也对
         var im = getCurrent().immutableSchema;
-        var bak = im.getIn(subPath).toJS();
+        var bak = im.getIn(basePath).toJS();
         bak[newPropertyName] = bak[originalPropertyName];
         bak = docUtil.changeIterationSequence(bak, newPropertyName, 'after', originalPropertyName);
         delete bak[originalPropertyName];
-        im = im.deleteIn(subPath);
-        im = im.setIn(subPath, immutable.fromJS(bak));
+        im = im.deleteIn(basePath);
+        im = im.setIn(basePath, immutable.fromJS(bak));
 
         var eventArgs = {
             selectedValue: path.slice(0, path.length - 1).concat([newPropertyName]).join('.')
         };
-        worldMoveOn(im, eventArgs);
+        worldMoveOn({immutableSchema: im, selectedValue: eventArgs.selectedValue}, eventArgs);
     };
 
     /**
@@ -174,8 +181,13 @@ define(function (require) {
         if (nextIndex != null) {
             historyNextIndex = nextIndex;
             clearCache();
+            var current = getCurrent();
             // Trigger event.
-            currentWorldOb({moveType: mgr.TimelineMoveType.JUMP}, null, currentWorldOpt);
+            var args = {
+                moveType: mgr.TimelineMoveType.JUMP,
+                selectedValue: current.selectedValue
+            };
+            currentWorldOb(args, null, currentWorldOpt);
         }
     };
 
@@ -205,10 +217,11 @@ define(function (require) {
     /**
      * @inner
      */
-    function worldMoveOn(immutableSchema, eventArgs) {
+    function worldMoveOn(record, eventArgs) {
         var len = historyStack.length;
         var item = {
-            immutableSchema: immutableSchema,
+            immutableSchema: record.immutableSchema,
+            selectedValue: record.selectedValue,
             timestamp: +new Date()
         };
 

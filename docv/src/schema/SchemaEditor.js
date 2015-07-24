@@ -56,7 +56,10 @@ define(function (require) {
                 valueTypes.push({value: item, text: item});
             }
 
-            $.getJSON(SCHEMA_URL, $.proxy(this._handleSchemaLoaded, this));
+            $.getJSON(
+                SCHEMA_URL + '?_v_=' + Math.random(),
+                $.proxy(this._handleSchemaLoaded, this)
+            );
         },
 
         _handleSchemaLoaded: function (schema) {
@@ -81,7 +84,7 @@ define(function (require) {
                     var persistentObName = this._editPanelDefine[prop].persistentObName;
                     if (persistentObName) {
                         editInputs[prop].viewModel(persistentObName).subscribe(
-                            $.proxy(this._onEditInputChanged, this, prop)
+                            $.proxy(this._onEditInputChanged, this, prop, editInputs[prop])
                         );
                     }
                 }
@@ -94,15 +97,15 @@ define(function (require) {
 
             // function onTypeSelected(val, ob) {
             //     if (dtLib.checkValueInfoForConfirmed(ob)) { // 只有用户点击才触发，程序设值不触发。
-            //         this._resetEditPanel();
+            //         this._resetEditPanelAsync();
             //     }
             // }
 
             this._disposable(
-                this._viewModel().schemaTreeSelected.subscribe(this._resetEditPanel, this)
+                this._viewModel().schemaTreeSelected.subscribe(this._resetEditPanelAsync, this)
             );
 
-            this._resetEditPanel();
+            this._resetEditPanelAsync();
         },
 
         _initGenSchema: function () {
@@ -143,21 +146,31 @@ define(function (require) {
             this.recreateSubCpt('schemaTree');
 
             if (options && options.selectedValue) {
+                // selectedValue可能改变了。（改变name时）
                 var selOb = this._viewModel().schemaTreeSelected;
                 selOb(options.selectedValue, null, {force: true});
-                // 选中则会触发 _resetEditPanel
+                // 选中也会触发_resetEditPanelAsync，所以throttle了。
             }
-            else {
-                this._resetEditPanel();
-            }
+
+            this._resetEditPanelAsync();
         },
 
         /**
          * 所有edit reset的入口
          */
-        _resetEditPanel: function () {
-            this._resetEditEnable();
-            this._resetEditRead();
+        _resetEditPanelAsync: function () {
+            if (!this.__resetEditPanelAsync) {
+                this.__resetEditPanelAsync = dtLib.throttle(
+                    $.proxy(resetEditPanelAsync, this), 0, true, true
+                );
+            }
+
+            this.__resetEditPanelAsync();
+
+            function resetEditPanelAsync() {
+                this._resetEditEnable();
+                this._resetEditRead();
+            }
         },
 
         _resetEditEnable: function () {
@@ -210,12 +223,12 @@ define(function (require) {
             }
         },
 
-        _onEditInputChanged: function (prop, val, ob) {
+        _onEditInputChanged: function (prop, cpt, val, ob) {
             if (dtLib.checkValueInfoForConfirmed(ob)) {
                 try {
                     var dataItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
                     var writer = this._editPanelDefine[prop].writer;
-                    writer(val, dataItem);
+                    writer(cpt, val, dataItem);
                 }
                 catch (e) {
                     docUtil.log('error input: ' + prop + ' = ' + val);
@@ -312,7 +325,9 @@ define(function (require) {
                 }
             }
             this._viewModel().schemaTreeHighlighted(
-                valueList, {collapseLevel: 1, scrollToTarget: {clientX: 30}}
+                valueList,
+                {collapseLevel: 1, scrollToTarget: {clientX: 30}},
+                {volatiles: ['scrollToTarget']}
             );
         },
 
@@ -351,10 +366,12 @@ define(function (require) {
             }
 
             this._viewModel().schemaTreeHighlighted(
-                valueSet, {scrollToTarget: {clientX: 30}, collapseLevel: collapseLevel}
+                valueSet,
+                {scrollToTarget: {clientX: 30}, collapseLevel: collapseLevel},
+                {volatiles: ['scrollToTarget']}
             );
 
-            console.log(result);
+            docUtil.log(result);
         },
 
         _renderDescHTML: function (selector, html) {
@@ -373,9 +390,15 @@ define(function (require) {
                     cpt.viewModel('value')(treeItem ? treeItem.itemName : '');
                 },
                 persistentObName: 'value',
-                writer: function (val, dataItem) {
-                    var path = dataItem.schemaPath.slice();
-                    editDataMgr.renamePropertySchemaDataItem(path, val);
+                writer: function (cpt, val, dataItem) {
+                    if (!/^[a-z][a-zA-Z0-9]*$/.test(val)) {
+                        cpt.viewModel('alert')('必须为：/^[a-z][a-zA-Z0-9]*$/');
+                    }
+                    else {
+                        cpt.viewModel('alert')(false);
+                        var path = dataItem.schemaPath.slice();
+                        editDataMgr.renamePropertySchemaDataItem(path, val);
+                    }
                 }
             },
             type: {
@@ -411,7 +434,24 @@ define(function (require) {
                     cpt.viewModel('value')(list.join(','));
                 },
                 persistentObName: 'value',
-                writer: dtLib.curry(defaultPropertyWriter, 'applicable', 'applicable')
+                writer: function (cpt, val, dataItem) {
+                    var arr = val.split(',');
+                    var invalid = false;
+                    for (var i = 0, len = arr.length; i < len; i++) {
+                        if ($.trim(arr[i]) === '' || !/^!?[a-zA-Z0-9_]+$/.test(arr[i])) {
+                            invalid = true;
+                        }
+                    }
+                    if (invalid) {
+                        cpt.viewModel('alert')('用逗号分隔，不能有空格，每项满足/^!?[a-zA-Z0-9_]+$/');
+                    }
+                    else {
+                        cpt.viewModel('alert')(false);
+                        var path = dataItem.schemaPath.slice();
+                        path.push('applicable');
+                        editDataMgr.updateSchemaDataItem(path, val);
+                    }
+                }
             },
             enumerateBy: {
                 isEnabled: function (cpt, treeItem) {
@@ -507,7 +547,7 @@ define(function (require) {
         }
     }
 
-    function defaultPropertyWriter(schemaItemPropertyName, dataItemPropertyName, val, dataItem) {
+    function defaultPropertyWriter(schemaItemPropertyName, dataItemPropertyName, cpt, val, dataItem) {
         var path = dataItem.schemaPath.slice();
         path.push(schemaItemPropertyName);
         editDataMgr.updateSchemaDataItem(path, val);

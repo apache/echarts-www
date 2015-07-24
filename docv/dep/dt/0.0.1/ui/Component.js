@@ -12,7 +12,7 @@ define(function (require) {
     var setByPath = lib.setByPath;
 
     // 基础css class
-    var BASE_CSS = 'dtui';
+    var BASE_CSS = 'dtui-cpt';
     var DISPOSABLE_AREA = '\x0E\x0E-component-disposable-area';
 
     /**

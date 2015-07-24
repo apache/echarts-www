@@ -18,7 +18,8 @@ define(function (require) {
      *          value: viewModel.valueOb,
      *          css: 'dtm-text-input',
      *          type: 'textarea', // 默认为'text'
-     *          disabled: viewModel.disabled,
+     *          disabled: viewModel.disabled, // lib.ob(boolean)
+     *          alert: viewModel.alert, // lib.ob(boolean|string)
      *          placeholder: lib.ob('asdf')
      *      }">
      *  </div>
@@ -39,13 +40,14 @@ define(function (require) {
                     mouseEnterSelect: false, // 也可以是lib.ob(true)，这样可以动态更改。
                     type: 'text', // 可选值：'text'（默认）, 'textarea'
                     placeholder: lib.ob(''), // 可以是lib.ob('asdf')
+                    alert: lib.ob(false), // 如果为true则只显示alert css，如果为string则还显示错误信息
                     confirmPoint: {
                         pressEnter: true,
                         blur: true
                     }
                 };
             },
-            viewModelPublic: ['value', 'placeholder', 'text', 'mouseEnterSelect', 'type']
+            viewModelPublic: ['value', 'placeholder', 'text', 'mouseEnterSelect', 'type', 'alert']
         },
 
         /**
@@ -54,15 +56,24 @@ define(function (require) {
         _init: function () {
             var viewModel = this._viewModel();
             var type = viewModel.type = viewModel.type || 'text';
+            var $mainEl = this.$el();
 
-            this.$el().addClass(this.getFullCss(
+            $mainEl.addClass(this.getFullCss(
                 type === 'textarea' ? '-type-textarea' : '-type-text'
             ).join(' '));
 
-            var html = type === 'textarea'
-                ? '<textarea></textarea>'
-                : '<input type="text"/>';
-            this._$input = $(this.$el().html(html)[0].firstChild);
+            var html = ''
+                + (type === 'textarea'
+                    ? '<textarea></textarea>'
+                    : '<input type="text"/>'
+                )
+                + '<span class="'
+                + this.getFullCss('-alert-mark').join(' ')
+                + '" style="display:none"></span>'
+                + '<span class="'
+                + this.getFullCss('-alert-text').join(' ')
+                + '" style="display:none"></span>';
+            this._$input = $($mainEl.html(html)[0].firstChild);
 
             this._$input.on(
                 this._event('mouseenter'),
@@ -73,6 +84,7 @@ define(function (require) {
                 }
             );
 
+            this._initAlert();
             this._initPlaceHolder();
             this._initViewUpdater();
             this._initModelUpdater();
@@ -90,6 +102,51 @@ define(function (require) {
          */
         select: function () {
             this._$input.select();
+        },
+
+        /**
+         * @private
+         */
+        _initAlert: function () {
+            var $mainEl = this.$el();
+            var cssAlertMark = this.getFullCss('-alert-mark');
+            var cssAlertText = this.getFullCss('-alert-text');
+
+            var $alertMark = this.$el(
+                'alertMark', $mainEl.find('.' + cssAlertMark[cssAlertMark.length - 1])
+            );
+            var $alertText = this.$el(
+                'alertText', $mainEl.find('.' + cssAlertText[cssAlertText.length - 1])
+            );
+
+            $alertMark.on(this._event('mouseenter'), showAlert);
+            $alertMark.on(this._event('mouseleave'), hideAlert);
+
+            this._disposable(this._viewModel().alert.subscribe(updateAlert, this));
+
+            function updateAlert(alert) {
+                var $el = this.$el();
+                var alertCss = this.getFullCss('-alert').join(' ');
+
+                if (alert) {
+                    $el.addClass(alertCss);
+                    if ($.type(alert) === 'string') {
+                        $alertText[0].innerHTML = lib.encodeHTML(alert);
+                        $alertMark.show();
+                    }
+                }
+                else {
+                    $el.removeClass(alertCss);
+                    $alertMark.hide();
+                }
+            }
+
+            function showAlert() {
+                $alertText.show();
+            }
+            function hideAlert() {
+                $alertText.hide();
+            }
         },
 
         /**
@@ -127,17 +184,15 @@ define(function (require) {
             ));
 
             // 建立文本输入和value的依赖
-            this._disposable(
-                viewModel.value.subscribe(updateText, this)
-            );
+            this._disposable(viewModel.value.subscribe(updateText, this));
+
+            // 第一次调用
+            updateText(viewModel.value());
 
             function updateText(nextValue) {
                 // 此更新由文本输入触发时，也会重新写入。因为value可能会在decorator中被改变。
                 $input.val(nextValue);
             }
-
-            // 第一次调用
-            updateText(viewModel.value());
         },
 
         /**

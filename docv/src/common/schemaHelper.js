@@ -5,6 +5,13 @@
 define(function (require) {
 
     /**
+     * [optionPath总共占用的字符总结]（中文顿号不算）：
+     * a-z、A-Z、0-9、.、(、)、_、-、,、!
+     * 其中 application setApplication enumerateBy占用字符：
+     * a-z、A-Z、0-9、,、_、!
+     */
+
+    /**
      * [schema格式]：
      * {
      *     type: 类型，如'Array', 'Object', 'string', 'Function'，或者['Array', 'string']
@@ -109,9 +116,11 @@ define(function (require) {
      * 'axis[i].symbol' 或 'axis-i.symbol'
      *     当路途中有数组时，[i]表示直接进入数组元素定义继续检索。
      *     为什么兼容两种方式？因为url上[]是unsafe character，须encode，不好看。所以url上使用'-'。
-     * 'series[i](applicable:pie,line).itemStyle.normal.borderColor'
-     *     表示，解析到series[i]将当前context中applicable设置成pie。
+     * 'series[i](pie,line).itemStyle.normal.borderColor'
+     *     表示，解析到series[i]将当前context中applicable设置成pie和line。
      *     context中的applicable用于oneOf的选取和properties限定。
+     * 'series[i](!pie,!line).itemStyle.normal.borderColor'
+     *     表示，解析到series[i]将当前context中applicable设置成!pie和!line，即不能是pie也不能是line。
      *
      * Input: 'asdf(bb,cc)[i](dd,ee).zzz[i][i]. ee() .ff',
      * Output:
@@ -131,11 +140,14 @@ define(function (require) {
      *     {propertyName: 'ff'}
      * ]
      *
-     * optionPath总共占用的字符总结（中文顿号不算）：a-z、A-Z、0-9、.、(、)、_、-
-     *
      * @public
+     * @param {string} optionPath
+     * @param {Object=} options
+     * @param {boolean=} [options.arrayOnlyAtom] default false
+     * @param {boolean=} [options.ignoreEmptyItem] default false
      */
-    schemaHelper.parseOptionPath = function (optionPath, arrayOnlyAtom) {
+    schemaHelper.parseOptionPath = function (optionPath, options) {
+        options = options || {};
         var errorInfo = 'Path is illegal: \'' + optionPath + '\'';
         dtLib.assert(
             optionPath && (optionPath = $.trim(optionPath)), errorInfo
@@ -145,8 +157,12 @@ define(function (require) {
         var retArr = [];
 
         for (var i = 0, len = pathArr.length; i < len; i++) {
+            var itemStr = $.trim(pathArr[i]);
+            if (options.ignoreEmptyItem && itemStr === '') {
+                continue;
+            }
             // match: 'asdf(bb,cc,ee/ff/gg)' 'i](bb)' 'xx()' 'asdf' 'i]'
-            var regResult = /^(\w+|i\])(\(([a-zA-Z_ \/,]*)\))?$/.exec($.trim(pathArr[i])) || [];
+            var regResult = /^(\w+|i\])(\(([a-zA-Z_ \/,]*)\))?$/.exec(itemStr) || [];
             dtLib.assert(regResult, errorInfo);
 
             var propertyName = regResult[1];
@@ -168,7 +184,7 @@ define(function (require) {
             retArr.push(pa);
         }
 
-        if (arrayOnlyAtom) {
+        if (options.arrayOnlyAtom) {
             for (var i = 0, len = retArr.length; i < len;) {
                 var thisItem = retArr[i];
                 var nextItem = retArr[i + 1];
@@ -241,9 +257,11 @@ define(function (require) {
             originalDocTree: docTree,
             result: [],
             optionPath: args.optionPath
-                ? schemaHelper.parseOptionPath(args.optionPath, true) : null,
+                ? schemaHelper.parseOptionPath(args.optionPath, {arrayOnlyAtom: true})
+                : null,
             fuzzyPath: args.fuzzyPath
-                ? schemaHelper.parseOptionPath(args.fuzzyPath, true) : null,
+                ? schemaHelper.parseOptionPath(args.fuzzyPath, {arrayOnlyAtom: true, ignoreEmptyItem: true})
+                : null,
             anyText: args.anyText && $.trim(args.anyText) || null
         };
 

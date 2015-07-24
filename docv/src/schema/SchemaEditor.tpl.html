@@ -23,7 +23,8 @@
             type: 'TextInput',
             name: 'queryInput',
             viewModel: {
-                placeholder: '检索。快捷键\'/\'。例如输入：itemStyle'
+                placeholder: '检索。快捷键\'/\'。例如输入：itemStyle',
+                confirmPoint: {blur: false, pressEnter: true}
             }">
         </div>
     </div>
@@ -234,6 +235,11 @@
         schema节点中如果出现<strong>enumerateBy</strong>属性，表明在此节点处进行分支并列显示（例如series会依据type的多种可能性并列显示）。 并且在每个分支中进行构建时，都使用 enumerateBy中对应的项 作为context.applicable。<br>
         schema节点中如果出现<strong>setApplicable</strong>属性，表示在此子树下构建时，都用 setApplicable给出的值作为context.applicable。 <br>
         其匹配方式，参见schemaHelper.isApplicableStrictly <br>
+    </p>
+
+    <h3>字符限制： </h3>
+    <p>
+        只可为 a-z A-Z 0-9 _（下划线） ,（逗号分隔不同的applicable项）
     </p>
 </div>
 {{ /target }}
