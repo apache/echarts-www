@@ -2,5 +2,8 @@
     [ "title", "标题", "Title" ],
     [ "legend", "图例", "Legend" ],
     [ "tooltip-line1", "提示框(1)", "Tooltip(1)" ],
-    [ "tooltip-type", "提示框(2)", "Tooltip(2)" ]
+    [ "tooltip-type", "提示框(2)", "Tooltip(2)" ],
+    [ "line-itemstyle1", "折线图样式", "Line" ],
+    [ "line-mark1", "折线图标示(1)", "LineMarkStyle(1)" ],
+    [ "line-mark2", "折线图标示(2)", "LineMarkStyle(2)" ]
 ]

@@ -24,7 +24,7 @@ define(
                     <span class='#{CLZ.LOCK} #{PIN.UNFIX}'></span>
                 </div>
                 <div class='popover-list clearfix'>
-                    #{listTemplate(data.list)}
+                    #{listTemplate(data.l)}
                 </div>
             </div>"
 
@@ -32,7 +32,7 @@ define(
             if list.length
                 "<div>" +
                 _.map(list, (item) ->
-                    "<a class='list-item' href='javascript:void(0)' data-query=#{item.query}>#{item.desc}</a>"
+                    "<a class='list-item' href='javascript:void(0)' data-query=#{item[0]}'>#{item[1]}</a>"
                 ).join('') + "</div>"
             else
                 ''
@@ -47,12 +47,11 @@ define(
                 $(ele).popover({
                     'toggle': 'popover'
                     'placement': 'bottom'
-                    'title': data.title
+                    'title': data.t
                     'trigger': 'manual'
                     'animation': false
                     template: templateContent(data)
                 })
-
             )
 
         exports.bindEvent = (layout) ->
@@ -66,7 +65,6 @@ define(
                         item.popover('show')
                     else
                         clearTimeout(timer) && item.removeData(DATA_TIMER)
-
             )
 
             layout.on('mouseleave', CLZ.ITEM, (event) ->
@@ -82,7 +80,6 @@ define(
                 self = $ @
                 item = self.prev(CLZ.ITEM)
                 clearTimeout(item.data(DATA_TIMER)) && item.removeData(DATA_TIMER)
-#                item.popover('show')
             )
 
             layout.on('mouseleave', CLZ.POP, (event) ->
@@ -109,7 +106,6 @@ define(
                     queryString: self.attr('data-query') or ''
                 })
             )
-
 
         exports
 )

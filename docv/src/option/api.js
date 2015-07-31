@@ -332,7 +332,7 @@ define(function (require) {
         },
 
         _initCategory: function() {
-            markRender.initCategory($('.api-chart'));
+            markRender.initCategory($(SELECTOR_CHART_AREA));
         },
 
         _initCategoryHash: function() {

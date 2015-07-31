@@ -1,27 +1,68 @@
 @import "../common/preview-fonts.css";
 
-.ecdoc-api-chart-query-area {
-    //overflow: auto;
-    z-index: 99999;
-}
-
 .api-chart {
-    background-color: #fff;
-    .panel{
+    z-index: 99999;
+
+    .api-chart-close-btn {
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 10px;
+        cursor: pointer;
+        .user-select(none);
+    }
+
+    .panel {
         margin: 0 5px 0 0;
     }
-    .panel-body{
-        padding: 5px;
+    .panel-body {
+        padding: 0px;
     }
 
-    .api-category{
+    .api-category {
         float: left;
     }
 
+    .api-chart-desc {
+        margin: 0 0 0 90px;
+        font-size: 14px;
+        text-align: center;
+        vertical-align: middle;
+
+        .api-chart-desc-content {
+            .inline-block();
+            height: 40px;
+            line-height: 38px;
+            padding: 0;
+            margin: 0;
+            color: #a94442;
+            background-color: #f2dede;
+            border: 1px solid #ebccd1;
+            .border-radius(4px);
+            padding: 0 12px;
+
+            em {
+                white-space: nowrap;
+                font-style: normal;
+            }
+            span {
+                .inline-block();
+                vertical-align: middle;
+                font-size: 14px;
+                line-height: 15px;
+            }
+            strong {
+                color: #555;
+                font-weight: 700;
+                margin: 0 2px;
+            }
+        }
+    }
+
     .api-chart-layout {
-        margin-left: 100px;
+        margin-left: 115px;
         position: absolute;
-        top: 0;
+        top: 50px;
         left: 0;
         bottom: 0;
         right: 0;
@@ -74,7 +115,6 @@
             padding: 10px 15px;
             margin-bottom: -1px;
             background-color: #fff;
-
         }
 
         .popover-list {
@@ -87,9 +127,13 @@
     }
 
     .api-category {
+        position: absolute;
+        top: 50px;
+
         .panel-heading {
             padding-left: 5px;
             border-bottom: 1px solid #ccc;
+            color: #777;
         }
         .api-category-list {
             li {
@@ -101,6 +145,7 @@
             }
             .selected {
                 background-color: #428bca;
+                .border-radius(2px);
                 a {
                     color: #fff;
                 }

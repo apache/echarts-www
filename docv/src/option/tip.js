@@ -15,12 +15,12 @@ define(function(require) {
   HIDE_DELAY = 200;
   DATA_TIMER = 'timer';
   templateContent = function(data) {
-    return "<div class='popover' role='tooltip'> <div class='arrow'></div> <div class='title-bar clearfix'> <h3 class='popover-title'></h3> <span class='" + CLZ.LOCK + " " + PIN.UNFIX + "'></span> </div> <div class='popover-list clearfix'> " + (listTemplate(data.list)) + " </div> </div>";
+    return "<div class='popover' role='tooltip'> <div class='arrow'></div> <div class='title-bar clearfix'> <h3 class='popover-title'></h3> <span class='" + CLZ.LOCK + " " + PIN.UNFIX + "'></span> </div> <div class='popover-list clearfix'> " + (listTemplate(data.l)) + " </div> </div>";
   };
   listTemplate = function(list) {
     if (list.length) {
       return "<div>" + _.map(list, function(item) {
-        return "<a class='list-item' href='javascript:void(0)' data-query=" + item.query + ">" + item.desc + "</a>";
+        return "<a class='list-item' href='javascript:void(0)' data-query=" + item[0] + "'>" + item[1] + "</a>";
       }).join('') + "</div>";
     } else {
       return '';
@@ -34,7 +34,7 @@ define(function(require) {
       return $(ele).popover({
         'toggle': 'popover',
         'placement': 'bottom',
-        'title': data.title,
+        'title': data.t,
         'trigger': 'manual',
         'animation': false,
         template: templateContent(data)

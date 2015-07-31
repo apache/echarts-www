@@ -1,11 +1,11 @@
 define(
     (require) ->
         _ = require 'lodash'
-        mark = require './mark_view'
+        mark = require './mark'
         tip = require './tip'
         category = require './category'
         helper = require './helper'
-        docUtil = require '../common/docUti'
+        docUtil = require '../common/docUtil'
 
         apiIndex = -1
         apiData = {}
