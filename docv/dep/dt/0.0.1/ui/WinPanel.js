@@ -9,15 +9,14 @@ define(function (require) {
     var lib = require('../lib');
     var config = require('../config');
     var BasePanel = require('./BasePanel');
+    var inner = lib.makeInner();
 
     // Constant
     var MAIN_TPL_TARGET = 'winPanel';
     var CLOSE_BTN_SELECTOR = '.dtui-close-cross';
     var CON_SELECTOR = '.dtui-winpn-con';
     var MASK_CSS = 'winpn';
-    var MAIN_EL_KEY = 'winPanelMainEl';
-    var MASK_KEY = 'winPanelMaskKey';
-    var IS_OPEN = 'winPanelIsOpen';
+
 
     /**
      * 初始z-index，之后往上递增
@@ -32,7 +31,7 @@ define(function (require) {
      * @class
      * @extends ./BasePanel
      */
-    var WinPanel = BasePanel.extend({
+    var WinPanel = inner.attach(BasePanel.extend({
 
         _define: {
             tpl: require('tpl!./ui.tpl.html'),
@@ -54,11 +53,13 @@ define(function (require) {
             }
 
             this._manuInitView($el);
-            this._prop(MAIN_EL_KEY, $el);
-            this._prop(IS_OPEN, false);
+
+            var innerThis = inner(this);
+            innerThis.mainEl = $el;
+            innerThis.isOpen = false;
 
             this.$el('winPanel$content', $el.find(CON_SELECTOR));
-            this._prop(MASK_KEY, Math.random() + ''); // 每一个winPanel实例，拥有一个mask。
+            innerThis.maskKey = Math.random() + ''; // 每一个winPanel实例，拥有一个mask。
 
             $el.on(
                 this._event('click'),
@@ -79,9 +80,10 @@ define(function (require) {
          * @override
          */
         _disposeFinally: function () {
-            lib.disposeGlobalMask(this._prop(MASK_KEY));
-            this._prop(MAIN_EL_KEY).remove();
-            this._prop(MAIN_EL_KEY, null);
+            var innerThis = inner(this);
+            lib.disposeGlobalMask(innerThis.maskKey);
+            innerThis.mainEl.remove();
+            innerThis.mainEl = null;
         },
 
         /**
@@ -95,11 +97,12 @@ define(function (require) {
 
             var $el = this.$el();
             var $content = this.$content();
+            var innerThis = inner(this);
 
             // 遮罩
             lib.globalMask(
                 config('panelMastOpacity'),
-                this._prop(MASK_KEY),
+                innerThis.maskKey,
                 MASK_CSS,
                 {click: $.proxy(onMaskClick, this)}
             );
@@ -110,7 +113,7 @@ define(function (require) {
                 }
             }
 
-            this._prop(IS_OPEN, true);
+            innerThis.isOpen = true;
             this._beforeShow($content, options);
             $el.show();
             this._afterShow($content, options); // 在定位前执行，可进行内容填充。
@@ -142,8 +145,9 @@ define(function (require) {
             }
 
             var $el = this.$el();
+            var innerThis = inner(this);
 
-            this._prop(IS_OPEN, false);
+            innerThis.isOpen = false;
             this._beforeHide(this.$content());
 
             var me = this;
@@ -158,7 +162,7 @@ define(function (require) {
                 'swing',
                 function () {
                     $el.hide();
-                    lib.globalMask(false, me._prop(MASK_KEY));
+                    lib.globalMask(false, innerThis.maskKey);
                     me._afterHide(me.$content());
                     me.fire('close');
                 }
@@ -182,7 +186,7 @@ define(function (require) {
          * @return {boolean} 是否处于打开状态
          */
         isOpen: function () {
-            return this._prop(IS_OPEN);
+            return inner(this).isOpen;
         },
 
         /**
@@ -239,7 +243,7 @@ define(function (require) {
          */
         _onCloseBtnClick: $.noop
 
-    });
+    }));
 
     return WinPanel;
 });

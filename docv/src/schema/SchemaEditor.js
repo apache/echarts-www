@@ -341,7 +341,11 @@ define(function (require) {
             try {
                 var args = {};
                 args[queryArgName] = queryStr;
-                result = schemaHelper.queryDocTree(editDataMgr.getSchemaRenderTree(), args);
+                result = schemaHelper.queryDocTree(
+                    editDataMgr.getSchemaRenderTree(),
+                    editDataMgr.getSchemaStatistic().universal,
+                    args
+                );
             }
             catch (e) {
                 alert(e);

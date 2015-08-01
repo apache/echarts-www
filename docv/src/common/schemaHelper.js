@@ -65,6 +65,7 @@ define(function (require) {
     var $ = require('jquery');
     var dtLib = require('dt/lib');
     var docUtil = require('./docUtil');
+    var LogicSetFactory = require('./LogicSetFactory');
     var encodeHTML = dtLib.encodeHTML;
 
     // Inner constants
@@ -240,6 +241,7 @@ define(function (require) {
      * @public
      * @param {Object} docTree
      * @param {Object} args
+     * @param {Object} universal see schemaHelper.statisticSchema
      * @param {string=} [args.fuzzyPath] Like 'bbb(line,pie).ccc',
      *                                   using fuzzy mode, case insensitive.
      *                                   i.e. The query string above matches the result 'mm.zbbbx.yyy.cccl'.
@@ -251,7 +253,14 @@ define(function (require) {
      * @return {Array.<Object>} result
      * @throws {Error}
      */
-    schemaHelper.queryDocTree = function (docTree, args) {
+    schemaHelper.queryDocTree = function (docTree, universal, args) {
+        dtLib.assert(universal);
+        var logicSetFactory = new LogicSetFactory({
+            universal: universal.all,
+            parseMode: LogicSetFactory.NO_POSITIVE_MEANS_UNIVERSAL,
+            toLowerCase: true // Case insensitive when query.
+        });
+
         args = args || {};
         var context = {
             originalDocTree: docTree,
@@ -309,7 +318,7 @@ define(function (require) {
                 var nextPathIndex = null;
 
                 if (docTree.isEnumParent) {
-                    if (isApplicableLoosely(child.applicable, subApplicable)) {
+                    if (isApplicableLoosely(child.applicable, subApplicable, logicSetFactory)) {
                         nextPathIndex = pathIndex;
                     }
                     // else do nothing.
@@ -429,7 +438,7 @@ define(function (require) {
             if (schemaItem.oneOf) {
                 handleOneOf(schemaItem, currPathArr, context);
             }
-            else if (schemaItem['$ref']) {
+            else if (schemaItem.$ref) {
                 handleRef(schemaItem, currPathArr, context);
             }
             else {
@@ -449,7 +458,7 @@ define(function (require) {
 
         function handleRef(schemaItem, currPathArr, context) {
             querySchemaRecursively(
-                schemaHelper.findSchemaItemByRef(context.originalSchema, schemaItem['$ref']),
+                schemaHelper.findSchemaItemByRef(context.originalSchema, schemaItem.$ref),
                 currPathArr,
                 context
             );
@@ -489,23 +498,82 @@ define(function (require) {
     /**
      * @inner
      */
-    function isApplicableLoosely(itemApplicable, contextApplicable) {
-        itemApplicable = dtLib.Set.getSet(itemApplicable);
-        contextApplicable = dtLib.Set.getSet(contextApplicable);
-        return itemApplicable.isEmpty()
-            || contextApplicable.isEmpty()
+    function isApplicableLoosely(itemApplicable, contextApplicable, logicSetFactory) {
+        // itemApplicable = dtLib.Set.getSet(itemApplicable);
+        // contextApplicable = dtLib.Set.getSet(contextApplicable);
+        // return itemApplicable.isEmpty()
+        //     || contextApplicable.isEmpty()
+        //     || contextApplicable.intersects(itemApplicable).count() > 0;
+        itemApplicable = logicSetFactory.createSet(
+            itemApplicable, {parseMode: LogicSetFactory.NO_POSITIVE_MEANS_UNIVERSAL}
+        );
+        contextApplicable = logicSetFactory.createSet(
+            contextApplicable, {parseMode: LogicSetFactory.NO_POSITIVE_MEANS_UNIVERSAL}
+        );
+        return itemApplicable.isUniversal()
+            || contextApplicable.isUniversal()
             || contextApplicable.intersects(itemApplicable).count() > 0;
     }
 
     /**
      * @inner
      */
-    function isApplicableStrictly(itemApplicable, contextApplicable) {
-        itemApplicable = dtLib.Set.getSet(itemApplicable);
-        contextApplicable = dtLib.Set.getSet(contextApplicable);
-        return itemApplicable.isEmpty()
+    function isApplicableStrictly(itemApplicable, contextApplicable, logicSetFactory) {
+        // itemApplicable = dtLib.Set.getSet(itemApplicable);
+        // contextApplicable = dtLib.Set.getSet(contextApplicable);
+        // return itemApplicable.isEmpty()
+        //     || contextApplicable.intersects(itemApplicable).count() > 0;
+        itemApplicable = logicSetFactory.createSet(
+            itemApplicable, {parseMode: LogicSetFactory.NO_POSITIVE_MEANS_UNIVERSAL}
+        );
+        contextApplicable = logicSetFactory.createSet(
+            contextApplicable, {parseMode: LogicSetFactory.NO_POSITIVE_MEANS_EMPTY}
+        );
+        return itemApplicable.isUniversal()
             || contextApplicable.intersects(itemApplicable).count() > 0;
     }
+
+    /**
+     * @public
+     * @param {Object} schema
+     * @return {Object}
+     *     {
+     *         universal: {
+     *             applicable: {Array.<string>}
+     *             setApplicable: {Array.<string>}
+     *             enumerateBy: {Array.<string>}
+     *             all: {Array.<string>}
+     *         }
+     *     }
+     */
+    schemaHelper.statisticSchema = function (schema) {
+        var result = {
+            universal: {
+                applicable: new dtLib.Set(),
+                setApplicable: new dtLib.Set(),
+                enumerateBy: new dtLib.Set()
+            }
+        };
+        schemaHelper.travelSchema(schema, function (o) {
+            if (o.applicable) {
+                result.universal.applicable.add(o.applicable);
+            }
+            if (o.setApplicable) {
+                result.universal.setApplicable.add(o.setApplicable);
+            }
+            if (o.enumerateBy) {
+                result.universal.enumerateBy.add(o.enumerateBy);
+            }
+        });
+
+        result.universal.all = new dtLib.Set();
+        result.universal.all
+            .add(result.universal.applicable)
+            .add(result.universal.setApplicable)
+            .add(result.universal.enumerateBy);
+
+        return result;
+    };
 
     /**
      * Build doc by schema.
@@ -516,6 +584,7 @@ define(function (require) {
      * @public
      * @param {Object} schema
      * @param {Object} renderBase
+     * @param {Object} universal see schemaHelper.statisticSchema
      * @param {Function} docRenderer params: renderBase, schemaItem, context
      *                               return: subRenderBase (MUST return the object for continue building)
      *                               See schemaHelper.buildDoc.docJsonRenderer.
@@ -537,12 +606,18 @@ define(function (require) {
      *                      'doc' render doc (default);
      *                      'schema' render original schema;
      */
-    schemaHelper.buildDoc = function (schema, renderBase, docRenderer, mode) {
-        var applicable = new dtLib.Set();
+    schemaHelper.buildDoc = function (schema, renderBase, universal, docRenderer, mode) {
+        dtLib.assert(universal);
+        var logicSetFactory = new LogicSetFactory({
+            universal: universal.all,
+            parseMode: LogicSetFactory.NO_POSITIVE_MEANS_UNIVERSAL
+        });
+
         docRenderer = docRenderer || schemaHelper.buildDoc.docJsonRenderer;
         mode = mode || 'doc';
-
+        var applicable = new dtLib.Set();
         var baseParam = mode === 'doc' ? {optionPath: []}: {schemaPath: []};
+
         buildRecursively(renderBase, schema, makeContext(baseParam));
 
         return renderBase;
@@ -553,6 +628,8 @@ define(function (require) {
                     originalSchema: schema,
                     docRenderer: docRenderer,
                     applicable: applicable,
+                    universal: universal,
+                    logicSetFactory: logicSetFactory,
                     mode: mode,
                     isApplicable: mode === 'doc' ? isApplicableStrictly : null
                 },
@@ -565,7 +642,7 @@ define(function (require) {
                 return;
             }
             if (context.isApplicable && !context.isApplicable(
-                schemaItem.applicable, context.applicable
+                schemaItem.applicable, context.applicable, context.logicSetFactory
             )) {
                 return;
             }
@@ -593,7 +670,7 @@ define(function (require) {
                 else if (schemaItem.oneOf) {
                     handleOneOfForDocMode(renderBase, schemaItem, context);
                 }
-                else if (schemaItem['$ref']) {
+                else if (schemaItem.$ref) {
                     handleRefFocDocMode(renderBase, schemaItem, context);
                 }
                 else if (schemaItem.items) { // Array
@@ -613,7 +690,7 @@ define(function (require) {
                 else if (schemaItem.oneOf) {
                     handleOneOfForSchemaMode(renderBase, schemaItem, context);
                 }
-                else if (schemaItem['$ref']) {
+                else if (schemaItem.$ref) {
                     handleRefFocSchemaMode(renderBase, schemaItem, context);
                 }
                 else if (schemaItem.items) {
@@ -707,7 +784,9 @@ define(function (require) {
             var applicableOne;
             for (var i = 0, len = oneOf.length; i < len; i++) {
                 // Only one can be applicable, otherwise schema is illegal.
-                if (context.isApplicable(oneOf[i].applicable, context.applicable)) {
+                if (context.isApplicable(
+                    oneOf[i].applicable, context.applicable, context.logicSetFactory
+                )) {
                     dtLib.assert(!applicableOne);
                     applicableOne = oneOf[i];
                 }
@@ -759,10 +838,9 @@ define(function (require) {
 
         function handleRefFocDocMode(renderBase, schemaItem, context) {
             var refFrom = context.refFrom;
-
             buildRecursively(
                 renderBase,
-                schemaHelper.findSchemaItemByRef(context.originalSchema, schemaItem['$ref']),
+                schemaHelper.findSchemaItemByRef(context.originalSchema, schemaItem.$ref),
                 makeContext({
                     itemName: context.itemName,
                     relationInfo: context.relationInfo,
@@ -1036,7 +1114,7 @@ define(function (require) {
             descriptionCN: schemaItem.descriptionCN,
             descriptionEN: schemaItem.descriptionEN,
             type: schemaItem.type,
-            ref: schemaItem['$ref'],
+            ref: schemaItem.$ref,
             applicable: schemaItem.applicable,
             enumerateBy: schemaItem.enumerateBy,
             setApplicable: schemaItem.setApplicable,
@@ -1145,7 +1223,7 @@ define(function (require) {
                 );
                 if (o.hasOwnProperty('$ref')) {
                     // 检查是否所有ref都是正确的
-                    dtLib.assert($.isPlainObject(schemaHelper.findSchemaItemByRef(schema, o['$ref'])));
+                    dtLib.assert($.isPlainObject(schemaHelper.findSchemaItemByRef(schema, o.$ref)));
                 }
                 // 检查如果出现oneOf，那么那个obj中不能有别的属性（除非enumerateBy)
                 if (o.hasOwnProperty('oneOf')) {

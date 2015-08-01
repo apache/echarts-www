@@ -187,6 +187,22 @@ define(function (require) {
         },
 
         /**
+         * @public
+         * @param {Function} mapping param: setItem, return: newItem
+         * @return {Object} a new set.
+         */
+        map: function (mapping) {
+            var set = this._valueSet;
+            var list = [];
+            for (var key in set) {
+                if (set.hasOwnProperty(key)) {
+                    list.push(mapping(key));
+                }
+            }
+            return new Set(list);
+        },
+
+        /**
          * i.e.:
          * There is a Set: [-3, 40, 150, 999]
          * var result = someSet.classsify(function (item) {

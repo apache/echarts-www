@@ -6,12 +6,10 @@ define(function (require, exports) {
 
     var base = require('./base');
 
-    var PRIVATE_AREA_KEY = '\x0E\x0EprivateProps';
-
     /**
      * 创建新类。
      * prototype中：
-     *      _prop、_applySuper、_superClass 为内置属性禁止覆盖。
+     *      _applySuper、_superClass 为内置属性禁止覆盖。
      *      _define、_construct为特定功用属性，供用户override。
      * 不支持自定义类似C++/Java的“自动执行父类构造函数”（因为事实上不是必须，并易引起使用者关于override的某些困惑）。
      * 构造时须执行的逻辑，可在porototype._construct中传入。
@@ -36,7 +34,6 @@ define(function (require, exports) {
 
         Class.implement(prototype);
         Class.uid = 'Class_' + base.localUID();
-        Class.prototype._prop = prop;
 
         return Class;
     };
@@ -72,25 +69,6 @@ define(function (require, exports) {
             return method.apply(this, args || []);
         }
         throw new Error('parent Class has no method named ' + name);
-    }
-
-    /**
-     * 设置或得到本实例的私有属性。
-     * 业务代码中一般不需要使用，只有如Component这样的基类中，
-     * 为了避免子类覆盖父类的私有属性，所以用此方法建立私有的属性域。
-     *
-     * @protected
-     * @final
-     * @param {string} key 属性名
-     * @param {*=} value 属性值，缺省则表示要获取属性值
-     */
-    function prop(key, value) {
-        var privatePropArea = this[PRIVATE_AREA_KEY]
-            || (this[PRIVATE_AREA_KEY] = {});
-
-        return arguments.length > 1
-            ? (privatePropArea[key] = value)
-            : privatePropArea[key];
     }
 
     /**

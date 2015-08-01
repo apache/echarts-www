@@ -103,7 +103,9 @@ define(function (require) {
         _prepareDoc: function (schema) {
             var renderBase = {};
 
-            schemaHelper.buildDoc(schema, renderBase);
+            this._schemaStatistic = schemaHelper.statisticSchema(schema);
+
+            schemaHelper.buildDoc(schema, renderBase, this._schemaStatistic.universal);
 
             this._docTree = {
                 value: 'root',
@@ -262,7 +264,9 @@ define(function (require) {
             try {
                 var args = {};
                 args[queryArgName] = queryStr;
-                result = schemaHelper.queryDocTree(this._docTree, args);
+                result = schemaHelper.queryDocTree(
+                    this._docTree, this._schemaStatistic.universal, args
+                );
             }
             catch (e) {
                 alert(e);

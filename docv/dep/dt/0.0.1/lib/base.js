@@ -174,6 +174,64 @@ define(function (require) {
     };
 
     /**
+     * 创建oo编程中读写私有变量的函数。
+     * 使用方式：在SomeClass.js中，
+     *
+     * var inner = dtLib.makeInner();
+     * var SomeClass = function () {
+     *     // 写入私有变量
+     *     inner(this).x = 10;
+     *     // 读取私有变量
+     *     inner(this).y = inner(this).x;
+     * };
+     *
+     * 注意：
+     * 一个inner只能用于一个类，不能用于多个类。
+     * 一个类只使用一个inner，不能使用多个inner。
+     *
+     * 仅仅进行了上面的步骤，类的实例还是不能在不同的js引擎context下传递（如不同iframe或postMessage）。
+     * 如果要能够传输，需要把inner中的id绑到Class上：
+     * inner.attach(SomeClass);
+     * 注意此句须在使用inner(...)前执行。
+     * 执行过后SomeClass不可对其prototype进行整体重置（不可SomeClass.prototype = { ... }）。
+     *
+     * @public
+     */
+    lib.makeInner = function () {
+        // 动态生成id，从而类继承不会覆盖。
+        var dynamicId = '\x06\x06__private_d_' + lib.localUID();
+        var inner = function (obj) {
+            return obj[dynamicId] || (obj[dynamicId] = {});
+        };
+
+        /**
+         * @public
+         * @return {Object} Clz
+         */
+        inner.attach = function (Clz) {
+            // 挂在Class上的id只需保证prototype链上的不同即可。
+            var staticIdPrefix = '\x06\x06__private_s_';
+            var attachKey = '\x06\x06__private_attach_';
+            var proto = Clz.prototype;
+
+            if (proto.hasOwnProperty(attachKey)) {
+                dynamicId = proto[attachKey];
+            }
+            else if (proto[attachKey]) {
+                dynamicId = proto[attachKey] =
+                    staticIdPrefix + (Number(proto[attachKey].split('_s_')[1]) + 1);
+            }
+            else {
+                dynamicId = proto[attachKey] = staticIdPrefix + '0';
+            }
+
+            return Clz;
+        };
+
+        return inner;
+    };
+
+    /**
      * 因为esl 1.6.10的循环引用并不可靠（重复执行factory）
      * 所以把Component的判断放到了这里避免循环引用。
      *
@@ -422,6 +480,17 @@ define(function (require) {
     };
 
     /**
+     * @public
+     */
+    lib.arrayMap = function (arr, mappingFn) {
+        var result = [];
+        for (var i = 0, len = (arr || []).length; i < len; i++) {
+            result.push(mappingFn(arr[i]));
+        }
+        return result;
+    };
+
+    /**
      * array比较，暂只提供浅比较。
      *
      * @public
@@ -430,7 +499,7 @@ define(function (require) {
      * @return {boolean} 是否相同
      */
     lib.arrayEquals = function (arr1, arr2) {
-        if (!arr1 || !arr2 || arr1.length !== arr2.length) {
+        if (!$.isArray(arr1) || !$.isArray(arr2) || arr1.length !== arr2.length) {
             return false;
         }
 
@@ -441,6 +510,24 @@ define(function (require) {
         }
 
         return true;
+    };
+
+    /**
+     * @public
+     * @param {Object} obj
+     * @return {Array.<string>} keys
+     */
+    lib.objectKeys = function (obj) {
+        var keys = [];
+        if (!lib.isObject(obj)) {
+            return keys;
+        }
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                keys.push(key);
+            }
+        }
+        return keys;
     };
 
     /**
@@ -458,6 +545,68 @@ define(function (require) {
             }
         }
         return false;
+    };
+
+    /**
+     * @public
+     * @param {*} obj1
+     * @param {*} obj2
+     * @return {Array.<Object>} result
+     */
+    lib.diffObjects = function (obj1, obj2) {
+        var result = arguments[2] || [];
+        var path = arguments[3] || [];
+        var type1 = $.type(obj1);
+        var type2 = $.type(obj2);
+
+        if (type1 !== type2) {
+            return addResult();
+        }
+
+        if (type1 === 'array') {
+            if (obj1.length !== obj2.length) {
+                return addResult();
+            }
+            for (var i = 0, len = obj1.length; i < len; i++) {
+                path.push(i);
+                lib.diffObjects(obj1[i], obj2[i], result, path);
+                path.pop();
+            }
+        }
+        else if (type1 === 'object' && type2 === 'object') {
+            var keys1 = lib.objectKeys(obj1);
+            var keys2 = lib.objectKeys(obj2);
+
+            if (!lib.arrayEquals(keys1, keys2)) {
+                return addResult();
+            }
+            for (var i = 0, len = keys1.length; i < len; i++) {
+                var key = keys1[i];
+                path.push(key);
+                lib.diffObjects(obj1[key], obj2[key], result, path);
+                path.pop();
+            }
+        }
+        else if (type1 === 'date') {
+            if (obj1.getTime() !== obj2.getTime()) {
+                return addResult();
+            }
+        }
+        else if (type1 === 'regexp') {
+            if (obj1.toString() !== obj2.toString()) {
+                return addResult();
+            }
+        }
+        else if (obj1 !== obj2) {
+            return addResult();
+        }
+
+        return result;
+
+        function addResult() {
+            result.push({path: path.join('.'), obj1: obj1, obj2: obj2});
+            return result;
+        }
     };
 
     /**

@@ -3027,9 +3027,7 @@
                                 "radar",
                                 "force",
                                 "chord",
-                                "tree",
-                                "markPoint",
-                                "markLine"
+                                "tree"
                             ],
                             "descriptionCN": "标志图形类型，默认自动选择（8种类型循环使用，不显示标志图形可设为'none'），默认循环选择类型有：<br>\n                                'circle' | 'rectangle' | 'triangle' | 'diamond' |<br>\n                                'emptyCircle' | 'emptyRectangle' | 'emptyTriangle' | 'emptyDiamond'\n                                <br>另外，还支持五种更特别的标志图形'heart'（心形）、'droplet'（水滴）、'pin'（标注）、'arrow'（箭头）和'star'（五角星），这并不出现在常规的8类图形中，但无论是在系列级还是数据级上你都可以指定使用，同时，'star' + n（n>=3)可变化出N角星，如指定为'star6'则可以显示6角星\n                                <br>自1.3.5起支持symbol为自定义图片，格式为'image://' + '图片路径'， 如'image://../asset/ico/favicon.png'\n                                <br>详见例子 <a href=\"./example/line.html\" target=\"_blank\">this 》</a>",
                             "descriptionEN": "A predefined shape or symbol for the marker. The default symbol is automatically selected from (When all symbols are used, new symbols are pulled from the start again. Set it to'none' if you don't want to show the symbol): <br>\n                                'circle' | 'rectangle' | 'triangle' | 'diamond' |<br>\n                                'emptyCircle' | 'emptyRectangle' | 'emptyTriangle' | 'emptyDiamond'\n                                <br>Other possible values are 'heart', 'droplet', 'pin', 'arrow' and 'star'. Although They are not included in the regular eight symbols above, you can use them at both series and data level. In addition, you can use 'star' + n (n>=3) to get N-pointed star, like 'star6' for six-pointed star.\n                                <br>Since 1.3.5, ECharts added support for setting custom image as symbol. The URL to an image can be given on this form:'image://' + 'URL', such as 'image://../asset/ico/favicon.png'.\n                                <br>See <a href=\"./example/line.html#-en\" target=\"_blank\">example 》</a>",
@@ -3048,9 +3046,7 @@
                             "applicable": [
                                 "line",
                                 "scatter",
-                                "radar",
-                                "markPoint",
-                                "markLine"
+                                "radar"
                             ],
                             "descriptionCN": "标志图形大小，可计算特性启用情况建议增大以提高交互体验。可以是单个值，如果在 symbol 为图片的时候想要分别设置宽高防止图片被拉伸，可以使用数组，其中数组第一个值是高，第二个值是宽。 实现气泡图时symbolSize需为Function，气泡大小取决于该方法返回值，传入参数为当前数据项（value数组）。",
                             "descriptionEN": "size of the symbol. It is usually a number. But if you use an image as symbol. To prevent stretching of image caused by same width and height, you can use an array as symbolSize which first element is width and the second is height. When \"calculable\" is enabled, it's recommended to increase symbolSize for better interactive experience. When implementing a bubble chart, symbolSize should be a Function, and the bubble size depends on the return value of the method, the parameter passed in is the current data item (value array).",
@@ -3092,9 +3088,7 @@
                             "applicable": [
                                 "line",
                                 "scatter",
-                                "radar",
-                                "markPoint",
-                                "markLine"
+                                "radar"
                             ],
                             "descriptionCN": "标志图形旋转角度[-180,180]",
                             "descriptionEN": "the angle by which the symbol is rotated. Valid range is: [-180,180]",
@@ -5181,19 +5175,6 @@
         "linkStyle": {
             "type": "Object",
             "properties": {
-                "normal": {
-                    "type": "Object",
-                    "$ref": "#definitions/linkStyleItem"
-                },
-                "emphasis": {
-                    "type": "Object",
-                    "$ref": "#definitions/linkStyleItem"
-                }
-            }
-        },
-        "linkStyleItem": {
-            "type": "Object",
-            "properties": {
                 "type": {
                     "type": "string",
                     "descriptionCN": "线条类型，可选为：'curve'（曲线） | 'line'（直线）",
@@ -5221,11 +5202,6 @@
                     "oneOf": [
                         {
                             "type": "color",
-                            "applicable": [
-                                "!wordCloud",
-                                "!gauge_title",
-                                "!gauge_detail"
-                            ],
                             "descriptionCN": "颜色",
                             "descriptionEN": "color",
                             "defaultExplanation": "各异"
@@ -5259,14 +5235,12 @@
                 },
                 "align": {
                     "type": "string",
-                    "applicable": "!wordCloud",
                     "descriptionCN": "水平对齐方式，可选为：'left' | 'right' | 'center'",
                     "descriptionEN": "horizontal alignment. Valid values are: 'left' | 'right' | 'center'.",
                     "defaultExplanation": "各异"
                 },
                 "baseline": {
                     "type": "string",
-                    "applicable": "!wordCloud",
                     "descriptionCN": "垂直对齐方式，可选为：'top' | 'bottom' | 'middle'",
                     "descriptionEN": "vertical alignment. Valid values are: 'top' | 'bottom' | 'middle'.",
                     "defaultExplanation": "各异"

@@ -215,7 +215,9 @@
 {{ target: tipApplicable }}
 <div class="ecdoc-app-desc">
     <h2>applicable / setApplicable / enumerateBy 的解释：</h2>
-    <p> schemaItem上的applicable属性，形如：'line' 或 ['line', 'gauge/axisTick', 'gauge'] 等， <br>
+    <p> schemaItem上的applicable属性，形如：<br>
+        'line, gauge/axisTick, gauge 或 !line, !wordCloud 等， <br>
+        （用半角逗号分隔。感叹号表示“非”。注意 'line, !bar' 逻辑上等同于 'line'。）<br>
         定义了这个属性适用的场景。如果没有applicable属性，表示适用于所有场景。<br>
         检索和构建文档中的路径/属性选取，是靠context.applicable 和 schemaItem.applicable来完成的。<br>
     </p>
@@ -239,7 +241,7 @@
 
     <h3>字符限制： </h3>
     <p>
-        只可为 a-z A-Z 0-9 _（下划线） ,（逗号分隔不同的applicable项）
+        只可为 a-z A-Z 0-9 _（下划线） !（感叹号） ,（逗号分隔不同的applicable项，感叹号表示“非”）
     </p>
 </div>
 {{ /target }}

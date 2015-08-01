@@ -32,7 +32,7 @@ define(
             if list.length
                 "<div>" +
                 _.map(list, (item) ->
-                    "<a class='list-item' href='javascript:void(0)' data-query=#{item[0]}'>#{item[1]}</a>"
+                    "<a class='list-item' href='javascript:void(0)' data-query='#{item[0]}'>#{item[1]}</a>"
                 ).join('') + "</div>"
             else
                 ''

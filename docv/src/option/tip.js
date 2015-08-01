@@ -20,7 +20,7 @@ define(function(require) {
   listTemplate = function(list) {
     if (list.length) {
       return "<div>" + _.map(list, function(item) {
-        return "<a class='list-item' href='javascript:void(0)' data-query=" + item[0] + "'>" + item[1] + "</a>";
+        return "<a class='list-item' href='javascript:void(0)' data-query='" + item[0] + "'>" + item[1] + "</a>";
       }).join('') + "</div>";
     } else {
       return '';

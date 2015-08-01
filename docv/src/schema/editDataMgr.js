@@ -18,6 +18,7 @@ define(function (require) {
     var originalSchema; // May be for diff.
     var currentSchema; // Just for cache.
     var currentSchemaRenderTree; // Just for cache.
+    var currentSchemaStatistic; // Just for cache.
     var historyStack = [];
     var historyNextIndex = 0;
     var currentWorldOpt = {authKey: Math.random() + '', force: true};
@@ -75,6 +76,16 @@ define(function (require) {
     };
 
     /**
+     * @pubilc
+     */
+    mgr.getSchemaStatistic = function () {
+        if (!currentSchemaStatistic) {
+            currentSchemaStatistic = schemaHelper.statisticSchema(mgr.getSchema());
+        }
+        return currentSchemaStatistic;
+    };
+
+    /**
      * @inner
      */
     function makeRenderTree() {
@@ -82,6 +93,7 @@ define(function (require) {
         schemaHelper.buildDoc(
             mgr.getSchema(),
             renderBase,
+            mgr.getSchemaStatistic().universal,
             schemaHelper.buildDoc.schemaJsonRenderer,
             'schema'
         );

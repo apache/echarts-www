@@ -10,6 +10,7 @@ define(function (require) {
     var lib = require('../lib');
     var Component = require('./Component');
     var ChangeKey = lib.obArray.ChangeKey;
+    var inner = lib.makeInner();
 
     var ITEMS_PROP = '\x0E\x0E-foreach-items-prop';
 
@@ -177,7 +178,7 @@ define(function (require) {
      *
      * @class
      */
-    var Foreach = Component.extend({
+    var Foreach = inner.attach(Component.extend({
 
         _define: {
             viewModel: function () {
@@ -283,7 +284,7 @@ define(function (require) {
          * @protected
          */
         _setItemsContainer: function () {
-            this._prop('$itemsContainer', this.$el());
+            inner(this).$itemsContainer = this.$el();
         },
 
         /**
@@ -296,7 +297,7 @@ define(function (require) {
             return this.getCptDef(name) || this._getDefineProperty(name);
         }
 
-    });
+    }));
 
     // @see lib.obArray.ChangeKey in dataDriven.js
     function handleChange(changeOp) {
@@ -429,7 +430,7 @@ define(function (require) {
     function insertItemEl($newEl, index) {
         var items = this._items();
         if (!items.length || index >= items.length) {
-            return $newEl.appendTo(this._prop('$itemsContainer'));
+            return $newEl.appendTo(inner(this).$itemsContainer);
         }
         else {
             return $newEl.insertBefore(items[index].el());

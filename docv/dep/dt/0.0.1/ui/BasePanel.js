@@ -7,6 +7,8 @@ define(function (require) {
     var $ = require('jquery');
     var lib = require('../lib');
     var Component = require('./Component');
+    var inner = lib.makeInner();
+
 
     /**
      * 行为规约：
@@ -43,7 +45,7 @@ define(function (require) {
      * @class
      * @extends common/component/Component
      */
-    var BasePanel = Component.extend({
+    var BasePanel = inner.attach(Component.extend({
 
         _define: {
             viewModel: function () {
@@ -77,7 +79,7 @@ define(function (require) {
          */
         getPanelState: function () {
             /* eslint-disable xxx */
-            return this._prop(STATE_PROP);
+            return inner(this)[STATE_PROP];
         },
 
         /**
@@ -195,7 +197,7 @@ define(function (require) {
                 : true;
         }
 
-    });
+    }));
 
     /**
      * 定为特殊的名字避免被子类覆盖
@@ -211,7 +213,7 @@ define(function (require) {
      * @this {Object} 本BasePanel实例
      */
     function setPanelState(state) {
-        this._prop(STATE_PROP, state);
+        inner(this)[STATE_PROP] = state;
     }
 
     /**

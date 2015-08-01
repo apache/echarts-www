@@ -10,10 +10,11 @@ define(function (require) {
     var tpl = require('dt/tpl');
     var getByPath = lib.getByPath;
     var setByPath = lib.setByPath;
+    var inner = lib.makeInner();
 
     // 基础css class
     var BASE_CSS = 'dtui-cpt';
-    var DISPOSABLE_AREA = '\x0E\x0E-component-disposable-area';
+    var ORIGINAL_HTML_KEY = '\x06\x06\x06__originalHTML';
 
     /**
      * 使用例子（模板以etpl为例）：
@@ -73,7 +74,7 @@ define(function (require) {
      *
      * @exports Component
      */
-    var Component = lib.newClass(lib.enableEvent({
+    var Component = inner.attach(lib.newClass(lib.enableEvent({
 
         /**
          * 代码中获取define中内容，请使用：this._getDefineProperty('nameKey')
@@ -240,7 +241,7 @@ define(function (require) {
          * @return {string} 加上了本实例的 namespace 的 dom事件名；或者事件 namespace。
          */
         _event: function (eventName) {
-            var ns = this._prop('eventNamespace');
+            var ns = inner(this).eventNamespace;
             return (eventName != null ? eventName : '') + ns;
         },
 
@@ -291,15 +292,16 @@ define(function (require) {
             def = $.extend({}, def);
             lib.isComponent(this, true); // 标记为Component。
 
-            this._prop('cptDef', def);
+            var innerThis = inner(this);
+            innerThis.cptDef = def;
             // 事件的名空间
-            this._prop('eventNamespace', '.namespace' + lib.localUID());
+            innerThis.eventNamespace = '.namespace' + lib.localUID();
             // 存放子组件，格式为：{name: someSubComponent}
-            this._prop('subComponents', {});
-            this._prop('sub$Els', {});
-            this._prop('disposed', false);
-            this._prop(DISPOSABLE_AREA, {});
-            this._prop('cptInsanceUID', 'cpt-instance-' + lib.localUID());
+            innerThis.subComponents = {};
+            innerThis.sub$Els = {};
+            innerThis.disposed = false;
+            innerThis.cptDisposableArea = {};
+            innerThis.cptInstanceUID = 'cpt-instance-' + lib.localUID();
 
 
             initViewModelControlMap.call(this);
@@ -322,9 +324,10 @@ define(function (require) {
          * @public
          */
         dispose: function () {
-            if (!this._prop('disposed')) {
+            var innerThis = inner(this);
+            if (!innerThis.disposed) {
                 var el = this.el();
-                var originInnerHTML = this._prop('originInnerHTML') || '';
+                var originInnerHTML = this[ORIGINAL_HTML_KEY] || '';
                 // 最先自己进行清除
                 this._dispose();
                 disposeSub.call(this);
@@ -334,7 +337,7 @@ define(function (require) {
                 // 最后一次机会自己清除
                 this._disposeFinally();
                 el.innerHTML = originInnerHTML;
-                this._prop('disposed', true);
+                innerThis.disposed = true;
             }
         },
 
@@ -353,7 +356,7 @@ define(function (require) {
          */
         _disposable: function (o, name) {
             lib.assert(o != null); // 常见的错误
-            var area = this._prop(DISPOSABLE_AREA);
+            var area = inner(this).cptDisposableArea;
 
             // o为 null 或 undefined 时什么也不做，这是为了支持编码的简洁
             if (o == null) {
@@ -489,7 +492,7 @@ define(function (require) {
                  : def.viewModel;
 
             var subCpt = new Clz(subEl, subViewModel, def);
-            subCpt._prop('originInnerHTML', originInnerHTML);
+            subCpt[ORIGINAL_HTML_KEY] = originInnerHTML;
 
             return this._sub(
                 // 如果没定义name，则表示匿名
@@ -511,7 +514,6 @@ define(function (require) {
                 return;
             }
 
-            var originInnerHTML = subCpt._prop('originInnerHTML');
             var subEl = subCpt.el();
             subCpt.dispose();
             this._sub(subPath, null);
@@ -527,7 +529,7 @@ define(function (require) {
         traversalRun: function (isRefresh) {
             // 先执行sub
             traverseSub(
-                this._prop('subComponents'),
+                inner(this).subComponents,
                 function (subCpt) {
                     subCpt.traversalRun(isRefresh);
                 }
@@ -546,10 +548,11 @@ define(function (require) {
          * @return {Component} 子组件实例
          */
         _sub: function (name, o, overlapSilently) {
+            var subComponents = inner(this).subComponents;
             if (arguments.length < 2) {
                 return getByPath(
                     name,
-                    this._prop('subComponents'),
+                    subComponents,
                     getByPath.actionChoice.notPlainReturn
                 );
             }
@@ -557,7 +560,7 @@ define(function (require) {
                 setByPath(
                     name,
                     o,
-                    this._prop('subComponents'),
+                    subComponents,
                     overlapSilently
                         ? setByPath.actionChoice.notPlainOverlap
                         : setByPath.actionChoice.notPlainThrow
@@ -584,7 +587,7 @@ define(function (require) {
          * @return {HTMLElemnet} 主元素dom节点
          */
         el: function () {
-            return this._prop('el');
+            return inner(this).el;
         },
 
         /**
@@ -602,15 +605,16 @@ define(function (require) {
          * @return {HTMLElemnet}
          */
         $el: function (name, o, overlapSilently) {
+            var innerThis = inner(this);
             if (arguments.length === 0) {
                 // 得到主元素
-                return this._prop('$el');
+                return innerThis.$el;
             }
 
             if (arguments.length === 1) {
                 return getByPath(
                     name,
-                    this._prop('sub$Els'),
+                    innerThis.sub$Els,
                     getByPath.actionChoice.notPlainReturn
                 );
             }
@@ -618,7 +622,7 @@ define(function (require) {
                 setByPath(
                     name,
                     o,
-                    this._prop('sub$Els'),
+                    innerThis.sub$Els,
                     overlapSilently
                         ? setByPath.actionChoice.notPlainOverlap
                         : setByPath.actionChoice.notPlainThrow
@@ -646,7 +650,7 @@ define(function (require) {
          */
         viewModel: function (path) {
             if (canPublic.call(this, path)) {
-                return getByPath(path, this._prop('viewModel'));
+                return getByPath(path, inner(this).viewModel);
             }
             else {
                 throw new Error(path + ' is private!');
@@ -660,7 +664,7 @@ define(function (require) {
          * @return {Object} viewModel
          */
         _viewModel: function () {
-            return this._prop('viewModel');
+            return inner(this).viewModel;
         },
 
         /**
@@ -682,7 +686,7 @@ define(function (require) {
          * @return {*}
          */
         getCptDef: function (key) {
-            return this._prop('cptDef')[key];
+            return inner(this).cptDef[key];
         },
 
         /**
@@ -692,7 +696,7 @@ define(function (require) {
          * @return {string} uid
          */
         uid: function () {
-            return this._prop('cptInsanceUID');
+            return inner(this).cptInstanceUID;
         },
 
         /**
@@ -704,8 +708,9 @@ define(function (require) {
          */
         getFullCss: function (suffix) {
             var csses = [BASE_CSS];
-            csses.push.apply(csses, this._prop('basicCss') || []);
-            csses.push.apply(csses, this._prop('extraCss') || []);
+            var innerThis = inner(this);
+            csses.push.apply(csses, innerThis.basicCss || []);
+            csses.push.apply(csses, innerThis.extraCss || []);
 
             return $.map(
                 csses,
@@ -794,10 +799,8 @@ define(function (require) {
          */
         localOb: function (key, ob) {
             var ret;
-            var localObRepo = this._prop('localObRepo');
-            if (!localObRepo) {
-                localObRepo = this._prop('localObRepo', {});
-            }
+            var innerThis = inner(this);
+            var localObRepo = innerThis.localObRepo || (innerThis.localObRepo = {});
 
             if (arguments.length > 1) {
                 if (ob === false) { // 清除local observable。
@@ -842,7 +845,7 @@ define(function (require) {
             return localOb; // jshint ignore:line
         }
 
-    }));
+    })));
 
     /**
      * 各种component类型的定义集合。
@@ -903,8 +906,9 @@ define(function (require) {
             return;
         }
 
-        $el = this._prop('$el', $($el));
-        this._prop('el', $el[0]);
+        var innerThis = inner(this);
+        $el = innerThis.$el = $($el);
+        innerThis.el = $el[0];
 
         // 设置componentEl标志
         lib.bindComponent($el, this);
@@ -940,7 +944,7 @@ define(function (require) {
     }
 
     function applyBaseTpl() {
-        var tplTarget = this._prop('cptDef').tplTarget
+        var tplTarget = inner(this).cptDef.tplTarget
             || this._getDefineProperty('tplTarget');
         var $el = this.$el();
 
@@ -956,20 +960,21 @@ define(function (require) {
     // （此方法写在闭包中是为了禁止子类调用）
     function disposeBase() {
         var $el = this.$el();
+        var innerThis = inner(this);
 
         // 清除自己的事件挂载
-        $el.off(this._prop('eventNamespace'));
+        $el.off(innerThis.eventNamespace);
         $el.removeClass(
             this.getFullCss().join(' ')
         );
 
         // 并不默认清除 main el 中的内容，因为可能并不属于自身可控。
-        this._prop('viewModel', null);
+        innerThis.viewModel = null;
 
-        this._prop('el', null);
-        this._prop('$el', null);
-        this._prop('subComponents', null);
-        this._prop('sub$Els', null);
+        innerThis.el = null;
+        innerThis.$el = null;
+        innerThis.subComponents = null;
+        innerThis.sub$Els = null;
 
         lib.bindComponent($el, false);
     }
@@ -1005,7 +1010,8 @@ define(function (require) {
     function setViewModel(viewModel) {
 
         // 初始化 viewModel，从祖先类开始 merge。
-        var base = this._prop('viewModel', {});
+        var innerThis = inner(this);
+        var base = innerThis.viewModel = {};
         var that = this;
 
         this._traverseFromAncestor(function (Clz) {
@@ -1029,18 +1035,19 @@ define(function (require) {
             {
                 onlyMergeOwnPropertyInTarget:
                     !!this._getDefineProperty('viewModelOnlyAccessDeclaredProperties'),
-                levelOneNeedMerge: this._prop('viewModelMergeMap') || {}
+                levelOneNeedMerge: innerThis.viewModelMergeMap || {}
             }
         );
 
-        this._prop('viewModel', base);
+        innerThis.viewModel = base;
         return base;
     }
 
     function initViewModelControlMap() {
         // 缓存成map便于查询
-        var viewModelPublicMap = this._prop('viewModelPublicMap', {});
-        var viewModelMergeMap = this._prop('viewModelMergeMap', {});
+        var innerThis = inner(this);
+        var viewModelPublicMap = innerThis.viewModelPublicMap = {};
+        var viewModelMergeMap = innerThis.viewModelMergeMap = {};
 
         // 从祖先开始merge
         this._traverseFromAncestor(function (Clz) {
@@ -1057,6 +1064,7 @@ define(function (require) {
 
     function initCssDefine() {
         var viewModel = this._viewModel();
+        var innerThis = inner(this);
 
         // 从祖先遍历到本类，找到所有基础css。
         var basicCss = [];
@@ -1069,19 +1077,19 @@ define(function (require) {
                 basicCss.push(css);
             }
         });
-        this._prop('basicCss', basicCss);
+        innerThis.basicCss = basicCss;
 
         // 可多个extra c
         var extraCss = viewModel && viewModel.css || [];
         if (!$.isArray(extraCss)) {
             extraCss = [extraCss];
         }
-        this._prop('extraCss', extraCss);
+        innerThis.extraCss = extraCss;
     }
 
     function canPublic(path) {
         path = getByPath.normalizePath(path);
-        return !!this._prop('viewModelPublicMap')[path];
+        return !!inner(this).viewModelPublicMap[path];
     }
 
     function disposeDisposable(o) {
@@ -1110,10 +1118,10 @@ define(function (require) {
      * 递归dispose所有子component 或 指定根节点的子components。
      *
      * @inner
-     * @param {*} root 如果缺省则默认为this._prop('subComponents')
+     * @param {*} root 如果缺省则默认为 inner(this).subComponents
      */
     function disposeSub(root) {
-        root = root || this._prop('subComponents');
+        root = root || inner(this).subComponents;
         traverseSub(
             root,
             function (subCpt) {
@@ -1145,10 +1153,10 @@ define(function (require) {
      * 递归dispose所有存储的el 或 指定根节点的存储的el。
      *
      * @inner
-     * @param {*} root 如果缺省则默认为this._prop('sub$els')
+     * @param {*} root 如果缺省则默认为 inner(this).sub$els
      */
     function disposeEls(root) {
-        root = root || this._prop('sub$els');
+        root = root || inner(this).sub$els;
         var ns = this._event();
         traverseSub(
             root,
