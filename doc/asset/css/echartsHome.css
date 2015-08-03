@@ -385,6 +385,10 @@ table.full {width:100%;}
   line-height: 0px;
 }
 
+.ec-secret-tool {
+    display: none;
+}
+
 .ec-icon {
     display: inline-block;
     width: 35px;

@@ -342,6 +342,22 @@ define(function (require) {
         },
 
         /**
+         * @public
+         */
+        isDisposed: function () {
+            return !!inner(this).disposed;
+        },
+
+        /**
+         * 一般用此来判断是否可以响应用户交互，或者响应异步回调。
+         *
+         * @public
+         */
+        isFrozen: function () {
+            return this._viewModel().disabled() || this.isDisposed();
+        },
+
+        /**
          * 只是 syntactic sugar。
          * 匿名注册需要被自动dispose的对象：this._disposable(obj); // obj 对象有dispose方法。
          * 实名注册需要被自动dispose的对象：this._disposable(obj, 'someName');

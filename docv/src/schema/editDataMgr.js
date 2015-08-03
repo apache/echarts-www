@@ -9,6 +9,8 @@ define(function (require) {
     // 改变属性名称时属性顺序会变，这小工具，没工夫细细研究了，临时改成了mockImmutable。
     var immutable = mockImmutable(); // require('immutable');
 
+    var UNDEFINED;
+
     /**
      * @public
      * @type {Object}
@@ -133,16 +135,24 @@ define(function (require) {
 
     /**
      * @public
+     * @param {string} path
+     * @param {*} val It means "delete" when val is undefined.
      */
     mgr.updateSchemaDataItem = function (path, val) {
         var newPath = path.slice();
         var basePath = path.slice(0, path.length - 1);
         newPath.unshift('definitions');
-        docUtil.log('persistent: [' + newPath.join('.') + '] = ' + val);
+        docUtil.log(
+            'persistent: [' + newPath.join('.') + '] = '
+            + (val === UNDEFINED ? '(delete)' : val)
+        );
 
         var eventArgs = {selectedValue: basePath.join('.')};
+        var currImmu = getCurrent().immutableSchema;
         var record = {
-            immutableSchema: getCurrent().immutableSchema.setIn(newPath, val),
+            immutableSchema: val === UNDEFINED
+                ? currImmu.deleteIn(newPath)
+                : currImmu.setIn(newPath, val),
             selectedValue: eventArgs.selectedValue
         };
         worldMoveOn(record, eventArgs);
@@ -252,6 +262,7 @@ define(function (require) {
     function clearCache() {
         currentSchema = null;
         currentSchemaRenderTree = null;
+        currentSchemaStatistic = null;
     }
 
     /**

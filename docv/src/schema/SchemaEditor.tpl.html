@@ -1,7 +1,6 @@
 {{ target: SchemaEditor }}
 <div class="ecdoc-scmedt-head-desc">
-【这货还没做完，现在只能看不能编辑】<br><br>
-这是只供我们自己简单用用的 doc schema 编辑和浏览器。<br>
+这是简单的 doc schema 编辑和浏览器。<br>
 注意，这是 doc schema，和api doc不一样，api doc是基于 doc schema 渲染出来的，里面有很多根据不同echarts series type以及“引用”而重复渲染的东西。
 </div>
 
@@ -111,6 +110,9 @@
     </div>
     <span class="ecdoc-question" data-tip-tpl="tipApplicable"></span>
 </div>
+<div class="ecdoc-scmedt-block-line ecdoc-scmedt-show-all-applicable">
+    <div data-cpt="type: 'Button', name: 'showAllApplicable', text: '查看当前所有 applicable '"></div>
+</div>
 <div class="ecdoc-scmedt-block-line">
     <span class="ecdoc-scmedt-block-label">type（可以多选）:</span>
     <div data-cpt="
@@ -133,7 +135,7 @@
     <span class="ecdoc-question" data-tip-tpl="tipRef"></span>
 </div>
 <div class="ecdoc-scmedt-block-line">
-    <span class="ecdoc-scmedt-block-label">默认值（用代码格式写）:</span>
+    <span class="ecdoc-scmedt-block-label">默认值（JSON格式）:</span>
     <div data-cpt="
         type: 'TextInput',
         name: 'editBlock.defaultValue',
@@ -209,7 +211,14 @@
 
 
 
-
+{{ target: showAllApplicable }}
+<h3>当前所有 applicable（按字母排序）：</h3>
+<p>${viewModel.applicable}</p>
+<h3>当前所有 enumerateBy（按字母排序）：</h3>
+<p>${viewModel.enumerateBy}</p>
+<h3>当前所有 setApplicable（按字母排序）：</h3>
+<p>${viewModel.setApplicable}</p>
+{{ /target }}
 
 
 {{ target: tipApplicable }}
@@ -261,7 +270,7 @@
         <strong>引用发出方的“默认值”优先级高</strong>。如果引用发出方定义了“默认值/默认值解释”，则文档构建时会分别覆盖被引用方的“默认值”和“默认值解释”。
     </p>
     <p>
-        引用的写法，例如：'#definitions/seriesItem/itemStyle'，参见 <a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03" target="_blank">JSON Reference</a>。
+        引用的写法，形如：'#definitions/seriesItem/itemStyle'，参见 <a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03" target="_blank">JSON Reference</a>。
     </p>
     <p>
         <strong>注意不要循环引用</strong>（现在没做检测，并且是一次性生成文档全部内容，那么生成文档时会挂的）
@@ -276,15 +285,15 @@
 {{ target: tipDefaultValue }}
 <div class="ecdoc-app-desc">
     <h2>默认值的解释：</h2>
-    默认值在存储时是有真实JSON类型的。“用代码格式写”的意思是，会这样处理：<br>
+    默认值在存储时是有真实JSON类型的。对于输入会这样处理：<br>
     <pre>
     var inputText = '默认值输入框中填入的内容';
-    var defaultValue = JSON.parse(inputText);
+    var defaultValue = <strong>JSON.parse(inputText)</strong>;
     </pre>
     也就是说<br>
-    如果默认值是string类型的，<strong>书写时要加双引号</strong> <br>
+    如果默认值是<strong>string类型，书写时要加双引号</strong> <br>
     JSON primitive type 只有：array boolean integer number null object string <br>
-    <strong>如果要用JSON primitive type以外的类型</strong>，请在“默认值解释”里面写，直接写任意字符串就行，“默认值解释”只存字符串。
+    如果要用<strong>JSON primitive type以外的类型，请在“默认值解释”里面写</strong>，直接写任意字符串就行，“默认值解释”只存字符串。
 </div>
 
 

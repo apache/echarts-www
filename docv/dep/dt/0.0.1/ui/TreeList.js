@@ -238,6 +238,9 @@ define(function (require) {
             }));
 
             function getText(itemEl) {
+                if (that.isFrozen()) {
+                    return;
+                }
                 var dataItem = that._findDataItemByPath(
                     datasource, $(itemEl).attr(PATH_ATTR)
                 );
@@ -285,7 +288,7 @@ define(function (require) {
             $el.on(this._event('click'), '.' + thumbCss, onThumbClick);
 
             function onItemTextEnter(e) {
-                if (viewModel.disabled()) {
+                if (that.isFrozen()) {
                     return;
                 }
                 var $item = $(this);
@@ -297,12 +300,15 @@ define(function (require) {
             }
 
             function onItemTextLeave(e) {
+                if (that.isFrozen()) {
+                    return;
+                }
                 $(this).removeClass(textHoverCss);
                 viewModel.hovered(UNDEFINED);
             }
 
             function onItemTextClick(e) {
-                if (viewModel.disabled()) {
+                if (that.isFrozen()) {
                     return;
                 }
                 var obType = lib.obTypeOf(viewModel.selected);
@@ -328,7 +334,7 @@ define(function (require) {
             }
 
             function onThumbClick() {
-                if (viewModel.disabled()) {
+                if (that.isFrozen()) {
                     return;
                 }
                 that._toggleSingleItem(that._findItemEl($(this)));
@@ -436,6 +442,9 @@ define(function (require) {
             });
 
             function doExpand() {
+                if (this.isDisposed()) {
+                    return;
+                }
                 this._expandOrCollapse(
                     $ancestors, 'expand',
                     {noAnimation: options.noAnimation, always: $.proxy(doFinal, this)}
@@ -443,6 +452,9 @@ define(function (require) {
             }
 
             function doFinal() {
+                if (this.isDisposed()) {
+                    return;
+                }
                 var scrollTarget = $($itemEls[0]);
                 var scrollToTarget = options.scrollToTarget;
                 if (scrollToTarget && scrollTarget.length) {
@@ -518,6 +530,7 @@ define(function (require) {
          */
         _collapseAll: function (options) {
             var collapseLevel = options.collapseLevel;
+            var that = this;
 
             if (collapseLevel == null || collapseLevel < 0) {
                 setTimeout(doFinal, 0);
@@ -535,7 +548,7 @@ define(function (require) {
             }
 
             function doFinal() {
-                options.always && options.always();
+                !that.isDisposed() && options.always && options.always();
             }
         },
 
@@ -604,18 +617,27 @@ define(function (require) {
             }
 
             function doWithAnimation(then) {
+                if (that.isDisposed()) {
+                    return;
+                }
                 that._findElInItem($(changeItems.withAnimation), 'list')
                     [animateFn](options.noAnimation ? 0 : SLIDE_INTERVAL) // 动画
                     .promise().always(then);
             }
 
             function doWithoutAnimation(then) {
+                if (that.isDisposed()) {
+                    return;
+                }
                 that._findElInItem($(changeItems.withoutAnimation), 'list')
                     [animateFn](0)
                     .promise().always(then);
             }
 
             function doFinal() {
+                if (that.isDisposed()) {
+                    return;
+                }
                 if (type === 'collapse') {
                     that._resetItemText($toBeChangedItemEls);
                 }
@@ -645,6 +667,9 @@ define(function (require) {
             }
 
             function handleSlideEnd(resetText) {
+                if (this.isDisposed()) {
+                    return;
+                }
                 resetText && this._resetItemText($itemEl);
                 viewModel.resizeEvent({});
             }
