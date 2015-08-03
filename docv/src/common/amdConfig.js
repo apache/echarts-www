@@ -3,7 +3,7 @@
  * @param  {string} baseUrl
  */
 window.amdConfig = function (baseUrl) {
-    window.VERSION_ARG = '_v_=1.0.3';
+    window.VERSION_ARG = '_v_=1.0.4';
     require.config({
         baseUrl: baseUrl,
         paths: {
