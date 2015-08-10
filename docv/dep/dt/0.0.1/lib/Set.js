@@ -49,6 +49,8 @@ define(function (require) {
 
     Set.prototype = {
 
+        constructor: Set,
+
         /**
          * @public
          * @param {string|Array.<string>|Set} value
@@ -299,8 +301,6 @@ define(function (require) {
     function isObject(value) {
         return Object(value) === value;
     }
-
-    Set.prototype.constructor = Set;
 
     return Set;
 });

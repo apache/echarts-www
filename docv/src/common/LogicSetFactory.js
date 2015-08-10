@@ -91,6 +91,9 @@ define(function (require) {
     };
 
     LogicSetFactory.prototype = {
+
+        constructor: LogicSetFactory,
+
         /**
          * @public
          * @param {string|Array.<string>|Set|LogicSet} value like:
@@ -111,8 +114,6 @@ define(function (require) {
             return innerFactory(this).universal;
         }
     };
-
-    LogicSetFactory.prototype.constructor = LogicSetFactory;
 
     $.extend(LogicSetFactory, ParseMode);
 
@@ -152,6 +153,8 @@ define(function (require) {
     };
 
     LogicSet.prototype = {
+
+        constructor: LogicSet,
 
         /**
          * @public
@@ -311,8 +314,6 @@ define(function (require) {
     function isObject(value) {
         return Object(value) === value;
     }
-
-    LogicSet.prototype.constructor = LogicSet;
 
     innerSet.attach(LogicSet);
 
