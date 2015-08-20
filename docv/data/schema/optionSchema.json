@@ -4278,6 +4278,7 @@
                     "descriptionCN": "标注类型，同series中的<a href=\"#series\">symbol</a>",
                     "descriptionEN": "the symbol of markPoint, same as series' <a href=\"#series\">symbol</a>.",
                     "$ref": "#definitions/seriesItem/properties/symbol",
+                    "setApplicable": "markPoint",
                     "default": "pin"
                 },
                 "symbolSize": {
@@ -4289,6 +4290,7 @@
                     "descriptionCN": "标注大小，同series中的<a href=\"#series\">symbolSize</a>",
                     "descriptionEN": "the size of markPoint symbol, same as series' <a href=\"#series\">symbolSize</a>.",
                     "$ref": "#definitions/seriesItem/properties/symbolSize",
+                    "setApplicable": "markPoint",
                     "default": 10
                 },
                 "symbolRotate": {
@@ -4296,6 +4298,7 @@
                     "descriptionCN": "标注图形旋转角度，同series中的<a href=\"#series\">symbolRotate</a>",
                     "descriptionEN": "the angle by which markPoint symbol rotates, same as series' <a href=\"#series\">symbolRotate</a>.",
                     "$ref": "#definitions/seriesItem/properties/symbolRotate",
+                    "setApplicable": "markPoint",
                     "default": null
                 },
                 "large": {
@@ -4381,6 +4384,7 @@
                     "descriptionCN": "标注图形样式属性，同series中的<a href=\"#series\">itemStyle</a>",
                     "descriptionEN": "style for markPoint symbol, same as series' <a href=\"#series\">itemStyle</a>.",
                     "$ref": "#definitions/itemStyle",
+                    "setApplicable": "markPoint",
                     "defaultExplanation": "{...}"
                 },
                 "data": {
@@ -4424,10 +4428,7 @@
                         }
                     ]
                 }
-            },
-            "setApplicable": [
-                "markPoint"
-            ]
+            }
         },
         "markLine": {
             "type": "Object",
@@ -4446,6 +4447,7 @@
                     "descriptionCN": "标线起始和结束的symbol介绍类型，如果都一样，可以直接传string，同series中的<a href=\"#series\">symbol</a>",
                     "descriptionEN": "symbols of the start and end of markLine. If the two are the same, string can be directly passed in. Same as series' <a href=\"#series\">symbol</a>.",
                     "$ref": "#definitions/seriesItem/properties/symbol",
+                    "setApplicable": "markLine",
                     "default": [
                         "circle",
                         "arrow"
@@ -4460,6 +4462,7 @@
                     "descriptionCN": "标线起始和结束的symbol大小，半宽（半径）参数，如果都一样，可以直接传number或function，同series中的<a href=\"#series\">symbolSize</a>",
                     "descriptionEN": "sizes of the start and end symbols of markLine. Half-width (radius) parameters. If the two are the same, number or function can be directly passed in. Same as series' <a href=\"#series\">symbolSize</a>.",
                     "$ref": "#definitions/seriesItem/properties/symbolSize",
+                    "setApplicable": "markLine",
                     "default": [
                         2,
                         4
@@ -4473,6 +4476,7 @@
                     "descriptionCN": "标线起始和结束的symbol旋转控制，同series中的<a href=\"#series\">symbolRotate</a>",
                     "descriptionEN": "angles by which the start and end markLine symbols rotate, same as series' <a href=\"#series\">symbolRotate</a>.",
                     "$ref": "#definitions/seriesItem/properties/symbolRotate",
+                    "setApplicable": "markLine",
                     "default": null
                 },
                 "large": {
@@ -4585,6 +4589,7 @@
                     "descriptionCN": "标线图形样式属性，同series中的<a href=\"#series\">itemStyle</a>",
                     "descriptionEN": "style for markLine symbol, same as series' <a href=\"#series\">itemStyle</a>",
                     "$ref": "#definitions/itemStyle",
+                    "setApplicable": "markLine",
                     "defaultExplanation": "{...}"
                 },
                 "data": {
@@ -4628,10 +4633,7 @@
                         }
                     ]
                 }
-            },
-            "setApplicable": [
-                "markLine"
-            ]
+            }
         },
         "itemStyle": {
             "type": "Object",
