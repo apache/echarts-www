@@ -83,10 +83,12 @@ define(function (require) {
         _initEditPanel: function () {
             // 首先挂载写入事件
             var editInputs = this._sub('editBlock');
+            console.log('editInputs \n',editInputs)
             for (var prop in editInputs) {
                 if (editInputs.hasOwnProperty(prop)) {
                     var persistentObName = editPanelDefine[prop].persistentObName;
                     if (persistentObName) {
+                        console.log(editInputs[prop])
                         editInputs[prop].viewModel(persistentObName).subscribe(
                             $.proxy(this._onEditInputChanged, this, prop, editInputs[prop])
                         );
@@ -107,6 +109,10 @@ define(function (require) {
 
             this._sub('showAllApplicable').on('click', $.proxy(this._showAllApplicable, this));
 
+            this._sub('manipulator.addObjectProperty').on('click', $.proxy(this._addObjectProperty, this));
+
+            this._sub('manipulator.removeSelectedNode').on('click', $.proxy(this._removeSelectedNode, this));
+
             this._disposable(
                 this._viewModel().schemaTreeSelected.subscribe(this._resetEditPanelAsync, this)
             );
@@ -126,6 +132,25 @@ define(function (require) {
             });
         },
 
+        _addObjectProperty: function () {
+            console.log('Add ob property!')
+        },
+
+        /**
+         * 移除被选择的节点
+         *
+         * @private
+         */
+        _removeSelectedNode: function () {
+            var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
+            editDataMgr.updateSchemaDataItem(treeItem.schemaPath);
+        },
+
+        /**
+         * 生成 SCHEMA
+         *
+         * @private
+         */
         _initGenSchema: function () {
             this.$el().find(SELECTOR_GEN_SCHEMA).on(
                 this._event('click'), $.proxy(genSchema, this)
@@ -174,6 +199,7 @@ define(function (require) {
             this.recreateSubCpt('schemaTree');
 
             if (options && options.selectedValue) {
+
                 // selectedValue可能改变了。（改变name时）
                 var selOb = this._viewModel().schemaTreeSelected;
                 selOb(options.selectedValue, null, {force: true});
@@ -197,13 +223,16 @@ define(function (require) {
         },
 
         _resetEditPanelImmediately: function () {
-            this._resetEditEnable();
+            // 先读取配置
             this._resetEditRead();
+            // 更新各种编辑区的控件
+            this._resetEditEnable();
         },
 
         _resetEditEnable: function () {
             var isTreeSelecting = this._isTreeSelecting();
             var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
+            console.log('treeItem \n', treeItem);
 
             var editInputs = this._sub('editBlock');
             for (var name in editInputs) {
@@ -214,6 +243,7 @@ define(function (require) {
                     );
                 }
             }
+
             this._sub('descViewTypeCN').viewModel('disabled')(!isTreeSelecting);
             this._sub('descViewTypeEN').viewModel('disabled')(!isTreeSelecting);
 
@@ -231,11 +261,20 @@ define(function (require) {
             this._sub('manipulator.addDefinition').viewModel('visible')(
                 isTreeSelecting && isOnRoot
             );
-            this._sub('manipulator.addOneOf').viewModel('visible')(
-                isTreeSelecting && !isOnRoot
+            this._sub('manipulator.addChildNode').viewModel('visible')(
+                isTreeSelecting && treeItem.children
             );
+            this._sub('manipulator.removeCurrentNode').viewModel('visible')(
+                isTreeSelecting
+            );
+
         },
 
+        /**
+         * 读取 schema 树中的配置,更新配置编辑区
+         *
+         * @private
+         */
         _resetEditRead: function () {
             var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
             for (var key in editPanelDefine) {
@@ -293,6 +332,11 @@ define(function (require) {
             return this._viewModel().schemaTreeSelected() != null;
         },
 
+        /**
+         * 编辑面板——中文/英文描述
+         *
+         * @private
+         */
         _initDescViewHTML: function () {
             this._sub('descViewTypeCN').viewModel('checked').subscribe($.proxy(onHTMLViewChanged, this, 'cn'));
             this._sub('descViewTypeEN').viewModel('checked').subscribe($.proxy(onHTMLViewChanged, this, 'en'));
