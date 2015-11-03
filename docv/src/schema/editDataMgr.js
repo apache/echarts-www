@@ -134,6 +134,47 @@ define(function (require) {
     };
 
     /**
+     * 为 Object 类型对象添加一个 Property 属性
+     *
+     */
+    mgr.addSchemaDataPropertyItem = function (tree) {
+        var val = schemaHelper.createSchemaItemObjectProperty();
+        this.addSchemaDataItem(tree.schemaPath.concat('properties._NewKey'), val);
+    },
+
+    /**
+     * 添加一个 OneOf 项
+     *
+     */
+    mgr.addSchemaDataOneOfItem = function (tree) {
+        var val = schemaHelper.createSchemaItemObjectProperty();
+        this.addSchemaDataItem(tree.schemaPath.concat('oneOf.' + tree.children.length), val);
+    },
+
+    /**
+     * 为 Schema 添加一项数据
+     *
+     * @public
+     * @param {string} path
+     */
+    mgr.addSchemaDataItem = function (path, val) {
+        var newPath = path.slice();
+        newPath.unshift('definitions');
+
+        docUtil.log(
+            'add: [' + newPath.join('.') + ']'
+        );
+
+        var currImmu = getCurrent().immutableSchema;
+        var eventArgs = {selectedValue: newPath.slice(1).join('.')};
+        var record = {
+            immutableSchema: currImmu.setIn(newPath, val),
+            selectedValue: eventArgs.selectedValue
+        };
+        worldMoveOn(record, eventArgs);
+    };
+
+    /**
      * @public
      * @param {string} path
      * @param {*} val It means "delete" when val is undefined.
@@ -149,12 +190,14 @@ define(function (require) {
 
         var eventArgs = {selectedValue: basePath.join('.')};
         var currImmu = getCurrent().immutableSchema;
+
         var record = {
             immutableSchema: val === UNDEFINED
                 ? currImmu.deleteIn(newPath)
                 : currImmu.setIn(newPath, val),
             selectedValue: eventArgs.selectedValue
         };
+
         worldMoveOn(record, eventArgs);
     };
 

@@ -83,12 +83,10 @@ define(function (require) {
         _initEditPanel: function () {
             // 首先挂载写入事件
             var editInputs = this._sub('editBlock');
-            console.log('editInputs \n',editInputs)
             for (var prop in editInputs) {
                 if (editInputs.hasOwnProperty(prop)) {
                     var persistentObName = editPanelDefine[prop].persistentObName;
                     if (persistentObName) {
-                        console.log(editInputs[prop])
                         editInputs[prop].viewModel(persistentObName).subscribe(
                             $.proxy(this._onEditInputChanged, this, prop, editInputs[prop])
                         );
@@ -113,6 +111,8 @@ define(function (require) {
 
             this._sub('manipulator.removeSelectedNode').on('click', $.proxy(this._removeSelectedNode, this));
 
+            this._sub('manipulator.addOneOf').on('click', $.proxy(this._addOneOf, this));
+
             this._disposable(
                 this._viewModel().schemaTreeSelected.subscribe(this._resetEditPanelAsync, this)
             );
@@ -132,8 +132,19 @@ define(function (require) {
             });
         },
 
+        /**
+         * 为 Object 添加节点
+         *
+         * @private
+         */
         _addObjectProperty: function () {
-            console.log('Add ob property!')
+            var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
+            editDataMgr.addSchemaDataPropertyItem(treeItem);
+        },
+
+        _addOneOf: function () {
+            var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
+            editDataMgr.addSchemaDataOneOfItem(treeItem);
         },
 
         /**
@@ -232,7 +243,6 @@ define(function (require) {
         _resetEditEnable: function () {
             var isTreeSelecting = this._isTreeSelecting();
             var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
-            console.log('treeItem \n', treeItem);
 
             var editInputs = this._sub('editBlock');
             for (var name in editInputs) {
@@ -252,19 +262,16 @@ define(function (require) {
             var treeSelectValue = this._viewModel().schemaTreeSelected();
             var isOnRoot = editDataMgr.isOnRoot(treeSelectValue);
 
-            this._sub('manipulator.addArrayItem').viewModel('visible')(
-                isTreeSelecting && types.length === 1 && types[0] === 'Array'
-            );
             this._sub('manipulator.addObjectProperty').viewModel('visible')(
                 isTreeSelecting && types.length === 1 && types[0] === 'Object'
+            );
+            this._sub('manipulator.addOneOf').viewModel('visible')(
+                isTreeSelecting && types.length === 0
             );
             this._sub('manipulator.addDefinition').viewModel('visible')(
                 isTreeSelecting && isOnRoot
             );
-            this._sub('manipulator.addChildNode').viewModel('visible')(
-                isTreeSelecting && treeItem.children
-            );
-            this._sub('manipulator.removeCurrentNode').viewModel('visible')(
+            this._sub('manipulator.removeSelectedNode').viewModel('visible')(
                 isTreeSelecting
             );
 

@@ -1454,5 +1454,16 @@ define(function (require) {
         }
     };
 
+    schemaHelper.createSchemaItemObjectProperty = function () {
+        var property = {
+            'type': 'string',
+            'descriptionCN': '',
+            'descriptionEN': '',
+            'default': ''
+        };
+
+        return property;
+    };
+
     return schemaHelper;
 });
