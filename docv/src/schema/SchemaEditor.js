@@ -18,6 +18,7 @@ define(function (require) {
     var SCHEMA_URL = '../data/schema/optionSchema.json';
     var TPL_TARGET = 'SchemaEditor';
     var TPL_TARGET_SHOW_ALL_APPLICABLE = 'showAllApplicable';
+    var TPL_TARGET_JSON_INPUT = 'jsonInput';
     var SELECTOR_COLLAPSE_RADIO = '.query-collapse-radio input[type=radio]';
     var SELECTOR_DESC_RENDERED_CN = '.desc-rendered-cn';
     var SELECTOR_DESC_RENDERED_EN = '.desc-rendered-en';
@@ -26,6 +27,7 @@ define(function (require) {
     var SELECTOR_EDIT_COUNT = '.ecdoc-scmedt-edit-count';
     var SELECTOR_GEN_SCHEMA = '.ecdoc-scmedt-gen-schema';
     var SELECTOR_SCHEMA_TEXT = '.ecdoc-scmedt-schema-text';
+    var SELECTOR_JSON_INPUT = '.ecdoc-scmedt-json-input';
     var ATTR_TIP_TPL_TARGET = 'data-tip-tpl';
 
     /**
@@ -107,7 +109,7 @@ define(function (require) {
 
             this._sub('showAllApplicable').on('click', $.proxy(this._showAllApplicable, this));
 
-            this._sub('manipulator.addObjectProperty').on('click', $.proxy(this._addObjectProperty, this));
+            this._sub('manipulator.addObjectProperty').on('click', $.proxy(this._addObjectPropertyConfirm, this));
 
             this._sub('manipulator.removeSelectedNode').on('click', $.proxy(this._removeSelectedNode, this));
 
@@ -133,15 +135,56 @@ define(function (require) {
         },
 
         /**
+         *
+         *
+         */
+        _addObjectPropertyConfirm: function () {
+            var that = this;
+
+            dialog.ask({
+                //content: that._renderTpl(TPL_TARGET_JSON_INPUT),
+                //encodeHTML: false, // 缺省是true，如果需要显示原生html，则设置为false
+                onYes: createFromJson, // 可缺省
+                onNo: function() {
+                    that._addObjectProperty();
+                }, // 可缺省
+                afterShow: function ($subContent) {
+                    that._applyTpl($subContent, TPL_TARGET_JSON_INPUT);
+                },
+                //onCancel: function () {}, // 可缺省
+                textYes: '以 JSON 创建', // 缺省为"是"
+                textNo: '直接创建', // 缺省为"否"
+                textCancel: '取消' // 缺省为"取消"
+             });
+
+            function createFromJson($subContent) {
+                var json = $subContent.find(SELECTOR_JSON_INPUT).val();
+                var parsedJSON;
+                try {
+                    parsedJSON = JSON.parse(json)
+                } catch (e) {
+                    // Error Info
+
+                }
+                console.log(parsedJSON);
+            }
+        },
+
+        /**
          * 为 Object 添加节点
          *
          * @private
          */
-        _addObjectProperty: function () {
+        _addObjectProperty: function (jsonData) {
             var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
-            editDataMgr.addSchemaDataPropertyItem(treeItem);
+            editDataMgr.addSchemaDataPropertyItem(treeItem, jsonData);
         },
 
+        /**
+         * 添加 OneOf 节点
+         *
+         * @private
+         */
         _addOneOf: function () {
             var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
             editDataMgr.addSchemaDataOneOfItem(treeItem);
@@ -461,6 +504,14 @@ define(function (require) {
             // 用ifr隔离，防止html出错扩散影响。
             this.$el().find(selector)[0].contentWindow.document.body.innerHTML = html;
         }
+
+        /*_assignPreviewCss: function () {
+            var me = this;
+            $.get('../src/schema/preview.css', function (cssContent) {
+                me.$el().find(SELECTOR_DESC_RENDERED_CN)[0].contentWindow.document.body.style.cssText = cssContent;
+                me.$el().find(SELECTOR_DESC_RENDERED_EN)[0].contentWindow.document.body.style.cssText = cssContent;
+            });
+        }*/
 
     });
 

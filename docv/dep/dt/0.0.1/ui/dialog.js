@@ -206,9 +206,9 @@ define(function (require) {
             content: options.content,
             encodeHTML: options.encodeHTML,
             afterShow: options.afterShow,
-            buttonHandler: function (value) {
+            buttonHandler: function (value, subContent) {
                 var handler = mapping[value];
-                return handler ? handler() : null;
+                return handler ? handler(subContent) : null;
             },
             buttonText: buttonText
         });
@@ -311,7 +311,7 @@ define(function (require) {
         }
 
         function clickHandler(value) {
-            if (!this._buttonHandler || this._buttonHandler(value) !== false) {
+            if (!this._buttonHandler || this._buttonHandler(value, $subContent) !== false) {
                 this.close(); // 默认任何按钮click都会关闭Dialog
             }
         }

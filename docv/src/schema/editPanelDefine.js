@@ -8,6 +8,10 @@ define(function (require) {
     var dtLib = require('dt/lib');
     var docUtil = require('../common/docUtil');
     var editDataMgr = require('./editDataMgr');
+    var md = require('markdown')({
+        html: true
+    });
+
 
     var SELECTOR_DESC_RENDERED_CN = '.desc-rendered-cn';
     var SELECTOR_DESC_RENDERED_EN = '.desc-rendered-en';
@@ -155,8 +159,9 @@ define(function (require) {
             },
             reader: function (cpt, treeItem) {
                 var html = treeItem && treeItem.descriptionCN || '';
+                var renderHtml = md.render(html);
                 cpt.viewModel('value')(html);
-                this._renderDescHTML(SELECTOR_DESC_RENDERED_CN, html);
+                this._renderDescHTML(SELECTOR_DESC_RENDERED_CN, renderHtml);
             },
             persistentObName: 'value',
             writer: dtLib.curry(defaultPropertyWriter, 'descriptionCN', 'descriptionCN')
@@ -168,7 +173,8 @@ define(function (require) {
             reader: function (cpt, treeItem) {
                 var html = treeItem && treeItem.descriptionEN || '';
                 cpt.viewModel('value')(html);
-                this._renderDescHTML(SELECTOR_DESC_RENDERED_EN, html);
+                var renderHtml = md.render(html)
+                this._renderDescHTML(SELECTOR_DESC_RENDERED_EN, renderHtml);
             },
             persistentObName: 'value',
             writer: dtLib.curry(defaultPropertyWriter, 'descriptionEN', 'descriptionEN')

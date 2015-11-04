@@ -209,7 +209,19 @@
 <textarea class="ecdoc-scmedt-schema-text"></textarea>
 {{ /target }}
 
-
+{{ target: jsonInput }}
+<p> 请输入 JSON 格式 </p>
+<div data-cpt="
+        type: 'TextInput',
+        name: 'editBlock.jsonInput',
+        viewModel: {
+            css: 'ecdoc-scmedt-json-input',
+            type: 'textarea'
+        }">
+</div>
+<!--<textarea class="ecdoc-scmedt-json-input" onfocus="this.select()">{}</textarea>-->
+<!--<p class="ecdoc-scmedt-error-info">JSON 格式不正确,请检查!</p>-->
+{{ /target }}
 
 {{ target: showAllApplicable }}
 <h3>当前所有 applicable（按字母排序）：</h3>

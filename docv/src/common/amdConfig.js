@@ -20,6 +20,7 @@ window.amdConfig = function (baseUrl) {
             lodash: '../dep/lodash/3.8.0/src/main',
             immutable: '../dep/immutable/3.7.4/dist/immutable',
             onecolor: '../dep/onecolor/one-color',
+            markdown: '../dep/markdown-it/markdown-it',
             test: '../test'
         },
         urlArgs: window.VERSION_ARG
