@@ -206,9 +206,9 @@ define(function (require) {
             content: options.content,
             encodeHTML: options.encodeHTML,
             afterShow: options.afterShow,
-            buttonHandler: function (value, subContent) {
+            buttonHandler: function (value, $subContent) {
                 var handler = mapping[value];
-                return handler ? handler(subContent) : null;
+                return handler ? handler.call(this, $subContent) : null;
             },
             buttonText: buttonText
         });
@@ -257,7 +257,7 @@ define(function (require) {
             this._buttonHandler = options.buttonHandler;
 
             if (options.afterShow) {
-                options.afterShow($subContent, options);
+                options.afterShow.call(this, $subContent, options);
             }
         },
 

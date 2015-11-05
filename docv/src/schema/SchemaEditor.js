@@ -80,6 +80,7 @@ define(function (require) {
             this._initDescViewHTML();
             this._initQuery();
             this._initTip();
+            this._initDialog();
         },
 
         _initEditPanel: function () {
@@ -122,6 +123,17 @@ define(function (require) {
             this._resetEditPanelAsync();
         },
 
+        _initDialog: function () {
+            dialog.create({
+                key: 'json-input',
+                buttons: [
+                    {value: 'yes', text: '以 JSON 创建'},
+                    {value: 'no', text: '直接创建'},
+                    {value: 'cancel', text: '取消'}
+                ]
+            });
+        },
+
         _showAllApplicable: function () {
             var universal = editDataMgr.getSchemaStatistic().universal;
             dialog.alert({
@@ -135,38 +147,61 @@ define(function (require) {
         },
 
         /**
-         *
+         * 创建 ObjectProperty 属性的对话框
          *
          */
         _addObjectPropertyConfirm: function () {
             var that = this;
 
-            dialog.ask({
-                //content: that._renderTpl(TPL_TARGET_JSON_INPUT),
-                //encodeHTML: false, // 缺省是true，如果需要显示原生html，则设置为false
-                onYes: createFromJson, // 可缺省
-                onNo: function() {
-                    that._addObjectProperty();
-                }, // 可缺省
-                afterShow: function ($subContent) {
-                    that._applyTpl($subContent, TPL_TARGET_JSON_INPUT);
+            dialog.open({
+                key: 'json-input',
+                buttonHandler: function (value) {
+                    if (value == 'yes') {
+                        _createFromJson.call(this);
+                    } else if (value == 'no') {
+                        that._addObjectProperty();
+                    }
                 },
-                //onCancel: function () {}, // 可缺省
-                textYes: '以 JSON 创建', // 缺省为"是"
-                textNo: '直接创建', // 缺省为"否"
-                textCancel: '取消' // 缺省为"取消"
+                afterShow: _initSubComponent
              });
 
-            function createFromJson($subContent) {
-                var json = $subContent.find(SELECTOR_JSON_INPUT).val();
+            /**
+             * 校验 JSON 格式
+             *
+             * @returns {boolean}
+             * @private
+             */
+            function _createFromJson() {
+                var json = this._sub('editBlock.jsonInput').viewModel('value')();
                 var parsedJSON;
+                var status = {
+                    message: '',
+                    invalid: false
+                };
                 try {
-                    parsedJSON = JSON.parse(json)
+                    parsedJSON = JSON.parse(json);
+                    that._addObjectProperty(parsedJSON);
                 } catch (e) {
                     // Error Info
-
+                    status = {
+                        message: 'JSON解析出错 \n' + e.message,
+                        invalid: true
+                    };
+                    this._sub('editBlock.jsonInput').viewModel('alert')(status.message);
                 }
-                console.log(parsedJSON);
+
+                return !status.invalid;
+            }
+
+            /**
+             * 创建输入框组件
+             *
+             * @param $subContent
+             * @private
+             */
+            function _initSubComponent($subContent) {
+                this._applyTpl($subContent, TPL_TARGET_JSON_INPUT);
+                this._sub('editBlock.jsonInput').focus();
             }
         },
 

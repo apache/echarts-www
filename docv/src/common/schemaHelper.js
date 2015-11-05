@@ -1171,13 +1171,19 @@ define(function (require) {
     /**
      * Validate schame by all validators.
      *
+     * @param {Object} schema
+     * @param {Array=} validateTypes 可选,需要检查的配置项,默认全部检查.
      * @public
      */
-    schemaHelper.validateSchema = function (schema) {
+    schemaHelper.validateSchema = function (schema, validateTypes) {
         var validators = schemaHelper.validators;
         for (var validatorName in validators) {
             if (validators.hasOwnProperty(validatorName)) {
-                validators[validatorName](schema);
+                if (!validateTypes) {
+                    validators[validatorName](schema);
+                } else if (dtLib.arrayIndexOf(validateTypes, validatorName) > -1){
+                    validators[validatorName](schema);
+                }
             }
         }
     };

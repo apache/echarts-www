@@ -210,16 +210,23 @@
 {{ /target }}
 
 {{ target: jsonInput }}
-<p> 请输入 JSON 格式 </p>
+<p> 请输入 JSON 格式. </p>
+<p> 注意, 请使用标准JSON格式, 其中 Key 使用半角双引号("")包裹. </p>
 <div data-cpt="
         type: 'TextInput',
         name: 'editBlock.jsonInput',
         viewModel: {
             css: 'ecdoc-scmedt-json-input',
-            type: 'textarea'
+            type: 'textarea',
+            viewModel: {
+                confirmPoint: {
+                    pressEnter: false,
+                    blur: false
+                },
+                mouseEnterSelect: true
+            }
         }">
 </div>
-<!--<textarea class="ecdoc-scmedt-json-input" onfocus="this.select()">{}</textarea>-->
 <!--<p class="ecdoc-scmedt-error-info">JSON 格式不正确,请检查!</p>-->
 {{ /target }}
 

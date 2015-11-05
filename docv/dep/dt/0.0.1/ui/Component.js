@@ -51,7 +51,7 @@ define(function (require) {
      * data-cpt中可使用的属性：
      *      type: 必选。表示组件类的别名。
      *      name: 可选，给定name则能在父component取得子component实例。
-     *            例如：name为'aSubCpt'，则 this_sub('aSubCpt') 就是子component实例。
+     *            例如：name为'aSubCpt'，则 this._sub('aSubCpt') 就是子component实例。
      *            支持对象和数组，例如：
      *            name为'items[aSubCpt]', 则 this._sub('items')是包含子component的数组。
      *            name为'items.aa.bb.aSubCpt', 则 this._sub('items.aa')是 {bb: subComponent}。
