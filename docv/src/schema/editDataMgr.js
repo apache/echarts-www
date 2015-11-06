@@ -170,9 +170,10 @@ define(function (require) {
      * 添加一个 OneOf 项
      *
      */
-    mgr.addSchemaDataOneOfItem = function (tree) {
-        var val = schemaHelper.createSchemaItemObjectProperty();
-        this.addSchemaDataItem(tree.schemaPath.concat('oneOf.' + tree.children.length), val);
+    mgr.addSchemaDataOneOfItem = function (tree, json) {
+        json = json || schemaHelper.createSchemaItemObjectProperty();
+
+        this.addSchemaDataItem(tree.schemaPath.concat('oneOf.' + tree.children.length), json);
     },
 
     /**

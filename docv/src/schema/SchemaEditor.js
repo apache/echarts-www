@@ -30,6 +30,7 @@ define(function (require) {
     var SELECTOR_JSON_INPUT = '.ecdoc-scmedt-json-input';
     var ATTR_TIP_TPL_TARGET = 'data-tip-tpl';
 
+    var UNDEFINED;
     /**
      * 编辑端入口
      *
@@ -80,7 +81,7 @@ define(function (require) {
             this._initDescViewHTML();
             this._initQuery();
             this._initTip();
-            this._initDialog();
+            this._initComponent();
         },
 
         _initEditPanel: function () {
@@ -114,7 +115,7 @@ define(function (require) {
 
             this._sub('manipulator.removeSelectedNode').on('click', $.proxy(this._removeSelectedNode, this));
 
-            this._sub('manipulator.addOneOf').on('click', $.proxy(this._addOneOf, this));
+            this._sub('manipulator.addOneOf').on('click', $.proxy(this._addObjectPropertyConfirm, this, 'oneOf'));
 
             this._disposable(
                 this._viewModel().schemaTreeSelected.subscribe(this._resetEditPanelAsync, this)
@@ -123,7 +124,13 @@ define(function (require) {
             this._resetEditPanelAsync();
         },
 
-        _initDialog: function () {
+        /**
+         * 注册一些非标准组建
+         *
+         * @private
+         */
+        _initComponent: function () {
+            // 类似dialog.ask的对话框, 带输入功能
             dialog.create({
                 key: 'json-input',
                 buttons: [
@@ -149,8 +156,10 @@ define(function (require) {
         /**
          * 创建 ObjectProperty 属性的对话框
          *
+         * @param {string=} type 添加的类型,暂时支持'property'和'oneOf', 默认 property
          */
-        _addObjectPropertyConfirm: function () {
+        _addObjectPropertyConfirm: function (type) {
+            type = typeof type === 'string' ? type : 'property';
             var that = this;
 
             dialog.open({
@@ -180,7 +189,11 @@ define(function (require) {
                 };
                 try {
                     parsedJSON = JSON.parse(json);
-                    that._addObjectProperty(parsedJSON);
+                    if (type === 'property') {
+                        that._addObjectProperty(parsedJSON);
+                    } else if (type === 'oneOf') {
+                        that._addOneOf(parsedJSON);
+                    }
                 } catch (e) {
                     // Error Info
                     status = {
@@ -205,14 +218,16 @@ define(function (require) {
             }
         },
 
+
+
         /**
          * 为 Object 添加节点
          *
          * @private
          */
-        _addObjectProperty: function (jsonData) {
+        _addObjectProperty: function (json) {
             var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
-            editDataMgr.addSchemaDataPropertyItem(treeItem, jsonData);
+            editDataMgr.addSchemaDataPropertyItem(treeItem, json);
         },
 
         /**
@@ -220,9 +235,9 @@ define(function (require) {
          *
          * @private
          */
-        _addOneOf: function () {
+        _addOneOf: function (json) {
             var treeItem = this._viewModel().schemaTreeSelected.getTreeDataItem(true);
-            editDataMgr.addSchemaDataOneOfItem(treeItem);
+            editDataMgr.addSchemaDataOneOfItem(treeItem, json);
         },
 
         /**
