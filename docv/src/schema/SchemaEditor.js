@@ -555,14 +555,6 @@ define(function (require) {
             this.$el().find(selector)[0].contentWindow.document.body.innerHTML = html;
         }
 
-        /*_assignPreviewCss: function () {
-            var me = this;
-            $.get('../src/schema/preview.css', function (cssContent) {
-                me.$el().find(SELECTOR_DESC_RENDERED_CN)[0].contentWindow.document.body.style.cssText = cssContent;
-                me.$el().find(SELECTOR_DESC_RENDERED_EN)[0].contentWindow.document.body.style.cssText = cssContent;
-            });
-        }*/
-
     });
 
     return SchemaEditor;

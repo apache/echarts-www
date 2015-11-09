@@ -133,32 +133,12 @@ define(function (require) {
         return historyStack.length;
     };
 
-    //mgr.validateSchema = function (schema) {
-    //    var result = {
-    //        errorMsg: '',
-    //        invalid: false
-    //    };
-    //
-    //    try {
-    //        schemaHelper.validateSchema(schema);
-    //    } catch (e) {
-    //        result = {
-    //            errorMsg: e.message,
-    //            invalid: true
-    //        }
-    //    }
-    //
-    //    return result;
-    //};
-
     /**
      * 为 Object 类型对象添加一个 Property 属性
      *
      */
     mgr.addSchemaDataPropertyItem = function (tree, json) {
-        json = json || {
-                '_NewKey': schemaHelper.createSchemaItemObjectProperty()
-            };
+        json = json || {'_NewKey': schemaHelper.createSchemaItemObjectProperty()};
 
         var key = dtLib.objectKeys(json)[0];
         var val = json[key];
@@ -191,9 +171,6 @@ define(function (require) {
         );
 
         var currImmu = getCurrent().immutableSchema;
-
-        //schemaHelper.validateSchema(currImmu.setIn(newPath, val).toJS(), ['validatorItem']);
-
         var eventArgs = {selectedValue: newPath.slice(1).join('.')};
         var record = {
             immutableSchema: currImmu.setIn(newPath, val),
