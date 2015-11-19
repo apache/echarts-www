@@ -1,0 +1,34 @@
+define(function (require) {
+
+    return function (ecModel) {
+        ecModel.eachSeriesAll(function (seriesModel) {
+            var colorAccessPath = ['itemStyle', 'normal', 'color'];
+            var colorList = ecModel.get('color');
+            var data = seriesModel.getData();
+            var color = seriesModel.get(colorAccessPath) // Set in itemStyle
+                || colorList[seriesModel.seriesIndex];  // Default color
+
+            // FIXME Set color function or use the platte color
+            data.setVisual('color', color);
+
+            // Only visible series has each data be visual encoded
+            if (!ecModel.isSeriesFiltered(seriesModel)) {
+                if (typeof color === 'function') {
+                    data.each(function (idx) {
+                        data.setItemVisual(
+                            idx, 'color', color(seriesModel.getFormatParams(idx))
+                        );
+                    });
+                }
+
+                data.each(function (idx) {
+                    var itemModel = data.getItemModel(idx);
+                    var color = itemModel.get(colorAccessPath, true);
+                    if (color != null) {
+                        data.setItemVisual(idx, 'color', color);
+                    }
+                });
+            }
+        });
+    };
+});

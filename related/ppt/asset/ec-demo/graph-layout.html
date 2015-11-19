@@ -1,0 +1,117 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+        <link rel="stylesheet" href="../common/simpleRadio.css">
+    </head>
+    <body>
+        <style>
+            #measures {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                z-index: 100;
+            }
+        </style>
+        <div id="measures"></div>
+        <div id="main"></div>
+        <script>
+
+            require([
+                'data/les-miserables.gexf',
+                'common/simpleRadio',
+                'echarts',
+
+                'echarts/parser/gexf',
+
+                'echarts/chart/graph',
+
+                'echarts/component/title',
+                'echarts/component/legend',
+                'echarts/component/geo',
+                'echarts/component/tooltip'
+            ], function (xml, simpleRadio, echarts, gexf) {
+
+                simpleRadio.init(
+                    document.getElementById('measures'),
+                    [
+                        {value: 'none', text: '普通布局', selected: true},
+                        {value: 'circular', text: '环形布局'}
+                    ],
+                    function (value) {
+                        chart.setOption({
+                            series: [{
+                                name: 'Les Miserables',
+                                layout: value
+                            }]
+                        });
+                    }
+                );
+
+                echarts.registerMap('china');
+
+                var chart = echarts.init(document.getElementById('main'), null, {
+                    renderer: 'canvas'
+                });
+
+                var graph = gexf.parse(xml);
+                var categories = [];
+                for (var i = 0; i < 9; i++) {
+                    categories[i] = {
+                        name: 'module' + i
+                    };
+                }
+                graph.nodes.forEach(function (node) {
+                    node.itemStyle = null;
+                    node.value = node.symbolSize;
+                    node.label.normal.show = node.symbolSize > 30;
+                    node.category = node.attributes['modularity_class'];
+                });
+                chart.setOption({
+                    tooltip: {},
+                    legend: [{
+                        // selectedMode: 'single',
+                        data: categories.map(function (a) {
+                            return a.name;
+                        }),
+                        orient: 'vertical',
+                        x: 'left',
+                        y: '55%',
+                        textStyle: {
+                            color: '#888'
+                        }
+                    }],
+                    animationDurationUpdate: 1500,
+                    animationEasing: 'quinticInOut',
+                    series : [
+                        {
+                            name: 'Les Miserables',
+                            type: 'graph',
+                            layout: 'none',
+                            data: graph.nodes,
+                            links: graph.links,
+                            categories: categories,
+                            roam: true,
+                            label: {
+                                normal: {
+                                    position: 'right'
+                                }
+                            },
+                            lineStyle: {
+                                normal: {
+                                    curveness: 0.3
+                                }
+                            }
+                        }
+                    ]
+                });
+
+                var config = {
+                    layout: 'circular'
+                };
+            });
+        </script>
+    </body>
+</html>

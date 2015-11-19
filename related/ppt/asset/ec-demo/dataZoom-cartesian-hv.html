@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <style>
+        </style>
+        <div id="main"></div>
+        <script>
+
+            require([
+                'data/rainfall.json',
+                'echarts',
+                'echarts/chart/bar',
+                'echarts/chart/line',
+                'echarts/component/legend',
+                'echarts/component/tooltip',
+                'echarts/component/grid',
+                'echarts/component/axis',
+                'echarts/component/dataZoom'
+            ], function (data, echarts) {
+
+                var chart = echarts.init(document.getElementById('main'), null, {
+                    renderer: 'canvas'
+                });
+
+                var xAxisData = [];
+                var data1 = [];
+                var data2 = [];
+                var data3 = [];
+
+                for (var i = 0; i < 20; i++) {
+                    xAxisData.push('类目' + i);
+                    data1.push(Math.random() * 2);
+                    data2.push(Math.random() * 2);
+                    data3.push(Math.random() * 2);
+                }
+
+                chart.setOption({
+                    tooltip: {
+                        trigger: 'axis',
+                    },
+                    legend: {
+                        data: ['降水量', '流量'],
+                        textStyle: {
+                            color: '#eee'
+                        }
+                    },
+                    grid: {
+                        x2: '15%'
+                    },
+                    xAxis: [
+                        {
+                            // data: ['类目1', '类目2', '类目3', '类目4', '类目5',]
+                            // data: xAxisData,
+                            type: 'category',
+                            boundaryGap: true,
+                            splitLine: {show: false},
+                            axisLabel: {
+                                show: false,
+                                textStyle: {
+                                    color: '#eee'
+                                }
+                            },
+                            data: data.category
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            // scale: true
+                            boundaryGap: false,
+                            splitLine: {show: false},
+                            axisLabel: {
+                                textStyle: {
+                                    color: '#eee'
+                                }
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#666'
+                                }
+                            }
+                        },
+                        {
+                            // scale: true
+                            boundaryGap: false,
+                            splitLine: {show: false},
+                            position: 'right',
+                            axisLabel: {
+                                textStyle: {
+                                    color: '#eee'
+                                }
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#666'
+                                }
+                            }
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '降水量',
+                            type: 'bar',
+                            data: data.rainfall,
+                            // itemStyle: {
+                            //     normal: {
+                            //          areaStyle: {}
+                            //     }
+                            // }
+                        },
+                        {
+                            name: '流量',
+                            type: 'bar',
+                            data: data.flow,
+                            yAxisIndex: 1,
+                            // itemStyle: {
+                            //     normal: {
+                            //          areaStyle: {}
+                            //     }
+                            // }
+                        },
+                        // {
+                        //     name: 'bar3',
+                        //     type: 'line',
+                        //     data: data3
+                        // }
+                    ],
+                    dataZoom: [
+                        {
+                            show: true,
+                            orient: 'vertical',
+                            yAxisIndex: [0]
+                        },
+                        {
+                            show: true,
+                            xAxisIndex: [0],
+                            realtime: false,
+                        },
+                        {
+                            show: true,
+                            orient: 'vertical',
+                            yAxisIndex: [1],
+                            x: '90%'
+                        }
+                    ]
+                });
+            })
+
+        </script>
+    </body>
+</html>

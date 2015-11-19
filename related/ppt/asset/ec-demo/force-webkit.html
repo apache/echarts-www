@@ -1,0 +1,133 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config2.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <style>
+        </style>
+        <div id="main"></div>
+
+        <script type="text/javascript" src="../echarts2/echarts.js"></script>
+        <script type="text/javascript" src="../zrender2.js"></script>
+        <script type="text/javascript" src="../echarts-x/echarts-x.js"></script>
+
+        <script>
+
+            define('init', function (require) {
+
+                var echarts = require('echarts');
+                require('echarts/chart/force');
+                require('echarts/chart/chord');
+
+                var option;
+                var myChart;
+
+                return function (data) {
+                    myChart = echarts.init(document.getElementById('main'));
+
+                    option = {
+                        title : {
+                            text: 'webkit内核依赖',
+                            subtext: '数据来自网络',
+                            x:'right',
+                            y:'bottom',
+                            textStyle: {
+                                color: '#eee'
+                            }
+                        },
+                        tooltip : {
+                            trigger: 'item',
+                            formatter : "{b}"
+                        },
+                        toolbox: {
+                            show : true,
+                            feature : {
+                                restore : {show: true},
+                                magicType: {
+                                    show: true,
+                                    type: ['force', 'chord'],
+                                    option: {
+                                        chord: {
+                                            minRadius : 2,
+                                            maxRadius : 10,
+                                            ribbonType: false,
+                                            itemStyle: {
+                                                normal: {
+                                                    label: {
+                                                        show: true,
+                                                        rotate: true
+                                                    },
+                                                    chordStyle: {
+                                                        opacity: 0.2
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        force: {
+                                            minRadius : 5,
+                                            maxRadius : 8,
+                                            itemStyle : {
+                                                normal : {
+                                                    label: {
+                                                        show: false
+                                                    },
+                                                    linkStyle : {
+                                                        opacity : 0.5
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                saveAsImage : {show: true}
+                            }
+                        },
+                        legend : {
+                            data : ['HTMLElement', 'WebGL', 'SVG', 'CSS', 'Other'],
+                            orient : 'vertical',
+                            x : 'left',
+                            textStyle: {
+                                color: '#aaa',
+                                fontSize: 16
+                            }
+                        },
+                        noDataEffect: 'none',
+                        series :[{
+                            type: 'force',
+                            name: 'webkit-dep',
+                            itemStyle: {
+                                normal : {
+                                    linkStyle : {
+                                        opacity : 0.5
+                                    }
+                                }
+                            },
+                            categories: data.categories,
+                            nodes: data.nodes,
+                            links: data.links,
+                            minRadius: 5,
+                            maxRadius: 8,
+                            gravity: 1.1,
+                            scaling: 1.1,
+                            steps: 20,
+                            large: true,
+                            useWorker: true,
+                            coolDown: 0.995,
+                            ribbonType: false
+                        }]
+                    };
+
+                    myChart.setOption(option);
+                };
+            });
+
+            require(['init', 'data/webkit-dep.json'], function (init, data) {
+                init(data);
+            });
+
+        </script>
+    </body>
+</html>

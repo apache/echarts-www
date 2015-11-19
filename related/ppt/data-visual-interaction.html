@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Reveal.js</title>
+        <link rel="stylesheet" href="./asset/md2reveal-0.0.1.7/css/reveal.css">
+        <link rel="stylesheet" href="./asset/md2reveal-0.0.1.7/css/theme/black.css" id="theme">
+        <link rel="stylesheet" href="./asset/md2reveal-0.0.1.7/css/theme/black-md2reveal.css" id="themeMine">
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="./asset/md2reveal-0.0.1.7/lib/css/zenburn.css">
+    </head>
+    <body>
+
+        <div class="reveal">
+            <div class="slides"><section  data-markdown><script type="text/template">## 数据 · 视觉编码 · 交互
+
+Echarts团队
+
+<aside class="notes" data-markdown>自我介绍</aside></script></section><section ><section data-markdown><script type="text/template">
+
+![](./asset/img/data-mess.jpg)
+
+<aside class="notes" data-markdown>海量数据</aside></script></section><section data-markdown><script type="text/template">
+![](./asset/img/data-understanding.jpg)
+
+<aside class="notes" data-markdown>如何转化为人脑可认知的视觉元素</aside></script></section><section data-markdown><script type="text/template">
+![](./asset/img/warm-up-v0.png)
+</script></section><section data-markdown><script type="text/template">
+![](./asset/img/warm-up-v1.png)
+</script></section><section data-markdown><script type="text/template">
+![](./asset/img/warm-up-trend0.png)
+
+<aside class="notes" data-markdown>哪个年龄段及收入水平人群的三酸甘油脂水平（身体脂肪量）趋势与其他均不同？</aside></script></section><section data-markdown><script type="text/template">
+![](./asset/img/warm-up-trend1.png)
+</script></section><section data-markdown><script type="text/template">
+
+### <div class="fragment" data-fragment-index="0">视觉感知</div>
+
+> <div class="fragment" data-fragment-index="0">客观事物通过人的视觉在人脑中形成的直接反映</div>
+
+### <div class="fragment" data-fragment-index="1">认知</div>
+
+> <div class="fragment" data-fragment-index="1">信息的获取、分析、归纳、解码、储存、概念形成、提取和使用</div>
+
+### <div class="fragment" data-fragment-index="2">**擅长**</div>
+
+<aside class="notes" data-markdown>认知心理学将认知过程看成由信息的获取、分析、归纳、解码、储存、概念形成、提取和使用等一系列阶段组成的按一定程序进行的信息加工系统。
+
+简单说，感知是关于输入信号的本质，也就是看见的事物；而认知是关于怎样理解和解释看到的东西。
+
+接受到的信息大部分来源于视觉。视觉擅长进行认知。</aside></script></section><section data-markdown><script type="text/template">
+![](./asset/img/warm-up-scatters0.png)
+
+<aside class="notes" data-markdown>再举个例子，相关系数。
+安斯库姆四重奏（Anscombe's quartet）。
+分析数据前先绘制图表的重要性。</aside></script></section><section data-markdown><script type="text/template">
+![](./asset/img/warm-up-scatters1.png)
+</script></section></section><section ><section data-markdown><script type="text/template">
+
+
+
+
+
+
+
+
+
+
+
+# 数据
+
+</script></section><section data-markdown><script type="text/template">
+
+### 类别
+
+* <div class="fragment" data-fragment-index="0">数值</div>
+
+    * <div class="fragment" data-fragment-index="0">10米 5mA 2048KB 312天</div>
+
+* <div class="fragment" data-fragment-index="1">有序</div>
+
+    * <div class="fragment" data-fragment-index="1">小，中，大</div>
+    * <div class="fragment" data-fragment-index="1">周一，周二，周三</div>
+
+* <div class="fragment" data-fragment-index="2">类别</div>
+
+    * <div class="fragment" data-fragment-index="2">北京，南京，开封</div>
+
+* <div class="fragment" data-fragment-index="3">维度</div>
+
+    * <div class="fragment" data-fragment-index="3">一维、二维、三维、n维</div>
+
+* <div class="fragment" data-fragment-index="4">关系</div>
+
+    * <div class="fragment" data-fragment-index="4">树、图（网络）</div>
+
+
+<aside class="notes" data-markdown>可视化的设计、ec的制作中，考虑对数据从这些类别上来刻画。
+映射、视觉元素</aside></script></section></section><section ><section data-markdown><script type="text/template">
+# 可视编码
+
+* <div class="fragment" data-fragment-index="0">标记（图形元素）</div>
+* <div class="fragment" data-fragment-index="1">视觉通道</div>
+
+<aside class="notes" data-markdown>可视编码由两部分组成:标记 和 视觉通道（用于控制标记的视觉特征）
+
+可视编码是信息可视化的核心，是将数据信息映射成可视化元素的技术。</aside></script></section><section data-markdown><script type="text/template">
+## 标记
+
+<div style="min-width: 1050px">
+<div style="float:left;">
+<div class="fragment" data-fragment-index="0">
+点
+<iframe style="width:350px;height:400px;" data-md2r-src="./asset/ec-demo/glyph-point.html"></iframe>
+</div>
+</div>
+
+<div style="float:left;">
+<div class="fragment" data-fragment-index="1">
+线
+<iframe style="width:350px;height:400px;" data-md2r-src="./asset/ec-demo/glyph-line.html"></iframe>
+</div>
+</div>
+
+<div style="float:left;">
+<div class="fragment" data-fragment-index="2">
+面
+<iframe style="width:350px;height:400px;" data-md2r-src="./asset/ec-demo/glyph-area.html"></iframe>
+</div>
+</div>
+
+
+<aside class="notes" data-markdown>这个大家都知道。</aside></script></section><section data-markdown><script type="text/template">
+## 视觉通道
+
+<div class="fragment" data-fragment-index="0">颜色&nbsp;&nbsp;&nbsp;亮度&nbsp;&nbsp;&nbsp;饱和度&nbsp;&nbsp;&nbsp;透明度
+</div>
+<div class="fragment" data-fragment-index="1">尺寸&nbsp;&nbsp;&nbsp;形状&nbsp;&nbsp;&nbsp;纹理&nbsp;&nbsp;&nbsp;方向</div>
+<div class="fragment" data-fragment-index="2">动画</div>
+
+
+<aside class="notes" data-markdown>可能没有给予足够的意识
+
+1.类型（type）
+    是什么/在哪里（what/where）
+    何种程度（how much）
+2.表现力（expressiveness）
+    表达且仅表达数据的完整属性
+    判断标准：精确性、可辨性、可分离性、视觉突出
+3.有效性（effectiveness）
+    通道表现力符合属性的重要性
+
+下面是一些视觉通道的解释</aside></script></section><section data-markdown><script type="text/template">
+### 颜色
+
+
+<div class="fragment" data-fragment-index="0">类别型数据</div>
+
+<div class="fragment" data-fragment-index="1"><iframe style="width:700px;height:500px;" data-md2r-src="./asset/ec-demo/color-category.html"></iframe></div>
+</script></section><section data-markdown><script type="text/template">
+#### 颜色 - 数值型数据
+
+<div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/color-grey.html"></iframe></div>
+
+</script></section><section data-markdown><script type="text/template">
+
+<div style="text-align: center; width: 1110px;">
+
+<div style="display:inline-block;vertical-align:middle;width: 300px">
+
+更多的维度<br>
+
+![](./asset/img/dimensions.png)
+
+</div>
+
+
+<div style="display:inline-block;vertical-align:middle;width: 800px">
+
+<div class="fragment" data-fragment-index="0">颜色 - 多种视觉通道</div>
+
+<div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/color-mix-aqi.html"></iframe></div>
+
+</div>
+</div>
+
+
+</script></section><section data-markdown><script type="text/template">
+#### 三维 · 高度
+
+<div class="fragment" data-fragment-index="0"><iframe style="width:1200px;height:650px;" data-md2r-src="./asset/ec-demo/global-population.html"></iframe></div>
+
+</script></section><section data-markdown><script type="text/template">
+
+### 形状
+
+<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/symbol.html"></iframe>
+</script></section><section data-markdown><script type="text/template">
+
+### 视觉突出
+
+<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/symbol-categories.html"></iframe>
+
+<aside class="notes" data-markdown>形状为辅助，并不如颜色和大小。</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>这个不讲了
+
+### 色彩设计原则
+
+* 避免过多颜色交错导致的杂乱无章
+* 使用中性背景色，控制对全局色彩的影响
+* 最小化同时对比</aside></script></section></section><section ><section data-markdown><script type="text/template">
+# 交互
+</script></section><section data-markdown><script type="text/template">
+### 反馈回路
+
+![](./asset/img/visual-analysis-model.png)
+
+<aside class="notes" data-markdown>这是个 “可视分析模型” 图。
+只是以这个为例说明用户参与的反馈回路。</aside></script></section><section data-markdown><script type="text/template">
+### 可视化设计原则
+
+<div style="text-align: center">
+
+<div style="display:inline-block;vertical-align:top;width: 500px;">
+<div class="fragment" data-fragment-index="0">【任务】</div>
+
+
+* <div class="fragment" data-fragment-index="0">总览（overview）</div>
+* <div class="fragment" data-fragment-index="0">缩放（zoom）</div>
+* <div class="fragment" data-fragment-index="0">过滤（filter）</div>
+* <div class="fragment" data-fragment-index="0">按需细节<br>（details-on-demand）</div>
+* <div class="fragment" data-fragment-index="0">相关（relate）</div>
+* <div class="fragment" data-fragment-index="0">历史（history）</div>
+</div>
+
+<div style="display:inline-block;vertical-align:top;width: 400px;">
+
+<div class="fragment" data-fragment-index="1">【可视化箴言】</div>
+
+* <div class="fragment" data-fragment-index="1">总览为先（Overview first）</div>
+* <div class="fragment" data-fragment-index="1">缩放过滤（zoom and filter）</div>
+* <div class="fragment" data-fragment-index="1">按需查看细节（details on demand）</div>
+
+</div>
+
+</div>
+
+</script></section><section data-markdown><script type="text/template">
+<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/dataZoom-cartesian-hv.html"></iframe>
+</script></section><section data-markdown><script type="text/template">
+## 动画
+
+* <div class="fragment" data-fragment-index="0">带来工程的复杂性</div>
+
+    * <div class="fragment" data-fragment-index="0">软件脆弱</div>
+    * <div class="fragment" data-fragment-index="0">代码繁杂</div>
+
+* <div class="fragment" data-fragment-index="1">表达 数据/图形元素在**变化**中的**联系**，助于理解</div>
+
+<aside class="notes" data-markdown>（1）动画带来工程角度的复杂性，增加软件的脆弱（带来bug），增加代码的繁杂（性能优化）。
+（2）但是表达交互中数据/图形元素变化的联系，助于理解。</aside></script></section></section><section ><section data-markdown><script type="text/template">
+
+
+# 各种数据的可视化
+
+</script></section><section data-markdown><script type="text/template">
+#### 点数据的可视化
+
+
+<div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/map-weibo.html"></iframe></div>
+
+<aside class="notes" data-markdown>描述地理空间中离散的点，具有经度和纬度的坐标，但不具备大小和尺寸，
+包括地图上的地标、附件的美食等
+
+最直接的可视化点数据的方法
+根据坐标直接标识在地图上，圆点是最常用的标识符号，其他标识符号还有向量箭头
+
+
+weibo签到：11.8w 数据</aside></script></section><section data-markdown><script type="text/template">
+
+#### 线数据的可视化
+
+<div class="fragment" data-fragment-index="0"><iframe style="width:1200px;height:600px;" data-md2r-src="./asset/ec-demo/global-airline.html"></iframe></div>
+
+<aside class="notes" data-markdown>线数据通常指连接两个或多个地点的线段或路径，线数据具有长度属性，即经过的地理距离</aside></script></section><section data-markdown><script type="text/template">
+### 场 · 向量
+
+<div style="width: 600px; float:left">
+<div class="fragment" data-fragment-index="0"><img src="./asset/img/maxresdefault.jpg"></div>
+</div>
+<div style="width: 350px; float:left">
+<div class="fragment" data-fragment-index="1"><img src="./asset/img/1920px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg"></div>
+</div>
+
+<aside class="notes" data-markdown>NASA Perpetual Ocean</aside></script></section><section data-markdown><script type="text/template">
+<iframe style="width:1200px;height:650px;" data-md2r-src="./asset/ec-demo/global-wave.html"></iframe>
+
+</script></section><section data-markdown><script type="text/template">
+
+### 时间数据的可视化
+
+
+<div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/dataZoom-cartesian-hv.html"></iframe></div>
+
+<aside class="notes" data-markdown>横轴是时间。</aside></script></section><section data-markdown><script type="text/template">
+<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/timeline-ecnomic.html"></iframe>
+
+<aside class="notes" data-markdown>时间作为更高层的一个维度。</aside></script></section><section data-markdown><script type="text/template">
+### 关系数据
+
+<div class="fragment" data-fragment-index="0">树</div>
+
+<div class="fragment" data-fragment-index="1">图</div>
+
+</script></section><section data-markdown><script type="text/template">
+#### 层级数据的可视化（树）
+
+
+<div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:600px;" data-md2r-src="./asset/ec-demo/hierarchy-tree.html"></iframe></div>
+
+<aside class="notes" data-markdown>直接画，但是如果需要表达更多的维度？</aside></script></section><section data-markdown><script type="text/template">
+
+<iframe style="width:1400px;height:650px;" data-md2r-src="./asset/ec-demo/hierarchy-obama.html"></iframe>
+
+<aside class="notes" data-markdown>visual mapping</aside></script></section><section data-markdown><script type="text/template">
+下钻
+
+<iframe style="width:1400px;height:580px;" data-md2r-src="./asset/ec-demo/hierarchy-disk.html"></iframe>
+
+</script></section><section data-markdown><script type="text/template">
+#### 网络数据的可视化（图）
+
+
+<div class="fragment" data-fragment-index="0"><iframe style="width:1400px;height:600px;" data-md2r-src="./asset/ec-demo/graph-layout.html"></iframe></div>
+
+<aside class="notes" data-markdown>graph 多种layout。</aside></script></section><section data-markdown><script type="text/template">
+#### 力导向
+
+<div class="fragment" data-fragment-index="0"><iframe style="width:1400px;height:600px;" data-md2r-src="./asset/ec-demo/force-webkit.html"></iframe></div>
+
+</script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>### 更多维度
+
+```
+[
+    [1,55,9,56,0.46,18,6,"良"],
+    [2,25,11,21,0.65,34,9,"优"],
+    [3,56,7,63,0.3,14,5,"良"],
+    [4,33,7,29,0.33,16,6,"优"],
+    [5,42,24,44,0.76,40,16,"优"],
+    [6,82,58,90,1.77,68,33,"良"],
+    [7,74,49,77,1.46,48,27,"良"],
+    [22,84,94,140,2.238,68,18,"良"],
+    [23,93,77,104,1.165,53,7,"良"],
+    [24,99,130,227,3.97,55,15,"良"],
+    [25,146,84,139,1.094,40,17,"轻度污染"],
+    [26,113,108,137,1.481,48,15,"轻度污染"],
+    [27,81,48,62,1.619,26,3,"良"],
+    ...
+]
+```</aside></script></section><section data-markdown><script type="text/template">
+<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/color-mix-aqi.html"></iframe>
+
+<aside class="notes" data-markdown>比较，首先用前面的color-mix:
+在二维/三维图表上增加视觉通道，以表达更多的属性信息。
+但是 ...</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown><iframe style="width:1200px;height:650px;" data-md2r-src="./asset/ec-demo/global-population.html"></iframe>
+
+扩充到三维。</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>下回再讲吧
+
+### 高维数据 - 协同分析
+
+<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/data-coop-scatter.html"></iframe></aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>下回再讲吧
+
+### 高维数据 - 散点图矩阵
+
+<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/data-coop-scatter.html"></iframe></aside></script></section></section><section  data-markdown><script type="text/template">
+
+# 谢谢
+</script></section></div>
+        </div>
+
+        <script src="./asset/md2reveal-0.0.1.7/lib/js/head.min.js"></script>
+        <script src="./asset/md2reveal-0.0.1.7/js/reveal.js"></script>
+        <script src="./asset/md2reveal-0.0.1.7/js/md2reveal.js"></script>
+
+        <script>
+            function extend() {
+              var target = {};
+              for (var i = 0; i < arguments.length; i++) {
+                var source = arguments[i];
+                for (var key in source) {
+                  if (source.hasOwnProperty(key)) {
+                    target[key] = source[key];
+                  }
+                }
+              }
+              return target;
+            }
+
+            // Optional libraries used to extend on reveal.js
+            var deps = [
+              { src: './asset/md2reveal-0.0.1.7/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+              { src: './asset/md2reveal-0.0.1.7/plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: './asset/md2reveal-0.0.1.7/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: './asset/md2reveal-0.0.1.7/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+              { src: './asset/md2reveal-0.0.1.7/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+              // { src: './asset/md2reveal-0.0.1.7/plugin/math/math.js', async: true }
+            ];
+
+            // default options to init reveal.js
+            var defaultOptions = {
+              controls: true,
+              progress: true,
+              history: true,
+              center: true,
+              transition: 'default',
+              dependencies: deps
+            };
+
+            // options from URL query string
+            var queryOptions = Reveal.getQueryHash() || {};
+
+            var options = {};
+            options = extend(defaultOptions, options, queryOptions);
+            Reveal.initialize(options);
+        </script>
+    </body>
+</html>

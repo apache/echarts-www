@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config2.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <style>
+        </style>
+        <div id="main"></div>
+
+        <script type="text/javascript" src="../echarts2/echarts.js"></script>
+        <script type="text/javascript" src="../zrender2.js"></script>
+        <script type="text/javascript" src="../echarts-x/echarts-x.js"></script>
+
+        <script>
+
+            define('init', function (require) {
+
+                var echarts = require('echarts');
+                require('echarts/chart/map');
+
+                require('echarts-x');
+                require('echarts-x/chart/map3d');
+
+                var myChart;
+
+                return function (data, img) {
+                    myChart = echarts.init(document.getElementById('main'));
+
+                    myChart.showLoading();
+
+
+                    var field = [];
+                    var p = 0;
+                    for (var j = 0; j < data.ny; j++) {
+                        field[j] = [];
+                        for (var i = 0; i < data.nx; i++, p++) {
+                            data.data[p][0] /= data.max;
+                            data.data[p][1] /= data.max;
+                            field[j][i] = data.data[p];
+                        }
+                    }
+                    myChart.setOption({
+                        series: [{
+                            type: 'map3d',
+
+                            baseLayer: {
+                                backgroundColor: '#136dae',
+
+                                heightImage: img
+                            },
+
+                            light: {
+                                show: true,
+                                // Use the system time
+                                time: '',
+                                sunIntensity: 0.6,
+                                ambientIntensity: 0.4
+                            },
+
+                            itemStyle: {
+                                normal: {
+                                    borderWidth: 1,
+                                    borderColor: '#d99524',
+                                    areaStyle: {
+                                        color: '#d99524'
+                                    }
+                                }
+                            },
+                            data: [{}]
+                        }, {
+                            name: 'wave',
+                            type: 'map3d',
+
+                            surfaceLayers: [{
+                                type: 'particle',
+                                distance: 0.8,
+                                size: [4096, 2048],
+                                particle: {
+                                    vectorField: field,
+                                    color: 'white',
+                                    speedScaling: 0.2,
+                                    sizeScaling: 0.3,
+                                    number: 512 * 512,
+                                    motionBlurFactor: 0.99
+                                }
+                            }]
+                        }]
+                    });
+
+                    myChart.hideLoading();
+                };
+            });
+
+            require(['init', 'data/wave', 'img/elev_bump'], function (init, data, img) {
+                init(data, img);
+            });
+
+        </script>
+    </body>
+</html>

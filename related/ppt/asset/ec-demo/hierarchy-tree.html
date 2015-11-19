@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config2.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <style>
+        </style>
+        <div id="main"></div>
+
+        <script type="text/javascript" src="../echarts2/echarts.js"></script>
+        <script type="text/javascript" src="../zrender2.js"></script>
+        <script type="text/javascript" src="../echarts-x/echarts-x.js"></script>
+
+        <script>
+
+            define('init', function (require) {
+
+                var echarts = require('echarts');
+
+                require('echarts/chart/tree');
+
+                return function(data) {
+
+
+                    var myChart = echarts.init(document.getElementById('main'));
+
+                    var option = {
+                        title : {
+                            text: '冰桶挑战',
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        toolbox: {
+                            show: false
+                        },
+                        series : [
+                            {
+                                name:'树图',
+                                type:'tree',
+                                orient: 'horizontal',  // vertical horizontal
+                                rootLocation: {x: 100,y: 230}, // 根节点位置  {x: 100, y: 'center'}
+                                nodePadding: 8,
+                                layerPadding: 200,
+                                hoverable: false,
+                                roam: true,
+                                symbolSize: 6,
+                                itemStyle: {
+                                    normal: {
+                                        color: 'yellow',
+                                        label: {
+                                            show: true,
+                                            position: 'right',
+                                            formatter: "{b}",
+                                            textStyle: {
+                                                color: '#fff',
+                                                fontSize: 5
+                                            }
+                                        },
+                                        lineStyle: {
+                                            color: '#ccc',
+                                            type: 'curve' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
+
+                                        }
+                                    },
+                                    emphasis: {
+                                        color: '#4883b4',
+                                        label: {
+                                            show: false
+                                        },
+                                        borderWidth: 0
+                                    }
+                                },
+
+                                data: data
+                            }
+                        ]
+                    };
+
+
+                    myChart.setOption(option);
+                };
+            });
+
+            require(['init', 'data/iceBucket.json'], function (init, data) {
+                init(data);
+            });
+
+        </script>
+    </body>
+</html>
