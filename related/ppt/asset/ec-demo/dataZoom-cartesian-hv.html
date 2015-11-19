@@ -102,45 +102,60 @@
                     series: [
                         {
                             name: '降水量',
-                            type: 'bar',
+                            type: 'line',
                             data: data.rainfall,
-                            // itemStyle: {
-                            //     normal: {
-                            //          areaStyle: {}
-                            //     }
-                            // }
+                            itemStyle: {
+                                normal: {
+                                     areaStyle: {},
+                                     lineStyle: {
+                                        width: 1
+                                     }
+                                }
+                            }
                         },
                         {
                             name: '流量',
-                            type: 'bar',
+                            type: 'line',
                             data: data.flow,
                             yAxisIndex: 1,
-                            // itemStyle: {
-                            //     normal: {
-                            //          areaStyle: {}
-                            //     }
-                            // }
+                            itemStyle: {
+                                normal: {
+                                     areaStyle: {},
+                                     lineStyle: {
+                                        width: 1
+                                     }
+                                }
+                            }
                         }
                     ],
+                    animation: false,
                     dataZoom: [
-                        {
-                            show: true,
-                            orient: 'vertical',
-                            yAxisIndex: [0],
-                            realtime: false
-                        },
                         {
                             show: true,
                             xAxisIndex: [0],
                             showDetail: true,
-                            realtime: false,
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        {
+                            show: true,
+                            orient: 'vertical',
+                            yAxisIndex: [0],
+                            filterMode: 'empty',
+                            textStyle: {
+                                color: '#fff'
+                            }
                         },
                         {
                             show: true,
                             orient: 'vertical',
                             yAxisIndex: [1],
-                            realtime: false,
-                            x: '90%'
+                            filterMode: 'empty',
+                            x: '90%',
+                            textStyle: {
+                                color: '#fff'
+                            }
                         }
                     ]
                 });

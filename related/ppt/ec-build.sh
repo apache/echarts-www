@@ -1,9 +1,15 @@
 
-rm -r /sushuangwork/met/PROJECT/dv[proj]/slides/segment-fault/asset/echarts-next
-cp -r /sushuangwork/met/act/gitall/echarts/echarts-next/ /sushuangwork/met/PROJECT/dv[proj]/slides/segment-fault/asset/echarts-next
-rm -rf /sushuangwork/met/PROJECT/dv[proj]/slides/segment-fault/asset/echarts-next/.git
+ecDevDir=/sushuangwork/met/act/gitall/echarts/echarts-next
+zrDevDir=/sushuangwork/met/act/gitall/echarts/zrender-dev3.0/
+thisDir=`pwd`
 
+rm -r ${thisDir}/asset/echarts-next
+mkdir ${thisDir}/asset/echarts-next
+mkdir ${thisDir}/asset/echarts-next/src
+cp -r ${ecDevDir}/theme ${thisDir}/asset/echarts-next
+cp -r ${ecDevDir}/geoData ${thisDir}/asset/echarts-next
 
-rm -r /sushuangwork/met/PROJECT/dv[proj]/slides/segment-fault/asset/zrender-dev3.0
-cp -r /sushuangwork/met/act/gitall/echarts/zrender-dev3.0/ /sushuangwork/met/PROJECT/dv[proj]/slides/segment-fault/asset/zrender-dev3.0
-rm -rf /sushuangwork/met/PROJECT/dv[proj]/slides/segment-fault/asset/zrender-dev3.0/.git
+cd ${ecDevDir}/build
+sh build.sh raw
+cp ${ecDevDir}/dist/echarts.js ${thisDir}/asset/echarts-next/src
+cd ${thisDir}
