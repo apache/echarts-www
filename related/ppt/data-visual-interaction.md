@@ -1,4 +1,6 @@
-## 数据 · 视觉编码 · 交互
+# Echarts Next
+
+### —— 数据 · 视觉编码 · 交互
 
 Echarts团队
 
@@ -6,7 +8,6 @@ Note:
 自我介绍
 
 ---
-
 
 ![](./asset/img/data-mess.jpg)
 
@@ -64,21 +65,16 @@ Note:
 Note:
 
 再举个例子，相关系数。
-安斯库姆四重奏（Anscombe's quartet）。
-分析数据前先绘制图表的重要性。
+安斯库姆四重奏（Anscombe's quartet）是四组基本的统计特性一致的数据，但由它们绘制出的图表则截然不同。每一组数据都包括了11个(x,y)点，
+四组数据样本里x的均值方差全相等，y的均值方差基本相等，x与y的相关系数也很接近。导致的结果是，四组数据线性回归的结果基本一样。
+但是，这四组数据本身差别很大。
+这四组数据由统计学家弗朗西斯·安斯库姆（Francis Anscombe）于1973年构造，他的目的是用来说明在分析数据前先绘制图表的重要性，以及离群值对统计的影响之大。
 
 ----
 
 ![](./asset/img/warm-up-scatters1.png)
 
 ---
-
-
-
-
-
-
-
 
 
 
@@ -177,24 +173,27 @@ Note: 这个大家都知道。
 
 ## 视觉通道
 
-{0|颜色&nbsp;&nbsp;&nbsp;亮度&nbsp;&nbsp;&nbsp;饱和度&nbsp;&nbsp;&nbsp;透明度
+{0|颜色&nbsp;&nbsp;&nbsp;亮度&nbsp;&nbsp;&nbsp;饱和度&nbsp;&nbsp;&nbsp;透明度&nbsp;&nbsp;&nbsp;色调
 }
 {1|尺寸&nbsp;&nbsp;&nbsp;形状&nbsp;&nbsp;&nbsp;纹理&nbsp;&nbsp;&nbsp;方向}
 {2|动画}
 
 
 Note:
+生物学上，视觉通道指的是“大脑接受外部世界视觉信息的通道”，是“通过眼睛接受外界光线的明暗、色彩、形状等，产生对事物的辨别与记忆能力”
 
-可能没有给予足够的意识
+但是在可视化中，可能没有给予足够的意识
 
 1.类型（type）
     是什么/在哪里（what/where）
     何种程度（how much）
+
+其中视觉通道要求：
 2.表现力（expressiveness）
-    表达且仅表达数据的完整属性
+    要求通过准确编码，来表达数据的完整属性
     判断标准：精确性、可辨性、可分离性、视觉突出
 3.有效性（effectiveness）
-    通道表现力符合属性的重要性
+    通道表现力符合数据属性的重要性
 
 下面是一些视觉通道的解释
 
@@ -205,17 +204,18 @@ Note:
 
 {0|类别型数据}
 
-{1|~[700*500](./asset/ec-demo/color-category.html)}
+{1|~[800*500](./asset/ec-demo/color-category.html)}
 
 ----
 
 #### 颜色 - 数值型数据
 
-{0|~[1000*500](./asset/ec-demo/color-grey.html)}
+{0|~[900*600](./asset/ec-demo/color-grey.html)}
 
 
 ----
 
+#### 颜色 - 多种视觉通道
 
 <div style="text-align: center; width: 1110px;">
 
@@ -230,20 +230,24 @@ Note:
 
 <div style="display:inline-block;vertical-align:middle;width: 800px">
 
-{0|颜色 - 多种视觉通道}
 
 {0|~[1000*500](./asset/ec-demo/color-mix-aqi.html)}
 
 </div>
 </div>
 
+Note: 
+这是一个使用多种视觉通道表示多维数据的例子。
+圆的面积表示 PM2.5的浓度，颜色明暗表示SO2的浓度。
+通过调整数据选择器，可以直观反应一些问题。
 
+这组数据可以被映射到亮度(Lightness)、饱和度(Saturation)、透明度(Alpha)、形状(symbol)、大小(symbolSize)
 
 ----
 
-#### 三维 · 高度
+### 三维 · 高度
 
-{0|~[1200*650](./asset/ec-demo/global-population.html)}
+{0|~[1280*650](./asset/ec-demo/global-population.html)}
 
 
 ----
@@ -262,11 +266,8 @@ Note:
 
 Note:
 
-形状为辅助，并不如颜色和大小。
+当然形状为辅助，效果并不如颜色和大小。
 
-----
-
-Note:
 
 这个不讲了
 
@@ -275,17 +276,6 @@ Note:
 * 避免过多颜色交错导致的杂乱无章
 * 使用中性背景色，控制对全局色彩的影响
 * 最小化同时对比
-
-
-
-
-
-
-
-
-
-
-
 
 
 ---
@@ -332,12 +322,27 @@ Note:
 
 </div>
 
+----
+
+#### 数据缩放 - 单一维度选择
+
+~[1000*500](./asset/ec-demo/dataZoom-K-line.html)
+
+Note:
+现实中比较常见的就是股市的 K线图.
 
 ----
+
+#### 数据缩放 - 多维度选择
 
 ~[1000*500](./asset/ec-demo/dataZoom-cartesian-hv.html)
 
+Note:
+这是一个有3000多条数据的柱状图，通过拖拽数值区域控制器，可以进行局部的数据的显示。
+
+
 ----
+
 
 ## 动画
 
@@ -354,15 +359,11 @@ Note:
 （2）但是表达交互中数据/图形元素变化的联系，助于理解。
 
 
+----
 
+### 动画 - 数据的过渡
 
-
-
-
-
-
-
-
+~[1200*600](./asset/ec-demo/life-expectancy.html)
 
 
 ---
@@ -374,7 +375,7 @@ Note:
 
 ----
 
-#### 点数据的可视化
+### 点数据的可视化
 
 
 {0|~[1000*500](./asset/ec-demo/map-weibo.html)}
@@ -392,8 +393,16 @@ weibo签到：11.8w 数据
 
 ----
 
+### 线数据的可视化 - 2D
+{0|~[1200*600](./asset/ec-demo/migration.html)}
 
-#### 线数据的可视化
+Note:
+2015年百度迁徙的数据，地图上的线表示的人口迁徙的方向
+
+----
+
+
+### 线数据的可视化 - 3D
 
 {0|~[1200*600](./asset/ec-demo/global-airline.html)}
 
@@ -432,6 +441,7 @@ NASA Perpetual Ocean
 
 Note:
 横轴是时间。
+*
 
 ----
 
@@ -494,8 +504,6 @@ graph 多种layout。
 {0|~[1400*600](./asset/ec-demo/force-webkit.html)}
 
 
-----
-
 Note:
 
 ### 更多维度
@@ -529,41 +537,74 @@ Note:
 在二维/三维图表上增加视觉通道，以表达更多的属性信息。
 但是 ...
 
-----
-
-Note:
-
-~[1200*650](./asset/ec-demo/global-population.html)
-
-扩充到三维。
 
 ----
 
-Note:
+### 字符云
 
-下回再讲吧
+~[1000*500](./asset/ec-demo/word-cloud.html)
+
+Note: 字符云，通过字体大小和位置，来表示某些关键词的频次高低以及重要性。
+
+
+暂时不讲
 
 ### 高维数据 - 协同分析
 
 ~[1000*500](./asset/ec-demo/data-coop-scatter.html)
 
 
-----
-
-Note:
-
-下回再讲吧
 
 ### 高维数据 - 散点图矩阵
 
 ~[1000*500](./asset/ec-demo/data-coop-scatter.html)
 
 
+----
+
+### 热力图
+
+~[1000*600](./asset/ec-demo/heatmap.html)
 
 
+----
+
+## AND 
+
+### {0|More...}
+
+Note:
+
+
+---
+
+### Echarts Next
+
+#### {0|3.0 is coming...}
+
+{0|![](./asset/img/website-2.png)}
+
+----
+
+{0|更**专业**的图表}
+{0|更**丰富**的种类}
+{0|更**漂亮**的配色}
+{0|更**清晰**的文档}
+{0|更**精简**的尺寸}
+{0|更**多样**的适配}
+{0|更**方便**的二次开发}
+{1|...}
+
+----
+
+https://echarts.baidu.com
+
+https://github.com/ecomfe/echarts
 
 
 ---
 
 
-# 谢谢
+## 谢谢
+
+![](./asset/img/echarts-QRcode.png)

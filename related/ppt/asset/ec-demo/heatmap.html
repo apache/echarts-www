@@ -1,0 +1,145 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../common/esl.js"></script>
+    <script src="../common/config2.js"></script>
+    <link rel="stylesheet" href="../common/reset.css">
+</head>
+<body>
+<style>
+.bgmap {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+#main {
+    width: 1000px;
+    height: 600px;
+}
+</style>
+<img class="bgmap" src="../img/map_1.png">
+<div id="main"></div>
+
+<script type="text/javascript" src="../echarts2/echarts.js"></script>
+<script type="text/javascript" src="../zrender2.js"></script>
+
+<script>
+
+    define('init', function (require) {
+
+        var echarts = require('echarts');
+        require('echarts/chart/heatmap');
+
+        var myChart;
+
+        function getHeatData(k) {
+            var heatData = [];
+
+            for (var i = 0; i < 150; ++i) {
+                // Village
+                heatData.push([
+                    580 + Math.random() * 80,
+                    460 + Math.random() * 100,
+                    Math.random() * k *.8
+                ]);
+                // ShiChaHai
+                heatData.push([
+                    220 + Math.random() * 100,
+                    470 + Math.random() * 80,
+                    Math.random() * k * .7
+                ]);
+                // Random
+                heatData.push([
+                    0 + Math.random() * 1000,
+                    0 + Math.random() * 600,
+                    Math.random() * k * 1.2
+                ]);
+            }
+
+            for (i = 0; i < 50; ++i) {
+                // DeShengMen
+                heatData.push([
+                    100 + Math.random() * 80,
+                    350 + Math.random() * 100,
+                    Math.random() * k
+                ]);
+
+                // Gui Street
+                heatData.push([
+                    380 + Math.random() * 100,
+                    450 + Math.random() * 70,
+                    Math.random() * k
+                ]);
+
+                // Lama Temple
+                heatData.push([
+                    370 + Math.random() * 80,
+                    410 + Math.random() * 70,
+                    Math.random() * k
+                ]);
+
+                //
+                heatData.push([
+                    260 + Math.random() * 80,
+                    90 + Math.random() * 100,
+                    Math.random() * k * 0.7
+                ]);
+
+                //
+                heatData.push([
+                    430 + Math.random() * 80,
+                    100 + Math.random() * 100,
+                    Math.random() * k * .8
+                ]);
+            }
+
+            return heatData;
+        }
+
+        return function () {
+            myChart = echarts.init(document.getElementById('main'));
+
+            var option = {
+                title : {
+                    text: '热力图'
+                },
+                series : [
+                    {
+                        type : 'heatmap',
+                        data : getHeatData(0.2),
+                        hoverable : false
+                    }
+                ]
+            };
+
+            myChart.setOption(option);
+
+            var arrStack = [0.1, 0.18, 0.38, 0.47, 0.35, 0.3, 0.27, 0.18, 0.1, 0.02];
+            var index = -1;
+            var times = 20;
+
+            var timer = window.setInterval(function () {
+                index = ++index % 10;
+                myChart.setSeries([
+                    {
+                        type : 'heatmap',
+                        data : getHeatData(arrStack[index]),
+                        hoverable : false
+                    }
+                ]);
+                if (--times < 0) {
+                    clearInterval(timer);
+                }
+            }, 1000);
+
+        };
+
+    });
+
+    require(['init'], function (init) {
+        init();
+    });
+
+</script>
+</body>
+</html>

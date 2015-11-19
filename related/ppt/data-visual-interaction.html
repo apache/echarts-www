@@ -3,21 +3,22 @@
     <head>
         <meta charset="utf-8">
         <title>Reveal.js</title>
-        <link rel="stylesheet" href="./asset/md2reveal-0.0.1.7/css/reveal.css">
-        <link rel="stylesheet" href="./asset/md2reveal-0.0.1.7/css/theme/black.css" id="theme">
-        <link rel="stylesheet" href="./asset/md2reveal-0.0.1.7/css/theme/black-md2reveal.css" id="themeMine">
+        <link rel="stylesheet" href="./asset/md2reveal-0.1.7/css/reveal.css">
+        <link rel="stylesheet" href="./asset/md2reveal-0.1.7/css/theme/black.css" id="theme">
+        <link rel="stylesheet" href="./asset/md2reveal-0.1.7/css/theme/black-md2reveal.css" id="themeMine">
         <!-- For syntax highlighting -->
-        <link rel="stylesheet" href="./asset/md2reveal-0.0.1.7/lib/css/zenburn.css">
+        <link rel="stylesheet" href="./asset/md2reveal-0.1.7/lib/css/zenburn.css">
     </head>
     <body>
 
         <div class="reveal">
-            <div class="slides"><section  data-markdown><script type="text/template">## 数据 · 视觉编码 · 交互
+            <div class="slides"><section  data-markdown><script type="text/template"># Echarts Next
+
+### —— 数据 · 视觉编码 · 交互
 
 Echarts团队
 
 <aside class="notes" data-markdown>自我介绍</aside></script></section><section ><section data-markdown><script type="text/template">
-
 ![](./asset/img/data-mess.jpg)
 
 <aside class="notes" data-markdown>海量数据</aside></script></section><section data-markdown><script type="text/template">
@@ -52,17 +53,12 @@ Echarts团队
 ![](./asset/img/warm-up-scatters0.png)
 
 <aside class="notes" data-markdown>再举个例子，相关系数。
-安斯库姆四重奏（Anscombe's quartet）。
-分析数据前先绘制图表的重要性。</aside></script></section><section data-markdown><script type="text/template">
+安斯库姆四重奏（Anscombe's quartet）是四组基本的统计特性一致的数据，但由它们绘制出的图表则截然不同。每一组数据都包括了11个(x,y)点，
+四组数据样本里x的均值方差全相等，y的均值方差基本相等，x与y的相关系数也很接近。导致的结果是，四组数据线性回归的结果基本一样。
+但是，这四组数据本身差别很大。
+这四组数据由统计学家弗朗西斯·安斯库姆（Francis Anscombe）于1973年构造，他的目的是用来说明在分析数据前先绘制图表的重要性，以及离群值对统计的影响之大。</aside></script></section><section data-markdown><script type="text/template">
 ![](./asset/img/warm-up-scatters1.png)
 </script></section></section><section ><section data-markdown><script type="text/template">
-
-
-
-
-
-
-
 
 
 
@@ -133,22 +129,26 @@ Echarts团队
 <aside class="notes" data-markdown>这个大家都知道。</aside></script></section><section data-markdown><script type="text/template">
 ## 视觉通道
 
-<div class="fragment" data-fragment-index="0">颜色&nbsp;&nbsp;&nbsp;亮度&nbsp;&nbsp;&nbsp;饱和度&nbsp;&nbsp;&nbsp;透明度
+<div class="fragment" data-fragment-index="0">颜色&nbsp;&nbsp;&nbsp;亮度&nbsp;&nbsp;&nbsp;饱和度&nbsp;&nbsp;&nbsp;透明度&nbsp;&nbsp;&nbsp;色调
 </div>
 <div class="fragment" data-fragment-index="1">尺寸&nbsp;&nbsp;&nbsp;形状&nbsp;&nbsp;&nbsp;纹理&nbsp;&nbsp;&nbsp;方向</div>
 <div class="fragment" data-fragment-index="2">动画</div>
 
 
-<aside class="notes" data-markdown>可能没有给予足够的意识
+<aside class="notes" data-markdown>生物学上，视觉通道指的是“大脑接受外部世界视觉信息的通道”，是“通过眼睛接受外界光线的明暗、色彩、形状等，产生对事物的辨别与记忆能力”
+
+但是在可视化中，可能没有给予足够的意识
 
 1.类型（type）
     是什么/在哪里（what/where）
     何种程度（how much）
+
+其中视觉通道要求：
 2.表现力（expressiveness）
-    表达且仅表达数据的完整属性
+    要求通过准确编码，来表达数据的完整属性
     判断标准：精确性、可辨性、可分离性、视觉突出
 3.有效性（effectiveness）
-    通道表现力符合属性的重要性
+    通道表现力符合数据属性的重要性
 
 下面是一些视觉通道的解释</aside></script></section><section data-markdown><script type="text/template">
 ### 颜色
@@ -156,13 +156,14 @@ Echarts团队
 
 <div class="fragment" data-fragment-index="0">类别型数据</div>
 
-<div class="fragment" data-fragment-index="1"><iframe style="width:700px;height:500px;" data-md2r-src="./asset/ec-demo/color-category.html"></iframe></div>
+<div class="fragment" data-fragment-index="1"><iframe style="width:800px;height:500px;" data-md2r-src="./asset/ec-demo/color-category.html"></iframe></div>
 </script></section><section data-markdown><script type="text/template">
 #### 颜色 - 数值型数据
 
-<div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/color-grey.html"></iframe></div>
+<div class="fragment" data-fragment-index="0"><iframe style="width:900px;height:600px;" data-md2r-src="./asset/ec-demo/color-grey.html"></iframe></div>
 
 </script></section><section data-markdown><script type="text/template">
+#### 颜色 - 多种视觉通道
 
 <div style="text-align: center; width: 1110px;">
 
@@ -177,18 +178,20 @@ Echarts团队
 
 <div style="display:inline-block;vertical-align:middle;width: 800px">
 
-<div class="fragment" data-fragment-index="0">颜色 - 多种视觉通道</div>
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/color-mix-aqi.html"></iframe></div>
 
 </div>
 </div>
 
+<aside class="notes" data-markdown>这是一个使用多种视觉通道表示多维数据的例子。
+圆的面积表示 PM2.5的浓度，颜色明暗表示SO2的浓度。
+通过调整数据选择器，可以直观反应一些问题。
 
-</script></section><section data-markdown><script type="text/template">
-#### 三维 · 高度
+这组数据可以被映射到亮度(Lightness)、饱和度(Saturation)、透明度(Alpha)、形状(symbol)、大小(symbolSize)</aside></script></section><section data-markdown><script type="text/template">
+### 三维 · 高度
 
-<div class="fragment" data-fragment-index="0"><iframe style="width:1200px;height:650px;" data-md2r-src="./asset/ec-demo/global-population.html"></iframe></div>
+<div class="fragment" data-fragment-index="0"><iframe style="width:1280px;height:650px;" data-md2r-src="./asset/ec-demo/global-population.html"></iframe></div>
 
 </script></section><section data-markdown><script type="text/template">
 
@@ -201,8 +204,10 @@ Echarts团队
 
 <iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/symbol-categories.html"></iframe>
 
-<aside class="notes" data-markdown>形状为辅助，并不如颜色和大小。</aside></script></section><section data-markdown><script type="text/template">
-<aside class="notes" data-markdown>这个不讲了
+<aside class="notes" data-markdown>当然形状为辅助，效果并不如颜色和大小。
+
+
+这个不讲了
 
 ### 色彩设计原则
 
@@ -244,10 +249,18 @@ Echarts团队
 </div>
 
 </div>
+</script></section><section data-markdown><script type="text/template">
+#### 数据缩放 - 单一维度选择
 
-</script></section><section data-markdown><script type="text/template">
+<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/dataZoom-K-line.html"></iframe>
+
+<aside class="notes" data-markdown>现实中比较常见的就是股市的 K线图.</aside></script></section><section data-markdown><script type="text/template">
+#### 数据缩放 - 多维度选择
+
 <iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/dataZoom-cartesian-hv.html"></iframe>
-</script></section><section data-markdown><script type="text/template">
+
+<aside class="notes" data-markdown>这是一个有3000多条数据的柱状图，通过拖拽数值区域控制器，可以进行局部的数据的显示。</aside></script></section><section data-markdown><script type="text/template">
+
 ## 动画
 
 * <div class="fragment" data-fragment-index="0">带来工程的复杂性</div>
@@ -258,13 +271,18 @@ Echarts团队
 * <div class="fragment" data-fragment-index="1">表达 数据/图形元素在**变化**中的**联系**，助于理解</div>
 
 <aside class="notes" data-markdown>（1）动画带来工程角度的复杂性，增加软件的脆弱（带来bug），增加代码的繁杂（性能优化）。
-（2）但是表达交互中数据/图形元素变化的联系，助于理解。</aside></script></section></section><section ><section data-markdown><script type="text/template">
+（2）但是表达交互中数据/图形元素变化的联系，助于理解。</aside></script></section><section data-markdown><script type="text/template">
+### 动画 - 数据的过渡
+
+<iframe style="width:1200px;height:600px;" data-md2r-src="./asset/ec-demo/life-expectancy.html"></iframe>
+
+</script></section></section><section ><section data-markdown><script type="text/template">
 
 
 # 各种数据的可视化
 
 </script></section><section data-markdown><script type="text/template">
-#### 点数据的可视化
+### 点数据的可视化
 
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/map-weibo.html"></iframe></div>
@@ -277,8 +295,12 @@ Echarts团队
 
 
 weibo签到：11.8w 数据</aside></script></section><section data-markdown><script type="text/template">
+### 线数据的可视化 - 2D
+<div class="fragment" data-fragment-index="0"><iframe style="width:1200px;height:600px;" data-md2r-src="./asset/ec-demo/migration.html"></iframe></div>
 
-#### 线数据的可视化
+<aside class="notes" data-markdown>2015年百度迁徙的数据，地图上的线表示的人口迁徙的方向</aside></script></section><section data-markdown><script type="text/template">
+
+### 线数据的可视化 - 3D
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1200px;height:600px;" data-md2r-src="./asset/ec-demo/global-airline.html"></iframe></div>
 
@@ -302,7 +324,8 @@ weibo签到：11.8w 数据</aside></script></section><section data-markdown><scr
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/dataZoom-cartesian-hv.html"></iframe></div>
 
-<aside class="notes" data-markdown>横轴是时间。</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>横轴是时间。
+*</aside></script></section><section data-markdown><script type="text/template">
 <iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/timeline-ecnomic.html"></iframe>
 
 <aside class="notes" data-markdown>时间作为更高层的一个维度。</aside></script></section><section data-markdown><script type="text/template">
@@ -338,7 +361,7 @@ weibo签到：11.8w 数据</aside></script></section><section data-markdown><scr
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1400px;height:600px;" data-md2r-src="./asset/ec-demo/force-webkit.html"></iframe></div>
 
-</script></section><section data-markdown><script type="text/template">
+
 <aside class="notes" data-markdown>### 更多维度
 
 ```
@@ -364,27 +387,64 @@ weibo签到：11.8w 数据</aside></script></section><section data-markdown><scr
 <aside class="notes" data-markdown>比较，首先用前面的color-mix:
 在二维/三维图表上增加视觉通道，以表达更多的属性信息。
 但是 ...</aside></script></section><section data-markdown><script type="text/template">
-<aside class="notes" data-markdown><iframe style="width:1200px;height:650px;" data-md2r-src="./asset/ec-demo/global-population.html"></iframe>
+### 字符云
 
-扩充到三维。</aside></script></section><section data-markdown><script type="text/template">
-<aside class="notes" data-markdown>下回再讲吧
+<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/word-cloud.html"></iframe>
+
+<aside class="notes" data-markdown>字符云，通过字体大小和位置，来表示某些关键词的频次高低以及重要性。
+
+
+暂时不讲
 
 ### 高维数据 - 协同分析
 
-<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/data-coop-scatter.html"></iframe></aside></script></section><section data-markdown><script type="text/template">
-<aside class="notes" data-markdown>下回再讲吧
+<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/data-coop-scatter.html"></iframe>
+
+
 
 ### 高维数据 - 散点图矩阵
 
-<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/data-coop-scatter.html"></iframe></aside></script></section></section><section  data-markdown><script type="text/template">
+<iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/data-coop-scatter.html"></iframe></aside></script></section><section data-markdown><script type="text/template">
+### 热力图
 
-# 谢谢
+<iframe style="width:1000px;height:600px;" data-md2r-src="./asset/ec-demo/heatmap.html"></iframe>
+
+</script></section><section data-markdown><script type="text/template">
+## AND 
+
+### <div class="fragment" data-fragment-index="0">More...</div>
+
+<aside class="notes" data-markdown></aside></script></section></section><section ><section data-markdown><script type="text/template">
+### Echarts Next
+
+#### <div class="fragment" data-fragment-index="0">3.0 is coming...</div>
+
+<div class="fragment" data-fragment-index="0">![](./asset/img/website-2.png)</div>
+</script></section><section data-markdown><script type="text/template">
+<div class="fragment" data-fragment-index="0">更**专业**的图表</div>
+<div class="fragment" data-fragment-index="0">更**丰富**的种类</div>
+<div class="fragment" data-fragment-index="0">更**漂亮**的配色</div>
+<div class="fragment" data-fragment-index="0">更**清晰**的文档</div>
+<div class="fragment" data-fragment-index="0">更**精简**的尺寸</div>
+<div class="fragment" data-fragment-index="0">更**多样**的适配</div>
+<div class="fragment" data-fragment-index="0">更**方便**的二次开发</div>
+<div class="fragment" data-fragment-index="1">...</div>
+</script></section><section data-markdown><script type="text/template">
+https://echarts.baidu.com
+
+https://github.com/ecomfe/echarts
+
+</script></section></section><section  data-markdown><script type="text/template">
+
+## 谢谢
+
+![](./asset/img/echarts-QRcode.png)
 </script></section></div>
         </div>
 
-        <script src="./asset/md2reveal-0.0.1.7/lib/js/head.min.js"></script>
-        <script src="./asset/md2reveal-0.0.1.7/js/reveal.js"></script>
-        <script src="./asset/md2reveal-0.0.1.7/js/md2reveal.js"></script>
+        <script src="./asset/md2reveal-0.1.7/lib/js/head.min.js"></script>
+        <script src="./asset/md2reveal-0.1.7/js/reveal.js"></script>
+        <script src="./asset/md2reveal-0.1.7/js/md2reveal.js"></script>
 
         <script>
             function extend() {
@@ -402,12 +462,12 @@ weibo签到：11.8w 数据</aside></script></section><section data-markdown><scr
 
             // Optional libraries used to extend on reveal.js
             var deps = [
-              { src: './asset/md2reveal-0.0.1.7/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-              { src: './asset/md2reveal-0.0.1.7/plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
-              { src: './asset/md2reveal-0.0.1.7/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
-              { src: './asset/md2reveal-0.0.1.7/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-              { src: './asset/md2reveal-0.0.1.7/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-              // { src: './asset/md2reveal-0.0.1.7/plugin/math/math.js', async: true }
+              { src: './asset/md2reveal-0.1.7/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+              { src: './asset/md2reveal-0.1.7/plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: './asset/md2reveal-0.1.7/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: './asset/md2reveal-0.1.7/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+              { src: './asset/md2reveal-0.1.7/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+              // { src: './asset/md2reveal-0.1.7/plugin/math/math.js', async: true }
             ];
 
             // default options to init reveal.js

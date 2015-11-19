@@ -140,16 +140,17 @@
                             x: 'right',
                             y: 'top',
                             dimension: 'dim7',
-                            categories: ['优', '良', '轻度污染', '中度污染', '重度污染', '严重污染'],
-                            calculable: true,
-                            precision: 0.1,
+                            categories: ['优', '良', '轻度污染', '中度污染', '重度污染'],
+//                            calculable: true,
+//                            precision: 0.1,
                             textStyle: {
                                 color: '#fff'
                             },
                             inRange: {
                                 symbolSize: {'': 30},
                                 symbol: {
-                                    '优': 'diamond',
+                                    '重度污染': 'diamond',
+                                    '优': 'circle ',
                                     '': 'circle'
                                 }
                             },

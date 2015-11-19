@@ -11,18 +11,25 @@
         paths: {
             'geoJson': ecBase + '/echarts-next/geoData/geoJson',
             'theme': ecBase + '/echarts-next/theme',
-            'data': './data'
+            'data': './data',
+            'tools': './tools',
+            'common': './common'
         },
         packages: [
             {
-                main: 'echarts',
+                name: 'echarts',
                 location: ecBase + '/echarts-next/src',
-                name: 'echarts'
+                main: 'echarts'
             },
             {
-                main: 'zrender',
+                name: 'zrender',
                 location: ecBase + '/zrender-dev3.0/src',
-                name: 'zrender'
+                main: 'zrender'
+            },
+            {
+                name: 'echarts2',
+                location: ecBase + '/echarts2',
+                main: 'echarts'
             }
         ],
         urlArgs: '_v_=' + (debug ? '' : +new Date())

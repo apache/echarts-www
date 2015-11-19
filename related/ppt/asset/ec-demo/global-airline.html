@@ -100,12 +100,20 @@
                                 large: true,
                                 symbolSize: 2,
                                 data: airports
+                            },
+                            roam: {
+                                autoRotateAfterStill: 2,
+                                autoRotate: true,
+                                focus: 'Spain',
+                                minZoom: 1/1.2,
+                                maxZoom: 1 /.5
                             }
                         }]
                     };
 
-                    opts.legend.data.forEach(function (name) {
-                        if (name.indexOf('American Airlines') >= 0) {
+                    opts.legend.data.forEach(function (name, index) {
+                        if (index < 5) {
+//                        if (name.indexOf('American Airlines') >= 0) {
                             opts.legend.selected[name] = true;
                         } else {
                             opts.legend.selected[name] = false;
@@ -121,8 +129,10 @@
                                 name: airlineName,
                                 markLine: {
                                     effect: {
-                                        show: true
+                                        show: true,
+                                        scaleSize: 2
                                     },
+                                    distance: 1.5,
                                     data: routes.map(function (item) {
                                         return [{
                                             // Source airport

@@ -54,8 +54,6 @@
                     },
                     xAxis: [
                         {
-                            // data: ['类目1', '类目2', '类目3', '类目4', '类目5',]
-                            // data: xAxisData,
                             type: 'category',
                             boundaryGap: true,
                             splitLine: {show: false},
@@ -122,28 +120,26 @@
                             //          areaStyle: {}
                             //     }
                             // }
-                        },
-                        // {
-                        //     name: 'bar3',
-                        //     type: 'line',
-                        //     data: data3
-                        // }
+                        }
                     ],
                     dataZoom: [
                         {
                             show: true,
                             orient: 'vertical',
-                            yAxisIndex: [0]
+                            yAxisIndex: [0],
+                            realtime: false
                         },
                         {
                             show: true,
                             xAxisIndex: [0],
+                            showDetail: true,
                             realtime: false,
                         },
                         {
                             show: true,
                             orient: 'vertical',
                             yAxisIndex: [1],
+                            realtime: false,
                             x: '90%'
                         }
                     ]

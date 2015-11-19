@@ -27,11 +27,11 @@
 
                 var random = function (max) {
                     return (Math.random() * max).toFixed(3);
-                }
+                };
 
-                for (var i = 0; i < 10; i++) {
+                for (var i = 0; i < 8; i++) {
                     data1.push([random(5), random(5), random(1)]);
-                    data2.push([random(10), random(10), random(1)]);
+                    data2.push([random(10), random(8), random(1)]);
                     data3.push([random(15), random(10), random(1)]);
                 }
 
@@ -49,7 +49,7 @@
                         max: 15,
                         splitNumber: 30,
                         splitLine: {show: false},
-                        axisLine: {lineStyle: {width: 0}},
+                        axisLine: {lineStyle: {width: 1}},
                         axisLabel: {show: false},
                         axisTick: {show: false}
                     },
@@ -59,7 +59,7 @@
                             show: false
                         },
                         splitLine: {show: false},
-                        axisLine: {lineStyle: {width: 0}},
+                        axisLine: {lineStyle: {width: 1}},
                         axisLabel: {show: false},
                         axisTick: {show: false}
                     },
@@ -69,7 +69,7 @@
                             type: 'scatter',
                             symbol: 'diamond',
                             symbolSize: function (val) {
-                                return val[2] * 40;
+                                return val[2] * 15;
                             },
                             data: data1
                         },
@@ -77,7 +77,7 @@
                             name: 'scatter2',
                             type: 'scatter',
                             symbolSize: function (val) {
-                                return val[2] * 40;
+                                return val[2] * 25;
                             },
                             data: data2
                         },
@@ -85,7 +85,7 @@
                             name: 'scatter3',
                             type: 'scatter',
                             symbolSize: function (val) {
-                                return val[2] * 40;
+                                return val[2] * 30;
                             },
                             data: data3
                         }

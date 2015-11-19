@@ -7,6 +7,9 @@
     </head>
     <body>
         <style>
+            body {
+                background: #222;
+            }
         </style>
         <div id="main"></div>
 
@@ -24,6 +27,8 @@
                 require('echarts-x');
                 require('echarts-x/chart/map3d');
 
+//                var bgImage = require('img/starfield.base64');
+                var bgImage = '';
                 var myChart;
 
                 return function (data) {
@@ -53,8 +58,9 @@
                             max: max,
                             realtime: false,
                             calculable : true,
-                            x: 10,
-                            y: 400,
+                            itemHeight: 30,
+                            x: 'right',
+                            y: 'center',
                             textStyle: {
                                 fontFamily: 'Helvetica Neue',
                                 fontWeight: 100,
@@ -70,6 +76,7 @@
                                 backgroundColor: 'rgba(0, 150, 200, 0.5)'
                             },
                             data: [{}],
+                            background: bgImage,
                             itemStyle: {
                                 normal: {
                                     areaStyle: {
@@ -83,8 +90,11 @@
                                 data: data
                             },
                             roam: {
-                                autoRotate: false,
-                                focus: 'China'
+                                autoRotateAfterStill: 2,
+                                autoRotate: true,
+                                focus: 'China',
+                                minZoom: 1/1.2,
+                                maxZoom: 1 /.2
                             }
                         }]
                     });
