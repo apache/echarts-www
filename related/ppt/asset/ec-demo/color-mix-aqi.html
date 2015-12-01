@@ -52,9 +52,8 @@
                 };
 
                 chart.setOption({
-                    color: [
-                        '#dd4444', '#fec42c', '#80F1BE'
-                    ],
+                    color: ['#5793f3', '#d14a61', '#fd9c35', '#675bba', '#fec42c',
+                        '#dd4444', '#d4df5a', '#cd4870'],
                     legend: {
                         y: 'top',
                         data: ['北京', '上海', '广州'],
@@ -143,7 +142,7 @@
                             min: 0,
                             max: 250,
                             itemWidth: 30,
-                            itemHeight: 130,
+                            itemHeight: 100,
                             calculable: true,
                             precision: 0.1,
                             text: ['圆形大小：PM2.5'],
@@ -166,11 +165,11 @@
                         },
                         {
                             x: 'right',
-                            y: 'center',
+                            y: 'bottom',
                             dimension: 'dim6',
                             min: 0,
                             max: 50,
-                            itemHeight: 130,
+                            itemHeight: 100,
                             calculable: true,
                             precision: 0.1,
                             text: ['明暗：二氧化硫'],

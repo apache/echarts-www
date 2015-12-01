@@ -45,7 +45,9 @@ Echarts团队
 
 ### <div class="fragment" data-fragment-index="2">**擅长**</div>
 
-<aside class="notes" data-markdown>认知心理学将认知过程看成由信息的获取、分析、归纳、解码、储存、概念形成、提取和使用等一系列阶段组成的按一定程序进行的信息加工系统。
+<aside class="notes" data-markdown>人类擅长使用视觉接收的信息，绝大多数知识也是视觉感知获得的。说明了可视化的重要性。
+
+认知心理学将认知过程看成由信息的获取、分析、归纳、解码、储存、概念形成、提取和使用等一系列阶段组成的按一定程序进行的信息加工系统。
 
 简单说，感知是关于输入信号的本质，也就是看见的事物；而认知是关于怎样理解和解释看到的东西。
 
@@ -53,14 +55,12 @@ Echarts团队
 ![](./asset/img/warm-up-scatters0.png)
 
 <aside class="notes" data-markdown>再举个例子，相关系数。
-安斯库姆四重奏（Anscombe's quartet）是四组基本的统计特性一致的数据，但由它们绘制出的图表则截然不同。每一组数据都包括了11个(x,y)点，
-四组数据样本里x的均值方差全相等，y的均值方差基本相等，x与y的相关系数也很接近。导致的结果是，四组数据线性回归的结果基本一样。
-但是，这四组数据本身差别很大。
-这四组数据由统计学家弗朗西斯·安斯库姆（Francis Anscombe）于1973年构造，他的目的是用来说明在分析数据前先绘制图表的重要性，以及离群值对统计的影响之大。</aside></script></section><section data-markdown><script type="text/template">
+安斯库姆四重奏（Anscombe's quartet）是四组基本的统计特性一致的数据，但由它们绘制出的图则截然不同。每一组数据都包括了11个(x,y)点，
+四组数据里 x**均值方差**全相等，y**均值方差**基本相等，x与y的**相关系数**也很接近。导致的结果是，四组数据**线性回归**的结果基本一样。
+但是，这四组数据**本身差别很大**。
+分析数据前先绘制图表的重要性</aside></script></section><section data-markdown><script type="text/template">
 ![](./asset/img/warm-up-scatters1.png)
 </script></section></section><section ><section data-markdown><script type="text/template">
-
-
 
 
 # 数据
@@ -204,7 +204,8 @@ Echarts团队
 
 <iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/symbol-categories.html"></iframe>
 
-<aside class="notes" data-markdown>当然形状为辅助，效果并不如颜色和大小。
+<aside class="notes" data-markdown>虽然可以把数据映射到形状上，但是效果并不如颜色和大小，
+所以把重要的映射到人感知比较敏感的视觉通道上。
 
 
 这个不讲了
@@ -220,8 +221,13 @@ Echarts团队
 
 ![](./asset/img/visual-analysis-model.png)
 
-<aside class="notes" data-markdown>这是个 “可视分析模型” 图。
-只是以这个为例说明用户参与的反馈回路。</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>单独拿出来讲一下，是因为以前的数据可视化，大都只是单一的图形展现。
+但是这样就减弱了人对数据的作用，减少了数据对人的反馈。
+
+这是个 “可视分析模型” 图。
+数据->可视化->通过交互操作，再反馈到数据的变化。 在通过不同的可视化获得最终的知识。
+只是以这个为例说明用户参与的反馈回路。
+期间，人脑是需要重度参与其中的</aside></script></section><section data-markdown><script type="text/template">
 ### 可视化设计原则
 
 <div style="text-align: center">
@@ -249,7 +255,8 @@ Echarts团队
 </div>
 
 </div>
-</script></section><section data-markdown><script type="text/template">
+
+<aside class="notes" data-markdown>可视化交互过程中，一般有一下这些操作：总览、缩放、过滤、查看细节等</aside></script></section><section data-markdown><script type="text/template">
 #### 数据缩放 - 单一维度选择
 
 <iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/dataZoom-K-line.html"></iframe>
@@ -259,7 +266,8 @@ Echarts团队
 
 <iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/dataZoom-cartesian-hv.html"></iframe>
 
-<aside class="notes" data-markdown>这是一个有3000多条数据的柱状图，通过拖拽数值区域控制器，可以进行局部的数据的显示。</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>这是一个有3000多条数据的柱状图，通过拖拽数值区域控制器，可以进行局部的数据的显示。
+横轴时间，纵轴为下水量。先查看总体趋势，在查看细节信息。</aside></script></section><section data-markdown><script type="text/template">
 
 ## 动画
 
@@ -270,24 +278,38 @@ Echarts团队
 
 * <div class="fragment" data-fragment-index="1">表达 数据/图形元素在**变化**中的**联系**，助于理解</div>
 
-<aside class="notes" data-markdown>（1）动画带来工程角度的复杂性，增加软件的脆弱（带来bug），增加代码的繁杂（性能优化）。
-（2）但是表达交互中数据/图形元素变化的联系，助于理解。</aside></script></section><section data-markdown><script type="text/template">
-### 动画 - 数据的过渡
+<aside class="notes" data-markdown>（1）虽然动画带来工程角度的复杂性，使代码更难维护和抽象，增加软件的脆弱（带来bug），增加代码的繁杂（性能优化）。
+（2）但是表达交互中数据/图形元素变化的联系，比突变的数据展现更助于理解。
+
+因为我们觉得动画在可视化交互中有比较好的效果，是很重要的一点，因此在动画绘制方面花了一些大的精力去处理。增加了更好的视觉实现。</aside></script></section><section data-markdown><script type="text/template">
+### The Wealth & Health of Nations
 
 <iframe style="width:1200px;height:600px;" data-md2r-src="./asset/ec-demo/life-expectancy.html"></iframe>
 
-</script></section></section><section ><section data-markdown><script type="text/template">
+
+<aside class="notes" data-markdown>这是在 Gapminder 上一个经典的数据可视化分析工具，将世界各国的各种数据通过气泡图来展现，并且增加了动画效果，便于观察某项数据的变化情况。
+横坐标=>人均收入，纵坐标=>人均寿命，气泡颜色=>国家，气泡的大小=>总人口。
+
+原始数据的国家比较多，保留了主要国家演示。
+
+结论：
+经过二战以后，各国都快速发展，中国在61-62年期间数据大幅下降——三年灾害
+二战后美国迅速崛起、改革开放以后，中国迅速发展、但欧美远超亚洲、挪威遥遥领先、朝鲜垫底
+
+修改各个维度的数据，就可以呈现多种结论。非常有意思</aside></script></section></section><section ><section data-markdown><script type="text/template">
 
 
 # 各种数据的可视化
 
-</script></section><section data-markdown><script type="text/template">
+
+<aside class="notes" data-markdown>以上数据可视化过程中的基本概念就介绍结束了。接下来看下实际可视化场景中的例子。</aside></script></section><section data-markdown><script type="text/template">
 ### 点数据的可视化
 
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/map-weibo.html"></iframe></div>
 
-<aside class="notes" data-markdown>描述地理空间中离散的点，具有经度和纬度的坐标，但不具备大小和尺寸，
+<aside class="notes" data-markdown>点数据 ——
+描述地理空间中离散的点，具有经度和纬度的坐标，但不具备大小和尺寸，
 包括地图上的地标、附件的美食等
 
 最直接的可视化点数据的方法
@@ -304,7 +326,8 @@ weibo签到：11.8w 数据</aside></script></section><section data-markdown><scr
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1200px;height:600px;" data-md2r-src="./asset/ec-demo/global-airline.html"></iframe></div>
 
-<aside class="notes" data-markdown>线数据通常指连接两个或多个地点的线段或路径，线数据具有长度属性，即经过的地理距离</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>线数据通常指连接两个或多个地点的线段或路径，线数据具有长度属性，即经过的地理距离
+可以揽到美国机场更多集中在东西岸</aside></script></section><section data-markdown><script type="text/template">
 ### 场 · 向量
 
 <div style="width: 600px; float:left">
@@ -317,15 +340,14 @@ weibo签到：11.8w 数据</aside></script></section><section data-markdown><scr
 <aside class="notes" data-markdown>NASA Perpetual Ocean</aside></script></section><section data-markdown><script type="text/template">
 <iframe style="width:1200px;height:650px;" data-md2r-src="./asset/ec-demo/global-wave.html"></iframe>
 
-</script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>洋流信息 05年 NASA 给出的一份洋流数据</aside></script></section><section data-markdown><script type="text/template">
 
 ### 时间数据的可视化
 
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/dataZoom-cartesian-hv.html"></iframe></div>
 
-<aside class="notes" data-markdown>横轴是时间。
-*</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>横轴是时间。</aside></script></section><section data-markdown><script type="text/template">
 <iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/timeline-ecnomic.html"></iframe>
 
 <aside class="notes" data-markdown>时间作为更高层的一个维度。</aside></script></section><section data-markdown><script type="text/template">
@@ -333,8 +355,9 @@ weibo签到：11.8w 数据</aside></script></section><section data-markdown><scr
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1100px;height:600px;" data-md2r-src="./asset/ec-demo/parallel-aqi.html"></iframe></div>
 
-
-</script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>平行坐标用于表现高纬度的数据，他克服了传统笛卡尔坐标系（直角坐标）下对空间占用的消耗，难以表达三维以上的数据，
+可以在一个平面上显示更多维度的数据。
+这里是空气质量在不同时间下，不同数据的表现。</aside></script></section><section data-markdown><script type="text/template">
 ### 关系数据
 
 <div class="fragment" data-fragment-index="0">树</div>
@@ -347,11 +370,16 @@ weibo签到：11.8w 数据</aside></script></section><section data-markdown><scr
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:600px;" data-md2r-src="./asset/ec-demo/hierarchy-tree.html"></iframe></div>
 
-<aside class="notes" data-markdown>直接画，但是如果需要表达更多的维度？</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>层级数据，无回路，我们可以直接画出来
+但是如果需要表达更多的维度？</aside></script></section><section data-markdown><script type="text/template">
 
 <iframe style="width:1400px;height:650px;" data-md2r-src="./asset/ec-demo/hierarchy-obama.html"></iframe>
 
-<aside class="notes" data-markdown>visual mapping</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>国外比较流行的
+visual mapping
+奥巴马2012政府财政预算.
+2012和2011比较，也可以将这两部分的差值映射到民安的变化上去。
+退伍军人veterans的数据</aside></script></section><section data-markdown><script type="text/template">
 下钻
 
 <iframe style="width:1400px;height:580px;" data-md2r-src="./asset/ec-demo/hierarchy-disk.html"></iframe>
@@ -362,13 +390,18 @@ weibo签到：11.8w 数据</aside></script></section><section data-markdown><scr
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1400px;height:600px;" data-md2r-src="./asset/ec-demo/graph-layout.html"></iframe></div>
 
-<aside class="notes" data-markdown>graph 多种layout。</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown>网络数据
+可以表示点和关系的信息，可视化中用的比较多，可以很清晰的看到数据的关系和权重
+graph 多种layout。</aside></script></section><section data-markdown><script type="text/template">
 #### 力导向
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1400px;height:600px;" data-md2r-src="./asset/ec-demo/force-webkit.html"></iframe></div>
 
 
-<aside class="notes" data-markdown>### 更多维度
+<aside class="notes" data-markdown>webkit 内核中核心技术的关系 
+每个点都拥有引力和斥力，相近相斥，离远相吸。经过多次的布局迭代，就可以达到一个稳定的布局结构。
+
+### 更多维度
 
 ```
 [
@@ -426,6 +459,44 @@ weibo签到：11.8w 数据</aside></script></section><section data-markdown><scr
 #### <div class="fragment" data-fragment-index="0">3.0 is coming...</div>
 
 <div class="fragment" data-fragment-index="0">![](./asset/img/website-2.png)</div>
+</script></section><section data-markdown><script type="text/template">
+### What's New ?
+</script></section><section data-markdown><script type="text/template">
+### 坐标系
+
+<div class="fragment" data-fragment-index="0">直角坐标</div>
+<div class="fragment" data-fragment-index="0">极坐标 —— 雷达图</div>
+<div class="fragment" data-fragment-index="1"> + **气泡** + **散点** + **折线**</div>
+<div class="fragment" data-fragment-index="2">**地理坐标**</div>
+<div class="fragment" data-fragment-index="2">**平行坐标**</div>
+
+<aside class="notes" data-markdown>极坐标支持了除雷达图以外的更多图形
+平行坐标可以展现多维数据</aside></script></section><section data-markdown><script type="text/template">
+### 值域组件 + 数值选择器
+
+<div class="fragment" data-fragment-index="0">值域组件(DataRange) —— 颜色</div>
+<div class="fragment" data-fragment-index="1"> + **大小** + **明暗** + **透明度** + **形状**</div>
+<div class="fragment" data-fragment-index="2">数值选择器(DataZoom) —— 数值</div>
+<div class="fragment" data-fragment-index="3"> + **离散型**</div>
+
+<aside class="notes" data-markdown>离散型如字符串</aside></script></section><section data-markdown><script type="text/template">
+### 优化
+
+<div style="text-align: center">
+<div style="display:inline-block;vertical-align:top;width: 400px;">
+<div class="fragment" data-fragment-index="0">363K</div>
+<div class="fragment" data-fragment-index="0">363K + 35K</div>
+</div>
+<div style="display:inline-block;vertical-align:top;width: 400px;">
+<div class="fragment" data-fragment-index="0">**102K**</div>
+<div class="fragment" data-fragment-index="0">**102K** + **71K**</div>
+
+</div>
+</div>
+
+<aside class="notes" data-markdown>核心包对比，2.0基础折柱饼
+折柱饼+直角坐标系</aside></script></section><section data-markdown><script type="text/template">
+###  For FREE!
 </script></section><section data-markdown><script type="text/template">
 <div class="fragment" data-fragment-index="0">更**专业**的图表</div>
 <div class="fragment" data-fragment-index="0">更**丰富**的种类</div>

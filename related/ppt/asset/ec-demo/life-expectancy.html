@@ -7,30 +7,45 @@
 </head>
 <body>
 <style>
-    body {
-        background-color: #222;
+    .btn-group {
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        top: 0;
+    }
+    .btn {
+        background-color: transparent;
+        border-color: transparent;
+        cursor: pointer;
+        color: #cccccc;
+        outline-width: 0;
     }
 </style>
 <div id="main"></div>
-<button id="start-btn" class="start-btn">Start</button>
-<button id="pause-btn" class="start-btn">Start</button>
+<div class="btn-group">
+    <button id="reset-btn" class="btn">Reset</button>
+    <button id="pause-btn" class="btn">Pause</button>
+</div>
 <script>
     // Schema:
     var schema = [
-        {name: 'Income', index: 0, text: '人均收入'},
-        {name: 'LifeExpectancy', index: 1, text: '人均寿命'},
-        {name: 'Country', index: 2, text: '国家'},
-        {name: 'Population', index: 3, text: '总人口'}
+        {name: 'Income', index: 0, text: '人均收入', unit: '美元'},
+        {name: 'LifeExpectancy', index: 1, text: '人均寿命', unit: '岁'},
+        {name: 'Population', index: 2, text: '总人口', unit: ''},
+        {name: 'Country', index: 3, text: '国家', unit: ''}
     ];
 
     define('chartInstance', function (require) {
-        var data = require('tools/gapminder.json');
+        var data = require('data/life_expectancy.json');
         var echarts = require('echarts');
         require('echarts/chart/scatter');
         require('echarts/component/title');
         require('echarts/component/legend');
         require('echarts/component/tooltip');
         require('echarts/component/grid');
+        require('echarts/component/dataRange');
+        require('echarts/scale/Log');
+        var colors = require('common/colors');
 
 
         var chart = echarts.init(document.getElementById('main'), null, {
@@ -48,12 +63,8 @@
         };
 
         var sizeFunction = function (x) {
-            var x = x / 1e6;
-//                y = x / 6  + 0.5;
-//                y = log(x / 1e7 + 0.7) / log(1.6) + 1;
-//                y = log(x + 0.4) + 1;
-            var y = Math.sqrt(x) + 5;
-            return y * 1.2;
+            var y = Math.sqrt(x / 5e8) + 0.1;
+            return y * 40;
         };
 
         var getOption = function(n) {
@@ -63,7 +74,7 @@
             return {
                 title: {
                     show: true,
-                    'text': data.timeline[n] + ' 年'
+                    'text': data.timeline[n] + ''
                 },
                 series: {
                     name: data.timeline[n],
@@ -78,18 +89,17 @@
         };
 
         var option = {
+            color: colors.getDefault(),
             title: {
-                'text': data.timeline[0] + ' 年',
+                'text': data.timeline[0],
                 textAlign: 'center',
-                x: 'center',
+                x: '70%',
+                y: '55%',
                 textStyle: {
-                    fontSize: 42,
-                    color: '#fff'
+                    fontSize: 120,
+                    color: 'rgba(255, 255, 255, 0.7)'
                 }
             },
-            color: [
-                '#dd4444', '#fec42c', '#80F1BE'
-            ],
             tooltip: {
                 padding: 5,
                 backgroundColor: '#222',
@@ -97,21 +107,22 @@
                 borderWidth: 1,
                 formatter: function (obj) {
                     var value = obj[0].value;
-                    return schema[0].text + '：' + value[0] + '<br>'
-                            + schema[1].text + '：' + value[1] + '<br>'
-                            + schema[2].text + '：' + value[2] + '<br>'
-                            + schema[3].text + '：' + value[3] + '<br>';
+                    return schema[3].text + '：' + value[3] + '<br>'
+                            + schema[1].text + '：' + value[1] + schema[1].unit + '<br>'
+                            + schema[0].text + '：' + value[0] + schema[0].unit + '<br>'
+                            + schema[2].text + '：' + value[2] + '<br>';
                 }
             },
             grid: {
-                x2: '10%'
+                x2: '15%'
             },
             xAxis: {
-                type: 'value',
-                name: '人均收入($)',
-                max: 70000,
+                type: 'log',
+                name: '人均收入/$',
+                max: 100000,
+                min: 300,
                 nameTextStyle: {
-                    color: '#fff',
+                    color: colors.getAxis(),
                     fontSize: 18
                 },
                 splitLine: {
@@ -119,27 +130,37 @@
                 },
                 axisTick: {
                     lineStyle: {
-                        color: '#777'
+                        color: colors.getAxis()
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: colors.getAxis()
                     }
                 },
                 axisLabel: {
                     formatter: '{value}',
                     textStyle: {
-                        color: '#fff'
+                        color: colors.getAxis()
                     }
                 }
             },
             yAxis: {
                 type: 'value',
-                name: '平均寿命(岁)',
+                name: '平均寿命/岁',
                 max: 100,
                 nameTextStyle: {
-                    color: '#fff',
+                    color: colors.getText(),
                     fontSize: 18
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: colors.getAxis()
+                    }
                 },
                 axisTick: {
                     lineStyle: {
-                        color: '#777'
+                        color: colors.getAxis()
                     }
                 },
                 splitLine: {
@@ -147,64 +168,23 @@
                 },
                 axisLabel: {
                     textStyle: {
-                        color: '#fff'
+                        color: colors.getAxis()
                     }
                 }
             },
             dataRange: [
                 {
-                    x: 'right',
-                    y: 'top',
-                    dimension: 'z',
-                    min: 0,
-                    max: 250,
-                    itemWidth: 30,
-                    itemHeight: 130,
+                    show: false,
+                    dimension: 'dim3',
+                    categories: data.counties,
                     calculable: true,
                     precision: 0.1,
-                    text: ['圆形大小：PM2.5'],
                     textGap: 30,
                     textStyle: {
-                        color: '#fff'
+                        color: colors.getText(),
                     },
                     inRange: {
-                        symbolSize: [10, 70]
-                    },
-                    outOfRange: {
-                        symbolSize: [10, 70],
-                        color: ['rgba(255,255,255,.2)']
-                    },
-                    controller: {
-                        outOfRange: {
-                            color: ['#444']
-                        }
-                    }
-                },
-                {
-                    x: 'right',
-                    y: 'center',
-                    dimension: 'dim6',
-                    min: 0,
-                    max: 50,
-                    itemHeight: 130,
-                    calculable: true,
-                    precision: 0.1,
-                    text: ['明暗：二氧化硫'],
-                    textGap: 30,
-                    textStyle: {
-                        color: '#fff'
-                    },
-                    inRange: {//HSL
-                        colorL: [1, .5],
-                        colorLightness: [1, .5]
-                    },
-                    outOfRange: {
-                        color: ['rgba(255,255,255,.2)']
-                    },
-                    controller: {
-                        outOfRange: {
-                            color: ['#444']
-                        }
+                        color: colors.getItemColor()
                     }
                 }
             ],
@@ -226,28 +206,39 @@
                 chart.setOption(option);
             },
             go: function (n) {
-                chart.setOption(getOption(n));
+                var opt = getOption(n);
+                if (opt) {
+                    chart.setOption(opt);
+                }
             }
         };
     });
 
-    require(['chartInstance', 'common/tock', 'tools/gapminder.json'], function (chartInstance, Tock, data) {
+    require(['chartInstance', 'common/tock', 'data/life_expectancy.json'], function (chartInstance, Tock, data) {
         chartInstance.init();
         var i = 0;
+        var duration = 20 * 1000;
+        var interval = duration / data.timeline.length;
         var timer = new Tock({
             countdown: true,
-            interval: 800,
+            interval: interval,
             callback: function () {
                 chartInstance.go((i++));
             },
             complete: function () {
-                console.log('fin');
             }
         });
 
-        setTimeout(function () {
-            timer.start(1000 * data.timeline.length);
-        }, 2000);
+        document.getElementById('reset-btn').addEventListener('click', function (e) {
+            timer.reset();
+            i = 0;
+            chartInstance.init();
+        });
+
+        document.getElementById('pause-btn').addEventListener('click', function (e) {
+            i === 0 ? timer.start(duration) : timer.pause();
+        });
+
     });
 </script>
 </body>

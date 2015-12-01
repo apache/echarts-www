@@ -14,6 +14,7 @@
             require([
                 'data/rainfall.json',
                 'echarts',
+                'common/colors',
                 'echarts/chart/bar',
                 'echarts/chart/line',
                 'echarts/component/legend',
@@ -21,7 +22,7 @@
                 'echarts/component/grid',
                 'echarts/component/axis',
                 'echarts/component/dataZoom'
-            ], function (data, echarts) {
+            ], function (data, echarts, color) {
 
                 var chart = echarts.init(document.getElementById('main'), null, {
                     renderer: 'canvas'
@@ -40,6 +41,7 @@
                 }
 
                 chart.setOption({
+                    color: color.getDefault(),
                     tooltip: {
                         trigger: 'axis',
                     },

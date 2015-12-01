@@ -7,13 +7,13 @@ util = require('./JoinUtil')
 
 outputPath = _path.resolve(__dirname, './gapminder.json.js')
 
-countries = ['Country', 'Australia', 'Canada', 'China', 'Colombia', 'Cuba', 'Egypt', 'Finland',
-'France', 'Germany', 'Hong Kong, China', 'Iceland', 'India', 'Iraq', 'Japan', 'North Korea',
-'South Korea', 'Mexico', 'New Zealand', 'Norway', 'Poland', 'Russia', 'Turkey', 'United Kingdom',
-'United States']
+countries = ['Country', 'China', 'United States', 'United Kingdom', 'Russia',
+             'India', 'France', 'Germany', 'Australia', 'Canada', 'Cuba', 'Finland',
+             'Iceland', 'Japan', 'North Korea',
+             'South Korea', 'New Zealand', 'Norway', 'Poland', 'Turkey']
 
 # 转换为二维数组,用于 innerJoin 操作
-countries = countries.map((item) ->
+countriesTran = countries.map((item) ->
     [item]
 )
 
@@ -28,7 +28,7 @@ timelineTran = timeline.map((item) ->
 ###
 filterOriginData = (data) ->
     # 过滤国家
-    tempArr = util.innerJoin(data, countries)
+    tempArr = util.innerJoin(data, countriesTran)
 
     # 行列转置
     tempArr = Array2D.transpose(tempArr)
@@ -89,6 +89,7 @@ Array2D.eachRow(incomeArr, (row, rIndex) ->
 )
 
 output = {
+    counties: countries.slice(1),
     timeline: timeline.slice(1),
     series: scatterData
 }
