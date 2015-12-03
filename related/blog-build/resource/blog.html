@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, inital-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>ECharts Blog</title>
+        <link rel="stylesheet" href="./asset/md-theme-{{{theme}}}.css" id="theme">
+        <style>
+            .ec-img-container {
+                text-align: center;
+            }
+            .ec-img-container img {
+                display: inline-block;
+                *display: inline;
+                *zoom: 1;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="main">
+            {{{content}}}
+        </div>
+
+        <script type="text/javascript" src="./asset/jquery.min.js"></script>
+        <script type="text/javascript" src="./asset/md-env.js"></script>
+        <script type="text/javascript">
+
+            var urlSuffix = getURLSuffix();
+            var ifrList = $('.ec-lazy');
+            var $win = $(window);
+
+            showIfr();
+
+            // Lazy load.
+            $win.on('scroll', showIfr);
+
+            function showIfr() {
+                ifrList.each(function (idx, ifr) {
+                    var $ifr = $(ifr);
+
+                    var ifrSrc = $ifr.attr('data-src');
+
+                    if (!ifrSrc) {
+                        return;
+                    }
+
+                    var winScrollTop = $win.scrollTop();
+                    var winHeight = $win.height();
+                    var ifrTop = ifr.offsetTop;
+                    var ifrHeight = $ifr.height();
+
+                    if (ifrTop <= (winScrollTop + winHeight)
+                        || (ifrTop + ifrHeight) >= winScrollTop
+                    ) {
+                        $ifr.attr('data-src', '');
+                        ifr.src = ifrSrc + urlSuffix;
+                    }
+                });
+            }
+
+            function getURLSuffix() {
+                // Mobile adapter
+                var env = window['MD_ENV'];
+                return env.os.phone ? '&mask=true' : ''
+            }
+
+        </script>
+    </body>
+</html>
