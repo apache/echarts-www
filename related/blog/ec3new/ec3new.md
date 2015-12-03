@@ -4,12 +4,22 @@
 
 ## 焕然一新的面貌
 
+<div>
+    <img style="float:left;width:250px;height:200px;" src="./asset/img/scatter-polar-punchCard.png" />
+    <img style="float:left;width:250px;height:200px;" src="./asset/img/pie-nest.png" />
+    <img style="float:left;width:250px;height:200px;" src="./asset/img/scatter-painter-choice.png" />
+    <img style="float:left;width:250px;height:200px;" src="./asset/img/funnel-align.png" />
+    <img style="float:left;width:250px;height:200px;" src="./asset/img/graph-circular-layout.png" />
+    <img style="float:left;width:250px;height:200px;" src="./asset/img/map-china-dataRange.png" />
+    <img style="float:left;width:250px;height:200px;" src="./asset/img/confidence-band.png" />
+    <img style="float:left;width:250px;height:200px;" src="./asset/img/treemap-disk.png" />
+    <img style="float:left;width:250px;height:200px;" src="./asset/img/mix-line-bar.png" />
+    <div style="clear:both;"></div>
+</div>
+
 从底层的技术架构到上层的外观展现，都进行了较大的升级。无需多言，请看下面的诸多例子。
 
-
-
-
-## 坐标系和数据的抽象及统一
+## 数据和坐标系的抽象及统一
 
 Echarts3中，数据结构进行了统一化抽象，最常用的数据结构有：线性表、树、图。例如，线性表以及树、图的节点列表的结构可以归一化为这样的二维数组：
 
@@ -19,8 +29,8 @@ Echarts3中，数据结构进行了统一化抽象，最常用的数据结构有
     [2,65,27,78,"良"],
     [3,83,60,84,"优"],
     ...
-]  
-```   
+]
+```
 这种设计利于垮组件的数据处理（数据过滤、视觉编码等），并且为多维度的数据使用带来了方便。
 
 ECharts3中另一个重要的数据结构抽象，是独立出了“坐标系”概念。事实上在ECharts2中已经有`grid`、`polar`配置项存在，但是并不是按一个“坐标系”的理解去实现的。ECharts3中，支持了直角坐标系（catesian，兼容EC2中的grid）、极坐标系（`polar`）、地理坐标系（`geo`）。图表可以跨坐标系存在，例如折、柱、散点等图可以放在直角坐标系上，也可以放在极坐标系上，甚至可以放在地理坐标系中。
@@ -35,6 +45,7 @@ scrolling="no" hspace="0" vspace="0"></iframe>
 
 下面是一个散点图在地理坐标系上的例子：
 
+TODO
 
 <iframe src="http://sushuang.baidu.com:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-map"
 style="width:100%;height:400px"
@@ -48,7 +59,7 @@ scrolling="no" hspace="0" vspace="0"></iframe>
 下面是一个x轴y轴均为“类别型“数轴（category）的例子：
 
 <iframe src="http://sushuang.baidu.com:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-punchCard"
-style="width:100%;height:300px"
+style="width:100%;height:360px"
 frameborder="no" border="0" marginwidth="0" marginheight="0"
 scrolling="no" hspace="0" vspace="0"></iframe>
 
@@ -63,14 +74,22 @@ style="width:100%;height:400px"
 frameborder="no" border="0" marginwidth="0" marginheight="0"
 scrolling="no" hspace="0" vspace="0"></iframe>
 
-上图里面散点所拟合的线，是使用`markLine`做的。`markLine`支持了最小二乘法拟合，后续还会增加一些常用统计量。
 
+其实，ECharts3中每一种组件都可以同时存在多个。比如可以使用多个`dataRange`组件进行更复杂的筛选，多个`title`组件表达更个性化的文字展示。在Option中，用数组来表示每种组件的多个实例，如：
+
+```
+polar: [
+    {...}, // 第一个极坐标系
+    {...}, // 第二个极坐标系
+    ...
+]
+```
 
 
 
 ## 移动支持
 
-流量珍贵的移动端需要图表库的体积尽量小。ECharts和ZRender代码的重构，带来了核心部分体积的减小。ECharts组件众多，并且逐渐增加，我们提供了更细粒度的按需打包能力。最小体积缩小为EChars2的四成。
+流量珍贵的移动端需要图表库的体积尽量小。ECharts和ZRender代码的重构，带来了核心部分体积的减小。ECharts组件众多，并且会逐渐增加，我们提供了更细粒度的按需打包能力。最小体积缩小为EChars2的40%。
 
 这是ECharts3的[在线打包页面](http://ecomfe.github.io/echarts-builder-web/echarts3.html)
 
@@ -99,15 +118,14 @@ chart.setOption({
 });
 ```
 
-直角坐标系中加入了避免y轴label超出屏幕的配置项：
+
+另外说一个细节：ECharts2中，直角坐标系的位置设置参数（x, y, x2, y2等），设置的是“两个数轴形成的矩形”的位置，并不包含数轴的文字、刻度。这种做法使得数据变化时数轴位置能够稳定，从而方便动态数据、数据过滤组件（`dataZoom`）场景下的展示。但是缺点是数轴文字的宽度的估计交给了用户，并不方便使用。ECharts3中，直角坐标系（`grid`属性）中加入了containLabel参数，表示位置参数设置的是包含数轴文字的包围盒的尺寸，从而方便自适应数轴文字的宽度，不用担心超出屏幕。
 
 ```
 grid: {
     containLabel: true
 }
 ```
-
-参见dynamic data 的例子。
 
 
 ECharts3还将持续对移动端的体验进行优化。
@@ -124,8 +142,6 @@ ECharts3还将持续对移动端的体验进行优化。
 ECharts一直在“交互”的路上前进，`legend`、`dataRange`、`dataZoom`、`roam`、`select`、`tooltip`等组件提供了数据筛取、视图缩放、展示细节等能力。
 
 ECharts3中，对这些组件进行了广泛增强，例如支持在数据的各种坐标轴、维度进行数据过滤、缩放，以及在更多的图中采用这些组件。下面举几个例子。
-
-
 
 
 <iframe src="http://sushuang.baidu.com:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=mix-zoom-on-value"
@@ -335,16 +351,6 @@ scrolling="no" hspace="0" vspace="0"></iframe>
 
 
 
-## 开发支持
-
-* 可扩展性
-* 二次开发
-
-
-
-
-
-
 
 ## 新图表
 
@@ -375,9 +381,9 @@ scrolling="no" hspace="0" vspace="0"></iframe>
 
 
 
-**桑基图（Sankey）：** 易于表达发展、流向类型信息。
+**桑基图（Sankey）：** 用于表达网状关系型数据的演化过程。
 
-
+TODO
 更多的图表还有待被加入。
 
 
@@ -464,6 +470,9 @@ ECharts3正式版发布前，我们还有很多工作要做，需要持续完善
 * 更多的示例
 
 * 更多平台的测试
+
+* 二次开发接口的发布
+
 
 
 
