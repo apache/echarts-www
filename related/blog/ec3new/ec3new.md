@@ -1,5 +1,5 @@
 
-# **ECharts3 带来了什么**
+# **ECharts 3 带来了什么**
 
 <br>
 ECharts 在 github 上沉寂了数个月，想必很多小伙伴充满了各种疑问，ECharts是不是不维护了？你们以后是不是不做了？别着急，其实这几个月，我们的设计师、工程师一直厉兵秣马，加班加点，没有周末，没有女朋友地疯狂工作中。
@@ -10,15 +10,15 @@ ECharts 在 github 上沉寂了数个月，想必很多小伙伴充满了各种�
 ## 焕然一新的面貌
 
 <div class="ec-img-container">
-    <img style="width:240px;height:192px;" src="./asset/img/pie-nest.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/scatter-polar-punchCard.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/map-china-dataRange.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/confidence-band.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/graph-circular-layout.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/mix-line-bar.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/funnel-customize.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/scatter-painter-choice.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/treemap-disk.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/pie-nest.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/scatter-polar-punchCard.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/map-china-dataRange.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/confidence-band.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/graph-circular-layout.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/mix-line-bar.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/funnel-customize.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/scatter-painter-choice.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/treemap-disk.png" />
 </div>
 
 从底层的技术架构到上层的外观展现，都进行了较大的升级。无需多言，请看下面的诸多例子。
@@ -41,19 +41,15 @@ ECharts 3 中另一个重要的数据结构抽象是独立出了“坐标系”�
 
 下面是一个极坐标系的例子：
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&edit=true&reset=true&c=line-polar2"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/line-polar2.png" data-src="{{{host}}}/view.html?edit=true&reset=true&edit=true&reset=true&c=line-polar2"
+style="width:100%;height:400px"></div>
 
 
 下面是一个散点图在地理坐标系上的例子：
 
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-map"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/scatter-map.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=scatter-map"
+style="width:100%;height:400px"></div>
 
 
 <br>
@@ -61,10 +57,8 @@ scrolling="no" hspace="0" vspace="0"></iframe>
 
 下面是一个x轴y轴均为“类别型“数轴（category）的例子：
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-punchCard"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/scatter-punchCard.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=scatter-punchCard"
+style="width:100%;height:400px"></div>
 
 
 
@@ -72,10 +66,8 @@ scrolling="no" hspace="0" vspace="0"></iframe>
 
 下面是著名的 Anscombe's Quartet：
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-anscombe-quartet"
-style="width:100%;height:500px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/scatter-anscombe-quartet.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=scatter-anscombe-quartet"
+style="width:100%;height:500px"></div>
 
 
 其实，ECharts 3 中每一种组件都可以同时存在多个。比如可以使用多个`dataRange`组件进行更复杂的筛选，多个`title`组件表达更个性化的文字展示。在 Option 中，用数组来表示每种组件的多个实例，如：
@@ -94,15 +86,13 @@ polar: [
 
 流量珍贵的移动端需要图表库的体积尽量小。ECharts 和 ZRender 代码的重构，带来了核心部分体积的减小。ECharts 组件众多，并且会逐渐增加，我们提供了更细粒度的按需打包能力。最小体积缩小为 ECharts 2 的 40%。
 
-这是 ECharts 3 的 <a href="http://ecomfe.github.io/echarts-builder-web/echarts3.html" target="_blank">在线构建页面</a>
+这是 ECharts 3 的 [在线构建页面](http://ecomfe.github.io/echarts-builder-web/echarts3.html)
 
 移动端交互也做了优化，例如移动端小屏上适于用手指在坐标系中进行缩放、平移。
 PC 端也可以用鼠标在图中进行缩放（用鼠标滚轮）、平移，如下图：
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=area-simple"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/area-simple.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=area-simple"
+style="width:100%;height:400px"></div>
 
 **配置方式说明：**
 
@@ -147,10 +137,8 @@ ECharts 一直在“交互”的路上前进，`legend` `dataRange` `dataZoom` `
 ECharts 3 中，对这些组件进行了广泛增强，例如支持在数据的各种坐标轴、维度进行数据过滤、缩放，以及在更多的图中采用这些组件。下面举几个例子。
 
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=mix-zoom-on-value"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/mix-zoom-on-value.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=mix-zoom-on-value"
+style="width:100%;height:400px"></div>
 
 
 在任何数轴，都支持使用`dataZoom`组件进行数据窗口操作。
@@ -184,10 +172,8 @@ chart.setOption({
 另一个例子：
 
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-aqi-color"
-style="width:100%;height:460px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/scatter-aqi-color.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=scatter-aqi-color"
+style="width:100%;height:460px"></div>
 
 
 上图的数据实际是多维的：
@@ -288,10 +274,8 @@ chart.setOption({
 “数据可视化”本质是数据到视觉元素的编码过程。我们把数据映射到坐标系中的点，或者颜色、形状、图形大小等视觉通道。前述的`dataRange`提供了丰富的视觉编码的方式。另外在各种图中，也提供了一些有一定意义的视觉编码方式。例如：
 
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=treemap-obama"
-style="width:100%;height:500px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/treemap-obama.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=treemap-obama"
+style="width:100%;height:500px"></div>
 
 这个Treemap是奥巴马2012年的预算，每种类别的预算额度映射到了面积，使我们可以直观地感受到预算额的大小。而如果在这个图上，要进一步描述相比于 2011年 的增长率，我们可以将其映射到颜色的明暗度上。点击右上角图例中第三项“增长率”，能体会到这种比较效果。
 
@@ -344,10 +328,8 @@ ECharts 3 中在各种初始动画、转换动画、强调动画上都做了相�
 
 动画表达变化的一个例子，各国人均收入（x轴）、平均寿命（y轴）、人口（圆面积）在时间维度上的展现：
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-life-expectancy"
-style="width:100%;height:450px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/scatter-life-expectancy.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=scatter-life-expectancy"
+style="width:100%;height:450px"></div>
 
 
 
@@ -362,30 +344,22 @@ ECharts 3 中加入了一些新的图表。
 
 **关系图（Graph）：** 最直观的表达关系数据。支持了 gexf。能够采用不同的布局方法。
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=graph"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/graph.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=graph"
+style="width:100%;height:400px"></div>
 
 
 **Treemap：** 易于展示树状结构的数据，较大的数据更容易被关注到。
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=treemap-disk"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/treemap-disk.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=treemap-disk"
+style="width:100%;height:400px"></div>
 
 
 **平行坐标系（Parallel Coordinates）：** 易于表达多维数据。
 
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=parallel-aqi"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/parallel-aqi.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=parallel-aqi"
+style="width:100%;height:400px"></div>
 
 
-
-**桑基图（Sankey）：** 用于表达网状关系型数据的演化过程。
 
 TODO
 更多的图表还有待被加入。
@@ -465,13 +439,13 @@ label: {
 <br>
 
 
-更丰富、漂亮的图表、更炫酷的动画、更加专业的可视化实现、更深度的交互式数据探索、更丰富的视觉编码手段、更好的移动支持、更好的性能、更小的体积，不知道上面的新特性是否有击中您对于图表、对于数据可视化的需求与痛点，如果还没看过瘾，可以点击我们全新的<a href="http://echarts.baidu.com/gallery/" target="_blank"> **示例页面** </a>查看更多漂亮而强大的 ECharts 图表。
+更丰富、漂亮的图表、更炫酷的动画、更加专业的可视化实现、更深度的交互式数据探索、更丰富的视觉编码手段、更好的移动支持、更好的性能、更小的体积，不知道上面的新特性是否有击中您对于图表、对于数据可视化的需求与痛点，如果还没看过瘾，可以点击我们全新的 [**示例页面**](http://echarts.baidu.com/gallery/) 查看更多漂亮而强大的 ECharts 图表。
 
 在 3.0 正式版发布之前，我们还有很多的工作需要完善：
 
 1. 完善产品质量，这需要广大 ECharts 用户的共同参与，如果您在使用 ECharts 3 测试版过程中有任何问题，欢迎通过以下渠道向我们反馈
 
-    * <a target="_blank" href="https://github.com/ecomfe/echarts/issues">Github Issue</a>
+    * [Github Issue](https://github.com/ecomfe/echarts/issues)
     * 通过发邮件给我们的邮箱 echarts-bug@baidu.com
     * 加入我们的 ECharts 沟通 Baidu Hi群组（1379172）
 
@@ -480,5 +454,5 @@ label: {
 正式版我们将精耕细作，为大家带来一份优质的新年礼物。<br>
 最后，欢迎大家继续支持 ECharts，我们会一如既往地给大家带来优秀的产品。
 
-<a style="font-size: 18px; color: #fff; padding: 10px 12px; line-height: 40px; background: #3fa7dc;" href="http://ecomfe.github.io/echarts-builder-web/echarts3.html" target="_blank">ECharts 3 测试版体验入口</a>
+<a style="font-size: 18px; color: #fff; padding: 10px 12px; line-height: 40px; background: #3fa7dc;" href="http://ecomfe.github.io/echarts-builder-web/echarts3.html">ECharts 3 测试版体验入口</a>
 

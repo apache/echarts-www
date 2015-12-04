@@ -73,6 +73,7 @@ function output(html) {
     copy('md-theme-' + opts.theme + '.css', assetDirPath);
     copy('jquery.min.js', assetDirPath);
     copy('md-env.js', assetDirPath);
+    copy('lazysizes.min.js', assetDirPath);
 }
 
 function copy(name, assetDirPath) {

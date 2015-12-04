@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, inital-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <title>ECharts Blog</title>
+        <title>ECharts 3.0 测试版</title>
         <link rel="stylesheet" href="./asset/md-theme-github.css" id="theme">
         <style>
             .ec-img-container {
@@ -14,27 +14,70 @@
                 *display: inline;
                 *zoom: 1;
             }
+            .ec-lazy {
+                position: relative;
+                padding: 0;
+                text-align: center;
+            }
+            .ec-lazy img {
+                width: 99%;
+                vertical-align: middle;
+            }
+            .ec-lazy iframe {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                border-width: 0;
+                overflow: visible;
+                visibility: visible;
+            }
+            .ec-lazy .thumb-btn {
+                position: absolute;
+                bottom: 10px;
+                width: 100%;
+                height: 22px;
+                line-height: 22px;
+                text-align: center;
+            }
+            .ec-lazy .thumb-btn em {
+                font-style: normal;
+                border-radius: 3px;
+                padding: 3px 5px;
+                margin: 3px 5px;
+                color: white;
+                background: #337ab7;
+                font-size: 12px;
+                line-height: 1.5;
+            }
+            .ec-lazy .mask {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
         </style>
     </head>
     <body>
 
         <div class="main">
-            <h1 id="-echarts3-"><strong>ECharts3 带来了什么</strong></h1>
+            <h1 id="-echarts-3-"><strong>ECharts 3 带来了什么</strong></h1>
 <p><br>
 ECharts 在 github 上沉寂了数个月，想必很多小伙伴充满了各种疑问，ECharts是不是不维护了？你们以后是不是不做了？别着急，其实这几个月，我们的设计师、工程师一直厉兵秣马，加班加点，没有周末，没有女朋友地疯狂工作中。
 终于，ECharts 的又一个重大版本即将出炉，在 ECharts 3 正式版发行前，我们选择了今天，12.3，一个能够隐喻我们一步一步从1.0到2.0再到3.0走来的日子，提前给广大用户带来 ECharts 3 的测试版。
 那 ECharts 3 究竟会有哪些新的特征，我们用数月究竟在颠覆着自己的什么呢？接下来让我们一一为您道来：</p>
 <h2 id="-">焕然一新的面貌</h2>
 <div class="ec-img-container">
-    <img style="width:240px;height:192px;" src="./asset/img/pie-nest.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/scatter-polar-punchCard.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/map-china-dataRange.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/confidence-band.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/graph-circular-layout.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/mix-line-bar.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/funnel-customize.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/scatter-painter-choice.png" />
-    <img style="width:240px;height:192px;" src="./asset/img/treemap-disk.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/pie-nest.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/scatter-polar-punchCard.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/map-china-dataRange.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/confidence-band.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/graph-circular-layout.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/mix-line-bar.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/funnel-customize.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/scatter-painter-choice.png" />
+    <img style="width:240px;height:192px;" src="./asset/thumb/treemap-disk.png" />
 </div>
 
 <p>从底层的技术架构到上层的外观展现，都进行了较大的升级。无需多言，请看下面的诸多例子。</p>
@@ -49,35 +92,27 @@ ECharts 在 github 上沉寂了数个月，想必很多小伙伴充满了各种�
 </code></pre><p>这种设计利于跨组件的数据处理（数据过滤、视觉编码等），并且为多维度的数据使用带来了方便。</p>
 <p>ECharts 3 中另一个重要的数据结构抽象是独立出了“坐标系”概念。事实上在 ECharts 2 中已经有<code>grid</code> <code>polar</code>配置项存在，但是并不是按一个“坐标系”的理解去实现的。ECharts 3 中，支持了直角坐标系（catesian，兼容 ECharts 2 中的 grid）、极坐标系（<code>polar</code>）、地理坐标系（<code>geo</code>）。图表可以跨坐标系存在，例如折、柱、散点等图可以放在直角坐标系上，也可以放在极坐标系上，甚至可以放在地理坐标系中。</p>
 <p>下面是一个极坐标系的例子：</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&edit=true&reset=true&c=line-polar2"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/line-polar2.png" data-src="{{{host}}}/view.html?edit=true&reset=true&edit=true&reset=true&c=line-polar2"
+style="width:100%;height:400px"></div>
 
 
 <p>下面是一个散点图在地理坐标系上的例子：</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-map"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/scatter-map.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=scatter-map"
+style="width:100%;height:400px"></div>
 
 
 <p><br>
 我们要可视化的数据有多种类型，比如“数值型”、“类别型”，数轴也要对这不同的类型给予支持。更细致的，还支持“时间轴”、“对数轴”等。数据和坐标系统一抽象后，能够方便得搭配不同类型的数轴。</p>
 <p>下面是一个x轴y轴均为“类别型“数轴（category）的例子：</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-punchCard"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/scatter-punchCard.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=scatter-punchCard"
+style="width:100%;height:400px"></div>
 
 
 
 <p>一个 ECharts 实例中，也可以同时存在多个坐标系了，这便于做出更丰富的协同分析效果。</p>
 <p>下面是著名的 Anscombe&#39;s Quartet：</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-anscombe-quartet"
-style="width:100%;height:500px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/scatter-anscombe-quartet.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=scatter-anscombe-quartet"
+style="width:100%;height:500px"></div>
 
 
 <p>其实，ECharts 3 中每一种组件都可以同时存在多个。比如可以使用多个<code>dataRange</code>组件进行更复杂的筛选，多个<code>title</code>组件表达更个性化的文字展示。在 Option 中，用数组来表示每种组件的多个实例，如：</p>
@@ -88,13 +123,11 @@ scrolling="no" hspace="0" vspace="0"></iframe>
 ]
 </code></pre><h2 id="-">移动支持</h2>
 <p>流量珍贵的移动端需要图表库的体积尽量小。ECharts 和 ZRender 代码的重构，带来了核心部分体积的减小。ECharts 组件众多，并且会逐渐增加，我们提供了更细粒度的按需打包能力。最小体积缩小为 ECharts 2 的 40%。</p>
-<p>这是 ECharts 3 的 <a href="http://ecomfe.github.io/echarts-builder-web/echarts3.html" target="_blank">在线构建页面</a></p>
+<p>这是 ECharts 3 的 <a href="http://ecomfe.github.io/echarts-builder-web/echarts3.html">在线构建页面</a></p>
 <p>移动端交互也做了优化，例如移动端小屏上适于用手指在坐标系中进行缩放、平移。
 PC 端也可以用鼠标在图中进行缩放（用鼠标滚轮）、平移，如下图：</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=area-simple"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/area-simple.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=area-simple"
+style="width:100%;height:400px"></div>
 
 <p><strong>配置方式说明：</strong></p>
 <pre><code>chart.setOption({
@@ -118,10 +151,8 @@ scrolling="no" hspace="0" vspace="0"></iframe>
 <p>交互是从数据中发掘信息的重要手段。<code>总览为先</code> <code>缩放过滤</code> <code>按需查看细节</code>是数据可视化交互的基本需求。</p>
 <p>ECharts 一直在“交互”的路上前进，<code>legend</code> <code>dataRange</code> <code>dataZoom</code> <code>roam</code> <code>select</code> <code>tooltip</code> 等组件提供了数据筛取、视图缩放、展示细节等能力。</p>
 <p>ECharts 3 中，对这些组件进行了广泛增强，例如支持在数据的各种坐标轴、维度进行数据过滤、缩放，以及在更多的图中采用这些组件。下面举几个例子。</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=mix-zoom-on-value"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/mix-zoom-on-value.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=mix-zoom-on-value"
+style="width:100%;height:400px"></div>
 
 
 <p>在任何数轴，都支持使用<code>dataZoom</code>组件进行数据窗口操作。
@@ -148,10 +179,8 @@ scrolling="no" hspace="0" vspace="0"></iframe>
     ]
 });
 </code></pre><p>另一个例子：</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-aqi-color"
-style="width:100%;height:460px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/scatter-aqi-color.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=scatter-aqi-color"
+style="width:100%;height:460px"></div>
 
 
 <p>上图的数据实际是多维的：</p>
@@ -232,10 +261,8 @@ scrolling="no" hspace="0" vspace="0"></iframe>
 });
 </code></pre><h2 id="-">更丰富的视觉编码手段</h2>
 <p>“数据可视化”本质是数据到视觉元素的编码过程。我们把数据映射到坐标系中的点，或者颜色、形状、图形大小等视觉通道。前述的<code>dataRange</code>提供了丰富的视觉编码的方式。另外在各种图中，也提供了一些有一定意义的视觉编码方式。例如：</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=treemap-obama"
-style="width:100%;height:500px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/treemap-obama.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=treemap-obama"
+style="width:100%;height:500px"></div>
 
 <p>这个Treemap是奥巴马2012年的预算，每种类别的预算额度映射到了面积，使我们可以直观地感受到预算额的大小。而如果在这个图上，要进一步描述相比于 2011年 的增长率，我们可以将其映射到颜色的明暗度上。点击右上角图例中第三项“增长率”，能体会到这种比较效果。</p>
 <p><strong>映射到明暗的配置方式说明：</strong></p>
@@ -276,10 +303,8 @@ scrolling="no" hspace="0" vspace="0"></iframe>
 <p>支持动画并不容易，容易带来代码结构的复杂、体积的增加、鲁棒性的降低。但是在可视化中动画往往易于表达出数据在变化时的联系，使用户不至于迷失焦点，这些对于用户交互分析、动态数据展示有着重要作用。</p>
 <p>ECharts 3 中在各种初始动画、转换动画、强调动画上都做了相当多的工作，使得数据观察更人性和清晰。</p>
 <p>动画表达变化的一个例子，各国人均收入（x轴）、平均寿命（y轴）、人口（圆面积）在时间维度上的展现：</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=scatter-life-expectancy"
-style="width:100%;height:450px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/scatter-life-expectancy.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=scatter-life-expectancy"
+style="width:100%;height:450px"></div>
 
 
 
@@ -291,28 +316,21 @@ scrolling="no" hspace="0" vspace="0"></iframe>
 <h2 id="-">新图表</h2>
 <p>ECharts 3 中加入了一些新的图表。</p>
 <p><strong>关系图（Graph）：</strong> 最直观的表达关系数据。支持了 gexf。能够采用不同的布局方法。</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=graph"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/graph.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=graph"
+style="width:100%;height:400px"></div>
 
 
 <p><strong>Treemap：</strong> 易于展示树状结构的数据，较大的数据更容易被关注到。</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=treemap-disk"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/treemap-disk.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=treemap-disk"
+style="width:100%;height:400px"></div>
 
 
 <p><strong>平行坐标系（Parallel Coordinates）：</strong> 易于表达多维数据。</p>
-<iframe class="ec-lazy" data-src="http://172.20.129.135:8000/echarts/echarts-playground/public/view.html?edit=true&reset=true&c=parallel-aqi"
-style="width:100%;height:400px"
-frameborder="no" border="0" marginwidth="0" marginheight="0"
-scrolling="no" hspace="0" vspace="0"></iframe>
+<div class="ec-lazy" data-thumb="./asset/thumb/parallel-aqi.png" data-src="{{{host}}}/view.html?edit=true&reset=true&c=parallel-aqi"
+style="width:100%;height:400px"></div>
 
 
 
-<p><strong>桑基图（Sankey）：</strong> 用于表达网状关系型数据的演化过程。</p>
 <p>TODO
 更多的图表还有待被加入。</p>
 <h2 id="option-">Option的变动</h2>
@@ -370,12 +388,12 @@ label: {
 <p>另外，ECharts 3 中新增了不少Option配置项，在前面的例子中简单做了一些介绍了，这里不赘述。更多细节会在将要发布的文档中描述。</p>
 <h2 id="-br-"><br></h2>
 <p><br></p>
-<p>更丰富、漂亮的图表、更炫酷的动画、更加专业的可视化实现、更深度的交互式数据探索、更丰富的视觉编码手段、更好的移动支持、更好的性能、更小的体积，不知道上面的新特性是否有击中您对于图表、对于数据可视化的需求与痛点，如果还没看过瘾，可以点击我们全新的<a href="http://echarts.baidu.com/gallery/" target="_blank"> <strong>示例页面</strong> </a>查看更多漂亮而强大的 ECharts 图表。</p>
+<p>更丰富、漂亮的图表、更炫酷的动画、更加专业的可视化实现、更深度的交互式数据探索、更丰富的视觉编码手段、更好的移动支持、更好的性能、更小的体积，不知道上面的新特性是否有击中您对于图表、对于数据可视化的需求与痛点，如果还没看过瘾，可以点击我们全新的 <a href="http://echarts.baidu.com/gallery/"><strong>示例页面</strong></a> 查看更多漂亮而强大的 ECharts 图表。</p>
 <p>在 3.0 正式版发布之前，我们还有很多的工作需要完善：</p>
 <ol>
 <li><p>完善产品质量，这需要广大 ECharts 用户的共同参与，如果您在使用 ECharts 3 测试版过程中有任何问题，欢迎通过以下渠道向我们反馈</p>
 <ul>
-<li><a target="_blank" href="https://github.com/ecomfe/echarts/issues">Github Issue</a></li>
+<li><a href="https://github.com/ecomfe/echarts/issues">Github Issue</a></li>
 <li>通过发邮件给我们的邮箱 echarts-bug@baidu.com</li>
 <li>加入我们的 ECharts 沟通 Baidu Hi群组（1379172）</li>
 </ul>
@@ -385,7 +403,7 @@ label: {
 </ol>
 <p>正式版我们将精耕细作，为大家带来一份优质的新年礼物。<br>
 最后，欢迎大家继续支持 ECharts，我们会一如既往地给大家带来优秀的产品。</p>
-<p><a style="font-size: 18px; color: #fff; padding: 10px 12px; line-height: 40px; background: #3fa7dc;" href="http://ecomfe.github.io/echarts-builder-web/echarts3.html" target="_blank">ECharts 3 测试版体验入口</a></p>
+<p><a style="font-size: 18px; color: #fff; padding: 10px 12px; line-height: 40px; background: #3fa7dc;" href="http://ecomfe.github.io/echarts-builder-web/echarts3.html">ECharts 3 测试版体验入口</a></p>
 
         </div>
 
@@ -393,45 +411,113 @@ label: {
         <script type="text/javascript" src="./asset/md-env.js"></script>
         <script type="text/javascript">
 
-            var urlSuffix = getURLSuffix();
-            var ifrList = $('.ec-lazy');
+
+            // var host = 'http://echarts.baidu.com/gallery'; // Online
+            var host = '../../../../echarts-playground/public'; // Dev
+
+
+            var env = window['MD_ENV'];
+            var urlSuffix = env.os.phone ? '&mask=true' : ''
+            var useThumb = env.os.phone || os.tablet;
+
+            var blockList = $('.ec-lazy');
             var $win = $(window);
 
-            showIfr();
+            blockList.each(function (index, block) {
+                block = $(block);
+                var src = block.attr('data-src');
+                src = src.replace('{{{host}}}', host);
+                block.attr('data-src', src + urlSuffix);
+            });
+
+
+            showBlock();
 
             // Lazy load.
-            $win.on('scroll', showIfr);
+            $win.on('scroll', showBlock);
 
-            function showIfr() {
-                ifrList.each(function (idx, ifr) {
-                    var $ifr = $(ifr);
+            function initThumb(block, $block, blockThumb, blockSrc) {
+                $block.css('lineHeight', $block.height() + 'px');
+                block.innerHTML = [
+                    '<img src="', blockThumb, '"/>',
+                    // for vertial middle
+                    '<div style="vertical-align: middle; height: 100%; width: 0"></div>',
+                    '<div class="thumb-btn"><em>点击图片加载真实图表</em></div>',
+                    '<div class="mask"></div>'
+                ].join('');
+                $block.find('.mask').on('click', function () {
+                    initIFrame(block, $block, blockThumb, blockSrc);
+                });
+            }
 
-                    var ifrSrc = $ifr.attr('data-src');
+            function initIFrame(block, $block, blockThumb, blockSrc) {
+                block.innerHTML = [
+                    '<iframe src="' , blockSrc, '">',
+                    'frameborder="no" border="0" marginwidth="0" marginheight="0"',
+                    'scrolling="no" hspace="0" vspace="0"></iframe>'
+                ].join('');
+            }
 
-                    if (!ifrSrc) {
+            function showBlock() {
+                blockList.each(function (idx, block) {
+                    var $block = $(block);
+
+                    var blockSrc = $block.attr('data-src');
+                    var blockThumb = $block.attr('data-thumb');
+
+                    if (!blockSrc) {
                         return;
                     }
 
                     var winScrollTop = $win.scrollTop();
-                    var winHeight = $win.height();
-                    var ifrTop = ifr.offsetTop;
-                    var ifrHeight = $ifr.height();
+                    var blockTop = block.offsetTop;
 
-                    if (ifrTop <= (winScrollTop + winHeight)
-                        || (ifrTop + ifrHeight) >= winScrollTop
-                    ) {
-                        $ifr.attr('data-src', '');
-                        ifr.src = ifrSrc + urlSuffix;
+                    var winHeight = $win.height();
+                    var winBottom = winScrollTop + winHeight;
+                    var blockBottom = blockTop + $block.height();
+
+                    if (winBottom >= blockTop && winBottom <= (blockBottom + winHeight)) {
+                        $block.attr('data-src', '');
+                        (useThumb && blockThumb)
+                            ? initThumb(block, $block, blockThumb, blockSrc)
+                            : initIFrame(block, $block, blockThumb, blockSrc);
                     }
                 });
             }
 
-            function getURLSuffix() {
-                // Mobile adapter
-                var env = window['MD_ENV'];
-                return env.os.phone ? '&mask=true' : ''
-            }
 
+
+            // window.lazySizesConfig = window.lazySizesConfig || {};
+
+            // // use .lazy instead of .lazyload
+            // window.lazySizesConfig.lazyClass = 'ec-lazy';
+
+            // // use data-original instead of data-src
+            // lazySizesConfig.srcAttr = 'data-thumb';
+
+            // //page is optimized for fast onload event
+            // lazySizesConfig.loadMode = 1;
+
+        </script>
+
+        <!-- <script type="text/javascript" src="./asset/lazysizes.min.js"></script> -->
+
+        <link rel="stylesheet" href="./asset/prettify/github.css">
+        <script src="./asset/prettify/prettify.js"></script>
+
+        <script type="text/javascript">
+            $('pre').addClass('prettyprint');
+            prettyPrint();
+        </script>
+
+        <script type="text/javascript">
+            var _hmt = _hmt || [];
+            (function() {
+              var hm = document.createElement("script");
+              hm.src = "//hm.baidu.com/hm.js?4bad1df23f079e0d12bdbef5e65b072f";
+              var s = document.getElementsByTagName("script")[0];
+              s.parentNode.insertBefore(hm, s);
+            })();
         </script>
     </body>
 </html>
