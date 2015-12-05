@@ -361,9 +361,6 @@ style="width:100%;height:400px"></div>
 
 
 
-TODO
-更多的图表还有待被加入。
-
 
 
 
@@ -454,5 +451,7 @@ label: {
 正式版我们将精耕细作，为大家带来一份优质的新年礼物。<br>
 最后，欢迎大家继续支持 ECharts，我们会一如既往地给大家带来优秀的产品。
 
-<a style="font-size: 18px; color: #fff; padding: 10px 12px; line-height: 40px; background: #3fa7dc;" href="http://ecomfe.github.io/echarts-builder-web/echarts3.html">ECharts 3 测试版体验入口</a>
+<div class="ec-show-when" data-ec-show-when="!(env.os.phone || env.os.tablet)">
+    <a style="font-size: 18px; color: #fff; padding: 10px 12px; line-height: 40px; background: #3fa7dc;" href="http://ecomfe.github.io/echarts-builder-web/echarts3.html">ECharts 3 测试版体验入口</a>
+</div>
 

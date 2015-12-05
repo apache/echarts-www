@@ -2,17 +2,12 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, inital-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <title>ECharts 3.0 测试版</title>
         <link rel="stylesheet" href="./asset/md-theme-github.css" id="theme">
         <style>
             .ec-img-container {
                 text-align: center;
-            }
-            .ec-img-container img {
-                display: inline-block;
-                *display: inline;
-                *zoom: 1;
             }
             .ec-lazy {
                 position: relative;
@@ -56,6 +51,9 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
+            }
+            .ec-show-when {
+                display: none;
             }
         </style>
     </head>
@@ -331,8 +329,10 @@ style="width:100%;height:400px"></div>
 
 
 
-<p>TODO
-更多的图表还有待被加入。</p>
+
+
+
+
 <h2 id="option-">Option的变动</h2>
 <p>ECharts 3 对于 ECharts 2 的 Option 配置兼容，但是一小部分原有的 Option 配置方式已经不被推荐（deprecated），个别细节有所差异。</p>
 <ul>
@@ -403,7 +403,10 @@ label: {
 </ol>
 <p>正式版我们将精耕细作，为大家带来一份优质的新年礼物。<br>
 最后，欢迎大家继续支持 ECharts，我们会一如既往地给大家带来优秀的产品。</p>
-<p><a style="font-size: 18px; color: #fff; padding: 10px 12px; line-height: 40px; background: #3fa7dc;" href="http://ecomfe.github.io/echarts-builder-web/echarts3.html">ECharts 3 测试版体验入口</a></p>
+<div class="ec-show-when" data-ec-show-when="!(env.os.phone || env.os.tablet)">
+    <a style="font-size: 18px; color: #fff; padding: 10px 12px; line-height: 40px; background: #3fa7dc;" href="http://ecomfe.github.io/echarts-builder-web/echarts3.html">ECharts 3 测试版体验入口</a>
+</div>
+
 
         </div>
 
@@ -411,14 +414,27 @@ label: {
         <script type="text/javascript" src="./asset/md-env.js"></script>
         <script type="text/javascript">
 
+            /**
+             * @usage:
+             *
+             * iframe:
+             * <div class="ec-lazy" data-thumb="./asset/thumb/parallel-aqi.png" data-
+             *     src="{{{host}}}/view.html?edit=true&reset=true&c=parallel-aqi"
+             *     style="width:100%;height:400px"></div>
+             *
+             * ec-when-show:
+             * <div class="ec-show-when" data-ec-show-when="!(env.os.phone || env.os.tablet)">
+             *     ...
+             * </div>
+             */
 
-            // var host = 'http://echarts.baidu.com/gallery'; // Online
-            var host = '../../../../echarts-playground/public'; // Dev
+            var host = 'http://echarts.baidu.com/gallery'; // Online
+            // var host = '../../../../echarts-playground/public'; // Dev
 
 
             var env = window['MD_ENV'];
             var urlSuffix = env.os.phone ? '&mask=true' : ''
-            var useThumb = env.os.phone || os.tablet;
+            var useThumb = env.os.phone || env.os.tablet;
 
             var blockList = $('.ec-lazy');
             var $win = $(window);
@@ -428,6 +444,16 @@ label: {
                 var src = block.attr('data-src');
                 src = src.replace('{{{host}}}', host);
                 block.attr('data-src', src + urlSuffix);
+            });
+
+            $('.ec-show-when').each(function (index, el) {
+                var isShow = (
+                    new Function('env', 'return (' + $(el).attr('data-ec-show-when') + ')')
+                )(env);
+
+                if (isShow) {
+                    el.style.display = 'block';
+                }
             });
 
 

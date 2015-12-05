@@ -2,17 +2,12 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, inital-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <title>ECharts 3.0 测试版</title>
         <link rel="stylesheet" href="./asset/md-theme-{{{theme}}}.css" id="theme">
         <style>
             .ec-img-container {
                 text-align: center;
-            }
-            .ec-img-container img {
-                display: inline-block;
-                *display: inline;
-                *zoom: 1;
             }
             .ec-lazy {
                 position: relative;
@@ -57,6 +52,9 @@
                 width: 100%;
                 height: 100%;
             }
+            .ec-show-when {
+                display: none;
+            }
         </style>
     </head>
     <body>
@@ -69,14 +67,27 @@
         <script type="text/javascript" src="./asset/md-env.js"></script>
         <script type="text/javascript">
 
+            /**
+             * @usage:
+             *
+             * iframe:
+             * <div class="ec-lazy" data-thumb="./asset/thumb/parallel-aqi.png" data-
+             *     src="{{{host}}}/view.html?edit=true&reset=true&c=parallel-aqi"
+             *     style="width:100%;height:400px"></div>
+             *
+             * ec-when-show:
+             * <div class="ec-show-when" data-ec-show-when="!(env.os.phone || env.os.tablet)">
+             *     ...
+             * </div>
+             */
 
-            // var host = 'http://echarts.baidu.com/gallery'; // Online
-            var host = '../../../../echarts-playground/public'; // Dev
+            var host = 'http://echarts.baidu.com/gallery'; // Online
+            // var host = '../../../../echarts-playground/public'; // Dev
 
 
             var env = window['MD_ENV'];
             var urlSuffix = env.os.phone ? '&mask=true' : ''
-            var useThumb = env.os.phone || os.tablet;
+            var useThumb = env.os.phone || env.os.tablet;
 
             var blockList = $('.ec-lazy');
             var $win = $(window);
@@ -86,6 +97,16 @@
                 var src = block.attr('data-src');
                 src = src.replace('{{{host}}}', host);
                 block.attr('data-src', src + urlSuffix);
+            });
+
+            $('.ec-show-when').each(function (index, el) {
+                var isShow = (
+                    new Function('env', 'return (' + $(el).attr('data-ec-show-when') + ')')
+                )(env);
+
+                if (isShow) {
+                    el.style.display = 'block';
+                }
             });
 
 
