@@ -52,8 +52,6 @@
                 };
 
                 chart.setOption({
-                    color: ['#5793f3', '#d14a61', '#fd9c35', '#675bba', '#fec42c',
-                        '#dd4444', '#d4df5a', '#cd4870'],
                     legend: {
                         y: 'top',
                         data: ['北京', '上海', '广州'],
@@ -74,9 +72,9 @@
                         borderColor: '#777',
                         borderWidth: 1,
                         formatter: function (obj) {
-                            var value = obj[0].value;
+                            var value = obj.value;
                             return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
-                                + obj[0].seriesName + ' ' + value[0] + '日：'
+                                + obj.seriesName + ' ' + value[0] + '日：'
                                 + value[7]
                                 + '</div>'
                                 + schema[1].text + '：' + value[1] + '<br>'
@@ -166,7 +164,7 @@
                         {
                             x: 'right',
                             y: 'bottom',
-                            dimension: 'dim6',
+                            dimension: 6,
                             min: 0,
                             max: 50,
                             itemHeight: 100,
