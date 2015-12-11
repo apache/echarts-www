@@ -31,8 +31,7 @@
                 location: ecBase + '/echarts2',
                 main: 'echarts'
             }
-        ],
-        urlArgs: '_v_=' + (debug ? '' : +new Date())
+        ]
     });
 
 

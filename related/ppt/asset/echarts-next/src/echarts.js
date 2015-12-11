@@ -2095,10 +2095,10 @@ define('echarts/model/globalDefault',[],function () {
         backgroundColor: 'rgba(0,0,0,0)',
 
         // https://dribbble.com/shots/1065960-Infographic-Pie-chart-visualization
-        color: ['#5793f3', '#d14a61', '#80F1BE', '#675bba', '#fec42c', '#dd4444', '#d4df5a', '#cd4870'],
+        // color: ['#5793f3', '#d14a61', '#80F1BE', '#675bba', '#fec42c', '#dd4444', '#d4df5a', '#cd4870'],
         // 浅色
         // color: ['#bcd3bb', '#e88f70', '#edc1a5', '#9dc5c8', '#e1e8c8', '#7b7c68', '#e5b5b5', '#f0b489', '#928ea8', '#bda29a'],
-        // color: ['#cc5664', '#ea946e', '#9bd6ec', '#8acaaa', '#f1ec64', '#ee8686', '#a48dc1', '#5da6bc', '#b9dcae'],
+        color: ['#cc5664', '#9bd6ec', '#ea946e', '#8acaaa', '#f1ec64', '#ee8686', '#a48dc1', '#5da6bc', '#b9dcae'],
         // 深色
         // color: ['#c23531', '#314656', '#61a0a8', '#dd8668', '#91c7ae', '#6e7074', '#61a0a8', '#bda29a', '#44525d', '#c4ccd3'],
 
@@ -15265,6 +15265,9 @@ define('echarts/echarts',['require','./model/Global','./ExtensionAPI','./Coordin
         chart.id = idBase++;
         instances[chart.id] = chart;
 
+        dom.setAttribute &&
+            dom.setAttribute(DOM_ATTRIBUTE_KEY, chart.id);
+
         // Connecting
         zrUtil.each(eventActionMap, function (actionType, eventType) {
             // FIXME
@@ -17509,6 +17512,11 @@ define('echarts/chart/helper/SymbolDraw',['require','../../util/graphic','./Symb
 
     var symbolDrawProto = SymbolDraw.prototype;
 
+    function symbolNeedsDraw(data, idx, isIgnore) {
+        var point = data.getItemLayout(idx);
+        return point && !isNaN(point[0]) && !isNaN(point[1]) && !(isIgnore && isIgnore(idx))
+                    && data.getItemVisual(idx, 'symbol') !== 'none';
+    }
     /**
      * Update symbols draw by new data
      * @param {module:echarts/data/List} data
@@ -17523,24 +17531,21 @@ define('echarts/chart/helper/SymbolDraw',['require','../../util/graphic','./Symb
 
         data.diff(oldData)
             .add(function (newIdx) {
-                if (!(isIgnore && isIgnore(newIdx))
-                    && data.getItemVisual(newIdx, 'symbol') !== 'none'
-                ) {
+                var point = data.getItemLayout(newIdx);
+                if (symbolNeedsDraw(data, newIdx, isIgnore)) {
                     var symbolEl = new SymbolCtor(data, newIdx);
-                    symbolEl.attr('position', data.getItemLayout(newIdx));
+                    symbolEl.attr('position', point);
                     data.setItemGraphicEl(newIdx, symbolEl);
                     group.add(symbolEl);
                 }
             })
             .update(function (newIdx, oldIdx) {
                 var symbolEl = oldData.getItemGraphicEl(oldIdx);
-                if ((isIgnore && isIgnore(newIdx))
-                    || data.getItemVisual(newIdx, 'symbol') === 'none'
-                ) {
+                var point = data.getItemLayout(newIdx);
+                if (!symbolNeedsDraw(data, newIdx, isIgnore)) {
                     group.remove(symbolEl);
                     return;
                 }
-                var point = data.getItemLayout(newIdx);
                 if (!symbolEl) {
                     symbolEl = new SymbolCtor(data, newIdx);
                     symbolEl.attr('position', point);
@@ -18457,7 +18462,7 @@ define('echarts/chart/line/LineView',['require','zrender/core/util','../helper/S
                     data.setItemGraphicEl(dataIndex, symbol);
 
                     // Stop scale animation
-                    symbol.stopAnimation(true);
+                    symbol.stopSymbolAnimation(true);
 
                     this.group.add(symbol);
                 }
@@ -24224,8 +24229,8 @@ define('echarts/component/tooltip',['require','./tooltip/TooltipContent','../uti
             var moveAnimation = axisPointerType !== 'cross';
 
             if (axisPointerType === 'cross') {
-                moveGridLine('x', point, cartesian.getAxis('y').getExtent());
-                moveGridLine('y', point, cartesian.getAxis('x').getExtent());
+                moveGridLine('x', point, cartesian.getAxis('y').getGlobalExtent());
+                moveGridLine('y', point, cartesian.getAxis('x').getGlobalExtent());
 
                 this._updateCrossText(cartesian, point, axisPointerModel);
             }
