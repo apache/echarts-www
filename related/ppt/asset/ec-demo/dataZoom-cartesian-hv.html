@@ -41,9 +41,11 @@
                 }
 
                 chart.setOption({
-                    color: color.getDefault(),
                     tooltip: {
                         trigger: 'axis',
+                        axisPointer: {
+                            animation: false
+                        }
                     },
                     legend: {
                         data: ['降水量', '流量'],
@@ -89,6 +91,7 @@
                             boundaryGap: false,
                             splitLine: {show: false},
                             position: 'right',
+                            inverse: true,
                             axisLabel: {
                                 textStyle: {
                                     color: '#eee'
@@ -106,9 +109,12 @@
                             name: '降水量',
                             type: 'line',
                             data: data.rainfall,
+                            hoverAnimation: false,
                             itemStyle: {
                                 normal: {
-                                     areaStyle: {},
+                                     areaStyle: {
+                                        opacity: 1
+                                     },
                                      lineStyle: {
                                         width: 1
                                      }
@@ -120,9 +126,12 @@
                             type: 'line',
                             data: data.flow,
                             yAxisIndex: 1,
+                            hoverAnimation: false,
                             itemStyle: {
                                 normal: {
-                                     areaStyle: {},
+                                     areaStyle: {
+                                        opacity: 1
+                                     },
                                      lineStyle: {
                                         width: 1
                                      }

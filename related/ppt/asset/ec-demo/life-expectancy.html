@@ -89,7 +89,6 @@
         };
 
         var option = {
-            color: colors.getDefault(),
             title: {
                 'text': data.timeline[0],
                 textAlign: 'center',
@@ -106,7 +105,7 @@
                 borderColor: '#777',
                 borderWidth: 1,
                 formatter: function (obj) {
-                    var value = obj[0].value;
+                    var value = obj.value;
                     return schema[3].text + '：' + value[3] + '<br>'
                             + schema[1].text + '：' + value[1] + schema[1].unit + '<br>'
                             + schema[0].text + '：' + value[0] + schema[0].unit + '<br>'
@@ -175,7 +174,7 @@
             dataRange: [
                 {
                     show: false,
-                    dimension: 'dim3',
+                    dimension: 3,
                     categories: data.counties,
                     calculable: true,
                     precision: 0.1,
@@ -184,7 +183,7 @@
                         color: colors.getText(),
                     },
                     inRange: {
-                        color: colors.getItemColor()
+                        color: ['#cc5664', '#9bd6ec', '#ea946e', '#8acaaa', '#f1ec64', '#ee8686', '#a48dc1', '#5da6bc', '#b9dcae']
                     }
                 }
             ],

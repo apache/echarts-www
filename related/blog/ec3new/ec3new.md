@@ -455,3 +455,95 @@ label: {
     <a style="font-size: 18px; color: #fff; padding: 10px 12px; line-height: 40px; background: #3fa7dc;" href="http://ecomfe.github.io/echarts-builder-web/echarts3.html">ECharts 3 测试版体验入口</a>
 </div>
 
+
+
+<script type="text/javascript" src="./asset/jquery.min.js"></script>
+<script type="text/javascript" src="./asset/md-env.js"></script>
+<script type="text/javascript">
+
+var host = 'http://echarts.baidu.com/gallery'; // Online
+// var host = '../../../../echarts-playground/public'; // Dev
+
+var env = window['MD_ENV'];
+var urlSuffix = env.os.phone ? '&mask=true' : ''
+var useThumb = env.os.phone || os.tablet;
+
+var blockList = $('.ec-lazy');
+var $win = $(window);
+
+blockList.each(function (index, block) {
+    block = $(block);
+    var src = block.attr('data-src');
+    src = src.replace('{{{host}}}', host);
+    block.attr('data-src', src + urlSuffix);
+});
+
+
+showBlock();
+
+// Lazy load.
+$win.on('scroll', showBlock);
+
+function initThumb(block, $block, blockThumb, blockSrc) {
+    $block.css('lineHeight', $block.height() + 'px');
+    block.innerHTML = [
+        '<img src="', blockThumb, '"/>',
+        // for vertial middle
+        '<div style="vertical-align: middle; height: 100%; width: 0"></div>',
+        '<div class="thumb-btn"><em>点击图片加载真实图表</em></div>',
+        '<div class="mask"></div>'
+    ].join('');
+    $block.find('.mask').on('click', function () {
+        initIFrame(block, $block, blockThumb, blockSrc);
+    });
+}
+
+function initIFrame(block, $block, blockThumb, blockSrc) {
+    block.innerHTML = [
+        '<iframe src="' , blockSrc, '">',
+        'frameborder="no" border="0" marginwidth="0" marginheight="0"',
+        'scrolling="no" hspace="0" vspace="0"></iframe>'
+    ].join('');
+}
+
+function showBlock() {
+    blockList.each(function (idx, block) {
+        var $block = $(block);
+
+        var blockSrc = $block.attr('data-src');
+        var blockThumb = $block.attr('data-thumb');
+
+        if (!blockSrc) {
+            return;
+        }
+
+        var winScrollTop = $win.scrollTop();
+        var blockTop = block.offsetTop;
+
+        var winHeight = $win.height();
+        var winBottom = winScrollTop + winHeight;
+        var blockBottom = blockTop + $block.height();
+
+        if (winBottom >= blockTop && winBottom <= (blockBottom + winHeight)) {
+            $block.attr('data-src', '');
+            (useThumb && blockThumb)
+                ? initThumb(block, $block, blockThumb, blockSrc)
+                : initIFrame(block, $block, blockThumb, blockSrc);
+        }
+    });
+}
+
+
+
+// window.lazySizesConfig = window.lazySizesConfig || {};
+
+// // use .lazy instead of .lazyload
+// window.lazySizesConfig.lazyClass = 'ec-lazy';
+
+// // use data-original instead of data-src
+// lazySizesConfig.srcAttr = 'data-thumb';
+
+// //page is optimized for fast onload event
+// lazySizesConfig.loadMode = 1;
+
+</script>

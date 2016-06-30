@@ -61,6 +61,11 @@
                     type : 'category',
                     boundaryGap : true,
                     axisTick: {onGap:false},
+                    axisLabel: {
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    },
                     splitLine: {show:false},
                     data : [
                         "2013/1/24", "2013/1/25", "2013/1/28", "2013/1/29", "2013/1/30",
@@ -88,7 +93,12 @@
                 {
                     type : 'value',
                     scale:true,
-                    boundaryGap: [0.01, 0.01]
+                    boundaryGap: [0.01, 0.01],
+                    axisLabel: {
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    }
                 }
             ],
             series : [

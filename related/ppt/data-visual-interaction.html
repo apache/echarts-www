@@ -19,16 +19,21 @@
 Echarts团队
 
 <aside class="notes" data-markdown>自我介绍</aside></script></section><section ><section data-markdown><script type="text/template">
-![](./asset/img/data-mess.jpg)
+### Echarts Next
 
-<aside class="notes" data-markdown>海量数据</aside></script></section><section data-markdown><script type="text/template">
-![](./asset/img/data-understanding.jpg)
+##### <div class="fragment" data-fragment-index="0">3.0 alpha</div>
 
-<aside class="notes" data-markdown>如何转化为人脑可认知的视觉元素</aside></script></section><section data-markdown><script type="text/template">
+<div class="fragment" data-fragment-index="0">![](./asset/img/echarts3.png)</div>
+</script></section><section data-markdown><script type="text/template">
+![](./asset/img/echarts-QRcode.png)
+</script></section></section><section ><section data-markdown><script type="text/template">
+##数据 · 视觉编码 · 交互
+</script></section><section data-markdown><script type="text/template">
 ![](./asset/img/warm-up-v0.png)
 </script></section><section data-markdown><script type="text/template">
 ![](./asset/img/warm-up-v1.png)
-</script></section><section data-markdown><script type="text/template">
+
+<aside class="notes" data-markdown>前注意视觉，视觉突出</aside></script></section><section data-markdown><script type="text/template">
 ![](./asset/img/warm-up-trend0.png)
 
 <aside class="notes" data-markdown>哪个年龄段及收入水平人群的三酸甘油脂水平（身体脂肪量）趋势与其他均不同？</aside></script></section><section data-markdown><script type="text/template">
@@ -45,13 +50,11 @@ Echarts团队
 
 ### <div class="fragment" data-fragment-index="2">**擅长**</div>
 
-<aside class="notes" data-markdown>人类擅长使用视觉接收的信息，绝大多数知识也是视觉感知获得的。说明了可视化的重要性。
+<aside class="notes" data-markdown>在可视化与可视分析中，用户是所有行为的主题，通过视觉感知器官获取可视信息，编码并形成认知。感知和认知能力直接影响着信息的获取和处理进程
 
-认知心理学将认知过程看成由信息的获取、分析、归纳、解码、储存、概念形成、提取和使用等一系列阶段组成的按一定程序进行的信息加工系统。
+大部分人对于数字，文本等形式存在的非形象化信息的直接感知能力远远落后于对于形象化符号视觉的理解
 
-简单说，感知是关于输入信号的本质，也就是看见的事物；而认知是关于怎样理解和解释看到的东西。
-
-接受到的信息大部分来源于视觉。视觉擅长进行认知。</aside></script></section><section data-markdown><script type="text/template">
+数学老师死得早，数学是体育老师教的</aside></script></section><section data-markdown><script type="text/template">
 ![](./asset/img/warm-up-scatters0.png)
 
 <aside class="notes" data-markdown>再举个例子，相关系数。
@@ -59,7 +62,7 @@ Echarts团队
 四组数据里 x**均值方差**全相等，y**均值方差**基本相等，x与y的**相关系数**也很接近。导致的结果是，四组数据**线性回归**的结果基本一样。
 但是，这四组数据**本身差别很大**。
 分析数据前先绘制图表的重要性</aside></script></section><section data-markdown><script type="text/template">
-![](./asset/img/warm-up-scatters1.png)
+<div class="fragment" data-fragment-index="1"><iframe style="width:800px;height:500px;" data-md2r-src="./asset/ec-demo/anscombe-quartet.html"></iframe></div>
 </script></section></section><section ><section data-markdown><script type="text/template">
 
 
@@ -150,6 +153,8 @@ Echarts团队
 3.有效性（effectiveness）
     通道表现力符合数据属性的重要性
 
+一个好的动画除了让人感到情怀之外还能够从某个角度去阐释数据，或者突出数据
+
 下面是一些视觉通道的解释</aside></script></section><section data-markdown><script type="text/template">
 ### 颜色
 
@@ -158,10 +163,23 @@ Echarts团队
 
 <div class="fragment" data-fragment-index="1"><iframe style="width:800px;height:500px;" data-md2r-src="./asset/ec-demo/color-category.html"></iframe></div>
 </script></section><section data-markdown><script type="text/template">
-#### 颜色 - 数值型数据
+
+
+#### 颜色 - 类别型数据
+
+<div class="fragment" data-fragment-index="0"><iframe style="width:900px;height:600px;" data-md2r-src="./asset/ec-demo/color-category-scatter.html"></iframe></div>
+
+<aside class="notes" data-markdown>人们在观察事物的时候，会自然地根据事物的相似性进行感知分组</aside></script></section><section data-markdown><script type="text/template">
+
+
+#### 颜色的亮度 - 数值型数据
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:900px;height:600px;" data-md2r-src="./asset/ec-demo/color-grey.html"></iframe></div>
 
+</script></section><section data-markdown><script type="text/template">
+#### 颜色的亮度 - 数值型数据
+
+<div class="fragment" data-fragment-index="0"><iframe style="width:900px;height:600px;" data-md2r-src="./asset/ec-demo/heatmap-cartesian.html"></iframe></div>
 </script></section><section data-markdown><script type="text/template">
 #### 颜色 - 多种视觉通道
 
@@ -188,7 +206,9 @@ Echarts团队
 圆的面积表示 PM2.5的浓度，颜色明暗表示SO2的浓度。
 通过调整数据选择器，可以直观反应一些问题。
 
-这组数据可以被映射到亮度(Lightness)、饱和度(Saturation)、透明度(Alpha)、形状(symbol)、大小(symbolSize)</aside></script></section><section data-markdown><script type="text/template">
+这组数据可以被映射到亮度(Lightness)、饱和度(Saturation)、透明度(Alpha)、形状(symbol)、大小(symbolSize)
+
+通过交互可以筛选突出我们需要的那部分数据</aside></script></section><section data-markdown><script type="text/template">
 ### 三维 · 高度
 
 <div class="fragment" data-fragment-index="0"><iframe style="width:1280px;height:650px;" data-md2r-src="./asset/ec-demo/global-population.html"></iframe></div>
@@ -200,21 +220,59 @@ Echarts团队
 <iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/symbol.html"></iframe>
 </script></section><section data-markdown><script type="text/template">
 
-### 视觉突出
+### 形状
 
 <iframe style="width:1000px;height:500px;" data-md2r-src="./asset/ec-demo/symbol-categories.html"></iframe>
 
 <aside class="notes" data-markdown>虽然可以把数据映射到形状上，但是效果并不如颜色和大小，
-所以把重要的映射到人感知比较敏感的视觉通道上。
+所以把重要的映射到人感知比较敏感的视觉通道上。</aside></script></section><section data-markdown><script type="text/template">
+## 动画
 
+* <div class="fragment" data-fragment-index="0">带来工程的复杂性</div>
 
+    * <div class="fragment" data-fragment-index="0">软件脆弱</div>
+    * <div class="fragment" data-fragment-index="0">代码繁杂</div>
+
+* <div class="fragment" data-fragment-index="1">表达 数据/图形元素在**变化**中的**联系**，助于理解</div>
+
+<aside class="notes" data-markdown>（1）虽然动画带来工程角度的复杂性，使代码更难维护和抽象，增加软件的脆弱（带来bug），增加代码的繁杂（性能优化）。
+（2）但是表达交互中数据/图形元素变化的联系，比突变的数据展现更助于理解。
+
+因为我们觉得动画在可视化交互中有比较好的效果，是很重要的一点，因此在动画绘制方面花了一些大的精力去处理。增加了更好的视觉实现。</aside></script></section><section data-markdown><script type="text/template">
+### 视觉突出
+
+<iframe style="width:1200px;height:600px;" data-md2r-src="./asset/ec-demo/map-aqi.html"></iframe>
+
+<aside class="notes" data-markdown>Bling Bling
+
+<!--
 这个不讲了
 
 ### 色彩设计原则
 
 * 避免过多颜色交错导致的杂乱无章
 * 使用中性背景色，控制对全局色彩的影响
-* 最小化同时对比</aside></script></section></section><section ><section data-markdown><script type="text/template">
+* 最小化同时对比
+--></aside></script></section><section data-markdown><script type="text/template">
+### 数据的变化
+
+<iframe style="width:1200px;height:600px;" data-md2r-src="./asset/ec-demo/life-expectancy.html"></iframe>
+
+
+<aside class="notes" data-markdown>这是在 Gapminder 上一个经典的数据可视化分析工具，将世界各国的各种数据通过气泡图来展现，并且增加了动画效果，便于观察某项数据的变化情况。
+横坐标=>人均收入，纵坐标=>人均寿命，气泡颜色=>国家，气泡的大小=>总人口。
+
+原始数据的国家比较多，保留了主要国家演示。
+
+结论：
+经过二战以后，各国都快速发展，中国在61-62年期间数据大幅下降——三年灾害
+二战后美国迅速崛起、改革开放以后，中国迅速发展、但欧美远超亚洲、挪威遥遥领先、朝鲜垫底
+
+修改各个维度的数据，就可以呈现多种结论。非常有意思</aside></script></section><section data-markdown><script type="text/template">
+### 线数据的方向
+
+<iframe style="width:1200px;height:600px;" data-md2r-src="./asset/ec-demo/migration2.html"></iframe>
+</script></section></section><section ><section data-markdown><script type="text/template">
 # 交互
 </script></section><section data-markdown><script type="text/template">
 ### 反馈回路
@@ -233,7 +291,7 @@ Echarts团队
 <div style="text-align: center">
 
 <div style="display:inline-block;vertical-align:top;width: 500px;">
-<div class="fragment" data-fragment-index="0">【任务】</div>
+<div class="fragment" data-fragment-index="0">【交互操作】</div>
 
 
 * <div class="fragment" data-fragment-index="0">总览（overview）</div>
@@ -241,7 +299,7 @@ Echarts团队
 * <div class="fragment" data-fragment-index="0">过滤（filter）</div>
 * <div class="fragment" data-fragment-index="0">按需细节<br>（details-on-demand）</div>
 * <div class="fragment" data-fragment-index="0">相关（relate）</div>
-* <div class="fragment" data-fragment-index="0">历史（history）</div>
+* <div class="fragment" data-fragment-index="0">记录（history）</div>
 </div>
 
 <div style="display:inline-block;vertical-align:top;width: 400px;">
@@ -268,37 +326,10 @@ Echarts团队
 
 <aside class="notes" data-markdown>这是一个有3000多条数据的柱状图，通过拖拽数值区域控制器，可以进行局部的数据的显示。
 横轴时间，纵轴为下水量。先查看总体趋势，在查看细节信息。</aside></script></section><section data-markdown><script type="text/template">
+#### Treemap
 
-## 动画
-
-* <div class="fragment" data-fragment-index="0">带来工程的复杂性</div>
-
-    * <div class="fragment" data-fragment-index="0">软件脆弱</div>
-    * <div class="fragment" data-fragment-index="0">代码繁杂</div>
-
-* <div class="fragment" data-fragment-index="1">表达 数据/图形元素在**变化**中的**联系**，助于理解</div>
-
-<aside class="notes" data-markdown>（1）虽然动画带来工程角度的复杂性，使代码更难维护和抽象，增加软件的脆弱（带来bug），增加代码的繁杂（性能优化）。
-（2）但是表达交互中数据/图形元素变化的联系，比突变的数据展现更助于理解。
-
-因为我们觉得动画在可视化交互中有比较好的效果，是很重要的一点，因此在动画绘制方面花了一些大的精力去处理。增加了更好的视觉实现。</aside></script></section><section data-markdown><script type="text/template">
-### The Wealth & Health of Nations
-
-<iframe style="width:1200px;height:600px;" data-md2r-src="./asset/ec-demo/life-expectancy.html"></iframe>
-
-
-<aside class="notes" data-markdown>这是在 Gapminder 上一个经典的数据可视化分析工具，将世界各国的各种数据通过气泡图来展现，并且增加了动画效果，便于观察某项数据的变化情况。
-横坐标=>人均收入，纵坐标=>人均寿命，气泡颜色=>国家，气泡的大小=>总人口。
-
-原始数据的国家比较多，保留了主要国家演示。
-
-结论：
-经过二战以后，各国都快速发展，中国在61-62年期间数据大幅下降——三年灾害
-二战后美国迅速崛起、改革开放以后，中国迅速发展、但欧美远超亚洲、挪威遥遥领先、朝鲜垫底
-
-修改各个维度的数据，就可以呈现多种结论。非常有意思</aside></script></section></section><section ><section data-markdown><script type="text/template">
-
-
+<iframe style="width:1400px;height:650px;" data-md2r-src="./asset/ec-demo/hierarchy-obama.html"></iframe>
+</script></section><section data-markdown><script type="text/template">
 # 各种数据的可视化
 
 
@@ -371,7 +402,7 @@ weibo签到：11.8w 数据</aside></script></section><section data-markdown><scr
 <div class="fragment" data-fragment-index="0"><iframe style="width:1000px;height:600px;" data-md2r-src="./asset/ec-demo/hierarchy-tree.html"></iframe></div>
 
 <aside class="notes" data-markdown>层级数据，无回路，我们可以直接画出来
-但是如果需要表达更多的维度？</aside></script></section><section data-markdown><script type="text/template">
+但是能表达的就只有层级了， 如果需要表达更多的维度，比如每一个层级数据的大小，面积？</aside></script></section><section data-markdown><script type="text/template">
 
 <iframe style="width:1400px;height:650px;" data-md2r-src="./asset/ec-demo/hierarchy-obama.html"></iframe>
 
@@ -398,7 +429,7 @@ graph 多种layout。</aside></script></section><section data-markdown><script t
 <div class="fragment" data-fragment-index="0"><iframe style="width:1400px;height:600px;" data-md2r-src="./asset/ec-demo/force-webkit.html"></iframe></div>
 
 
-<aside class="notes" data-markdown>webkit 内核中核心技术的关系 
+<aside class="notes" data-markdown>webkit 内核中核心技术的关系
 每个点都拥有引力和斥力，相近相斥，离远相吸。经过多次的布局迭代，就可以达到一个稳定的布局结构。
 
 ### 更多维度
@@ -453,43 +484,19 @@ graph 多种layout。</aside></script></section><section data-markdown><script t
 
 ### <div class="fragment" data-fragment-index="0">More...</div>
 
-<aside class="notes" data-markdown></aside></script></section></section><section ><section data-markdown><script type="text/template">
-### Echarts Next
-
-#### <div class="fragment" data-fragment-index="0">3.0 is coming...</div>
-
-<div class="fragment" data-fragment-index="0">![](./asset/img/website-2.png)</div>
-</script></section><section data-markdown><script type="text/template">
-### What's New ?
-</script></section><section data-markdown><script type="text/template">
-### 坐标系
-
-<div class="fragment" data-fragment-index="0">直角坐标</div>
-<div class="fragment" data-fragment-index="0">极坐标 —— 雷达图</div>
-<div class="fragment" data-fragment-index="1"> + **气泡** + **散点** + **折线**</div>
-<div class="fragment" data-fragment-index="2">**地理坐标**</div>
-<div class="fragment" data-fragment-index="2">**平行坐标**</div>
-
-<aside class="notes" data-markdown>极坐标支持了除雷达图以外的更多图形
-平行坐标可以展现多维数据</aside></script></section><section data-markdown><script type="text/template">
-### 值域组件 + 数值选择器
-
-<div class="fragment" data-fragment-index="0">值域组件(DataRange) —— 颜色</div>
-<div class="fragment" data-fragment-index="1"> + **大小** + **明暗** + **透明度** + **形状**</div>
-<div class="fragment" data-fragment-index="2">数值选择器(DataZoom) —— 数值</div>
-<div class="fragment" data-fragment-index="3"> + **离散型**</div>
-
-<aside class="notes" data-markdown>离散型如字符串</aside></script></section><section data-markdown><script type="text/template">
+<aside class="notes" data-markdown></aside></script></section><section data-markdown><script type="text/template">
 ### 优化
 
 <div style="text-align: center">
 <div style="display:inline-block;vertical-align:top;width: 400px;">
+<div class="fragment" data-fragment-index="0">Echarts 2.0</div>
 <div class="fragment" data-fragment-index="0">363K</div>
 <div class="fragment" data-fragment-index="0">363K + 35K</div>
 </div>
 <div style="display:inline-block;vertical-align:top;width: 400px;">
-<div class="fragment" data-fragment-index="0">**102K**</div>
-<div class="fragment" data-fragment-index="0">**102K** + **71K**</div>
+<div class="fragment" data-fragment-index="0">Echarts 3.0</div>
+<div class="fragment" data-fragment-index="0">**120K**</div>
+<div class="fragment" data-fragment-index="0">**120K** + **71K**</div>
 
 </div>
 </div>

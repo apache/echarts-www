@@ -96,7 +96,7 @@
                         formatter: getTooltipFormatter(mode)
                     },
                     series: [{
-                        visualDimension: mode === 2 ? 'dim2' : null,
+                        visualDimension: mode === 2 ? 2 : null,
                         data: buildData(mode, data.obama_budget_2012),
                         levels: getLevelOption(mode)
                     }]
@@ -115,7 +115,7 @@
                 if (nodeIdList.length) {
                     // FIXME
                     // 接口？
-                    chart.dispatch({
+                    chart.dispatchAction({
                         type: 'treemapZoomToNode',
                         seriesName: SERIES_NAME,
                         // 这个示例中简单处理，只聚焦到找到的第一个节点上。
@@ -235,7 +235,7 @@
                 var amountIndex2011 = mode === 1 ? 0 : 1;
 
                 return function (info) {
-                    var value = info[0].value;
+                    var value = info.value;
 
                     var amount = value[amountIndex];
                     amount = isValidNumber(amount)
@@ -258,7 +258,7 @@
                         : '-';
 
                     return [
-                        '<div class="tooltip-title">' + formatUtil.encodeHTML(info[0].name) + '</div>',
+                        '<div class="tooltip-title">' + formatUtil.encodeHTML(info.name) + '</div>',
                         '2012 Amount: &nbsp;&nbsp;' + amount + '<br>',
                         'Per Household: &nbsp;&nbsp;' + perHousehold + '<br>',
                         '2011 Amount: &nbsp;&nbsp;' + amount2011 + '<br>',
@@ -289,6 +289,7 @@
                 chart.setOption({
 
                     tooltip: {
+                        position: 'top',
                         formatter: getTooltipFormatter(0)
                     },
 
