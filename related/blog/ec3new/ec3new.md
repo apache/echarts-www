@@ -248,7 +248,7 @@ chart.setOption({
                 					      // 颜色亮度（lightness）的含义是 HLV 中的L。
             },
             outOfRange: {
-                color: ['rgba(255,255,255,.2)'] // dataRange 组件本身的颜色（选中范围外的）颜色
+                color: ['rgba(255,255,255,.2)'] // 图表中 dataRange 选中范围外的颜色
             },
             controller: {
                 inRange: {
