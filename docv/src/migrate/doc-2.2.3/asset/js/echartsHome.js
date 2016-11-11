@@ -47,7 +47,7 @@ switch (curPage) {
         break;
 }
 
-$('#head')[0].innerHTML = 
+$('#head')[0].innerHTML =
     '<div class="container">'
         + '<div class="navbar-header">'
           + '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">'
@@ -57,11 +57,11 @@ $('#head')[0].innerHTML =
             + '<span class="icon-bar"></span>'
           + '</button>'
           + '<a class="navbar-brand" href="http://echarts.baidu.com/index'
-          + (enVersion ? '-en': '') 
+          + (enVersion ? '-en': '')
           + '.html">ECharts</a>'
         + '</div>'
-        + '<a href="https://github.com/ecomfe/echarts" target="_blank">'
-            + '<img id="fork-image" style="position:absolute;top:0;right:0;border:0;z-index:1000;width:' + forkWidth + 'px" src="'+ (loc.img || '.') + '/asset/img/fork.png" alt="Fork me on GitHub">'
+        + '<a href="http://echarts.baidu.com" target="_blank">'
+            + '<img id="fork-image" style="position:absolute;top:0;right:0;border:0;z-index:1000;width:' + forkWidth + 'px" src="'+ (loc.img || '.') + '/asset/img/try3.png" alt="Fork me on GitHub">'
         + '</a>'
         + '<div class="navbar-collapse collapse" id="nav-wrap">'
           + '<ul class="nav navbar-nav navbar-right" id="nav" style="max-width:100%;">'
@@ -99,7 +99,7 @@ $('#head')[0].innerHTML =
                 + '<li><a href="http://echarts.baidu.com/build/echarts-m-1.0.0.zip"> echarts-m-1.0.0 (beta)</a></li>'
                 + '<li><a href="http://echarts.baidu.com/x/build/echarts-x-0.2.0.zip"> echarts-x-0.2.0 </a></li>'
                 + '<li class="divider"></li>'
-                + (enVersion 
+                + (enVersion
                     ? '<li><a href="http://ecomfe.github.io/echarts/doc/changelog-en.html">Changelog</a></li>'
                     : '<li><a href="http://echarts.baidu.com/doc/changelog.html">Changelog</a></li>'
                 )
@@ -114,7 +114,7 @@ $('#head')[0].innerHTML =
           + '</ul>'
         + '</div><!--/.nav-collapse -->'
       + '</div>';
-      
+
 function back2Top() {
     $("body,html").animate({scrollTop:0},1000);
     return false;
@@ -125,7 +125,7 @@ function changeVersion() {
         window.location = curPage + (enVersion ? '' : '-en') + '.html'
     }
     else {
-        window.location = curPage + '.html' + (enVersion ? '' : '#-en'); 
+        window.location = curPage + '.html' + (enVersion ? '' : '#-en');
         if (enVersion) {
             window.location.hash = window.location.hash.replace('-en', '');
         }

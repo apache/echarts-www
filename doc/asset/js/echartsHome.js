@@ -84,8 +84,8 @@ $('#head')[0].innerHTML =
           + (enVersion ? '-en': '')
           + '.html">ECharts</a>'
         + '</div>'
-        + '<a href="https://github.com/ecomfe/echarts" target="_blank">'
-            + '<img id="fork-image" style="position:absolute;top:0;right:0;border:0;z-index:1000;width:' + forkWidth + 'px" src="'+ (loc.img || '.') + '/asset/img/fork.png" alt="Fork me on GitHub">'
+        + '<a href="http://echarts.baidu.com" target="_blank">'
+            + '<img id="fork-image" style="position:absolute;top:0;right:0;border:0;z-index:1000;width:' + forkWidth + 'px" src="'+ (loc.img || '.') + '/asset/img/try3.png" alt="Fork me on GitHub">'
         + '</a>'
         + '<div class="navbar-collapse collapse" id="nav-wrap">'
           + '<ul class="nav navbar-nav navbar-right" id="nav" style="max-width:100%;">'
