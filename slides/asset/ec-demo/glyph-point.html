@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../../../dist/echarts.js"></script>
+        <script src="../common/dark.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <style>
+        </style>
+        <div id="main"></div>
+        <script>
+
+            var chart = echarts.init(document.getElementById('main'), 'dark');
+
+            var data1 = [];
+            var data2 = [];
+            var data3 = [];
+
+            var random = function (max) {
+                return (Math.random() * max).toFixed(3);
+            };
+
+            for (var i = 0; i < 8; i++) {
+                data1.push([random(5), random(5), random(1)]);
+                data2.push([random(10), random(8), random(1)]);
+                data3.push([random(15), random(10), random(1)]);
+            }
+
+            chart.setOption({
+                grid: {
+                    x: 30,
+                    x2: 30
+                },
+                xAxis: {
+                    type: 'value',
+                    splitLine: {
+                        show: false
+                    },
+                    min: 0,
+                    max: 15,
+                    splitNumber: 30,
+                    splitLine: {show: false},
+                    axisLine: {lineStyle: {width: 1}},
+                    axisLabel: {show: false},
+                    axisTick: {show: false}
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {lineStyle: {width: 1}},
+                    axisLabel: {show: false},
+                    axisTick: {show: false}
+                },
+                series: [
+                    {
+                        name: 'scatter',
+                        type: 'scatter',
+                        symbol: 'diamond',
+                        itemStyle: {
+                            normal: {
+                                opacity: 1
+                            }
+                        },
+                        data: data1
+                    },
+                    {
+                        name: 'scatter2',
+                        type: 'scatter',
+                        itemStyle: {
+                            normal: {
+                                opacity: 1
+                            }
+                        },
+                        data: data2
+                    },
+                    {
+                        name: 'scatter3',
+                        type: 'scatter',
+                        itemStyle: {
+                            normal: {
+                                opacity: 1
+                            }
+                        },
+                        data: data3
+                    }
+                ]
+            });
+
+        </script>
+    </body>
+</html>

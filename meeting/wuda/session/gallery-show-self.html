@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Reveal.js</title>
+        <link rel="stylesheet" href="./asset/md2reveal-0.1.7/css/reveal.css">
+        <link rel="stylesheet" href="./asset/md2reveal-0.1.7/css/theme/black.css" id="theme">
+        <link rel="stylesheet" href="./asset/md2reveal-0.1.7/css/theme/black-md2reveal.css" id="themeMine">
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="./asset/md2reveal-0.1.7/lib/css/zenburn.css">
+    </head>
+    <body>
+
+        <div class="reveal">
+            <div class="slides"><section  data-markdown><script type="text/template">
+# ECharts  &  Gallery
+
+<div class="fragment" data-fragment-index="0"><a target="_blank" href="http://gallery.echartsjs.com">gallery.echartsjs.com</a></div>
+</script></section><section  data-markdown><script type="text/template">
+<div class="fragment" data-fragment-index="1"><a href="http://gallery.echartsjs.com/preview.html?c=xSyGj62SO">时间</a></div>
+<div class="fragment" data-fragment-index="2"><a href="http://gallery.echartsjs.com/preview.html?c=scatter-map-brush">框选</a></div>
+<div class="fragment" data-fragment-index="3"><a href="http://gallery.echartsjs.com/preview.html?c=map-lines-elevation">旅行</a></div>
+<div class="fragment" data-fragment-index="4"><a href="http://gallery.echartsjs.com/preview.html?c=xSJNibj-f">记录</a></div>
+<div class="fragment" data-fragment-index="5"><a href="http://gallery.echartsjs.com/preview.html?c=bmap-bus">公交</a></div>
+<div class="fragment" data-fragment-index="6"><a href="http://gallery.echartsjs.com/preview.html?c=map-parallel-prices">高维</a></div>
+<div class="fragment" data-fragment-index="7"><a href="http://gallery.echartsjs.com/preview.html?c=xBJYz2XJz">弹琴</a></div>
+</script></section><section  data-markdown><script type="text/template">
+<div class="fragment" data-fragment-index="0">创作 · 分享</div>
+<br>
+<div class="fragment" data-fragment-index="1">数据可视化中的交互</div>
+</script></section><section  data-markdown><script type="text/template">
+谢谢
+
+<aside class="notes" data-markdown><a href="http://echarts.baidu.com/gallery/preview.html?c=heatmap-cartesian">提交数</a>
+<a href="http://gallery.echartsjs.com/preview.html?c=map-parallel-prices">营养</a>
+<a href="http://gallery.echartsjs.com/preview.html?c=xrkfsZneG">延时动画</a>
+<a href="http://gallery.echartsjs.com/preview.html?c=graph">人物关系</a>
+<a href="http://echarts.baidu.com/gallery/preview.html?c=graph-npm">npm dependencies</a>
+<a href="http://echarts.baidu.com/demo.html#graph-webkit-dep">force</a>
+<a href="http://echarts.baidu.com/demo.html#scatter-painter-choice">art</a>
+<a href="http://gallery.echartsjs.com/preview.html?c=xH1x0qk0v">e友</a></aside></script></section></div>
+        </div>
+
+        <script src="./asset/md2reveal-0.1.7/lib/js/head.min.js"></script>
+        <script src="./asset/md2reveal-0.1.7/js/reveal.js"></script>
+        <script src="./asset/md2reveal-0.1.7/js/md2reveal.js"></script>
+
+        <script>
+            function extend() {
+              var target = {};
+              for (var i = 0; i < arguments.length; i++) {
+                var source = arguments[i];
+                for (var key in source) {
+                  if (source.hasOwnProperty(key)) {
+                    target[key] = source[key];
+                  }
+                }
+              }
+              return target;
+            }
+
+            // Optional libraries used to extend on reveal.js
+            var deps = [
+              { src: './asset/md2reveal-0.1.7/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+              { src: './asset/md2reveal-0.1.7/plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: './asset/md2reveal-0.1.7/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: './asset/md2reveal-0.1.7/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+              { src: './asset/md2reveal-0.1.7/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+              // { src: './asset/md2reveal-0.1.7/plugin/math/math.js', async: true }
+            ];
+
+            // default options to init reveal.js
+            var defaultOptions = {
+              controls: true,
+              progress: true,
+              history: true,
+              center: true,
+              transition: 'default',
+              dependencies: deps
+            };
+
+            // options from URL query string
+            var queryOptions = Reveal.getQueryHash() || {};
+
+            var options = {};
+            options = extend(defaultOptions, options, queryOptions);
+            Reveal.initialize(options);
+        </script>
+    </body>
+</html>

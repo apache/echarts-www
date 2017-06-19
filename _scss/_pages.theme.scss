@@ -1,0 +1,56 @@
+#themes {
+    max-width: 800px;
+
+    p.desc {
+        color: #888;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    h3 {
+        span {
+            font-size: 16px;
+            margin-left: 5px;
+        }
+    }
+
+    .theme {
+        text-align: center;
+
+        img {
+            margin-top: 20px;
+            width: 285px;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+            transition: 0.5s ease-out;
+            cursor: pointer;
+            &:hover {
+                box-shadow: 0 0 20px rgba(0, 0, 0, .3);
+            }
+        }
+    }
+}
+
+#theme-configure-section {
+    margin-top: 40px;
+}
+
+#theme-example {
+    margin: 50px 0 80px 0;
+    line-height: 2em;
+    font-size: 14px;
+
+    h4 {
+        margin: 20px 0 10px 0;
+    }
+    .prettyprint {
+        padding: 10px;
+        border: rgb(204, 204, 204) 1px solid;
+    }
+}
+
+#theme-builder {
+    margin: 30px 0;
+    text-align: center;
+}

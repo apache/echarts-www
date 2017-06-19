@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+        <link rel="stylesheet" href="../common/simpleRadio.css">
+    </head>
+    <body>
+        <style>
+            #measures {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                z-index: 100;
+            }
+        </style>
+        <div id="measures"></div>
+        <div id="main"></div>
+        <script>
+
+            require([
+                'data/les-miserables.gexf',
+                'common/simpleRadio',
+                'echarts',
+                'echarts/extension/dataTool',
+                'common/dark'
+            ], function (xml, simpleRadio, echarts, dataTool) {
+
+                simpleRadio.init(
+                    document.getElementById('measures'),
+                    [
+                        {value: 'none', text: '普通布局', selected: true},
+                        {value: 'circular', text: '环形布局'}
+                    ],
+                    function (value) {
+                        chart.setOption({
+                            series: [{
+                                name: 'Les Miserables',
+                                layout: value
+                            }]
+                        });
+                    }
+                );
+
+                var chart = echarts.init(document.getElementById('main'), 'dark');
+
+                var graph = dataTool.gexf.parse(xml);
+                var categories = [];
+                for (var i = 0; i < 9; i++) {
+                    categories[i] = {
+                        name: 'module' + i
+                    };
+                }
+                graph.nodes.forEach(function (node) {
+                    node.itemStyle = null;
+                    node.value = node.symbolSize;
+                    node.symbolSize /= 1.5;
+                    node.label = {
+                        normal: {
+                            show: node.symbolSize > 30
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    };
+                    node.category = node.attributes.modularity_class;
+                });
+                chart.setOption({
+                    color: ['#5793f3', '#d14a61', '#80F1BE', '#675bba', '#fec42c', '#dd4444', '#d4df5a', '#cd4870'],
+                    tooltip: {},
+                    animationDurationUpdate: 1500,
+                    animationEasingUpdate: 'quinticInOut',
+                    animationEasing: 'quinticInOut',
+                    series : [
+                        {
+                            name: 'Les Miserables',
+                            type: 'graph',
+                            layout: 'none',
+                            data: graph.nodes,
+                            links: graph.links,
+                            categories: categories,
+                            roam: true,
+                            focusNodeAdjacency: true,
+                            label: {
+                                normal: {
+                                    position: 'right'
+                                }
+                            },
+                            lineStyle: {
+                                normal: {
+                                    curveness: 0.3
+                                }
+                            }
+                        }
+                    ]
+                });
+            });
+        </script>
+    </body>
+</html>

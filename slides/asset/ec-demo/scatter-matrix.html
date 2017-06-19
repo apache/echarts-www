@@ -1,0 +1,120 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <style>
+        </style>
+        <div id="main"></div>
+
+        <script>
+
+            // Schema:
+            // date,AQIindex,PM2.5,PM10,CO,NO2,SO2
+            var schema = [
+                {name: 'date', index: 0, text: '日期'},
+                {name: 'AQIindex', index: 1, text: 'AQI指数'},
+                {name: 'PM25', index: 2, text: 'PM2.5'},
+                {name: 'PM10', index: 3, text: 'PM10'},
+                {name: 'CO', index: 4, text: '一氧化碳 (CO)'},
+                {name: 'NO2', index: 5, text: '二氧化氮 (NO2)'},
+                {name: 'SO2', index: 6, text: '二氧化硫 (SO2)'}
+            ];
+
+            require([
+                'data/aqi/BJdata',
+                'data/aqi/GZdata',
+                'data/aqi/SHdata',
+                'echarts',
+                'common/dark'
+            ], function (dataBJ, dataGZ, dataSH, echarts) {
+
+                var chart = echarts.init(document.getElementById('main'), 'dark');
+
+                var grids = [];
+                var xAxes = [];
+                var yAxes = [];
+                var series = [];
+
+                var dimSize = 6;
+                var nameList = ['北京', '广州', '上海'];
+
+                for (var i = 1; i < dimSize; i++) {
+                    for (var j = 1; j < dimSize; j++) {
+                        // if (i !== j) {
+                            grids.push({
+                                left: ((i - 1) / dimSize * 100 + 7) + '%',
+                                top: ((j - 1) / dimSize * 100 + 7) + '%',
+                                width: '15%',
+                                height: '15%'
+                            });
+                            xAxes.push({
+                                gridIndex: grids.length - 1,
+                                axisLabel: {
+                                    show: j === dimSize - 1
+                                },
+                                axisTick: {
+                                    show: j === dimSize - 1
+                                },
+                                name: j === dimSize - 1 ? schema[i].text : '',
+                                nameLocation: 'middle',
+                                nameGap: 30,
+                                splitNumber: 3
+                            });
+                            yAxes.push({
+                                gridIndex: grids.length - 1,
+                                axisLabel: {
+                                    show: i === 1
+                                },
+                                axisTick: {
+                                    show: i === 1
+                                },
+                                name: i === 1 ? schema[j].text : '',
+                                nameLocation: 'middle',
+                                nameGap: 30,
+                                splitNumber: 4
+                            });
+                            var color = ['#5793f3', '#d14a61', '#fd9c35'];
+                            [dataBJ, dataGZ, dataSH].forEach(function (data, idx) {
+                                series.push({
+                                    hoverAnimation: false,
+                                    name: nameList[idx],
+                                    type: 'scatter',
+                                    xAxisIndex: xAxes.length - 1,
+                                    yAxisIndex: yAxes.length - 1,
+                                    data: data.map(function (item) {
+                                        return [item[i], item[j]];
+                                    }),
+                                    itemStyle: {
+                                        normal: {
+                                            color: color[idx]
+                                        }
+                                    }
+                                });
+                            });
+                        // }
+                    }
+                }
+
+                chart.setOption({
+                    legend: {
+                        orient: 'vertical',
+                        data: nameList,
+                        right: 2,
+                        top: 'center'
+                    },
+                    animation: false,
+                    grid: grids,
+                    xAxis: xAxes,
+                    yAxis: yAxes,
+                    series: series
+                });
+
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,252 @@
+@font-face {
+    font-family: 'iconfont';
+    src: url('font/iconfont.eot'); /* IE9*/
+    src: url('font/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('font/iconfont.woff') format('woff'), /* chrome、firefox */
+    url('font/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('font/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin clearfix() {
+    &:before,
+    &:after {
+        display: table;
+        line-height: 0;
+        content: "";
+    }
+    &:after {
+        clear: both;
+    }
+    *zoom: 1;
+}
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    #main {
+        height: 100%;
+    }
+}
+
+#lowie-main {
+    display: none;
+}
+.lower-ie {
+    #main {
+        display: none;
+    }
+    #lowie-main {
+        display: block;
+        height: 100%;
+        width: 100%;
+        padding: 200px 0 100px;
+        background-color: #2a3c54;
+        img {
+            display: block;
+            width: 60%;
+            margin: 0 auto;
+        }
+    }
+}
+
+// settings contains declaration of variables only
+@import 'settings.colors';
+
+// components are the styles of _jade/components
+@import 'components.nav';
+
+// general setting for all pages
+@import 'components.page';
+@import 'components.slider';
+
+// styles only used in certain pages like index or examples
+@import 'pages.index';
+@import 'pages.index.feature';
+@import 'pages.examples.nav';
+@import 'pages.examples.charts';
+
+@import 'components.reset';
+@import 'pages.download';
+@import 'pages.builder';
+@import 'pages.about';
+@import 'pages.notfound';
+@import 'pages.map';
+@import 'pages.theme';
+@import 'pages.changelog';
+@import 'pages.api';
+@import 'pages.extension';
+@import 'pages.faq';
+
+#main {
+    position: relative;
+}
+
+// pace
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.pace-inactive {
+  display: none;
+}
+
+.pace .pace-progress {
+  background: $clr-contrast;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  height: 2px;
+}
+
+.pace .pace-progress-inner {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px $clr-contrast, 0 0 5px $clr-contrast;
+  opacity: 1.0;
+  -webkit-transform: rotate(3deg) translate(0px, -4px);
+  -moz-transform: rotate(3deg) translate(0px, -4px);
+  -ms-transform: rotate(3deg) translate(0px, -4px);
+  -o-transform: rotate(3deg) translate(0px, -4px);
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+
+
+.btn {
+    padding: 8px 50px;
+    border-radius: 20px;
+    transition-duration: 0.5s;
+
+    & + .btn {
+        margin-left: 15px;
+    }
+
+    img {
+        width: 20px;
+        margin-right: 10px;
+        margin-top: -2px;
+        margin-left: -5px;
+    }
+
+    &:hover {
+        box-shadow: 1px 4px 12px 0 rgba(25, 119, 173, 0.5);
+    }
+
+    &:focus, &:active {
+        box-shadow: 1px 4px 12px 0 rgba(25, 119, 173, 0.5);
+    }
+}
+
+.btn-thirdary {
+    width: 180px;
+    box-shadow: 1px 3px 8px 0 rgba(25, 119, 173, 0.4);
+    background-color: #3FA5DC;
+
+    padding: 9px 10px;
+    color: white;
+    transition: 0.5s;
+
+    &:hover {
+        color: white;
+        background-color: #45B4E8;
+    }
+
+    &:focus, &:active {
+        color: white;
+        background-color: #2997D6;
+    }
+}
+
+.btn-blue {
+    background-color: #47ACE3;
+    color: white;
+    box-shadow: 1px 4px 8px 0 rgba(25, 119, 173, 0.4);
+
+    &:hover {
+        background-color: #46B5F1;
+        color: white;
+        box-shadow: 1px 4px 11px 0 rgba(25, 119, 173, 0.5);
+    }
+
+    &:focus {
+        background-color: #2E9FDC;
+        color: white;
+        box-shadow: 1px 4px 11px 0 rgba(25, 119, 173, 0.5);
+    }
+}
+
+.btn-red {
+    background-color: #FF424F;
+    color: white;
+    box-shadow: 1px 4px 8px 0 rgba(174, 44, 53, 0.4);
+
+    &:hover {
+        background-color: #FF4F4B;
+        color: white;
+        box-shadow: 1px 4px 11px 0 rgba(174, 44, 53, 0.5);
+    }
+
+    &:focus {
+        background-color: #EE2A38;
+        color: white;
+        box-shadow: 1px 4px 11px 0 rgba(174, 44, 53, 0.5);
+    }
+}
+
+.btn-green {
+    background-color: #80BB6A;
+    color: white;
+
+    &:hover, &:focus {
+        background-color: #95CC81;
+        color: white;
+        box-shadow: 1px 3px 8px 0 rgba(76, 151, 47, 0.4);
+    }
+}
+
+.btn-index-home {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+
+    &:hover, &:focus {
+        background-color: white;
+        color: $clr-primary-home;
+        box-shadow: 6px 14px 31px 0 rgba(0, 0, 0, 0.3);
+    }
+}
+
+.btn-default {
+    background-color: white;
+    color: $clr-thirdary;
+    border: 1px solid $clr-thirdary;
+
+    &:hover, &:focus {
+        background-color: $clr-thirdary;
+        color: white;
+        border: 1px solid $clr-thirdary;
+    }
+}

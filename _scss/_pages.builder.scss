@@ -1,0 +1,164 @@
+
+li {
+    list-style: none;
+}
+
+ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+#builder {
+    .warn {
+        color: $clr-contrast;
+        margin-top: 10px;
+        font-size: 16px;
+        line-height: 25px;
+    }
+}
+
+#configuration {
+    width: 1000px;
+    margin: 0 auto;
+
+    p.desc {
+        color: #6b7a89;
+        font-size: 16px;
+    }
+
+    h3 {
+        font-family: noto-thin;
+        margin: 26px 0;
+    }
+
+    &>section {
+        border-bottom: 1px solid #e5e5e5;
+        text-align: left;
+
+        p {
+            margin: 20px 0;
+        }
+    }
+
+    h3 {
+        margin: 10px 0;
+        color: #3c485c;
+        font-size: 26px;
+        font-weight: normal;
+
+        span {
+            font-size: 16px;
+            margin-left: 5px;
+        }
+    }
+    ul {
+        margin: 10px;
+    }
+    li {
+        display: inline-block;
+        vertical-align: top;
+        margin: 20px 28px;
+
+        text-align: center;
+        width: 100px;
+
+        cursor: pointer;
+
+        transition: box-shadow 0.4s;
+
+        input {
+            display: none;
+        }
+
+        img {
+            margin-top: 5px;
+            width: 90px;
+            height: 90px;
+        }
+
+        h5 {
+            background-color: #293c55;
+            color: white;
+            font-weight: normal;
+            span {
+                font-size: 12px;
+                margin-left: 3px;
+            }
+            margin: 0;
+            padding: 0;
+
+            height: 25px;
+            line-height: 25px;
+
+            position: relative;
+        }
+
+        &:hover {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        &.checked {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
+            h5::before {
+                content: '';
+                width: 15px;
+                height: 15px;
+                background-size: 15px 15px;
+                background-image: url(../images/builder/checked.png);
+                display: inline-block;
+                position: absolute;
+                right: 0;
+                top: -95px;
+            }
+        }
+    }
+}
+
+#other {
+    input {
+        margin: 0 10px 0 0;
+        vertical-align: middle;
+    }
+
+    label {
+        font-size: 16px;
+    }
+
+    p.desc {
+        font-size: 14px;
+        padding-left: 10px;
+    }
+
+    a {
+        color: black;
+    }
+    .other-option {
+        margin-left: 15px;
+    }
+}
+
+#action {
+    margin-top: 50px;
+    margin-bottom: 100px;
+    text-align: center;
+}
+
+#email {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    line-height: 2em;
+    width: 250px;
+    padding: 5px 20px;
+
+    outline: none;
+    margin-top: 20px;
+}
+
+#build {
+    margin-top: 20px;
+}
+
+.clear {
+    clear:both;
+}

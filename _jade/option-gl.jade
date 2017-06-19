@@ -1,0 +1,11 @@
+extends layouts/doc
+
+block global_args_extra
+
+    script(type="text/javascript").
+        window.globalArgsExtra = {
+            pageName: 'option-gl',
+            schemaUrl: 'documents/cn/option-gl.json',
+            initHash: 'globe',
+            docTreeRootText: '.setOption('
+        };

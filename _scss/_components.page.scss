@@ -1,0 +1,225 @@
+$single-page-left-width: 200px;
+$info-height: 120px;
+
+.section-bg {
+    background: #F4F7FC;
+    padding: 10px 0;
+}
+
+.d-section.last-section {
+    margin-bottom: 30px;
+    border-bottom: 0;
+}
+
+.page-info {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 40px;
+    color: #4e6167;
+    background: #F4F7FC;
+
+    h1 {
+        margin-bottom: 10px;
+        font-size: 40px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}
+
+.page-content {
+    h2 {
+        color: $clr-secondary;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    p {
+        font-size: 14px;
+        margin: 5px 0;
+    }
+
+    &.single-page {
+        position: absolute;
+        top: $info-height;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    section {
+        padding: 40px 0;
+        text-align: center;
+    }
+}
+
+    .page-nav {
+        position: fixed;
+        overflow: auto;
+        width: $single-page-left-width;
+        top: 230px;
+        bottom: 0;
+        margin: 0 0 0 30px;
+        padding: 0 0 20px 0;
+
+        h4 {
+            margin: 10px 0;
+            color: #666;
+            font-size: 14px;
+            padding-left: 10px;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+
+        a {
+            border-left: 1px solid rgba(78, 97, 103, 0.25);
+            color: #999;
+            padding: 7px 10px;
+            display: block;
+            position: relative;
+
+            &:before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                bottom: 50%;
+                background: $clr-secondary;
+                width: 3px;
+                left: -1px;
+                transition-property: 'top, bottom';
+                transition-duration: 0.3s;
+                transition-timing-function: ease-out;
+            }
+
+            &:hover {
+                text-decoration: none;
+                color: #333;
+
+                &:before {
+                    top: 0;
+                    bottom: 0;
+                }
+            }
+
+            &.active {
+                color: $clr-secondary;
+            }
+        }
+
+        .slide-btn {
+            display: none;
+        }
+    }
+
+    .page-detail {
+        margin-left: $single-page-left-width + 20px;
+        margin-bottom: 20px;
+        padding: 30px 40px 0 40px;
+        position: absolute;
+        right: 0;
+        left: 0;
+        overflow-x: hidden;
+
+        h2 {
+            margin: 10px 0;
+            padding-top: 20px;
+            font-size: 22px;
+
+            &+h3 {
+                margin-top: 20px;
+            }
+        }
+
+        h3 {
+            margin: 40px 0 15px 0;
+            font-size: 18px;
+        }
+
+        p {
+            margin: 15px 0;
+        }
+
+        li {
+            padding-left: 0;
+
+            li {
+                padding-left: 20px;
+                margin: 5px 0;
+            }
+        }
+
+        .time {
+            float: right;
+            position: relative;
+            top: -35px;
+        }
+    }
+
+        p.page-detail-desc {
+            margin-top: 25px;
+        }
+
+
+
+@media screen and (max-device-width: 600px) {
+    .page-content {
+        &.single-page {
+            position: static;
+        }
+
+        &.slide-up {
+            .page-nav {
+                ul {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .page-info {
+        text-align: left;
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    .page-nav {
+        position: static;
+
+        .slide-btn {
+            display: block;
+            color: $clr-contrast;
+            position: absolute;
+            right: 20px;
+            margin-top: 10px;
+        }
+    }
+
+    .page-detail {
+        position: static;
+        margin-left: 0;
+        padding: 0 15px;
+
+        h2 {
+            padding-top: 20px;
+
+            &:first-child {
+                padding-top: 0;
+            }
+        }
+    }
+}
+
+#download-extension-container {
+    max-width: 800px;
+
+    .row {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+}

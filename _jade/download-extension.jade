@@ -1,0 +1,80 @@
+extends layouts/basic
+
+mixin extension(ext)
+    .col-md-3.col-sm-6.extension
+        if ext.website
+            - var website = ext.website
+        else
+            - var website = '#'
+        .extension-content
+            a.extension-head(href="#{website}")
+                if ext.image
+                    img.extension-img(src="images/extensions/#{ext.image}")
+                else
+                    img.extension-img(src="images/extensions/default-extension.png")
+            .extension-info
+                a.extension-name(href="#{website}") #{ext.name}
+                .extension-author
+                    span 贡献者：
+                    each author in ext.authors
+                        a.extension-author-name(href="#{author.website}") #{author.name}
+                .extension-desc #{ext.desc}
+
+block extra_head
+    <title>ECharts 扩展下载</title>
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include components/nav
+
+
+    .page-info
+        h1 扩展下载
+        p 可在此免费下载各类 ECharts 扩展插件，提供更丰富的图表类型和增强功能
+
+    .page-content.container#extension
+        .nav-container
+            ul.nav.nav-tabs
+                li.active
+                    a(href="#chart-type", data-toggle="tab") 图表及组件
+                li
+                    a(href="#functional", data-toggle="tab") 功能增强
+                li
+                    a(href="#framework", data-toggle="tab") 框架协作
+                li
+                    a(href="#language", data-toggle="tab") 其他语言
+
+        .tab-content
+            .tab-pane.active#chart-type
+                .row
+                    each ext in extensions.chartType
+                        +extension(ext)
+            .tab-pane#functional
+                .row
+                    each ext in extensions.functional
+                        +extension(ext)
+            .tab-pane#framework
+                .row
+                    each ext in extensions.framework
+                        +extension(ext)
+            .tab-pane#language
+                .row
+                    each ext in extensions.language
+                        +extension(ext)
+
+    #submit-extension
+        .container
+            h3 提交你的ECharts的插件
+            p 我们会尽快与您取得联系，之后您制作的的插件将会在此页面提供给广大ECharts用户使用。
+            p 在此感谢您对ECharts的支持与贡献！
+            a.btn.btn-thirdary(href='mailto:echarts@baidu.com')
+                img(src='images/btn-email.png')
+                span 发邮件提交
+
+
+
+    include ./components/footer
+
+block extra_js
+    script(type='text/javascript').
+        document.getElementById('nav-download').className = 'active';

@@ -1,0 +1,52 @@
+#changelog {
+    width: 700px;
+    margin: 0 auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+
+    font-family: 'Microsoft Yahei';
+
+    p.desc {
+        margin: 10px 0;
+    }
+
+    p {
+        font-weight: normal;
+    }
+
+    .time {
+        color: #888;
+        float: right;
+        margin-top: -35px;
+        margin-right: 10px;
+    }
+
+    h2 {
+        margin-top: 50px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+
+    strong {
+        color: #c12c2c;
+
+        a {
+            color: #3cafa4;
+        }
+    }
+
+    &>ul {
+        margin-left: -10px;
+    }
+
+    li {
+        margin: 10px 0;
+        padding: 0 20px;
+    }
+
+    pre {
+        margin: 10px 20px;
+        border: none;
+    }
+}

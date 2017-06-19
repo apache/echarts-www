@@ -1,0 +1,36 @@
+{
+  "all": 7214,
+  "charts": {
+    "bar": 5165,
+    "line": 5407,
+    "pie": 4989,
+    "scatter": 1494,
+    "candlestick": 1225,
+    "radar": 1357,
+    "heatmap": 1140,
+    "treemap": 1048,
+    "map": 2160,
+    "lines": 1402,
+    "graph": 1339,
+    "boxplot": 992,
+    "parallel": 1231,
+    "gauge": 1361,
+    "funnel": 1101,
+    "sankey": 1027
+  },
+  "components": {
+    "grid": 6208,
+    "polar": 1264,
+    "geo": 1871,
+    "title": 6400,
+    "legend": 6300,
+    "tooltip": 6339,
+    "markPoint": 2417,
+    "markLine": 2114,
+    "timeline": 1924,
+    "dataZoom": 2043,
+    "visualMap": 1780,
+    "toolbox": 2137
+  },
+  "ie": 6251
+}

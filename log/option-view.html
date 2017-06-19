@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Option View</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+        html, body, #option-view-chart {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="option-view-chart"></div>
+    <script src="../dist/echarts.js"></script>
+    <script src="../vendors/jquery/jquery.min.js"></script>
+    <script src="../asset/theme/vintage.js"></script>
+
+    <script>
+        var chart = echarts.init($('#option-view-chart')[0], 'vintage');
+        chart.showLoading();
+        $.getJSON('./out/option-view.json', function (rawData) {
+            chart.hideLoading();
+            var data = {};
+
+            function convert(source, target, basePath) {
+                for (var key in source) {
+                    var path = basePath ? (basePath + '.' + key) : key;
+                    if (key.match(/^\$/)) {
+
+                    }
+                    else {
+                        target.children = target.children || [];
+                        var child = {
+                            name: path
+                        };
+                        target.children.push(child);
+                        convert(source[key], child, path);
+                    }
+                }
+
+                if (!target.children) {
+                    target.value = source.$count || 1;
+                }
+                else {
+                    target.children.push({
+                        name: basePath,
+                        value: source.$count
+                    });
+                }
+            }
+
+            convert(rawData, data, '');
+
+            chart.setOption({
+                title: {
+                    text: '配置项查询分布',
+                    left: 'center'
+                },
+                tooltip: {},
+                series: [{
+                    name: 'option',
+                    type: 'treemap',
+                    visibleMin: 300,
+                    data: data.children,
+                    itemStyle: {
+                        normal: {
+                            // gapWidth: 1
+                            // borderWidth: 1
+                        }
+                    },
+                    leafDepth: 2,
+                    levels: [
+                        {
+                            itemStyle: {
+                                normal: {
+                                    borderColor: '#333',
+                                    borderWidth: 1,
+                                    gapWidth: 2
+                                }
+                            }
+                        },
+                        {
+                            colorSaturation: [0.2, 0.4],
+                            itemStyle: {
+                                normal: {
+                                    borderColor: '#fff',
+                                    gapWidth: 0,
+                                    borderWidth: 1
+                                }
+                            }
+                        }
+                    ]
+                }]
+            });
+        });
+
+        $(window).resize(function () {
+            chart.resize();
+        })
+    </script>
+</body>
+</html>

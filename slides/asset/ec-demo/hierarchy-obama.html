@@ -1,0 +1,320 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+        <link rel="stylesheet" href="../common/simpleRadio.css">
+    </head>
+    <body>
+        <style>
+            #main {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: 0;
+            }
+            .controller {
+                font-size: 14px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: #222;
+                color: #ddd;
+                line-height: 20px;
+                z-index: 100;
+                text-align: center;
+                height: 32px;
+                line-height: 32px;
+            }
+            .controller #measures {
+                display: inline-block;
+            }
+            .controller .query {
+                display: inline-block;
+                margin-left: 30px;
+            }
+            .controller .query #query-input {
+                width: 130px;
+                margin-right: 10px;
+                background: #222;
+                border: 1px solid #999;
+                padding: 0 5px;
+                border-radius: 3px;
+                color: #fff;
+            }
+            .controller .query .query-btn {
+                display: inline-block;
+                background: #555;
+                height: 20px;
+                line-height: 20px;
+                padding: 0 5px;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+            .tooltip-title {
+                color: yellow;
+                font-size: 16px;
+                margin-bottom: 5px;
+            }
+        </style>
+        <div class="controller">
+            <div id="measures">
+            </div>
+            <div class="query">
+                <input id="query-input" type="text" placeholder="请输入节点名" onkeypress="if (event.keyCode === 13) { query(); return false; }"/>
+                <div class="query-btn" onclick="query();" >检索节点</div>
+            </div>
+        </div>
+        <div id="main"></div>
+
+        <script type="text/javascript" src="../dat.gui.min.js"></script>
+
+        <script>
+
+            var chart;
+            var formatUtil;
+            var data;
+
+            var SERIES_NAME = 'Obama’s 2012 Budget Proposal: How $3.7 Trillion is Spent';
+
+            require([
+                'data/obama_budget_proposal_2012.json',
+                'common/simpleRadio',
+                'echarts'
+            ], init);
+
+            function areaMeasureChange(mode) {
+                chart.setOption({
+                    tooltip: {
+                        formatter: getTooltipFormatter(mode)
+                    },
+                    series: [{
+                        visualDimension: mode === 2 ? 2 : null,
+                        data: buildData(mode, data.obama_budget_2012),
+                        levels: getLevelOption(mode)
+                    }]
+                });
+            }
+
+            function query() {
+                var nodeName = document.getElementById('query-input').value;
+                // 先找精确匹配的
+                var nodeIdList = findNodeId(nodeName, data.obama_budget_2012);
+                // 再找模糊匹配的
+                if (!nodeIdList.length) {
+                    nodeIdList = findNodeId(nodeName, data.obama_budget_2012, true);
+                }
+
+                if (nodeIdList.length) {
+                    // FIXME
+                    // 接口？
+                    chart.dispatchAction({
+                        type: 'treemapZoomToNode',
+                        seriesName: SERIES_NAME,
+                        // 这个示例中简单处理，只聚焦到找到的第一个节点上。
+                        targetNodeId: nodeIdList[0]
+                    });
+                }
+                else {
+                    alert('没有找到节点 (No result)');
+                }
+            }
+
+            function findNodeId(nodeName, originList, fuzzy) {
+                var out = [];
+                nodeName = nodeName.toLowerCase();
+
+                for (var i = 0, len = originList.length; i < len; i++) {
+                    var node = originList[i];
+                    if (node.name
+                        && (
+                            fuzzy
+                            ? node.name.toLowerCase().indexOf(nodeName) === 0
+                            : node.name.toLowerCase() === nodeName
+                        )
+                    ) {
+                        out.push(node.id);
+                    }
+                    if (node.children) {
+                        out.push.apply(out, findNodeId(nodeName, node.children, fuzzy));
+                    }
+                }
+
+                return out;
+            }
+
+            function buildData(mode, originList) {
+                var out = [];
+
+                for (var i = 0; i < originList.length; i++) {
+                    var node = originList[i];
+                    var newNode = out[i] = cloneNodeInfo(node);
+                    var value = newNode.value;
+
+                    if (!newNode) {
+                        continue;
+                    }
+
+                    // Calculate amount per household.
+                    value[3] = value[0] / data.household_america_2012;
+
+                    // if mode === 0 and mode === 2 do nothing
+                    if (mode === 1) {
+                        // Set 'Change from 2010' to value[0].
+                        var tmp = value[1];
+                        value[1] = value[0];
+                        value[0] = tmp;
+                    }
+
+                    if (node.children) {
+                        newNode.children = buildData(mode, node.children);
+                    }
+                }
+
+                return out;
+            }
+
+            function cloneNodeInfo(node) {
+                if (!node) {
+                    return;
+                }
+
+                var newNode = {};
+                newNode.name = node.name;
+                newNode.id = node.id;
+                newNode.discretion = node.discretion;
+                newNode.value = (node.value || []).slice();
+                return newNode;
+            }
+
+            function getLevelOption(mode) {
+                return [
+                    {
+                        color: mode === 2
+                            ? [
+                                '#5793f3', '#d14a61', '#fd9c35',
+                                '#675bba', '#fec42c', '#dd4444',
+                                '#d4df5a', '#cd4870'
+                            ]
+                            : null,
+                        colorMappingBy: 'id',
+                        itemStyle: {
+                            normal: {
+                                borderWidth: 3,
+                                gapWidth: 3
+                            }
+                        }
+                    },
+                    {
+                        colorAlpha: mode === 2
+                            ? [0.5, 1] : null,
+                        colorA: mode === 2
+                            ? [0.5, 1] : null,
+                        itemStyle: {
+                            normal: {
+                                gapWidth: 1
+                            }
+                        }
+                    }
+                ];
+            }
+
+            function isValidNumber(num) {
+                return num != null && isFinite(num);
+            }
+
+            function getTooltipFormatter(mode) {
+                var amountIndex = mode === 1 ? 1 : 0;
+                var amountIndex2011 = mode === 1 ? 0 : 1;
+
+                return function (info) {
+                    var value = info.value;
+
+                    var amount = value[amountIndex];
+                    amount = isValidNumber(amount)
+                        ? formatUtil.addCommas(amount * 1000) + '$'
+                        : '-';
+
+                    var amount2011 = value[amountIndex2011];
+                    amount2011 = isValidNumber(amount2011)
+                        ? formatUtil.addCommas(amount2011 * 1000) + '$'
+                        : '-';
+
+                    var perHousehold = value[3];
+                    perHousehold = isValidNumber(perHousehold)
+                        ? formatUtil.addCommas((+perHousehold.toFixed(4)) * 1000) + '$'
+                        : '-';
+
+                    var change = value[2];
+                    change = isValidNumber(change)
+                        ? change.toFixed(2) + '%'
+                        : '-';
+
+                    return [
+                        '<div class="tooltip-title">' + formatUtil.encodeHTML(info.name) + '</div>',
+                        '2012 Amount: &nbsp;&nbsp;' + amount + '<br>',
+                        'Per Household: &nbsp;&nbsp;' + perHousehold + '<br>',
+                        '2011 Amount: &nbsp;&nbsp;' + amount2011 + '<br>',
+                        'Change From 2011: &nbsp;&nbsp;' + change
+                    ].join('');
+                }
+            }
+
+            function init(d, simpleRadio, echarts) {
+
+                simpleRadio.init(
+                    document.getElementById('measures'),
+                    [
+                        {value: 0, text: '2012年预算额', selected: true},
+                        {value: 1, text: '2011年预算额'},
+                        {value: 2, text: '2012年预算额 + 增长率'}
+                    ],
+                    areaMeasureChange
+                );
+
+                formatUtil = echarts.format;
+                data = d;
+
+                chart = echarts.init(document.getElementById('main'), null, {
+                    renderer: 'canvas'
+                });
+
+                chart.setOption({
+
+                    tooltip: {
+                        position: 'top',
+                        formatter: getTooltipFormatter(0)
+                    },
+
+                    series: [
+                        {
+                            name: SERIES_NAME,
+                            type: 'treemap',
+                            label: {
+                                show: true,
+                                formatter: '{b}',
+                                normal: {
+                                    textStyle: {
+                                        // 现在不能随着动画动，效果不好，所以暂时关掉。
+                                        ellipsis: true
+                                    }
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    borderColor: 'black'
+                                }
+                            },
+                            levels: getLevelOption(0),
+                            data: buildData('2012 Amount', data.obama_budget_2012)
+                        }
+                    ]
+                });
+            }
+
+        </script>
+    </body>
+</html>

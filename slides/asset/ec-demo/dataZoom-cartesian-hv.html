@@ -1,0 +1,165 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <style>
+        </style>
+        <div id="main"></div>
+        <script>
+
+            require([
+                'data/rainfall.json',
+                'echarts',
+                'common/dark'
+            ], function (data, echarts) {
+
+                var chart = echarts.init(document.getElementById('main'), 'dark');
+
+                chart.setOption({
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            animation: false
+                        }
+                    },
+                    legend: {
+                        data: ['降水量', '流量'],
+                        textStyle: {
+                            color: '#eee'
+                        }
+                    },
+                    grid: {
+                        x2: '15%'
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            boundaryGap: true,
+                            splitLine: {show: false},
+                            axisLabel: {
+                                show: false,
+                                textStyle: {
+                                    color: '#eee'
+                                }
+                            },
+                            data: data.category
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            // scale: true
+                            boundaryGap: false,
+                            splitLine: {show: false},
+                            axisLabel: {
+                                textStyle: {
+                                    color: '#eee'
+                                }
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#666'
+                                }
+                            }
+                        },
+                        {
+                            // scale: true
+                            boundaryGap: false,
+                            splitLine: {show: false},
+                            position: 'right',
+                            inverse: true,
+                            axisLabel: {
+                                textStyle: {
+                                    color: '#eee'
+                                }
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#666'
+                                }
+                            }
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '降水量',
+                            type: 'line',
+                            data: data.rainfall,
+                            hoverAnimation: false,
+                            itemStyle: {
+                                normal: {
+                                     areaStyle: {
+                                        opacity: 1
+                                     },
+                                     lineStyle: {
+                                        width: 1
+                                     }
+                                }
+                            }
+                        },
+                        {
+                            name: '流量',
+                            type: 'line',
+                            data: data.flow,
+                            yAxisIndex: 1,
+                            hoverAnimation: false,
+                            itemStyle: {
+                                normal: {
+                                     areaStyle: {
+                                        opacity: 1
+                                     },
+                                     lineStyle: {
+                                        width: 1
+                                     }
+                                }
+                            }
+                        }
+                    ],
+                    animation: false,
+                    dataZoom: [
+                        {
+                            show: true,
+                            xAxisIndex: [0],
+                            showDetail: true,
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        {
+                            show: true,
+                            type: 'inside',
+                            xAxisIndex: [0]
+                        },
+                        {
+                            show: true,
+                            orient: 'vertical',
+                            yAxisIndex: [0],
+                            width: 15,
+                            filterMode: 'empty',
+                            showDataShadow: false,
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        {
+                            show: true,
+                            orient: 'vertical',
+                            yAxisIndex: [1],
+                            width: 15,
+                            filterMode: 'empty',
+                            showDataShadow: false,
+                            x: '90%',
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        }
+                    ]
+                });
+            });
+
+        </script>
+    </body>
+</html>

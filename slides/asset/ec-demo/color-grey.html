@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../../../dist/echarts.js"></script>
+        <script src="../../../asset/map/js/china.js"></script>
+        <script src="../common/dark.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <style>
+        </style>
+        <div id="main"></div>
+        <script>
+            var chart = echarts.init(document.getElementById('main'), 'dark');
+
+            var itemStyle = {
+                normal:{
+                    borderColor: 'rgba(0, 0, 0, 0.2)'
+                },
+                emphasis:{
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                    shadowBlur: 20,
+                    borderWidth: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            };
+
+            chart.setOption({
+                title : {
+                    text: '2011年各省GDP',
+                    x:'center',
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                tooltip: {
+                },
+                dataRange: {
+                    min: 0,
+                    max: 50000,
+                    left: '10%',
+                    itemWidth: 20,
+                    itemHeight: 150,
+                    text: ['高','低'],
+                    calculable: true,
+                    formatter: function () {
+                        return arguments[0].toFixed(0) + ' 亿元';
+                    },
+                    textStyle: {
+                        color: '#fff',
+                        fontSize: 16
+                    },
+                    inRange: {
+                        color: '#cc5664',
+                        colorLightness: [0.9, 0.5]
+                    },
+                    outOfRange: {
+                        color: ['#eee']
+                    },
+                    controller: {
+                        inRange: {
+                            color: ['#cc5664']
+                        }
+                    }
+                },
+                selectedMode: 'single',
+                series : [
+                    {
+                        name: '2011年各省GDP',
+                        type: 'map',
+                        map: 'china',
+                        roam: false,
+                        mapLocation: {
+                            x: '25%',
+                            width: '70%'
+                        },
+                        itemStyle: itemStyle,
+                        showLegendSymbol: false,
+                        label: {
+                            normal: {
+                                show: false
+                            },
+                            emphasis: {
+                                show: false
+                            }
+                        },
+                        data:[
+                            {name:'西藏', value:605.83},
+                            {name:'青海', value:1670.44},
+                            {name:'宁夏', value:2102.21},
+                            {name:'海南', value:2522.66},
+                            {name:'甘肃', value:5020.37},
+                            {name:'贵州', value:5701.84},
+                            {name:'新疆', value:6610.05},
+                            {name:'云南', value:8893.12},
+                            {name:'重庆', value:10011.37},
+                            {name:'吉林', value:10568.83},
+                            {name:'山西', value:11237.55},
+                            {name:'天津', value:11307.28},
+                            {name:'江西', value:11702.82},
+                            {name:'广西', value:11720.87},
+                            {name:'陕西', value:12512.3},
+                            {name:'黑龙江', value:12582},
+                            {name:'内蒙古', value:14359.88},
+                            {name:'安徽', value:15300.65},
+                            {name:'北京', value:16251.93},
+                            {name:'福建', value:17560.18},
+                            {name:'上海', value:19195.69},
+                            {name:'湖北', value:19632.26},
+                            {name:'湖南', value:19669.56},
+                            {name:'四川', value:21026.68},
+                            {name:'辽宁', value:22226.7},
+                            {name:'河北', value:24515.76},
+                            {name:'河南', value:26931.03},
+                            {name:'浙江', value:32318.85},
+                            {name:'山东', value:45361.85},
+                            {name:'江苏', value:49110.27},
+                            {name:'广东', value:53210.28}
+                        ]
+                    }
+                ]
+            });
+
+        </script>
+    </body>
+</html>

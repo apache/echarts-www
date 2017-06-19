@@ -1,0 +1,186 @@
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../common/esl.js"></script>
+    <script src="../common/config.js"></script>
+    <link rel="stylesheet" href="../common/reset.css">
+    <link rel="stylesheet" href="../common/simpleRadio.css">
+</head>
+<body>
+<style>
+    .btn-group {
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        top: 0;
+    }
+    .btn {
+        background-color: transparent;
+        border-color: transparent;
+        cursor: pointer;
+        color: #cccccc;
+        outline-width: 0;
+    }
+    #animation-switch {
+        position: absolute;
+        right: 0;
+        top: 50px;
+    }
+</style>
+<div id="main"></div>
+<div id="animation-switch"></div>
+<script>
+
+    define('chartInstance', function (require) {
+        var rawData = require('data/wealth-health-timeline.json');
+        var echarts = require('echarts');
+        var simpleRadio = require('common/simpleRadio');
+        require('common/dark');
+
+        simpleRadio.init(
+            document.getElementById('animation-switch'),
+            [
+                {value: 0, text: '关闭', selected: true},
+                {value: 1, text: '开启动画'}
+            ],
+            function (mode) {
+                option.animationDelay = mode ? function (idx) {
+                    return idx * 100;
+                } : 0;
+
+                chart.clear();
+                chart.setOption(option);
+            }
+        );
+
+
+        var chart = echarts.init(document.getElementById('main'), 'dark');
+        var option = {
+            legend: {
+                data: rawData.counties,
+                selectedMode: 'single',
+                right: 100
+            },
+            visualMap: {
+                show: false,
+                min: 0,
+                max: 100,
+                dimension: 1,
+                inRange: {
+                    colorLightness: [0.2, 0.9]
+                }
+            },
+            grid: {
+                left: 0,
+                bottom: 0,
+                containLabel: true,
+                top: 80
+            },
+            xAxis: {
+                type: 'value',
+                splitLine: {
+                    show: false
+                },
+                splitArea: {
+                    show: true,
+                    areaStyle: {
+                        color: ['rgba(0, 0, 0, 0.1', 'transparent']
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value',
+                scale: true,
+                splitLine: {
+                    lineStyle: {
+                        type: 'solid'
+                    }
+                }
+            },
+            toolbox: {
+                feature: {
+                    dataZoom: {}
+                }
+            },
+            dataZoom: {
+                type: 'inside'
+            },
+            series: []
+        };
+
+        rawData.counties.forEach(function (country) {
+            var data = rawData.series.map(function (yearData) {
+                var item = yearData.filter(function (item) {
+                    return item[3] === country;
+                })[0];
+                return {
+                    label: {
+                        normal: {
+                            show: item[4] % 20 === 0 && item[4] > 1940
+                        },
+                        emphasis: {
+                            position: 'top',
+                            show: true
+                        }
+                    },
+                    name: item[4],
+                    value: item
+                };
+            });
+            var links = data.map(function (item, idx) {
+                return {
+                    source: idx,
+                    target: idx + 1
+                };
+            });
+            links.pop();
+
+            option.series.push({
+                name: country,
+                type: 'graph',
+                coordinateSystem: 'cartesian2d',
+                data: data,
+                links: links,
+                edgeSymbol: ['none', 'arrow'],
+                edgeSymbolSize: 5,
+                legendHoverLink: false,
+                lineStyle: {
+                    normal: {
+                        color: '#eee'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        borderWidth: 1,
+                        borderColor: '#eee'
+                    }
+                },
+                label: {
+                    normal: {
+                        textStyle: {
+                            color: '#eee'
+                        },
+                        position: 'right'
+                    }
+                },
+                symbolSize: 10
+                // animationDelay: function (idx) {
+                //     return idx * 100;
+                // }
+            });
+        });
+
+        return {
+            init: function() {
+                chart.setOption(option);
+            }
+        };
+    });
+
+    require(['chartInstance', 'data/wealth-health-timeline.json'], function (chartInstance, data) {
+        chartInstance.init();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../../../dist/echarts.js"></script>
+        <script src="../common/dark.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <style>
+        </style>
+        <div id="main"></div>
+        <script>
+
+
+            var chart = echarts.init(document.getElementById('main'));
+
+            var data1 = [];
+
+            var symbolCount = 5;
+            var splitList = [];
+
+            for (var i = 0; i < symbolCount; i++) {
+                data1.push([i * 20, 3, i]);
+                splitList.push({min: i, max: i});
+            }
+
+            chart.setOption({
+                color: ['#5793f3', '#d14a61', '#fd9c35', '#675bba', '#fec42c',
+                    '#dd4444', '#d4df5a', '#cd4870'],
+                grid: {
+                    y: '26%',
+                    y2: '26%'
+                },
+                xAxis: {
+                    type: 'value',
+                    splitLine: {show: false},
+                    axisLine: {lineStyle: {width: 0}},
+                    axisLabel: {show: false},
+                    axisTick: {show: false}
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine: {show: false},
+                    axisLine: {lineStyle: {width: 0}},
+                    axisLabel: {show: false},
+                    axisTick: {show: false}
+                },
+                dataRange: [
+                    {
+                        show: false,
+                        min: 0,
+                        max: symbolCount,
+                        splitList: splitList,
+                        x: 'right',
+                        // selectedMode: 'single',
+                        selectedMode: 'multiple',
+                        dimension: 'z',
+                        backgroundColor: '#eee',
+                        inRange: {
+                            symbol: ['circle', 'roundRect', 'diamond', 'line', 'triangle'],
+                            symbolSize: [100, 100]
+                        },
+                        outOfRange: {
+                            opacity: 0.1
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name: 'scatter',
+                        type: 'scatter',
+                        itemStyle: {
+                            normal: {
+                                opacity: 0.8,
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowOffsetY: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        },
+                        symbolSize: function (val) {
+                            return val[2] * 2;
+                        },
+                        data: data1
+                    }
+                ]
+            });
+
+        </script>
+    </body>
+</html>

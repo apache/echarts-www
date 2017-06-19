@@ -1,0 +1,149 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+        <link rel="stylesheet" href="../common/simpleRadio.css">
+    </head>
+    <body>
+        <style>
+            #main {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: 0;
+            }
+        </style>
+        <div id="main"></div>
+
+        <script>
+
+            var chart;
+            var rawData;
+
+            require([
+                'data/disk-tree.json',
+                // 'data/obama_budget_proposal_2012.json',
+                'echarts',
+                'common/dark'
+            ], function (d, echarts) {
+                // rawData = d.obama_budget_2012;
+                rawData = d.sort(function (a, b) {
+                    return b.value - a.value;
+                }).slice(0, 9);
+                initEcharts(echarts);
+            });
+
+            function initEcharts(echarts) {
+                chart = echarts.init(document.getElementById('main'), 'dark');
+
+                function updateDepthAndHeight(node, depth) {
+                    var height = 0;
+                    node.depth = depth;
+                    if (node.children) {
+                        for (var i = 0; i < node.children.length; i++) {
+                            var child = node.children[i];
+                            updateDepthAndHeight(child, depth + 1);
+                            if (child.height > height) {
+                                height = child.height;
+                            }
+                        }
+                        // Remove too small value to avoid float error
+                        node.children = node.children.sort(function (a, b) {
+                            return b.value - a.value;
+                        }).slice(0, 10);
+                        var sum = node.children.reduce(function (sum, child) {
+                            return sum + child.value;
+                        }, 0);
+                        if (sum < node.value) {
+                            node.children.push({
+                                depth: node.depth + 1,
+                                value: node.value - sum,
+                                placeholder: true
+                            });
+                        }
+                    }
+                    node.height = height + 1;
+                }
+                var root = {
+                    children: rawData
+                };
+                updateDepthAndHeight(root, -1);
+
+                var colorList = ['#5793f3', '#d14a61', '#fd9c35', '#675bba', '#fec42c', '#dd4444', '#d4df5a', '#cd4870'];
+
+                var series = [];
+                function traverse(node) {
+                    if (node !== root) {
+                        series[node.depth] = series[node.depth] || {
+                            type: 'pie',
+                            data: [],
+                            hoverAnimation: false,
+                            label: {
+                                normal: {
+                                    show: false
+                                },
+                                emphasis: {
+                                    show: false
+                                }
+                            },
+                            radius: [
+                                ((node.depth / (root.height - 1) * 80) || 10) + '%',
+                                (node.depth + 1) / (root.height - 1) * 80 + '%'
+                            ]
+                        };
+                        var dataItem = {
+                            name: node.name,
+                            value: [node.value, node.depth]
+                        };
+                        dataItem.itemStyle = {
+                            normal: {
+                                // opacity: node.placeholder ? 0 : 1,
+                                opacity: (node.placeholder || (node.value < 4000)) ? 0 : 1,
+                                color: node.color,
+                                borderWidth: 1,
+                                borderColor: '#333'
+                            }
+                        };
+                        series[node.depth].data.push(dataItem);
+                    }
+
+                    if (node.depth < root.height - 1) {
+                        node.children = node.children || [{
+                            depth: node.depth + 1,
+                            // Placeholder value
+                            placeholder: true,
+                            value: node.value
+                        }];
+                        node.children.forEach(function (child, idx) {
+                            child.color = node.color || colorList[idx % colorList.length];
+                            traverse(child);
+                        });
+                    }
+                }
+                traverse(root);
+
+                chart.setOption({
+                    title: {
+                        text: '磁盘空间旭日图',
+                        left: 'center'
+                    },
+                    visualMap: {
+                        show: false,
+                        min: 0,
+                        max: 3,
+                        inRange: {
+                            colorLightness: [0.5, 0.8]
+                        }
+                    },
+                    tooltip: {},
+                    series: series,
+                    animationEasing: 'linear'
+                });
+            }
+
+        </script>
+    </body>
+</html>

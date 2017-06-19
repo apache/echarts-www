@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Option View</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+        html, body, #charts-builder-count-chart, #components-builder-count-chart {
+            height: 100%;
+        }
+        #charts-builder-count-chart, #components-builder-count-chart {
+            width: 50%;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="charts-builder-count-chart"></div>
+    <div id="components-builder-count-chart"></div>
+    <script src="../dist/echarts.js"></script>
+    <script src="../dist/echarts.js"></script>
+    <script src="../theme/vintage.js"></script>
+    <script src="../vendors/jquery/jquery.min.js"></script>
+    <script src="../vendors/lodash.js"></script>
+
+    <script>
+        var chart1 = echarts.init($('#charts-builder-count-chart')[0], 'vintage');
+        var chart2 = echarts.init($('#components-builder-count-chart')[0], 'vintage');
+        chart1.showLoading();
+        chart2.showLoading();
+        $.getJSON('./out/builder.json', function (data) {
+            chart1.hideLoading();
+            chart2.hideLoading();
+
+            _.each([chart1, chart2], function (chart, idx) {
+                chart.setOption({
+                    title: {
+                        text: idx === 0 ? '图表分布' : '组件分布' ,
+                        left: 'center'
+                    },
+                    tooltip: {},
+                    grid: {
+                        left: '3%',
+                        right: '3%',
+                        top: '8%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'value',
+                        splitLine: {
+                            show: false
+                        },
+                        max: data.all
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: _.keys(idx === 0 ? data.charts : data.components),
+                        splitLine: {
+                            show: false
+                        }
+                    },
+                    series: [{
+                        name: idx === 0 ? 'charts' : 'components',
+                        type: 'bar',
+                        stack: 'all',
+                        data: _.values(idx === 0 ? data.charts : data.components),
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideRight'
+                            }
+                        }
+                    }, {
+                        name: 'placeholder',
+                        type: 'bar',
+                        stack: 'all',
+                        data: _.map(_.values(idx === 0 ? data.charts : data.components), function (val) {
+                            return data.all - val;
+                        }),
+                        tooltip: {
+                            showContent: false
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#eee'
+                            },
+                            emphasis: {
+                                color: '#eee'
+                            }
+                        }
+                    }]
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../common/esl.js"></script>
+    <script src="../common/config.js"></script>
+    <link rel="stylesheet" href="../common/reset.css">
+</head>
+<body>
+<style>
+    .btn-group {
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        top: 0;
+    }
+    .btn {
+        background-color: transparent;
+        border-color: transparent;
+        cursor: pointer;
+        color: #cccccc;
+        outline-width: 0;
+    }
+</style>
+<div id="main"></div>
+<div class="btn-group">
+    <button id="reset-btn" class="btn">Reset</button>
+    <button id="pause-btn" class="btn">Pause</button>
+</div>
+<script>
+    // Schema:
+    var schema = [
+        {name: 'Income', index: 0, text: '人均收入', unit: '美元'},
+        {name: 'LifeExpectancy', index: 1, text: '人均寿命', unit: '岁'},
+        {name: 'Population', index: 2, text: '总人口', unit: ''},
+        {name: 'Country', index: 3, text: '国家', unit: ''}
+    ];
+
+    define('chartInstance', function (require) {
+        var data = require('data/wealth-health.json');
+        var echarts = require('echarts');
+        require('common/dark');
+
+        var chart = echarts.init(document.getElementById('main'), 'dark');
+
+        var itemStyle = {
+            normal: {
+                opacity: 0.8,
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowOffsetY: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+        };
+
+        var sizeFunction = function (x) {
+            var y = Math.sqrt(x / 5e8) + 0.1;
+            return y * 40;
+        };
+
+        var getOption = function(n) {
+            if (!data.timeline[n]) {
+                return;
+            }
+            return {
+                title: {
+                    show: true,
+                    'text': data.timeline[n] + ''
+                },
+                series: {
+                    name: data.timeline[n],
+                    type: 'scatter',
+                    itemStyle: itemStyle,
+                    data: data.series[n],
+                    symbolSize: function(val) {
+                        return sizeFunction(val[2]);
+                    },
+                    zlevel: 1
+                }
+            }
+        };
+
+        var option = {
+            title: [{
+                'text': data.timeline[0],
+                textAlign: 'center',
+                x: '70%',
+                y: '55%',
+                textStyle: {
+                    fontSize: 120,
+                    color: 'rgba(255, 255, 255, 0.7)'
+                }
+            }, {
+                text: 'Weath and Health of Nations',
+                left: 'center'
+            }],
+            tooltip: {
+                padding: 5,
+                backgroundColor: '#222',
+                borderColor: '#777',
+                borderWidth: 1,
+                formatter: function (obj) {
+                    var value = obj.value;
+                    return schema[3].text + '：' + value[3] + '<br>'
+                            + schema[1].text + '：' + value[1] + schema[1].unit + '<br>'
+                            + schema[0].text + '：' + value[0] + schema[0].unit + '<br>'
+                            + schema[2].text + '：' + value[2] + '<br>';
+                }
+            },
+            grid: {
+                x2: '15%'
+            },
+            xAxis: {
+                type: 'log',
+                name: '人均收入/$',
+                max: 100000,
+                min: 300,
+                nameTextStyle: {
+                    fontSize: 18
+                },
+                splitLine: {
+                    show: false
+                },
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: '平均寿命/岁',
+                max: 100,
+                nameTextStyle: {
+                    fontSize: 18
+                },
+                splitLine: {
+                    show: false
+                }
+            },
+            visualMap: [
+                {
+                    show: false,
+                    dimension: 3,
+                    categories: data.counties,
+                    calculable: true,
+                    precision: 0.1,
+                    textGap: 30,
+                    inRange: {
+                        color: ['#bcd3bb', '#e88f70', '#edc1a5', '#9dc5c8', '#e1e8c8', '#7b7c68', '#e5b5b5', '#f0b489', '#928ea8', '#bda29a']
+                    }
+                }
+            ],
+            series: [
+                {
+                    type: 'scatter',
+                    itemStyle: itemStyle,
+                    data: data.series[0],
+                    symbolSize: function(val) {
+                        return sizeFunction(val[2]);
+                    },
+                    zlevel: 1
+                }
+            ]
+        };
+
+
+        return {
+            init: function() {
+                chart.setOption(option);
+                var zr = chart.getZr();
+                zr.configLayer(1, {
+                    motionBlur: true,
+                    lastFrameAlpha: 0.7
+                });
+            },
+            go: function (n) {
+                var opt = getOption(n);
+                if (opt) {
+                    chart.setOption(opt);
+                }
+            }
+        };
+    });
+
+    require(['chartInstance', 'common/tock', 'data/wealth-health.json'], function (chartInstance, Tock, data) {
+        chartInstance.init();
+        var i = 0;
+        var duration = 40 * 1000;
+        var interval = duration / data.timeline.length;
+        var timer = new Tock({
+            countdown: true,
+            interval: interval,
+            callback: function () {
+                chartInstance.go((i++));
+            },
+            complete: function () {
+            }
+        });
+
+        document.getElementById('reset-btn').addEventListener('click', function (e) {
+            timer.reset();
+            i = 0;
+            chartInstance.init();
+        });
+
+        document.getElementById('pause-btn').addEventListener('click', function (e) {
+            i === 0 ? timer.start(duration) : timer.pause();
+        });
+
+    });
+</script>
+</body>
+</html>
+ No newline at end of file

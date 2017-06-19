@@ -1,0 +1,238 @@
+extends layouts/basic
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include components/nav
+
+    #about-page
+        #reference
+            .container
+                 #recommends
+                    .recommend
+                        p ECharts 是中国的，也是世界的。
+                        .person
+                            .title 浙江大学CAD&CG国家重点实验室教授，可视化专家
+                            .name 陈为
+                    .recommend
+                        p ECharts，发现数据可视化之美！
+                        .person
+                            .title 中国传媒大学教授
+                            .name 沈浩
+                    .recommend.active
+                        p 在中国可视化生态系统中，ECharts 通过提供方便丰富的可视化图表，极大缩短了用户与数据的距离。
+                        .person
+                            .title 北京大学百人计划研究员，可视化专家
+                            .name 袁晓如
+                    .recommend
+                        p 很高兴ECharts一直保持着可视化的顶尖水平，期待 ECharts 早日动词化的那一天！
+                        .person
+                            .title 游族网络有限公司 CTO
+                            .name 李湛
+                    .recommend
+                        p ECharts 是最让我惊艳的一款数据产品，它满足了甚至超越了我对数据可视化的所有想象，无论是颜值，实用性，还是易用性。
+                        .person
+                            .title PPT 设计师 / 数据分析师
+                            .name 阿文
+            .container
+                .people
+                    img(src='images/people/陈为.png')
+                    img(src='images/people/沈浩.png')
+                    img.active(src='images/people/袁晓如.png')
+                    img(src='images/people/李湛.png')
+                    img(src='images/people/阿文.png')
+
+        section.container.contributor
+            h3 感谢贡献的人
+            p ECharts的发展离不开其背后很多人的卓越贡献，他们有着不同的技能，甚至来自不同的岗位和公司
+            p 感谢每一个人的帮助与支持，更希望以后能有更多的人助力ECharts的成长
+
+            h4.group.code 源码贡献
+            .row
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/pissang', target='_blank')
+                            img(src='images/people/沈毅.png')
+                        h5.about-name 沈毅
+                        .about-desc 百度资深前端研发工程师
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/100pah', target='_blank')
+                            img(src='images/people/宿爽.png')
+                        h5.about-name 宿爽
+                        .about-desc 百度资深前端研发工程师
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/Ovilia', target='_blank')
+                            img(src='images/people/羡辙.png')
+                        h5.about-name 羡辙
+                        .about-desc 百度高级前端研发工程师
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/deqingli', target='_blank')
+                            img(src='images/people/德清.png')
+                        h5.about-name 德清
+                        .about-desc 百度高级前端研发工程师
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/kener', target='_blank')
+                            img(src='images/people/林峰.png')
+                        h5.about-name 林峰
+                        .about-desc ECharts 创始人
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/erik168', target='_blank')
+                            img(src='images/people/erik.png')
+                        h5.about-name Erik
+                        .about-desc 百度资深前端研发工程师
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/firede', target='_blank')
+                            img(src='images/people/赵雷.png')
+                        h5.about-name 赵雷
+                        .about-desc 百度资深前端研发工程师
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/chriswong', target='_blank')
+                            img(src='images/people/大佛.png')
+                        h5.about-name 黄后锦
+                        .about-desc FECS 作者
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/Justineo', target='_blank')
+                            img(src='images/people/顾轶灵.png')
+                        h5.about-name 顾轶灵
+                        .about-desc 百度资深前端研发工程师
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/The-only', target='_blank')
+                            img(src='images/people/小红.png')
+                        h5.about-name 邓小红
+                        .about-desc 百度前端研发工程师
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/wind108369', target='_blank')
+                            img(src='images/people/杨骥.png')
+                        h5.about-name 杨骥
+                        .about-desc 社区贡献者
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/loutongbing', target='_blank')
+                            img(src='images/people/娄同兵.png')
+                        h5.about-name 娄同兵
+                        .about-desc 社区贡献者
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person.wait-for-you
+                        a(href='https://github.com/ecomfe/echarts', target='_blank')
+                            img(src='images/people/weizhi.png')
+                        h5.about-name 等你贡献
+
+            h4.group.design 产品 / 设计
+            .row
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/祖明.png')
+                        h5.about-name 祖明
+                        .about-desc 百度高级技术经理
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/周玉.png')
+                        h5.about-name 周玉
+                        .about-desc 百度高级项目经理
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://www.behance.net/wjtjiayouac8aa', target='_blank')
+                            img(src='images/people/王俊婷.png')
+                        h5.about-name 王俊婷
+                        .about-desc 百度视觉设计师
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/黄悦.png')
+                        h5.about-name 黄悦
+                        .about-desc 交互设计师
+
+            h4.group.code 业界支持
+            .row
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/谢益辉.png')
+                        h5.about-name 谢益辉
+                        .about-desc 统计之都创始人
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/黄志敏.png')
+                        h5.about-name 黄志敏
+                        .about-desc 数据工厂创始人
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/桑文锋.png')
+                        h5.about-name 桑文锋
+                        .about-desc 神策数据 CEO
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/红薯.png')
+                        h5.about-name 红薯
+                        .about-desc 开源中国创始人
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/魏太云.png')
+                        h5.about-name 魏太云
+                        .about-desc 统计之都理事会主席<br>recharts 作者
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/周扬.png')
+                        h5.about-name 周扬
+                        .about-desc 高级数据研究员<br>recharts 作者
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/王琼.png')
+                        h5.about-name 王琼
+                        .about-desc 武汉大学教授<br>镝数据创始人
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/JB.png')
+                        h5.about-name Jaroslav Benc
+                        .about-desc R&D Software Engineer<br>at Aviarc New Zealand
+
+        section.container.company
+            h3 正在使用的公司
+            .row
+                - for (var i = 1; i <= 24; ++i) {
+                    .col-md-3.col-sm-4.col-xs-6
+                        img(src='images/company/company#{i}.png')
+                -}
+            #about-send-logo
+                a.btn.btn-thirdary(href='mailto:echarts@baidu.com?Subject=Please%20add%20our%20company%20in%20ECharts%20ABOUT%20page&Body=Hello%2C%20this%20is%20%3Cyour%20name%3E%20from%20%3Cyour%20company%20name%3E.%0AWe%20are%20using%20ECharts%20and%20will%20be%20proud%20to%20add%20our%20company%20name%20to%20ECharts%20ABOUT%20page.%0APlease%20see%20attachment%20for%20our%20logo.%20%3CBe%20sure%20to%20include%20logo%20in%20attachment%3E%0A%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%98%AF%E3%80%90%E5%85%AC%E5%8F%B8%E5%90%8D%E7%A7%B0%E3%80%91%E7%9A%84%E3%80%90%E6%82%A8%E7%9A%84%E5%90%8D%E5%AD%97%E3%80%91%E3%80%82%0D%0A%E6%88%91%E4%BB%AC%E5%85%AC%E5%8F%B8%E4%BD%BF%E7%94%A8%E4%BA%86%20ECharts%20%E5%B9%B6%E4%B8%94%E5%BE%88%E4%B9%90%E6%84%8F%E5%9C%A8%20ECharts%E7%9A%84%E2%80%9C%E5%85%B3%E4%BA%8E%E6%88%91%E4%BB%AC%E2%80%9D%E9%A1%B5%E9%9D%A2%E5%8A%A0%E4%B8%8A%E6%88%91%E4%BB%AC%E5%85%AC%E5%8F%B8%E7%9A%84%20logo%E3%80%82%0D%0A%E8%AF%B7%E5%9C%A8%E9%99%84%E4%BB%B6%E4%B8%AD%E6%9F%A5%E9%98%85%20logo%E3%80%82%E3%80%90%E8%AF%B7%E9%99%84%E4%B8%8A%20logo%20%E5%B9%B6%E5%8F%91%E9%80%81%E7%BB%99%20ECharts%E3%80%91')
+                    img(src='images/btn-email.png')
+                    span 发送 LOGO
+                p 如果您的公司或产品也在使用 ECharts，欢迎发送 Logo 给我们
+
+    include components/footer
+
+
+
+block extra_js
+
+    script(type='text/javascript').
+        document.getElementById('nav-about').className = 'active';
+
+        var recommendId = 3;
+        setInterval(function () {
+            recommend(recommendId);
+            ++recommendId;
+            if (recommendId === $('.recommend').length) {
+                recommendId = 0;
+            }
+        }, 3000);
+
+        function recommend(id) {
+            recommendId = id;
+
+            var left = $('.people img').eq(0).remove();
+            $('.people').append(left);
+            $('.people img').removeClass('active');
+            $('.people img').eq(2).addClass('active');
+
+            $('.recommend').removeClass('active');
+            $('.recommend').eq(id).addClass('active');
+        }
+

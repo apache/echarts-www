@@ -1,0 +1,199 @@
+/*
+ * @file download scss
+ * @author hariny
+ */
+
+$version-size: 120px;
+$bg: #f0f4fa;
+$version-color: #333;
+$btn: #40a7dc;
+
+@mixin clearfix() {
+    &:before,
+    &:after {
+        display: table;
+        line-height: 0;
+        content: "";
+    }
+    &:after {
+        clear: both;
+    }
+    *zoom: 1;
+}
+
+#download-main {
+    max-width: 800px;
+
+    h2 {
+        font-size: 25px;
+        border-bottom: 0;
+        text-align: center;
+        color: $clr-primary;
+    }
+
+    h3 {
+        width: 620px;
+        margin: 7px auto;
+        font-size: 15px;
+
+        .warn {
+            color: #A9334C;
+        }
+    }
+
+    .list-wrap {
+        margin: 40px 0;
+    }
+}
+
+#download-row {
+    text-align: center;
+}
+
+.d-section {
+    padding-top: 50px;
+    padding-bottom: 25px;
+    text-align: center;
+    border-bottom: 1px solid $clr-border-light;
+    color: #6b7a89;
+}
+
+.d-section {
+    @include clearfix;
+}
+
+.download-theme img {
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+    transition: 0.5s;
+
+    &:hover {
+        box-shadow: 0 0 20px rgba(0, 0, 0, .3);
+    }
+}
+
+#download-main .d-section-version, #download-main .d-section-gl {
+    a {
+        text-decoration: none;
+
+        &:hover {
+            .circle-wrap {
+                color: #fff;
+                background-color: #45B4E8;
+                box-shadow: 1px 4px 12px 0 rgba(25, 119, 173, 0.5);
+                border-color: transparent;
+            }
+        }
+
+        &:active, &:focus {
+            .circle-wrap {
+                color: #fff;
+                background-color: #2997D6;
+                box-shadow: 1px 4px 12px 0 rgba(25, 119, 173, 0.5);
+                border-color: transparent;
+            }
+        }
+    }
+
+    .mode {
+        display: block;
+        margin: 38px 0 2px;
+        font-size: 17px;
+    }
+    .text {
+        margin-left: -10px;
+        text-align: center;
+        color: $version-color;
+
+        span {
+            color: #333;
+            opacity: 0.7;
+        }
+    }
+}
+
+.d-section-version {
+    .row > div {
+        height: 220px;
+    }
+
+    padding-bottom: 50px;
+}
+
+#download-main .circle-wrap {
+    width: $version-size;
+    height: $version-size;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid rgba(78, 97, 118, 0.2);
+    margin: 0 auto;
+    margin-bottom: 15px;
+    color: $clr-primary;
+    transition: 0.2s;
+}
+
+.more-btn {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
+
+    &:after {
+        display: block;
+        content: '';
+        width: 19px;
+        height: 18px;
+        background-image: url('../images/btn-arrow.png');
+        background-size: 80% 80%;
+        position: absolute;
+        background-repeat: no-repeat;
+        right: 20px;
+        top: 13px;
+    }
+
+    &+p {
+        color: #6b7a89;
+    }
+}
+
+.btn-two {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    position: relative;
+    text-align: left;
+    padding-left: 45px !important;
+}
+
+.d-section-map,
+.d-section-theme {
+    ul {
+        @include clearfix;
+    }
+    li {
+        float: left;
+        width: 260px;
+    }
+    .first-item {
+        margin-right: 160px;
+    }
+}
+
+    .hover-shadow {
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+        transition: 0.5s ease-out;
+
+        &:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, .3);
+        }
+    }
+
+#download-extension-container {
+    h2 {
+        color: $clr-primary;
+        margin-bottom: 5px;
+    }
+
+    p {
+        margin: 5px 0;
+    }
+}

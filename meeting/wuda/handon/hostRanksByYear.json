@@ -1,0 +1,135 @@
+{
+    "years": [1896,1900,1904,1908,1912,1920,1924,1928,1932,1936,1948,1952,1956,1960,1964,1968,1976,1980,1984,1988,1992,1996,2000,2004,2008,2012],
+    "hostRanksByYear": [
+        {
+            "value": 2,
+            "host": "希腊",
+            "total": 46
+        },
+        {
+            "value": 1,
+            "host": "法国",
+            "total": 101
+        },
+        {
+            "value": 1,
+            "host": "美国",
+            "total": 239
+        },
+        {
+            "value": 1,
+            "host": "英国",
+            "total": 145
+        },
+        {
+            "value": 2,
+            "host": "瑞典",
+            "total": 65
+        },
+        {
+            "value": 5,
+            "host": "比利时",
+            "total": 36
+        },
+        {
+            "value": 3,
+            "host": "法国",
+            "total": 38
+        },
+        {
+            "value": 8,
+            "host": "荷兰",
+            "total": 19
+        },
+        {
+            "value": 1,
+            "host": "美国",
+            "total": 103
+        },
+        {
+            "value": 1,
+            "host": "德国",
+            "total": 89
+        },
+        {
+            "value": 12,
+            "host": "英国",
+            "total": 23
+        },
+        {
+            "value": 8,
+            "host": "芬兰",
+            "total": 22
+        },
+        {
+            "value": 9,
+            "host": "澳大利亚",
+            "total": 11
+        },
+        {
+            "value": 3,
+            "host": "意大利",
+            "total": 36
+        },
+        {
+            "value": 3,
+            "host": "日本",
+            "total": 29
+        },
+        {
+            "value": 15,
+            "host": "墨西哥",
+            "total": 9
+        },
+        {
+            "value": 27,
+            "host": "加拿大",
+            "total": 11
+        },
+        {
+            "value": 1,
+            "host": "前苏联",
+            "total": 195
+        },
+        {
+            "value": 1,
+            "host": "美国",
+            "total": 174
+        },
+        {
+            "value": 4,
+            "host": "韩国",
+            "total": 33
+        },
+        {
+            "value": 6,
+            "host": "西班牙",
+            "total": 22
+        },
+        {
+            "value": 1,
+            "host": "美国",
+            "total": 101
+        },
+        {
+            "value": 4,
+            "host": "澳大利亚",
+            "total": 58
+        },
+        {
+            "value": 15,
+            "host": "希腊",
+            "total": 16
+        },
+        {
+            "value": 1,
+            "host": "中国",
+            "total": 100
+        },
+        {
+            "value": 3,
+            "host": "英国",
+            "total": 65
+        }
+    ]
+}

@@ -1,0 +1,91 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../common/esl.js"></script>
+    <script src="../common/config2.js"></script>
+    <link rel="stylesheet" href="../common/reset.css">
+</head>
+<body>
+<style>
+    body {
+        background: #fff;
+    }
+</style>
+<div id="main"></div>
+
+<script type="text/javascript" src="../echarts2/echarts.js"></script>
+
+<script>
+
+    define('init', function (require) {
+
+        var echarts = require('echarts');
+        require('echarts/chart/wordCloud');
+
+        var option;
+        var myChart;
+
+        return function (data) {
+            myChart = echarts.init(document.getElementById('main'));
+
+
+            function createRandomItemStyle() {
+                return {
+                    normal: {
+                        color: 'rgb(' + [
+                            Math.round(Math.random() * 160),
+                            Math.round(Math.random() * 160),
+                            Math.round(Math.random() * 160)
+                        ].join(',') + ')'
+                    }
+                };
+            }
+
+            var cloudData = [];
+            for (var i = 0, len = data.length; i < len; i ++) {
+                var item = data[i];
+                cloudData.push({
+                    name: item.key,
+                    value: item.value,
+                    itemStyle: i === 0
+                            ? {normal: {color: '#000'}}
+                            : createRandomItemStyle()
+                });
+            }
+
+            option = {
+                tooltip: {
+                    show: false
+                },
+                grid: {
+                    x: 30,
+                    y: 30,
+                    x2: 30,
+                    y2: 30,
+                    borderWidth: 0
+                },
+                series: [{
+                    name: '11月关键词盘点',
+                    type: 'wordCloud',
+                    size: ['80%', '80%'],
+                    textRotation : [0, 45, 90, -45],
+                    textPadding: 0,
+                    autoSize: {
+                        enable: true,
+                        minSize: 18
+                    },
+                    data: cloudData
+                }]
+            };
+
+            myChart.setOption(option);
+        };
+    });
+
+    require(['init', 'data/news.json'], function (init, data) {
+        init(data);
+    });
+
+</script>
+</body>
+</html>

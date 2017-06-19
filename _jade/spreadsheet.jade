@@ -1,0 +1,69 @@
+extends layouts/basic
+
+block extra_head
+    <title>ECharts Spreadsheet Tool</title>
+    link(rel="stylesheet", type="text/css", href="vendors/handsontable/0.26.1/dist/handsontable.full.min.css?_v_=1.0.0")
+    link(rel="stylesheet", type="text/css", href="css/spreadsheet.css?_v_=#{homeVersion}")
+    script(src="js/log.js")
+    script(src="vendors/esl.js")
+
+
+block content
+
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include components/nav
+
+    .ecdoc-sprsht
+
+block extra_js
+
+    block global_args_extra
+
+    script(type="text/javascript").
+        document.getElementById('nav-tool').className = 'active';
+
+        var vendorPath = '../vendors';
+
+        define('globalArgs', extend({
+            version: '#{homeVersion}',
+            basePath: './'
+        }, window.globalArgsExtra || {}));
+
+        define('ecLog', function () {
+            // log maybe blocked
+            if (typeof ecLog === 'undefined') {
+                ecLog = function () {};
+            }
+            return ecLog;
+        });
+
+        require.config({
+            baseUrl: './js',
+            paths: {
+                dt: vendorPath + '/dt/0.0.1',
+                tpl: vendorPath + '/dt/0.0.1/tplLoader',
+                etpl: vendorPath + '/etpl/3.0.0/etpl.min',
+                signals: vendorPath + '/signals/1.0.0/signals.min',
+                hasher: vendorPath + '/hasher/1.2.0/hasher.min',
+                jquery: vendorPath + '/jquery/jquery.min',
+                jquerymousewheel: vendorPath + '/jquery-mousewheel/3.1.11/jquery.mousewheel.min',
+                handsontable: vendorPath + '/handsontable/0.26.1/dist/handsontable.full.min',
+                latinize: vendorPath + '/latinize/latinize',
+                numeral: vendorPath + '/numeral/1.4.7/numeral.min',
+                immutable: vendorPath + '/immutable/3.7.4/dist/immutable'
+            },
+            urlArgs: '_v_=#{homeVersion}'
+        });
+
+        require(['spreadsheet/spreadsheet'], function (spreadsheet) {
+            spreadsheet.init();
+        });
+
+        function extend(tar, src) {
+            for (var name in src) {
+                if (src.hasOwnProperty(name)) {
+                    tar[name] = src[name];
+                }
+            }
+            return tar;
+        }

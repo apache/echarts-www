@@ -1,0 +1,10 @@
+.simple-radio-item {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #ddd;
+}
+.simple-radio-item-selected {
+    text-decoration: underline;
+}

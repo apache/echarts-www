@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../../../dist/echarts.js"></script>
+        <script src="../common/dark.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <style>
+        </style>
+        <div id="main"></div>
+        <script>
+
+            var chart = echarts.init(document.getElementById('main'), 'dark');
+            var data = [ { date: '2013-11-07', starNum: 600 },
+              { date: '2014-03-20', starNum: 1260 },
+              { date: '2014-07-02', starNum: 1950 },
+              { date: '2014-09-24', starNum: 2610 },
+              { date: '2014-12-23', starNum: 3270 },
+              { date: '2015-01-07', starNum: 3930 },
+              { date: '2015-01-12', starNum: 4590 },
+              { date: '2015-01-25', starNum: 5250 },
+              { date: '2015-03-12', starNum: 5940 },
+              { date: '2015-05-21', starNum: 6600 },
+              { date: '2015-07-15', starNum: 7260 },
+              { date: '2015-09-19', starNum: 7920 },
+              { date: '2015-11-24', starNum: 8580 },
+              { date: '2016-01-06', starNum: 9240 },
+              { date: '2016-01-20', starNum: 9930 },
+              { date: '2016-03-08', starNum: 10590 },
+              { date: '2016-04-18', starNum: 11250 },
+              { date: '2016-05-26', starNum: 11910 }
+            ];
+
+            chart.setOption({
+                grid: {
+                    containLabel: true
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    type: 'time'
+                },
+                yAxis: {
+                },
+                series: [{
+                    name: 'line',
+                    type: 'line',
+                    stack: 'all',
+                    symbolSize: 10,
+                    label: {
+                        normal: {
+                            show: true
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(87, 147, 243, 1)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(87, 147, 243, 0)'
+                            }])
+                        }
+                    },
+                    data: data.map(function (item) {
+                        return [new Date(item.date), item.starNum];
+                    }),
+                    animationDelay: function (idx) {
+                        return idx * 50;
+                    }
+                }]
+            });
+
+        </script>
+    </body>
+</html>

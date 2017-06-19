@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+        <link rel="stylesheet" href="../common/simpleRadio.css">
+    </head>
+    <body>
+        <style>
+            #measures {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                z-index: 100;
+            }
+        </style>
+        <div id="measures"></div>
+        <div id="main"></div>
+        <script>
+
+            require([
+                'data/les-miserables.gexf',
+                'echarts',
+                'echarts/extension/dataTool',
+                'common/dark'
+            ], function (xml, echarts, dataTool) {
+
+                var chart = echarts.init(document.getElementById('main'), 'dark');
+
+                var graph = dataTool.gexf.parse(xml);
+                var categories = [];
+                for (var i = 0; i < 9; i++) {
+                    categories[i] = {
+                        name: 'module' + i
+                    };
+                }
+                graph.nodes.forEach(function (node) {
+                    node.itemStyle = null;
+                    node.symbolSize = 10;
+                    node.value = node.symbolSize;
+                    node.category = node.attributes.modularity_class;
+                    // Use random x, y
+                    node.x = node.y = null;
+                    node.draggable = true;
+                });
+                option = {
+                    title: {
+                        text: 'Les Miserables',
+                        subtext: 'Force layout',
+                        top: 'top',
+                        left: 'center'
+                    },
+                    tooltip: {},
+                    animation: false,
+                    series : [
+                        {
+                            name: 'Les Miserables',
+                            type: 'graph',
+                            layout: 'force',
+                            data: graph.nodes,
+                            links: graph.links,
+                            categories: categories,
+                            roam: true,
+                            label: {
+                                normal: {
+                                    position: 'right'
+                                }
+                            },
+                            force: {
+                                repulsion: 100
+                            }
+                        }
+                    ]
+                };
+                chart.setOption(option);
+            });
+        </script>
+    </body>
+</html>

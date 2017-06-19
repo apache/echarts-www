@@ -1,0 +1,52 @@
+#maps {
+    .links {
+        text-align: center;
+
+        a {
+            display: inline-block;
+            margin: 0 5px;
+        }
+    }
+
+    h3 {
+        margin-top: 20px;
+
+        span {
+            font-size: 0.7em;
+            display: inline-block;
+            margin: 0 4px;
+        }
+    }
+
+    h5 {
+        text-align: center;
+    }
+
+    .province {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #map-list {
+        padding-bottom: 40px;
+    }
+
+    section p {
+        margin-bottom: 0;
+        color: #6b7a89;
+    }
+}
+
+#map-example {
+    margin-top: 30px;
+    margin-bottom: 100px;
+    line-height: 2em;
+    font-size: 14px;
+    h4 {
+        margin: 20px 0 10px 0;
+    }
+    .prettyprint {
+        padding: 10px;
+        border: rgb(204, 204, 204) 1px solid;
+    }
+}

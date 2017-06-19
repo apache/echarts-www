@@ -1,0 +1,175 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <div id="main"></div>
+        <script>
+            var chart;
+            var myChart;
+            var groupCategories = [];
+            var groupColors = ["rgba(223,90,90,1)", "rgba(223,119,90,1)", "rgba(223,148,90,1)", "rgba(223,176,90,1)", "rgba(223,205,90,1)", "rgba(212,223,90,1)", "rgba(183,223,90,1)", "rgba(154,223,90,1)", "rgba(125,223,90,1)", "rgba(97,223,90,1)", "rgba(90,223,112,1)", "rgba(90,223,141,1)", "rgba(90,223,170,1)", "rgba(90,223,199,1)", "rgba(90,219,223,1)", "rgba(90,190,223,1)", "rgba(90,161,223,1)", "rgba(90,132,223,1)", "rgba(90,103,223,1)", "rgba(106,90,223,1)", "rgba(134,90,223,1)", "rgba(163,90,223,1)", "rgba(192,90,223,1)", "rgba(221,90,223,1)", "rgba(223,90,196,1)"];
+
+            require([
+                'echarts',
+                'data/nutrients.json'
+            ], function (echarts, data) {
+
+                var indices = {
+                    name: 0,
+                    group: 1,
+                    id: 16
+                };
+
+                var schema = [
+                    {name: 'name', index: 0},
+                    {name: 'group', index: 1},
+                    {name: 'protein', index: 2},
+                    {name: 'calcium', index: 3},
+                    {name: 'sodium', index: 4},
+                    {name: 'fiber', index: 5},
+                    {name: 'vitaminc', index: 6},
+                    {name: 'potassium', index: 7},
+                    {name: 'carbohydrate', index: 8},
+                    {name: 'sugars', index: 9},
+                    {name: 'fat', index: 10},
+                    {name: 'water', index: 11},
+                    {name: 'calories', index: 12},
+                    {name: 'saturated', index: 13},
+                    {name: 'monounsat', index: 14},
+                    {name: 'polyunsat', index: 15},
+                    {name: 'id', index: 16}
+                ];
+
+                normalizeData(data);
+
+                chart = myChart = echarts.init(document.getElementById('main'));
+
+                chart.setOption(getOption(data));
+
+                function normalizeData(originData) {
+                    var groupMap = {};
+                    originData.forEach(function (row) {
+                        var groupName = row[indices.group];
+                        if (!groupMap.hasOwnProperty(groupName)) {
+                            groupMap[groupName] = 1;
+                        }
+                    });
+
+                    originData.forEach(function (row) {
+                        row.forEach(function (item, index) {
+                            if (index !== indices.name
+                                && index !== indices.group
+                                && index !== indices.id
+                            ) {
+                                // Convert null to zero, as all of them under unit "g".
+                                row[index] = parseFloat(item) || 0;
+                            }
+                        });
+                    });
+
+                    for (var groupName in groupMap) {
+                        if (groupMap.hasOwnProperty(groupName)) {
+                            groupCategories.push(groupName);
+                        }
+                    }
+                }
+
+                function getOption(data) {
+
+                    var lineStyle = {
+                        normal: {
+                            width: 1,
+                            opacity: 0.01
+                            // shadowBlur: 10,
+                            // shadowOffsetX: 0,
+                            // shadowOffsetY: 0,
+                            // shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    };
+
+                    return {
+                        visualMap: {
+                            show: false,
+                            type: 'piecewise',
+                            categories: groupCategories,
+                            dimension: indices.group,
+                            inRange: {
+                                color: groupColors
+                            },
+                            outOfRange: {
+                                color: groupColors
+                            }
+                        },
+                        parallelAxis: [
+                            {dim: 2, name: schema[2].name, nameLocation: 'start'},
+                            {dim: 4, name: schema[4].name, nameLocation: 'end'},
+                            {dim: 3, name: schema[3].name, nameLocation: 'start'},
+                            {dim: 5, name: schema[5].name, nameLocation: 'end'},
+                            {dim: 6, name: schema[6].name, nameLocation: 'start'},
+                            {dim: 7, name: schema[7].name, nameLocation: 'end'},
+                            {dim: 8, name: schema[8].name, nameLocation: 'start'},
+                            {dim: 9, name: schema[9].name, nameLocation: 'end'},
+                            {dim: 10, name: schema[10].name, nameLocation: 'start'},
+                            {dim: 11, name: schema[11].name, nameLocation: 'end'},
+                            {dim: 12, name: schema[12].name, nameLocation: 'start'},
+                            {dim: 13, name: schema[13].name, nameLocation: 'end'},
+                            {dim: 14, name: schema[14].name, nameLocation: 'start'},
+                            {dim: 15, name: schema[15].name, nameLocation: 'end'},
+                            {dim: 16, name: schema[16].name, scale: true, nameLocation: 'start'}
+                        ],
+                        parallel: {
+                            parallelAxisDefault: {
+                                type: 'value',
+                                name: 'nutrients',
+                                nameLocation: 'end',
+                                nameGap: 20,
+                                nameTextStyle: {
+                                    color: '#fff',
+                                    fontSize: 14
+                                },
+                                axisLine: {
+                                    lineStyle: {
+                                        color: '#aaa'
+                                    }
+                                },
+                                axisTick: {
+                                    lineStyle: {
+                                        color: '#777'
+                                    }
+                                },
+                                splitLine: {
+                                    show: false
+                                },
+                                axisLabel: {
+                                    textStyle: {
+                                        color: '#fff'
+                                    }
+                                }
+                            }
+                        },
+                        animation: false,
+                        series: [
+                            {
+                                name: 'nutrients',
+                                type: 'parallel',
+                                lineStyle: lineStyle,
+                                inactiveOpacity: 0,
+                                activeOpacity: 0.01,
+                                progressive: 100,
+                                smooth: true,
+                                data: data
+                            }
+                        ]
+                    };
+                }
+
+            });
+
+        </script>
+    </body>
+</html>

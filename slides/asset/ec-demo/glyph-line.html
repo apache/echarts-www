@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../../../dist/echarts.js"></script>
+        <script src="../common/dark.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+    </head>
+    <body>
+        <style>
+        </style>
+        <div id="main"></div>
+        <script>
+
+            var chart = echarts.init(document.getElementById('main'), 'dark');
+
+            var xAxisData = [];
+            var data1 = [];
+            var data2 = [];
+            var data3 = [];
+
+            for (var i = 0; i < 10; i++) {
+                xAxisData.push('类目' + i);
+                data1.push(+Math.random().toFixed(3));
+                data2.push(+Math.random().toFixed(3));
+                data3.push(+Math.random().toFixed(3));
+            }
+
+            var itemStyle = {
+                normal: {
+                    lineStyle: {
+                        width: 3
+                    }
+                }
+            };
+
+            chart.setOption({
+                grid: {
+                    x: 30,
+                    x2: 30
+                },
+                xAxis: {
+                    // data: ['类目1', '类目2', '类目3', '类目4', '类目5',]
+                    data: xAxisData,
+                    boundaryGap: false,
+                    // inverse: true,
+                    splitLine: {show: false},
+                    axisLine: {lineStyle: {width: 0}},
+                    axisLabel: {show: false},
+                    axisTick: {show: false}
+                },
+                yAxis: {
+                    splitNumber: 5,
+                    splitLine: {show: true},
+                    axisLine: {lineStyle: {width: 0}},
+                    axisLabel: {show: true},
+                    axisTick: {show: false}
+                },
+                series: [{
+                    name: 'line',
+                    type: 'line',
+                    stack: 'all',
+                    symbol: 'none',
+                    data: data1,
+                    itemStyle: itemStyle
+                }, {
+                    name: 'line2',
+                    type: 'line',
+                    stack: 'all',
+                    symbol: 'none',
+                    data: data2,
+                    itemStyle: itemStyle
+                }, {
+                    name: 'line3',
+                    type: 'line',
+                    stack: 'all',
+                    symbol: 'none',
+                    data: data3,
+                    itemStyle: itemStyle
+                }]
+            });
+
+        </script>
+    </body>
+</html>

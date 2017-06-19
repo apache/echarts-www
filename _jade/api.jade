@@ -1,0 +1,23 @@
+extends layouts/doc
+
+block global_args_extra
+
+    script(type="text/javascript").
+        window.globalArgsExtra = {
+            pageName: 'api',
+            schemaUrl: 'documents/cn/api.json',
+            initHash: 'echarts',
+            hideTreeRoot: true,
+            docTreeChildrenPre: 'API',
+            docTreeChildrenPost: '',
+            lang: {
+                cn: {
+                    queryBoxTextFuzzyPath: 'API搜索',
+                    queryBoxPlaceholderFuzzyPath: 'API名称搜索（快捷键\'/\'）'
+                },
+                en: {
+                    queryBoxTextFuzzyPath: 'API search',
+                    queryBoxPlaceholderFuzzyPath: 'API search (shortcut: \'/\')'
+                }
+            }
+        };

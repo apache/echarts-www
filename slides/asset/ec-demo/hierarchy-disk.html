@@ -1,0 +1,198 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="../common/esl.js"></script>
+        <script src="../common/config.js"></script>
+        <link rel="stylesheet" href="../common/reset.css">
+        <link rel="stylesheet" href="../common/simpleRadio.css">
+    </head>
+    <body>
+        <style>
+            #main {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: 0;
+            }
+            .controller {
+                font-size: 14px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: #222;
+                color: #ddd;
+                line-height: 20px;
+                z-index: 100;
+                text-align: center;
+                height: 32px;
+                line-height: 32px;
+            }
+            .controller #measures {
+                display: inline-block;
+            }
+            .controller .query {
+                display: inline-block;
+                margin-left: 30px;
+            }
+            .controller .query #query-input {
+                width: 130px;
+                margin-right: 10px;
+                background: #222;
+                border: 1px solid #999;
+                padding: 0 5px;
+                border-radius: 3px;
+                color: #fff;
+            }
+            .controller .query .query-btn {
+                display: inline-block;
+                background: #555;
+                height: 20px;
+                line-height: 20px;
+                padding: 0 5px;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+            .tooltip-title {
+                color: yellow;
+                font-size: 16px;
+                margin-bottom: 5px;
+            }
+        </style>
+        <div class="controller">
+            <div id="measures"></div>
+        </div>
+
+        <div id="main"></div>
+
+        <script>
+
+            var chart;
+            var data;
+            var formatUtil;
+
+            var SERIES_NAME = 'Disk Usage';
+
+            require([
+                'data/disk-tree.json',
+                'common/simpleRadio',
+                'echarts'
+            ], function (d, simpleRadio, echarts) {
+
+                simpleRadio.init(
+                    document.getElementById('measures'),
+                    [
+                        {value: 1000000, text: '概况', selected: true},
+                        {value: 0, text: '详情'}
+                    ],
+                    childrenVisibleMinChange
+                );
+
+                data = d;
+                formatUtil = echarts.format;
+                initEcharts(echarts);
+            });
+
+            function childrenVisibleMinChange(value) {
+                chart.setOption({
+                    series: [{
+                        childrenVisibleMin: value
+                    }]
+                });
+            }
+
+            function getLevelOption(colorMapping) {
+                return [
+                    {
+                        color: ['#d14a61'], // default color
+                        itemStyle: {
+                            normal: {
+                                borderWidth: 0,
+                                gapWidth: 5,
+                            }
+                        }
+                    },
+                    {
+                        color: [
+                            '#d14a61', '#fd9c35',
+                            '#675bba', '#fec42c', '#dd4444',
+                            '#d4df5a', '#cd4870'
+                        ],
+                        colorMappingBy: colorMapping,
+                        itemStyle: {
+                            normal: {
+                                gapWidth: 1
+                            }
+                        }
+                    },
+                    {
+                        colorSaturation: [0.35, 0.5],
+                        colorS: [0.35, 0.5],
+                        itemStyle: {
+                            normal: {
+                                gapWidth: 1,
+                                borderColorSaturation: 0.6,
+                                borderColorS: 0.6
+                            }
+                        }
+                    }
+                ];
+            }
+
+            function initEcharts(echarts) {
+                chart = echarts.init(document.getElementById('main'), null, {
+                    renderer: 'canvas'
+                });
+
+                chart.setOption({
+
+                    tooltip: {
+                        formatter: function (info) {
+                            var value = info.value;
+                            var treePathInfo = info.treePathInfo;
+                            var treePath = [];
+
+                            for (var i = 1; i < treePathInfo.length; i++) {
+                                treePath.push(treePathInfo[i].name);
+                            }
+
+                            return [
+                                '<div class="tooltip-title">' + formatUtil.encodeHTML(treePath.join('/')) + '</div>',
+                                'Disk Usage: ' + formatUtil.addCommas(value) + ' KB',
+                            ].join('');
+                        }
+                    },
+
+                    series: [
+                        {
+                            name: SERIES_NAME,
+                            type: 'treemap',
+                            visibleMin: 300,
+                            childrenVisibleMin: 1000000,
+                            label: {
+                                show: true,
+                                formatter: '{b}'
+                                // normal: {
+                                //     textStyle: {
+                                //         color: 'black'
+                                //     }
+                                // }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    borderColor: '#fff'
+                                },
+                                emphasis: {
+                                }
+                            },
+                            levels: getLevelOption('byIndex'),
+                            data: data
+                        }
+                    ]
+                });
+            }
+
+        </script>
+    </body>
+</html>
