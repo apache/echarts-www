@@ -70,6 +70,16 @@ body {
         bottom: 5px;
     }
 
+    .banner-section {
+        position: relative;
+        top: -5px;
+
+        a {
+            display: block;
+            text-align: center;
+        }
+    }
+
     .banner-img {
         width: 100%;
     }
