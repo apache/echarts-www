@@ -276,6 +276,10 @@ var EXAMPLES = [
         title: 'Tooltip and DataZoom on Mobile',
         type: 'line'
     },  {
+        id: 'line-gradient',
+        title: '折线图的渐变',
+        type: 'line'
+    },  {
         id: 'lines-airline',
         title: '65k+ 飞机航线',
         type: 'map'
