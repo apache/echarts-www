@@ -643,6 +643,10 @@ var EXAMPLES = [
         id: 'custom-hexbin',
         title: 'Hexagonal Binning',
         type: 'custom'
+    }, {
+        id: 'wind-barb',
+        title: '风向图',
+        type: 'custom'
     }
 ];
 
