@@ -647,6 +647,10 @@ var EXAMPLES = [
         id: 'wind-barb',
         title: '风向图',
         type: 'custom'
+    }, {
+        id: 'cycle-plot',
+        title: 'Cycle Plot',
+        type: 'custom'
     }
 ];
 
