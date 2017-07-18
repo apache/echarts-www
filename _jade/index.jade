@@ -3,6 +3,9 @@ extends layouts/basic
 block extra_head
     <title>ECharts</title>
 
+block variables
+    - var useDp = true
+
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
         include components/nav
@@ -18,8 +21,12 @@ block content
                     a.btn.btn-index-home(href='./download.html') 下载
             .main-bg
 
-        //- section.banner-section(style='background: #fff')
-        //-     img.banner-img(src='images/banners/2017-06-22-juzhuzheng.jpg', style='display: block;width: 730px;margin:0 auto;')
+        script.
+            void function(e,t){for(var n=t.getElementsByTagName("img"),a=+new Date,i=[],o=function(){this.removeEventListener&&this.removeEventListener("load",o,!1),i.push({img:this,time:+new Date})},s=0;s< n.length;s++)!function(){var e=n[s];e.addEventListener?!e.complete&&e.addEventListener("load",o,!1):e.attachEvent&&e.attachEvent("onreadystatechange",function(){"complete"==e.readyState&&o.call(e,o)})}();alog("speed.set",{fsItems:i,fs:a})}(window,document);
+
+        //- section.banner-section(style='background: #062248')
+        //-     a(href='https://promotion.aliyun.com/ntms/act/datavecharts.html')
+        //-         img.banner-img(src='images/banners/2017-06-20-datav.jpg', style='max-width: 1000px')
 
 
         script(type='text/javascript').

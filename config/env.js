@@ -9,7 +9,7 @@ module.exports = {
 
     host: 'http://echarts.baidu.com',
     galleryPath: 'http://echarts.baidu.com/gallery/',
-    blogPath: 'http://echarts.baidu.com/blog/',
+    blogPath: 'http://efe.baidu.com/tags/ECharts/',
 
     // Parameters for builder
     charts: {
@@ -311,6 +311,15 @@ module.exports = {
             }],
             desc: '百度地图扩展，可以在百度地图上展现点图，线图，热力图等。'
         }, {
+            image: 'arcgis.jpg',
+            name: 'ArcGIS 地图',
+            website: 'https://github.com/ecomfe/echarts-wordcloud',
+            authors: [{
+                name: 'wandergis',
+                website: 'https://github.com/wandergis'
+            }],
+            desc: 'ArcGIS 地图和 ECharts 的结合，支持 ECharts 2 和 ECharts 3。'
+        }, {
             image: 'leaflet.jpg',
             name: 'Leaflet 地图',
             website: 'https://github.com/wandergis/leaflet-echarts3',
@@ -320,14 +329,14 @@ module.exports = {
             }],
             desc: 'Leaflet 地图和 ECharts 的结合，支持 ECharts 2 和 ECharts 3。'
         }, {
-            image: 'arcgis.jpg',
-            name: 'ArcGIS 地图',
-            website: 'https://github.com/ecomfe/echarts-wordcloud',
+            image: 'leaflet-2.jpg',
+            name: 'echarts-leaflet',
+            website: 'https://github.com/gnijuohz/echarts-leaflet',
             authors: [{
-                name: 'wandergis',
-                website: 'https://github.com/wandergis'
+                name: 'gnijuohz',
+                website: 'https://github.com/gnijuohz'
             }],
-            desc: 'ArcGIS 地图和 ECharts 的结合，支持 ECharts 2 和 ECharts 3。'
+            desc: 'ECharts extension for visualizing data on leaftlet.'
         }, {
             image: 'mapbox.jpg',
             name: 'Mapbox 地图',
