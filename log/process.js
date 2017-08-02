@@ -25,6 +25,8 @@ var themeDownloadCount = {};
 
 var processedLinesCount = 0;
 var processedLinesCount100k = 0;
+
+var urlMatch = /\"GET (.*?)\"/;
 rl.on('line', function (line) {
     if (!line) {
         return;
@@ -35,10 +37,16 @@ rl.on('line', function (line) {
         console.log('Processed ' + 1e5 * processedLinesCount100k + ' lines');
         processedLinesCount = 0;
     }
-    var items = line.split('`|');
-    var ip = items[0];
-    var time = items[2];
-    var url = items[3];
+
+    // var items = line.split(' ');
+    // var ip = items[0];
+    // var time = items[2];
+    // var url = items[3];
+    var res = urlMatch.exec(line);
+    if (!res || !res[1]) {
+        return;
+    }
+    var url = res[1];
     var query = url.split('?')[1];
     if (!query) {
         return;
