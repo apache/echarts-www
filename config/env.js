@@ -313,7 +313,7 @@ module.exports = {
         }, {
             image: 'arcgis.jpg',
             name: 'ArcGIS 地图',
-            website: 'https://github.com/ecomfe/echarts-wordcloud',
+            website: 'https://github.com/wandergis/arcgis-echarts3',
             authors: [{
                 name: 'wandergis',
                 website: 'https://github.com/wandergis'
