@@ -68,7 +68,13 @@ div(class='container-fluid')
                     li
                         a(href="http://echarts.baidu.com/theme-builder/") 主题构建工具
             li#nav-about
-                a(href='#{host}/about.html') 关于
+                a(href='#', class="dropdown-toggle", data-toggle="dropdown") 关于
+                    b.caret
+                ul.dropdown-menu
+                    li
+                        a(href='#{host}/about.html') 关于我们
+                    li
+                        a(href='https://github.com/ecomfe/echarts/blob/master/LICENSE') 版权声明
 
         ul(class='nav navbar-nav navbar-right')
             li#nav-github
