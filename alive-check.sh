@@ -1,6 +1,6 @@
 
 ecHomePath='http://echarts.baidu.com'
-localPath='.'
+localPath=$( cd "$( dirname "$0" )" && pwd )
 
 normalPages=(
     '404.html'
