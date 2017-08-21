@@ -72,6 +72,10 @@ var EXAMPLES = [
         title: '在中国租个房子有多贵',
         type: 'bar'
     },  {
+        id: 'bar-label-rotation',
+        title: '标签旋转',
+        type: 'bar'
+    },  {
         id: 'bar-rich-text',
         title: '富文本标签',
         type: 'bar'
