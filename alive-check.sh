@@ -58,16 +58,26 @@ function checkCodeDownload() {
 
     echo "Checking: ${remoteCodeFullPath} ..."
 
-    codeContent=`curl -s ${remoteCodeFullPath}`
-
     # Find current version.
-    versionFetchRegExp="version:\\s*.\\d\\+[.]\\d\\+[.]\\d\\+"
-    versionStr=`cat ${localPath}"/config/env.js" | grep -ow -e ${versionFetchRegExp}`
+    # versionFetchRegExp="version:\\s*.\\d\\+[.]\\d\\+[.]\\d\\+"
+    # Do not use "\d" or "[ ]" in shell, which does not work in online OS.
+    # see https://en.wikibooks.org/wiki/Regular_Expressions/POSIX_Extended_Regular_Expressions
+    versionFetchRegExp="version:[[:space:]]*.[[:digit:]]\\+[.][[:digit:]]\\+[.][[:digit:]]\\+"
+    versionStr=`cat ${localPath}"/config/env.js" | grep -o -e ${versionFetchRegExp}`
+
+    if [[ "$versionStr" == "" ]]
+    then
+        echo "Error version string in config";
+        exit 1;
+    fi
+
     # Remove "version: "
     versionStr=`echo $versionStr | sed -n -e "s/[a-zA-Z: ']*//gp"`
     echo "echarts version should be: ${versionStr}"
     # Replace "." to "[.]"
-    versionRegExp="version:\\s*."`echo $versionStr | sed -n -e "s/[.]/[.]/gp"`
+    versionRegExp="version:[[:space:]]*."`echo $versionStr | sed -n -e "s/[.]/[.]/gp"`
+
+    codeContent=`curl -s ${remoteCodeFullPath}`
 
     # For example:
     # versionRegExp="version:\\s*.3[.]6[.]2"

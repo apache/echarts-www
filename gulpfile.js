@@ -176,7 +176,8 @@ gulp.task('release-copy', ['sass', 'less', 'release-clean'], function () {
     return gulp.src([
             './*.html', './vendors/**', './css/**', './documents/**', './blog/**',
             './js/docTool/*.html', './js/spreadsheet/*.html', './images/**', './asset/map/**', './asset/theme/**',
-            './builder/**', './dist/**', './meeting/**', './share/**', './slides/**', './video/**'
+            './builder/**', './dist/**', './meeting/**', './share/**', './slides/**', './video/**',
+            './config'
         ])
         .pipe(copy('release'));
 });
