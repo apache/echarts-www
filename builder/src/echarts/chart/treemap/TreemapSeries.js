@@ -83,14 +83,15 @@ define(function(require) {
             label: {
                 normal: {
                     show: true,
+                    // Do not use textDistance, for ellipsis rect just the same as treemap node rect.
+                    distance: 0,
+                    padding: 5,
                     position: 'inside', // Can be [5, '5%'] or position stirng like 'insideTopLeft', ...
                     // formatter: null,
-                    textStyle: {
-                        color: '#fff',
-                        ellipsis: true
-                        // align
-                        // baseline
-                    }
+                    color: '#fff',
+                    ellipsis: true
+                    // align
+                    // verticalAlign
                 }
             },
             upperLabel: {                   // Label when node is parent.
@@ -99,21 +100,17 @@ define(function(require) {
                     position: [0, '50%'],
                     height: 20,
                     // formatter: null,
-                    textStyle: {
-                        color: '#fff',
-                        ellipsis: true,
-                        // align: null,
-                        baseline: 'middle'
-                    }
+                    color: '#fff',
+                    ellipsis: true,
+                    // align: null,
+                    verticalAlign: 'middle'
                 },
                 emphasis: {
                     show: true,
                     position: [0, '50%'],
-                    textStyle: {
-                        color: '#fff',
-                        ellipsis: true,
-                        baseline: 'middle'
-                    }
+                    color: '#fff',
+                    ellipsis: true,
+                    verticalAlign: 'middle'
                 }
             },
             itemStyle: {

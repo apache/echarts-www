@@ -5,7 +5,11 @@ define(function (require) {
 
     var svgCore = require('./core');
     var CMD = require('../core/PathProxy').CMD;
+    var BoundingRect = require('../core/BoundingRect');
     var textContain = require('../contain/text');
+    var textHelper = require('../graphic/helper/text');
+
+    var Text = require('../graphic/Text');
 
     var createElement = svgCore.createElement;
     var arrayJoin = Array.prototype.join;
@@ -45,7 +49,10 @@ define(function (require) {
     }
 
     function attr(el, key, val) {
-        el.setAttribute(key, val);
+        if (!val || val.type !== 'linear' && val.type !== 'radial') {
+            // Don't set attribute for gradient, since it need new dom nodes
+            el.setAttribute(key, val);
+        }
     }
 
     function attrXLink(el, key, val) {
@@ -60,9 +67,17 @@ define(function (require) {
         else {
             attr(svgEl, 'fill', NONE);
         }
+
         if (pathHasStroke(style, isText)) {
             attr(svgEl, 'stroke', isText ? style.textStroke : style.stroke);
-            attr(svgEl, 'stroke-width', style.lineWidth);
+            var strokeWidth = isText
+                ? style.textLineWidth
+                : style.lineWidth;
+            var strokeScale = style.strokeNoScale
+                ? style.host.getLineScale()
+                : 1;
+            attr(svgEl, 'stroke-width', strokeWidth / strokeScale);
+            attr(svgEl, 'paint-order', 'stroke');
             attr(svgEl, 'stroke-opacity', style.opacity);
             var lineDash = style.lineDash;
             if (lineDash) {
@@ -118,29 +133,55 @@ define(function (require) {
                     var dTheta = data[i++];
                     var psi = data[i++];
                     var clockwise = data[i++];
-                    var sign = clockwise ? 1 : -1;
 
                     var dThetaPositive = Math.abs(dTheta);
-                    var isCircle = isAroundZero(dThetaPositive - PI2) || isAroundZero(dThetaPositive % PI2);
-                    var large = dThetaPositive > PI;
+                    var isCircle = isAroundZero(dThetaPositive % PI2)
+                        && !isAroundZero(dThetaPositive);
+
+                    var large = false;
+                    if (dThetaPositive >= PI2) {
+                        large = true;
+                    }
+                    else if (isAroundZero(dThetaPositive)) {
+                        large = false;
+                    }
+                    else {
+                        large = (dTheta > -PI && dTheta < 0 || dTheta > PI)
+                            === !!clockwise;
+                    }
 
                     var x0 = round4(cx + rx * mathCos(theta));
-                    var y0 = round4(cy + ry * mathSin(theta) * sign);
+                    var y0 = round4(cy + ry * mathSin(theta));
 
                     // It will not draw if start point and end point are exactly the same
                     // We need to shift the end point with a small value
                     // FIXME A better way to draw circle ?
                     if (isCircle) {
-                        dTheta = PI2 - 1e-4;
-                        clockwise = false;
-                        sign = -1;
+                        if (clockwise) {
+                            dTheta = PI2 - 1e-4;
+                        }
+                        else {
+                            dTheta = -PI2 + 1e-4;
+                        }
+
+                        large = true;
+
+                        if (i === 9) {
+                            // Move to (x0, y0) only when CMD.A comes at the
+                            // first position of a shape.
+                            // For instance, when drawing a ring, CMD.A comes
+                            // after CMD.M, so it's unnecessary to move to
+                            // (x0, y0).
+                            str.push('M', x0, y0);
+                        }
                     }
 
                     var x = round4(cx + rx * mathCos(theta + dTheta));
-                    var y = round4(cy + ry * mathSin(theta + dTheta) * sign);
+                    var y = round4(cy + ry * mathSin(theta + dTheta));
 
                     // FIXME Ellipse
-                    str.push('A', round4(rx), round4(ry), mathRound((psi + theta) * degree), +large, +clockwise, x, y);
+                    str.push('A', round4(rx), round4(ry),
+                        mathRound(psi * degree), +large, +clockwise, x, y);
                     break;
                 case CMD.Z:
                     cmdStr = 'Z';
@@ -252,9 +293,13 @@ define(function (require) {
      * TEXT
      **************************************************/
     var svgText = {};
+    var tmpRect = new BoundingRect();
 
     var svgTextDrawRectText = function (el, rect, textRect) {
         var style = el.style;
+
+        this.__dirty && textHelper.normalizeTextStyle(style, true);
+
         var text = style.text;
         // Convert to string
         text != null && (text += '');
@@ -269,18 +314,34 @@ define(function (require) {
         }
 
         bindStyle(textSvgEl, style, true);
-        setTransform(textSvgEl, el.transform);
+        if (el instanceof Text || el.style.transformText) {
+            // Transform text with element
+            setTransform(textSvgEl, el.transform);
+        }
+        else {
+            if (el.transform) {
+                tmpRect.copy(rect);
+                tmpRect.applyTransform(el.transform);
+                rect = tmpRect;
+            }
+            else {
+                var pos = el.transformCoordToGlobal(rect.x, rect.y);
+                rect.x = pos[0];
+                rect.y = pos[1];
+            }
+        }
 
         var x;
         var y;
         var textPosition = style.textPosition;
         var distance = style.textDistance;
-        var align = style.textAlign;
-        // Default font
-        var font = style.textFont || '12px sans-serif';
-        var baseline = style.textBaseline;
+        var align = style.textAlign || 'left';
+        var font = style.font || textContain.DEFAULT_FONT;
 
-        textRect = textRect || textContain.getBoundingRect(text, font, align, baseline);
+        var verticalAlign = getVerticalAlignForSvg(style.textVerticalAlign);
+
+        textRect = textRect || textContain.getBoundingRect(text, font, align,
+            verticalAlign);
 
         var lineHeight = textRect.lineHeight;
         // Text position represented by coord
@@ -290,17 +351,20 @@ define(function (require) {
         }
         else {
             var newPos = textContain.adjustTextPositionOnRect(
-                textPosition, rect, textRect, distance
+                textPosition, rect, distance
             );
             x = newPos.x;
             y = newPos.y;
-
-            align = 'left';
+            verticalAlign = getVerticalAlignForSvg(newPos.textVerticalAlign);
         }
+
+        attr(textSvgEl, 'alignment-baseline', verticalAlign);
 
         if (font) {
             textSvgEl.style.font = font;
         }
+
+        var textPadding = style.textPadding;
 
         // Make baseline top
         attr(textSvgEl, 'x', x);
@@ -312,13 +376,30 @@ define(function (require) {
         // PENDING
         if (textAnchor === 'left')  {
             textAnchor = 'start';
+            textPadding && (x += textPadding[3]);
         }
         else if (textAnchor === 'right') {
             textAnchor = 'end';
+            textPadding && (x -= textPadding[1]);
         }
         else if (textAnchor === 'center') {
             textAnchor = 'middle';
+            textPadding && (x += (textPadding[3] - textPadding[1]) / 2);
         }
+
+        var dy = 0;
+        if (verticalAlign === 'baseline') {
+            dy = -textRect.height + lineHeight;
+            textPadding && (dy -= textPadding[2]);
+        }
+        else if (verticalAlign === 'middle') {
+            dy = (-textRect.height + lineHeight) / 2;
+            textPadding && (y += (textPadding[0] - textPadding[2]) / 2);
+        }
+        else {
+            textPadding && (dy += textPadding[0]);
+        }
+
         // Font may affect position of each tspan elements
         if (el.__text !== text || el.__textFont !== font) {
             var tspanList = el.__tspanList || [];
@@ -329,11 +410,14 @@ define(function (require) {
                 if (! tspan) {
                     tspan = tspanList[i] = createElement('tspan');
                     textSvgEl.appendChild(tspan);
-                    attr(tspan, 'alignment-baseline', 'hanging');
+                    attr(tspan, 'alignment-baseline', verticalAlign);
                     attr(tspan, 'text-anchor', textAnchor);
                 }
+                else {
+                    tspan.innerHTML = '';
+                }
                 attr(tspan, 'x', x);
-                attr(tspan, 'y', y + i * lineHeight);
+                attr(tspan, 'y', y + i * lineHeight + dy);
                 tspan.appendChild(document.createTextNode(textLines[i]));
             }
             // Remove unsed tspan elements
@@ -345,7 +429,30 @@ define(function (require) {
             el.__text = text;
             el.__textFont = font;
         }
+        else if (el.__tspanList.length) {
+            // Update span x and y
+            var len = el.__tspanList.length;
+            for (var i = 0; i < len; ++i) {
+                var tspan = el.__tspanList[i];
+                if (tspan) {
+                    attr(tspan, 'x', x);
+                    attr(tspan, 'y', y + i * lineHeight + dy);
+                }
+            }
+        }
     };
+
+    function getVerticalAlignForSvg(verticalAlign) {
+        if (verticalAlign === 'middle') {
+            return 'middle';
+        }
+        else if (verticalAlign === 'bottom') {
+            return 'baseline';
+        }
+        else {
+            return 'hanging';
+        }
+    }
 
     svgText.drawRectText = svgTextDrawRectText;
 

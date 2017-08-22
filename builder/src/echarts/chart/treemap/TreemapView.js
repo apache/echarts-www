@@ -158,7 +158,7 @@
                 lastsForAnimation, willInvisibleEls
             );
 
-            // Notice: when thisTree and oldTree are the same tree (see list.cloneShadow),
+            // Notice: when thisTree and oldTree are the same tree (see list.cloneShallow),
             // the oldTree is actually losted, so we can not find all of the old graphic
             // elements from tree. So we use this stragegy: make element storage, move
             // from old storage to new storage, clear old storage.
@@ -741,7 +741,7 @@
                 }
                 // For old bg.
                 else {
-                    normalStyle.text = emphasisStyle.text = '';
+                    normalStyle.text = emphasisStyle.text = null;
                 }
 
                 bg.setStyle(normalStyle);
@@ -812,43 +812,31 @@
                 text = iconChar ? iconChar + ' ' + text : text;
             }
 
-            setText(
-                text, normalStyle, nodeModel, upperLabelRect ? PATH_UPPERLABEL_NORMAL : PATH_LABEL_NOAMAL,
-                visualColor, width, height, upperLabelRect
+            var normalLabelModel = nodeModel.getModel(
+                upperLabelRect ? PATH_UPPERLABEL_NORMAL : PATH_LABEL_NOAMAL
             );
-            setText(
-                text, emphasisStyle, nodeModel, upperLabelRect ? PATH_UPPERLABEL_EMPHASIS : PATH_LABEL_EMPHASIS,
-                visualColor, width, height, upperLabelRect
-            );
-        }
+            graphic.setText(normalStyle, normalLabelModel, visualColor);
 
-        function setText(text, style, nodeModel, labelPath, visualColor, width, height, upperLabelRect) {
-            var labelModel = nodeModel.getModel(labelPath);
-            var labelTextStyleModel = labelModel.getModel('textStyle');
+            upperLabelRect && (normalStyle.textRect = zrUtil.clone(upperLabelRect));
 
-            graphic.setText(style, labelModel, visualColor);
-
-            // text.align and text.baseline is not included by graphic.setText,
-            // because in most cases the two attributes are not exposed to user,
-            // except in treemap.
-            style.textAlign = labelTextStyleModel.get('align');
-            style.textVerticalAlign = labelTextStyleModel.get('baseline');
-            upperLabelRect && (style.textPositionRect = zrUtil.clone(upperLabelRect));
-
-            var textRect = labelTextStyleModel.getTextRect(text);
-            if (!labelModel.getShallow('show') || textRect.height > height) {
-                style.text = '';
-            }
-            else if (textRect.width > width) {
-                style.text = labelTextStyleModel.get('ellipsis')
-                    ? labelTextStyleModel.truncateText(
-                        text, width, null, {minChar: 2}
-                    )
-                    : '';
+            if (!normalLabelModel.getShallow('show')) {
+                normalStyle.text = normalStyle.truncate = null;
             }
             else {
-                style.text = text;
+                normalStyle.text = text;
+                normalStyle.truncate = normalLabelModel.get('ellipsis')
+                    ? {
+                        outerWidth: width,
+                        outerHeight: height,
+                        minChar: 2
+                    }
+                    : null;
             }
+
+            var emphasisLabelModel = nodeModel.getModel(
+                upperLabelRect ? PATH_UPPERLABEL_EMPHASIS : PATH_LABEL_EMPHASIS
+            );
+            graphic.setText(emphasisStyle, emphasisLabelModel, false);
         }
 
         function giveGraphic(storageName, Ctor, depth, z) {

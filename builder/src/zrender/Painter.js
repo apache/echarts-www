@@ -118,7 +118,7 @@
      * @constructor
      * @param {HTMLElement} root 绘图容器
      * @param {module:zrender/Storage} storage
-     * @param {Ojbect} opts
+     * @param {Object} opts
      */
     var Painter = function (root, storage, opts) {
         // In node environment using node-canvas
@@ -238,6 +238,16 @@
          */
         getViewportRoot: function () {
             return this._domRoot;
+        },
+
+        getViewportRootOffset: function () {
+            var viewportRoot = this.getViewportRoot();
+            if (viewportRoot) {
+                return {
+                    offsetLeft: viewportRoot.offsetLeft || 0,
+                    offsetTop: viewportRoot.offsetTop || 0
+                };
+            }
         },
 
         /**
@@ -1034,6 +1044,7 @@
             }
 
             var root = this.root;
+            // IE8 does not support getComputedStyle, but it use VML.
             var stl = document.defaultView.getComputedStyle(root);
 
             return (

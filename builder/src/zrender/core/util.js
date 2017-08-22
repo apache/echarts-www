@@ -68,7 +68,16 @@ define(function(require) {
             }
         }
         else if (TYPED_ARRAY[typeStr]) {
-            result = source.constructor.from(source);
+            var Ctor = source.constructor;
+            if (source.constructor.from) {
+                result = Ctor.from(source);
+            }
+            else {
+                result = new Ctor(source.length);
+                for (var i = 0, len = source.length; i < len; i++) {
+                    result[i] = clone(source[i]);
+                }
+            }
         }
         else if (!BUILTIN_OBJECT[typeStr] && !isPrimitive(source) && !isDom(source)) {
             result = {};
@@ -155,7 +164,7 @@ define(function(require) {
     /**
      * @param {*} target
      * @param {*} source
-     * @param {boolen} [overlay=false]
+     * @param {boolean} [overlay=false]
      * @memberOf module:zrender/core/util
      */
     function defaults(target, source, overlay) {
@@ -463,6 +472,7 @@ define(function(require) {
 
     /**
      * If value1 is not null, then return value1, otherwise judget rest of values.
+     * Low performance.
      * @memberOf module:zrender/core/util
      * @return {*} Final value
      */
@@ -474,6 +484,20 @@ define(function(require) {
         }
     }
 
+    function retrieve2(value0, value1) {
+        return value0 != null
+            ? value0
+            : value1;
+    }
+
+    function retrieve3(value0, value1, value2) {
+        return value0 != null
+            ? value0
+            : value1 != null
+            ? value1
+            : value2;
+    }
+
     /**
      * @memberOf module:zrender/core/util
      * @param {Array} arr
@@ -483,6 +507,31 @@ define(function(require) {
      */
     function slice() {
         return Function.call.apply(nativeSlice, arguments);
+    }
+
+    /**
+     * Normalize css liked array configuration
+     * e.g.
+     *  3 => [3, 3, 3, 3]
+     *  [4, 2] => [4, 2, 4, 2]
+     *  [4, 3, 2] => [4, 3, 2, 3]
+     * @param {number|Array.<number>} val
+     * @return {Array.<number>}
+     */
+    function normalizeCssArray(val) {
+        if (typeof (val) === 'number') {
+            return [val, val, val, val];
+        }
+        var len = val.length;
+        if (len === 2) {
+            // vertical | horizontal
+            return [val[0], val[1], val[0], val[1]];
+        }
+        else if (len === 3) {
+            // top | horizontal | bottom
+            return [val[0], val[1], val[2], val[1]];
+        }
+        return val;
     }
 
     /**
@@ -583,9 +632,12 @@ define(function(require) {
         isDom: isDom,
         eqNaN: eqNaN,
         retrieve: retrieve,
+        retrieve2: retrieve2,
+        retrieve3: retrieve3,
         assert: assert,
         setAsPrimitive: setAsPrimitive,
         createHashMap: createHashMap,
+        normalizeCssArray: normalizeCssArray,
         noop: function () {}
     };
     return util;

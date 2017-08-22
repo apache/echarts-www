@@ -38,7 +38,7 @@ define(function (require) {
         /**
          * @type {module:zrender/graphic/Style}
          */
-        this.style = new Style(opts.style);
+        this.style = new Style(opts.style, this);
 
         this._rect = null;
         // Shapes for cascade clipping.
@@ -151,7 +151,7 @@ define(function (require) {
 
         /**
          * 图形绘制方法
-         * @param {Canvas2DRenderingContext} ctx
+         * @param {CanvasRenderingContext2D} ctx
          */
         // Interface
         brush: function (ctx, prevEl) {},
@@ -254,7 +254,7 @@ define(function (require) {
          * @param  {Object} obj
          */
         useStyle: function (obj) {
-            this.style = new Style(obj);
+            this.style = new Style(obj, this);
             this.dirty(false);
             return this;
         }
