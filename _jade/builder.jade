@@ -49,7 +49,7 @@ block content
                         each names, key in components
                             li(class=names[2] ? 'checked' : '')
                                 img(src="images/builder/component/#{key}.svg", alt="")
-                                input(type="checkbox" name="#{key}")
+                                input(type="checkbox" name="#{names[3] || key}")
                                 <h5>#{names[0]} <span>#{names[1]}</span></h5>
 
                 section#other
