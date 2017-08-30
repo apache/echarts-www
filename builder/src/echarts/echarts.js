@@ -114,7 +114,7 @@ define(function (require) {
          */
         this.group;
         /**
-         * @type {HTMLDomElement}
+         * @type {HTMLElement}
          * @private
          */
         this._dom = dom;
@@ -228,7 +228,7 @@ define(function (require) {
         }
     };
     /**
-     * @return {HTMLDomElement}
+     * @return {HTMLElement}
      */
     echartsProto.getDom = function () {
         return this._dom;
@@ -938,6 +938,11 @@ define(function (require) {
             return;
         }
 
+        // Avoid dispatch action before setOption. Especially in `connect`.
+        if (!this._model) {
+            return;
+        }
+
         // May dispatchAction in rendering procedure
         if (this[IN_MAIN_PROCESS]) {
             this._pendingActions.push(payload);
@@ -1516,9 +1521,9 @@ define(function (require) {
         /**
          * @type {number}
          */
-        version: '3.6.2',
+        version: '3.7.0',
         dependencies: {
-            zrender: '3.5.2'
+            zrender: '3.6.0'
         }
     };
 
@@ -1564,7 +1569,7 @@ define(function (require) {
     }
 
     /**
-     * @param {HTMLDomElement} dom
+     * @param {HTMLElement} dom
      * @param {Object} [theme]
      * @param {Object} opts
      * @param {number} [opts.devicePixelRatio] Use window.devicePixelRatio by default
@@ -1681,7 +1686,7 @@ define(function (require) {
     };
 
     /**
-     * @param  {HTMLDomElement} dom
+     * @param  {HTMLElement} dom
      * @return {echarts~ECharts}
      */
     echarts.getInstanceByDom = function (dom) {

@@ -172,11 +172,12 @@ gulp.task('release-otherJS', ['release-clean'], function () {
         .pipe(gulp.dest('release/js/'));
 });
 
-gulp.task('release-copy', ['sass', 'less', 'release-clean'], function () {
+gulp.task('release-copy', ['sass', 'less', 'jade', 'release-clean'], function () {
     return gulp.src([
             './*.html', './vendors/**', './css/**', './documents/**', './blog/**',
             './js/docTool/*.html', './js/spreadsheet/*.html', './images/**', './asset/map/**', './asset/theme/**',
-            './builder/**', './dist/**', './meeting/**', './share/**', './slides/**', './video/**'
+            './builder/**', './dist/**', './meeting/**', './share/**', './slides/**', './video/**',
+            './config'
         ])
         .pipe(copy('release'));
 });
@@ -186,4 +187,4 @@ gulp.task('release-clean', function() {
         .pipe(clean({force: true}));
 });
 
-gulp.task('release', ['sass', 'less', 'jade', 'release-docJS', 'release-spreadsheetJS', 'release-otherJS', 'release-copy']);
+gulp.task('release', ['release-docJS', 'release-spreadsheetJS', 'release-otherJS', 'release-copy']);

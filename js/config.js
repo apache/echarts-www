@@ -72,6 +72,14 @@ var EXAMPLES = [
         title: '在中国租个房子有多贵',
         type: 'bar'
     },  {
+        id: 'bar-label-rotation',
+        title: '标签旋转',
+        type: 'bar'
+    },  {
+        id: 'bar-rich-text',
+        title: '富文本标签',
+        type: 'bar'
+    },  {
         id: 'boxplot-light-velocity',
         title: 'Boxplot Light Velocity',
         type: 'boxplot'
@@ -344,6 +352,10 @@ var EXAMPLES = [
         title: 'Binning on Map',
         type: 'map'
     },  {
+        id: 'map-labels',
+        title: '地图上的富文本标签',
+        type: 'map'
+    },  {
         id: 'mix-line-bar',
         title: '折柱混合',
         type: 'bar'
@@ -394,6 +406,14 @@ var EXAMPLES = [
     },  {
         id: 'pie-simple',
         title: '某站点用户访问来源',
+        type: 'pie'
+    },  {
+        id: 'pie-rich-text',
+        title: '富文本标签',
+        type: 'pie'
+    },  {
+        id: 'pie-legend',
+        title: '可滚动的图例',
         type: 'pie'
     },  {
         id: 'radar-aqi',

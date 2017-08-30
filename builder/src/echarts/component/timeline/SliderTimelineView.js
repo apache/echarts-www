@@ -199,8 +199,10 @@ define(function (require) {
                 rotation: rotationMap[orient],
                 labelRotation: labelRotation,
                 labelPosOpt: labelPosOpt,
-                labelAlign: timelineModel.get('label.normal.textStyle.align') || labelAlignMap[orient],
-                labelBaseline: timelineModel.get('label.normal.textStyle.baseline') || labelBaselineMap[orient],
+                labelAlign: timelineModel.get('label.normal.align') || labelAlignMap[orient],
+                labelBaseline: timelineModel.get('label.normal.verticalAlign')
+                    || timelineModel.get('label.normal.baseline')
+                    || labelBaselineMap[orient],
 
                 // Based on mainGroup.
                 playPosition: playPosition,
@@ -397,25 +399,25 @@ define(function (require) {
                 }
 
                 var itemModel = data.getItemModel(dataIndex);
-                var itemTextStyleModel = itemModel.getModel('label.normal.textStyle');
-                var hoverTextStyleModel = itemModel.getModel('label.emphasis.textStyle');
+                var normalLabelModel = itemModel.getModel('label.normal');
+                var hoverLabelModel = itemModel.getModel('label.emphasis');
                 var tickCoord = axis.dataToCoord(tick);
                 var textEl = new graphic.Text({
-                    style: {
-                        text: labels[dataIndex],
-                        textAlign: layoutInfo.labelAlign,
-                        textVerticalAlign: layoutInfo.labelBaseline,
-                        textFont: itemTextStyleModel.getFont(),
-                        fill: itemTextStyleModel.getTextColor()
-                    },
                     position: [tickCoord, 0],
                     rotation: layoutInfo.labelRotation - layoutInfo.rotation,
                     onclick: bind(this._changeTimeline, this, dataIndex),
                     silent: false
                 });
+                graphic.setTextStyle(textEl.style, normalLabelModel, {
+                    text: labels[dataIndex],
+                    textAlign: layoutInfo.labelAlign,
+                    textVerticalAlign: layoutInfo.labelBaseline
+                });
 
                 group.add(textEl);
-                graphic.setHoverStyle(textEl, hoverTextStyleModel.getItemStyle());
+                graphic.setHoverStyle(
+                    textEl, graphic.setTextStyle({}, hoverLabelModel)
+                );
 
             }, this);
         },

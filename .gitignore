@@ -1,7 +1,6 @@
 node_modules
 css/*.css
 css/font
-/*.html
 release
 documents
 *.zip

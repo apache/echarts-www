@@ -8,7 +8,7 @@
  * https://github.com/ecomfe/zrender/blob/master/LICENSE.txt
  */
 // Global defines
-define(function(require) {
+define(function (require) {
     var guid = require('./core/guid');
     var env = require('./core/env');
     var zrUtil = require('./core/util');
@@ -31,7 +31,7 @@ define(function(require) {
     /**
      * @type {string}
      */
-    zrender.version = '3.5.2';
+    zrender.version = '3.6.0';
 
     /**
      * Initializing a zrender instance
@@ -43,7 +43,7 @@ define(function(require) {
      * @param {number|string} [opts.height] Can be 'auto' (the same as null/undefined)
      * @return {module:zrender/ZRender}
      */
-    zrender.init = function(dom, opts) {
+    zrender.init = function (dom, opts) {
         var zr = new ZRender(guid(), dom, opts);
         instances[zr.id] = zr;
         return zr;
@@ -93,14 +93,14 @@ define(function(require) {
      * @constructor
      * @alias module:zrender/ZRender
      * @param {string} id
-     * @param {HTMLDomElement} dom
+     * @param {HTMLElement} dom
      * @param {Object} opts
      * @param {string} [opts.renderer='canvas'] 'canvas' or 'svg'
      * @param {number} [opts.devicePixelRatio]
      * @param {number} [opts.width] Can be 'auto' (the same as null/undefined)
      * @param {number} [opts.height] Can be 'auto' (the same as null/undefined)
      */
-    var ZRender = function(id, dom, opts) {
+    var ZRender = function (id, dom, opts) {
 
         opts = opts || {};
 
@@ -216,6 +216,7 @@ define(function(require) {
          * Repaint the canvas immediately
          */
         refreshImmediately: function () {
+            // var start = new Date();
             // Clear needsRefresh ahead to avoid something wrong happens in refresh
             // Or it will cause zrender refreshes again and again.
             this._needsRefresh = false;
@@ -224,6 +225,12 @@ define(function(require) {
              * Avoid trigger zr.refresh in Element#beforeUpdate hook
              */
             this._needsRefresh = false;
+            // var end = new Date();
+
+            // var log = document.getElementById('log');
+            // if (log) {
+            //     log.innerHTML = log.innerHTML + '<br>' + (end - start);
+            // }
         },
 
         /**

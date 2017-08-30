@@ -224,12 +224,27 @@ define(function (require) {
         }
 
         var valueDim = labelHelper.findLabelValueDim(data);
-        labelHelper.setTextToStyle(
-            data, idx, valueDim, elStyle, seriesModel, labelModel, color
-        );
-        labelHelper.setTextToStyle(
-            data, idx, valueDim, hoverItemStyle, seriesModel, hoverLabelModel, color
-        );
+
+        if (valueDim != null) {
+            graphic.setText(elStyle, labelModel, color);
+            var normalText = seriesModel.getFormattedLabel(idx, 'normal');
+            var value = data.get(valueDim, idx);
+            elStyle.text = labelModel.getShallow('show')
+                ? zrUtil.retrieve2(
+                    normalText,
+                    value
+                )
+                : null;
+
+            graphic.setText(hoverItemStyle, hoverLabelModel, false);
+            hoverItemStyle.text = hoverLabelModel.getShallow('show')
+                ? zrUtil.retrieve3(
+                    seriesModel.getFormattedLabel(idx, 'emphasis'),
+                    normalText,
+                    value
+                )
+                : null;
+        }
 
         symbolPath.off('mouseover')
             .off('mouseout')
@@ -269,7 +284,7 @@ define(function (require) {
         // Avoid mistaken hover when fading out
         this.silent = symbolPath.silent = true;
         // Not show text when animating
-        symbolPath.style.text = '';
+        symbolPath.style.text = null;
         graphic.updateProps(symbolPath, {
             scale: [0, 0]
         }, this._seriesModel, this.dataIndex, cb);

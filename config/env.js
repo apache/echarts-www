@@ -1,6 +1,6 @@
 module.exports = {
 
-    version: '3.6.2',
+    version: '3.7.0',
 
     // Source folder of echarts
     echartsPath: '../echarts',
@@ -42,7 +42,7 @@ module.exports = {
     },
     components: {
         title: ['标题', 'Title', true],
-        legend: ['图例', 'Legend', true],
+        legend: ['图例', 'Legend', true, 'legendScroll'],
         tooltip: ['提示框', 'Tooltip', true],
         markPoint: ['标注', 'MarkPoint'],
         markLine: ['标线', 'MarkLine'],
