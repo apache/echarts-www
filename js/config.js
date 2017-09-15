@@ -131,10 +131,10 @@ var EXAMPLES = [
         id: 'effectScatter-bmap',
         title: '全国主要城市空气质量 - 百度地图',
         type: 'scatter'
-    },  {
-        id: 'effectScatter-map',
-        title: '全国主要城市空气质量',
-        type: 'scatter'
+    // },  {
+    //     id: 'effectScatter-map',
+    //     title: '全国主要城市空气质量',
+    //     type: 'scatter'
     },  {
         id: 'funnel-align',
         title: '漏斗图(对比)',
@@ -163,10 +163,10 @@ var EXAMPLES = [
         id: 'gauge',
         title: 'Gauge',
         type: 'gauge'
-    },  {
-        id: 'geo-lines',
-        title: '模拟迁徙',
-        type: 'map'
+    // },  {
+    //     id: 'geo-lines',
+    //     title: '模拟迁徙',
+    //     type: 'map'
     },  {
         id: 'graph-circular-layout',
         title: 'Les Miserables',
@@ -223,10 +223,10 @@ var EXAMPLES = [
         id: 'heatmap-large',
         title: '热力图 - 2w 数据',
         type: 'heatmap'
-    },  {
-        id: 'heatmap-map',
-        title: '全国主要城市空气质量',
-        type: 'heatmap'
+    // },  {
+    //     id: 'heatmap-map',
+    //     title: '全国主要城市空气质量',
+    //     type: 'heatmap'
     },  {
         id: 'line-aqi',
         title: 'Beijing AQI',
@@ -287,10 +287,10 @@ var EXAMPLES = [
         id: 'line-gradient',
         title: '折线图的渐变',
         type: 'line'
-    },  {
-        id: 'lines-airline',
-        title: '65k+ 飞机航线',
-        type: 'map'
+    // },  {
+    //     id: 'lines-airline',
+    //     title: '65k+ 飞机航线',
+    //     type: 'map'
     },  {
         id: 'lines-bmap-bus',
         title: '北京公交路线 - 百度地图',
@@ -303,46 +303,46 @@ var EXAMPLES = [
         id: 'lines-bmap',
         title: '杭州热门步行路线 - 百度地图',
         type: 'map'
-    },  {
-        id: 'map-china-dataRange',
-        title: 'iphone销量',
-        type: 'map'
-    },  {
-        id: 'map-china',
-        title: 'Map China',
-        type: 'map'
-    },  {
-        id: 'map-HK',
-        title: '香港18区人口密度 （2011）',
-        type: 'map'
-    },  {
-        id: 'map-locate',
-        title: 'Map Locate',
-        type: 'map'
-    },  {
-        id: 'geo-map-scatter',
-        title: 'map and scatter share a geo',
-        type: 'map'
-    },  {
-        id: 'map-parallel-prices',
-        title: 'Prices and Earnings 2012',
-        type: 'scatter'
-    },  {
-        id: 'map-province',
-        title: '34 省切换查看',
-        type: 'map'
-    },  {
-        id: 'map-usa',
-        title: 'USA Population Estimates (2012)',
-        type: 'map'
-    },  {
-        id: 'map-world-dataRange',
-        title: 'World Population (2010)',
-        type: 'map'
-    },  {
-        id: 'map-world',
-        title: 'Map World',
-        type: 'map'
+    // },  {
+    //     id: 'map-china-dataRange',
+    //     title: 'iphone销量',
+    //     type: 'map'
+    // },  {
+    //     id: 'map-china',
+    //     title: 'Map China',
+    //     type: 'map'
+    // },  {
+    //     id: 'map-HK',
+    //     title: '香港18区人口密度 （2011）',
+    //     type: 'map'
+    // },  {
+    //     id: 'map-locate',
+    //     title: 'Map Locate',
+    //     type: 'map'
+    // },  {
+    //     id: 'geo-map-scatter',
+    //     title: 'map and scatter share a geo',
+    //     type: 'map'
+    // },  {
+    //     id: 'map-parallel-prices',
+    //     title: 'Prices and Earnings 2012',
+    //     type: 'scatter'
+    // },  {
+    //     id: 'map-province',
+    //     title: '34 省切换查看',
+    //     type: 'map'
+    // },  {
+    //     id: 'map-usa',
+    //     title: 'USA Population Estimates (2012)',
+    //     type: 'map'
+    // },  {
+    //     id: 'map-world-dataRange',
+    //     title: 'World Population (2010)',
+    //     type: 'map'
+    // },  {
+    //     id: 'map-world',
+    //     title: 'Map World',
+    //     type: 'map'
     },  {
         id: 'map-polygon',
         title: '在地图上绘制多边形',
@@ -351,10 +351,10 @@ var EXAMPLES = [
         id: 'map-bin',
         title: 'Binning on Map',
         type: 'map'
-    },  {
-        id: 'map-labels',
-        title: '地图上的富文本标签',
-        type: 'map'
+    // },  {
+    //     id: 'map-labels',
+    //     title: '地图上的富文本标签',
+    //     type: 'map'
     },  {
         id: 'mix-line-bar',
         title: '折柱混合',
@@ -379,10 +379,10 @@ var EXAMPLES = [
         id: 'parallel-nutrients',
         title: 'Parallel Nutrients',
         type: 'parallel'
-    },  {
-        id: 'map-parallel-prices',
-        title: 'Prices and Earnings 2012',
-        type: 'parallel'
+    // },  {
+    //     id: 'map-parallel-prices',
+    //     title: 'Prices and Earnings 2012',
+    //     type: 'parallel'
     },  {
         id: 'pie-custom',
         title: 'Customized Pie',
@@ -459,14 +459,14 @@ var EXAMPLES = [
         id: 'scatter-life-expectancy-timeline',
         title: '各国人均寿命与GDP关系演变',
         type: 'scatter'
-    },  {
-        id: 'scatter-map-brush',
-        title: 'Scatter Map Brush',
-        type: 'scatter'
-    },  {
-        id: 'scatter-map',
-        title: '全国主要城市空气质量',
-        type: 'scatter'
+    // },  {
+    //     id: 'scatter-map-brush',
+    //     title: 'Scatter Map Brush',
+    //     type: 'scatter'
+    // },  {
+    //     id: 'scatter-map',
+    //     title: '全国主要城市空气质量',
+    //     type: 'scatter'
     },  {
         id: 'scatter-matrix',
         title: 'Scatter Matrix',
@@ -491,18 +491,18 @@ var EXAMPLES = [
         id: 'scatter-single-axis',
         title: '单轴散点图',
         type: 'scatter'
-    },  {
-        id: 'scatter-weibo',
-        title: '微博签到数据点亮中国',
-        type: 'scatter'
+    // },  {
+    //     id: 'scatter-weibo',
+    //     title: '微博签到数据点亮中国',
+    //     type: 'scatter'
     },  {
         id: 'scatter-weight',
         title: '男性女性身高体重分布',
         type: 'scatter'
-    },  {
-        id: 'scatter-world-population',
-        title: 'World Population (2011)',
-        type: 'scatter'
+    // },  {
+    //     id: 'scatter-world-population',
+    //     title: 'World Population (2011)',
+    //     type: 'scatter'
     },  {
         id: 'scatter-nutrients-matrix',
         title: 'Scatter Nutrients Matrix',
