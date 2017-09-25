@@ -157,6 +157,15 @@ module.exports = {
             desc: 'A custom directive for using Echarts in Vue.js apps.'
         }, {
             image: '',
+            name: 'echarts-middleware',
+            website: 'https://github.com/PUGE/echarts-middleware',
+            authors: [{
+                name: 'PUGE',
+                website: 'https://github.com/PUGE'
+            }],
+            desc: '在vue中优雅，高效的使用echarts在vue中优雅，高效的使用echarts。'
+        }, {
+            image: '',
             name: 'echarts-for-react',
             website: 'https://github.com/hustcc/echarts-for-react',
             authors: [{
