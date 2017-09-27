@@ -44,11 +44,12 @@ define(function (require) {
     var modelUtil = require('./util/model');
     var throttle = require('./util/throttle');
 
-    var zrender = require('zrender');
+    var zrender = require('zrender/zrender');
     var zrUtil = require('zrender/core/util');
     var colorTool = require('zrender/tool/color');
     var Eventful = require('zrender/mixin/Eventful');
     var timsort = require('zrender/core/timsort');
+
 
     var each = zrUtil.each;
     var parseClassType = ComponentModel.parseClassType;
@@ -74,6 +75,7 @@ define(function (require) {
     var HAS_GRADIENT_OR_PATTERN_BG = '__hasGradientOrPatternBg';
     var OPTION_UPDATED = '__optionUpdated';
     var ACTION_REG = /^[a-zA-Z0-9_]+$/;
+
 
     function createRegisterEventWithLowercaseName(method) {
         return function (eventName, handler, context) {
@@ -1524,9 +1526,9 @@ define(function (require) {
         /**
          * @type {number}
          */
-        version: '3.7.1',
+        version: '3.7.2',
         dependencies: {
-            zrender: '3.6.1'
+            zrender: '3.6.2'
         }
     };
 
@@ -1957,7 +1959,6 @@ define(function (require) {
         event: 'downplay',
         update: 'downplay'
     }, zrUtil.noop);
-
 
     // --------
     // Exports
