@@ -5,9 +5,12 @@ $(document).ready(function() {
     // chart type as category
     var $container = $('#explore-container .chart-list-panel');
     for (var type in CHART_TYPES) {
-        $container.append('<h3 class="chart-type-head" id="chart-type-'
-            + type + '">' + CHART_TYPES[type] + '</h3>')
-            .append('<div class="row" id="chart-row-' + type + '"></div>');
+        $container
+            .append(
+                '<div id="chart-type-' + type + '">'
+                + '<h3 class="chart-type-head">' + CHART_TYPES[type] + '</h3>'
+                + '<div class="row" id="chart-row-' + type + '"></div>'
+                + '</div>');
     }
 
     // load charts
@@ -31,17 +34,6 @@ $(document).ready(function() {
             + EXAMPLES[eid].id + '.png" />');
         $link.append($chartArea);
     }
-
-    // chart nav highlighting as scrolling
-    var waypoints = $('.chart-type-head').waypoint(function (direction) {
-        var names = this.element.id.split('-');
-        if (names.length === 3) {
-            $('#left-chart-nav li').removeClass('active');
-            $('#left-chart-nav-' + names[2]).parent('li').addClass('active');
-        }
-    }, {
-        offset: 70
-    });
 
     window.addEventListener('hashchange', function () {
         // move window down at the height of navbar so that title will not

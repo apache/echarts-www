@@ -71,6 +71,10 @@ $chart-icon-border: 1px;
 
             &:hover {
                 background-color: $clr-primary-dark;
+
+                &.active {
+                    background-color: $clr-contrast;
+                }
             }
         }
 }

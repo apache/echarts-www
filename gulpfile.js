@@ -91,7 +91,7 @@ gulp.task('watch', ['sass', 'less', 'jade'], function() {
         'js/spreadsheet/spreadsheet.less'
     ], ['less']);
     gulp.watch(['_jade/*', '_jade/components/*', '_jade/layouts/*'], ['jade']);
-    gulp.watch(['js/*'], ['js']);
+    // gulp.watch(['js/*'], ['js']);
 });
 
 /**

@@ -14,62 +14,53 @@ $(document).ready(function () {
             + '</a>'));
     }
 
-    function hoverNav(type) {
-        var liString = '';
-        for (var eid = 0, elen = EXAMPLES.length; eid < elen; ++eid) {
-            if (EXAMPLES[eid].type === type) {
-                liString += '<li>'
-                +   '<a href="demo.html#' + EXAMPLES[eid].id + '">'
-                +       '<img src="' + GALLERY_THUMB_PATH + EXAMPLES[eid].id + '.png">'
-                +   '</a>'
-                +'</li>';
+    // Set chart thumbnail image height according to width.
+    // Making sure nav calculation is correct.
+    $('.chart-area').height($('.chart-area').width() / 5 * 4);
+
+    var chartListHeights = null;
+    var activeChartType = null;
+    $(window)
+        .scroll(function () {
+            // When scroll, check top of right content
+            var top = -$('.chart-list-panel')[0].getBoundingClientRect().top;
+
+            var margin = parseInt(
+                $('#chart-type-scatter h3').css('margin-top'),
+                10
+            );
+
+            if (!chartListHeights) {
+                // Init chart height for only the first time
+                var children = $('.chart-list-panel').children();
+                var height = 0;
+                chartListHeights = [];
+
+                for (var i = 0; i < children.length; ++i) {
+                    height += $($('.chart-list-panel').children()[i]).height()
+                        + margin;
+                    chartListHeights.push({
+                        height: height,
+                        id: $($('.chart-list-panel').children()[i])
+                            .attr('id')
+                            .slice('chart-type-'.length)
+                    });
+                }
             }
-        }
-        $('#nav-layer .chart-list').html(liString);
-    }
-    function getLayerTop(top, height) {
-        var windowHeight = $(window).height();
-        var maxTop = windowHeight - height;
-        if (top >= maxTop) {
-            top = maxTop;
-        }
-        return top;
-    }
-    var nav = $('#left-chart-nav');
-    var layer = $('#nav-layer');
-    var mask = $('#nav-mask');
 
-    function toggle(isshow) {
-        // There is scroll bar in nav-layer, which make use difficult to find target.
-        // So experience nav without nav-layer for a while.
-        // if (isshow) {
-        //     layer.show();
-        //     mask.show();
-        // }
-        // else {
-        //     layer.hide();
-        //     mask.hide();
-        // }
-    }
+            for (var i = 0; i < chartListHeights.length; ++i) {
+                if (chartListHeights[i].height > top) {
+                    if (activeChartType !== chartListHeights[i].id) {
+                        // Chart type in left nav changed
+                        $('#left-chart-nav li').removeClass('active');
+                        $('#left-chart-nav-' + chartListHeights[i].id)
+                            .parent()
+                            .addClass('active');
 
-    nav
-        .on('mouseover', function () {
-            toggle(true);
+                        activeChartType = chartListHeights[i].id;
+                    }
+                    break;
+                }
+            }
         });
-    layer
-        .on('click', '.iconfont', function () {
-            toggle(false);
-        })
-        .on('mouseover', function () {
-            toggle(true);
-            Ps.update(layer[0]);
-        });
-    mask.on('mouseover', function () {
-        setTimeout(function () {
-            toggle(false);
-        }, 200);
-    });
-
-    Ps.initialize(nav[0]);
-    // Ps.initialize(layer[0]);
 });
