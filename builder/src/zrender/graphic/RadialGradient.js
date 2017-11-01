@@ -1,44 +1,39 @@
-define(function(require) {
-    'use strict';
+import * as zrUtil from '../core/util';
+import Gradient from './Gradient';
 
-    var zrUtil = require('../core/util');
+/**
+ * x, y, r are all percent from 0 to 1
+ * @param {number} [x=0.5]
+ * @param {number} [y=0.5]
+ * @param {number} [r=0.5]
+ * @param {Array.<Object>} [colorStops]
+ * @param {boolean} [globalCoord=false]
+ */
+var RadialGradient = function (x, y, r, colorStops, globalCoord) {
+    // Should do nothing more in this constructor. Because gradient can be
+    // declard by `color: {type: 'radial', colorStops: ...}`, where
+    // this constructor will not be called.
 
-    var Gradient = require('./Gradient');
+    this.x = x == null ? 0.5 : x;
 
-    /**
-     * x, y, r are all percent from 0 to 1
-     * @param {number} [x=0.5]
-     * @param {number} [y=0.5]
-     * @param {number} [r=0.5]
-     * @param {Array.<Object>} [colorStops]
-     * @param {boolean} [globalCoord=false]
-     */
-    var RadialGradient = function (x, y, r, colorStops, globalCoord) {
-        // Should do nothing more in this constructor. Because gradient can be
-        // declard by `color: {type: 'radial', colorStops: ...}`, where
-        // this constructor will not be called.
+    this.y = y == null ? 0.5 : y;
 
-        this.x = x == null ? 0.5 : x;
+    this.r = r == null ? 0.5 : r;
 
-        this.y = y == null ? 0.5 : y;
+    // Can be cloned
+    this.type = 'radial';
 
-        this.r = r == null ? 0.5 : r;
+    // If use global coord
+    this.global = globalCoord || false;
 
-        // Can be cloned
-        this.type = 'radial';
+    Gradient.call(this, colorStops);
+};
 
-        // If use global coord
-        this.global = globalCoord || false;
+RadialGradient.prototype = {
 
-        Gradient.call(this, colorStops);
-    };
+    constructor: RadialGradient
+};
 
-    RadialGradient.prototype = {
+zrUtil.inherits(RadialGradient, Gradient);
 
-        constructor: RadialGradient
-    };
-
-    zrUtil.inherits(RadialGradient, Gradient);
-
-    return RadialGradient;
-});
+export default RadialGradient;

@@ -51,16 +51,8 @@
         var postfix = BUILD_CONFIG.dev ? '-dev' : '';
 
         require.config({
-            packages: [{
-                name: 'zrender',
-                location: 'src/zrender' + postfix,
-                main: 'zrender'
-            }, {
-                name: 'echarts',
-                location: 'src/echarts' + postfix,
-                main: 'echarts'
-            }],
             paths: {
+                'rollup': 'lib/rollup.browser',
                 'esprima': 'lib/esprima',
                 'estraverse': 'lib/estraverse'
             },

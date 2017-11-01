@@ -20,11 +20,12 @@ module.exports = {
         candlestick: ['K线图', 'Candlestick'],
         radar: ['雷达图', 'Radar'],
         heatmap: ['热力图', 'Heatmap'],
+        tree: ['树图', 'Tree'],
         treemap: ['Treemap', ''],
         map: ['地图', 'Map'],
         lines: ['线图', 'Lines'],
         graph: ['关系图', 'Graph'],
-        boxplot: ['盒形图', 'Boxplot'],
+        boxplot: ['盒须图', 'Boxplot'],
         parallel: ['平行坐标', 'Parallel'],
         gauge: ['仪表盘', 'Gauge'],
         funnel: ['漏斗图', 'Funnel'],
@@ -34,11 +35,11 @@ module.exports = {
         custom: ['自定义系列', 'Custom']
     },
     coords: {
-        gridSimple: ['直角坐标系', '', true],
-        polar: ['极坐标系', ''],
-        geo: ['地理坐标系', ''],
-        singleAxis: ['单轴', ''],
-        calendar: ['日历', '']
+        gridSimple: ['直角坐标系', 'Grid', true],
+        polar: ['极坐标系', 'Polar'],
+        geo: ['地理坐标系', 'Geo'],
+        singleAxis: ['单轴', 'SingleAxis'],
+        calendar: ['日历', 'Calendar']
     },
     components: {
         title: ['标题', 'Title', true],

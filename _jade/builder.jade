@@ -9,8 +9,9 @@ block content
 
     #builder
         .page-info
-            .container
+            #title.container
                 h1 在线定制
+                    span Customize build
                 p 可自由选择所需图表、坐标系、组件进行打包下载，并且可对兼容及压缩问题进行设置
 
         .page-content
@@ -54,11 +55,19 @@ block content
 
                 section#other
                     h3 其它选项
-                        span other
+                        span others
                     div.other-option
-                        input(type="checkbox" id="vml" name="vml" checked="checked")
+                        input(type="checkbox" id="svg" name="svg")
+                        label(for="svg") SVG 渲染
+                        p.desc 是否包括 SVG 渲染器，从而能支持使用 SVG 来绘制图表
+                    div.other-option
+                        input(type="checkbox" id="vml" name="vml")
                         label(for="vml") 兼容 IE8
                         p.desc 是否包括对 IE8 的兼容代码
+                    div.other-option
+                        input(type="checkbox" id="api" name="api" checked="checked")
+                        label(for="api") API
+                        p.desc 是否在 echarts 对象上挂载 API。一般都会挂载，除非对生成的文件的体积有苛求，并且不需要用这些 API。
                     div.other-option
                         input(type="checkbox" id="compress" name="compress" checked="checked")
                         label(for="compress") 代码压缩
