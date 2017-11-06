@@ -204,6 +204,10 @@ var EXAMPLES = [
         title: 'Les Miserables',
         type: 'graph'
     },  {
+        id: 'graph-force-dynamic',
+        title: '动态增加图节点',
+        type: 'graph'
+    },  {
         id: 'grid-multiple',
         title: '雨量流量关系图',
         type: 'line'
@@ -527,6 +531,22 @@ var EXAMPLES = [
         id: 'scatter-polynomial-regression',
         title: 'Polynomial Regression',
         type: 'scatter'
+    }, {
+        id: 'tree-basic',
+        title: '横向树状图',
+        type: 'tree'
+    }, {
+        id: 'tree-vertical',
+        title: '纵向树状图',
+        type: 'tree'
+    }, {
+        id: 'tree-legend',
+        title: '多棵树',
+        type: 'tree'
+    }, {
+        id: 'tree-radial',
+        title: '径向树状图',
+        type: 'tree'
     },  {
         id: 'treemap-disk',
         title: 'Disk Usage',
@@ -685,6 +705,7 @@ var CHART_TYPES = {
     boxplot: '箱线图',
     heatmap: '热力图',
     graph: '关系图',
+    tree: '树状图',
     treemap: '矩形树图',
     parallel: '平行坐标',
     sankey: '桑基图',

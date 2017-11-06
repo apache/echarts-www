@@ -139,9 +139,9 @@ $chart-icon-border: 1px;
 
 // icon sprites
 $chart-types: 'line', 'bar', 'scatter', 'pie', 'radar', 'funnel', 'gauge', 'map',
-    'graph', 'treemap', 'parallel', 'sankey', 'candlestick', 'boxplot',
+    'graph', 'tree', 'treemap', 'parallel', 'sankey', 'candlestick', 'boxplot',
     'heatmap', 'pictorialBar', 'themeRiver', 'calendar', 'custom';
-$chart-position: 0, 1, 2, 4, 5, 10, 9, 8, 7, 14, 16, 17, 3, 18, 11, 24, 25, 26,
+$chart-position: 0, 1, 2, 4, 5, 10, 9, 8, 7, 14, 13, 16, 17, 3, 18, 11, 24, 25, 26,
     27, 28;
 
 @each $type in $chart-types {
