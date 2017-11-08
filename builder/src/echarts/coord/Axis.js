@@ -233,7 +233,21 @@ Axis.prototype = {
     },
 
     /**
+     * @abstract
+     * @return {boolean} Is horizontal
+     */
+    isHorizontal: null,
+
+    /**
+     * @abstract
+     * @return {number} Get axis rotate, by degree.
+     */
+    getRotate: null,
+
+    /**
      * Get interval of the axis label.
+     * To get precise result, at least one of `getRotate` and `isHorizontal`
+     * should be implemented.
      * @return {number}
      */
     getLabelInterval: function () {
@@ -241,18 +255,24 @@ Axis.prototype = {
         if (!labelInterval) {
             var axisModel = this.model;
             var labelModel = axisModel.getModel('axisLabel');
-            var interval = labelModel.get('interval');
-            if (!(this.type === 'category' && interval === 'auto')) {
-                labelInterval = interval === 'auto' ? 0 : interval;
-            }
-            else if (this.isHorizontal){
+            labelInterval = labelModel.get('interval');
+
+            if (this.type === 'category'
+                && (labelInterval == null || labelInterval === 'auto')
+            ) {
                 labelInterval = axisHelper.getAxisLabelInterval(
                     zrUtil.map(this.scale.getTicks(), this.dataToCoord, this),
                     axisModel.getFormattedLabels(),
                     labelModel.getFont(),
-                    this.isHorizontal()
+                    this.getRotate
+                        ? this.getRotate()
+                        : (this.isHorizontal && !this.isHorizontal())
+                        ? 90
+                        : 0,
+                    labelModel.get('rotate')
                 );
             }
+
             this._labelInterval = labelInterval;
         }
         return labelInterval;

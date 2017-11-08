@@ -75,7 +75,7 @@ function checkCodeDownload() {
     versionStr=`echo $versionStr | sed -n -e "s/[a-zA-Z: ']*//gp"`
     echo "echarts version should be: ${versionStr}"
     # Replace "." to "[.]"
-    versionRegExp="version:[[:space:]]*."`echo $versionStr | sed -n -e "s/[.]/[.]/gp"`
+    versionRegExp=`echo $versionStr | sed -n -e "s/[.]/[.]/gp"`
 
     codeContent=`curl -s ${remoteCodeFullPath}`
 

@@ -33,10 +33,10 @@ import loadingDefault from './loading/default';
 var each = zrUtil.each;
 var parseClassType = ComponentModel.parseClassType;
 
-export var version = '3.7.2';
+export var version = '3.8.0';
 
 export var dependencies = {
-    zrender: '3.6.2'
+    zrender: '3.7.0'
 };
 
 var PRIORITY_PROCESSOR_FILTER = 1000;
@@ -109,22 +109,32 @@ function ECharts(dom, theme, opts) {
      * @type {string}
      */
     this.id;
+
     /**
      * Group id
      * @type {string}
      */
     this.group;
+
     /**
      * @type {HTMLElement}
      * @private
      */
     this._dom = dom;
+
+    var defaultRenderer = 'canvas';
+    if (__DEV__) {
+        defaultRenderer = (
+            typeof window === 'undefined' ? global : window
+        ).__ECHARTS__DEFAULT__RENDERER__ || defaultRenderer;
+    }
+
     /**
      * @type {module:zrender/ZRender}
      * @private
      */
     var zr = this._zr = zrender.init(dom, {
-        renderer: opts.renderer || 'canvas',
+        renderer: opts.renderer || defaultRenderer,
         devicePixelRatio: opts.devicePixelRatio,
         width: opts.width,
         height: opts.height

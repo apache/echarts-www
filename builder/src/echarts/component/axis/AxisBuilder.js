@@ -1,13 +1,12 @@
-import * as zrUtil from 'zrender/src/core/util';
+import {retrieve, defaults, extend, each} from 'zrender/src/core/util';
 import * as formatUtil from '../../util/format';
 import * as graphic from '../../util/graphic';
 import Model from '../../model/Model';
 import {isRadianAroundZero, remRadian} from '../../util/number';
+import {createSymbol} from '../../util/symbol';
 import * as matrixUtil from 'zrender/src/core/matrix';
-import * as vec2 from 'zrender/src/core/vector';
+import {applyTransform as v2ApplyTransform} from 'zrender/src/core/vector';
 
-var v2ApplyTransform = vec2.applyTransform;
-var retrieve = zrUtil.retrieve;
 
 var PI = Math.PI;
 
@@ -72,7 +71,7 @@ var AxisBuilder = function (axisModel, opt) {
     this.axisModel = axisModel;
 
     // Default value
-    zrUtil.defaults(
+    defaults(
         opt,
         {
             labelOffset: 0,
@@ -144,8 +143,14 @@ var builders = {
             v2ApplyTransform(pt2, pt2, matrix);
         }
 
-        this.group.add(new graphic.Line(graphic.subPixelOptimizeLine({
+        var lineStyle = extend(
+            {
+                lineCap: 'round'
+            },
+            axisModel.getModel('axisLine.lineStyle').getLineStyle()
+        );
 
+        this.group.add(new graphic.Line(graphic.subPixelOptimizeLine({
             // Id for animation
             anid: 'line',
 
@@ -155,14 +160,53 @@ var builders = {
                 x2: pt2[0],
                 y2: pt2[1]
             },
-            style: zrUtil.extend(
-                {lineCap: 'round'},
-                axisModel.getModel('axisLine.lineStyle').getLineStyle()
-            ),
+            style: lineStyle,
             strokeContainThreshold: opt.strokeContainThreshold || 5,
             silent: true,
             z2: 1
         })));
+
+        var arrows = axisModel.get('axisLine.symbol');
+        var arrowSize = axisModel.get('axisLine.symbolSize');
+
+        if (arrows != null) {
+            if (typeof arrows === 'string') {
+                // Use the same arrow for start and end point
+                arrows = [arrows, arrows];
+            }
+            if (typeof arrowSize === 'string'
+                || typeof arrowSize === 'number'
+            ) {
+                // Use the same size for width and height
+                arrowSize = [arrowSize, arrowSize];
+            }
+
+            var symbolWidth = arrowSize[0];
+            var symbolHeight = arrowSize[1];
+
+            each([
+                [opt.rotation + Math.PI / 2, pt1],
+                [opt.rotation - Math.PI / 2, pt2]
+            ], function (item, index) {
+                if (arrows[index] !== 'none' && arrows[index] != null) {
+                    var symbol = createSymbol(
+                        arrows[index],
+                        -symbolWidth / 2,
+                        -symbolHeight / 2,
+                        symbolWidth,
+                        symbolHeight,
+                        lineStyle.stroke,
+                        true
+                    );
+                    symbol.attr({
+                        rotation: item[0],
+                        position: item[1],
+                        silent: true
+                    });
+                    this.group.add(symbol);
+                }
+            }, this);
+        }
     },
 
     /**
@@ -275,7 +319,7 @@ var builders = {
             silent: isSilent(axisModel),
             z2: 1,
             tooltip: (tooltipOpt && tooltipOpt.show)
-                ? zrUtil.extend({
+                ? extend({
                     content: name,
                     formatter: function () {
                         return name;
@@ -580,7 +624,7 @@ function buildAxisTick(axisBuilder, axisModel, opt) {
                 x2: pt2[0],
                 y2: pt2[1]
             },
-            style: zrUtil.defaults(
+            style: defaults(
                 lineStyleModel.getLineStyle(),
                 {
                     stroke: axisModel.get('axisLine.lineStyle.color')
@@ -624,7 +668,7 @@ function buildAxisLabel(axisBuilder, axisModel, opt) {
     var showMinLabel = axisModel.get('axisLabel.showMinLabel');
     var showMaxLabel = axisModel.get('axisLabel.showMaxLabel');
 
-    zrUtil.each(ticks, function (tickVal, index) {
+    each(ticks, function (tickVal, index) {
         if (ifIgnoreOnTick(
             axis, index, opt.labelInterval, ticks.length,
             showMinLabel, showMaxLabel
