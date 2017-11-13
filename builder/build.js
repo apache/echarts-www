@@ -143,12 +143,7 @@ define(function (require) {
         /* jshint camelcase: false */
         // compressor needs figure_out_scope too
         ast.figure_out_scope();
-        // ????????????????????????????
-        ast = ast.transform(UglifyJS.Compressor({
-            'global_defs': {
-                __DEV__: true
-            }
-        }));
+        ast = ast.transform(UglifyJS.Compressor());
 
         // need to figure out scope again so mangler works optimally
         ast.figure_out_scope();

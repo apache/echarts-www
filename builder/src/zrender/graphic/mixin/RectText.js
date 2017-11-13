@@ -2,61 +2,51 @@
  * Mixin for drawing text in a element bounding rect
  * @module zrender/mixin/RectText
  */
-
 import * as textHelper from '../helper/text';
 import BoundingRect from '../../core/BoundingRect';
-
 var tmpRect = new BoundingRect();
 
 var RectText = function () {};
 
 RectText.prototype = {
+  constructor: RectText,
 
-    constructor: RectText,
+  /**
+   * Draw text in a rect with specified position.
+   * @param  {CanvasRenderingContext2D} ctx
+   * @param  {Object} rect Displayable rect
+   */
+  drawRectText: function (ctx, rect) {
+    var style = this.style;
+    rect = style.textRect || rect; // Optimize, avoid normalize every time.
 
-    /**
-     * Draw text in a rect with specified position.
-     * @param  {CanvasRenderingContext2D} ctx
-     * @param  {Object} rect Displayable rect
-     */
-    drawRectText: function (ctx, rect) {
-        var style = this.style;
+    this.__dirty && textHelper.normalizeTextStyle(style, true);
+    var text = style.text; // Convert to string
 
-        rect = style.textRect || rect;
+    text != null && (text += '');
 
-        // Optimize, avoid normalize every time.
-        this.__dirty && textHelper.normalizeTextStyle(style, true);
+    if (!textHelper.needDrawText(text, style)) {
+      return;
+    } // FIXME
 
-        var text = style.text;
 
-        // Convert to string
-        text != null && (text += '');
+    ctx.save(); // Transform rect to view space
 
-        if (!textHelper.needDrawText(text, style)) {
-            return;
-        }
+    var transform = this.transform;
 
-        // FIXME
-        ctx.save();
+    if (!style.transformText) {
+      if (transform) {
+        tmpRect.copy(rect);
+        tmpRect.applyTransform(transform);
+        rect = tmpRect;
+      }
+    } else {
+      this.setTransform(ctx);
+    } // transformText and textRotation can not be used at the same time.
 
-        // Transform rect to view space
-        var transform = this.transform;
-        if (!style.transformText) {
-            if (transform) {
-                tmpRect.copy(rect);
-                tmpRect.applyTransform(transform);
-                rect = tmpRect;
-            }
-        }
-        else {
-            this.setTransform(ctx);
-        }
 
-        // transformText and textRotation can not be used at the same time.
-        textHelper.renderText(this, ctx, text, style, rect);
-
-        ctx.restore();
-    }
+    textHelper.renderText(this, ctx, text, style, rect);
+    ctx.restore();
+  }
 };
-
 export default RectText;

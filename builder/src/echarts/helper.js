@@ -3,22 +3,21 @@ import createListFromArray from './chart/helper/createListFromArray';
 import * as axisHelper from './coord/axisHelper';
 import axisModelCommonMixin from './coord/axisModelCommonMixin';
 import Model from './model/Model';
-
 /**
  * Create a muti dimension List structure from seriesModel.
  * @param  {module:echarts/model/Model} seriesModel
  * @return {module:echarts/data/List} list
  */
-export function createList(seriesModel) {
-    var data = seriesModel.get('data');
-    return createListFromArray(data, seriesModel, seriesModel.ecModel);
-}
 
+export function createList(seriesModel) {
+  var data = seriesModel.get('data');
+  return createListFromArray(data, seriesModel, seriesModel.ecModel);
+}
 /**
  * @see {module:echarts/data/helper/completeDimensions}
  */
-export {default as completeDimensions} from './data/helper/completeDimensions';
 
+export { default as completeDimensions } from './data/helper/completeDimensions';
 /**
  * Create a symbol element with given symbol configuration: shape, x, y, width, height, color
  * @see http://echarts.baidu.com/option.html#series-scatter.symbol
@@ -29,27 +28,27 @@ export {default as completeDimensions} from './data/helper/completeDimensions';
  * @param {number} h
  * @param {string} color
  */
-export {createSymbol} from './util/symbol';
 
+export { createSymbol } from './util/symbol';
 /**
  * Create scale
  * @param {Array.<number>} dataExtent
  * @param {Object|module:echarts/Model} option
  */
+
 export function createScale(dataExtent, option) {
-    var axisModel = option;
-    if (!(option instanceof Model)) {
-        axisModel = new Model(option);
-        zrUtil.mixin(axisModel, axisModelCommonMixin);
-    }
+  var axisModel = option;
 
-    var scale = axisHelper.createScaleByModel(axisModel);
-    scale.setExtent(dataExtent[0], dataExtent[1]);
+  if (!(option instanceof Model)) {
+    axisModel = new Model(option);
+    zrUtil.mixin(axisModel, axisModelCommonMixin);
+  }
 
-    axisHelper.niceScaleExtent(scale, axisModel);
-    return scale;
+  var scale = axisHelper.createScaleByModel(axisModel);
+  scale.setExtent(dataExtent[0], dataExtent[1]);
+  axisHelper.niceScaleExtent(scale, axisModel);
+  return scale;
 }
-
 /**
  * Mixin common methods to axis model,
  *
@@ -62,6 +61,7 @@ export function createScale(dataExtent, option) {
  * `setRange(start: number, end: number)`
  * `resetRange()`
  */
+
 export function mixinAxisModelCommonMethods(Model) {
-    zrUtil.mixin(Model, axisModelCommonMixin);
+  zrUtil.mixin(Model, axisModelCommonMixin);
 }

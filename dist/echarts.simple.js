@@ -4,14 +4,28 @@
 	(factory((global.echarts = {})));
 }(this, (function (exports) { 'use strict';
 
-if (typeof __DEV__ === "undefined") {
-    if (typeof window !== "undefined") {
-        window.__DEV__ = true;
-    }
-    else if (typeof global !== "undefined") {
-        global.__DEV__ = true;
-    }
+// (1) The code `if (__DEV__) ...` can be removed by build tool.
+// (2) If intend to use `__DEV__`, this module should be imported. Use a global
+// variable `__DEV__` may cause that miss the declaration (see #6535), or the
+// declaration is behind of the using position (for example in `Model.extent`,
+// And tools like rollup can not analysis the dependency if not import).
+
+var dev;
+
+// In browser
+if (typeof window !== 'undefined') {
+    dev = window.__DEV__;
 }
+// In node
+else if (typeof global !== 'undefined') {
+    dev = global.__DEV__;
+}
+
+if (typeof dev === 'undefined') {
+    dev = true;
+}
+
+var __DEV__ = dev;
 
 /**
  * zrender: 生成唯一id
@@ -195,6 +209,13 @@ var nativeSlice = arrayProto.slice;
 var nativeMap = arrayProto.map;
 var nativeReduce = arrayProto.reduce;
 
+// Avoid assign to an exported variable, for transforming to cjs.
+var methods = {};
+
+function $override(name, fn) {
+    methods[name] = fn;
+}
+
 /**
  * Those data types can be cloned:
  *     Plain object, Array, TypedArray, number, string, null, undefined.
@@ -337,6 +358,10 @@ function defaults(target, source, overlay) {
 }
 
 var createCanvas = function () {
+    return methods.createCanvas();
+};
+
+methods.createCanvas = function () {
     return document.createElement('canvas');
 };
 
@@ -756,12 +781,6 @@ function createHashMap(obj) {
 }
 
 function noop() {}
-
-var $inject$1 = {
-    createCanvas: function (f) {
-        createCanvas = f;
-    }
-};
 
 var ArrayCtor = typeof Float32Array === 'undefined'
     ? Array
@@ -6517,6 +6536,11 @@ var STYLE_REG = /\{([a-zA-Z0-9_]+)\|([^}]*)\}/g;
 
 var DEFAULT_FONT = '12px sans-serif';
 
+// Avoid assign to an exported variable, for transforming to cjs.
+var methods$1 = {};
+
+
+
 /**
  * @public
  * @param {string} text
@@ -6869,7 +6893,12 @@ function getLineHeight(font) {
  * @param {string} font
  * @return {Object} width
  */
-var measureText = function (text, font) {
+function measureText(text, font) {
+    return methods$1.measureText(text, font);
+}
+
+// Avoid assign to an exported variable, for transforming to cjs.
+methods$1.measureText = function (text, font) {
     var ctx = getContext();
     ctx.font = font || DEFAULT_FONT;
     return ctx.measureText(text);
@@ -10131,7 +10160,7 @@ var painterCtors = {
 /**
  * @type {string}
  */
-var version$1 = '3.7.0';
+var version$1 = '3.7.3';
 
 /**
  * Initializing a zrender instance
@@ -13075,6 +13104,7 @@ function windingLine(x0, y0, x1, y1, x, y) {
     return x_ > x ? dir : 0;
 }
 
+var CMD$1 = PathProxy.CMD;
 var PI2$1 = Math.PI * 2;
 
 var EPSILON$2 = 1e-4;
@@ -13277,7 +13307,7 @@ function containPath(data, lineWidth, isStroke, x, y) {
     for (var i = 0; i < data.length;) {
         var cmd = data[i++];
         // Begin a new subpath
-        if (cmd === CMD.M && i > 1) {
+        if (cmd === CMD$1.M && i > 1) {
             // Close previous subpath
             if (!isStroke) {
                 w += windingLine(xi, yi, x0, y0, x, y);
@@ -13301,7 +13331,7 @@ function containPath(data, lineWidth, isStroke, x, y) {
         }
 
         switch (cmd) {
-            case CMD.M:
+            case CMD$1.M:
                 // moveTo 命令重新创建一个新的 subpath, 并且更新新的起点
                 // 在 closePath 的时候使用
                 x0 = data[i++];
@@ -13309,7 +13339,7 @@ function containPath(data, lineWidth, isStroke, x, y) {
                 xi = x0;
                 yi = y0;
                 break;
-            case CMD.L:
+            case CMD$1.L:
                 if (isStroke) {
                     if (containStroke$1(xi, yi, data[i], data[i + 1], lineWidth, x, y)) {
                         return true;
@@ -13322,7 +13352,7 @@ function containPath(data, lineWidth, isStroke, x, y) {
                 xi = data[i++];
                 yi = data[i++];
                 break;
-            case CMD.C:
+            case CMD$1.C:
                 if (isStroke) {
                     if (containStroke$2(xi, yi,
                         data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1],
@@ -13341,7 +13371,7 @@ function containPath(data, lineWidth, isStroke, x, y) {
                 xi = data[i++];
                 yi = data[i++];
                 break;
-            case CMD.Q:
+            case CMD$1.Q:
                 if (isStroke) {
                     if (containStroke$3(xi, yi,
                         data[i++], data[i++], data[i], data[i + 1],
@@ -13360,7 +13390,7 @@ function containPath(data, lineWidth, isStroke, x, y) {
                 xi = data[i++];
                 yi = data[i++];
                 break;
-            case CMD.A:
+            case CMD$1.A:
                 // TODO Arc 判断的开销比较大
                 var cx = data[i++];
                 var cy = data[i++];
@@ -13401,7 +13431,7 @@ function containPath(data, lineWidth, isStroke, x, y) {
                 xi = Math.cos(theta + dTheta) * rx + cx;
                 yi = Math.sin(theta + dTheta) * ry + cy;
                 break;
-            case CMD.R:
+            case CMD$1.R:
                 x0 = xi = data[i++];
                 y0 = yi = data[i++];
                 var width = data[i++];
@@ -13423,7 +13453,7 @@ function containPath(data, lineWidth, isStroke, x, y) {
                     w += windingLine(x0, y1, x0, y0, x, y);
                 }
                 break;
-            case CMD.Z:
+            case CMD$1.Z:
                 if (isStroke) {
                     if (containStroke$1(
                         xi, yi, x0, y0, lineWidth, x, y
@@ -13815,6 +13845,8 @@ Path.extend = function (defaults$$1) {
 
 inherits(Path, Displayable);
 
+var CMD$2 = PathProxy.CMD;
+
 var points = [[], [], []];
 var mathSqrt$3 = Math.sqrt;
 var mathAtan2 = Math.atan2;
@@ -13828,12 +13860,12 @@ var transformPath = function (path, m) {
     var k;
     var p;
 
-    var M = CMD.M;
-    var C = CMD.C;
-    var L = CMD.L;
-    var R = CMD.R;
-    var A = CMD.A;
-    var Q = CMD.Q;
+    var M = CMD$2.M;
+    var C = CMD$2.C;
+    var L = CMD$2.L;
+    var R = CMD$2.R;
+    var A = CMD$2.A;
+    var Q = CMD$2.Q;
 
     for (i = 0, j = 0; i < data.length;) {
         cmd = data[i++];
@@ -14004,7 +14036,7 @@ function createPathProxyFromString(data) {
     var cpy = 0;
 
     var path = new PathProxy();
-    var CMD$$1 = PathProxy.CMD;
+    var CMD = PathProxy.CMD;
 
     var prevCmd;
     for (n = 1; n < arr.length; n++) {
@@ -14042,51 +14074,51 @@ function createPathProxyFromString(data) {
                 case 'l':
                     cpx += p[off++];
                     cpy += p[off++];
-                    cmd = CMD$$1.L;
+                    cmd = CMD.L;
                     path.addData(cmd, cpx, cpy);
                     break;
                 case 'L':
                     cpx = p[off++];
                     cpy = p[off++];
-                    cmd = CMD$$1.L;
+                    cmd = CMD.L;
                     path.addData(cmd, cpx, cpy);
                     break;
                 case 'm':
                     cpx += p[off++];
                     cpy += p[off++];
-                    cmd = CMD$$1.M;
+                    cmd = CMD.M;
                     path.addData(cmd, cpx, cpy);
                     c = 'l';
                     break;
                 case 'M':
                     cpx = p[off++];
                     cpy = p[off++];
-                    cmd = CMD$$1.M;
+                    cmd = CMD.M;
                     path.addData(cmd, cpx, cpy);
                     c = 'L';
                     break;
                 case 'h':
                     cpx += p[off++];
-                    cmd = CMD$$1.L;
+                    cmd = CMD.L;
                     path.addData(cmd, cpx, cpy);
                     break;
                 case 'H':
                     cpx = p[off++];
-                    cmd = CMD$$1.L;
+                    cmd = CMD.L;
                     path.addData(cmd, cpx, cpy);
                     break;
                 case 'v':
                     cpy += p[off++];
-                    cmd = CMD$$1.L;
+                    cmd = CMD.L;
                     path.addData(cmd, cpx, cpy);
                     break;
                 case 'V':
                     cpy = p[off++];
-                    cmd = CMD$$1.L;
+                    cmd = CMD.L;
                     path.addData(cmd, cpx, cpy);
                     break;
                 case 'C':
-                    cmd = CMD$$1.C;
+                    cmd = CMD.C;
                     path.addData(
                         cmd, p[off++], p[off++], p[off++], p[off++], p[off++], p[off++]
                     );
@@ -14094,7 +14126,7 @@ function createPathProxyFromString(data) {
                     cpy = p[off - 1];
                     break;
                 case 'c':
-                    cmd = CMD$$1.C;
+                    cmd = CMD.C;
                     path.addData(
                         cmd,
                         p[off++] + cpx, p[off++] + cpy,
@@ -14109,11 +14141,11 @@ function createPathProxyFromString(data) {
                     ctlPty = cpy;
                     var len = path.len();
                     var pathData = path.data;
-                    if (prevCmd === CMD$$1.C) {
+                    if (prevCmd === CMD.C) {
                         ctlPtx += cpx - pathData[len - 4];
                         ctlPty += cpy - pathData[len - 3];
                     }
-                    cmd = CMD$$1.C;
+                    cmd = CMD.C;
                     x1 = p[off++];
                     y1 = p[off++];
                     cpx = p[off++];
@@ -14125,11 +14157,11 @@ function createPathProxyFromString(data) {
                     ctlPty = cpy;
                     var len = path.len();
                     var pathData = path.data;
-                    if (prevCmd === CMD$$1.C) {
+                    if (prevCmd === CMD.C) {
                         ctlPtx += cpx - pathData[len - 4];
                         ctlPty += cpy - pathData[len - 3];
                     }
-                    cmd = CMD$$1.C;
+                    cmd = CMD.C;
                     x1 = cpx + p[off++];
                     y1 = cpy + p[off++];
                     cpx += p[off++];
@@ -14141,7 +14173,7 @@ function createPathProxyFromString(data) {
                     y1 = p[off++];
                     cpx = p[off++];
                     cpy = p[off++];
-                    cmd = CMD$$1.Q;
+                    cmd = CMD.Q;
                     path.addData(cmd, x1, y1, cpx, cpy);
                     break;
                 case 'q':
@@ -14149,7 +14181,7 @@ function createPathProxyFromString(data) {
                     y1 = p[off++] + cpy;
                     cpx += p[off++];
                     cpy += p[off++];
-                    cmd = CMD$$1.Q;
+                    cmd = CMD.Q;
                     path.addData(cmd, x1, y1, cpx, cpy);
                     break;
                 case 'T':
@@ -14157,13 +14189,13 @@ function createPathProxyFromString(data) {
                     ctlPty = cpy;
                     var len = path.len();
                     var pathData = path.data;
-                    if (prevCmd === CMD$$1.Q) {
+                    if (prevCmd === CMD.Q) {
                         ctlPtx += cpx - pathData[len - 4];
                         ctlPty += cpy - pathData[len - 3];
                     }
                     cpx = p[off++];
                     cpy = p[off++];
-                    cmd = CMD$$1.Q;
+                    cmd = CMD.Q;
                     path.addData(cmd, ctlPtx, ctlPty, cpx, cpy);
                     break;
                 case 't':
@@ -14171,13 +14203,13 @@ function createPathProxyFromString(data) {
                     ctlPty = cpy;
                     var len = path.len();
                     var pathData = path.data;
-                    if (prevCmd === CMD$$1.Q) {
+                    if (prevCmd === CMD.Q) {
                         ctlPtx += cpx - pathData[len - 4];
                         ctlPty += cpy - pathData[len - 3];
                     }
                     cpx += p[off++];
                     cpy += p[off++];
-                    cmd = CMD$$1.Q;
+                    cmd = CMD.Q;
                     path.addData(cmd, ctlPtx, ctlPty, cpx, cpy);
                     break;
                 case 'A':
@@ -14190,7 +14222,7 @@ function createPathProxyFromString(data) {
                     x1 = cpx, y1 = cpy;
                     cpx = p[off++];
                     cpy = p[off++];
-                    cmd = CMD$$1.A;
+                    cmd = CMD.A;
                     processArc(
                         x1, y1, cpx, cpy, fa, fs, rx, ry, psi, cmd, path
                     );
@@ -14205,7 +14237,7 @@ function createPathProxyFromString(data) {
                     x1 = cpx, y1 = cpy;
                     cpx += p[off++];
                     cpy += p[off++];
-                    cmd = CMD$$1.A;
+                    cmd = CMD.A;
                     processArc(
                         x1, y1, cpx, cpy, fa, fs, rx, ry, psi, cmd, path
                     );
@@ -14214,7 +14246,7 @@ function createPathProxyFromString(data) {
         }
 
         if (c === 'z' || c === 'Z') {
-            cmd = CMD$$1.Z;
+            cmd = CMD.Z;
             path.addData(cmd);
         }
 
@@ -20288,10 +20320,10 @@ var loadingDefault = function (api, opts) {
 var each = each$1;
 var parseClassType = ComponentModel.parseClassType;
 
-var version = '3.8.0';
+var version = '3.8.4';
 
 var dependencies = {
-    zrender: '3.7.0'
+    zrender: '3.7.3'
 };
 
 var PRIORITY_PROCESSOR_FILTER = 1000;
@@ -21798,13 +21830,14 @@ var themeStorage = {};
  */
 var loadingEffects = {};
 
-
 var instances = {};
 var connectedGroups = {};
 
 var idBase = new Date() - 0;
 var groupIdBase = new Date() - 0;
 var DOM_ATTRIBUTE_KEY = '_echarts_instance_';
+
+var mapDataStores = {};
 
 function enableConnect(chart) {
     var STATUS_PENDING = 0;
@@ -22215,7 +22248,45 @@ function extendChartView(opts/*, superClass*/) {
  *     });
  */
 function setCanvasCreator(creator) {
-    $inject$1.createCanvas(creator);
+    $override('createCanvas', creator);
+}
+
+/**
+ * @param {string} mapName
+ * @param {Object|string} geoJson
+ * @param {Object} [specialAreas]
+ *
+ * @example
+ *     $.get('USA.json', function (geoJson) {
+ *         echarts.registerMap('USA', geoJson);
+ *         // Or
+ *         echarts.registerMap('USA', {
+ *             geoJson: geoJson,
+ *             specialAreas: {}
+ *         })
+ *     });
+ */
+function registerMap(mapName, geoJson, specialAreas) {
+    if (geoJson.geoJson && !geoJson.features) {
+        specialAreas = geoJson.specialAreas;
+        geoJson = geoJson.geoJson;
+    }
+    if (typeof geoJson === 'string') {
+        geoJson = (typeof JSON !== 'undefined' && JSON.parse)
+            ? JSON.parse(geoJson) : (new Function('return (' + geoJson + ');'))();
+    }
+    mapDataStores[mapName] = {
+        geoJson: geoJson,
+        specialAreas: specialAreas
+    };
+}
+
+/**
+ * @param {string} mapName
+ * @return {Object}
+ */
+function getMap(mapName) {
+    return mapDataStores[mapName];
 }
 
 registerVisual(PRIORITY_VISUAL_GLOBAL, seriesColor);
@@ -22237,25 +22308,9 @@ registerAction({
 }, noop);
 
 
-// --------
-// Exports
-// --------
-
-
-
-
-
-var $inject = {
-    registerMap: function (f) {
-        exports.registerMap = f;
-    },
-    getMap: function (f) {
-        exports.getMap = f;
-    },
-    parseGeoJSON: function (f) {
-        exports.parseGeoJSON = f;
-    }
-};
+// For backward compatibility, where the namespace `dataTool` will
+// be mounted on `echarts` is the extension `dataTool` is imported.
+var dataTool = {};
 
 function defaultKeyGetter(item) {
     return item;
@@ -26340,14 +26395,12 @@ function Scale(setting) {
     this.init && this.init.apply(this, arguments);
 }
 
-var scaleProto$1 = Scale.prototype;
-
 /**
  * Parse input val to valid inner number.
  * @param {*} val
  * @return {number}
  */
-scaleProto$1.parse = function (val) {
+Scale.prototype.parse = function (val) {
     // Notice: This would be a trap here, If the implementation
     // of this method depends on extent, and this method is used
     // before extent set (like in dataZoom), it would be wrong.
@@ -26355,11 +26408,11 @@ scaleProto$1.parse = function (val) {
     return val;
 };
 
-scaleProto$1.getSetting = function (name) {
+Scale.prototype.getSetting = function (name) {
     return this._setting[name];
 };
 
-scaleProto$1.contain = function (val) {
+Scale.prototype.contain = function (val) {
     var extent = this._extent;
     return val >= extent[0] && val <= extent[1];
 };
@@ -26369,7 +26422,7 @@ scaleProto$1.contain = function (val) {
  * @param {number} val
  * @return {number}
  */
-scaleProto$1.normalize = function (val) {
+Scale.prototype.normalize = function (val) {
     var extent = this._extent;
     if (extent[1] === extent[0]) {
         return 0.5;
@@ -26382,7 +26435,7 @@ scaleProto$1.normalize = function (val) {
  * @param {number} val
  * @return {number}
  */
-scaleProto$1.scale = function (val) {
+Scale.prototype.scale = function (val) {
     var extent = this._extent;
     return val * (extent[1] - extent[0]) + extent[0];
 };
@@ -26391,7 +26444,7 @@ scaleProto$1.scale = function (val) {
  * Set extent from data
  * @param {Array.<number>} other
  */
-scaleProto$1.unionExtent = function (other) {
+Scale.prototype.unionExtent = function (other) {
     var extent = this._extent;
     other[0] < extent[0] && (extent[0] = other[0]);
     other[1] > extent[1] && (extent[1] = other[1]);
@@ -26404,7 +26457,7 @@ scaleProto$1.unionExtent = function (other) {
  * @param {module:echarts/data/List} data
  * @param {string} dim
  */
-scaleProto$1.unionExtentFromData = function (data, dim) {
+Scale.prototype.unionExtentFromData = function (data, dim) {
     this.unionExtent(data.getDataExtent(dim, true));
 };
 
@@ -26412,7 +26465,7 @@ scaleProto$1.unionExtentFromData = function (data, dim) {
  * Get extent
  * @return {Array.<number>}
  */
-scaleProto$1.getExtent = function () {
+Scale.prototype.getExtent = function () {
     return this._extent.slice();
 };
 
@@ -26421,7 +26474,7 @@ scaleProto$1.getExtent = function () {
  * @param {number} start
  * @param {number} end
  */
-scaleProto$1.setExtent = function (start, end) {
+Scale.prototype.setExtent = function (start, end) {
     var thisExtent = this._extent;
     if (!isNaN(start)) {
         thisExtent[0] = start;
@@ -26434,7 +26487,7 @@ scaleProto$1.setExtent = function (start, end) {
 /**
  * @return {Array.<string>}
  */
-scaleProto$1.getTicksLabels = function () {
+Scale.prototype.getTicksLabels = function () {
     var labels = [];
     var ticks = this.getTicks();
     for (var i = 0; i < ticks.length; i++) {
@@ -26447,7 +26500,7 @@ scaleProto$1.getTicksLabels = function () {
  * When axis extent depends on data and no data exists,
  * axis ticks should not be drawn, which is named 'blank'.
  */
-scaleProto$1.isBlank = function () {
+Scale.prototype.isBlank = function () {
     return this._isBlank;
 },
 
@@ -26455,7 +26508,7 @@ scaleProto$1.isBlank = function () {
  * When axis extent depends on data and no data exists,
  * axis ticks should not be drawn, which is named 'blank'.
  */
-scaleProto$1.setBlank = function (isBlank) {
+Scale.prototype.setBlank = function (isBlank) {
     this._isBlank = isBlank;
 };
 
@@ -27056,7 +27109,7 @@ TimeScale.create = function (model) {
  */
 
 // Use some method of IntervalScale
-var scaleProto$2 = Scale.prototype;
+var scaleProto$1 = Scale.prototype;
 var intervalScaleProto$1 = IntervalScale.prototype;
 
 var getPrecisionSafe$1 = getPrecisionSafe;
@@ -27113,7 +27166,7 @@ var LogScale = Scale.extend({
      * @return {number}
      */
     scale: function (val) {
-        val = scaleProto$2.scale.call(this, val);
+        val = scaleProto$1.scale.call(this, val);
         return mathPow$1(this.base, val);
     },
 
@@ -27133,7 +27186,7 @@ var LogScale = Scale.extend({
      */
     getExtent: function () {
         var base = this.base;
-        var extent = scaleProto$2.getExtent.call(this);
+        var extent = scaleProto$1.getExtent.call(this);
         extent[0] = mathPow$1(base, extent[0]);
         extent[1] = mathPow$1(base, extent[1]);
 
@@ -27155,7 +27208,7 @@ var LogScale = Scale.extend({
         var base = this.base;
         extent[0] = mathLog(extent[0]) / mathLog(base);
         extent[1] = mathLog(extent[1]) / mathLog(base);
-        scaleProto$2.unionExtent.call(this, extent);
+        scaleProto$1.unionExtent.call(this, extent);
     },
 
     /**
@@ -27218,7 +27271,7 @@ var LogScale = Scale.extend({
 each$1(['contain', 'normalize'], function (methodName) {
     LogScale.prototype[methodName] = function (val) {
         val = mathLog(val) / mathLog(this.base);
-        return scaleProto$2[methodName].call(this, val);
+        return scaleProto$1[methodName].call(this, val);
     };
 });
 
@@ -32226,6 +32279,8 @@ exports.extendComponentView = extendComponentView;
 exports.extendSeriesModel = extendSeriesModel;
 exports.extendChartView = extendChartView;
 exports.setCanvasCreator = setCanvasCreator;
-exports.$inject = $inject;
+exports.registerMap = registerMap;
+exports.getMap = getMap;
+exports.dataTool = dataTool;
 
 })));

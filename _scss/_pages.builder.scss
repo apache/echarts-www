@@ -110,8 +110,8 @@ ul {
 
         &.checked {
             // box-shadow: 0px 0px 20px rgba(192, 55, 54, 1);
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 1);
-            border: 2px solid rgba(42, 61, 84, 0.7);
+            box-shadow: 0px 0px 15px rgb(228, 60, 89);
+            border: 2px solid rgba(228, 60, 89, 0.7);
 
             h5::before {
                 content: '';

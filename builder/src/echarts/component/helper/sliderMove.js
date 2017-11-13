@@ -20,61 +20,60 @@
  * @return {Array.<number>} The input handleEnds.
  */
 export default function (delta, handleEnds, extent, handleIndex, minSpan, maxSpan) {
-    // Normalize firstly.
-    handleEnds[0] = restrict(handleEnds[0], extent);
-    handleEnds[1] = restrict(handleEnds[1], extent);
+  // Normalize firstly.
+  handleEnds[0] = restrict(handleEnds[0], extent);
+  handleEnds[1] = restrict(handleEnds[1], extent);
+  delta = delta || 0;
+  var extentSpan = extent[1] - extent[0]; // Notice maxSpan and minSpan can be null/undefined.
 
-    delta = delta || 0;
+  if (minSpan != null) {
+    minSpan = restrict(minSpan, [0, extentSpan]);
+  }
 
-    var extentSpan = extent[1] - extent[0];
+  if (maxSpan != null) {
+    maxSpan = Math.max(maxSpan, minSpan != null ? minSpan : 0);
+  }
 
-    // Notice maxSpan and minSpan can be null/undefined.
-    if (minSpan != null) {
-        minSpan = restrict(minSpan, [0, extentSpan]);
-    }
-    if (maxSpan != null) {
-        maxSpan = Math.max(maxSpan, minSpan != null ? minSpan : 0);
-    }
-    if (handleIndex === 'all') {
-        minSpan = maxSpan = Math.abs(handleEnds[1] - handleEnds[0]);
-        handleIndex = 0;
-    }
+  if (handleIndex === 'all') {
+    minSpan = maxSpan = Math.abs(handleEnds[1] - handleEnds[0]);
+    handleIndex = 0;
+  }
 
-    var originalDistSign = getSpanSign(handleEnds, handleIndex);
+  var originalDistSign = getSpanSign(handleEnds, handleIndex);
+  handleEnds[handleIndex] += delta; // Restrict in extent.
 
-    handleEnds[handleIndex] += delta;
+  var extentMinSpan = minSpan || 0;
+  var realExtent = extent.slice();
+  originalDistSign.sign < 0 ? realExtent[0] += extentMinSpan : realExtent[1] -= extentMinSpan;
+  handleEnds[handleIndex] = restrict(handleEnds[handleIndex], realExtent); // Expand span.
 
-    // Restrict in extent.
-    var extentMinSpan = minSpan || 0;
-    var realExtent = extent.slice();
-    originalDistSign.sign < 0 ? (realExtent[0] += extentMinSpan) : (realExtent[1] -= extentMinSpan);
-    handleEnds[handleIndex] = restrict(handleEnds[handleIndex], realExtent);
+  var currDistSign = getSpanSign(handleEnds, handleIndex);
 
-    // Expand span.
-    var currDistSign = getSpanSign(handleEnds, handleIndex);
-    if (minSpan != null && (
-        currDistSign.sign !== originalDistSign.sign || currDistSign.span < minSpan
-    )) {
-        // If minSpan exists, 'cross' is forbinden.
-        handleEnds[1 - handleIndex] = handleEnds[handleIndex] + originalDistSign.sign * minSpan;
-    }
+  if (minSpan != null && (currDistSign.sign !== originalDistSign.sign || currDistSign.span < minSpan)) {
+    // If minSpan exists, 'cross' is forbinden.
+    handleEnds[1 - handleIndex] = handleEnds[handleIndex] + originalDistSign.sign * minSpan;
+  } // Shrink span.
 
-    // Shrink span.
-    var currDistSign = getSpanSign(handleEnds, handleIndex);
-    if (maxSpan != null && currDistSign.span > maxSpan) {
-        handleEnds[1 - handleIndex] = handleEnds[handleIndex] + currDistSign.sign * maxSpan;
-    }
 
-    return handleEnds;
+  var currDistSign = getSpanSign(handleEnds, handleIndex);
+
+  if (maxSpan != null && currDistSign.span > maxSpan) {
+    handleEnds[1 - handleIndex] = handleEnds[handleIndex] + currDistSign.sign * maxSpan;
+  }
+
+  return handleEnds;
 }
 
 function getSpanSign(handleEnds, handleIndex) {
-    var dist = handleEnds[handleIndex] - handleEnds[1 - handleIndex];
-    // If `handleEnds[0] === handleEnds[1]`, always believe that handleEnd[0]
-    // is at left of handleEnds[1] for non-cross case.
-    return {span: Math.abs(dist), sign: dist > 0 ? -1 : dist < 0 ? 1 : handleIndex ? -1 : 1};
+  var dist = handleEnds[handleIndex] - handleEnds[1 - handleIndex]; // If `handleEnds[0] === handleEnds[1]`, always believe that handleEnd[0]
+  // is at left of handleEnds[1] for non-cross case.
+
+  return {
+    span: Math.abs(dist),
+    sign: dist > 0 ? -1 : dist < 0 ? 1 : handleIndex ? -1 : 1
+  };
 }
 
 function restrict(value, extend) {
-    return Math.min(extend[1], Math.max(extend[0], value));
+  return Math.min(extend[1], Math.max(extend[0], value));
 }
