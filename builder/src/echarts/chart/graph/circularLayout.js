@@ -1,9 +1,8 @@
-import {circularLayout} from './circularLayoutHelper';
-
+import { circularLayout } from './circularLayoutHelper';
 export default function (ecModel) {
-    ecModel.eachSeriesByType('graph', function (seriesModel) {
-        if (seriesModel.get('layout') === 'circular') {
-            circularLayout(seriesModel);
-        }
-    });
+  ecModel.eachSeriesByType('graph', function (seriesModel) {
+    if (seriesModel.get('layout') === 'circular') {
+      circularLayout(seriesModel);
+    }
+  });
 }

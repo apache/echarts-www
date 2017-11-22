@@ -1,10 +1,8 @@
 import * as echarts from '../echarts';
 import * as zrUtil from 'zrender/src/core/util';
-
 import './graph/GraphSeries';
 import './graph/GraphView';
 import './graph/graphAction';
-
 import categoryFilter from './graph/categoryFilter';
 import visualSymbol from '../visual/symbol';
 import categoryVisual from './graph/categoryVisual';
@@ -13,20 +11,14 @@ import simpleLayout from './graph/simpleLayout';
 import circularLayout from './graph/circularLayout';
 import forceLayout from './graph/forceLayout';
 import createView from './graph/createView';
-
 echarts.registerProcessor(categoryFilter);
-
-echarts.registerVisual(zrUtil.curry(
-    visualSymbol, 'graph', 'circle', null
-));
+echarts.registerVisual(zrUtil.curry(visualSymbol, 'graph', 'circle', null));
 echarts.registerVisual(categoryVisual);
 echarts.registerVisual(edgeVisual);
-
 echarts.registerLayout(simpleLayout);
 echarts.registerLayout(circularLayout);
-echarts.registerLayout(forceLayout);
+echarts.registerLayout(forceLayout); // Graph view coordinate system
 
-// Graph view coordinate system
 echarts.registerCoordinateSystem('graphView', {
-    create: createView
+  create: createView
 });

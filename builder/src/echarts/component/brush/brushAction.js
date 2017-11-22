@@ -1,5 +1,4 @@
 import * as echarts from '../../echarts';
-
 /**
  * payload: {
  *      brushIndex: number, or,
@@ -8,15 +7,19 @@ import * as echarts from '../../echarts';
  *      globalRanges: Array
  * }
  */
-echarts.registerAction(
-        {type: 'brush', event: 'brush', update: 'updateView'},
-    function (payload, ecModel) {
-        ecModel.eachComponent({mainType: 'brush', query: payload}, function (brushModel) {
-            brushModel.setAreas(payload.areas);
-        });
-    }
-);
 
+echarts.registerAction({
+  type: 'brush',
+  event: 'brush',
+  update: 'updateView'
+}, function (payload, ecModel) {
+  ecModel.eachComponent({
+    mainType: 'brush',
+    query: payload
+  }, function (brushModel) {
+    brushModel.setAreas(payload.areas);
+  });
+});
 /**
  * payload: {
  *      brushComponents: [
@@ -38,7 +41,9 @@ echarts.registerAction(
  *      ]
  * }
  */
-echarts.registerAction(
-        {type: 'brushSelect', event: 'brushSelected', update: 'none'},
-    function () {}
-);
+
+echarts.registerAction({
+  type: 'brushSelect',
+  event: 'brushSelected',
+  update: 'none'
+}, function () {});

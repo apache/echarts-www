@@ -27,7 +27,7 @@ block content
                             li(class=names[2] ? 'checked' : '')
                                 img(src="images/builder/chart/#{key}.svg", alt="")
                                 input(type="checkbox" name="#{key}")
-                                <h5>#{names[0]} <span>#{names[1]}</span></h5>
+                                <h5>#{names[0]} <div>#{names[1]}</div></h5>
 
                 section#coords
                     h3 坐标系
@@ -39,7 +39,7 @@ block content
                             li(class=names[2] ? 'checked' : '')
                                 img(src="images/builder/component/#{key}.svg", alt="")
                                 input(type="checkbox" name="#{key}")
-                                <h5>#{names[0]} <span>#{names[1]}</span></h5>
+                                <h5>#{names[0]} <div>#{names[1]}</div></h5>
 
                 section#components
                     h3 组件
@@ -51,7 +51,7 @@ block content
                             li(class=names[2] ? 'checked' : '')
                                 img(src="images/builder/component/#{key}.svg", alt="")
                                 input(type="checkbox" name="#{names[3] || key}")
-                                <h5>#{names[0]} <span>#{names[1]}</span></h5>
+                                <h5>#{names[0]} <div>#{names[1]}</div></h5>
 
                 section#other
                     h3 其它选项

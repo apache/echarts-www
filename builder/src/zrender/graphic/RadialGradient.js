@@ -1,6 +1,5 @@
 import * as zrUtil from '../core/util';
 import Gradient from './Gradient';
-
 /**
  * x, y, r are all percent from 0 to 1
  * @param {number} [x=0.5]
@@ -9,31 +8,23 @@ import Gradient from './Gradient';
  * @param {Array.<Object>} [colorStops]
  * @param {boolean} [globalCoord=false]
  */
+
 var RadialGradient = function (x, y, r, colorStops, globalCoord) {
-    // Should do nothing more in this constructor. Because gradient can be
-    // declard by `color: {type: 'radial', colorStops: ...}`, where
-    // this constructor will not be called.
+  // Should do nothing more in this constructor. Because gradient can be
+  // declard by `color: {type: 'radial', colorStops: ...}`, where
+  // this constructor will not be called.
+  this.x = x == null ? 0.5 : x;
+  this.y = y == null ? 0.5 : y;
+  this.r = r == null ? 0.5 : r; // Can be cloned
 
-    this.x = x == null ? 0.5 : x;
+  this.type = 'radial'; // If use global coord
 
-    this.y = y == null ? 0.5 : y;
-
-    this.r = r == null ? 0.5 : r;
-
-    // Can be cloned
-    this.type = 'radial';
-
-    // If use global coord
-    this.global = globalCoord || false;
-
-    Gradient.call(this, colorStops);
+  this.global = globalCoord || false;
+  Gradient.call(this, colorStops);
 };
 
 RadialGradient.prototype = {
-
-    constructor: RadialGradient
+  constructor: RadialGradient
 };
-
 zrUtil.inherits(RadialGradient, Gradient);
-
 export default RadialGradient;

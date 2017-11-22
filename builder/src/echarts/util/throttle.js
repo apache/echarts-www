@@ -1,8 +1,6 @@
-
 var ORIGIN_METHOD = '\0__throttleOriginMethod';
 var RATE = '\0__throttleRate';
 var THROTTLE_TYPE = '\0__throttleType';
-
 /**
  * @public
  * @param {(Function)} fn
@@ -12,72 +10,69 @@ var THROTTLE_TYPE = '\0__throttleType';
  *        false: If call interval less than `delay, call works on fixed rate.
  * @return {(Function)} throttled fn.
  */
+
 export function throttle(fn, delay, debounce) {
+  var currCall;
+  var lastCall = 0;
+  var lastExec = 0;
+  var timer = null;
+  var diff;
+  var scope;
+  var args;
+  var debounceNextCall;
+  delay = delay || 0;
 
-    var currCall;
-    var lastCall = 0;
-    var lastExec = 0;
-    var timer = null;
-    var diff;
-    var scope;
-    var args;
-    var debounceNextCall;
+  function exec() {
+    lastExec = new Date().getTime();
+    timer = null;
+    fn.apply(scope, args || []);
+  }
 
-    delay = delay || 0;
+  var cb = function () {
+    currCall = new Date().getTime();
+    scope = this;
+    args = arguments;
+    var thisDelay = debounceNextCall || delay;
+    var thisDebounce = debounceNextCall || debounce;
+    debounceNextCall = null;
+    diff = currCall - (thisDebounce ? lastCall : lastExec) - thisDelay;
+    clearTimeout(timer);
 
-    function exec() {
-        lastExec = (new Date()).getTime();
-        timer = null;
-        fn.apply(scope, args || []);
+    if (thisDebounce) {
+      timer = setTimeout(exec, thisDelay);
+    } else {
+      if (diff >= 0) {
+        exec();
+      } else {
+        timer = setTimeout(exec, -diff);
+      }
     }
 
-    var cb = function () {
-        currCall = (new Date()).getTime();
-        scope = this;
-        args = arguments;
-        var thisDelay = debounceNextCall || delay;
-        var thisDebounce = debounceNextCall || debounce;
-        debounceNextCall = null;
-        diff = currCall - (thisDebounce ? lastCall : lastExec) - thisDelay;
+    lastCall = currCall;
+  };
+  /**
+   * Clear throttle.
+   * @public
+   */
 
-        clearTimeout(timer);
 
-        if (thisDebounce) {
-            timer = setTimeout(exec, thisDelay);
-        }
-        else {
-            if (diff >= 0) {
-                exec();
-            }
-            else {
-                timer = setTimeout(exec, -diff);
-            }
-        }
+  cb.clear = function () {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+  };
+  /**
+   * Enable debounce once.
+   */
 
-        lastCall = currCall;
-    };
 
-    /**
-     * Clear throttle.
-     * @public
-     */
-    cb.clear = function () {
-        if (timer) {
-            clearTimeout(timer);
-            timer = null;
-        }
-    };
+  cb.debounceNextCall = function (debounceDelay) {
+    debounceNextCall = debounceDelay;
+  };
 
-    /**
-     * Enable debounce once.
-     */
-    cb.debounceNextCall = function (debounceDelay) {
-        debounceNextCall = debounceDelay;
-    };
-
-    return cb;
+  return cb;
 }
-
 /**
  * Create throttle method or update throttle rate.
  *
@@ -105,33 +100,31 @@ export function throttle(fn, delay, debounce) {
  * @param {string} [throttleType='fixRate'] 'fixRate' or 'debounce'
  * @return {Function} throttled function.
  */
+
 export function createOrUpdate(obj, fnAttr, rate, throttleType) {
-    var fn = obj[fnAttr];
+  var fn = obj[fnAttr];
 
-    if (!fn) {
-        return;
+  if (!fn) {
+    return;
+  }
+
+  var originFn = fn[ORIGIN_METHOD] || fn;
+  var lastThrottleType = fn[THROTTLE_TYPE];
+  var lastRate = fn[RATE];
+
+  if (lastRate !== rate || lastThrottleType !== throttleType) {
+    if (rate == null || !throttleType) {
+      return obj[fnAttr] = originFn;
     }
 
-    var originFn = fn[ORIGIN_METHOD] || fn;
-    var lastThrottleType = fn[THROTTLE_TYPE];
-    var lastRate = fn[RATE];
+    fn = obj[fnAttr] = throttle(originFn, rate, throttleType === 'debounce');
+    fn[ORIGIN_METHOD] = originFn;
+    fn[THROTTLE_TYPE] = throttleType;
+    fn[RATE] = rate;
+  }
 
-    if (lastRate !== rate || lastThrottleType !== throttleType) {
-        if (rate == null || !throttleType) {
-            return (obj[fnAttr] = originFn);
-        }
-
-        fn = obj[fnAttr] = throttle(
-            originFn, rate, throttleType === 'debounce'
-        );
-        fn[ORIGIN_METHOD] = originFn;
-        fn[THROTTLE_TYPE] = throttleType;
-        fn[RATE] = rate;
-    }
-
-    return fn;
+  return fn;
 }
-
 /**
  * Clear throttle. Example see throttle.createOrUpdate.
  *
@@ -139,9 +132,11 @@ export function createOrUpdate(obj, fnAttr, rate, throttleType) {
  * @param {Object} obj
  * @param {string} fnAttr
  */
+
 export function clear(obj, fnAttr) {
-    var fn = obj[fnAttr];
-    if (fn && fn[ORIGIN_METHOD]) {
-        obj[fnAttr] = fn[ORIGIN_METHOD];
-    }
+  var fn = obj[fnAttr];
+
+  if (fn && fn[ORIGIN_METHOD]) {
+    obj[fnAttr] = fn[ORIGIN_METHOD];
+  }
 }
