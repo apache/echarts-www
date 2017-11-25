@@ -33,9 +33,17 @@ block extra_js
 
     script(type='text/javascript').
         document.getElementById('nav-examples').className = 'active';
+        function encodeHTML(source) {
+            return String(source)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
         function loadDemo() {
             var chartId = location.hash.slice(1);
-            $('#chart-demo').html('<iframe src="' + GALLERY_EDITOR_PATH + chartId + '"></iframe>');
+            $('#chart-demo').html('<iframe src="' + GALLERY_EDITOR_PATH + encodeHTML(chartId) + '"></iframe>');
         }
 
         $(window).on('hashchange', function () {
