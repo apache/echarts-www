@@ -127,6 +127,9 @@ block extra_js
             if ($('#vml').prop('checked')) {
                 parameters += '&vml=true';
             }
+            if ($('#api').prop('checked')) {
+                parameters += '&api=true';
+            }
 
             parameters += '&version=3';
 
