@@ -695,17 +695,17 @@ var EXAMPLES = [
 ];
 
 var CHART_TYPES = {
-    scatter: '散点图',
     line: '折线图',
     bar: '柱状图',
-    map: '地图',
     pie: '饼图',
-    radar: '雷达图',
+    scatter: '散点图',
+    map: '地图',
     candlestick: 'k线图',
+    radar: '雷达图',
     boxplot: '箱线图',
     heatmap: '热力图',
     graph: '关系图',
-    tree: '树状图',
+    tree: '树图',
     treemap: '矩形树图',
     parallel: '平行坐标',
     sankey: '桑基图',
