@@ -12,10 +12,14 @@ block content
 
     #main-content
         section#home-section
-            video#video-index(autoplay='true', loop='true', src='video/index.mp4', poster='video/index.jpg')
+            //- video#video-index(autoplay='true', loop='true', src='video/index.mp4', poster='video/index.jpg')
+            #large-banner
+                img(src="./images/bg.jpg", alt="")
             .description
-                include components/svg/echarts-logo
-                a#index-play-btn(href='javascript:;', onclick='playIndexVideo()')
+                //- include components/svg/echarts-logo
+                img(src="./images/logo-4.svg" id="large-logo-4", alt="")
+
+                //- a#index-play-btn(href='javascript:;', onclick='playIndexVideo()')
                 .btn-panel
                     a.btn.btn-index-home(href='./feature.html') 特性
                     a.btn.btn-index-home(href='./download.html') 下载
@@ -55,7 +59,8 @@ block content
                         .feature-icon-panel
                             include components/svg/community
                         h3 社区活跃
-                        p 社区活跃，Github star 1.8 万
+                        p 社区活跃，Github star 2.3 万
+
                 .row.feature-detail
                     .col-sm-4.col.mobile
                         h2 多维度数据分析
