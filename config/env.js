@@ -193,7 +193,23 @@ module.exports = {
             }],
             desc: 'ECharts + react.'
         }],
+
         language: [{
+            image: '',
+            name: 'pyecharts',
+            website: 'https://github.com/pyecharts/pyecharts/',
+            authors: [{
+                name: 'chenjiandongx',
+                website: 'https://github.com/chenjiandongx'
+            }, {
+                name: 'chfw',
+                website: 'https://github.com/chfw'
+            }, {
+                name: 'kinegratii',
+                website: 'https://github.com/kinegratii'
+            }],
+            desc: 'Python Echarts Plotting Library.'
+        }, {
             image: '',
             name: 'echarts-python',
             website: 'https://github.com/yufeiminds/echarts-python',
