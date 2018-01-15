@@ -10,9 +10,10 @@ define(function (require) {
     var $log = document.getElementById('log');
 
     var baseURL = dir(location.pathname);
+    var suffix = BUILD_CONFIG.version === 3 ? '3' : '';
     var pathsConfig = {
-        'echarts/src': './src/echarts',
-        'zrender/src': './src/zrender'
+        'echarts/src': './src/echarts' + suffix,
+        'zrender/src': './src/zrender' + suffix
     };
     var urlArgs = '__v__=' + (+new Date());
 
