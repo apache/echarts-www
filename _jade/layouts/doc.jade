@@ -17,6 +17,14 @@ block content
     nav(class='navbar navbar-default navbar-fixed-top')
         include ../components/nav
 
+    block vars
+
+    if isECharts4
+        a.doc-version-change(href="option3.html") 切换 v3.x 版本
+    else
+        a.doc-version-change(href="option.html") 切换 v4.x 版本
+
+
     .ecdoc-apidoc
 
 block extra_js

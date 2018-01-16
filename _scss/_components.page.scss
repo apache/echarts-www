@@ -1,6 +1,13 @@
 $single-page-left-width: 200px;
 $info-height: 120px;
 
+.doc-version-change {
+    position: absolute;
+    top: 70px;
+    right: 50px;
+    z-index: 100;
+}
+
 .section-bg {
     background: #F4F7FC;
     padding: 10px 0;

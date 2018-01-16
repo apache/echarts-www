@@ -1,14 +1,14 @@
 extends layouts/doc
 
 block vars
-    - var isECharts4 = true;
+    - var isECharts4 = false;
 
 block global_args_extra
 
     script(type="text/javascript").
         window.globalArgsExtra = {
             pageName: 'option',
-            schemaUrl: 'documents/cn/option.json',
+            schemaUrl: 'documents/cn/option3.json',
             initHash: 'title',
             docTreeRootText: '.setOption('
         };
