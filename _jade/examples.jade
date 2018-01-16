@@ -2,6 +2,9 @@ extends layouts/basic
 
 block extra_head
     <title>ECharts Examples</title>
+    script.
+        var chartId = location.hash.slice(1);
+        window.location ='./examples/index.html';
     link(rel="stylesheet", href="vendors/perfect-scrollbar/0.6.8/css/perfect-scrollbar.min.css")
 
 block content

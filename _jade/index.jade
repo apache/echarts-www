@@ -13,12 +13,15 @@ block content
     #main-content
         section#home-section
             //- video#video-index(autoplay='true', loop='true', src='video/index.mp4', poster='video/index.jpg')
-            #large-banner
-                img(src="./images/bg.jpg", alt="")
-            .description
-                //- include components/svg/echarts-logo
-                img(src="./images/logo-4.svg" id="large-logo-4", alt="")
 
+            //- New add for 4
+            #large-banner
+
+            script.
+                $('#large-banner').height(window.innerHeight);
+
+            //- .description
+                //- include components/svg/echarts-logo
                 //- a#index-play-btn(href='javascript:;', onclick='playIndexVideo()')
                 .btn-panel
                     a.btn.btn-index-home(href='./feature.html') 特性
@@ -63,9 +66,8 @@ block content
 
                 .row.feature-detail#feature-4
                     .col-sm-4.col
-                        h2
-                            div 全新 4.0
-                            div 八项新科技
+                        h2 全新 4.0
+                        h3(style="color:#000;font-weight:bold;margin-bottom:20px;") 八项新科技
                         p 千万级数据可视化渲染能力
                         p SVG + Canvas 双引擎动力更佳
                         p 数据样式分离及扁平配置让开发更便捷
@@ -75,7 +77,7 @@ block content
                             a(href="feature.html") 了解更多
                                 include components/svg/more
                     .col-sm-8.col
-                        video#video-feature-4.feature-video(autoplay='true', loop='true', src='video/feature-1.mp4', poster='video/feature-2.jpg')
+                        video#video-feature-4.feature-video(autoplay='true', loop='true', src='video/feature-4.mp4', poster='images/features/scatterGL4.png')
                 .row.feature-detail#feature-dimension
                     .col-sm-4.col.mobile
                         h2 多维度数据分析
