@@ -2,19 +2,19 @@ import { __DEV__ } from '../config';
 import * as echarts from '../echarts';
 import * as zrUtil from 'zrender/src/core/util';
 import * as graphicUtil from '../util/graphic';
-import { findLabelValueDim } from './helper/labelHelper';
+import { getDefaultLabel } from './helper/labelHelper';
 import createListFromArray from './helper/createListFromArray';
-import barGrid from '../layout/barGrid';
+import { getLayoutOnAxis } from '../layout/barGrid';
 import DataDiffer from '../data/DataDiffer';
 import prepareCartesian2d from '../coord/cartesian/prepareCustom';
 import prepareGeo from '../coord/geo/prepareCustom';
 import prepareSingleAxis from '../coord/single/prepareCustom';
 import preparePolar from '../coord/polar/prepareCustom';
 import prepareCalendar from '../coord/calendar/prepareCustom';
-var ITEM_STYLE_NORMAL_PATH = ['itemStyle', 'normal'];
-var ITEM_STYLE_EMPHASIS_PATH = ['itemStyle', 'emphasis'];
-var LABEL_NORMAL = ['label', 'normal'];
-var LABEL_EMPHASIS = ['label', 'emphasis']; // Use prefix to avoid index to be the same as el.name,
+var ITEM_STYLE_NORMAL_PATH = ['itemStyle'];
+var ITEM_STYLE_EMPHASIS_PATH = ['emphasis', 'itemStyle'];
+var LABEL_NORMAL = ['label'];
+var LABEL_EMPHASIS = ['emphasis', 'label']; // Use prefix to avoid index to be the same as el.name,
 // which will cause weird udpate animation.
 
 var GROUP_DIFF_PREFIX = 'e\0\0';
@@ -60,7 +60,7 @@ echarts.extendSeriesModel({
 
   },
   getInitialData: function (option, ecModel) {
-    return createListFromArray(option.data, this, ecModel);
+    return createListFromArray(this.getSource(), this);
   }
 }); // -----
 // View
@@ -83,6 +83,7 @@ echarts.extendChartView({
     var data = customSeries.getData();
     var group = this.group;
     var renderItem = makeRenderItem(customSeries, data, ecModel, api);
+    this.group.removeAll();
     data.diff(oldData).add(function (newIdx) {
       data.hasValue(newIdx) && createOrUpdate(null, newIdx, renderItem(newIdx), customSeries, group, data);
     }).update(function (newIdx, oldIdx) {
@@ -93,6 +94,26 @@ echarts.extendChartView({
       el && group.remove(el);
     }).execute();
     this._data = data;
+  },
+  incrementalPrepareRender: function (customSeries, ecModel, api) {
+    this.group.removeAll();
+    this._data = null;
+  },
+  incrementalRender: function (params, customSeries, ecModel, api) {
+    var data = customSeries.getData();
+    var renderItem = makeRenderItem(customSeries, data, ecModel, api);
+
+    function setIncrementalAndHoverLayer(el) {
+      if (!el.isGroup) {
+        el.incremental = true;
+        el.useHoverLayer = true;
+      }
+    }
+
+    for (var idx = params.start; idx < params.end; idx++) {
+      var el = createOrUpdate(null, idx, renderItem(idx), customSeries, this.group, data);
+      el.traverse(setIncrementalAndHoverLayer);
+    }
   },
 
   /**
@@ -230,7 +251,6 @@ function makeRenderItem(customSeries, data, ecModel, api) {
   var currItemModel;
   var currLabelNormalModel;
   var currLabelEmphasisModel;
-  var currLabelValueDim;
   var currVisualColor;
   return function (dataIndexInside) {
     currDataIndexInside = dataIndexInside;
@@ -248,7 +268,6 @@ function makeRenderItem(customSeries, data, ecModel, api) {
       currItemModel = data.getItemModel(dataIndexInside);
       currLabelNormalModel = currItemModel.getModel(LABEL_NORMAL);
       currLabelEmphasisModel = currItemModel.getModel(LABEL_EMPHASIS);
-      currLabelValueDim = findLabelValueDim(data);
       currVisualColor = data.getItemVisual(dataIndexInside, 'color');
       currDirty = false;
     }
@@ -283,15 +302,11 @@ function makeRenderItem(customSeries, data, ecModel, api) {
     currVisualColor != null && (itemStyle.fill = currVisualColor);
     var opacity = data.getItemVisual(dataIndexInside, 'opacity');
     opacity != null && (itemStyle.opacity = opacity);
-
-    if (currLabelValueDim != null) {
-      graphicUtil.setTextStyle(itemStyle, currLabelNormalModel, null, {
-        autoColor: currVisualColor,
-        isRectText: true
-      });
-      itemStyle.text = currLabelNormalModel.getShallow('show') ? zrUtil.retrieve2(customSeries.getFormattedLabel(dataIndexInside, 'normal'), data.get(currLabelValueDim, dataIndexInside)) : null;
-    }
-
+    graphicUtil.setTextStyle(itemStyle, currLabelNormalModel, null, {
+      autoColor: currVisualColor,
+      isRectText: true
+    });
+    itemStyle.text = currLabelNormalModel.getShallow('show') ? zrUtil.retrieve2(customSeries.getFormattedLabel(dataIndexInside, 'normal'), getDefaultLabel(data, dataIndexInside)) : null;
     extra && zrUtil.extend(itemStyle, extra);
     return itemStyle;
   }
@@ -306,14 +321,10 @@ function makeRenderItem(customSeries, data, ecModel, api) {
     dataIndexInside == null && (dataIndexInside = currDataIndexInside);
     updateCache(dataIndexInside);
     var itemStyle = currItemModel.getModel(ITEM_STYLE_EMPHASIS_PATH).getItemStyle();
-
-    if (currLabelValueDim != null) {
-      graphicUtil.setTextStyle(itemStyle, currLabelEmphasisModel, null, {
-        isRectText: true
-      }, true);
-      itemStyle.text = currLabelEmphasisModel.getShallow('show') ? zrUtil.retrieve3(customSeries.getFormattedLabel(dataIndexInside, 'emphasis'), customSeries.getFormattedLabel(dataIndexInside, 'normal'), data.get(currLabelValueDim, dataIndexInside)) : null;
-    }
-
+    graphicUtil.setTextStyle(itemStyle, currLabelEmphasisModel, null, {
+      isRectText: true
+    }, true);
+    itemStyle.text = currLabelEmphasisModel.getShallow('show') ? zrUtil.retrieve3(customSeries.getFormattedLabel(dataIndexInside, 'emphasis'), customSeries.getFormattedLabel(dataIndexInside, 'normal'), getDefaultLabel(data, dataIndexInside)) : null;
     extra && zrUtil.extend(itemStyle, extra);
     return itemStyle;
   }
@@ -342,7 +353,7 @@ function makeRenderItem(customSeries, data, ecModel, api) {
   function barLayout(opt) {
     if (coordSys.getBaseAxis) {
       var baseAxis = coordSys.getBaseAxis();
-      return barGrid.getLayoutOnAxis(zrUtil.defaults({
+      return getLayoutOnAxis(zrUtil.defaults({
         axis: baseAxis
       }, opt), api);
     }
@@ -389,6 +400,7 @@ function wrapEncodeDef(data) {
 function createOrUpdate(el, dataIndex, elOption, animatableModel, group, data) {
   el = doCreateOrUpdate(el, dataIndex, elOption, animatableModel, group, data);
   el && data.setItemGraphicEl(dataIndex, el);
+  return el;
 }
 
 function doCreateOrUpdate(el, dataIndex, elOption, animatableModel, group, data) {

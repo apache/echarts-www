@@ -16,16 +16,19 @@ var MARK_USED = '1';
  * e.g., gradients, clip path, etc.
  *
  * @class
+ * @param {number}          zrId      zrender instance id
  * @param {SVGElement}      svgRoot   root of SVG document
  * @param {string|string[]} tagNames  possible tag names
  * @param {string}          markLabel label name to make if the element
  *                                    is used
  */
 
-function Definable(svgRoot, tagNames, markLabel) {
+function Definable(zrId, svgRoot, tagNames, markLabel, domName) {
+  this._zrId = zrId;
   this._svgRoot = svgRoot;
   this._tagNames = typeof tagNames === 'string' ? [tagNames] : tagNames;
   this._markLabel = markLabel;
+  this._domName = domName || '_dom';
   this.nextId = 0;
 }
 
@@ -93,17 +96,17 @@ Definable.prototype.update = function (element, onUpdate) {
 
   var defs = this.getDefs(false);
 
-  if (element._dom && defs.contains(element._dom)) {
+  if (element[this._domName] && defs.contains(element[this._domName])) {
     // Update DOM
     if (typeof onUpdate === 'function') {
-      onUpdate();
+      onUpdate(element);
     }
   } else {
     // No previous dom, create new
     var dom = this.add(element);
 
     if (dom) {
-      element._dom = dom;
+      element[this._domName] = dom;
     }
   }
 };
@@ -127,7 +130,11 @@ Definable.prototype.addDom = function (dom) {
 
 Definable.prototype.removeDom = function (element) {
   var defs = this.getDefs(false);
-  defs.removeChild(element._dom);
+
+  if (defs && element[this._domName]) {
+    defs.removeChild(element[this._domName]);
+    element[this._domName] = null;
+  }
 };
 /**
  * Get DOMs of this element.

@@ -132,6 +132,16 @@ OptionManager.prototype = {
    * @return {Object} Init option
    */
   setOption: function (rawOption, optionPreprocessorFuncs) {
+    if (rawOption) {
+      // That set dat primitive is dangerous if user reuse the data when setOption again.
+      zrUtil.each(modelUtil.normalizeToArray(rawOption.series), function (series) {
+        series && series.data && zrUtil.isTypedArray(series.data) && zrUtil.setAsPrimitive(series.data);
+      });
+    } // Caution: some series modify option data, if do not clone,
+    // it should ensure that the repeat modify correctly
+    // (create a new object when modify itself).
+
+
     rawOption = clone(rawOption, true); // FIXME
     // 如果 timeline options 或者 media 中设置了某个属性，而baseOption中没有设置，则进行警告。
 

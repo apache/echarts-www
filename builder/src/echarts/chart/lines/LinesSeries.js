@@ -1,16 +1,18 @@
 import { __DEV__ } from '../../config';
 import SeriesModel from '../../model/Series';
 import List from '../../data/List';
-import * as zrUtil from 'zrender/src/core/util';
+import { concatArray, mergeAll, map } from 'zrender/src/core/util';
 import { encodeHTML } from '../../util/format';
-import CoordinateSystem from '../../CoordinateSystem'; // Convert [ [{coord: []}, {coord: []}] ]
-// to [ { coords: [[]] } ]
+import CoordinateSystem from '../../CoordinateSystem';
+var globalObj = typeof window === 'undefined' ? global : window;
+var Uint32Arr = globalObj.Uint32Array || Array;
+var Float64Arr = globalObj.Float64Array || Array;
 
-function preprocessOption(seriesOpt) {
+function compatEc2(seriesOpt) {
   var data = seriesOpt.data;
 
   if (data && data[0] && data[0][0] && data[0][0].coord) {
-    seriesOpt.data = zrUtil.map(data, function (itemOpt) {
+    seriesOpt.data = map(data, function (itemOpt) {
       var coords = [itemOpt[0].coord, itemOpt[1].coord];
       var target = {
         coords: coords
@@ -24,7 +26,7 @@ function preprocessOption(seriesOpt) {
         target.toName = itemOpt[1].name;
       }
 
-      return zrUtil.mergeAll([target, itemOpt[0], itemOpt[1]]);
+      return mergeAll([target, itemOpt[0], itemOpt[1]]);
     });
   }
 }
@@ -32,15 +34,140 @@ function preprocessOption(seriesOpt) {
 var LinesSeries = SeriesModel.extend({
   type: 'series.lines',
   dependencies: ['grid', 'polar'],
-  visualColorAccessPath: 'lineStyle.normal.color',
+  visualColorAccessPath: 'lineStyle.color',
   init: function (option) {
     // Not using preprocessor because mergeOption may not have series.type
-    preprocessOption(option);
+    compatEc2(option);
+
+    var result = this._processFlatCoordsArray(option.data);
+
+    this._flatCoords = result.flatCoords;
+    this._flatCoordsOffset = result.flatCoordsOffset;
+
+    if (result.flatCoords) {
+      option.data = new Float32Array(result.count);
+    }
+
     LinesSeries.superApply(this, 'init', arguments);
   },
   mergeOption: function (option) {
-    preprocessOption(option);
+    compatEc2(option);
+
+    if (option.data) {
+      // Only update when have option data to merge.
+      var result = this._processFlatCoordsArray(option.data);
+
+      this._flatCoords = result.flatCoords;
+      this._flatCoordsOffset = result.flatCoordsOffset;
+
+      if (result.flatCoords) {
+        option.data = new Float32Array(result.count);
+      }
+    }
+
     LinesSeries.superApply(this, 'mergeOption', arguments);
+  },
+  appendData: function (params) {
+    var result = this._processFlatCoordsArray(params.data);
+
+    if (result.flatCoords) {
+      if (!this._flatCoords) {
+        this._flatCoords = result.flatCoords;
+        this._flatCoordsOffset = result.flatCoordsOffset;
+      } else {
+        this._flatCoords = concatArray(this._flatCoords, result.flatCoords);
+        this._flatCoordsOffset = concatArray(this._flatCoordsOffset, result.flatCoordsOffset);
+      }
+
+      params.data = new Float32Array(result.count);
+    }
+
+    this.getRawData().appendData(params.data);
+  },
+  _getCoordsFromItemModel: function (idx) {
+    var itemModel = this.getData().getItemModel(idx);
+    var coords = itemModel.option instanceof Array ? itemModel.option : itemModel.getShallow('coords');
+    return coords;
+  },
+  getLineCoordsCount: function (idx) {
+    if (this._flatCoordsOffset) {
+      return this._flatCoordsOffset[idx * 2 + 1];
+    } else {
+      return this._getCoordsFromItemModel(idx).length;
+    }
+  },
+  getLineCoords: function (idx, out) {
+    if (this._flatCoordsOffset) {
+      var offset = this._flatCoordsOffset[idx * 2];
+      var len = this._flatCoordsOffset[idx * 2 + 1];
+
+      for (var i = 0; i < len; i++) {
+        out[i] = out[i] || [];
+        out[i][0] = this._flatCoords[offset + i * 2];
+        out[i][1] = this._flatCoords[offset + i * 2 + 1];
+      }
+
+      return len;
+    } else {
+      var coords = this._getCoordsFromItemModel(idx);
+
+      for (var i = 0; i < coords.length; i++) {
+        out[i] = out[i] || [];
+        out[i][0] = coords[i][0];
+        out[i][1] = coords[i][1];
+      }
+
+      return coords.length;
+    }
+  },
+  _processFlatCoordsArray: function (data) {
+    var startOffset = 0;
+
+    if (this._flatCoords) {
+      startOffset = this._flatCoords.length;
+    } // Stored as a typed array. In format
+    // Points Count(2) | x | y | x | y | Points Count(3) | x |  y | x | y | x | y |
+
+
+    if (typeof data[0] === 'number') {
+      var len = data.length; // Store offset and len of each segment
+
+      var coordsOffsetAndLenStorage = new Uint32Arr(len);
+      var coordsStorage = new Float64Arr(len);
+      var coordsCursor = 0;
+      var offsetCursor = 0;
+      var dataCount = 0;
+
+      for (var i = 0; i < len;) {
+        dataCount++;
+        var count = data[i++]; // Offset
+
+        coordsOffsetAndLenStorage[offsetCursor++] = coordsCursor + startOffset; // Len
+
+        coordsOffsetAndLenStorage[offsetCursor++] = count;
+
+        for (var k = 0; k < count; k++) {
+          var x = data[i++];
+          var y = data[i++];
+          coordsStorage[coordsCursor++] = x;
+          coordsStorage[coordsCursor++] = y;
+
+          if (i > len) {}
+        }
+      }
+
+      return {
+        flatCoordsOffset: new Uint32Array(coordsOffsetAndLenStorage.buffer, 0, offsetCursor),
+        flatCoords: coordsStorage,
+        count: dataCount
+      };
+    }
+
+    return {
+      flatCoordsOffset: null,
+      flatCoords: null,
+      count: data.length
+    };
   },
   getInitialData: function (option, ecModel) {
     var lineData = new List(['value'], this);
@@ -76,6 +203,27 @@ var LinesSeries = SeriesModel.extend({
     toName != null && html.push(toName);
     return encodeHTML(html.join(' > '));
   },
+  preventIncremental: function () {
+    return !!this.get('effect.show');
+  },
+  getProgressive: function () {
+    var progressive = this.option.progressive;
+
+    if (progressive == null) {
+      return this.option.large ? 1e4 : this.get('progressive');
+    }
+
+    return progressive;
+  },
+  getProgressiveThreshold: function () {
+    var progressiveThreshold = this.option.progressiveThreshold;
+
+    if (progressiveThreshold == null) {
+      return this.option.large ? 2e4 : this.get('progressiveThreshold');
+    }
+
+    return progressiveThreshold;
+  },
   defaultOption: {
     coordinateSystem: 'geo',
     zlevel: 0,
@@ -101,28 +249,26 @@ var LinesSeries = SeriesModel.extend({
       symbolSize: 3,
       loop: true,
       // Length of trail, 0 - 1
-      trailLength: 0.2 // Same with lineStyle.normal.color
+      trailLength: 0.2 // Same with lineStyle.color
       // color
 
     },
     large: false,
     // Available when large is true
     largeThreshold: 2000,
+    incremental: false,
+    incrementalThreshold: 3000,
     // If lines are polyline
     // polyline not support curveness, label, animation
     polyline: false,
     label: {
-      normal: {
-        show: false,
-        position: 'end' // distance: 5,
-        // formatter: 标签文本格式器，同Tooltip.formatter，不支持异步回调
+      show: false,
+      position: 'end' // distance: 5,
+      // formatter: 标签文本格式器，同Tooltip.formatter，不支持异步回调
 
-      }
     },
     lineStyle: {
-      normal: {
-        opacity: 0.5
-      }
+      opacity: 0.5
     }
   }
 });

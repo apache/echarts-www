@@ -27,11 +27,9 @@ var CalendarModel = ComponentModel.extend({
     },
     // rect style  temporarily unused emphasis
     itemStyle: {
-      normal: {
-        color: '#fff',
-        borderWidth: 1,
-        borderColor: '#ccc'
-      }
+      color: '#fff',
+      borderWidth: 1,
+      borderColor: '#ccc'
     },
     // week text style
     dayLabel: {

@@ -79,29 +79,25 @@ var SankeySeries = SeriesModel.extend({
     // the number of iterations to change the position of the node
     layoutIterations: 32,
     label: {
-      normal: {
-        show: true,
-        position: 'right',
-        color: '#000',
-        fontSize: 12
-      },
-      emphasis: {
-        show: true
-      }
+      show: true,
+      position: 'right',
+      color: '#000',
+      fontSize: 12
     },
     itemStyle: {
-      normal: {
-        borderWidth: 1,
-        borderColor: '#333'
-      }
+      borderWidth: 1,
+      borderColor: '#333'
     },
     lineStyle: {
-      normal: {
-        color: '#314656',
-        opacity: 0.2,
-        curveness: 0.5
+      color: '#314656',
+      opacity: 0.2,
+      curveness: 0.5
+    },
+    emphasis: {
+      label: {
+        show: true
       },
-      emphasis: {
+      lineStyle: {
         opacity: 0.6
       }
     },

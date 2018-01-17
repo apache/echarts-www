@@ -14,7 +14,7 @@ export default function (ecModel) {
       var data = subMapSeries.originalData;
 
       if (subMapSeries.get('showLegendSymbol') && ecModel.getComponent('legend')) {
-        data.each('value', function (value, idx) {
+        data.each(data.mapDimension('value'), function (value, idx) {
           var name = data.getName(idx);
           var region = geo.getRegion(name); // If input series.data is [11, 22, '-'/null/undefined, 44],
           // it will be filled with NaN: [11, 22, NaN, 44] and NaN will

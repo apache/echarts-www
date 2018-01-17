@@ -19,6 +19,6 @@ createDataSelectAction('pie', [{
   event: 'pieunselected',
   method: 'unSelect'
 }]);
-echarts.registerVisual(zrUtil.curry(dataColor, 'pie'));
+echarts.registerVisual(dataColor('pie'));
 echarts.registerLayout(zrUtil.curry(pieLayout, 'pie'));
-echarts.registerProcessor(zrUtil.curry(dataFilter, 'pie'));
+echarts.registerProcessor(dataFilter('pie'));

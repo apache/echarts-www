@@ -2,28 +2,24 @@ import * as zrUtil from 'zrender/src/core/util';
 import BoundingRect from 'zrender/src/core/BoundingRect';
 import { parsePercent, MAX_SAFE_INTEGER } from '../../util/number';
 import * as layout from '../../util/layout';
-import * as helper from './helper';
+import * as helper from '../helper/treeHelper';
 var mathMax = Math.max;
 var mathMin = Math.min;
 var retrieveValue = zrUtil.retrieve;
 var each = zrUtil.each;
-var PATH_BORDER_WIDTH = ['itemStyle', 'normal', 'borderWidth'];
-var PATH_GAP_WIDTH = ['itemStyle', 'normal', 'gapWidth'];
-var PATH_UPPER_LABEL_SHOW = ['upperLabel', 'normal', 'show'];
-var PATH_UPPER_LABEL_HEIGHT = ['upperLabel', 'normal', 'height'];
+var PATH_BORDER_WIDTH = ['itemStyle', 'borderWidth'];
+var PATH_GAP_WIDTH = ['itemStyle', 'gapWidth'];
+var PATH_UPPER_LABEL_SHOW = ['upperLabel', 'show'];
+var PATH_UPPER_LABEL_HEIGHT = ['upperLabel', 'height'];
 /**
  * @public
  */
 
-export default function (ecModel, api, payload) {
-  // Layout result in each node:
-  // {x, y, width, height, area, borderWidth}
-  var condition = {
-    mainType: 'series',
-    subType: 'treemap',
-    query: payload
-  };
-  ecModel.eachComponent(condition, function (seriesModel) {
+export default {
+  seriesType: 'treemap',
+  reset: function (seriesModel, ecModel, api, payload) {
+    // Layout result in each node:
+    // {x, y, width, height, area, borderWidth}
     var ecWidth = api.getWidth();
     var ecHeight = api.getHeight();
     var seriesOption = seriesModel.option;
@@ -37,7 +33,8 @@ export default function (ecModel, api, payload) {
     var containerHeight = parsePercent(retrieveValue(layoutInfo.height, size[1]), ecHeight); // Fetch payload info.
 
     var payloadType = payload && payload.type;
-    var targetInfo = helper.retrieveTargetInfo(payload, seriesModel);
+    var types = ['treemapZoomToNode', 'treemapRootToNode'];
+    var targetInfo = helper.retrieveTargetInfo(payload, types, seriesModel);
     var rootRect = payloadType === 'treemapRender' || payloadType === 'treemapMove' ? payload.rootRect : null;
     var viewRoot = seriesModel.getViewRoot();
     var viewAbovePath = helper.getPathToRoot(viewRoot);
@@ -89,8 +86,8 @@ export default function (ecModel, api, payload) {
 
     prunning(treeRoot, // Transform to base element coordinate system.
     new BoundingRect(-layoutInfo.x, -layoutInfo.y, ecWidth, ecHeight), viewAbovePath, viewRoot, 0);
-  });
-}
+  }
+};
 /**
  * Layout treemap with squarify algorithm.
  * @see https://graphics.ethz.ch/teaching/scivis_common/Literature/squarifiedTreeMaps.pdf

@@ -48,7 +48,6 @@ function compatLayoutProperties(option) {
 
 var LAYOUT_PROPERTIES = [['x', 'left'], ['y', 'top'], ['x2', 'right'], ['y2', 'bottom']];
 var COMPATITABLE_COMPONENTS = ['grid', 'geo', 'parallel', 'legend', 'toolbox', 'title', 'visualMap', 'dataZoom', 'timeline'];
-var COMPATITABLE_SERIES = ['bar', 'boxplot', 'candlestick', 'chord', 'effectScatter', 'funnel', 'gauge', 'lines', 'graph', 'heatmap', 'line', 'map', 'parallel', 'pie', 'radar', 'sankey', 'scatter', 'treemap'];
 export default function (option, isTheme) {
   compatStyle(option, isTheme); // Make sure series array for model initialization.
 
@@ -71,12 +70,7 @@ export default function (option, isTheme) {
       pointerColor != null && set(seriesOpt, 'itemStyle.normal.color', pointerColor);
     }
 
-    for (var i = 0; i < COMPATITABLE_SERIES.length; i++) {
-      if (COMPATITABLE_SERIES[i] === seriesOpt.type) {
-        compatLayoutProperties(seriesOpt);
-        break;
-      }
-    }
+    compatLayoutProperties(seriesOpt);
   }); // dataRange has changed to visualMap
 
   if (option.dataRange) {

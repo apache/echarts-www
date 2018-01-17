@@ -26,7 +26,7 @@ export function circularLayout(seriesModel) {
     cy: cy
   });
   graph.eachEdge(function (edge) {
-    var curveness = edge.getModel().get('lineStyle.normal.curveness') || 0;
+    var curveness = edge.getModel().get('lineStyle.curveness') || 0;
     var p1 = vec2.clone(edge.node1.getLayout());
     var p2 = vec2.clone(edge.node2.getLayout());
     var cp1;

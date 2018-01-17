@@ -1,10 +1,3 @@
-/**
- * Storage内容仓库模块
- * @module zrender/Storage
- * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
- * @author errorrik (errorrik@gmail.com)
- * @author pissang (https://github.com/pissang/)
- */
 import * as util from './core/util';
 import env from './core/env';
 import Group from './container/Group'; // Use timsort because in most case elements are partially sorted
@@ -89,11 +82,7 @@ Storage.prototype = {
       this._updateAndAddDisplayable(roots[i], null, includeIgnore);
     }
 
-    displayList.length = this._displayListLen; // for (var i = 0, len = displayList.length; i < len; i++) {
-    //     displayList[i].__renderidx = i;
-    // }
-    // displayList.sort(shapeCompareFunc);
-
+    displayList.length = this._displayListLen;
     env.canvasSupported && timsort(displayList, shapeCompareFunc);
   },
   _updateAndAddDisplayable: function (el, clipPaths, includeIgnore) {
@@ -213,8 +202,11 @@ Storage.prototype = {
     }
   },
   addToStorage: function (el) {
-    el.__storage = this;
-    el.dirty(false);
+    if (el) {
+      el.__storage = this;
+      el.dirty(false);
+    }
+
     return this;
   },
   delFromStorage: function (el) {

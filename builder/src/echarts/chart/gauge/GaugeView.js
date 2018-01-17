@@ -219,6 +219,7 @@ var GaugeView = ChartView.extend({
     var valueExtent = [+seriesModel.get('min'), +seriesModel.get('max')];
     var angleExtent = [startAngle, endAngle];
     var data = seriesModel.getData();
+    var valueDim = data.mapDimension('value');
     data.diff(oldData).add(function (idx) {
       var pointer = new PointerPath({
         shape: {
@@ -227,7 +228,7 @@ var GaugeView = ChartView.extend({
       });
       graphic.initProps(pointer, {
         shape: {
-          angle: linearMap(data.get('value', idx), valueExtent, angleExtent, true)
+          angle: linearMap(data.get(valueDim, idx), valueExtent, angleExtent, true)
         }
       }, seriesModel);
       group.add(pointer);
@@ -236,7 +237,7 @@ var GaugeView = ChartView.extend({
       var pointer = oldData.getItemGraphicEl(oldIdx);
       graphic.updateProps(pointer, {
         shape: {
-          angle: linearMap(data.get('value', newIdx), valueExtent, angleExtent, true)
+          angle: linearMap(data.get(valueDim, newIdx), valueExtent, angleExtent, true)
         }
       }, seriesModel);
       group.add(pointer);
@@ -254,17 +255,19 @@ var GaugeView = ChartView.extend({
         width: parsePercent(pointerModel.get('width'), posInfo.r),
         r: parsePercent(pointerModel.get('length'), posInfo.r)
       });
-      pointer.useStyle(itemModel.getModel('itemStyle.normal').getItemStyle());
+      pointer.useStyle(itemModel.getModel('itemStyle').getItemStyle());
 
       if (pointer.style.fill === 'auto') {
-        pointer.setStyle('fill', getColor(linearMap(data.get('value', idx), valueExtent, [0, 1], true)));
+        pointer.setStyle('fill', getColor(linearMap(data.get(valueDim, idx), valueExtent, [0, 1], true)));
       }
 
-      graphic.setHoverStyle(pointer, itemModel.getModel('itemStyle.emphasis').getItemStyle());
+      graphic.setHoverStyle(pointer, itemModel.getModel('emphasis.itemStyle').getItemStyle());
     });
     this._data = data;
   },
   _renderTitle: function (seriesModel, ecModel, api, getColor, posInfo) {
+    var data = seriesModel.getData();
+    var valueDim = data.mapDimension('value');
     var titleModel = seriesModel.getModel('title');
 
     if (titleModel.get('show')) {
@@ -273,7 +276,7 @@ var GaugeView = ChartView.extend({
       var y = posInfo.cy + parsePercent(offsetCenter[1], posInfo.r);
       var minVal = +seriesModel.get('min');
       var maxVal = +seriesModel.get('max');
-      var value = seriesModel.getData().get('value', 0);
+      var value = seriesModel.getData().get(valueDim, 0);
       var autoColor = getColor(linearMap(value, [minVal, maxVal], [0, 1], true));
       this.group.add(new graphic.Text({
         silent: true,
@@ -281,7 +284,7 @@ var GaugeView = ChartView.extend({
           x: x,
           y: y,
           // FIXME First data name ?
-          text: seriesModel.getData().getName(0),
+          text: data.getName(0),
           textAlign: 'center',
           textVerticalAlign: 'middle'
         }, {
@@ -302,7 +305,8 @@ var GaugeView = ChartView.extend({
       var y = posInfo.cy + parsePercent(offsetCenter[1], posInfo.r);
       var width = parsePercent(detailModel.get('width'), posInfo.r);
       var height = parsePercent(detailModel.get('height'), posInfo.r);
-      var value = seriesModel.getData().get('value', 0);
+      var data = seriesModel.getData();
+      var value = data.get(data.mapDimension('value'), 0);
       var autoColor = getColor(linearMap(value, [minVal, maxVal], [0, 1], true));
       this.group.add(new graphic.Text({
         silent: true,

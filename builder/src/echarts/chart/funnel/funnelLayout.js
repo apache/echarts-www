@@ -9,7 +9,8 @@ function getViewRect(seriesModel, api) {
 }
 
 function getSortedIndices(data, sort) {
-  var valueArr = data.mapArray('value', function (val) {
+  var valueDim = data.mapDimension('value');
+  var valueArr = data.mapArray(valueDim, function (val) {
     return val;
   });
   var indices = [];
@@ -34,9 +35,9 @@ function getSortedIndices(data, sort) {
 function labelLayout(data) {
   data.each(function (idx) {
     var itemModel = data.getItemModel(idx);
-    var labelModel = itemModel.getModel('label.normal');
+    var labelModel = itemModel.getModel('label');
     var labelPosition = labelModel.get('position');
-    var labelLineModel = itemModel.getModel('labelLine.normal');
+    var labelLineModel = itemModel.getModel('labelLine');
     var layout = data.getItemLayout(idx);
     var points = layout.points;
     var isLabelInside = labelPosition === 'inner' || labelPosition === 'inside' || labelPosition === 'center';
@@ -91,11 +92,12 @@ function labelLayout(data) {
 export default function (ecModel, api, payload) {
   ecModel.eachSeriesByType('funnel', function (seriesModel) {
     var data = seriesModel.getData();
+    var valueDim = data.mapDimension('value');
     var sort = seriesModel.get('sort');
     var viewRect = getViewRect(seriesModel, api);
     var indices = getSortedIndices(data, sort);
     var sizeExtent = [parsePercent(seriesModel.get('minSize'), viewRect.width), parsePercent(seriesModel.get('maxSize'), viewRect.width)];
-    var dataExtent = data.getDataExtent('value');
+    var dataExtent = data.getDataExtent(valueDim);
     var min = seriesModel.get('min');
     var max = seriesModel.get('max');
 
@@ -114,7 +116,7 @@ export default function (ecModel, api, payload) {
 
     var getLinePoints = function (idx, offY) {
       // End point index is data.count() and we assign it 0
-      var val = data.get('value', idx) || 0;
+      var val = data.get(valueDim, idx) || 0;
       var itemWidth = linearMap(val, [min, max], sizeExtent, true);
       var x0;
 
@@ -146,9 +148,22 @@ export default function (ecModel, api, payload) {
     for (var i = 0; i < indices.length; i++) {
       var idx = indices[i];
       var nextIdx = indices[i + 1];
+      var itemModel = data.getItemModel(idx);
+      var height = itemModel.get('itemStyle.height');
+
+      if (height == null) {
+        height = itemHeight;
+      } else {
+        height = parsePercent(height, viewRect.height);
+
+        if (sort === 'ascending') {
+          height = -height;
+        }
+      }
+
       var start = getLinePoints(idx, y);
-      var end = getLinePoints(nextIdx, y + itemHeight);
-      y += itemHeight + gap;
+      var end = getLinePoints(nextIdx, y + height);
+      y += height + gap;
       data.setItemLayout(idx, {
         points: start.concat(end.slice().reverse())
       });

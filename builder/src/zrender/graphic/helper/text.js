@@ -1,7 +1,8 @@
 import { retrieve2, retrieve3, each, normalizeCssArray, isString, isObject } from '../../core/util';
 import * as textContain from '../../contain/text';
 import * as roundRectHelper from './roundRect';
-import * as imageHelper from './image'; // TODO: Have not support 'start', 'end' yet.
+import * as imageHelper from './image';
+import fixShadow from './fixShadow'; // TODO: Have not support 'start', 'end' yet.
 
 var VALID_TEXT_ALIGN = {
   left: 1,
@@ -367,11 +368,7 @@ function getBoxPosition(blockHeiht, style, rect) {
 }
 
 function setCtx(ctx, prop, value) {
-  // FIXME ??? performance try
-  // if (ctx.__currentValues[prop] !== value) {
-  // ctx[prop] = ctx.__currentValues[prop] = value;
-  ctx[prop] = value; // }
-
+  ctx[prop] = fixShadow(ctx, prop, value);
   return ctx[prop];
 }
 /**

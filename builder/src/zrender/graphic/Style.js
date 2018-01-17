@@ -1,3 +1,4 @@
+import fixShadow from './helper/fixShadow';
 var STYLE_COMMON_PROPS = [['shadowBlur', 0], ['shadowOffsetX', 0], ['shadowOffsetY', 0], ['shadowColor', '#000'], ['lineCap', 'butt'], ['lineJoin', 'miter'], ['miterLimit', 10]]; // var SHADOW_PROPS = STYLE_COMMON_PROPS.slice(0, 4);
 // var LINE_PROPS = STYLE_COMMON_PROPS.slice(4);
 
@@ -346,7 +347,7 @@ Style.prototype = {
 
       if (firstDraw || style[styleName] !== prevStyle[styleName]) {
         // FIXME Invalid property value will cause style leak from previous element.
-        ctx[styleName] = style[styleName] || prop[1];
+        ctx[styleName] = fixShadow(ctx, styleName, style[styleName] || prop[1]);
       }
     }
 

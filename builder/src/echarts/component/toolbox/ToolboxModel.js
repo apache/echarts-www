@@ -32,11 +32,11 @@ var ToolboxModel = echarts.extendComponentModel({
     itemGap: 8,
     showTitle: true,
     iconStyle: {
-      normal: {
-        borderColor: '#666',
-        color: 'none'
-      },
-      emphasis: {
+      borderColor: '#666',
+      color: 'none'
+    },
+    emphasis: {
+      iconStyle: {
         borderColor: '#3E98C5'
       } // textStyle: {},
       // feature

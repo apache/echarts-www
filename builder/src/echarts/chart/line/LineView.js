@@ -51,16 +51,27 @@ function sign(val) {
  * @param {module:echarts/coord/cartesian/Cartesian2D|module:echarts/coord/polar/Polar} coordSys
  * @param {module:echarts/data/List} data
  * @param {Array.<Array.<number>>} points
+ * @param {string} origin origin of areaStyle. Valid values: 'auto', 'start',
+ *                        'end'.
+ *                        auto: from axisLine to data
+ *                        start: from min to data
+ *                        end: from data to max
  * @private
  */
 
 
-function getStackedOnPoints(coordSys, data) {
+function getStackedOnPoints(seriesModel, coordSys, data, origin) {
   var baseAxis = coordSys.getBaseAxis();
   var valueAxis = coordSys.getOtherAxis(baseAxis);
   var valueStart = 0;
+  var extent = valueAxis.scale.getExtent();
 
-  if (!baseAxis.onZero) {
+  if (origin === 'start') {
+    valueStart = extent[0];
+  } else if (origin === 'end') {
+    valueStart = extent[1];
+  } else {
+    // auto
     var extent = valueAxis.scale.getExtent();
 
     if (extent[0] > 0) {
@@ -73,9 +84,10 @@ function getStackedOnPoints(coordSys, data) {
 
   }
 
-  var valueDim = valueAxis.dim;
-  var baseDataOffset = valueDim === 'x' || valueDim === 'radius' ? 1 : 0;
-  return data.mapArray([valueDim], function (val, idx) {
+  var valueCoordDim = valueAxis.dim;
+  var baseDataOffset = valueCoordDim === 'x' || valueCoordDim === 'radius' ? 1 : 0;
+  var valueDim = data.mapDimension(valueCoordDim);
+  return data.mapArray(valueDim ? [valueDim] : [], function (val, idx) {
     var stackedOnSameSign;
     var stackedOn = data.stackedOn; // Find first stacked value with same sign
 
@@ -99,7 +111,7 @@ function createGridClipShape(cartesian, hasAnimation, seriesModel) {
   var y = Math.min(yExtent[0], yExtent[1]);
   var width = Math.max(xExtent[0], xExtent[1]) - x;
   var height = Math.max(yExtent[0], yExtent[1]) - y;
-  var lineWidth = seriesModel.get('lineStyle.normal.width') || 2; // Expand clip shape to avoid clipping when line value exceeds axis
+  var lineWidth = seriesModel.get('lineStyle.width') || 2; // Expand clip shape to avoid clipping when line value exceeds axis
 
   var expandSize = seriesModel.get('clipOverflow') ? lineWidth / 2 : Math.max(width, height);
 
@@ -301,8 +313,8 @@ export default ChartView.extend({
     var coordSys = seriesModel.coordinateSystem;
     var group = this.group;
     var data = seriesModel.getData();
-    var lineStyleModel = seriesModel.getModel('lineStyle.normal');
-    var areaStyleModel = seriesModel.getModel('areaStyle.normal');
+    var lineStyleModel = seriesModel.getModel('lineStyle');
+    var areaStyleModel = seriesModel.getModel('areaStyle');
     var points = data.mapArray(data.getItemLayout, true);
     var isCoordSysPolar = coordSys.type === 'polar';
     var prevCoordSys = this._coordSys;
@@ -312,7 +324,8 @@ export default ChartView.extend({
     var lineGroup = this._lineGroup;
     var hasAnimation = seriesModel.get('animation');
     var isAreaChart = !areaStyleModel.isEmpty();
-    var stackedOnPoints = getStackedOnPoints(coordSys, data);
+    var origin = areaStyleModel.get('origin');
+    var stackedOnPoints = getStackedOnPoints(seriesModel, coordSys, data, origin);
     var showSymbol = seriesModel.get('showSymbol');
 
     var isSymbolIgnore = showSymbol && !isCoordSysPolar && !seriesModel.get('showAllSymbol') && this._getSymbolIgnoreFunc(data, coordSys); // Remove temporary symbols

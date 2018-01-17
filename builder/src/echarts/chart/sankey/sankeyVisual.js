@@ -24,7 +24,7 @@ export default function (ecModel, payload) {
       node.setVisual('color', mapValueToColor); // If set itemStyle.normal.color
 
       var itemModel = node.getModel();
-      var customColor = itemModel.get('itemStyle.normal.color');
+      var customColor = itemModel.get('itemStyle.color');
 
       if (customColor != null) {
         node.setVisual('color', customColor);

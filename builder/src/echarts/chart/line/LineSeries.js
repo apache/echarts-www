@@ -5,7 +5,7 @@ export default SeriesModel.extend({
   type: 'series.line',
   dependencies: ['grid', 'polar'],
   getInitialData: function (option, ecModel) {
-    return createListFromArray(option.data, this, ecModel);
+    return createListFromArray(this.getSource(), this);
   },
   defaultOption: {
     zlevel: 0,
@@ -23,21 +23,15 @@ export default SeriesModel.extend({
     clipOverflow: true,
     // cursor: null,
     label: {
-      normal: {
-        position: 'top'
-      }
+      position: 'top'
     },
     // itemStyle: {
-    //     normal: {},
-    //     emphasis: {}
     // },
     lineStyle: {
-      normal: {
-        width: 2,
-        type: 'solid'
-      }
+      width: 2,
+      type: 'solid'
     },
-    // areaStyle: {},
+    // areaStyle: {origin: 'auto'},
     // false, 'start', 'end', 'middle'
     step: false,
     // Disabled if step is true

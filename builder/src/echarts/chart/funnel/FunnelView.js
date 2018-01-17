@@ -31,7 +31,7 @@ function FunnelPiece(data, idx) {
 }
 
 var funnelPieceProto = FunnelPiece.prototype;
-var opacityAccessPath = ['itemStyle', 'normal', 'opacity'];
+var opacityAccessPath = ['itemStyle', 'opacity'];
 
 funnelPieceProto.updateData = function (data, idx, firstCreate) {
   var polygon = this.childAt(0);
@@ -72,7 +72,7 @@ funnelPieceProto.updateData = function (data, idx, firstCreate) {
   polygon.setStyle(zrUtil.defaults({
     lineJoin: 'round',
     fill: visualColor
-  }, itemStyleModel.getModel('normal').getItemStyle(['opacity'])));
+  }, itemStyleModel.getItemStyle(['opacity'])));
   polygon.hoverStyle = itemStyleModel.getModel('emphasis').getItemStyle();
 
   this._updateLabel(data, idx);
@@ -104,10 +104,10 @@ funnelPieceProto._updateLabel = function (data, idx) {
     origin: [labelLayout.x, labelLayout.y],
     z2: 10
   });
-  var labelModel = itemModel.getModel('label.normal');
-  var labelHoverModel = itemModel.getModel('label.emphasis');
-  var labelLineModel = itemModel.getModel('labelLine.normal');
-  var labelLineHoverModel = itemModel.getModel('labelLine.emphasis');
+  var labelModel = itemModel.getModel('label');
+  var labelHoverModel = itemModel.getModel('emphasis.label');
+  var labelLineModel = itemModel.getModel('labelLine');
+  var labelLineHoverModel = itemModel.getModel('emphasis.labelLine');
   var visualColor = data.getItemVisual(idx, 'color');
   graphic.setLabelStyle(labelText.style, labelText.hoverStyle = {}, labelModel, labelHoverModel, {
     labelFetcher: data.hostModel,

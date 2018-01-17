@@ -10,11 +10,12 @@ import zrLog from '../../core/log';
  *
  * @class
  * @extends Definable
+ * @param   {number}     zrId    zrender instance id
  * @param   {SVGElement} svgRoot root of SVG document
  */
 
-function GradientManager(svgRoot) {
-  Definable.call(this, svgRoot, ['linearGradient', 'radialGradient'], '__gradient_in_use__');
+function GradientManager(zrId, svgRoot) {
+  Definable.call(this, zrId, svgRoot, ['linearGradient', 'radialGradient'], '__gradient_in_use__');
 }
 
 zrUtil.inherits(GradientManager, Definable);
@@ -83,7 +84,7 @@ GradientManager.prototype.add = function (gradient) {
 
 
   gradient.id = gradient.id || this.nextId++;
-  dom.setAttribute('id', 'zr-gradient-' + gradient.id);
+  dom.setAttribute('id', 'zr' + this._zrId + '-gradient-' + gradient.id);
   this.updateDom(gradient, dom);
   this.addDom(dom);
   return dom;

@@ -1,7 +1,7 @@
-import List from '../../data/List';
-import completeDimensions from '../../data/helper/completeDimensions';
+import createListSimply from '../helper/createListSimply';
 import WhiskerBoxDraw from '../helper/WhiskerBoxDraw';
 import * as zrUtil from 'zrender/src/core/util';
+import { getDimensionTypeByAxis } from '../../data/helper/dimensionHelper';
 export var seriesModelMixin = {
   /**
    * @private
@@ -16,7 +16,7 @@ export var seriesModelMixin = {
     // When both types of xAxis and yAxis are 'value', layout is
     // needed to be specified by user. Otherwise, layout can be
     // judged by which axis is category.
-    var categories;
+    var ordinalMeta;
     var xAxisModel = ecModel.getComponent('xAxis', this.get('xAxisIndex'));
     var yAxisModel = ecModel.getComponent('yAxis', this.get('yAxisIndex'));
     var xAxisType = xAxisModel.get('type');
@@ -26,11 +26,11 @@ export var seriesModelMixin = {
 
     if (xAxisType === 'category') {
       option.layout = 'horizontal';
-      categories = xAxisModel.getCategories();
+      ordinalMeta = xAxisModel.getOrdinalMeta();
       addOrdinal = true;
     } else if (yAxisType === 'category') {
       option.layout = 'vertical';
-      categories = yAxisModel.getCategories();
+      ordinalMeta = yAxisModel.getOrdinalMeta();
       addOrdinal = true;
     } else {
       option.layout = option.layout || 'horizontal';
@@ -40,34 +40,50 @@ export var seriesModelMixin = {
     var baseAxisDimIndex = option.layout === 'horizontal' ? 0 : 1;
     var baseAxisDim = this._baseAxisDim = coordDims[baseAxisDimIndex];
     var otherAxisDim = coordDims[1 - baseAxisDimIndex];
-    var data = option.data;
-    addOrdinal && zrUtil.each(data, function (item, index) {
-      if (item.value && zrUtil.isArray(item.value)) {
-        item.value.unshift(index);
-      } else {
-        zrUtil.isArray(item) && item.unshift(index);
-      }
-    });
+    var axisModels = [xAxisModel, yAxisModel];
+    var baseAxisType = axisModels[baseAxisDimIndex].get('type');
+    var otherAxisType = axisModels[1 - baseAxisDimIndex].get('type');
+    var data = option.data; // ??? FIXME make a stage to perform data transfrom.
+    // MUST create a new data, consider setOption({}) again.
+
+    if (data && addOrdinal) {
+      var newOptionData = [];
+      zrUtil.each(data, function (item, index) {
+        var newItem;
+
+        if (item.value && zrUtil.isArray(item.value)) {
+          newItem = item.value.slice();
+          item.value.unshift(index);
+        } else if (zrUtil.isArray(item)) {
+          newItem = item.slice();
+          item.unshift(index);
+        } else {
+          newItem = item;
+        }
+
+        newOptionData.push(newItem);
+      });
+      option.data = newOptionData;
+    }
+
     var defaultValueDimensions = this.defaultValueDimensions;
-    var dimensions = [{
-      name: baseAxisDim,
-      otherDims: {
-        tooltip: false
-      },
-      dimsDef: ['base']
-    }, {
-      name: otherAxisDim,
-      dimsDef: defaultValueDimensions.slice()
-    }];
-    dimensions = completeDimensions(dimensions, data, {
-      encodeDef: this.get('encode'),
-      dimsDef: this.get('dimensions'),
-      // Consider empty data entry.
-      dimCount: defaultValueDimensions.length + 1
+    return createListSimply(this, {
+      coordDimensions: [{
+        name: baseAxisDim,
+        type: getDimensionTypeByAxis(baseAxisType),
+        ordinalMeta: ordinalMeta,
+        otherDims: {
+          tooltip: false,
+          itemName: 0
+        },
+        dimsDef: ['base']
+      }, {
+        name: otherAxisDim,
+        type: getDimensionTypeByAxis(otherAxisType),
+        dimsDef: defaultValueDimensions.slice()
+      }],
+      dimensionsCount: defaultValueDimensions.length + 1
     });
-    var list = new List(dimensions, this);
-    list.initData(data, categories ? categories.slice() : null);
-    return list;
   },
 
   /**

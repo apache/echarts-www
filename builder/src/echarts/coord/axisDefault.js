@@ -100,6 +100,14 @@ var axisDefault = {};
 axisDefault.categoryAxis = zrUtil.merge({
   // 类目起始和结束两端空白策略
   boundaryGap: true,
+  // Set false to faster category collection.
+  // Only usefull in the case like: category is
+  // ['2012-01-01', '2012-01-02', ...], where the input
+  // data has been ensured not duplicate and is large data.
+  // null means "auto":
+  // if axis.data provided, do not deduplication,
+  // else do deduplication.
+  deduplication: null,
   // splitArea: {
   // show: false
   // },
@@ -120,6 +128,8 @@ axisDefault.categoryAxis = zrUtil.merge({
 axisDefault.valueAxis = zrUtil.merge({
   // 数值起始和结束两端空白策略
   boundaryGap: [0, 0],
+  // TODO
+  // min/max: [30, datamin, 60] or [20, datamin] or [datamin, 60]
   // 最小值, 设置成 'dataMin' 则从数据中计算最小值
   // min: null,
   // 最大值，设置成 'dataMax' 则从数据中计算最大值

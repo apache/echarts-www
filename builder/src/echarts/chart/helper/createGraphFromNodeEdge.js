@@ -2,10 +2,12 @@ import * as zrUtil from 'zrender/src/core/util';
 import List from '../../data/List';
 import Graph from '../../data/Graph';
 import linkList from '../../data/helper/linkList';
-import completeDimensions from '../../data/helper/completeDimensions';
+import createDimensions from '../../data/helper/createDimensions';
 import CoordinateSystem from '../../CoordinateSystem';
 import createListFromArray from './createListFromArray';
-export default function (nodes, edges, hostModel, directed, beforeLink) {
+export default function (nodes, edges, seriesModel, directed, beforeLink) {
+  // ??? TODO
+  // support dataset?
   var graph = new Graph(directed);
 
   for (var i = 0; i < nodes.length; i++) {
@@ -29,21 +31,23 @@ export default function (nodes, edges, hostModel, directed, beforeLink) {
     }
   }
 
-  var coordSys = hostModel.get('coordinateSystem');
+  var coordSys = seriesModel.get('coordinateSystem');
   var nodeData;
 
   if (coordSys === 'cartesian2d' || coordSys === 'polar') {
-    nodeData = createListFromArray(nodes, hostModel, hostModel.ecModel);
+    nodeData = createListFromArray(nodes, seriesModel);
   } else {
     // FIXME
     var coordSysCtor = CoordinateSystem.get(coordSys); // FIXME
 
-    var dimensionNames = completeDimensions((coordSysCtor && coordSysCtor.type !== 'view' ? coordSysCtor.dimensions || [] : []).concat(['value']), nodes);
-    nodeData = new List(dimensionNames, hostModel);
+    var dimensionNames = createDimensions(nodes, {
+      coordDimensions: (coordSysCtor && coordSysCtor.type !== 'view' ? coordSysCtor.dimensions || [] : []).concat(['value'])
+    });
+    nodeData = new List(dimensionNames, seriesModel);
     nodeData.initData(nodes);
   }
 
-  var edgeData = new List(['value'], hostModel);
+  var edgeData = new List(['value'], seriesModel);
   edgeData.initData(validEdges, linkNameList);
   beforeLink && beforeLink(nodeData, edgeData);
   linkList({

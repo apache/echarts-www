@@ -41,9 +41,9 @@ Brush.defaultOption = {
   // `rect`, `polygon`, `lineX`, `lineY`, `keep`, `clear`
   title: zrUtil.clone(brushLang.title)
 };
-var proto = Brush.prototype;
+var proto = Brush.prototype; // proto.updateLayout = function (featureModel, ecModel, api) {
 
-proto.render = proto.updateView = proto.updateLayout = function (featureModel, ecModel, api) {
+proto.render = proto.updateView = function (featureModel, ecModel, api) {
   var brushType;
   var brushMode;
   var isBrushed;

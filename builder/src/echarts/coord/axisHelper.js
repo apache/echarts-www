@@ -5,6 +5,7 @@ import OrdinalScale from '../scale/Ordinal';
 import IntervalScale from '../scale/Interval';
 import Scale from '../scale/Scale';
 import * as numberUtil from '../util/number';
+import { calBarWidthAndOffset } from '../layout/barGrid';
 import '../scale/Time';
 import '../scale/Log';
 /**
@@ -24,7 +25,7 @@ export function getScaleExtent(scale, model) {
   var span;
 
   if (scaleType === 'ordinal') {
-    axisDataLen = (model.get('data') || []).length;
+    axisDataLen = model.getCategories().length;
   } else {
     boundaryGap = model.get('boundaryGap');
 
@@ -94,9 +95,66 @@ export function getScaleExtent(scale, model) {
     if (min < 0 && max < 0 && !fixMax) {
       max = 0;
     }
+  } // If bars are placed on a base axis of type time or interval account for axis boundary overflow and current axis
+  // is base axis
+
+
+  var ecModel = model.ecModel;
+
+  if (ecModel) {
+    var isBaseAxisAndHasBarSeries = zrUtil.filter(ecModel.getSeriesByType('bar'), function (seriesModel) {
+      return seriesModel.getBaseAxis() === model.axis;
+    }).length > 0;
+
+    if ((scaleType === 'time' || scaleType === 'interval') && isBaseAxisAndHasBarSeries) {
+      // Adjust axis min and max to account for overflow
+      var adjustedScale = adjustScaleForOverflow(min, max, model);
+      min = adjustedScale.min;
+      max = adjustedScale.max;
+    }
   }
 
   return [min, max];
+}
+export function adjustScaleForOverflow(min, max, model) {
+  var ecModel = model.ecModel; // Get Axis Length
+
+  var axisExtent = model.axis.getExtent();
+  var axisLength = axisExtent[1] - axisExtent[0]; // Calculate placement of bars on axis
+
+  var barWidthAndOffset = calBarWidthAndOffset(zrUtil.filter(ecModel.getSeriesByType('bar'), function (seriesModel) {
+    return !ecModel.isSeriesFiltered(seriesModel) && seriesModel.coordinateSystem && seriesModel.coordinateSystem.type === 'cartesian2d';
+  })); // Get bars on current base axis and calculate min and max overflow
+
+  var baseAxisKey = model.axis.dim + model.axis.index;
+  var barsOnCurrentAxis = barWidthAndOffset[baseAxisKey];
+
+  if (barsOnCurrentAxis === undefined) {
+    return {
+      min: min,
+      max: max
+    };
+  }
+
+  var minOverflow = Infinity;
+  zrUtil.each(barsOnCurrentAxis, function (item) {
+    minOverflow = Math.min(item.offset, minOverflow);
+  });
+  var maxOverflow = -Infinity;
+  zrUtil.each(barsOnCurrentAxis, function (item) {
+    maxOverflow = Math.max(item.offset + item.width, maxOverflow);
+  });
+  var totalOverFlow = Math.abs(minOverflow) + maxOverflow; // Calulate required buffer based on old range and overflow
+
+  var oldRange = max - min;
+  var oldRangePercentOfNew = 1 - (minOverflow + maxOverflow) / axisLength;
+  var overflowBuffer = oldRange / oldRangePercentOfNew - oldRange;
+  max += overflowBuffer * (maxOverflow / totalOverFlow);
+  min -= overflowBuffer * (minOverflow / totalOverFlow);
+  return {
+    min: min,
+    max: max
+  };
 }
 export function niceScaleExtent(scale, model) {
   var extent = getScaleExtent(scale, model);
@@ -141,7 +199,7 @@ export function createScaleByModel(model, axisType) {
     switch (axisType) {
       // Buildin scale
       case 'category':
-        return new OrdinalScale(model.getCategories(), [Infinity, -Infinity]);
+        return new OrdinalScale(model.getOrdinalMeta ? model.getOrdinalMeta() : model.getCategories(), [Infinity, -Infinity]);
 
       case 'value':
         return new IntervalScale();

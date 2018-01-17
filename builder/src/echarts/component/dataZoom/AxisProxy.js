@@ -61,6 +61,12 @@ var AxisProxy = function (dimName, axisIndex, dataZoomModel, ecModel) {
    */
 
   this._dataZoomModel = dataZoomModel;
+  /**
+   * @readOnly
+   * @private
+   */
+
+  this.hasSeriesStacked;
 };
 
 AxisProxy.prototype = {
@@ -218,10 +224,20 @@ AxisProxy.prototype = {
   reset: function (dataZoomModel) {
     if (dataZoomModel !== this._dataZoomModel) {
       return;
-    } // Culculate data window and data extent, and record them.
+    }
 
+    var targetSeries = this.getTargetSeriesModels(); // Culculate data window and data extent, and record them.
 
-    this._dataExtent = calculateDataExtent(this, this._dimName, this.getTargetSeriesModels());
+    this._dataExtent = calculateDataExtent(this, this._dimName, targetSeries);
+    this.hasSeriesStacked = false;
+    each(targetSeries, function (series) {
+      var data = series.getData();
+      var dataDim = data.mapDimension(this._dimName);
+
+      if (data.isStacked(dataDim)) {
+        this.hasSeriesStacked = true;
+      }
+    }, this);
     var dataWindow = this.calculateDataWindow(dataZoomModel.option);
     this._valueWindow = dataWindow.valueWindow;
     this._percentWindow = dataWindow.percentWindow;
@@ -245,7 +261,7 @@ AxisProxy.prototype = {
   /**
    * @param {module: echarts/component/dataZoom/DataZoomModel} dataZoomModel
    */
-  filterData: function (dataZoomModel) {
+  filterData: function (dataZoomModel, api) {
     if (dataZoomModel !== this._dataZoomModel) {
       return;
     }
@@ -269,17 +285,19 @@ AxisProxy.prototype = {
 
     var otherAxisModel = this.getOtherAxisModel();
 
-    if (dataZoomModel.get('$fromToolbox') && otherAxisModel && otherAxisModel.get('type') === 'category') {
+    if (dataZoomModel.get('$fromToolbox') && otherAxisModel && otherAxisModel.hasSeriesStacked) {
       filterMode = 'empty';
-    } // Process series data
+    } // TODO
+    // filterMode 'weakFilter' and 'empty' is not optimized for huge data yet.
+    // Process series data
 
 
     each(seriesModels, function (seriesModel) {
       var seriesData = seriesModel.getData();
-      var dataDims = seriesModel.coordDimToDataDim(axisDim);
+      var dataDims = seriesData.mapDimension(axisDim, true);
 
       if (filterMode === 'weakFilter') {
-        seriesData && seriesData.filterSelf(function (dataIndex) {
+        seriesData.filterSelf(function (dataIndex) {
           var leftOut;
           var rightOut;
           var hasValue;
@@ -303,16 +321,23 @@ AxisProxy.prototype = {
           return hasValue && leftOut && rightOut;
         });
       } else {
-        seriesData && each(dataDims, function (dim) {
+        each(dataDims, function (dim) {
           if (filterMode === 'empty') {
             seriesModel.setData(seriesData.map(dim, function (value) {
               return !isInWindow(value) ? NaN : value;
             }));
           } else {
-            seriesData.filterSelf(dim, isInWindow);
+            var range = {};
+            range[dim] = valueWindow; // console.time('select');
+
+            seriesData.selectRange(range); // console.timeEnd('select');
           }
         });
       }
+
+      each(dataDims, function (dim) {
+        seriesData.setApproximateExtent(valueWindow, dim);
+      });
     });
 
     function isInWindow(value) {
@@ -327,8 +352,8 @@ function calculateDataExtent(axisProxy, axisDim, seriesModels) {
     var seriesData = seriesModel.getData();
 
     if (seriesData) {
-      each(seriesModel.coordDimToDataDim(axisDim), function (dim) {
-        var seriesExtent = seriesData.getDataExtent(dim);
+      each(seriesData.mapDimension(axisDim, true), function (dim) {
+        var seriesExtent = seriesData.getApproximateExtent(dim);
         seriesExtent[0] < dataExtent[0] && (dataExtent[0] = seriesExtent[0]);
         seriesExtent[1] > dataExtent[1] && (dataExtent[1] = seriesExtent[1]);
       });
@@ -358,7 +383,7 @@ function fixExtentByAxis(axisProxy, dataExtent) {
   // by axis.data by default.
 
   var isCategoryAxis = axisModel.get('type') === 'category';
-  var axisDataLen = isCategoryAxis && (axisModel.get('data') || []).length;
+  var axisDataLen = isCategoryAxis && axisModel.getCategories().length;
 
   if (min != null && min !== 'dataMin' && typeof min !== 'function') {
     dataExtent[0] = min;

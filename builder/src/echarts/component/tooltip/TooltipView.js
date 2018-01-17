@@ -33,7 +33,7 @@ export default echarts.extendComponentView({
     this._tooltipContent = tooltipContent;
   },
   render: function (tooltipModel, ecModel, api) {
-    if (env.node) {
+    if (env.node || env.wxa) {
       return;
     } // Reset
 
@@ -201,7 +201,7 @@ export default echarts.extendComponentView({
   manuallyHideTip: function (tooltipModel, ecModel, api, payload) {
     var tooltipContent = this._tooltipContent;
 
-    if (!this._alwaysShowContent) {
+    if (!this._alwaysShowContent && this._tooltipModel) {
       tooltipContent.hideLater(this._tooltipModel.get('hideDelay'));
     }
 
@@ -575,7 +575,7 @@ function buildTooltipModel(modelCascade) {
     var tooltipOpt = modelCascade.pop();
 
     if (tooltipOpt) {
-      if (tooltipOpt instanceof Model) {
+      if (Model.isInstance(tooltipOpt)) {
         tooltipOpt = tooltipOpt.get('tooltip', true);
       } // In each data item tooltip can be simply write:
       // {

@@ -4,11 +4,12 @@ import * as zrUtil from 'zrender/src/core/util';
 import env from 'zrender/src/core/env';
 import * as modelUtil from '../../util/model';
 import * as formatUtil from '../../util/format';
+import dataFormatMixin from '../../model/mixin/dataFormat';
 var addCommas = formatUtil.addCommas;
 var encodeHTML = formatUtil.encodeHTML;
 
 function fillLabel(opt) {
-  modelUtil.defaultEmphasis(opt.label, ['show']);
+  modelUtil.defaultEmphasis(opt, 'label', ['show']);
 }
 
 var MarkerModel = echarts.extendComponentModel({
@@ -112,5 +113,5 @@ var MarkerModel = echarts.extendComponentModel({
     this._data = data;
   }
 });
-zrUtil.mixin(MarkerModel, modelUtil.dataFormatMixin);
+zrUtil.mixin(MarkerModel, dataFormatMixin);
 export default MarkerModel;

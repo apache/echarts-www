@@ -1,9 +1,14 @@
 import * as zrUtil from 'zrender/src/core/util';
-import * as formatUtil from './format';
-import * as nubmerUtil from './number';
-import Model from '../model/Model';
 var each = zrUtil.each;
 var isObject = zrUtil.isObject;
+var isArray = zrUtil.isArray;
+/**
+ * name may be displayed on screen, so use '-'.
+ * But we should make sure it is not duplicated
+ * with user specified name, so use '\0';
+ */
+
+export var DEFAULT_COMPONENT_NAME = '\0-';
 /**
  * If value is not array, then translate it to array.
  * @param  {*} value
@@ -17,29 +22,29 @@ export function normalizeToArray(value) {
  * Sync default option between normal and emphasis like `position` and `show`
  * In case some one will write code like
  *     label: {
- *         normal: {
- *             show: false,
- *             position: 'outside',
- *             fontSize: 18
- *         },
- *         emphasis: {
- *             show: true
- *         }
+ *          show: false,
+ *          position: 'outside',
+ *          fontSize: 18
+ *     },
+ *     emphasis: {
+ *          label: { show: true }
  *     }
  * @param {Object} opt
+ * @param {string} key
  * @param {Array.<string>} subOpts
  */
 
-export function defaultEmphasis(opt, subOpts) {
+export function defaultEmphasis(opt, key, subOpts) {
   if (opt) {
-    var emphasisOpt = opt.emphasis = opt.emphasis || {};
-    var normalOpt = opt.normal = opt.normal || {}; // Default emphasis option from normal
+    opt[key] = opt[key] || {};
+    opt.emphasis = opt.emphasis || {};
+    opt.emphasis[key] = opt.emphasis[key] || {}; // Default emphasis option from normal
 
     for (var i = 0, len = subOpts.length; i < len; i++) {
       var subOptName = subOpts[i];
 
-      if (!emphasisOpt.hasOwnProperty(subOptName) && normalOpt.hasOwnProperty(subOptName)) {
-        emphasisOpt[subOptName] = normalOpt[subOptName];
+      if (!opt.emphasis[key].hasOwnProperty(subOptName) && opt[key].hasOwnProperty(subOptName)) {
+        opt.emphasis[key][subOptName] = opt[key][subOptName];
       }
     }
   }
@@ -52,6 +57,7 @@ export var TEXT_STYLE_OPTIONS = ['fontStyle', 'fontWeight', 'fontSize', 'fontFam
 // ]);
 
 /**
+ * The method do not ensure performance.
  * data could be [12, 2323, {value: 223}, [1221, 23], {value: [2, 23]}]
  * This helper method retieves value from data.
  * @param {string|number|Date|Array|Object} dataItem
@@ -59,8 +65,7 @@ export var TEXT_STYLE_OPTIONS = ['fontStyle', 'fontWeight', 'fontSize', 'fontFam
  */
 
 export function getDataItemValue(dataItem) {
-  // Performance sensitive.
-  return dataItem && (dataItem.value == null ? dataItem : dataItem.value);
+  return isObject(dataItem) && !isArray(dataItem) && !(dataItem instanceof Date) ? dataItem.value : dataItem;
 }
 /**
  * data could be [12, 2323, {value: 223}, [1221, 23], {value: [2, 23]}]
@@ -72,141 +77,6 @@ export function isDataItemOption(dataItem) {
   return isObject(dataItem) && !(dataItem instanceof Array); // // markLine data can be array
   // && !(dataItem[0] && isObject(dataItem[0]) && !(dataItem[0] instanceof Array));
 }
-/**
- * This helper method convert value in data.
- * @param {string|number|Date} value
- * @param {Object|string} [dimInfo] If string (like 'x'), dimType defaults 'number'.
- */
-
-export function converDataValue(value, dimInfo) {
-  // Performance sensitive.
-  var dimType = dimInfo && dimInfo.type;
-
-  if (dimType === 'ordinal') {
-    return value;
-  }
-
-  if (dimType === 'time' // spead up when using timestamp
-  && typeof value !== 'number' && value != null && value !== '-') {
-    value = +nubmerUtil.parseDate(value);
-  } // dimType defaults 'number'.
-  // If dimType is not ordinal and value is null or undefined or NaN or '-',
-  // parse to NaN.
-
-
-  return value == null || value === '' ? NaN : +value; // If string (like '-'), using '+' parse to NaN
-}
-/**
- * Create a model proxy to be used in tooltip for edge data, markLine data, markPoint data.
- * @param {module:echarts/data/List} data
- * @param {Object} opt
- * @param {string} [opt.seriesIndex]
- * @param {Object} [opt.name]
- * @param {Object} [opt.mainType]
- * @param {Object} [opt.subType]
- */
-
-export function createDataFormatModel(data, opt) {
-  var model = new Model();
-  zrUtil.mixin(model, dataFormatMixin);
-  model.seriesIndex = opt.seriesIndex;
-  model.name = opt.name || '';
-  model.mainType = opt.mainType;
-  model.subType = opt.subType;
-
-  model.getData = function () {
-    return data;
-  };
-
-  return model;
-} // PENDING A little ugly
-
-export var dataFormatMixin = {
-  /**
-   * Get params for formatter
-   * @param {number} dataIndex
-   * @param {string} [dataType]
-   * @return {Object}
-   */
-  getDataParams: function (dataIndex, dataType) {
-    var data = this.getData(dataType);
-    var rawValue = this.getRawValue(dataIndex, dataType);
-    var rawDataIndex = data.getRawIndex(dataIndex);
-    var name = data.getName(dataIndex, true);
-    var itemOpt = data.getRawDataItem(dataIndex);
-    var color = data.getItemVisual(dataIndex, 'color');
-    return {
-      componentType: this.mainType,
-      componentSubType: this.subType,
-      seriesType: this.mainType === 'series' ? this.subType : null,
-      seriesIndex: this.seriesIndex,
-      seriesId: this.id,
-      seriesName: this.name,
-      name: name,
-      dataIndex: rawDataIndex,
-      data: itemOpt,
-      dataType: dataType,
-      value: rawValue,
-      color: color,
-      marker: formatUtil.getTooltipMarker(color),
-      // Param name list for mapping `a`, `b`, `c`, `d`, `e`
-      $vars: ['seriesName', 'name', 'value']
-    };
-  },
-
-  /**
-   * Format label
-   * @param {number} dataIndex
-   * @param {string} [status='normal'] 'normal' or 'emphasis'
-   * @param {string} [dataType]
-   * @param {number} [dimIndex]
-   * @param {string} [labelProp='label']
-   * @return {string}
-   */
-  getFormattedLabel: function (dataIndex, status, dataType, dimIndex, labelProp) {
-    status = status || 'normal';
-    var data = this.getData(dataType);
-    var itemModel = data.getItemModel(dataIndex);
-    var params = this.getDataParams(dataIndex, dataType);
-
-    if (dimIndex != null && params.value instanceof Array) {
-      params.value = params.value[dimIndex];
-    }
-
-    var formatter = itemModel.get([labelProp || 'label', status, 'formatter']);
-
-    if (typeof formatter === 'function') {
-      params.status = status;
-      return formatter(params);
-    } else if (typeof formatter === 'string') {
-      return formatUtil.formatTpl(formatter, params);
-    }
-  },
-
-  /**
-   * Get raw value in option
-   * @param {number} idx
-   * @param {string} [dataType]
-   * @return {Object}
-   */
-  getRawValue: function (idx, dataType) {
-    var data = this.getData(dataType);
-    var dataItem = data.getRawDataItem(idx);
-
-    if (dataItem != null) {
-      return isObject(dataItem) && !(dataItem instanceof Array) ? dataItem.value : dataItem;
-    }
-  },
-
-  /**
-   * Should be implemented.
-   * @param {number} dataIndex
-   * @param {boolean} [multipleSeries=false]
-   * @param {number} [dataType]
-   * @return {string} tooltip string
-   */
-  formatTooltip: zrUtil.noop
-};
 /**
  * Mapping to exists for merge.
  *
@@ -337,7 +207,7 @@ export function makeIdAndName(mapResult) {
     // instance will be recreated, which can be accepted.
 
 
-    keyInfo.name = opt.name != null ? opt.name + '' : existCpt ? existCpt.name : '\0-'; // name may be displayed on screen, so use '-'.
+    keyInfo.name = opt.name != null ? opt.name + '' : existCpt ? existCpt.name : DEFAULT_COMPONENT_NAME;
 
     if (existCpt) {
       keyInfo.id = existCpt.id;
@@ -447,25 +317,30 @@ export function queryDataIndex(data, payload) {
  * Notice: Serialization is not supported.
  *
  * For example:
- * var get = modelUitl.makeGetter();
+ * var inner = zrUitl.makeInner();
  *
- * function some(hostObj) {
- *      get(hostObj)._someProperty = 1212;
+ * function some1(hostObj) {
+ *      inner(hostObj).someProperty = 1212;
+ *      ...
+ * }
+ * function some2() {
+ *      var fields = inner(this);
+ *      fields.someProperty1 = 1212;
+ *      fields.someProperty2 = 'xx';
  *      ...
  * }
  *
  * @return {Function}
  */
 
-export var makeGetter = function () {
-  var index = 0;
-  return function () {
-    var key = '\0__ec_prop_getter_' + index++;
-    return function (hostObj) {
-      return hostObj[key] || (hostObj[key] = {});
-    };
+export function makeInner() {
+  // Consider different scope by es module import.
+  var key = '__\0ec_inner_' + innerUniqueIndex++ + '_' + Math.random().toFixed(5);
+  return function (hostObj) {
+    return hostObj[key] || (hostObj[key] = {});
   };
-}();
+}
+var innerUniqueIndex = 0;
 /**
  * @param {module:echarts/model/Global} ecModel
  * @param {string|Object} finder
@@ -546,65 +421,14 @@ export function parseFinder(ecModel, finder, opt) {
   });
   return result;
 }
-/**
- * @see {module:echarts/data/helper/completeDimensions}
- * @param {module:echarts/data/List} data
- * @param {string|number} dataDim
- * @return {string}
- */
-
-export function dataDimToCoordDim(data, dataDim) {
-  var dimensions = data.dimensions;
-  dataDim = data.getDimension(dataDim);
-
-  for (var i = 0; i < dimensions.length; i++) {
-    var dimItem = data.getDimensionInfo(dimensions[i]);
-
-    if (dimItem.name === dataDim) {
-      return dimItem.coordDim;
-    }
-  }
-}
-/**
- * @see {module:echarts/data/helper/completeDimensions}
- * @param {module:echarts/data/List} data
- * @param {string} coordDim
- * @return {Array.<string>} data dimensions on the coordDim.
- */
-
-export function coordDimToDataDim(data, coordDim) {
-  var dataDim = [];
-  each(data.dimensions, function (dimName) {
-    var dimItem = data.getDimensionInfo(dimName);
-
-    if (dimItem.coordDim === coordDim) {
-      dataDim[dimItem.coordDimIndex] = dimItem.name;
-    }
-  });
-  return dataDim;
-}
-/**
- * @see {module:echarts/data/helper/completeDimensions}
- * @param {module:echarts/data/List} data
- * @param {string} otherDim Can be `otherDims`
- *                        like 'label' or 'tooltip'.
- * @return {Array.<string>} data dimensions on the otherDim.
- */
-
-export function otherDimToDataDim(data, otherDim) {
-  var dataDim = [];
-  each(data.dimensions, function (dimName) {
-    var dimItem = data.getDimensionInfo(dimName);
-    var otherDims = dimItem.otherDims;
-    var dimIndex = otherDims[otherDim];
-
-    if (dimIndex != null && dimIndex !== false) {
-      dataDim[dimIndex] = dimItem.name;
-    }
-  });
-  return dataDim;
-}
 
 function has(obj, prop) {
   return obj && obj.hasOwnProperty(prop);
+}
+
+export function setAttribute(dom, key, value) {
+  dom.setAttribute ? dom.setAttribute(key, value) : dom[key] = value;
+}
+export function getAttribute(dom, key) {
+  return dom.getAttribute ? dom.getAttribute(key) : dom[key];
 }

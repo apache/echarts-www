@@ -51,8 +51,8 @@ polylineProto._updateCommonStl = function (lineData, idx, seriesScope) {
   var hoverLineStyle = seriesScope && seriesScope.hoverLineStyle;
 
   if (!seriesScope || lineData.hasItemOption) {
-    lineStyle = itemModel.getModel('lineStyle.normal').getLineStyle();
-    hoverLineStyle = itemModel.getModel('lineStyle.emphasis').getLineStyle();
+    lineStyle = itemModel.getModel('lineStyle').getLineStyle();
+    hoverLineStyle = itemModel.getModel('emphasis.lineStyle').getLineStyle();
   }
 
   line.useStyle(zrUtil.defaults({

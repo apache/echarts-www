@@ -83,7 +83,9 @@ function getSingleMarkerEndPoint(data, idx, dims, seriesModel, api) {
     } else {
       var x = data.get(dims[0], idx);
       var y = data.get(dims[1], idx);
-      point = coordSys.dataToPoint([x, y], true);
+      var pt = [x, y];
+      coordSys.clampData && coordSys.clampData(pt, pt);
+      point = coordSys.dataToPoint(pt, true);
     }
 
     if (coordSys.type === 'cartesian2d') {
@@ -115,7 +117,24 @@ function getSingleMarkerEndPoint(data, idx, dims, seriesModel, api) {
 var dimPermutations = [['x0', 'y0'], ['x1', 'y0'], ['x1', 'y1'], ['x0', 'y1']];
 MarkerView.extend({
   type: 'markArea',
-  updateLayout: function (markAreaModel, ecModel, api) {
+  // updateLayout: function (markAreaModel, ecModel, api) {
+  //     ecModel.eachSeries(function (seriesModel) {
+  //         var maModel = seriesModel.markAreaModel;
+  //         if (maModel) {
+  //             var areaData = maModel.getData();
+  //             areaData.each(function (idx) {
+  //                 var points = zrUtil.map(dimPermutations, function (dim) {
+  //                     return getSingleMarkerEndPoint(areaData, idx, dim, seriesModel, api);
+  //                 });
+  //                 // Layout
+  //                 areaData.setItemLayout(idx, points);
+  //                 var el = areaData.getItemGraphicEl(idx);
+  //                 el.setShape('points', points);
+  //             });
+  //         }
+  //     }, this);
+  // },
+  updateTransform: function (markAreaModel, ecModel, api) {
     ecModel.eachSeries(function (seriesModel) {
       var maModel = seriesModel.markAreaModel;
 
@@ -182,14 +201,14 @@ MarkerView.extend({
     }).execute();
     areaData.eachItemGraphicEl(function (polygon, idx) {
       var itemModel = areaData.getItemModel(idx);
-      var labelModel = itemModel.getModel('label.normal');
-      var labelHoverModel = itemModel.getModel('label.emphasis');
+      var labelModel = itemModel.getModel('label');
+      var labelHoverModel = itemModel.getModel('emphasis.label');
       var color = areaData.getItemVisual(idx, 'color');
-      polygon.useStyle(zrUtil.defaults(itemModel.getModel('itemStyle.normal').getItemStyle(), {
+      polygon.useStyle(zrUtil.defaults(itemModel.getModel('itemStyle').getItemStyle(), {
         fill: colorUtil.modifyAlpha(color, 0.4),
         stroke: color
       }));
-      polygon.hoverStyle = itemModel.getModel('itemStyle.emphasis').getItemStyle();
+      polygon.hoverStyle = itemModel.getModel('emphasis.itemStyle').getItemStyle();
       graphic.setLabelStyle(polygon.style, polygon.hoverStyle, labelModel, labelHoverModel, {
         labelFetcher: maModel,
         labelDataIndex: idx,
@@ -218,10 +237,12 @@ function createList(coordSys, seriesModel, maModel) {
 
   if (coordSys) {
     coordDimsInfos = zrUtil.map(coordSys && coordSys.dimensions, function (coordDim) {
-      var info = seriesModel.getData().getDimensionInfo(seriesModel.coordDimToDataDim(coordDim)[0]) || {}; // In map series data don't have lng and lat dimension. Fallback to same with coordSys
+      var data = seriesModel.getData();
+      var info = data.getDimensionInfo(data.mapDimension(coordDim)) || {}; // In map series data don't have lng and lat dimension. Fallback to same with coordSys
 
-      info.name = coordDim;
-      return info;
+      return zrUtil.defaults({
+        name: coordDim
+      }, info);
     });
     areaData = new List(zrUtil.map(dims, function (dim, idx) {
       return {

@@ -92,7 +92,8 @@ export default echarts.extendComponentView({
     }
 
     function createIconPaths(featureModel, feature, featureName) {
-      var iconStyleModel = featureModel.getModel('iconStyle'); // If one feature has mutiple icon. they are orginaized as
+      var iconStyleModel = featureModel.getModel('iconStyle');
+      var iconStyleEmphasisModel = featureModel.getModel('emphasis.iconStyle'); // If one feature has mutiple icon. they are orginaized as
       // {
       //     icon: {
       //         foo: '',
@@ -124,15 +125,15 @@ export default echarts.extendComponentView({
           width: itemSize,
           height: itemSize
         });
-        path.setStyle(iconStyleModel.getModel('normal').getItemStyle());
-        path.hoverStyle = iconStyleModel.getModel('emphasis').getItemStyle();
+        path.setStyle(iconStyleModel.getItemStyle());
+        path.hoverStyle = iconStyleEmphasisModel.getItemStyle();
         graphic.setHoverStyle(path);
 
         if (toolboxModel.get('showTitle')) {
           path.__title = titles[iconName];
           path.on('mouseover', function () {
             // Should not reuse above hoverStyle, which might be modified.
-            var hoverStyle = iconStyleModel.getModel('emphasis').getItemStyle();
+            var hoverStyle = iconStyleEmphasisModel.getItemStyle();
             path.setStyle({
               text: titles[iconName],
               textPosition: hoverStyle.textPosition || 'bottom',
@@ -190,11 +191,11 @@ export default echarts.extendComponentView({
       feature.updateView && feature.updateView(feature.model, ecModel, api, payload);
     });
   },
-  updateLayout: function (toolboxModel, ecModel, api, payload) {
-    zrUtil.each(this._features, function (feature) {
-      feature.updateLayout && feature.updateLayout(feature.model, ecModel, api, payload);
-    });
-  },
+  // updateLayout: function (toolboxModel, ecModel, api, payload) {
+  //     zrUtil.each(this._features, function (feature) {
+  //         feature.updateLayout && feature.updateLayout(feature.model, ecModel, api, payload);
+  //     });
+  // },
   remove: function (ecModel, api) {
     zrUtil.each(this._features, function (feature) {
       feature.remove && feature.remove(ecModel, api);

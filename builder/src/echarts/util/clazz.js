@@ -2,34 +2,6 @@ import { __DEV__ } from '../config';
 import * as zrUtil from 'zrender/src/core/util';
 var TYPE_DELIMITER = '.';
 var IS_CONTAINER = '___EC__COMPONENT__CONTAINER___';
-var MEMBER_PRIFIX = '\0ec_\0';
-/**
- * Hide private class member.
- * The same behavior as `host[name] = value;` (can be right-value)
- * @public
- */
-
-export function set(host, name, value) {
-  return host[MEMBER_PRIFIX + name] = value;
-}
-/**
- * Hide private class member.
- * The same behavior as `host[name];`
- * @public
- */
-
-export function get(host, name) {
-  return host[MEMBER_PRIFIX + name];
-}
-/**
- * For hidden private class member.
- * The same behavior as `host.hasOwnProperty(name);`
- * @public
- */
-
-export function hasOwn(host, name) {
-  return host.hasOwnProperty(MEMBER_PRIFIX + name);
-}
 /**
  * Notice, parseClassType('') should returns {main: '', sub: ''}
  * @public
@@ -82,6 +54,21 @@ export function enableClassExtend(RootClass, mandatoryMethods) {
     zrUtil.inherits(ExtendedClass, this);
     ExtendedClass.superClass = superClass;
     return ExtendedClass;
+  };
+}
+var classBase = 0;
+/**
+ * Can not use instanceof, consider different scope by
+ * cross domain or es module import in ec extensions.
+ * Mount a method "isInstance()" to Clz.
+ */
+
+export function enableClassCheck(Clz) {
+  var classAttr = ['__\0is_clz', classBase++, Math.random().toFixed(3)].join('_');
+  Clz.prototype[classAttr] = true;
+
+  Clz.isInstance = function (obj) {
+    return !!(obj && obj[classAttr]);
   };
 } // superCall should have class info, which can not be fetch from 'this'.
 // Consider this case:

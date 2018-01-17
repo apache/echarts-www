@@ -48,7 +48,7 @@ export default echarts.extendChartView({
   _renderSymbols: function (mapModel, ecModel, api) {
     var originalData = mapModel.originalData;
     var group = this.group;
-    originalData.each('value', function (value, idx) {
+    originalData.each(originalData.mapDimension('value'), function (value, idx) {
       if (isNaN(value)) {
         return;
       }
@@ -86,8 +86,8 @@ export default echarts.extendChartView({
         var name = originalData.getName(idx);
         var fullIndex = fullData.indexOfName(name);
         var itemModel = originalData.getItemModel(idx);
-        var labelModel = itemModel.getModel('label.normal');
-        var hoverLabelModel = itemModel.getModel('label.emphasis');
+        var labelModel = itemModel.getModel('label');
+        var hoverLabelModel = itemModel.getModel('emphasis.label');
         var polygonGroups = fullData.getItemGraphicEl(fullIndex);
         var normalText = zrUtil.retrieve2(mapModel.getFormattedLabel(idx, 'normal'), name);
         var emphasisText = zrUtil.retrieve2(mapModel.getFormattedLabel(idx, 'emphasis'), normalText);

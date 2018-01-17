@@ -8,9 +8,8 @@ import * as zrUtil from 'zrender/src/core/util'; // FIXME 公用？
 
 function dataStatistics(datas, statisticType) {
   var dataNameMap = {};
-  var dims = ['value'];
   zrUtil.each(datas, function (data) {
-    data.each(dims, function (value, idx) {
+    data.each(data.mapDimension('value'), function (value, idx) {
       // Add prefix to avoid conflict with Object.prototype.
       var mapKey = 'ec-' + data.getName(idx);
       dataNameMap[mapKey] = dataNameMap[mapKey] || [];
@@ -20,7 +19,7 @@ function dataStatistics(datas, statisticType) {
       }
     });
   });
-  return datas[0].map(dims, function (value, idx) {
+  return datas[0].map(datas[0].mapDimension('value'), function (value, idx) {
     var mapKey = 'ec-' + datas[0].getName(idx);
     var sum = 0;
     var min = Infinity;

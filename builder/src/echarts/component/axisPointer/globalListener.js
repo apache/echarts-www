@@ -1,7 +1,7 @@
 import * as zrUtil from 'zrender/src/core/util';
 import env from 'zrender/src/core/env';
-import * as modelUtil from '../../util/model';
-var get = modelUtil.makeGetter();
+import { makeInner } from '../../util/model';
+var inner = makeInner();
 var each = zrUtil.each;
 /**
  * @param {string} key
@@ -17,18 +17,18 @@ export function register(key, api, handler) {
   }
 
   var zr = api.getZr();
-  get(zr).records || (get(zr).records = {});
+  inner(zr).records || (inner(zr).records = {});
   initGlobalListeners(zr, api);
-  var record = get(zr).records[key] || (get(zr).records[key] = {});
+  var record = inner(zr).records[key] || (inner(zr).records[key] = {});
   record.handler = handler;
 }
 
 function initGlobalListeners(zr, api) {
-  if (get(zr).initialized) {
+  if (inner(zr).initialized) {
     return;
   }
 
-  get(zr).initialized = true;
+  inner(zr).initialized = true;
   useHandler('click', zrUtil.curry(doEnter, 'click'));
   useHandler('mousemove', zrUtil.curry(doEnter, 'mousemove')); // useHandler('mouseout', onLeave);
 
@@ -37,7 +37,7 @@ function initGlobalListeners(zr, api) {
   function useHandler(eventType, cb) {
     zr.on(eventType, function (e) {
       var dis = makeDispatchAction(api);
-      each(get(zr).records, function (record) {
+      each(inner(zr).records, function (record) {
         record && cb(record, e, dis.dispatchAction);
       });
       dispatchTooltipFinally(dis.pendings, api);
@@ -108,9 +108,9 @@ export function unregister(key, api) {
   }
 
   var zr = api.getZr();
-  var record = (get(zr).records || {})[key];
+  var record = (inner(zr).records || {})[key];
 
   if (record) {
-    get(zr).records[key] = null;
+    inner(zr).records[key] = null;
   }
 }

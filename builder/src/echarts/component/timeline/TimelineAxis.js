@@ -47,7 +47,7 @@ TimelineAxis.prototype = {
    */
   getLabelInterval: function () {
     var timelineModel = this.model;
-    var labelModel = timelineModel.getModel('label.normal');
+    var labelModel = timelineModel.getModel('label');
     var labelInterval = labelModel.get('interval');
 
     if (labelInterval != null && labelInterval != 'auto') {
