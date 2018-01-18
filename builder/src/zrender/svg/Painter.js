@@ -3,6 +3,7 @@
  * @module zrender/svg/Painter
  */
 import { createElement } from './core';
+import * as util from '../core/util';
 import zrLog from '../core/log';
 import Path from '../graphic/Path';
 import ZImage from '../graphic/Image';
@@ -10,6 +11,7 @@ import ZText from '../graphic/Text';
 import arrayDiff from '../core/arrayDiff2';
 import GradientManager from './helper/GradientManager';
 import ClippathManager from './helper/ClippathManager';
+import ShadowManager from './helper/ShadowManager';
 import { each } from '../core/util';
 import { path as svgPath, image as svgImage, text as svgText } from './graphic';
 
@@ -68,26 +70,32 @@ function getSvgElement(displayable) {
 }
 /**
  * @alias module:zrender/svg/Painter
+ * @constructor
+ * @param {HTMLElement} root 绘图容器
+ * @param {module:zrender/Storage} storage
+ * @param {Object} opts
  */
 
 
-var SVGPainter = function (root, storage) {
+var SVGPainter = function (root, storage, opts, zrId) {
   this.root = root;
   this.storage = storage;
+  this._opts = opts = util.extend({}, opts || {});
   var svgRoot = createElement('svg');
   svgRoot.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
   svgRoot.setAttribute('version', '1.1');
   svgRoot.setAttribute('baseProfile', 'full');
-  svgRoot.style['user-select'] = 'none';
-  this.gradientManager = new GradientManager(svgRoot);
-  this.clipPathManager = new ClippathManager(svgRoot);
+  svgRoot.style.cssText = 'user-select:none;position:absolute;left:0;top:0;';
+  this.gradientManager = new GradientManager(zrId, svgRoot);
+  this.clipPathManager = new ClippathManager(zrId, svgRoot);
+  this.shadowManager = new ShadowManager(zrId, svgRoot);
   var viewport = document.createElement('div');
-  viewport.style.cssText = 'overflow: hidden;';
+  viewport.style.cssText = 'overflow:hidden;position:relative';
   this._svgRoot = svgRoot;
   this._viewport = viewport;
   root.appendChild(viewport);
   viewport.appendChild(svgRoot);
-  this.resize();
+  this.resize(opts.width, opts.height);
   this._visibleList = [];
 };
 
@@ -117,6 +125,7 @@ SVGPainter.prototype = {
   _paintList: function (list) {
     this.gradientManager.markAllUnused();
     this.clipPathManager.markAllUnused();
+    this.shadowManager.markAllUnused();
     var svgRoot = this._svgRoot;
     var visibleList = this._visibleList;
     var listLen = list.length;
@@ -126,16 +135,18 @@ SVGPainter.prototype = {
     for (i = 0; i < listLen; i++) {
       var displayable = list[i];
       var svgProxy = getSvgProxy(displayable);
+      var svgElement = getSvgElement(displayable) || getTextSvgElement(displayable);
 
       if (!displayable.invisible) {
         if (displayable.__dirty) {
           svgProxy && svgProxy.brush(displayable); // Update clipPath
 
-          this.clipPathManager.update(displayable); // Update gradient
+          this.clipPathManager.update(displayable); // Update gradient and shadow
 
           if (displayable.style) {
             this.gradientManager.update(displayable.style.fill);
             this.gradientManager.update(displayable.style.stroke);
+            this.shadowManager.update(svgElement, displayable);
           }
 
           displayable.__dirty = false;
@@ -185,6 +196,7 @@ SVGPainter.prototype = {
           insertAfter(svgRoot, textSvgElement, svgElement);
           prevSvgElement = textSvgElement || svgElement || prevSvgElement;
           this.gradientManager.addWithoutUpdate(svgElement, displayable);
+          this.shadowManager.addWithoutUpdate(prevSvgElement, displayable);
           this.clipPathManager.markUsed(displayable);
         }
       } else if (!item.removed) {
@@ -193,6 +205,8 @@ SVGPainter.prototype = {
           prevSvgElement = svgElement = getTextSvgElement(displayable) || getSvgElement(displayable) || prevSvgElement;
           this.gradientManager.markUsed(displayable);
           this.gradientManager.addWithoutUpdate(svgElement, displayable);
+          this.shadowManager.markUsed(displayable);
+          this.shadowManager.addWithoutUpdate(svgElement, displayable);
           this.clipPathManager.markUsed(displayable);
         }
       }
@@ -200,6 +214,7 @@ SVGPainter.prototype = {
 
     this.gradientManager.removeUnused();
     this.clipPathManager.removeUnused();
+    this.shadowManager.removeUnused();
     this._visibleList = newVisibleList;
   },
   _getDefs: function (isForceCreating) {
@@ -241,15 +256,22 @@ SVGPainter.prototype = {
       return defs[0];
     }
   },
-  resize: function () {
-    var width = this._getWidth();
+  resize: function (width, height) {
+    var viewport = this._viewport; // FIXME Why ?
 
-    var height = this._getHeight();
+    viewport.style.display = 'none'; // Save input w/h
 
-    if (this._width !== width && this._height !== height) {
+    var opts = this._opts;
+    width != null && (opts.width = width);
+    height != null && (opts.height = height);
+    width = this._getSize(0);
+    height = this._getSize(1);
+    viewport.style.display = '';
+
+    if (this._width !== width || this._height !== height) {
       this._width = width;
       this._height = height;
-      var viewportStyle = this._viewport.style;
+      var viewportStyle = viewport.style;
       viewportStyle.width = width + 'px';
       viewportStyle.height = height + 'px';
       var svgRoot = this._svgRoot; // Set width by 'svgRoot.width = width' is invalid
@@ -258,21 +280,35 @@ SVGPainter.prototype = {
       svgRoot.setAttribute('height', height);
     }
   },
+
+  /**
+   * 获取绘图区域宽度
+   */
   getWidth: function () {
-    return this._getWidth();
+    return this._width;
   },
+
+  /**
+   * 获取绘图区域高度
+   */
   getHeight: function () {
-    return this._getHeight();
+    return this._height;
   },
-  _getWidth: function () {
-    var root = this.root;
+  _getSize: function (whIdx) {
+    var opts = this._opts;
+    var wh = ['width', 'height'][whIdx];
+    var cwh = ['clientWidth', 'clientHeight'][whIdx];
+    var plt = ['paddingLeft', 'paddingTop'][whIdx];
+    var prb = ['paddingRight', 'paddingBottom'][whIdx];
+
+    if (opts[wh] != null && opts[wh] !== 'auto') {
+      return parseFloat(opts[wh]);
+    }
+
+    var root = this.root; // IE8 does not support getComputedStyle, but it use VML.
+
     var stl = document.defaultView.getComputedStyle(root);
-    return (root.clientWidth || parseInt10(stl.width)) - parseInt10(stl.paddingLeft) - parseInt10(stl.paddingRight) | 0;
-  },
-  _getHeight: function () {
-    var root = this.root;
-    var stl = document.defaultView.getComputedStyle(root);
-    return (root.clientHeight || parseInt10(stl.height)) - parseInt10(stl.paddingTop) - parseInt10(stl.paddingBottom) | 0;
+    return (root[cwh] || parseInt10(stl[wh]) || parseInt10(root.style[wh])) - (parseInt10(stl[plt]) || 0) - (parseInt10(stl[prb]) || 0) | 0;
   },
   dispose: function () {
     this.root.innerHTML = '';

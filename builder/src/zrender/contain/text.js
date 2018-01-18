@@ -1,6 +1,6 @@
 import BoundingRect from '../core/BoundingRect';
 import * as imageHelper from '../graphic/helper/image';
-import { getContext, extend, retrieve2, retrieve3 } from '../core/util';
+import { getContext, extend, retrieve2, retrieve3, trim } from '../core/util';
 var textWidthCache = {};
 var textWidthCacheCounter = 0;
 var TEXT_CACHE_MAX = 5000;
@@ -652,6 +652,7 @@ function pushTokens(block, str, styleName) {
 export function makeFont(style) {
   // FIXME in node-canvas fontWeight is before fontStyle
   // Use `fontSize` `fontFamily` to check whether font properties are defined.
-  return (style.fontSize || style.fontFamily) && [style.fontStyle, style.fontWeight, (style.fontSize || 12) + 'px', // If font properties are defined, `fontFamily` should not be ignored.
-  style.fontFamily || 'sans-serif'].join(' ') || style.textFont || style.font;
+  var font = (style.fontSize || style.fontFamily) && [style.fontStyle, style.fontWeight, (style.fontSize || 12) + 'px', // If font properties are defined, `fontFamily` should not be ignored.
+  style.fontFamily || 'sans-serif'].join(' ');
+  return font && trim(font) || style.textFont || style.font;
 }

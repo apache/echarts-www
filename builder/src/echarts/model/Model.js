@@ -3,12 +3,14 @@
  */
 import * as zrUtil from 'zrender/src/core/util';
 import env from 'zrender/src/core/env';
-import * as clazzUtil from '../util/clazz';
+import { makeInner } from '../util/model';
+import { enableClassExtend, enableClassCheck } from '../util/clazz';
 import lineStyleMixin from './mixin/lineStyle';
 import areaStyleMixin from './mixin/areaStyle';
 import textStyleMixin from './mixin/textStyle';
 import itemStyleMixin from './mixin/itemStyle';
 var mixin = zrUtil.mixin;
+var inner = makeInner();
 /**
  * @alias module:echarts/model/Model
  * @constructor
@@ -115,8 +117,7 @@ Model.prototype = {
     var Ctor = this.constructor;
     return new Ctor(zrUtil.clone(this.option));
   },
-  setReadOnly: function (properties) {
-    clazzUtil.setReadOnly(this, properties);
+  setReadOnly: function (properties) {// clazzUtil.setReadOnly(this, properties);
   },
   // If path is null/undefined, return null/undefined.
   parsePath: function (path) {
@@ -133,7 +134,7 @@ Model.prototype = {
    *        return {module:echarts/model/Model}
    */
   customizeGetParent: function (getParentMethod) {
-    clazzUtil.set(this, 'getParent', getParentMethod);
+    inner(this).getParent = getParentMethod;
   },
   isAnimationEnabled: function () {
     if (!env.node) {
@@ -170,12 +171,13 @@ function doGet(obj, pathArr, parentModel) {
 
 
 function getParent(model, path) {
-  var getParentMethod = clazzUtil.get(model, 'getParent');
+  var getParentMethod = inner(model).getParent;
   return getParentMethod ? getParentMethod.call(model, path) : model.parentModel;
 } // Enable Model.extend.
 
 
-clazzUtil.enableClassExtend(Model);
+enableClassExtend(Model);
+enableClassCheck(Model);
 mixin(Model, lineStyleMixin);
 mixin(Model, areaStyleMixin);
 mixin(Model, textStyleMixin);

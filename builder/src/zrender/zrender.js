@@ -25,7 +25,7 @@ var instances = {}; // ZRender实例map索引
  * @type {string}
  */
 
-export var version = '3.7.3';
+export var version = '4.0.0';
 /**
  * Initializing a zrender instance
  * @param {HTMLElement} dom
@@ -121,10 +121,10 @@ var ZRender = function (id, dom, opts) {
     rendererType = 'canvas';
   }
 
-  var painter = new painterCtors[rendererType](dom, storage, opts);
+  var painter = new painterCtors[rendererType](dom, storage, opts, id);
   this.storage = storage;
   this.painter = painter;
-  var handerProxy = !env.node ? new HandlerProxy(painter.getViewportRoot()) : null;
+  var handerProxy = !env.node && !env.worker ? new HandlerProxy(painter.getViewportRoot()) : null;
   this.handler = new Handler(storage, painter, handerProxy, painter.root);
   /**
    * @type {module:zrender/animation/Animation}

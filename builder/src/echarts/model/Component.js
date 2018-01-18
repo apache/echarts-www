@@ -6,10 +6,11 @@
 import * as zrUtil from 'zrender/src/core/util';
 import Model from './Model';
 import * as componentUtil from '../util/component';
-import * as clazzUtil from '../util/clazz';
+import { enableClassManagement, parseClassType } from '../util/clazz';
+import { makeInner } from '../util/model';
 import * as layout from '../util/layout';
 import boxLayoutMixin from './mixin/boxLayout';
-var arrayPush = Array.prototype.push;
+var inner = makeInner();
 /**
  * @alias module:echarts/model/Component
  * @constructor
@@ -28,6 +29,12 @@ var ComponentModel = Model.extend({
   id: '',
 
   /**
+   * Because simplified concept is probably better, series.name (or component.name)
+   * has been having too many resposibilities:
+   * (1) Generating id (which requires name in option should not be modified).
+   * (2) As an index to mapping series when merging option or calling API (a name
+   * can refer to more then one components, which is convinient is some case).
+   * (3) Display.
    * @readOnly
    */
   name: '',
@@ -85,7 +92,7 @@ var ComponentModel = Model.extend({
   layoutMode: null,
   $constructor: function (option, parentModel, ecModel, extraOpt) {
     Model.call(this, option, parentModel, ecModel, extraOpt);
-    this.uid = componentUtil.getUID('componentModel');
+    this.uid = componentUtil.getUID('ec_cpt_model');
   },
   init: function (option, parentModel, ecModel, extraOpt) {
     this.mergeDefaultAndTheme(option, ecModel);
@@ -112,7 +119,9 @@ var ComponentModel = Model.extend({
   // Hooker after init or mergeOption
   optionUpdated: function (newCptOption, isInit) {},
   getDefaultOption: function () {
-    if (!clazzUtil.hasOwn(this, '__defaultOption')) {
+    var fields = inner(this);
+
+    if (!fields.defaultOption) {
       var optList = [];
       var Class = this.constructor;
 
@@ -128,10 +137,10 @@ var ComponentModel = Model.extend({
         defaultOption = zrUtil.merge(defaultOption, optList[i], true);
       }
 
-      clazzUtil.set(this, '__defaultOption', defaultOption);
+      fields.defaultOption = defaultOption;
     }
 
-    return clazzUtil.get(this, '__defaultOption');
+    return fields.defaultOption;
   },
   getReferringComponents: function (mainType) {
     return this.ecModel.queryComponents({
@@ -155,7 +164,7 @@ var ComponentModel = Model.extend({
 // );
 // Add capability of registerClass, getClass, hasClass, registerSubTypeDefaulter and so on.
 
-clazzUtil.enableClassManagement(ComponentModel, {
+enableClassManagement(ComponentModel, {
   registerWhenExtend: true
 });
 componentUtil.enableSubTypeDefaulter(ComponentModel); // Add capability of ComponentModel.topologicalTravel.
@@ -165,12 +174,18 @@ componentUtil.enableTopologicalTravel(ComponentModel, getDependencies);
 function getDependencies(componentType) {
   var deps = [];
   zrUtil.each(ComponentModel.getClassesByMainType(componentType), function (Clazz) {
-    arrayPush.apply(deps, Clazz.prototype.dependencies || []);
-  }); // Ensure main type
+    deps = deps.concat(Clazz.prototype.dependencies || []);
+  }); // Ensure main type.
 
-  return zrUtil.map(deps, function (type) {
-    return clazzUtil.parseClassType(type).main;
-  });
+  deps = zrUtil.map(deps, function (type) {
+    return parseClassType(type).main;
+  }); // Hack dataset for convenience.
+
+  if (componentType !== 'dataset' && zrUtil.indexOf(deps, 'dataset') <= 0) {
+    deps.unshift('dataset');
+  }
+
+  return deps;
 }
 
 zrUtil.mixin(ComponentModel, boxLayoutMixin);

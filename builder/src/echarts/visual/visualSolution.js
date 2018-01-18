@@ -91,6 +91,7 @@ export function replaceVisualOption(thisOption, newOption, keys) {
  * @param {object} [scope] Scope for getValueState
  * @param {string} [dimension] Concrete dimension, if used.
  */
+// ???! handle brush?
 
 export function applyVisual(stateList, visualMappings, data, getValueState, scope, dimension) {
   var visualTypesMap = {};
@@ -131,4 +132,55 @@ export function applyVisual(stateList, visualMappings, data, getValueState, scop
       mappings[type] && mappings[type].applyVisual(valueOrIndex, getVisual, setVisual);
     }
   }
+}
+/**
+ * @param {module:echarts/data/List} data
+ * @param {Array.<string>} stateList
+ * @param {Object} visualMappings <state, Object.<visualType, module:echarts/visual/VisualMapping>>
+ * @param {Function} getValueState param: valueOrIndex, return: state.
+ * @param {number} [dim] dimension or dimension index.
+ */
+
+export function incrementalApplyVisual(stateList, visualMappings, getValueState, dim) {
+  var visualTypesMap = {};
+  zrUtil.each(stateList, function (state) {
+    var visualTypes = VisualMapping.prepareVisualTypes(visualMappings[state]);
+    visualTypesMap[state] = visualTypes;
+  });
+
+  function progress(params, data) {
+    if (dim != null) {
+      dim = data.getDimension(dim);
+    }
+
+    function getVisual(key) {
+      return data.getItemVisual(dataIndex, key);
+    }
+
+    function setVisual(key, value) {
+      data.setItemVisual(dataIndex, key, value);
+    }
+
+    for (var dataIndex = params.start; dataIndex < params.end; dataIndex++) {
+      var rawDataItem = data.getRawDataItem(dataIndex); // Consider performance
+
+      if (rawDataItem && rawDataItem.visualMap === false) {
+        return;
+      }
+
+      var value = dim != null ? data.get(dim, dataIndex, true) : dataIndex;
+      var valueState = getValueState(value);
+      var mappings = visualMappings[valueState];
+      var visualTypes = visualTypesMap[valueState];
+
+      for (var i = 0, len = visualTypes.length; i < len; i++) {
+        var type = visualTypes[i];
+        mappings[type] && mappings[type].applyVisual(value, getVisual, setVisual);
+      }
+    }
+  }
+
+  return {
+    progress: progress
+  };
 }

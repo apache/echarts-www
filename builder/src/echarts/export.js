@@ -11,6 +11,7 @@ import * as numberUtil from './util/number';
 import * as formatUtil from './util/format';
 import { throttle } from './util/throttle';
 import * as ecHelper from './helper';
+import parseGeoJSON from './coord/geo/parseGeoJson';
 export { zrender };
 export { default as List } from './data/List';
 export { default as Model } from './model/Model';
@@ -24,7 +25,8 @@ export { matrix };
 export { vector };
 export { colorTool as color };
 export { default as env } from 'zrender/src/core/env';
-export { default as parseGeoJson } from './coord/geo/parseGeoJson';
+export { parseGeoJSON };
+export var parseGeoJson = parseGeoJSON;
 var ecUtil = {};
 zrUtil.each(['map', 'each', 'filter', 'indexOf', 'inherits', 'reduce', 'filter', 'bind', 'curry', 'isArray', 'isString', 'isObject', 'isFunction', 'extend', 'defaults', 'clone', 'merge'], function (name) {
   ecUtil[name] = zrUtil[name];

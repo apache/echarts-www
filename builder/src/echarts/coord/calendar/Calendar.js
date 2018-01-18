@@ -109,7 +109,7 @@ Calendar.prototype = {
   update: function (ecModel, api) {
     this._firstDayOfWeek = +this._model.getModel('dayLabel').get('firstDay');
     this._orient = this._model.get('orient');
-    this._lineWidth = this._model.getModel('itemStyle.normal').getItemStyle().lineWidth || 0;
+    this._lineWidth = this._model.getModel('itemStyle').getItemStyle().lineWidth || 0;
     this._rangeInfo = this._getRangeInfo(this._initRangeOption());
     var weeks = this._rangeInfo.weeks || 1;
     var whNames = ['width', 'height'];

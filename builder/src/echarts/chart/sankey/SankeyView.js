@@ -48,7 +48,7 @@ export default echarts.extendChartView({
       curve.dataIndex = edge.dataIndex;
       curve.seriesIndex = seriesModel.seriesIndex;
       curve.dataType = 'edge';
-      var lineStyleModel = edge.getModel('lineStyle.normal');
+      var lineStyleModel = edge.getModel('lineStyle');
       var curvature = lineStyleModel.get('curveness');
       var n1Layout = edge.node1.getLayout();
       var n2Layout = edge.node2.getLayout();
@@ -84,7 +84,7 @@ export default echarts.extendChartView({
           break;
       }
 
-      graphic.setHoverStyle(curve, edge.getModel('lineStyle.emphasis').getItemStyle());
+      graphic.setHoverStyle(curve, edge.getModel('emphasis.lineStyle').getItemStyle());
       group.add(curve);
       edgeData.setItemGraphicEl(edge.dataIndex, curve);
     }); // generate a rect  for each node
@@ -92,8 +92,8 @@ export default echarts.extendChartView({
     graph.eachNode(function (node) {
       var layout = node.getLayout();
       var itemModel = node.getModel();
-      var labelModel = itemModel.getModel('label.normal');
-      var labelHoverModel = itemModel.getModel('label.emphasis');
+      var labelModel = itemModel.getModel('label');
+      var labelHoverModel = itemModel.getModel('emphasis.label');
       var rect = new graphic.Rect({
         shape: {
           x: layout.x,
@@ -101,9 +101,9 @@ export default echarts.extendChartView({
           width: node.getLayout().dx,
           height: node.getLayout().dy
         },
-        style: itemModel.getModel('itemStyle.normal').getItemStyle()
+        style: itemModel.getModel('itemStyle').getItemStyle()
       });
-      var hoverStyle = node.getModel('itemStyle.emphasis').getItemStyle();
+      var hoverStyle = node.getModel('emphasis.itemStyle').getItemStyle();
       graphic.setLabelStyle(rect.style, hoverStyle, labelModel, labelHoverModel, {
         labelFetcher: seriesModel,
         labelDataIndex: node.dataIndex,

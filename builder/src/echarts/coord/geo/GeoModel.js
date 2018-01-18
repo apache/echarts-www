@@ -15,7 +15,7 @@ var GeoModel = ComponentModel.extend({
   init: function (option) {
     ComponentModel.prototype.init.apply(this, arguments); // Default label emphasis `show`
 
-    modelUtil.defaultEmphasis(option.label, ['show']);
+    modelUtil.defaultEmphasis(option, 'label', ['show']);
   },
   optionUpdated: function () {
     var option = this.option;
@@ -60,24 +60,21 @@ var GeoModel = ComponentModel.extend({
     scaleLimit: null,
     // selectedMode: false
     label: {
-      normal: {
-        show: false,
-        color: '#000'
-      },
-      emphasis: {
-        show: true,
-        color: 'rgb(100,0,0)'
-      }
+      show: false,
+      color: '#000'
     },
     itemStyle: {
-      normal: {
-        // color: 各异,
-        borderWidth: 0.5,
-        borderColor: '#444',
-        color: '#eee'
+      // color: 各异,
+      borderWidth: 0.5,
+      borderColor: '#444',
+      color: '#eee'
+    },
+    emphasis: {
+      label: {
+        show: true,
+        color: 'rgb(100,0,0)'
       },
-      emphasis: {
-        // 也是选中样式
+      itemStyle: {
         color: 'rgba(255,215,0,0.8)'
       }
     },

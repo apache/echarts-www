@@ -7,8 +7,8 @@ import * as roamHelper from '../../component/helper/roamHelper';
 import { onIrrelevantElement } from '../../component/helper/cursorHelper';
 import * as graphic from '../../util/graphic';
 import adjustEdge from './adjustEdge';
-var nodeOpacityPath = ['itemStyle', 'normal', 'opacity'];
-var lineOpacityPath = ['lineStyle', 'normal', 'opacity'];
+var nodeOpacityPath = ['itemStyle', 'opacity'];
+var lineOpacityPath = ['lineStyle', 'opacity'];
 
 function getItemOpacity(item, opacityPath) {
   return item.getVisual('opacity') || item.getModel().get(opacityPath);

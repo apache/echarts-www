@@ -26,7 +26,7 @@ var GraphSeries = echarts.extendSeriesModel({
   },
   mergeDefaultAndTheme: function (option) {
     GraphSeries.superApply(this, 'mergeDefaultAndTheme', arguments);
-    defaultEmphasis(option.edgeLabel, ['show']);
+    defaultEmphasis(option, ['edgeLabel'], ['show']);
   },
   getInitialData: function (option, ecModel) {
     var edges = option.edges || option.links || [];
@@ -176,10 +176,7 @@ var GraphSeries = echarts.extendSeriesModel({
     edgeSymbol: ['none', 'none'],
     edgeSymbolSize: 10,
     edgeLabel: {
-      normal: {
-        position: 'middle'
-      },
-      emphasis: {}
+      position: 'middle'
     },
     draggable: false,
     roam: false,
@@ -198,26 +195,20 @@ var GraphSeries = echarts.extendSeriesModel({
     // Or
     // edges: []
     label: {
-      normal: {
-        show: false,
-        formatter: '{b}'
-      },
-      emphasis: {
+      show: false,
+      formatter: '{b}'
+    },
+    itemStyle: {},
+    lineStyle: {
+      color: '#aaa',
+      width: 1,
+      curveness: 0,
+      opacity: 0.5
+    },
+    emphasis: {
+      label: {
         show: true
       }
-    },
-    itemStyle: {
-      normal: {},
-      emphasis: {}
-    },
-    lineStyle: {
-      normal: {
-        color: '#aaa',
-        width: 1,
-        curveness: 0,
-        opacity: 0.5
-      },
-      emphasis: {}
     }
   }
 });

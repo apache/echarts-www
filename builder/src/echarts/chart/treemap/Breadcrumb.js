@@ -1,7 +1,7 @@
 import * as graphic from '../../util/graphic';
 import * as layout from '../../util/layout';
 import * as zrUtil from 'zrender/src/core/util';
-import { wrapTreePathInfo } from './helper';
+import { wrapTreePathInfo } from '../helper/treeHelper';
 var TEXT_PADDING = 8;
 var ITEM_GAP = 8;
 var ARRAY_LENGTH = 5;
@@ -26,7 +26,7 @@ Breadcrumb.prototype = {
       return;
     }
 
-    var normalStyleModel = model.getModel('itemStyle.normal'); // var emphasisStyleModel = model.getModel('itemStyle.emphasis');
+    var normalStyleModel = model.getModel('itemStyle'); // var emphasisStyleModel = model.getModel('emphasis.itemStyle');
 
     var textStyleModel = normalStyleModel.getModel('textStyle');
     var layoutParam = {

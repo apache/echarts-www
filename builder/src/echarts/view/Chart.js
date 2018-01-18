@@ -1,8 +1,12 @@
-import * as zrUtil from 'zrender/src/core/util';
+import { each } from 'zrender/src/core/util';
 import Group from 'zrender/src/container/Group';
 import * as componentUtil from '../util/component';
 import * as clazzUtil from '../util/clazz';
 import * as modelUtil from '../util/model';
+import { createTask } from '../stream/task';
+import createRenderPlanner from '../chart/helper/createRenderPlanner';
+var inner = modelUtil.makeInner();
+var renderPlanner = createRenderPlanner();
 
 function Chart() {
   /**
@@ -16,20 +20,27 @@ function Chart() {
    */
 
   this.uid = componentUtil.getUID('viewChart');
+  this.renderTask = createTask({
+    plan: renderTaskPlan,
+    reset: renderTaskReset
+  });
+  this.renderTask.context = {
+    view: this
+  };
 }
 
 Chart.prototype = {
   type: 'chart',
 
   /**
-   * Init the chart
+   * Init the chart.
    * @param  {module:echarts/model/Global} ecModel
    * @param  {module:echarts/ExtensionAPI} api
    */
   init: function (ecModel, api) {},
 
   /**
-   * Render the chart
+   * Render the chart.
    * @param  {module:echarts/model/Series} seriesModel
    * @param  {module:echarts/model/Global} ecModel
    * @param  {module:echarts/ExtensionAPI} api
@@ -38,7 +49,7 @@ Chart.prototype = {
   render: function (seriesModel, ecModel, api, payload) {},
 
   /**
-   * Highlight series or specified data item
+   * Highlight series or specified data item.
    * @param  {module:echarts/model/Series} seriesModel
    * @param  {module:echarts/model/Global} ecModel
    * @param  {module:echarts/ExtensionAPI} api
@@ -49,7 +60,7 @@ Chart.prototype = {
   },
 
   /**
-   * Downplay series or specified data item
+   * Downplay series or specified data item.
    * @param  {module:echarts/model/Series} seriesModel
    * @param  {module:echarts/model/Global} ecModel
    * @param  {module:echarts/ExtensionAPI} api
@@ -60,7 +71,7 @@ Chart.prototype = {
   },
 
   /**
-   * Remove self
+   * Remove self.
    * @param  {module:echarts/model/Global} ecModel
    * @param  {module:echarts/ExtensionAPI} api
    */
@@ -69,11 +80,39 @@ Chart.prototype = {
   },
 
   /**
-   * Dispose self
+   * Dispose self.
    * @param  {module:echarts/model/Global} ecModel
    * @param  {module:echarts/ExtensionAPI} api
    */
-  dispose: function () {}
+  dispose: function () {},
+
+  /**
+   * Rendering preparation in progressive mode.
+   * @param  {module:echarts/model/Series} seriesModel
+   * @param  {module:echarts/model/Global} ecModel
+   * @param  {module:echarts/ExtensionAPI} api
+   * @param  {Object} payload
+   */
+  incrementalPrepareRender: null,
+
+  /**
+   * Render in progressive mode.
+   * @param  {module:echarts/model/Series} seriesModel
+   * @param  {module:echarts/model/Global} ecModel
+   * @param  {module:echarts/ExtensionAPI} api
+   * @param  {Object} payload
+   */
+  incrementalRender: null,
+
+  /**
+   * Update transform directly.
+   * @param  {module:echarts/model/Series} seriesModel
+   * @param  {module:echarts/model/Global} ecModel
+   * @param  {module:echarts/ExtensionAPI} api
+   * @param  {Object} payload
+   * @return {Object} {update: true}
+   */
+  updateTransform: null
   /**
    * The view contains the given point.
    * @interface
@@ -110,7 +149,6 @@ function elSetState(el, state) {
  * @param  {module:echarts/data/List} data
  * @param  {Object} payload
  * @param  {string} state 'normal'|'emphasis'
- * @inner
  */
 
 
@@ -118,7 +156,7 @@ function toggleHighlight(data, payload, state) {
   var dataIndex = modelUtil.queryDataIndex(data, payload);
 
   if (dataIndex != null) {
-    zrUtil.each(modelUtil.normalizeToArray(dataIndex), function (dataIdx) {
+    each(modelUtil.normalizeToArray(dataIndex), function (dataIdx) {
       elSetState(data.getItemGraphicEl(dataIdx), state);
     });
   } else {
@@ -134,4 +172,31 @@ clazzUtil.enableClassExtend(Chart, ['dispose']); // Add capability of registerCl
 clazzUtil.enableClassManagement(Chart, {
   registerWhenExtend: true
 });
+
+Chart.markUpdateMethod = function (payload, methodName) {
+  inner(payload).updateMethod = methodName;
+};
+
+function renderTaskPlan(context) {
+  return renderPlanner(context.model);
+}
+
+function renderTaskReset(context) {
+  var seriesModel = context.model;
+  var ecModel = context.ecModel;
+  var api = context.api;
+  var payload = context.payload; // ???! remove updateView updateVisual
+
+  var incremental = seriesModel.pipelineContext.incrementalRender;
+  var view = context.view;
+  var updateMethod = payload && inner(payload).updateMethod;
+  var methodName = incremental && view.incrementalPrepareRender ? 'incrementalPrepareRender' : updateMethod && view[updateMethod] ? updateMethod : 'render';
+  view[methodName](seriesModel, ecModel, api, payload);
+  return incremental ? renderTaskProgress : null;
+}
+
+function renderTaskProgress(params, context) {
+  context.view.incrementalRender(params, context.model, context.ecModel, context.api, context.payload);
+}
+
 export default Chart;

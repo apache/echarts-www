@@ -1,10 +1,3 @@
-/**
- * Handler
- * @module zrender/Handler
- * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
- *         errorrik (errorrik@gmail.com)
- *         pissang (shenyi.914@gmail.com)
- */
 import * as util from './core/util';
 import * as vec2 from './core/vector';
 import Draggable from './mixin/Draggable';
@@ -57,9 +50,7 @@ var Handler = function (storage, painter, proxy, painterRoot) {
    * Proxy of event. can be Dom, WebGLSurface, etc.
    */
 
-  this.proxy = proxy; // Attach handler
-
-  proxy.handler = this;
+  this.proxy = null;
   /**
    * {target, topTarget, x, y}
    * @private
@@ -86,13 +77,26 @@ var Handler = function (storage, painter, proxy, painterRoot) {
 
   this._lastY;
   Draggable.call(this);
-  util.each(handlerNames, function (name) {
-    proxy.on && proxy.on(name, this[name], this);
-  }, this);
+  this.setHandlerProxy(proxy);
 };
 
 Handler.prototype = {
   constructor: Handler,
+  setHandlerProxy: function (proxy) {
+    if (this.proxy) {
+      this.proxy.dispose();
+    }
+
+    if (proxy) {
+      util.each(handlerNames, function (name) {
+        proxy.on && proxy.on(name, this[name], this);
+      }, this); // Attach handler
+
+      proxy.handler = this;
+    }
+
+    this.proxy = proxy;
+  },
   mousemove: function (event) {
     var x = event.zrX;
     var y = event.zrY;
@@ -266,7 +270,7 @@ util.each(['click', 'mousedown', 'mouseup', 'mousewheel', 'dblclick', 'contextme
       this._downPoint = [event.zrX, event.zrY]; // In case click triggered before mouseup
 
       this._upEl = hoveredTarget;
-    } else if (name === 'mosueup') {
+    } else if (name === 'mouseup') {
       this._upEl = hoveredTarget;
     } else if (name === 'click') {
       if (this._downEl !== this._upEl // Original click event is triggered on the whole canvas element,

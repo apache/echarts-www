@@ -58,13 +58,13 @@ var AxisView = echarts.extendComponentView({
     var animationModel = payload && payload.animation === false ? null : axisModel;
     graphic.groupTransition(oldAxisGroup, this._axisGroup, animationModel);
   },
-
-  /**
-   * @override
-   */
-  updateVisual: function (axisModel, ecModel, api, payload) {
-    this._brushController && this._brushController.updateCovers(getCoverInfoList(axisModel));
-  },
+  // /**
+  //  * @override
+  //  */
+  // updateVisual: function (axisModel, ecModel, api, payload) {
+  //     this._brushController && this._brushController
+  //         .updateCovers(getCoverInfoList(axisModel));
+  // },
   _refreshBrushController: function (builderOpt, areaSelectStyle, axisModel, coordSysModel, areaWidth, api) {
     // After filtering, axis may change, select area needs to be update.
     var extent = axisModel.axis.getExtent();

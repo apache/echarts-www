@@ -9,7 +9,7 @@ export default function (ecModel) {
 
       categoryNameIdxMap['ec-' + name] = idx;
       var itemModel = categoriesData.getItemModel(idx);
-      var color = itemModel.get('itemStyle.normal.color') || seriesModel.getColorFromPalette(name, paletteScope);
+      var color = itemModel.get('itemStyle.color') || seriesModel.getColorFromPalette(name, paletteScope);
       categoriesData.setItemVisual(idx, 'color', color);
     }); // Assign category color to visual
 

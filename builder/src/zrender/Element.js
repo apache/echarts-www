@@ -66,6 +66,12 @@ Element.prototype = {
   clipPath: null,
 
   /**
+   * 是否是 Group
+   * @type {boolean}
+   */
+  isGroup: false,
+
+  /**
    * Drift element
    * @param  {number} dx dx on the global space
    * @param  {number} dy dy on the global space

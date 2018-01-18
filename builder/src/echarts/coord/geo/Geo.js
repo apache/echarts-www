@@ -107,12 +107,12 @@ Geo.prototype = {
     rect = rect.clone(); // Longitute is inverted
 
     rect.y = -rect.y - rect.height;
-    var viewTransform = this._viewTransform;
-    viewTransform.transform = rect.calculateTransform(new BoundingRect(x, y, width, height));
-    viewTransform.decomposeTransform();
-    var scale = viewTransform.scale;
+    var rawTransformable = this._rawTransformable;
+    rawTransformable.transform = rect.calculateTransform(new BoundingRect(x, y, width, height));
+    rawTransformable.decomposeTransform();
+    var scale = rawTransformable.scale;
     scale[1] = -scale[1];
-    viewTransform.updateTransform();
+    rawTransformable.updateTransform();
 
     this._updateTransform();
   },
@@ -172,16 +172,18 @@ Geo.prototype = {
 
   /**
    * @param {string|Array.<number>} data
+   * @param {boolean} noRoam
+   * @param {Array.<number>} [out]
    * @return {Array.<number>}
    */
-  dataToPoint: function (data) {
+  dataToPoint: function (data, noRoam, out) {
     if (typeof data === 'string') {
       // Map area name to geoCoord
       data = this.getGeoCoord(data);
     }
 
     if (data) {
-      return View.prototype.dataToPoint.call(this, data);
+      return View.prototype.dataToPoint.call(this, data, noRoam, out);
     }
   },
 

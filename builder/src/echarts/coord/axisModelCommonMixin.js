@@ -1,14 +1,5 @@
 import * as zrUtil from 'zrender/src/core/util';
 import * as axisHelper from './axisHelper';
-
-function getName(obj) {
-  if (zrUtil.isObject(obj) && obj.value != null) {
-    return obj.value;
-  } else {
-    return obj + '';
-  }
-}
-
 export default {
   /**
    * Format labels
@@ -16,13 +7,6 @@ export default {
    */
   getFormattedLabels: function () {
     return axisHelper.getFormattedLabels(this.axis, this.get('axisLabel.formatter'));
-  },
-
-  /**
-   * Get categories
-   */
-  getCategories: function () {
-    return this.get('type') === 'category' && zrUtil.map(this.get('data'), getName);
   },
 
   /**

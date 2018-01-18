@@ -46,14 +46,14 @@ function barLayoutPolar(seriesType, ecModel, api) {
     var valueAxisStart = valueAxis.getExtent()[0];
     var valueMax = valueAxis.model.get('max');
     var valueMin = valueAxis.model.get('min');
-    var coordDims = [seriesModel.coordDimToDataDim('radius')[0], seriesModel.coordDimToDataDim('angle')[0]];
+    var coordDims = [data.mapDimension('radius'), data.mapDimension('angle')];
     var coords = data.mapArray(coordDims, function (radius, angle) {
       return polar.dataToPoint([radius, angle]);
     }, true);
     lastStackCoords[stackId] = lastStackCoords[stackId] || [];
     lastStackCoordsOrigin[stackId] = lastStackCoordsOrigin[stackId] || []; // Fix #4243
 
-    data.each(seriesModel.coordDimToDataDim(valueAxis.dim)[0], function (value, idx) {
+    data.each(data.mapDimension(valueAxis.dim), function (value, idx) {
       if (isNaN(value)) {
         return;
       }

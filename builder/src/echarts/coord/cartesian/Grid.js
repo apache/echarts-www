@@ -38,7 +38,7 @@ function rotateTextRect(textRect, rotate) {
 
 function getLabelUnionRect(axis) {
   var axisModel = axis.model;
-  var labels = axisModel.getFormattedLabels();
+  var labels = axisModel.get('axisLabel.show') ? axisModel.getFormattedLabels() : [];
   var axisLabelModel = axisModel.getModel('axisLabel');
   var rect;
   var step = 1;
@@ -206,7 +206,7 @@ gridProto.resize = function (gridModel, api, ignoreContainLabel) {
       var extent = isHorizontal ? [0, gridRect.width] : [0, gridRect.height];
       var idx = axis.inverse ? 1 : 0;
       axis.setExtent(extent[idx], extent[1 - idx]);
-      updateAxisTransfrom(axis, isHorizontal ? gridRect.x : gridRect.y);
+      updateAxisTransform(axis, isHorizontal ? gridRect.x : gridRect.y);
     });
   }
 };
@@ -483,7 +483,7 @@ gridProto._updateScale = function (ecModel, gridModel) {
   }, this);
 
   function unionExtent(data, axis, seriesModel) {
-    each(seriesModel.coordDimToDataDim(axis.dim), function (dim) {
+    each(data.mapDimension(axis.dim, true), function (dim) {
       axis.scale.unionExtentFromData(data, dim);
     });
   }
@@ -513,7 +513,7 @@ gridProto.getTooltipAxes = function (dim) {
  */
 
 
-function updateAxisTransfrom(axis, coordBase) {
+function updateAxisTransform(axis, coordBase) {
   var axisExtent = axis.getExtent();
   var axisExtentSum = axisExtent[0] + axisExtent[1]; // Fast transform
 

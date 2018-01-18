@@ -112,17 +112,16 @@ piePieceProto.updateData = function (data, idx, firstCreate) {
   } // Update common style
 
 
-  var itemStyleModel = itemModel.getModel('itemStyle');
   var visualColor = data.getItemVisual(idx, 'color');
   sector.useStyle(zrUtil.defaults({
     lineJoin: 'bevel',
     fill: visualColor
-  }, itemStyleModel.getModel('normal').getItemStyle()));
-  sector.hoverStyle = itemStyleModel.getModel('emphasis').getItemStyle();
+  }, itemModel.getModel('itemStyle').getItemStyle()));
+  sector.hoverStyle = itemModel.getModel('emphasis.itemStyle').getItemStyle();
   var cursorStyle = itemModel.getShallow('cursor');
   cursorStyle && sector.attr('cursor', cursorStyle); // Toggle selected
 
-  toggleItemSelected(this, data.getItemLayout(idx), itemModel.get('selected'), seriesModel.get('selectedOffset'), seriesModel.get('animation'));
+  toggleItemSelected(this, data.getItemLayout(idx), seriesModel.isSelected(null, idx), seriesModel.get('selectedOffset'), seriesModel.get('animation'));
 
   function onEmphasis() {
     // Sector may has animation of updating data. Force to move to the last frame
@@ -179,10 +178,10 @@ piePieceProto._updateLabel = function (data, idx) {
     origin: [labelLayout.x, labelLayout.y],
     z2: 10
   });
-  var labelModel = itemModel.getModel('label.normal');
-  var labelHoverModel = itemModel.getModel('label.emphasis');
-  var labelLineModel = itemModel.getModel('labelLine.normal');
-  var labelLineHoverModel = itemModel.getModel('labelLine.emphasis');
+  var labelModel = itemModel.getModel('label');
+  var labelHoverModel = itemModel.getModel('emphasis.label');
+  var labelLineModel = itemModel.getModel('labelLine');
+  var labelLineHoverModel = itemModel.getModel('emphasis.labelLine');
   var visualColor = data.getItemVisual(idx, 'color');
   graphic.setLabelStyle(labelText.style, labelText.hoverStyle = {}, labelModel, labelHoverModel, {
     labelFetcher: data.hostModel,

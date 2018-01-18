@@ -1,10 +1,3 @@
-/**
- * Default canvas painter
- * @module zrender/Painter
- * @author Kener (@Kener-林峰, kener.linfeng@gmail.com)
- *         errorrik (errorrik@gmail.com)
- *         pissang (https://www.github.com/pissang)
- */
 import { devicePixelRatio } from './config';
 import * as util from './core/util';
 import log from './core/log';
@@ -12,12 +5,12 @@ import BoundingRect from './core/BoundingRect';
 import timsort from './core/timsort';
 import Layer from './Layer';
 import requestAnimationFrame from './animation/requestAnimationFrame';
-import Image from './graphic/Image'; // PENDIGN
-// Layer exceeds MAX_PROGRESSIVE_LAYER_NUMBER may have some problem when flush directly second time.
-//
-// Maximum progressive layer. When exceeding this number. All elements will be drawed in the last layer.
-
-var MAX_PROGRESSIVE_LAYER_NUMBER = 5;
+import Image from './graphic/Image';
+import env from './core/env';
+var HOVER_LAYER_ZLEVEL = 1e5;
+var CANVAS_ZLEVEL = 314159;
+var EL_AFTER_INCREMENTAL_INC = 0.01;
+var INCREMENTAL_INC = 0.001;
 
 function parseInt10(val) {
   return parseInt(val, 10);
@@ -37,16 +30,6 @@ function isLayerValid(layer) {
   }
 
   return true;
-}
-
-function preProcessLayer(layer) {
-  layer.__unusedCount++;
-}
-
-function postProcessLayer(layer) {
-  if (layer.__unusedCount == 1) {
-    layer.clear();
-  }
 }
 
 var tmpRect = new BoundingRect(0, 0, 0, 0);
@@ -158,10 +141,15 @@ var Painter = function (root, storage, opts) {
   var layers = this._layers = {};
   /**
    * @type {Object.<string, Object>}
-   * @type {private}
+   * @private
    */
 
   this._layerConfig = {};
+  /**
+   * zrender will do compositing when root is a canvas and have multiple zlevels.
+   */
+
+  this._needsManuallyCompositing = false;
 
   if (!singleCanvas) {
     this._width = this._getSize(0);
@@ -185,22 +173,22 @@ var Painter = function (root, storage, opts) {
     // Device pixel ratio is fixed to 1 because given canvas has its specified width and height
 
     var mainLayer = new Layer(root, this, 1);
+    mainLayer.__builtin__ = true;
     mainLayer.initContext(); // FIXME Use canvas width and height
     // mainLayer.resize(width, height);
 
-    layers[0] = mainLayer;
-    zlevelList.push(0);
+    layers[CANVAS_ZLEVEL] = mainLayer; // Not use common zlevel.
+
+    zlevelList.push(CANVAS_ZLEVEL);
     this._domRoot = root;
-  } // Layers for progressive rendering
-
-
-  this._progressiveLayers = [];
+  }
   /**
    * @type {module:zrender/Layer}
    * @private
    */
 
-  this._hoverlayer;
+
+  this._hoverlayer = null;
   this._hoverElements = [];
 };
 
@@ -242,8 +230,9 @@ Painter.prototype = {
   refresh: function (paintAll) {
     var list = this.storage.getDisplayList(true);
     var zlevelList = this._zlevelList;
+    this._redrawId = Math.random();
 
-    this._paintList(list, paintAll); // Paint custum layers
+    this._paintList(list, paintAll, this._redrawId); // Paint custum layers
 
 
     for (var i = 0; i < zlevelList.length; i++) {
@@ -256,11 +245,6 @@ Painter.prototype = {
     }
 
     this.refreshHover();
-
-    if (this._progressiveLayers.length) {
-      this._startProgessive();
-    }
-
     return this;
   },
   addHover: function (el, hoverStyle) {
@@ -316,7 +300,7 @@ Painter.prototype = {
     // FIXME?
 
     if (!hoverLayer) {
-      hoverLayer = this._hoverlayer = this.getLayer(1e5);
+      hoverLayer = this._hoverlayer = this.getLayer(HOVER_LAYER_ZLEVEL);
     }
 
     var scope = {};
@@ -348,173 +332,118 @@ Painter.prototype = {
 
     hoverLayer.ctx.restore();
   },
-  _startProgessive: function () {
-    var self = this;
-
-    if (!self._furtherProgressive) {
+  getHoverLayer: function () {
+    return this.getLayer(HOVER_LAYER_ZLEVEL);
+  },
+  _paintList: function (list, paintAll, redrawId) {
+    if (this._redrawId !== redrawId) {
       return;
-    } // Use a token to stop progress steps triggered by
-    // previous zr.refresh calling.
-
-
-    var token = self._progressiveToken = +new Date();
-    self._progress++;
-    requestAnimationFrame(step);
-
-    function step() {
-      // In case refreshed or disposed
-      if (token === self._progressiveToken && self.storage) {
-        self._doPaintList(self.storage.getDisplayList());
-
-        if (self._furtherProgressive) {
-          self._progress++;
-          requestAnimationFrame(step);
-        } else {
-          self._progressiveToken = -1;
-        }
-      }
     }
-  },
-  _clearProgressive: function () {
-    this._progressiveToken = -1;
-    this._progress = 0;
-    util.each(this._progressiveLayers, function (layer) {
-      layer.__dirty && layer.clear();
-    });
-  },
-  _paintList: function (list, paintAll) {
-    if (paintAll == null) {
-      paintAll = false;
-    }
+
+    paintAll = paintAll || false;
 
     this._updateLayerStatus(list);
 
-    this._clearProgressive();
+    var finished = this._doPaintList(list, paintAll);
 
-    this.eachBuiltinLayer(preProcessLayer);
+    if (this._needsManuallyCompositing) {
+      this._compositeManually();
+    }
 
-    this._doPaintList(list, paintAll);
+    if (!finished) {
+      var self = this;
+      requestAnimationFrame(function () {
+        self._paintList(list, paintAll, redrawId);
+      });
+    }
+  },
+  _compositeManually: function () {
+    var ctx = this.getLayer(CANVAS_ZLEVEL).ctx;
+    var width = this._domRoot.width;
+    var height = this._domRoot.height;
+    ctx.clearRect(0, 0, width, height); // PENDING, If only builtin layer?
 
-    this.eachBuiltinLayer(postProcessLayer);
+    this.eachBuiltinLayer(function (layer) {
+      if (layer.virtual) {
+        ctx.drawImage(layer.dom, 0, 0, width, height);
+      }
+    });
   },
   _doPaintList: function (list, paintAll) {
-    var currentLayer;
-    var currentZLevel;
-    var ctx; // var invTransform = [];
+    var layerList = [];
 
-    var scope;
-    var progressiveLayerIdx = 0;
-    var currentProgressiveLayer;
-    var width = this._width;
-    var height = this._height;
-    var layerProgress;
-    var frame = this._progress;
+    for (var zi = 0; zi < this._zlevelList.length; zi++) {
+      var zlevel = this._zlevelList[zi];
+      var layer = this._layers[zlevel];
 
-    function flushProgressiveLayer(layer) {
-      var dpr = ctx.dpr || 1;
+      if (layer.__builtin__ && layer !== this._hoverlayer && (layer.__dirty || paintAll)) {
+        layerList.push(layer);
+      }
+    }
+
+    var finished = true;
+
+    for (var k = 0; k < layerList.length; k++) {
+      var layer = layerList[k];
+      var ctx = layer.ctx;
+      var scope = {};
       ctx.save();
-      ctx.globalAlpha = 1;
-      ctx.shadowBlur = 0; // Avoid layer don't clear in next progressive frame
+      var start = paintAll ? layer.__startIndex : layer.__drawIndex;
+      var useTimer = !paintAll && layer.incremental && Date.now;
+      var startTime = useTimer && Date.now(); // All elements in this layer are cleared.
 
-      currentLayer.__dirty = true;
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.drawImage(layer.dom, 0, 0, width * dpr, height * dpr);
+      if (layer.__startIndex === layer.__endIndex) {
+        layer.clear();
+      } else if (start === layer.__startIndex) {
+        var firstEl = list[start];
+
+        if (!firstEl.incremental || !firstEl.notClear || paintAll) {
+          layer.clear();
+        }
+      }
+
+      if (start === -1) {
+        console.error('For some unknown reason. drawIndex is -1');
+        start = layer.__startIndex;
+      }
+
+      for (var i = start; i < layer.__endIndex; i++) {
+        var el = list[i];
+
+        this._doPaintEl(el, layer, paintAll, scope);
+
+        el.__dirty = false;
+
+        if (useTimer) {
+          // Date.now can be executed in 13,025,305 ops/second.
+          var dTime = Date.now() - startTime; // Give 15 millisecond to draw.
+          // The rest elements will be drawn in the next frame.
+
+          if (dTime > 15) {
+            break;
+          }
+        }
+      }
+
+      layer.__drawIndex = i;
+
+      if (layer.__drawIndex < layer.__endIndex) {
+        finished = false;
+      }
+
       ctx.restore();
     }
 
-    for (var i = 0, l = list.length; i < l; i++) {
-      var el = list[i];
-      var elZLevel = this._singleCanvas ? 0 : el.zlevel;
-      var elFrame = el.__frame; // Flush at current context
-      // PENDING
-
-      if (elFrame < 0 && currentProgressiveLayer) {
-        flushProgressiveLayer(currentProgressiveLayer);
-        currentProgressiveLayer = null;
-      } // Change draw layer
-
-
-      if (currentZLevel !== elZLevel) {
-        if (ctx) {
-          ctx.restore();
-        } // Reset scope
-
-
-        scope = {}; // Only 0 zlevel if only has one canvas
-
-        currentZLevel = elZLevel;
-        currentLayer = this.getLayer(currentZLevel);
-
-        if (!currentLayer.__builtin__) {
-          log('ZLevel ' + currentZLevel + ' has been used by unkown layer ' + currentLayer.id);
+    if (env.wxa) {
+      // Flush for weixin application
+      util.each(this._layers, function (layer) {
+        if (layer && layer.ctx && layer.ctx.draw) {
+          layer.ctx.draw();
         }
-
-        ctx = currentLayer.ctx;
-        ctx.save(); // Reset the count
-
-        currentLayer.__unusedCount = 0;
-
-        if (currentLayer.__dirty || paintAll) {
-          currentLayer.clear();
-        }
-      }
-
-      if (!(currentLayer.__dirty || paintAll)) {
-        continue;
-      }
-
-      if (elFrame >= 0) {
-        // Progressive layer changed
-        if (!currentProgressiveLayer) {
-          currentProgressiveLayer = this._progressiveLayers[Math.min(progressiveLayerIdx++, MAX_PROGRESSIVE_LAYER_NUMBER - 1)];
-          currentProgressiveLayer.ctx.save();
-          currentProgressiveLayer.renderScope = {};
-
-          if (currentProgressiveLayer && currentProgressiveLayer.__progress > currentProgressiveLayer.__maxProgress) {
-            // flushProgressiveLayer(currentProgressiveLayer);
-            // Quick jump all progressive elements
-            // All progressive element are not dirty, jump over and flush directly
-            i = currentProgressiveLayer.__nextIdxNotProg - 1; // currentProgressiveLayer = null;
-
-            continue;
-          }
-
-          layerProgress = currentProgressiveLayer.__progress;
-
-          if (!currentProgressiveLayer.__dirty) {
-            // Keep rendering
-            frame = layerProgress;
-          }
-
-          currentProgressiveLayer.__progress = frame + 1;
-        }
-
-        if (elFrame === frame) {
-          this._doPaintEl(el, currentProgressiveLayer, true, currentProgressiveLayer.renderScope);
-        }
-      } else {
-        this._doPaintEl(el, currentLayer, paintAll, scope);
-      }
-
-      el.__dirty = false;
+      });
     }
 
-    if (currentProgressiveLayer) {
-      flushProgressiveLayer(currentProgressiveLayer);
-    } // Restore the lastLayer ctx
-
-
-    ctx && ctx.restore(); // If still has clipping state
-    // if (scope.prevElClipPaths) {
-    //     ctx.restore();
-    // }
-
-    this._furtherProgressive = false;
-    util.each(this._progressiveLayers, function (layer) {
-      if (layer.__maxProgress >= layer.__progress) {
-        this._furtherProgressive = true;
-      }
-    }, this);
+    return finished;
   },
   _doPaintEl: function (el, currentLayer, forcePaint, scope) {
     var ctx = currentLayer.ctx;
@@ -557,11 +486,12 @@ Painter.prototype = {
   /**
    * 获取 zlevel 所在层，如果不存在则会创建一个新的层
    * @param {number} zlevel
+   * @param {boolean} virtual Virtual layer will not be inserted into dom.
    * @return {module:zrender/Layer}
    */
-  getLayer: function (zlevel) {
-    if (this._singleCanvas) {
-      return this._layers[0];
+  getLayer: function (zlevel, virtual) {
+    if (this._singleCanvas && !this._needsManuallyCompositing) {
+      zlevel = CANVAS_ZLEVEL;
     }
 
     var layer = this._layers[zlevel];
@@ -569,10 +499,15 @@ Painter.prototype = {
     if (!layer) {
       // Create a new layer
       layer = new Layer('zr_' + zlevel, this, this.dpr);
+      layer.zlevel = zlevel;
       layer.__builtin__ = true;
 
       if (this._layerConfig[zlevel]) {
         util.merge(layer, this._layerConfig[zlevel], true);
+      }
+
+      if (virtual) {
+        layer.virtual = virtual;
       }
 
       this.insertLayer(zlevel, layer); // Context is created after dom inserted to document
@@ -687,96 +622,93 @@ Painter.prototype = {
     return this._layers;
   },
   _updateLayerStatus: function (list) {
-    var layers = this._layers;
-    var progressiveLayers = this._progressiveLayers;
-    var elCountsLastFrame = {};
-    var progressiveElCountsLastFrame = {};
     this.eachBuiltinLayer(function (layer, z) {
-      elCountsLastFrame[z] = layer.elCount;
-      layer.elCount = 0;
-      layer.__dirty = false;
+      layer.__dirty = layer.__used = false;
     });
-    util.each(progressiveLayers, function (layer, idx) {
-      progressiveElCountsLastFrame[idx] = layer.elCount;
-      layer.elCount = 0;
-      layer.__dirty = false;
-    });
-    var progressiveLayerCount = 0;
-    var currentProgressiveLayer;
-    var lastProgressiveKey;
-    var frameCount = 0;
 
-    for (var i = 0, l = list.length; i < l; i++) {
-      var el = list[i];
-      var zlevel = this._singleCanvas ? 0 : el.zlevel;
-      var layer = layers[zlevel];
-      var elProgress = el.progressive;
-
-      if (layer) {
-        layer.elCount++;
-        layer.__dirty = layer.__dirty || el.__dirty;
-      } /////// Update progressive
-
-
-      if (elProgress >= 0) {
-        // Fix wrong progressive sequence problem.
-        if (lastProgressiveKey !== elProgress) {
-          lastProgressiveKey = elProgress;
-          frameCount++;
+    function updatePrevLayer(idx) {
+      if (prevLayer) {
+        if (prevLayer.__endIndex !== idx) {
+          prevLayer.__dirty = true;
         }
 
-        var elFrame = el.__frame = frameCount - 1;
+        prevLayer.__endIndex = idx;
+      }
+    }
 
-        if (!currentProgressiveLayer) {
-          var idx = Math.min(progressiveLayerCount, MAX_PROGRESSIVE_LAYER_NUMBER - 1);
-          currentProgressiveLayer = progressiveLayers[idx];
+    if (this._singleCanvas) {
+      for (var i = 1; i < list.length; i++) {
+        var el = list[i];
 
-          if (!currentProgressiveLayer) {
-            currentProgressiveLayer = progressiveLayers[idx] = new Layer('progressive', this, this.dpr);
-            currentProgressiveLayer.initContext();
-          }
-
-          currentProgressiveLayer.__maxProgress = 0;
-        }
-
-        currentProgressiveLayer.__dirty = currentProgressiveLayer.__dirty || el.__dirty;
-        currentProgressiveLayer.elCount++;
-        currentProgressiveLayer.__maxProgress = Math.max(currentProgressiveLayer.__maxProgress, elFrame);
-
-        if (currentProgressiveLayer.__maxProgress >= currentProgressiveLayer.__progress) {
-          // Should keep rendering this  layer because progressive rendering is not finished yet
-          layer.__dirty = true;
-        }
-      } else {
-        el.__frame = -1;
-
-        if (currentProgressiveLayer) {
-          currentProgressiveLayer.__nextIdxNotProg = i;
-          progressiveLayerCount++;
-          currentProgressiveLayer = null;
+        if (el.zlevel !== list[i - 1].zlevel || el.incremental) {
+          this._needsManuallyCompositing = true;
+          break;
         }
       }
     }
 
-    if (currentProgressiveLayer) {
-      progressiveLayerCount++;
-      currentProgressiveLayer.__nextIdxNotProg = i;
-    } // 层中的元素数量有发生变化
+    var prevLayer = null;
+    var incrementalLayerCount = 0;
 
+    for (var i = 0; i < list.length; i++) {
+      var el = list[i];
+      var zlevel = el.zlevel;
+      var layer; // PENDING If change one incremental element style ?
+      // TODO Where there are non-incremental elements between incremental elements.
 
-    this.eachBuiltinLayer(function (layer, z) {
-      if (elCountsLastFrame[z] !== layer.elCount) {
+      if (el.incremental) {
+        layer = this.getLayer(zlevel + INCREMENTAL_INC, this._needsManuallyCompositing);
+        layer.incremental = true;
+        incrementalLayerCount = 1;
+      } else {
+        layer = this.getLayer(zlevel + (incrementalLayerCount > 0 ? EL_AFTER_INCREMENTAL_INC : 0), this._needsManuallyCompositing);
+      }
+
+      if (!layer.__builtin__) {
+        log('ZLevel ' + zlevel + ' has been used by unkown layer ' + layer.id);
+      }
+
+      if (layer !== prevLayer) {
+        layer.__used = true;
+
+        if (layer.__startIndex !== i) {
+          layer.__dirty = true;
+        }
+
+        layer.__startIndex = i;
+
+        if (!layer.incremental) {
+          layer.__drawIndex = i;
+        } else {
+          // Mark layer draw index needs to update.
+          layer.__drawIndex = -1;
+        }
+
+        updatePrevLayer(i);
+        prevLayer = layer;
+      }
+
+      if (el.__dirty) {
         layer.__dirty = true;
-      }
-    });
-    progressiveLayers.length = Math.min(progressiveLayerCount, MAX_PROGRESSIVE_LAYER_NUMBER);
-    util.each(progressiveLayers, function (layer, idx) {
-      if (progressiveElCountsLastFrame[idx] !== layer.elCount) {
-        el.__dirty = true;
-      }
 
-      if (layer.__dirty) {
-        layer.__progress = 0;
+        if (layer.incremental && layer.__drawIndex < 0) {
+          // Start draw from the first dirty element.
+          layer.__drawIndex = i;
+        }
+      }
+    }
+
+    updatePrevLayer(i);
+    this.eachBuiltinLayer(function (layer, z) {
+      // Used in last frame but not in this frame. Needs clear
+      if (!layer.__used && layer.getElementCount() > 0) {
+        layer.__dirty = true;
+        layer.__startIndex = layer.__endIndex = layer.__drawIndex = 0;
+      } // For incremental layer. In case start index changed and no elements are dirty.
+
+
+      if (layer.__dirty && layer.__drawIndex < 0) {
+        layer.__drawIndex = layer.__startIndex;
       }
     });
   },
@@ -812,10 +744,13 @@ Painter.prototype = {
         util.merge(layerConfig[zlevel], config, true);
       }
 
-      var layer = this._layers[zlevel];
+      for (var i = 0; i < this._zlevelList.length; i++) {
+        var _zlevel = this._zlevelList[i];
 
-      if (layer) {
-        util.merge(layer, layerConfig[zlevel], true);
+        if (_zlevel === zlevel || _zlevel === zlevel + EL_AFTER_INCREMENTAL_INC) {
+          var layer = this._layers[_zlevel];
+          util.merge(layer, layerConfig[zlevel], true);
+        }
       }
     }
   },
@@ -842,35 +777,47 @@ Painter.prototype = {
    * 区域大小变化后重绘
    */
   resize: function (width, height) {
-    var domRoot = this._domRoot; // FIXME Why ?
-
-    domRoot.style.display = 'none'; // Save input w/h
-
-    var opts = this._opts;
-    width != null && (opts.width = width);
-    height != null && (opts.height = height);
-    width = this._getSize(0);
-    height = this._getSize(1);
-    domRoot.style.display = ''; // 优化没有实际改变的resize
-
-    if (this._width != width || height != this._height) {
-      domRoot.style.width = width + 'px';
-      domRoot.style.height = height + 'px';
-
-      for (var id in this._layers) {
-        if (this._layers.hasOwnProperty(id)) {
-          this._layers[id].resize(width, height);
-        }
+    if (!this._domRoot.style) {
+      // Maybe in node or worker
+      if (width == null || height == null) {
+        return;
       }
 
-      util.each(this._progressiveLayers, function (layer) {
-        layer.resize(width, height);
-      });
-      this.refresh(true);
+      this._width = width;
+      this._height = height;
+      this.getLayer(CANVAS_ZLEVEL).resize(width, height);
+    } else {
+      var domRoot = this._domRoot; // FIXME Why ?
+
+      domRoot.style.display = 'none'; // Save input w/h
+
+      var opts = this._opts;
+      width != null && (opts.width = width);
+      height != null && (opts.height = height);
+      width = this._getSize(0);
+      height = this._getSize(1);
+      domRoot.style.display = ''; // 优化没有实际改变的resize
+
+      if (this._width != width || height != this._height) {
+        domRoot.style.width = width + 'px';
+        domRoot.style.height = height + 'px';
+
+        for (var id in this._layers) {
+          if (this._layers.hasOwnProperty(id)) {
+            this._layers[id].resize(width, height);
+          }
+        }
+
+        util.each(this._progressiveLayers, function (layer) {
+          layer.resize(width, height);
+        });
+        this.refresh(true);
+      }
+
+      this._width = width;
+      this._height = height;
     }
 
-    this._width = width;
-    this._height = height;
     return this;
   },
 
@@ -903,57 +850,41 @@ Painter.prototype = {
   getRenderedCanvas: function (opts) {
     opts = opts || {};
 
-    if (this._singleCanvas) {
-      return this._layers[0].dom;
+    if (this._singleCanvas && !this._compositeManually) {
+      return this._layers[CANVAS_ZLEVEL].dom;
     }
 
     var imageLayer = new Layer('image', this, opts.pixelRatio || this.dpr);
     imageLayer.initContext();
     imageLayer.clearColor = opts.backgroundColor;
     imageLayer.clear();
-    var displayList = this.storage.getDisplayList(true);
-    var scope = {};
-    var zlevel;
-    var self = this;
 
-    function findAndDrawOtherLayer(smaller, larger) {
-      var zlevelList = self._zlevelList;
-
-      if (smaller == null) {
-        smaller = -Infinity;
-      }
-
-      var intermediateLayer;
-
-      for (var i = 0; i < zlevelList.length; i++) {
-        var z = zlevelList[i];
-        var layer = self._layers[z];
-
-        if (!layer.__builtin__ && z > smaller && z < larger) {
-          intermediateLayer = layer;
-          break;
+    if (opts.pixelRatio <= this.dpr) {
+      this.refresh();
+      var width = imageLayer.dom.width;
+      var height = imageLayer.dom.height;
+      var ctx = imageLayer.ctx;
+      this.eachLayer(function (layer) {
+        if (layer.__builtin__) {
+          ctx.drawImage(layer.dom, 0, 0, width, height);
+        } else if (layer.renderToCanvas) {
+          imageLayer.ctx.save();
+          layer.renderToCanvas(imageLayer.ctx);
+          imageLayer.ctx.restore();
         }
-      }
+      });
+    } else {
+      // PENDING, echarts-gl and incremental rendering.
+      var scope = {};
+      var displayList = this.storage.getDisplayList(true);
 
-      if (intermediateLayer && intermediateLayer.renderToCanvas) {
-        imageLayer.ctx.save();
-        intermediateLayer.renderToCanvas(imageLayer.ctx);
-        imageLayer.ctx.restore();
+      for (var i = 0; i < displayList.length; i++) {
+        var el = displayList[i];
+
+        this._doPaintEl(el, imageLayer, true, scope);
       }
     }
 
-    for (var i = 0; i < displayList.length; i++) {
-      var el = displayList[i];
-
-      if (el.zlevel !== zlevel) {
-        findAndDrawOtherLayer(zlevel, el.zlevel);
-        zlevel = el.zlevel;
-      }
-
-      this._doPaintEl(el, imageLayer, true, scope);
-    }
-
-    findAndDrawOtherLayer(zlevel, Infinity);
     return imageLayer.dom;
   },
 
@@ -992,9 +923,9 @@ Painter.prototype = {
     var ctx = canvas.getContext('2d');
     var rect = path.getBoundingRect();
     var style = path.style;
-    var shadowBlurSize = style.shadowBlur;
-    var shadowOffsetX = style.shadowOffsetX;
-    var shadowOffsetY = style.shadowOffsetY;
+    var shadowBlurSize = style.shadowBlur * dpr;
+    var shadowOffsetX = style.shadowOffsetX * dpr;
+    var shadowOffsetY = style.shadowOffsetY * dpr;
     var lineWidth = style.hasStroke() ? style.lineWidth : 0;
     var leftMargin = Math.max(lineWidth / 2, -shadowOffsetX + shadowBlurSize);
     var rightMargin = Math.max(lineWidth / 2, shadowOffsetX + shadowBlurSize);

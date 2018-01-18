@@ -5,7 +5,7 @@ import * as zrUtil from 'zrender/src/core/util';
 import { createSymbol } from '../../util/symbol';
 import * as graphic from '../../util/graphic';
 import { parsePercent } from '../../util/number';
-import { findLabelValueDim } from './labelHelper';
+import { getDefaultLabel } from './labelHelper';
 
 function getSymbolSize(data, idx) {
   var symbolSize = data.getItemVisual(idx, 'symbolSize');
@@ -177,10 +177,10 @@ symbolProto.updateData = function (data, idx, seriesScope) {
 }; // Update common properties
 
 
-var normalStyleAccessPath = ['itemStyle', 'normal'];
-var emphasisStyleAccessPath = ['itemStyle', 'emphasis'];
-var normalLabelAccessPath = ['label', 'normal'];
-var emphasisLabelAccessPath = ['label', 'emphasis'];
+var normalStyleAccessPath = ['itemStyle'];
+var emphasisStyleAccessPath = ['emphasis', 'itemStyle'];
+var normalLabelAccessPath = ['label'];
+var emphasisLabelAccessPath = ['emphasis', 'label'];
 /**
  * @param {module:echarts/data/List} data
  * @param {number} idx
@@ -242,16 +242,16 @@ symbolProto._updateCommon = function (data, idx, symbolSize, seriesScope) {
   }
 
   var useNameLabel = seriesScope && seriesScope.useNameLabel;
-  var valueDim = !useNameLabel && findLabelValueDim(data);
+  graphic.setLabelStyle(elStyle, hoverItemStyle, labelModel, hoverLabelModel, {
+    labelFetcher: seriesModel,
+    labelDataIndex: idx,
+    defaultText: getLabelDefaultText,
+    isRectText: true,
+    autoColor: color
+  }); // Do not execute util needed.
 
-  if (useNameLabel || valueDim != null) {
-    graphic.setLabelStyle(elStyle, hoverItemStyle, labelModel, hoverLabelModel, {
-      labelFetcher: seriesModel,
-      labelDataIndex: idx,
-      defaultText: useNameLabel ? data.getName(idx) : data.get(valueDim, idx),
-      isRectText: true,
-      autoColor: color
-    });
+  function getLabelDefaultText(idx, opt) {
+    return useNameLabel ? data.getName(idx) : getDefaultLabel(data, idx);
   }
 
   symbolPath.off('mouseover').off('mouseout').off('emphasis').off('normal');

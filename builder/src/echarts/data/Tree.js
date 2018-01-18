@@ -5,9 +5,9 @@
  */
 import * as zrUtil from 'zrender/src/core/util';
 import Model from '../model/Model';
-import List from './List';
 import linkList from './helper/linkList';
-import completeDimensions from './helper/completeDimensions';
+import List from './List';
+import createDimensions from './helper/createDimensions';
 /**
  * @constructor module:echarts/data/Tree~TreeNode
  * @param {string} name
@@ -293,6 +293,38 @@ TreeNode.prototype = {
    */
   getId: function () {
     return this.hostTree.data.getId(this.dataIndex);
+  },
+
+  /**
+   * if this is an ancestor of another node
+   *
+   * @public
+   * @param {TreeNode} node another node
+   * @return {boolean} if is ancestor
+   */
+  isAncestorOf: function (node) {
+    var parent = node.parentNode;
+
+    while (parent) {
+      if (parent === this) {
+        return true;
+      }
+
+      parent = parent.parentNode;
+    }
+
+    return false;
+  },
+
+  /**
+   * if this is an descendant of another node
+   *
+   * @public
+   * @param {TreeNode} node another node
+   * @return {boolean} if is descendant
+   */
+  isDescendantOf: function (node) {
+    return node !== this && node.isAncestorOf(this);
   }
 };
 /**
@@ -456,12 +488,11 @@ Tree.createTree = function (dataRoot, hostModel, treeOptions) {
   }
 
   tree.root.updateDepthAndHeight(0);
-  var dimensions = completeDimensions([{
-    name: 'value'
-  }], listData, {
-    dimCount: dimMax
+  var dimensionsInfo = createDimensions(listData, {
+    coordDimensions: ['value'],
+    dimensionsCount: dimMax
   });
-  var list = new List(dimensions, hostModel);
+  var list = new List(dimensionsInfo, hostModel);
   list.initData(listData);
   linkList({
     mainData: list,

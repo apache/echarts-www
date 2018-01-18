@@ -366,6 +366,7 @@ var SliderZoomView = DataZoomView.extend({
           otherAxisInverse = coordSys.getOtherAxis(thisAxis).inverse;
         }
 
+        otherDim = seriesModel.getData().mapDimension(otherDim);
         result = {
           thisAxis: thisAxis,
           series: seriesModel,
@@ -609,16 +610,17 @@ var SliderZoomView = DataZoomView.extend({
 
     this._updateView(!realtime);
 
-    if (realtime) {
-      realtime && this._dispatchZoomAction();
-    }
+    realtime && this._dispatchZoomAction();
   },
   _onDragEnd: function () {
     this._dragging = false;
 
-    this._showDataInfo(false);
+    this._showDataInfo(false); // While in realtime mode and stream mode, dispatch action when
+    // drag end will cause the whole view rerender, which is unnecessary.
 
-    this._dispatchZoomAction();
+
+    var realtime = this.dataZoomModel.get('realtime');
+    !realtime && this._dispatchZoomAction();
   },
   _onClickPanelClick: function (e) {
     var size = this._size;

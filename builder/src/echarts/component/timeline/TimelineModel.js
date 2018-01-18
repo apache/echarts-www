@@ -34,15 +34,9 @@ var TimelineModel = ComponentModel.extend({
     playInterval: 2000,
     // 播放时间间隔，单位ms
     currentIndex: 0,
-    itemStyle: {
-      normal: {},
-      emphasis: {}
-    },
+    itemStyle: {},
     label: {
-      normal: {
-        color: '#000'
-      },
-      emphasis: {}
+      color: '#000'
     },
     data: []
   },

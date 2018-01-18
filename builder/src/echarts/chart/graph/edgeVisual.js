@@ -12,8 +12,8 @@ export default function (ecModel) {
     var edgeData = seriesModel.getEdgeData();
     var symbolType = normalize(seriesModel.get('edgeSymbol'));
     var symbolSize = normalize(seriesModel.get('edgeSymbolSize'));
-    var colorQuery = 'lineStyle.normal.color'.split('.');
-    var opacityQuery = 'lineStyle.normal.opacity'.split('.');
+    var colorQuery = 'lineStyle.color'.split('.');
+    var opacityQuery = 'lineStyle.opacity'.split('.');
     edgeData.setVisual('fromSymbol', symbolType && symbolType[0]);
     edgeData.setVisual('toSymbol', symbolType && symbolType[1]);
     edgeData.setVisual('fromSymbolSize', symbolSize && symbolSize[0]);

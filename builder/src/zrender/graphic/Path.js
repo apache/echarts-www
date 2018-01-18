@@ -113,11 +113,12 @@ Path.prototype = {
       // PENDING
       // Remove lineDash
       ctx.setLineDash([]);
-    }
+    } // Draw rect text
 
-    this.restoreTransform(ctx); // Draw rect text
 
     if (style.text != null) {
+      // Only restore transform when needs draw text.
+      this.restoreTransform(ctx);
       this.drawRectText(ctx, this.getBoundingRect());
     }
   },

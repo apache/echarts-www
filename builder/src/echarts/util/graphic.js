@@ -5,7 +5,7 @@ import * as matrix from 'zrender/src/core/matrix';
 import * as vector from 'zrender/src/core/vector';
 import Path from 'zrender/src/graphic/Path';
 import Transformable from 'zrender/src/mixin/Transformable';
-import Image from 'zrender/src/graphic/Image';
+import ZImage from 'zrender/src/graphic/Image';
 import Group from 'zrender/src/container/Group';
 import Text from 'zrender/src/graphic/Text';
 import Circle from 'zrender/src/graphic/shape/Circle';
@@ -21,6 +21,7 @@ import CompoundPath from 'zrender/src/graphic/CompoundPath';
 import LinearGradient from 'zrender/src/graphic/LinearGradient';
 import RadialGradient from 'zrender/src/graphic/RadialGradient';
 import BoundingRect from 'zrender/src/core/BoundingRect';
+import IncrementalDisplayable from 'zrender/src/graphic/IncrementalDisplayable';
 var round = Math.round;
 var mathMax = Math.max;
 var mathMin = Math.min;
@@ -70,7 +71,7 @@ export function makePath(pathData, opts, rect, layout) {
  */
 
 export function makeImage(imageUrl, rect, layout) {
-  var path = new Image({
+  var path = new ZImage({
     style: {
       image: imageUrl,
       x: rect.x,
@@ -263,16 +264,16 @@ function doSingleEnterHover(el) {
 
     insideRollbackOpt && rollbackInsideStyle(style); // styles can be:
     // {
-    //     label: {
-    //         normal: {
-    //             show: false,
-    //             position: 'outside',
-    //             fontSize: 18
-    //         },
-    //         emphasis: {
-    //             show: true
-    //         }
-    //     }
+    //    label: {
+    //        show: false,
+    //        position: 'outside',
+    //        fontSize: 18
+    //    },
+    //    emphasis: {
+    //        label: {
+    //            show: true
+    //        }
+    //    }
     // },
     // where properties of `emphasis` may not appear in `normal`. We previously use
     // module:echarts/util/model#defaultEmphasis to merge `normal` to `emphasis`.
@@ -436,7 +437,7 @@ export function setHoverStyle(el, hoverStyle, opt) {
  * @param {module:echarts/model/Model} normalModel
  * @param {module:echarts/model/Model} emphasisModel
  * @param {Object} opt Check `opt` of `setTextStyleCommon` to find other props.
- * @param {Object} [opt.defaultText]
+ * @param {string|Function} [opt.defaultText]
  * @param {module:echarts/model/Model} [opt.labelFetcher] Fetch text by
  *      `opt.labelFetcher.getFormattedLabel(opt.labelDataIndex, 'normal'/'emphasis', null, opt.labelDimIndex)`
  * @param {module:echarts/model/Model} [opt.labelDataIndex] Fetch text by
@@ -459,7 +460,18 @@ export function setLabelStyle(normalStyle, emphasisStyle, normalModel, emphasisM
   // If `normal.show` is `false` and `emphasis.show` is `true` and `emphasis.formatter` is not set,
   // label should be displayed, where text is fetched by `normal.formatter` or `opt.defaultText`.
 
-  var baseText = showNormal || showEmphasis ? zrUtil.retrieve2(labelFetcher ? labelFetcher.getFormattedLabel(labelDataIndex, 'normal', null, labelDimIndex) : null, opt.defaultText) : null;
+  var baseText;
+
+  if (showNormal || showEmphasis) {
+    if (labelFetcher) {
+      baseText = labelFetcher.getFormattedLabel(labelDataIndex, 'normal', null, labelDimIndex);
+    }
+
+    if (baseText == null) {
+      baseText = zrUtil.isFunction(opt.defaultText) ? opt.defaultText(labelDataIndex, opt) : opt.defaultText;
+    }
+  }
+
   var normalStyleText = showNormal ? baseText : null;
   var emphasisStyleText = showEmphasis ? zrUtil.retrieve2(labelFetcher ? labelFetcher.getFormattedLabel(labelDataIndex, 'emphasis', null, labelDimIndex) : null, baseText) : null; // Optimize: If style.text is null, text will not be drawn.
 
@@ -557,10 +569,8 @@ function setTextStyleCommon(textStyle, textStyleModel, opt, isEmphasis) {
   //     data: [{
   //         value: 12,
   //         label: {
-  //             normal: {
-  //                 rich: {
-  //                     // no 'a' here but using parent 'a'.
-  //                 }
+  //             rich: {
+  //                 // no 'a' here but using parent 'a'.
   //             }
   //         }
   //     }],
@@ -598,10 +608,8 @@ function setTextStyleCommon(textStyle, textStyleModel, opt, isEmphasis) {
 //     data: [{
 //         value: 12,
 //         label: {
-//             normal: {
-//                 rich: {
-//                     // no 'a' here but using parent 'a'.
-//                 }
+//             rich: {
+//                 // no 'a' here but using parent 'a'.
 //             }
 //         }
 //     }],
@@ -729,8 +737,8 @@ function rollbackInsideStyle(style) {
 export function getFont(opt, ecModel) {
   // ecModel or default text style model.
   var gTextStyleModel = ecModel || ecModel.getModel('textStyle');
-  return [// FIXME in node-canvas fontWeight is before fontStyle
-  opt.fontStyle || gTextStyleModel && gTextStyleModel.getShallow('fontStyle') || '', opt.fontWeight || gTextStyleModel && gTextStyleModel.getShallow('fontWeight') || '', (opt.fontSize || gTextStyleModel && gTextStyleModel.getShallow('fontSize') || 12) + 'px', opt.fontFamily || gTextStyleModel && gTextStyleModel.getShallow('fontFamily') || 'sans-serif'].join(' ');
+  return zrUtil.trim([// FIXME in node-canvas fontWeight is before fontStyle
+  opt.fontStyle || gTextStyleModel && gTextStyleModel.getShallow('fontStyle') || '', opt.fontWeight || gTextStyleModel && gTextStyleModel.getShallow('fontWeight') || '', (opt.fontSize || gTextStyleModel && gTextStyleModel.getShallow('fontSize') || 12) + 'px', opt.fontFamily || gTextStyleModel && gTextStyleModel.getShallow('fontFamily') || 'sans-serif'].join(' '));
 }
 
 function animateOrSetProps(isUpdate, el, props, animatableModel, dataIndex, cb) {
@@ -975,7 +983,7 @@ export function createIcon(iconStr, opt, rect) {
   };
 
   if (iconStr) {
-    return iconStr.indexOf('image://') === 0 ? (style.image = iconStr.slice(8), zrUtil.defaults(style, rect), new Image(opt)) : makePath(iconStr.replace('path://', ''), opt, rect, 'center');
+    return iconStr.indexOf('image://') === 0 ? (style.image = iconStr.slice(8), zrUtil.defaults(style, rect), new ZImage(opt)) : makePath(iconStr.replace('path://', ''), opt, rect, 'center');
   }
 }
-export { Group, Image, Text, Circle, Sector, Ring, Polygon, Polyline, Rect, Line, BezierCurve, Arc, CompoundPath, LinearGradient, RadialGradient, BoundingRect };
+export { Group, ZImage as Image, Text, Circle, Sector, Ring, Polygon, Polyline, Rect, Line, BezierCurve, Arc, IncrementalDisplayable, CompoundPath, LinearGradient, RadialGradient, BoundingRect };

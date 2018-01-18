@@ -89,6 +89,10 @@ function assembleCssText(tooltipModel) {
 
 
 function TooltipContent(container, api) {
+  if (env.wxa) {
+    return null;
+  }
+
   var el = document.createElement('div');
   var zr = this._zr = api.getZr();
   this.el = el;

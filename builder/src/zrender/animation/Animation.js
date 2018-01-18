@@ -143,7 +143,9 @@ Animation.prototype = {
     }
 
     this._time = time;
-    this.onframe(delta);
+    this.onframe(delta); // Frame should before stage update. Upper application
+    // depends on the sequence (e.g., echarts-stream)
+
     this.trigger('frame', delta);
 
     if (this.stage.update) {

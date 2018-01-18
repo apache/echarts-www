@@ -2,14 +2,10 @@ import VisualMapping from '../../visual/VisualMapping';
 import * as zrColor from 'zrender/src/tool/color';
 import * as zrUtil from 'zrender/src/core/util';
 var isArray = zrUtil.isArray;
-var ITEM_STYLE_NORMAL = 'itemStyle.normal';
-export default function (ecModel, api, payload) {
-  var condition = {
-    mainType: 'series',
-    subType: 'treemap',
-    query: payload
-  };
-  ecModel.eachComponent(condition, function (seriesModel) {
+var ITEM_STYLE_NORMAL = 'itemStyle';
+export default {
+  seriesType: 'treemap',
+  reset: function (seriesModel, ecModel, api, payload) {
     var tree = seriesModel.getData().tree;
     var root = tree.root;
     var seriesItemStyleModel = seriesModel.getModel(ITEM_STYLE_NORMAL);
@@ -23,8 +19,8 @@ export default function (ecModel, api, payload) {
     });
     travelTree(root, // Visual should calculate from tree root but not view root.
     {}, levelItemStyles, seriesItemStyleModel, seriesModel.getViewRoot().getAncestors(), seriesModel);
-  });
-}
+  }
+};
 
 function travelTree(node, designatedVisual, levelItemStyles, seriesItemStyleModel, viewRootAncestors, seriesModel) {
   var nodeModel = node.getModel();

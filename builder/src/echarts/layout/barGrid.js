@@ -21,7 +21,7 @@ function getAxisKey(axis) {
  */
 
 
-function getLayoutOnAxis(opt, api) {
+export function getLayoutOnAxis(opt, api) {
   var params = [];
   var baseAxis = opt.axis;
   var axisKey = 'axis0';
@@ -51,8 +51,7 @@ function getLayoutOnAxis(opt, api) {
 
   return result;
 }
-
-function calBarWidthAndOffset(barSeries, api) {
+export function calBarWidthAndOffset(barSeries, api) {
   var seriesInfoList = zrUtil.map(barSeries, function (seriesModel) {
     var data = seriesModel.getData();
     var cartesian = seriesModel.coordinateSystem;
@@ -186,7 +185,7 @@ function doCalBarWidthAndOffset(seriesInfoList, api) {
  */
 
 
-function barLayoutGrid(seriesType, ecModel, api) {
+export function layout(seriesType, ecModel, api) {
   var barWidthAndOffset = calBarWidthAndOffset(zrUtil.filter(ecModel.getSeriesByType(seriesType), function (seriesModel) {
     return !ecModel.isSeriesFiltered(seriesModel) && seriesModel.coordinateSystem && seriesModel.coordinateSystem.type === 'cartesian2d';
   }));
@@ -208,7 +207,7 @@ function barLayoutGrid(seriesType, ecModel, api) {
     var valueAxis = cartesian.getOtherAxis(baseAxis);
     var barMinHeight = seriesModel.get('barMinHeight') || 0;
     var valueAxisStart = baseAxis.onZero ? valueAxis.toGlobalCoord(valueAxis.dataToCoord(0)) : valueAxis.getGlobalExtent()[0];
-    var coordDims = [seriesModel.coordDimToDataDim('x')[0], seriesModel.coordDimToDataDim('y')[0]];
+    var coordDims = [data.mapDimension('x'), data.mapDimension('y')];
     var coords = data.mapArray(coordDims, function (x, y) {
       return cartesian.dataToPoint([x, y]);
     }, true);
@@ -219,7 +218,7 @@ function barLayoutGrid(seriesType, ecModel, api) {
       offset: columnOffset,
       size: columnWidth
     });
-    data.each(seriesModel.coordDimToDataDim(valueAxis.dim)[0], function (value, idx) {
+    data.each(data.mapDimension(valueAxis.dim), function (value, idx) {
       if (isNaN(value)) {
         return;
       }
@@ -284,6 +283,3 @@ function barLayoutGrid(seriesType, ecModel, api) {
     }, true);
   }, this);
 }
-
-barLayoutGrid.getLayoutOnAxis = getLayoutOnAxis;
-export default barLayoutGrid;

@@ -10,8 +10,9 @@ import * as echarts from '../../echarts';
 
 echarts.registerAction({
   type: 'brush',
-  event: 'brush',
-  update: 'updateView'
+  event: 'brush'
+  /*, update: 'updateView' */
+
 }, function (payload, ecModel) {
   ecModel.eachComponent({
     mainType: 'brush',

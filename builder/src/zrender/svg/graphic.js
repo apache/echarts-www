@@ -88,9 +88,10 @@ function bindStyle(svgEl, style, isText) {
     stroke = stroke === 'transparent' ? NONE : stroke;
     attr(svgEl, 'stroke', stroke);
     var strokeWidth = isText ? style.textStrokeWidth : style.lineWidth;
-    var strokeScale = style.strokeNoScale ? style.host.getLineScale() : 1;
-    attr(svgEl, 'stroke-width', strokeWidth / strokeScale);
-    attr(svgEl, 'paint-order', 'stroke');
+    var strokeScale = !isText && style.strokeNoScale ? style.host.getLineScale() : 1;
+    attr(svgEl, 'stroke-width', strokeWidth / strokeScale); // stroke then fill for text; fill then stroke for others
+
+    attr(svgEl, 'paint-order', isText ? 'stroke' : 'fill');
     attr(svgEl, 'stroke-opacity', style.opacity);
     var lineDash = style.lineDash;
 
@@ -155,7 +156,7 @@ function pathDataToString(path) {
         var psi = data[i++];
         var clockwise = data[i++];
         var dThetaPositive = Math.abs(dTheta);
-        var isCircle = isAroundZero(dThetaPositive % PI2) && !isAroundZero(dThetaPositive);
+        var isCircle = isAroundZero(dThetaPositive - PI2) && !isAroundZero(dThetaPositive);
         var large = false;
 
         if (dThetaPositive >= PI2) {

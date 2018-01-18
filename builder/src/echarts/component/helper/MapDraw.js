@@ -139,10 +139,10 @@ MapDraw.prototype = {
     }
 
     group.removeAll();
-    var itemStyleAccessPath = ['itemStyle', 'normal'];
-    var hoverItemStyleAccessPath = ['itemStyle', 'emphasis'];
-    var labelAccessPath = ['label', 'normal'];
-    var hoverLabelAccessPath = ['label', 'emphasis'];
+    var itemStyleAccessPath = ['itemStyle'];
+    var hoverItemStyleAccessPath = ['emphasis', 'itemStyle'];
+    var labelAccessPath = ['label'];
+    var hoverLabelAccessPath = ['emphasis', 'label'];
     var nameMap = zrUtil.createHashMap();
     zrUtil.each(geo.regions, function (region) {
       // Consider in GeoJson properties.name may be duplicated, for example,
@@ -204,7 +204,7 @@ MapDraw.prototype = {
 
       var showLabel = labelModel.get('show');
       var hoverShowLabel = hoverLabelModel.get('show');
-      var isDataNaN = data && isNaN(data.get('value', dataIdx));
+      var isDataNaN = data && isNaN(data.get(data.mapDimension('value'), dataIdx));
       var itemLayout = data && data.getItemLayout(dataIdx); // In the following cases label will be drawn
       // 1. In map series and data value is NaN
       // 2. In geo component

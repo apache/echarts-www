@@ -1,21 +1,40 @@
-import { set, get } from '../../util/clazz';
+import { makeInner, normalizeToArray } from '../../util/model';
+var inner = makeInner();
+
+function getNearestColorPalette(colors, requestColorNum) {
+  var paletteNum = colors.length; // TODO colors must be in order
+
+  for (var i = 0; i < paletteNum; i++) {
+    if (colors[i].length > requestColorNum) {
+      return colors[i];
+    }
+  }
+
+  return colors[paletteNum - 1];
+}
+
 export default {
   clearColorPalette: function () {
-    set(this, 'colorIdx', 0);
-    set(this, 'colorNameMap', {});
+    inner(this).colorIdx = 0;
+    inner(this).colorNameMap = {};
   },
-  getColorFromPalette: function (name, scope) {
+  getColorFromPalette: function (name, scope, requestColorNum) {
     scope = scope || this;
-    var colorIdx = get(scope, 'colorIdx') || 0;
-    var colorNameMap = get(scope, 'colorNameMap') || set(scope, 'colorNameMap', {}); // Use `hasOwnProperty` to avoid conflict with Object.prototype.
+    var scopeFields = inner(scope);
+    var colorIdx = scopeFields.colorIdx || 0;
+    var colorNameMap = scopeFields.colorNameMap = scopeFields.colorNameMap || {}; // Use `hasOwnProperty` to avoid conflict with Object.prototype.
 
     if (colorNameMap.hasOwnProperty(name)) {
       return colorNameMap[name];
     }
 
-    var colorPalette = this.get('color', true) || [];
+    var defaultColorPalette = normalizeToArray(this.get('color', true));
+    var layeredColorPalette = this.get('colorLayer', true);
+    var colorPalette = requestColorNum == null || !layeredColorPalette ? defaultColorPalette : getNearestColorPalette(layeredColorPalette, requestColorNum); // In case can't find in layered color palette.
 
-    if (!colorPalette.length) {
+    colorPalette = colorPalette || defaultColorPalette;
+
+    if (!colorPalette || !colorPalette.length) {
       return;
     }
 
@@ -25,7 +44,7 @@ export default {
       colorNameMap[name] = color;
     }
 
-    set(scope, 'colorIdx', (colorIdx + 1) % colorPalette.length);
+    scopeFields.colorIdx = (colorIdx + 1) % colorPalette.length;
     return color;
   }
 };

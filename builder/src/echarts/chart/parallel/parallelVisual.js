@@ -1,13 +1,13 @@
 var opacityAccessPath = ['lineStyle', 'normal', 'opacity'];
 export default function (ecModel) {
   ecModel.eachSeriesByType('parallel', function (seriesModel) {
-    var itemStyleModel = seriesModel.getModel('itemStyle.normal');
-    var lineStyleModel = seriesModel.getModel('lineStyle.normal');
+    var itemStyleModel = seriesModel.getModel('itemStyle');
+    var lineStyleModel = seriesModel.getModel('lineStyle');
     var globalColors = ecModel.get('color');
     var color = lineStyleModel.get('color') || itemStyleModel.get('color') || globalColors[seriesModel.seriesIndex % globalColors.length];
     var inactiveOpacity = seriesModel.get('inactiveOpacity');
     var activeOpacity = seriesModel.get('activeOpacity');
-    var lineStyle = seriesModel.getModel('lineStyle.normal').getLineStyle();
+    var lineStyle = seriesModel.getModel('lineStyle').getLineStyle();
     var coordSys = seriesModel.coordinateSystem;
     var data = seriesModel.getData();
     var opacityMap = {

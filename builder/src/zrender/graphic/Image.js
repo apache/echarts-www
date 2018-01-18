@@ -65,11 +65,12 @@ ZImage.prototype = {
       ctx.drawImage(image, sx, sy, sWidth, sHeight, x, y, width, height);
     } else {
       ctx.drawImage(image, x, y, width, height);
-    }
+    } // Draw rect text
 
-    this.restoreTransform(ctx); // Draw rect text
 
     if (style.text != null) {
+      // Only restore transform when needs draw text.
+      this.restoreTransform(ctx);
       this.drawRectText(ctx, this.getBoundingRect());
     }
   },

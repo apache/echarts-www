@@ -1,6 +1,6 @@
 import * as zrUtil from 'zrender/src/core/util';
 import TimelineModel from './TimelineModel';
-import * as modelUtil from '../../util/model';
+import dataFormatMixin from '../../model/mixin/dataFormat';
 var SliderTimelineModel = TimelineModel.extend({
   type: 'timeline.slider',
 
@@ -36,28 +36,16 @@ var SliderTimelineModel = TimelineModel.extend({
       // When using number, label position is not
       // restricted by viewRect.
       // positive: right/bottom, negative: left/top
-      normal: {
-        show: true,
-        interval: 'auto',
-        rotate: 0,
-        // formatter: null,
-        // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-        color: '#304654'
-      },
-      emphasis: {
-        show: true,
-        // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-        color: '#c23531'
-      }
+      show: true,
+      interval: 'auto',
+      rotate: 0,
+      // formatter: null,
+      // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+      color: '#304654'
     },
     itemStyle: {
-      normal: {
-        color: '#304654',
-        borderWidth: 1
-      },
-      emphasis: {
-        color: '#c23531'
-      }
+      color: '#304654',
+      borderWidth: 1
     },
     checkpointStyle: {
       symbol: 'circle',
@@ -86,12 +74,20 @@ var SliderTimelineModel = TimelineModel.extend({
       // jshint ignore:line
       prevIcon: 'path://M43,52.8L20.4,30.3c-0.2-0.2-0.3-0.4-0.3-0.7c0-0.3,0.1-0.5,0.3-0.7L42.9,6.4c0.1-0.1,0.2-0.3,0.2-0.5 c0-0.4-0.3-0.8-0.8-0.8c-0.2,0-0.5,0.1-0.6,0.3L18.3,28.8l0,0c-0.2,0.2-0.3,0.4-0.3,0.7c0,0.3,0.1,0.5,0.3,0.7l0.1,0.1L41.9,54 c0.1,0.1,0.3,0.2,0.5,0.2c0.4,0,0.8-0.3,0.8-0.8C43.2,53.2,43.1,53,43,52.8z',
       // jshint ignore:line
-      normal: {
-        color: '#304654',
-        borderColor: '#304654',
-        borderWidth: 1
+      color: '#304654',
+      borderColor: '#304654',
+      borderWidth: 1
+    },
+    emphasis: {
+      label: {
+        show: true,
+        // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+        color: '#c23531'
       },
-      emphasis: {
+      itemStyle: {
+        color: '#c23531'
+      },
+      controlStyle: {
         color: '#c23531',
         borderColor: '#c23531',
         borderWidth: 2
@@ -100,5 +96,5 @@ var SliderTimelineModel = TimelineModel.extend({
     data: []
   }
 });
-zrUtil.mixin(SliderTimelineModel, modelUtil.dataFormatMixin);
+zrUtil.mixin(SliderTimelineModel, dataFormatMixin);
 export default SliderTimelineModel;

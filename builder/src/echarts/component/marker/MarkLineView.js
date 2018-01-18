@@ -150,7 +150,30 @@ function updateSingleMarkerEndLayout(data, idx, isFrom, seriesModel, api) {
 
 export default MarkerView.extend({
   type: 'markLine',
-  updateLayout: function (markLineModel, ecModel, api) {
+  // updateLayout: function (markLineModel, ecModel, api) {
+  //     ecModel.eachSeries(function (seriesModel) {
+  //         var mlModel = seriesModel.markLineModel;
+  //         if (mlModel) {
+  //             var mlData = mlModel.getData();
+  //             var fromData = mlModel.__from;
+  //             var toData = mlModel.__to;
+  //             // Update visual and layout of from symbol and to symbol
+  //             fromData.each(function (idx) {
+  //                 updateSingleMarkerEndLayout(fromData, idx, true, seriesModel, api);
+  //                 updateSingleMarkerEndLayout(toData, idx, false, seriesModel, api);
+  //             });
+  //             // Update layout of line
+  //             mlData.each(function (idx) {
+  //                 mlData.setItemLayout(idx, [
+  //                     fromData.getItemLayout(idx),
+  //                     toData.getItemLayout(idx)
+  //                 ]);
+  //             });
+  //             this.markerGroupMap.get(seriesModel.id).updateLayout();
+  //         }
+  //     }, this);
+  // },
+  updateTransform: function (markLineModel, ecModel, api) {
     ecModel.eachSeries(function (seriesModel) {
       var mlModel = seriesModel.markLineModel;
 
@@ -204,7 +227,7 @@ export default MarkerView.extend({
     }); // Update visual and layout of line
 
     lineData.each(function (idx) {
-      var lineColor = lineData.getItemModel(idx).get('lineStyle.normal.color');
+      var lineColor = lineData.getItemModel(idx).get('lineStyle.color');
       lineData.setItemVisual(idx, {
         color: lineColor || fromData.getItemVisual(idx, 'color')
       });
@@ -231,7 +254,7 @@ export default MarkerView.extend({
       data.setItemVisual(idx, {
         symbolSize: itemModel.get('symbolSize') || symbolSize[isFrom ? 0 : 1],
         symbol: itemModel.get('symbol', true) || symbolType[isFrom ? 0 : 1],
-        color: itemModel.get('itemStyle.normal.color') || seriesData.getVisual('color')
+        color: itemModel.get('itemStyle.color') || seriesData.getVisual('color')
       });
     }
 
@@ -251,10 +274,11 @@ function createList(coordSys, seriesModel, mlModel) {
 
   if (coordSys) {
     coordDimsInfos = zrUtil.map(coordSys && coordSys.dimensions, function (coordDim) {
-      var info = seriesModel.getData().getDimensionInfo(seriesModel.coordDimToDataDim(coordDim)[0]) || {}; // In map series data don't have lng and lat dimension. Fallback to same with coordSys
+      var info = seriesModel.getData().getDimensionInfo(seriesModel.getData().mapDimension(coordDim)) || {}; // In map series data don't have lng and lat dimension. Fallback to same with coordSys
 
-      info.name = coordDim;
-      return info;
+      return zrUtil.defaults({
+        name: coordDim
+      }, info);
     });
   } else {
     coordDimsInfos = [{

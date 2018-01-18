@@ -34,6 +34,11 @@ var nativeReduce = arrayProto.reduce; // Avoid assign to an exported variable, f
 
 var methods = {};
 export function $override(name, fn) {
+  // Clear ctx instance for different environment
+  if (name === 'createCanvas') {
+    _ctx = null;
+  }
+
   methods[name] = fn;
 }
 /**
@@ -62,21 +67,25 @@ export function clone(source) {
   var typeStr = objToString.call(source);
 
   if (typeStr === '[object Array]') {
-    result = [];
-
-    for (var i = 0, len = source.length; i < len; i++) {
-      result[i] = clone(source[i]);
-    }
-  } else if (TYPED_ARRAY[typeStr]) {
-    var Ctor = source.constructor;
-
-    if (source.constructor.from) {
-      result = Ctor.from(source);
-    } else {
-      result = new Ctor(source.length);
+    if (!isPrimitive(source)) {
+      result = [];
 
       for (var i = 0, len = source.length; i < len; i++) {
         result[i] = clone(source[i]);
+      }
+    }
+  } else if (TYPED_ARRAY[typeStr]) {
+    if (!isPrimitive(source)) {
+      var Ctor = source.constructor;
+
+      if (source.constructor.from) {
+        result = Ctor.from(source);
+      } else {
+        result = new Ctor(source.length);
+
+        for (var i = 0, len = source.length; i < len; i++) {
+          result[i] = clone(source[i]);
+        }
       }
     }
   } else if (!BUILTIN_OBJECT[typeStr] && !isPrimitive(source) && !isDom(source)) {
@@ -464,6 +473,15 @@ export function isBuiltInObject(value) {
  * @return {boolean}
  */
 
+export function isTypedArray(value) {
+  return !!TYPED_ARRAY[objToString.call(value)];
+}
+/**
+ * @memberOf module:zrender/core/util
+ * @param {*} value
+ * @return {boolean}
+ */
+
 export function isDom(value) {
   return typeof value === 'object' && typeof value.nodeType === 'number' && typeof value.ownerDocument === 'object';
 }
@@ -545,6 +563,21 @@ export function assert(condition, message) {
     throw new Error(message);
   }
 }
+/**
+ * @memberOf module:zrender/core/util
+ * @param {string} str string to be trimed
+ * @return {string} trimed string
+ */
+
+export function trim(str) {
+  if (str == null) {
+    return null;
+  } else if (typeof str.trim === 'function') {
+    return str.trim();
+  } else {
+    return str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+  }
+}
 var primitiveKey = '__ec_primitive__';
 /**
  * Set an object as primitive to be ignored traversing children in clone or merge
@@ -562,43 +595,59 @@ export function isPrimitive(obj) {
  */
 
 function HashMap(obj) {
-  obj && each(obj, function (value, key) {
-    this.set(key, value);
-  }, this);
+  var isArr = isArray(obj);
+  var thisMap = this;
+  obj instanceof HashMap ? obj.each(visit) : obj && each(obj, visit);
+
+  function visit(value, key) {
+    isArr ? thisMap.set(value, key) : thisMap.set(key, value);
+  }
 } // Add prefix to avoid conflict with Object.prototype.
 
 
-var HASH_MAP_PREFIX = '_ec_';
-var HASH_MAP_PREFIX_LENGTH = 4;
 HashMap.prototype = {
   constructor: HashMap,
   // Do not provide `has` method to avoid defining what is `has`.
   // (We usually treat `null` and `undefined` as the same, different
   // from ES6 Map).
   get: function (key) {
-    return this[HASH_MAP_PREFIX + key];
+    return this.hasOwnProperty(key) ? this[key] : null;
   },
   set: function (key, value) {
-    this[HASH_MAP_PREFIX + key] = value; // Comparing with invocation chaining, `return value` is more commonly
+    // Comparing with invocation chaining, `return value` is more commonly
     // used in this case: `var someVal = map.set('a', genVal());`
-
-    return value;
+    return this[key] = value;
   },
   // Although util.each can be performed on this hashMap directly, user
   // should not use the exposed keys, who are prefixed.
   each: function (cb, context) {
     context !== void 0 && (cb = bind(cb, context));
 
-    for (var prefixedKey in this) {
-      this.hasOwnProperty(prefixedKey) && cb(this[prefixedKey], prefixedKey.slice(HASH_MAP_PREFIX_LENGTH));
+    for (var key in this) {
+      this.hasOwnProperty(key) && cb(this[key], key);
     }
   },
   // Do not use this method if performance sensitive.
   removeKey: function (key) {
-    delete this[HASH_MAP_PREFIX + key];
+    delete this[key];
   }
 };
 export function createHashMap(obj) {
   return new HashMap(obj);
+}
+export function concatArray(a, b) {
+  var newArray = new a.constructor(a.length + b.length);
+
+  for (var i = 0; i < a.length; i++) {
+    newArray[i] = a[i];
+  }
+
+  var offset = a.length;
+
+  for (i = 0; i < b.length; i++) {
+    newArray[i + offset] = b[i];
+  }
+
+  return newArray;
 }
 export function noop() {}

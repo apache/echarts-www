@@ -2,8 +2,9 @@
  * @file  Define the themeRiver view's series model
  * @author Deqing Li(annong035@gmail.com)
  */
-import completeDimensions from '../../data/helper/completeDimensions';
 import SeriesModel from '../../model/Series';
+import createDimensions from '../../data/helper/createDimensions';
+import { getDimensionTypeByAxis } from '../../data/helper/dimensionHelper';
 import List from '../../data/List';
 import * as zrUtil from 'zrender/src/core/util';
 import { encodeHTML } from '../../util/format';
@@ -105,28 +106,17 @@ var ThemeRiverSeries = SeriesModel.extend({
    * @return {module:echarts/data/List}
    */
   getInitialData: function (option, ecModel) {
-    var dimensions = [];
     var singleAxisModel = ecModel.queryComponents({
       mainType: 'singleAxis',
       index: this.get('singleAxisIndex'),
       id: this.get('singleAxisId')
     })[0];
-    var axisType = singleAxisModel.get('type');
-    dimensions = [{
-      name: 'time',
-      // FIXME common?
-      type: axisType === 'category' ? 'ordinal' : axisType === 'time' ? 'time' : 'float'
-    }, {
-      name: 'value',
-      type: 'float'
-    }, {
-      name: 'name',
-      type: 'ordinal'
-    }]; // filter the data item with the value of label is undefined
+    var axisType = singleAxisModel.get('type'); // filter the data item with the value of label is undefined
 
     var filterData = zrUtil.filter(option.data, function (dataItem) {
       return dataItem[2] !== undefined;
-    });
+    }); // ??? TODO design a stage to transfer data for themeRiver and lines?
+
     var data = this.fixData(filterData || []);
     var nameList = [];
     var nameMap = this.nameMap = zrUtil.createHashMap();
@@ -141,20 +131,27 @@ var ThemeRiverSeries = SeriesModel.extend({
       }
     }
 
-    dimensions = completeDimensions(dimensions, data);
-    var list = new List(dimensions, this);
-    list.initData(data, nameList);
+    var dimensionsInfo = createDimensions(data, {
+      coordDimensions: ['single'],
+      dimensionsDefine: [{
+        name: 'time',
+        type: getDimensionTypeByAxis(axisType)
+      }, {
+        name: 'value',
+        type: 'float'
+      }, {
+        name: 'name',
+        type: 'ordinal'
+      }],
+      encodeDefine: {
+        single: 0,
+        value: 1,
+        itemName: 2
+      }
+    });
+    var list = new List(dimensionsInfo, this);
+    list.initData(data);
     return list;
-  },
-
-  /**
-   * Used by single coordinate
-   *
-   * @param {string} axisDim  the dimension for single coordinate
-   * @return {Array.<string> } specified dimensions on the axis.
-   */
-  coordDimToDataDim: function (axisDim) {
-    return ['time'];
   },
 
   /**
@@ -182,13 +179,14 @@ var ThemeRiverSeries = SeriesModel.extend({
         indices: d.values
       };
     });
+    var timeDim = data.mapDimension('single');
 
     for (var j = 0; j < layerSeries.length; ++j) {
       layerSeries[j].indices.sort(comparer);
     }
 
     function comparer(index1, index2) {
-      return data.get('time', index1) - data.get('time', index2);
+      return data.get(timeDim, index1) - data.get(timeDim, index2);
     }
 
     return layerSeries;
@@ -245,8 +243,8 @@ var ThemeRiverSeries = SeriesModel.extend({
    */
   formatTooltip: function (dataIndex) {
     var data = this.getData();
-    var htmlName = data.get('name', dataIndex);
-    var htmlValue = data.get('value', dataIndex);
+    var htmlName = data.getName(dataIndex);
+    var htmlValue = data.get(data.mapDimension('value'), dataIndex);
 
     if (isNaN(htmlValue) || htmlValue == null) {
       htmlValue = '-';
@@ -264,15 +262,15 @@ var ThemeRiverSeries = SeriesModel.extend({
     singleAxisIndex: 0,
     animationEasing: 'linear',
     label: {
-      normal: {
-        margin: 4,
-        textAlign: 'right',
-        show: true,
-        position: 'left',
-        color: '#000',
-        fontSize: 11
-      },
-      emphasis: {
+      margin: 4,
+      textAlign: 'right',
+      show: true,
+      position: 'left',
+      color: '#000',
+      fontSize: 11
+    },
+    emphasis: {
+      label: {
         show: true
       }
     }

@@ -4,8 +4,7 @@ export default SeriesModel.extend({
   type: 'series.effectScatter',
   dependencies: ['grid', 'polar'],
   getInitialData: function (option, ecModel) {
-    var list = createListFromArray(option.data, this, ecModel);
-    return list;
+    return createListFromArray(this.getSource(), this);
   },
   brushSelector: 'point',
   defaultOption: {
@@ -39,9 +38,7 @@ export default SeriesModel.extend({
     // Available when large is true
     // largeThreshold: 2000,
     // itemStyle: {
-    //     normal: {
-    //         opacity: 1
-    //     }
+    //     opacity: 1
     // }
 
   }
