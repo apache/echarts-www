@@ -4,6 +4,7 @@
  * And each data item will use `selected` to toggle itself selected status
  */
 import * as zrUtil from 'zrender/src/core/util';
+import { retrieveRawAttr } from '../../data/helper/dataProvider';
 export default {
   /**
    * @param {Array.<Object>|module:echars/data/List} targetList
@@ -21,7 +22,8 @@ export default {
       for (var i = 0, len = ecList.count(); i < len; i++) {
         targetList.push({
           name: ecList.getName(i),
-          value: ecList.get(valueDim, i)
+          value: ecList.get(valueDim, i),
+          selected: retrieveRawAttr(ecList, i, 'selected')
         });
       }
     }
