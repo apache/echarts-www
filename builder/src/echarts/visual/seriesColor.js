@@ -7,7 +7,7 @@ export default {
     var colorAccessPath = (seriesModel.visualColorAccessPath || 'itemStyle.color').split('.');
     var color = seriesModel.get(colorAccessPath) // Set in itemStyle
     || seriesModel.getColorFromPalette( // TODO series count changed.
-    seriesModel.get('name'), null, ecModel.getSeriesCount()); // Default color
+    seriesModel.name, null, ecModel.getSeriesCount()); // Default color
     // FIXME Set color function or use the platte color
 
     data.setVisual('color', color); // Only visible series has each data be visual encoded

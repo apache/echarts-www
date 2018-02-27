@@ -142,7 +142,7 @@ var ContinuousModel = VisualMapModel.extend({
       var data = seriesModel.getData();
       data.each(this.getDataDimension(data), function (value, dataIndex) {
         range[0] <= value && value <= range[1] && dataIndices.push(dataIndex);
-      }, true, this);
+      }, this);
       result.push({
         seriesId: seriesModel.id,
         dataIndex: dataIndices

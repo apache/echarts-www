@@ -19,6 +19,7 @@ import ExtensionAPI from './ExtensionAPI';
 import CoordinateSystemManager from './CoordinateSystem';
 import OptionManager from './model/OptionManager';
 import backwardCompat from './preprocessor/backwardCompat';
+import dataStack from './processor/dataStack';
 import ComponentModel from './model/Component';
 import SeriesModel from './model/Series';
 import ComponentView from './view/Component';
@@ -37,9 +38,9 @@ var each = zrUtil.each;
 var isFunction = zrUtil.isFunction;
 var isObject = zrUtil.isObject;
 var parseClassType = ComponentModel.parseClassType;
-export var version = '4.0.2';
+export var version = '4.0.3';
 export var dependencies = {
-  zrender: '4.0.1'
+  zrender: '4.0.2'
 };
 var TEST_FRAME_REMAIN_TIME = 1;
 var PRIORITY_PROCESSOR_FILTER = 1000;
@@ -184,27 +185,7 @@ function ECharts(dom, theme, opts) {
    * @private
    */
 
-  var api = this._api = createExtensionAPI(this);
-  /**
-   * @type {module:echarts/stream/Scheduler}
-   */
-
-  this._scheduler = new Scheduler(this, api);
-  Eventful.call(this);
-  /**
-   * @type {module:echarts~MessageCenter}
-   * @private
-   */
-
-  this._messageCenter = new MessageCenter(); // this._scheduler = new Scheduler();
-  // Init mouse events
-
-  this._initEvents(); // In case some people write `window.onresize = chart.resize`
-
-
-  this.resize = zrUtil.bind(this.resize, this); // Can't dispatch action during rendering procedure
-
-  this._pendingActions = []; // Sort on demand
+  var api = this._api = createExtensionAPI(this); // Sort on demand
 
   function prioritySortFunc(a, b) {
     return a.__prio - b.__prio;
@@ -212,7 +193,27 @@ function ECharts(dom, theme, opts) {
 
   timsort(visualFuncs, prioritySortFunc);
   timsort(dataProcessorFuncs, prioritySortFunc);
-  zr.animation.on('frame', this._onframe, this); // ECharts instance can be used as value.
+  /**
+   * @type {module:echarts/stream/Scheduler}
+   */
+
+  this._scheduler = new Scheduler(this, api, dataProcessorFuncs, visualFuncs);
+  Eventful.call(this);
+  /**
+   * @type {module:echarts~MessageCenter}
+   * @private
+   */
+
+  this._messageCenter = new MessageCenter(); // Init mouse events
+
+  this._initEvents(); // In case some people write `window.onresize = chart.resize`
+
+
+  this.resize = zrUtil.bind(this.resize, this); // Can't dispatch action during rendering procedure
+
+  this._pendingActions = [];
+  zr.animation.on('frame', this._onframe, this);
+  bindRenderedEvent(zr, this); // ECharts instance can be used as value.
 
   zrUtil.setAsPrimitive(this);
 }
@@ -247,7 +248,7 @@ echartsProto._onframe = function () {
         var startTime = +new Date();
         scheduler.performSeriesTasks(ecModel); // Currently dataProcessorFuncs do not check threshold.
 
-        scheduler.performDataProcessorTasks(dataProcessorFuncs, ecModel);
+        scheduler.performDataProcessorTasks(ecModel);
         updateStreamModes(this, ecModel); // Do not update coordinate system here. Because that coord system update in
         // each frame is not a good user experience. So we follow the rule that
         // the extent of the coordinate system is determin in the first frame (the
@@ -255,14 +256,14 @@ echartsProto._onframe = function () {
         // this._coordSysMgr.update(ecModel, api);
         // console.log('--- ec frame visual ---', remainTime);
 
-        scheduler.performVisualTasks(visualFuncs, ecModel);
+        scheduler.performVisualTasks(ecModel);
         renderSeries(this, this._model, api, 'remain');
         remainTime -= +new Date() - startTime;
-      } while (remainTime > 0 && scheduler.unfinished);
+      } while (remainTime > 0 && scheduler.unfinished); // Call flush explicitly for trigger finished event.
+
 
       if (!scheduler.unfinished) {
-        this._zr && this._zr.flush();
-        this.trigger('finished');
+        this._zr.flush();
       } // Else, zr flushing be ensue within the same frame,
       // because zr flushing is after onframe event.
 
@@ -403,12 +404,13 @@ echartsProto.getRenderedCanvas = function (opts) {
   opts = opts || {};
   opts.pixelRatio = opts.pixelRatio || 1;
   opts.backgroundColor = opts.backgroundColor || this._model.get('backgroundColor');
-  var zr = this._zr;
-  var list = zr.storage.getDisplayList(); // Stop animations
+  var zr = this._zr; // var list = zr.storage.getDisplayList();
+  // Stop animations
+  // Never works before in init animation, so remove it.
+  // zrUtil.each(list, function (el) {
+  //     el.stopAnimation(true);
+  // });
 
-  zrUtil.each(list, function (el) {
-    el.stopAnimation(true);
-  });
   return zr.painter.getRenderedCanvas(opts);
 };
 /**
@@ -707,15 +709,15 @@ var updateMethods = {
     // In LineView may save the old coordinate system and use it to get the orignal point
 
     coordSysMgr.create(ecModel, api);
-    scheduler.performDataProcessorTasks(dataProcessorFuncs, ecModel, payload); // Current stream render is not supported in data process. So we can update
+    scheduler.performDataProcessorTasks(ecModel, payload); // Current stream render is not supported in data process. So we can update
     // stream modes after data processing, where the filtered data is used to
     // deteming whether use progressive rendering.
 
-    updateStreamModes(this, ecModel);
-    stackSeriesData(ecModel);
+    updateStreamModes(this, ecModel); // stackSeriesData(ecModel);
+
     coordSysMgr.update(ecModel, api);
     clearColorPalette(ecModel);
-    scheduler.performVisualTasks(visualFuncs, ecModel, payload);
+    scheduler.performVisualTasks(ecModel, payload);
     render(this, ecModel, api, payload); // Set background
 
     var backgroundColor = ecModel.get('backgroundColor') || 'transparent';
@@ -798,9 +800,9 @@ var updateMethods = {
       }
     });
     clearColorPalette(ecModel); // Keep pipe to the exist pipeline because it depends on the render task of the full pipeline.
-    // this._scheduler.performVisualTasks(visualFuncs, ecModel, payload, 'layout', true);
+    // this._scheduler.performVisualTasks(ecModel, payload, 'layout', true);
 
-    this._scheduler.performVisualTasks(visualFuncs, ecModel, payload, {
+    this._scheduler.performVisualTasks(ecModel, payload, {
       setDirty: true,
       dirtyMap: seriesDirtyMap
     }); // Currently, not call render of components. Geo render cost a lot.
@@ -825,7 +827,7 @@ var updateMethods = {
     ChartView.markUpdateMethod(payload, 'updateView');
     clearColorPalette(ecModel); // Keep pipe to the exist pipeline because it depends on the render task of the full pipeline.
 
-    this._scheduler.performVisualTasks(visualFuncs, ecModel, payload, {
+    this._scheduler.performVisualTasks(ecModel, payload, {
       setDirty: true
     });
 
@@ -846,7 +848,7 @@ var updateMethods = {
     // ChartView.markUpdateMethod(payload, 'updateVisual');
     // clearColorPalette(ecModel);
     // // Keep pipe to the exist pipeline because it depends on the render task of the full pipeline.
-    // this._scheduler.performVisualTasks(visualFuncs, ecModel, payload, {visualType: 'visual', setDirty: true});
+    // this._scheduler.performVisualTasks(ecModel, payload, {visualType: 'visual', setDirty: true});
     // render(this, this._model, this._api, payload);
     // performPostUpdateFuncs(ecModel, this._api);
   },
@@ -863,8 +865,8 @@ var updateMethods = {
     // }
     // ChartView.markUpdateMethod(payload, 'updateLayout');
     // // Keep pipe to the exist pipeline because it depends on the render task of the full pipeline.
-    // // this._scheduler.performVisualTasks(visualFuncs, ecModel, payload, 'layout', true);
-    // this._scheduler.performVisualTasks(visualFuncs, ecModel, payload, {setDirty: true});
+    // // this._scheduler.performVisualTasks(ecModel, payload, 'layout', true);
+    // this._scheduler.performVisualTasks(ecModel, payload, {setDirty: true});
     // render(this, this._model, this._api, payload);
     // performPostUpdateFuncs(ecModel, this._api);
   }
@@ -874,8 +876,7 @@ function prepare(ecIns) {
   var ecModel = ecIns._model;
   var scheduler = ecIns._scheduler;
   scheduler.restorePipelines(ecModel);
-  scheduler.prepareStageTasks(dataProcessorFuncs);
-  scheduler.prepareStageTasks(visualFuncs);
+  scheduler.prepareStageTasks();
   prepareView(ecIns, 'component', ecModel, scheduler);
   prepareView(ecIns, 'chart', ecModel, scheduler);
   scheduler.plan();
@@ -936,17 +937,14 @@ echartsProto.resize = function (opts) {
   }
 
   var optionChanged = ecModel.resetOption('media');
-  refresh(this, optionChanged, opts && opts.silent);
+  var silent = opts && opts.silent;
+  this[IN_MAIN_PROCESS] = true;
+  optionChanged && prepare(this);
+  updateMethods.update.call(this);
+  this[IN_MAIN_PROCESS] = false;
+  flushPendingActions.call(this, silent);
+  triggerUpdatedEvent.call(this, silent);
 };
-
-function refresh(ecIns, needPrepare, silent) {
-  ecIns[IN_MAIN_PROCESS] = true;
-  needPrepare && prepare(ecIns);
-  updateMethods.update.call(ecIns);
-  ecIns[IN_MAIN_PROCESS] = false;
-  flushPendingActions.call(ecIns, silent);
-  triggerUpdatedEvent.call(ecIns, silent);
-}
 
 function updateStreamModes(ecIns, ecModel) {
   var chartsMap = ecIns._chartsMap;
@@ -1135,6 +1133,35 @@ function triggerUpdatedEvent(silent) {
   !silent && this.trigger('updated');
 }
 /**
+ * Event `rendered` is triggered when zr
+ * rendered. It is useful for realtime
+ * snapshot (reflect animation).
+ *
+ * Event `finished` is triggered when:
+ * (1) zrender rendering finished.
+ * (2) initial animation finished.
+ * (3) progressive rendering finished.
+ * (4) no pending action.
+ * (5) no delayed setOption needs to be processed.
+ */
+
+
+function bindRenderedEvent(zr, ecIns) {
+  zr.on('rendered', function () {
+    ecIns.trigger('rendered'); // The `finished` event should not be triggered repeatly,
+    // so it should only be triggered when rendering indeed happend
+    // in zrender. (Consider the case that dipatchAction is keep
+    // triggering when mouse move).
+
+    if ( // Although zr is dirty if initial animation is not finished
+    // and this checking is called on frame, we also check
+    // animation finished for robustness.
+    zr.animation.isFinished() && !ecIns[OPTION_UPDATED] && !ecIns._scheduler.unfinished && !ecIns._pendingActions.length) {
+      ecIns.trigger('finished');
+    }
+  });
+}
+/**
  * @param {Object} params
  * @param {number} params.seriesIndex
  * @param {Array|TypedArray} params.data
@@ -1145,7 +1172,14 @@ echartsProto.appendData = function (params) {
   var seriesIndex = params.seriesIndex;
   var ecModel = this.getModel();
   var seriesModel = ecModel.getSeriesByIndex(seriesIndex);
-  seriesModel.appendData(params);
+  seriesModel.appendData(params); // Note: `appendData` does not support that update extent of coordinate
+  // system, util some scenario require that. In the expected usage of
+  // `appendData`, the initial extent of coordinate system should better
+  // be fixed by axis `min`/`max` setting or initial data, otherwise if
+  // the extent changed while `appendData`, the location of the painted
+  // graphic elements have to be changed, which make the usage of
+  // `appendData` meaningless.
+
   this._scheduler.unfinished = true;
 };
 /**
@@ -1217,28 +1251,6 @@ function prepareView(ecIns, type, ecModel, scheduler) {
       i++;
     }
   }
-}
-/**
- * @private
- */
-
-
-function stackSeriesData(ecModel) {
-  var stackedDataMap = {};
-  ecModel.eachSeries(function (series) {
-    var stack = series.get('stack');
-    var data = series.getData();
-
-    if (stack && data.type === 'list') {
-      var previousStack = stackedDataMap[stack]; // Avoid conflict with Object.prototype
-
-      if (stackedDataMap.hasOwnProperty(stack) && previousStack) {
-        data.stackedOn = previousStack;
-      }
-
-      stackedDataMap[stack] = data;
-    }
-  });
 } // /**
 //  * Encode visual infomation from data after data processing
 //  *
@@ -1940,6 +1952,7 @@ export function getMap(mapName) {
 }
 registerVisual(PRIORITY_VISUAL_GLOBAL, seriesColor);
 registerPreprocessor(backwardCompat);
+registerProcessor(PRIORITY_PROCESSOR_STATISTIC, dataStack);
 registerLoading('default', loadingDefault); // Default actions
 
 registerAction({

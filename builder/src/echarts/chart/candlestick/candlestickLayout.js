@@ -106,7 +106,7 @@ export default function (ecModel) {
         point[variableDim] = subPixelOptimize(point[variableDim], 1);
         return point;
       }
-    }, true);
+    });
   });
 }
 

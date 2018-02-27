@@ -9,9 +9,9 @@ export default function () {
     var fields = inner(seriesModel);
     var pipelineContext = seriesModel.pipelineContext;
     var originalLarge = fields.large;
-    var originalIncremental = fields.incrementalRender;
+    var originalProgressive = fields.canProgressiveRender;
     var large = fields.large = pipelineContext.large;
-    var incremental = fields.incrementalRender = pipelineContext.incrementalRender;
-    return (originalLarge ^ large || originalIncremental ^ incremental) && 'reset';
+    var progressive = fields.canProgressiveRender = pipelineContext.canProgressiveRender;
+    return !!(originalLarge ^ large || originalProgressive ^ progressive) && 'reset';
   };
 }

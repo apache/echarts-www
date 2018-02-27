@@ -8,6 +8,7 @@ import * as graphic from '../../util/graphic';
 import * as modelUtil from '../../util/model';
 import { Polyline, Polygon } from './poly';
 import ChartView from '../../view/Chart';
+import { prepareDataCoordInfo, getStackedOnPoint } from './helper';
 
 function isPointsSame(points1, points2) {
   if (points1.length !== points2.length) {
@@ -27,7 +28,7 @@ function isPointsSame(points1, points2) {
 }
 
 function getSmooth(smooth) {
-  return typeof smooth === 'number' ? smooth : smooth ? 0.3 : 0;
+  return typeof smooth === 'number' ? smooth : smooth ? 0.5 : 0;
 }
 
 function getAxisExtentWithGap(axis) {
@@ -43,64 +44,26 @@ function getAxisExtentWithGap(axis) {
 
   return extent;
 }
-
-function sign(val) {
-  return val >= 0 ? 1 : -1;
-}
 /**
  * @param {module:echarts/coord/cartesian/Cartesian2D|module:echarts/coord/polar/Polar} coordSys
  * @param {module:echarts/data/List} data
+ * @param {Object} dataCoordInfo
  * @param {Array.<Array.<number>>} points
- * @param {string} origin origin of areaStyle. Valid values: 'auto', 'start',
- *                        'end'.
- *                        auto: from axisLine to data
- *                        start: from min to data
- *                        end: from data to max
- * @private
  */
 
 
-function getStackedOnPoints(seriesModel, coordSys, data, origin) {
-  var baseAxis = coordSys.getBaseAxis();
-  var valueAxis = coordSys.getOtherAxis(baseAxis);
-  var valueStart = 0;
-  var extent = valueAxis.scale.getExtent();
-
-  if (origin === 'start') {
-    valueStart = extent[0];
-  } else if (origin === 'end') {
-    valueStart = extent[1];
-  } else {
-    // auto
-    var extent = valueAxis.scale.getExtent();
-
-    if (extent[0] > 0) {
-      // Both positive
-      valueStart = extent[0];
-    } else if (extent[1] < 0) {
-      // Both negative
-      valueStart = extent[1];
-    } // If is one positive, and one negative, onZero shall be true
-
+function getStackedOnPoints(coordSys, data, dataCoordInfo) {
+  if (!dataCoordInfo.valueDim) {
+    return [];
   }
 
-  var valueCoordDim = valueAxis.dim;
-  var baseDataOffset = valueCoordDim === 'x' || valueCoordDim === 'radius' ? 1 : 0;
-  var valueDim = data.mapDimension(valueCoordDim);
-  return data.mapArray(valueDim ? [valueDim] : [], function (val, idx) {
-    var stackedOnSameSign;
-    var stackedOn = data.stackedOn; // Find first stacked value with same sign
+  var points = [];
 
-    while (stackedOn && sign(stackedOn.get(valueDim, idx)) === sign(val)) {
-      stackedOnSameSign = stackedOn;
-      break;
-    }
+  for (var idx = 0, len = data.count(); idx < len; idx++) {
+    points.push(getStackedOnPoint(dataCoordInfo, coordSys, data, idx));
+  }
 
-    var stackedData = [];
-    stackedData[baseDataOffset] = data.get(baseAxis.dim, idx);
-    stackedData[1 - baseDataOffset] = stackedOnSameSign ? stackedOnSameSign.get(valueDim, idx, true) : valueStart;
-    return coordSys.dataToPoint(stackedData);
-  }, true);
+  return points;
 }
 
 function createGridClipShape(cartesian, hasAnimation, seriesModel) {
@@ -230,17 +193,26 @@ function getVisualGradient(data, coordSys) {
     return;
   }
 
+  if (coordSys.type !== 'cartesian2d') {
+    return;
+  }
+
+  var coordDim;
   var visualMeta;
 
   for (var i = visualMetaList.length - 1; i >= 0; i--) {
-    // Can only be x or y
-    if (visualMetaList[i].dimension < 2) {
+    var dimIndex = visualMetaList[i].dimension;
+    var dimName = data.dimensions[dimIndex];
+    var dimInfo = data.getDimensionInfo(dimName);
+    coordDim = dimInfo && dimInfo.coordDim; // Can only be x or y
+
+    if (coordDim === 'x' || coordDim === 'y') {
       visualMeta = visualMetaList[i];
       break;
     }
   }
 
-  if (!visualMeta || coordSys.type !== 'cartesian2d') {
+  if (!visualMeta) {
     return;
   } // If the area to be rendered is bigger than area defined by LinearGradient,
   // the canvas spec prescribes that the color of the first stop and the last
@@ -250,9 +222,7 @@ function getVisualGradient(data, coordSys) {
   // LinearGradient to render `outerColors`.
 
 
-  var dimension = visualMeta.dimension;
-  var dimName = data.dimensions[dimension];
-  var axis = coordSys.getAxis(dimName); // dataToCoor mapping may not be linear, but must be monotonic.
+  var axis = coordSys.getAxis(coordDim); // dataToCoor mapping may not be linear, but must be monotonic.
 
   var colorStops = zrUtil.map(visualMeta.stops, function (stop) {
     return {
@@ -295,8 +265,8 @@ function getVisualGradient(data, coordSys) {
   // });
 
   var gradient = new graphic.LinearGradient(0, 0, 0, 0, colorStops, true);
-  gradient[dimName] = minCoord;
-  gradient[dimName + '2'] = maxCoord;
+  gradient[coordDim] = minCoord;
+  gradient[coordDim + '2'] = maxCoord;
   return gradient;
 }
 
@@ -315,7 +285,7 @@ export default ChartView.extend({
     var data = seriesModel.getData();
     var lineStyleModel = seriesModel.getModel('lineStyle');
     var areaStyleModel = seriesModel.getModel('areaStyle');
-    var points = data.mapArray(data.getItemLayout, true);
+    var points = data.mapArray(data.getItemLayout);
     var isCoordSysPolar = coordSys.type === 'polar';
     var prevCoordSys = this._coordSys;
     var symbolDraw = this._symbolDraw;
@@ -324,8 +294,9 @@ export default ChartView.extend({
     var lineGroup = this._lineGroup;
     var hasAnimation = seriesModel.get('animation');
     var isAreaChart = !areaStyleModel.isEmpty();
-    var origin = areaStyleModel.get('origin');
-    var stackedOnPoints = getStackedOnPoints(seriesModel, coordSys, data, origin);
+    var valueOrigin = areaStyleModel.get('origin');
+    var dataCoordInfo = prepareDataCoordInfo(coordSys, data, valueOrigin);
+    var stackedOnPoints = getStackedOnPoints(coordSys, data, dataCoordInfo);
     var showSymbol = seriesModel.get('showSymbol');
 
     var isSymbolIgnore = showSymbol && !isCoordSysPolar && !seriesModel.get('showAllSymbol') && this._getSymbolIgnoreFunc(data, coordSys); // Remove temporary symbols
@@ -348,7 +319,10 @@ export default ChartView.extend({
     var step = !isCoordSysPolar && seriesModel.get('step'); // Initialization animation or coordinate system changed
 
     if (!(polyline && prevCoordSys.type === coordSys.type && step === this._step)) {
-      showSymbol && symbolDraw.updateData(data, isSymbolIgnore);
+      showSymbol && symbolDraw.updateData(data, {
+        isIgnore: isSymbolIgnore,
+        clipShape: createClipShape(coordSys, false, seriesModel)
+      });
 
       if (step) {
         // TODO If stacked series is not step
@@ -371,13 +345,17 @@ export default ChartView.extend({
         // If areaStyle is removed
         lineGroup.remove(polygon);
         polygon = this._polygon = null;
-      } // Update clipPath
+      }
 
+      var coordSysClipShape = createClipShape(coordSys, false, seriesModel); // Update clipPath
 
-      lineGroup.setClipPath(createClipShape(coordSys, false, seriesModel)); // Always update, or it is wrong in the case turning on legend
+      lineGroup.setClipPath(coordSysClipShape); // Always update, or it is wrong in the case turning on legend
       // because points are not changed
 
-      showSymbol && symbolDraw.updateData(data, isSymbolIgnore); // Stop symbol animation and sync with line points
+      showSymbol && symbolDraw.updateData(data, {
+        isIgnore: isSymbolIgnore,
+        clipShape: coordSysClipShape
+      }); // Stop symbol animation and sync with line points
       // FIXME performance?
 
       data.eachItemGraphicEl(function (el) {
@@ -387,7 +365,7 @@ export default ChartView.extend({
 
       if (!isPointsSame(this._stackedOnPoints, stackedOnPoints) || !isPointsSame(this._points, points)) {
         if (hasAnimation) {
-          this._updateAnimation(data, stackedOnPoints, coordSys, api, step);
+          this._updateAnimation(data, stackedOnPoints, coordSys, api, step, valueOrigin);
         } else {
           // Not do it in update with animation
           if (step) {
@@ -423,7 +401,7 @@ export default ChartView.extend({
     });
 
     if (polygon) {
-      var stackedOn = data.stackedOn;
+      var stackedOnSeries = data.getCalculationInfo('stackedOnSeries');
       var stackedOnSmooth = 0;
       polygon.useStyle(zrUtil.defaults(areaStyleModel.getAreaStyle(), {
         fill: visualColor,
@@ -431,8 +409,7 @@ export default ChartView.extend({
         lineJoin: 'bevel'
       }));
 
-      if (stackedOn) {
-        var stackedOnSeries = stackedOn.hostModel;
+      if (stackedOnSeries) {
         stackedOnSmooth = getSmooth(stackedOnSeries.get('smooth'));
       }
 
@@ -450,6 +427,7 @@ export default ChartView.extend({
     this._stackedOnPoints = stackedOnPoints;
     this._points = points;
     this._step = step;
+    this._valueOrigin = valueOrigin;
   },
   dispose: function () {},
   highlight: function (seriesModel, ecModel, api, payload) {
@@ -576,11 +554,11 @@ export default ChartView.extend({
    * @private
    */
   // FIXME Two value axis
-  _updateAnimation: function (data, stackedOnPoints, coordSys, api, step) {
+  _updateAnimation: function (data, stackedOnPoints, coordSys, api, step, valueOrigin) {
     var polyline = this._polyline;
     var polygon = this._polygon;
     var seriesModel = data.hostModel;
-    var diff = lineAnimationDiff(this._data, data, this._stackedOnPoints, stackedOnPoints, this._coordSys, coordSys);
+    var diff = lineAnimationDiff(this._data, data, this._stackedOnPoints, stackedOnPoints, this._coordSys, coordSys, this._valueOrigin, valueOrigin);
     var current = diff.current;
     var stackedOnCurrent = diff.stackedOnCurrent;
     var next = diff.next;

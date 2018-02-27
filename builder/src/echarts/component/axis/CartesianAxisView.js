@@ -144,7 +144,7 @@ var CartesianAxisView = AxisView.extend({
     var showMaxLabel = axisModel.get('axisLabel.showMaxLabel');
 
     for (var i = 1; i < ticksCoords.length; i++) {
-      if (ifIgnoreOnTick(axis, i, areaInterval, ticksCoords.length, showMinLabel, showMaxLabel)) {
+      if (ifIgnoreOnTick(axis, i, areaInterval, ticksCoords.length, showMinLabel, showMaxLabel) && i < ticksCoords.length - 1) {
         continue;
       }
 

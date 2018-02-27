@@ -144,7 +144,8 @@ function makeAxisPointerModel(axis, baseTooltipModel, globalAxisPointerModel, ec
 
   if (fromTooltip === 'cross') {
     // When 'cross', both axes show labels.
-    labelOption.show = true; // If triggerTooltip, this is a base axis, which should better not use cross style
+    var tooltipAxisPointerLabelShow = tooltipAxisPointerModel.get('label.show');
+    labelOption.show = tooltipAxisPointerLabelShow != null ? tooltipAxisPointerLabelShow : true; // If triggerTooltip, this is a base axis, which should better not use cross style
     // (cross style is dashed by default)
 
     if (!triggerTooltip) {

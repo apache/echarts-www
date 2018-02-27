@@ -263,6 +263,12 @@ symbolProto._updateCommon = function (data, idx, symbolSize, seriesScope) {
 
   if (hoverAnimation && seriesModel.isAnimationEnabled()) {
     var onEmphasis = function () {
+      // Do not support this hover animation util some scenario required.
+      // Animation can only be supported in hover layer when using `el.incremetal`.
+      if (this.incremental) {
+        return;
+      }
+
       var ratio = scale[1] / scale[0];
       this.animateTo({
         scale: [Math.max(scale[0] * 1.1, scale[0] + 3), Math.max(scale[1] * 1.1, scale[1] + 3 * ratio)]
@@ -270,6 +276,10 @@ symbolProto._updateCommon = function (data, idx, symbolSize, seriesScope) {
     };
 
     var onNormal = function () {
+      if (this.incremental) {
+        return;
+      }
+
       this.animateTo({
         scale: scale
       }, 400, 'elasticOut');

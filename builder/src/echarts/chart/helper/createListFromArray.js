@@ -7,12 +7,17 @@ import { getDataItemValue } from '../../util/model';
 import CoordinateSystem from '../../CoordinateSystem';
 import { getCoordSysDefineBySeries } from '../../model/referHelper';
 import Source from '../../data/Source';
+import { enableDataStack } from '../../data/helper/dataStackHelper';
 /**
  * @param {module:echarts/data/Source|Array} source Or raw data.
  * @param {module:echarts/model/Series} seriesModel
+ * @param {Object} [opt]
+ * @param {string} [opt.generateCoord]
  */
 
-function createListFromArray(source, seriesModel) {
+function createListFromArray(source, seriesModel, opt) {
+  opt = opt || {};
+
   if (!Source.isInstance(source)) {
     source = Source.seriesDataToSource(source);
   }
@@ -31,8 +36,7 @@ function createListFromArray(source, seriesModel) {
 
       if (axisModel) {
         var axisType = axisModel.get('type');
-        dimInfo.type = getDimensionTypeByAxis(axisType);
-        dimInfo.stackable = isStackable(axisType);
+        dimInfo.type = getDimensionTypeByAxis(axisType); // dimInfo.stackable = isStackable(axisType);
       }
 
       return dimInfo;
@@ -45,7 +49,8 @@ function createListFromArray(source, seriesModel) {
   }
 
   var dimInfoList = createDimensions(source, {
-    coordDimensions: coordSysDimDefs
+    coordDimensions: coordSysDimDefs,
+    generateCoord: opt.generateCoord
   });
   var firstCategoryDimIndex;
   var hasNameEncode;
@@ -70,7 +75,9 @@ function createListFromArray(source, seriesModel) {
     dimInfoList[firstCategoryDimIndex].otherDims.itemName = 0;
   }
 
+  var stackCalculationInfo = enableDataStack(seriesModel, dimInfoList);
   var list = new List(dimInfoList, seriesModel);
+  list.setCalculationInfo(stackCalculationInfo);
   var dimValueGetter = firstCategoryDimIndex != null && isNeedCompleteOrdinalData(source) ? function (itemOpt, dimName, dataIndex, dimIndex) {
     // Use dataIndex as ordinal value in categoryAxis
     return dimIndex === firstCategoryDimIndex ? dataIndex : this.defaultDimValueGetter(itemOpt, dimName, dataIndex, dimIndex);
@@ -78,10 +85,6 @@ function createListFromArray(source, seriesModel) {
   list.hasItemOption = false;
   list.initData(source, null, dimValueGetter);
   return list;
-}
-
-function isStackable(axisType) {
-  return axisType !== 'category' && axisType !== 'time';
 }
 
 function isNeedCompleteOrdinalData(source) {

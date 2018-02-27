@@ -97,18 +97,32 @@ export function getScaleExtent(scale, model) {
     }
   } // If bars are placed on a base axis of type time or interval account for axis boundary overflow and current axis
   // is base axis
+  // FIXME
+  // (1) Consider support value axis, where below zero and axis `onZero` should be handled properly.
+  // (2) Refactor the logic with `barGrid`. Is it not need to `calBarWidthAndOffset` twice with different extent?
+  //     Should not depend on series type `bar`?
+  // (3) Fix that might overlap when using dataZoom.
+  // (4) Consider other chart types using `barGrid`?
+  // See #6728, #4862, `test/bar-overflow-time-plot.html`
 
 
   var ecModel = model.ecModel;
 
-  if (ecModel) {
-    var isBaseAxisAndHasBarSeries = zrUtil.filter(ecModel.getSeriesByType('bar'), function (seriesModel) {
-      return seriesModel.getBaseAxis() === model.axis;
-    }).length > 0;
+  if (ecModel && scaleType === 'time'
+  /*|| scaleType === 'interval' */
+  ) {
+    var barSeriesModels = [];
+    var isBaseAxisAndHasBarSeries;
+    zrUtil.each(ecModel.getSeriesByType('bar'), function (seriesModel) {
+      if (seriesModel.coordinateSystem && seriesModel.coordinateSystem.type === 'cartesian2d') {
+        barSeriesModels.push(seriesModel);
+        isBaseAxisAndHasBarSeries |= seriesModel.getBaseAxis() === model.axis;
+      }
+    });
 
-    if ((scaleType === 'time' || scaleType === 'interval') && isBaseAxisAndHasBarSeries) {
+    if (isBaseAxisAndHasBarSeries) {
       // Adjust axis min and max to account for overflow
-      var adjustedScale = adjustScaleForOverflow(min, max, model);
+      var adjustedScale = adjustScaleForOverflow(min, max, model, barSeriesModels);
       min = adjustedScale.min;
       max = adjustedScale.max;
     }
@@ -116,15 +130,13 @@ export function getScaleExtent(scale, model) {
 
   return [min, max];
 }
-export function adjustScaleForOverflow(min, max, model) {
-  var ecModel = model.ecModel; // Get Axis Length
 
+function adjustScaleForOverflow(min, max, model, barSeriesModels) {
+  // Get Axis Length
   var axisExtent = model.axis.getExtent();
   var axisLength = axisExtent[1] - axisExtent[0]; // Calculate placement of bars on axis
 
-  var barWidthAndOffset = calBarWidthAndOffset(zrUtil.filter(ecModel.getSeriesByType('bar'), function (seriesModel) {
-    return !ecModel.isSeriesFiltered(seriesModel) && seriesModel.coordinateSystem && seriesModel.coordinateSystem.type === 'cartesian2d';
-  })); // Get bars on current base axis and calculate min and max overflow
+  var barWidthAndOffset = calBarWidthAndOffset(barSeriesModels); // Get bars on current base axis and calculate min and max overflow
 
   var baseAxisKey = model.axis.dim + model.axis.index;
   var barsOnCurrentAxis = barWidthAndOffset[baseAxisKey];
@@ -144,7 +156,9 @@ export function adjustScaleForOverflow(min, max, model) {
   zrUtil.each(barsOnCurrentAxis, function (item) {
     maxOverflow = Math.max(item.offset + item.width, maxOverflow);
   });
-  var totalOverFlow = Math.abs(minOverflow) + maxOverflow; // Calulate required buffer based on old range and overflow
+  minOverflow = Math.abs(minOverflow);
+  maxOverflow = Math.abs(maxOverflow);
+  var totalOverFlow = minOverflow + maxOverflow; // Calulate required buffer based on old range and overflow
 
   var oldRange = max - min;
   var oldRangePercentOfNew = 1 - (minOverflow + maxOverflow) / axisLength;
@@ -156,6 +170,7 @@ export function adjustScaleForOverflow(min, max, model) {
     max: max
   };
 }
+
 export function niceScaleExtent(scale, model) {
   var extent = getScaleExtent(scale, model);
   var fixMin = model.getMin() != null;

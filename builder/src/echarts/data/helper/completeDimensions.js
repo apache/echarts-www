@@ -19,18 +19,21 @@ import { OTHER_DIMENSIONS } from './dimensionHelper';
  *      provides not only dim template, but also default order.
  *      properties: 'name', 'type', 'displayName'.
  *      `name` of each item provides default coord name.
- *      [{dimsDef: [string...]}, ...] can be specified to give names.
+ *      [{dimsDef: [string...]}, ...] dimsDef of sysDim item provides default dim name, and
+ *                                    provide dims count that the sysDim required.
  *      [{ordinalMeta}] can be specified.
  * @param {module:echarts/data/Source|Array|Object} source or data (for compatibal with pervious)
  * @param {Object} [opt]
  * @param {Array.<Object|string>} [opt.dimsDef] option.series.dimensions User defined dimensions
  *      For example: ['asdf', {name, type}, ...].
  * @param {Object|HashMap} [opt.encodeDef] option.series.encode {x: 2, y: [3, 1], tooltip: [1, 2], label: 3}
- * @param {string} [opt.extraPrefix] Prefix of name when filling the left dimensions.
- * @param {string} [opt.extraFromZero] If specified, extra dim names will be:
- *                      extraPrefix + 0, extraPrefix + extraBaseIndex + 1 ...
- *                      If not specified, extra dim names will be:
- *                      extraPrefix, extraPrefix + 0, extraPrefix + 1 ...
+ * @param {string} [opt.generateCoord] Generate coord dim with the given name.
+ *                 If not specified, extra dim names will be:
+ *                 'value', 'value0', 'value1', ...
+ * @param {number} [opt.generateCoordCount] By default, the generated dim name is `generateCoord`.
+ *                 If `generateCoordCount` specified, the generated dim names will be:
+ *                 `generateCoord` + 0, `generateCoord` + 1, ...
+ *                 can be Infinity, indicate that use all of the remain columns.
  * @param {number} [opt.dimCount] If not specified, guess by the first data item.
  * @param {number} [opt.encodeDefaulter] If not specified, auto find the next available data dim.
  * @return {Array.<Object>} [{
@@ -38,7 +41,6 @@ import { OTHER_DIMENSIONS } from './dimensionHelper';
  *      displayName: string, the origin name in dimsDef, see source helper.
  *                 If displayName given, the tooltip will displayed vertically.
  *      coordDim: string mandatory,
- *      isSysCoord: boolean True if the coord is from sys dimension.
  *      coordDimIndex: number mandatory,
  *      type: string optional,
  *      otherDims: { never null/undefined
@@ -47,7 +49,8 @@ import { OTHER_DIMENSIONS } from './dimensionHelper';
  *          itemName: number optional,
  *          seriesName: number optional,
  *      },
- *      isExtraCoord: boolean true or undefined.
+ *      isExtraCoord: boolean true if coord is generated
+ *          (not specified in encode and not series specified)
  *      other props ...
  * }]
  */
@@ -144,9 +147,8 @@ function completeDimensions(sysDims, source, opt) {
 
       if (resultItem.name == null && sysDimItemDimsDef) {
         resultItem.name = resultItem.displayName = sysDimItemDimsDef[coordDimIndex];
-      }
+      } // FIXME refactor, currently only used in case: {otherDims: {tooltip: false}}
 
-      resultItem.isSysCoord = true; // FIXME refactor, currently only used in case: {otherDims: {tooltip: false}}
 
       sysDimItemOtherDims && defaults(resultItem.otherDims, sysDimItemOtherDims);
     });
@@ -163,12 +165,27 @@ function completeDimensions(sysDims, source, opt) {
   } // Make sure the first extra dim is 'value'.
 
 
-  var extra = opt.extraPrefix || 'value'; // Set dim `name` and other `coordDim` and other props.
+  var generateCoord = opt.generateCoord;
+  var generateCoordCount = opt.generateCoordCount;
+  var fromZero = generateCoordCount != null;
+  generateCoordCount = generateCoord ? generateCoordCount || 1 : 0;
+  var extra = generateCoord || 'value'; // Set dim `name` and other `coordDim` and other props.
 
   for (var resultDimIdx = 0; resultDimIdx < dimCount; resultDimIdx++) {
     var resultItem = result[resultDimIdx] = result[resultDimIdx] || {};
     var coordDim = resultItem.coordDim;
-    coordDim == null && (resultItem.coordDim = genName(extra, coordDimNameMap, opt.extraFromZero), resultItem.coordDimIndex = 0, resultItem.isExtraCoord = true);
+
+    if (coordDim == null) {
+      resultItem.coordDim = genName(extra, coordDimNameMap, fromZero);
+      resultItem.coordDimIndex = 0;
+
+      if (!generateCoord || generateCoordCount <= 0) {
+        resultItem.isExtraCoord = true;
+      }
+
+      generateCoordCount--;
+    }
+
     resultItem.name == null && (resultItem.name = genName(resultItem.coordDim, dataDimNameMap));
 
     if (resultItem.type == null && guessOrdinal(source, resultDimIdx, resultItem.name)) {
@@ -186,17 +203,17 @@ function completeDimensions(sysDims, source, opt) {
 // may be visited.
 // (2) sometimes user need to calcualte bubble size or use visualMap
 // on other dimensions besides coordSys needed.
+// So, dims that is not used by system, should be shared in storage?
 
 
-function getDimCount(source, sysDims, dimsDef, dimCount) {
-  if (dimCount == null) {
-    dimCount = Math.max(source.dimensionsDetectCount || 1, sysDims.length, dimsDef.length);
-    each(sysDims, function (sysDimItem) {
-      var sysDimItemDimsDef = sysDimItem.dimsDef;
-      sysDimItemDimsDef && (dimCount = Math.max(dimCount, sysDimItemDimsDef.length));
-    });
-  }
-
+function getDimCount(source, sysDims, dimsDef, optDimCount) {
+  // Note that the result dimCount should not small than columns count
+  // of data, otherwise `dataDimNameMap` checking will be incorrect.
+  var dimCount = Math.max(source.dimensionsDetectCount || 1, sysDims.length, dimsDef.length, optDimCount || 0);
+  each(sysDims, function (sysDimItem) {
+    var sysDimItemDimsDef = sysDimItem.dimsDef;
+    sysDimItemDimsDef && (dimCount = Math.max(dimCount, sysDimItemDimsDef.length));
+  });
   return dimCount;
 }
 

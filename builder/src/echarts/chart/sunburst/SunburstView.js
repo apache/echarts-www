@@ -11,7 +11,8 @@ var SunburstView = ChartView.extend({
     this.seriesModel = seriesModel;
     this.api = api;
     this.ecModel = ecModel;
-    var virtualRoot = seriesModel.getData().tree.root;
+    var data = seriesModel.getData();
+    var virtualRoot = data.tree.root;
     var newRoot = seriesModel.getViewRoot();
     var group = this.group;
     var renderLabelForZeroData = seriesModel.get('renderLabelForZeroData');
@@ -70,7 +71,9 @@ var SunburstView = ChartView.extend({
         if (oldNode && oldNode.piece) {
           if (newNode) {
             // Update
-            oldNode.piece.updateData(false, newNode, 'normal', seriesModel, ecModel);
+            oldNode.piece.updateData(false, newNode, 'normal', seriesModel, ecModel); // For tooltip
+
+            data.setItemGraphicEl(newNode.dataIndex, oldNode.piece);
           } else {
             // Remove
             removeNode(oldNode);
@@ -78,7 +81,9 @@ var SunburstView = ChartView.extend({
         } else if (newNode) {
           // Add
           var piece = new SunburstPiece(newNode, seriesModel, ecModel);
-          group.add(piece);
+          group.add(piece); // For tooltip
+
+          data.setItemGraphicEl(newNode.dataIndex, piece);
         }
       }
     }
@@ -132,25 +137,21 @@ var SunburstView = ChartView.extend({
     var that = this;
 
     var event = function (e) {
-      var nodeClick = that.seriesModel.get('nodeClick', true);
-
-      if (!nodeClick) {
-        return;
-      }
-
       var targetFound = false;
       var viewRoot = that.seriesModel.getViewRoot();
       viewRoot.eachNode(function (node) {
         if (!targetFound && node.piece && node.piece.childAt(0) === e.target) {
+          var nodeClick = node.getModel().get('nodeClick');
+
           if (nodeClick === 'rootToNode') {
             that._rootToNode(node);
           } else if (nodeClick === 'link') {
             var itemModel = node.getModel();
-            var link = itemModel.get('link', true);
+            var link = itemModel.get('link');
 
             if (link) {
               var linkTarget = itemModel.get('target', true) || '_blank';
-              link && window.open(link, linkTarget);
+              window.open(link, linkTarget);
             }
           }
 

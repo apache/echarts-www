@@ -120,8 +120,15 @@ var elementCreator = {
     return rect;
   },
   polar: function (data, dataIndex, itemModel, layout, isRadial, animationModel, isUpdate) {
+    // Keep the same logic with bar in catesion: use end value to control
+    // direction. Notice that if clockwise is true (by default), the sector
+    // will always draw clockwisely, no matter whether endAngle is greater
+    // or less than startAngle.
+    var clockwise = layout.startAngle < layout.endAngle;
     var sector = new graphic.Sector({
-      shape: zrUtil.extend({}, layout)
+      shape: zrUtil.defaults({
+        clockwise: clockwise
+      }, layout)
     }); // Animation
 
     if (animationModel) {

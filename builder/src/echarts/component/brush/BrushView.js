@@ -40,6 +40,11 @@ export default echarts.extendComponentView({
   /**
    * @override
    */
+  updateTransform: updateController,
+
+  /**
+   * @override
+   */
   updateView: updateController,
   // /**
   //  * @override

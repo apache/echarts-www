@@ -1,5 +1,6 @@
 import * as zrUtil from 'zrender/src/core/util';
 import { parsePercent } from '../util/number';
+import { isDimensionStacked } from '../data/helper/dataStackHelper';
 
 function getSeriesStackId(seriesModel) {
   return seriesModel.get('stack') || '__ec_stack_' + seriesModel.seriesIndex;
@@ -19,7 +20,6 @@ function barLayoutPolar(seriesType, ecModel, api) {
   var width = api.getWidth();
   var height = api.getHeight();
   var lastStackCoords = {};
-  var lastStackCoordsOrigin = {};
   var barWidthAndOffset = calRadialBar(zrUtil.filter(ecModel.getSeriesByType(seriesType), function (seriesModel) {
     return !ecModel.isSeriesFiltered(seriesModel) && seriesModel.coordinateSystem && seriesModel.coordinateSystem.type === 'polar';
   }));
@@ -31,7 +31,6 @@ function barLayoutPolar(seriesType, ecModel, api) {
 
     var data = seriesModel.getData();
     var polar = seriesModel.coordinateSystem;
-    var angleAxis = polar.getAngleAxis();
     var baseAxis = polar.getBaseAxis();
     var stackId = getSeriesStackId(seriesModel);
     var columnLayoutInfo = barWidthAndOffset[getAxisKey(baseAxis)][stackId];
@@ -43,100 +42,95 @@ function barLayoutPolar(seriesType, ecModel, api) {
     var cy = parsePercent(center[1], height);
     var barMinHeight = seriesModel.get('barMinHeight') || 0;
     var barMinAngle = seriesModel.get('barMinAngle') || 0;
-    var valueAxisStart = valueAxis.getExtent()[0];
-    var valueMax = valueAxis.model.get('max');
-    var valueMin = valueAxis.model.get('min');
-    var coordDims = [data.mapDimension('radius'), data.mapDimension('angle')];
-    var coords = data.mapArray(coordDims, function (radius, angle) {
-      return polar.dataToPoint([radius, angle]);
-    }, true);
     lastStackCoords[stackId] = lastStackCoords[stackId] || [];
-    lastStackCoordsOrigin[stackId] = lastStackCoordsOrigin[stackId] || []; // Fix #4243
+    var valueDim = data.mapDimension(valueAxis.dim);
+    var baseDim = data.mapDimension(baseAxis.dim);
+    var stacked = isDimensionStacked(data, valueDim, baseDim);
+    var valueAxisStart = valueAxis.getExtent()[0];
 
-    data.each(data.mapDimension(valueAxis.dim), function (value, idx) {
+    for (var idx = 0, len = data.count(); idx < len; idx++) {
+      var value = data.get(valueDim, idx);
+      var baseValue = data.get(baseDim, idx);
+
       if (isNaN(value)) {
-        return;
-      }
-
-      if (!lastStackCoords[stackId][idx]) {
-        lastStackCoords[stackId][idx] = {
-          p: valueAxisStart,
-          // Positive stack
-          n: valueAxisStart // Negative stack
-
-        };
-        lastStackCoordsOrigin[stackId][idx] = {
-          p: valueAxisStart,
-          // Positive stack
-          n: valueAxisStart // Negative stack
-
-        };
+        continue;
       }
 
       var sign = value >= 0 ? 'p' : 'n';
-      var coord = polar.pointToCoord(coords[idx]);
-      var lastCoordOrigin = lastStackCoordsOrigin[stackId][idx][sign];
+      var baseCoord = valueAxisStart; // Because of the barMinHeight, we can not use the value in
+      // stackResultDimension directly.
+      // Only ordinal axis can be stacked.
+
+      if (stacked) {
+        if (!lastStackCoords[stackId][baseValue]) {
+          lastStackCoords[stackId][baseValue] = {
+            p: valueAxisStart,
+            // Positive stack
+            n: valueAxisStart // Negative stack
+
+          };
+        } // Should also consider #4243
+
+
+        baseCoord = lastStackCoords[stackId][baseValue][sign];
+      }
+
       var r0;
       var r;
       var startAngle;
-      var endAngle;
+      var endAngle; // radial sector
 
       if (valueAxis.dim === 'radius') {
-        // radial sector
-        r0 = lastCoordOrigin;
-        r = coord[0];
-        startAngle = (-coord[1] + columnOffset) * Math.PI / 180;
-        endAngle = startAngle + columnWidth * Math.PI / 180;
+        var radiusSpan = valueAxis.dataToRadius(value) - valueAxisStart;
+        var angle = baseAxis.dataToAngle(baseValue);
 
-        if (Math.abs(r) < barMinHeight) {
-          r = r0 + (r < 0 ? -1 : 1) * barMinHeight;
+        if (Math.abs(radiusSpan) < barMinHeight) {
+          radiusSpan = (radiusSpan < 0 ? -1 : 1) * barMinHeight;
         }
 
-        lastStackCoordsOrigin[stackId][idx][sign] = r;
-      } else {
-        // tangential sector
-        r0 = coord[0] + columnOffset;
-        r = r0 + columnWidth; // clamp data if min or max is defined for valueAxis
+        r0 = baseCoord;
+        r = baseCoord + radiusSpan;
+        startAngle = angle - columnOffset;
+        endAngle = startAngle - columnWidth;
+        stacked && (lastStackCoords[stackId][baseValue][sign] = r);
+      } // tangential sector
+      else {
+          // angleAxis must be clamped.
+          var angleSpan = valueAxis.dataToAngle(value, true) - valueAxisStart;
+          var radius = baseAxis.dataToRadius(baseValue);
 
-        if (valueMax != null) {
-          value = Math.min(value, valueMax);
+          if (Math.abs(angleSpan) < barMinAngle) {
+            angleSpan = (angleSpan < 0 ? -1 : 1) * barMinAngle;
+          }
+
+          r0 = radius + columnOffset;
+          r = r0 + columnWidth;
+          startAngle = baseCoord;
+          endAngle = baseCoord + angleSpan; // if the previous stack is at the end of the ring,
+          // add a round to differentiate it from origin
+          // var extent = angleAxis.getExtent();
+          // var stackCoord = angle;
+          // if (stackCoord === extent[0] && value > 0) {
+          //     stackCoord = extent[1];
+          // }
+          // else if (stackCoord === extent[1] && value < 0) {
+          //     stackCoord = extent[0];
+          // }
+
+          stacked && (lastStackCoords[stackId][baseValue][sign] = endAngle);
         }
-
-        if (valueMin != null) {
-          value = Math.max(value, valueMin);
-        }
-
-        var angle = angleAxis.dataToAngle(value);
-
-        if (Math.abs(angle - lastCoordOrigin) < barMinAngle) {
-          angle = lastCoordOrigin - (value < 0 ? -1 : 1) * barMinAngle;
-        }
-
-        startAngle = -lastCoordOrigin * Math.PI / 180;
-        endAngle = -angle * Math.PI / 180; // if the previous stack is at the end of the ring,
-        // add a round to differentiate it from origin
-
-        var extent = angleAxis.getExtent();
-        var stackCoord = angle;
-
-        if (stackCoord === extent[0] && value > 0) {
-          stackCoord = extent[1];
-        } else if (stackCoord === extent[1] && value < 0) {
-          stackCoord = extent[0];
-        }
-
-        lastStackCoordsOrigin[stackId][idx][sign] = stackCoord;
-      }
 
       data.setItemLayout(idx, {
         cx: cx,
         cy: cy,
         r0: r0,
         r: r,
-        startAngle: startAngle,
-        endAngle: endAngle
+        // Consider that positive angle is anti-clockwise,
+        // while positive radian of sector is clockwise
+        startAngle: -startAngle * Math.PI / 180,
+        endAngle: -endAngle * Math.PI / 180
       });
-    }, true);
+    }
   }, this);
 }
 /**

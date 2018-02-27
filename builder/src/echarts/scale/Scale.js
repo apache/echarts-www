@@ -95,7 +95,7 @@ Scale.prototype.unionExtent = function (other) {
 
 
 Scale.prototype.unionExtentFromData = function (data, dim) {
-  this.unionExtent(data.getApproximateExtent(dim, true));
+  this.unionExtent(data.getApproximateExtent(dim));
 };
 /**
  * Get extent

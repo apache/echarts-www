@@ -27,7 +27,7 @@ Calendar.prototype = {
     return [{
       name: 'time',
       type: 'time'
-    }];
+    }, 'value'];
   },
   getRangeInfo: function () {
     return this._rangeInfo;

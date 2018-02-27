@@ -307,8 +307,7 @@ var SeriesModel = ComponentModel.extend({
     var name = data.getName(dataIndex);
     var seriesName = this.name;
 
-    if (seriesName === modelUtil.DEFAULT_COMPONENT_NAME) {
-      // Not show '-'
+    if (!modelUtil.isNameSpecified(this)) {
       seriesName = '';
     }
 
@@ -423,7 +422,7 @@ function autoSeriesName(seriesModel) {
   // series can not be queried unexpectedly.
   var name = seriesModel.name;
 
-  if (modelUtil.DEFAULT_COMPONENT_NAME === name) {
+  if (!modelUtil.isNameSpecified(seriesModel)) {
     seriesModel.name = getSeriesAutoName(seriesModel) || name;
   }
 }

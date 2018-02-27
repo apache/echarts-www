@@ -5,6 +5,7 @@ import * as axisHelper from './coord/axisHelper';
 import axisModelCommonMixin from './coord/axisModelCommonMixin';
 import Model from './model/Model';
 import { getLayoutRect } from './util/layout';
+import { enableDataStack, isDimensionStacked } from './data/helper/dataStackHelper';
 /**
  * Create a muti dimension List structure from seriesModel.
  * @param  {module:echarts/model/Model} seriesModel
@@ -26,6 +27,10 @@ export { getLayoutRect };
 
 export { default as completeDimensions } from './data/helper/completeDimensions';
 export { default as createDimensions } from './data/helper/createDimensions';
+export var dataStack = {
+  isDimensionStacked: isDimensionStacked,
+  enableDataStack: enableDataStack
+};
 /**
  * Create a symbol element with given symbol configuration: shape, x, y, width, height, color
  * @see http://echarts.baidu.com/option.html#series-scatter.symbol

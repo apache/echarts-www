@@ -31,7 +31,13 @@ export default SeriesModel.extend({
       width: 2,
       type: 'solid'
     },
-    // areaStyle: {origin: 'auto'},
+    // areaStyle: {
+    // origin of areaStyle. Valid values:
+    // `'auto'/null/undefined`: from axisLine to data
+    // `'start'`: from min to data
+    // `'end'`: from data to max
+    // origin: 'auto'
+    // },
     // false, 'start', 'end', 'middle'
     step: false,
     // Disabled if step is true

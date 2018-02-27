@@ -18,8 +18,13 @@ function createLinearGradient(ctx, obj, rect) {
     x2 = x2 * rect.width + rect.x;
     y = y * rect.height + rect.y;
     y2 = y2 * rect.height + rect.y;
-  }
+  } // Fix NaN when rect is Infinity
 
+
+  x = isNaN(x) ? 0 : x;
+  x2 = isNaN(x2) ? 1 : x2;
+  y = isNaN(y) ? 0 : y;
+  y2 = isNaN(y2) ? 0 : y2;
   var canvasGradient = ctx.createLinearGradient(x, y, x2, y2);
   return canvasGradient;
 }

@@ -88,7 +88,7 @@ export default function (seriesType, ecModel, api, payload) {
         r: roseType ? linearMap(value, extent, [r0, r]) : r
       });
       currentAngle = endAngle;
-    }, true); // Some sector is constrained by minAngle
+    }); // Some sector is constrained by minAngle
     // Rest sectors needs recalculate angle
 
     if (restAngle < PI2 && validDataCount) {

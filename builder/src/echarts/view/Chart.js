@@ -187,16 +187,35 @@ function renderTaskReset(context) {
   var api = context.api;
   var payload = context.payload; // ???! remove updateView updateVisual
 
-  var incremental = seriesModel.pipelineContext.incrementalRender;
+  var canProgressiveRender = seriesModel.pipelineContext.canProgressiveRender;
   var view = context.view;
   var updateMethod = payload && inner(payload).updateMethod;
-  var methodName = incremental && view.incrementalPrepareRender ? 'incrementalPrepareRender' : updateMethod && view[updateMethod] ? updateMethod : 'render';
-  view[methodName](seriesModel, ecModel, api, payload);
-  return incremental ? renderTaskProgress : null;
+  var methodName = canProgressiveRender ? 'incrementalPrepareRender' : updateMethod && view[updateMethod] ? updateMethod // `appendData` is also supported when data amount
+  // is less than progressive threshold.
+  : 'render';
+
+  if (methodName !== 'render') {
+    view[methodName](seriesModel, ecModel, api, payload);
+  }
+
+  return progressMethodMap[methodName];
 }
 
-function renderTaskProgress(params, context) {
-  context.view.incrementalRender(params, context.model, context.ecModel, context.api, context.payload);
-}
-
+var progressMethodMap = {
+  incrementalPrepareRender: {
+    progress: function (params, context) {
+      context.view.incrementalRender(params, context.model, context.ecModel, context.api, context.payload);
+    }
+  },
+  render: {
+    // Put view.render in `progress` to support appendData. But in this case
+    // view.render should not be called in reset, otherwise it will be called
+    // twise. Use `forceFirstProgress` to make sure that view.render is called
+    // in any cases.
+    forceFirstProgress: true,
+    progress: function (params, context) {
+      context.view.render(context.model, context.ecModel, context.api, context.payload);
+    }
+  }
+};
 export default Chart;

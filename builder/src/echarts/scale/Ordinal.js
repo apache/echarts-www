@@ -84,7 +84,7 @@ var OrdinalScale = Scale.extend({
    * @override
    */
   unionExtentFromData: function (data, dim) {
-    this.unionExtent(data.getApproximateExtent(dim, false));
+    this.unionExtent(data.getApproximateExtent(dim));
   },
   niceTicks: zrUtil.noop,
   niceExtent: zrUtil.noop

@@ -115,15 +115,11 @@ export function getTooltipMarker(opt, extraCssText) {
 
   return type === 'subItem' ? '<span style="display:inline-block;vertical-align:middle;margin-right:8px;margin-left:3px;' + 'border-radius:4px;width:4px;height:4px;background-color:' + encodeHTML(color) + ';' + (extraCssText || '') + '"></span>' : '<span style="display:inline-block;margin-right:5px;' + 'border-radius:10px;width:10px;height:10px;background-color:' + encodeHTML(color) + ';' + (extraCssText || '') + '"></span>';
 }
-/**
- * @param {string} str
- * @return {string}
- * @inner
- */
 
-var s2d = function (str) {
-  return str < 10 ? '0' + str : str;
-};
+function pad(str, len) {
+  str += '';
+  return '0000'.substr(0, len - str.length) + str;
+}
 /**
  * ISO Date format
  * @param {string} tpl
@@ -148,7 +144,8 @@ export function formatTime(tpl, value, isUTC) {
   var h = date['get' + utc + 'Hours']();
   var m = date['get' + utc + 'Minutes']();
   var s = date['get' + utc + 'Seconds']();
-  tpl = tpl.replace('MM', s2d(M)).replace('M', M).replace('yyyy', y).replace('yy', y % 100).replace('dd', s2d(d)).replace('d', d).replace('hh', s2d(h)).replace('h', h).replace('mm', s2d(m)).replace('m', m).replace('ss', s2d(s)).replace('s', s);
+  var S = date['get' + utc + 'Milliseconds']();
+  tpl = tpl.replace('MM', pad(M, 2)).replace('M', M).replace('yyyy', y).replace('yy', y % 100).replace('dd', pad(d, 2)).replace('d', d).replace('hh', pad(h, 2)).replace('h', h).replace('mm', pad(m, 2)).replace('m', m).replace('ss', pad(s, 2)).replace('s', s).replace('SSS', pad(S, 3));
   return tpl;
 }
 /**

@@ -57,9 +57,11 @@ taskProto.perform = function (performArgs) {
     planResult = this._plan(this.context);
   }
 
+  var forceFirstProgress;
+
   if (this._dirty || planResult === 'reset') {
     this._dirty = false;
-    reset(this, skip);
+    forceFirstProgress = reset(this, skip);
   }
 
   var step = performArgs && performArgs.step;
@@ -78,7 +80,7 @@ taskProto.perform = function (performArgs) {
   if (this._progress) {
     var start = this._dueIndex;
     var end = Math.min(step != null ? this._dueIndex + step : Infinity, this._dueEnd);
-    !skip && start < end && this._progress({
+    !skip && (forceFirstProgress || start < end) && this._progress({
       start: start,
       end: end
     }, this.context);
@@ -109,9 +111,22 @@ taskProto.dirty = function () {
 function reset(taskIns, skip) {
   taskIns._dueIndex = taskIns._outputDueEnd = taskIns._dueEnd = 0;
   taskIns._settedOutputEnd = null;
-  taskIns._progress = !skip && taskIns._reset && taskIns._reset(taskIns.context);
+  var progress;
+  var forceFirstProgress;
+
+  if (!skip && taskIns._reset) {
+    progress = taskIns._reset(taskIns.context);
+
+    if (progress && progress.progress) {
+      forceFirstProgress = progress.forceFirstProgress;
+      progress = progress.progress;
+    }
+  }
+
+  taskIns._progress = progress;
   var downstream = taskIns._downstream;
   downstream && downstream.dirty();
+  return forceFirstProgress;
 }
 /**
  * @return {boolean}
@@ -163,4 +178,46 @@ taskProto.setOutputEnd = function (end) {
   // that the stub of dataZoom perform again and earse the
   // setted end by upstream.
   this._outputDueEnd = this._settedOutputEnd = end; // this._outputDueEnd = end;
-};
+}; ///////////////////////////////////////////////////////////
+// For stream debug (Should be commented out after used!)
+// Usage: printTask(this, 'begin');
+// Usage: printTask(this, null, {someExtraProp});
+// function printTask(task, prefix, extra) {
+//     window.ecTaskUID == null && (window.ecTaskUID = 0);
+//     task.uidDebug == null && (task.uidDebug = `task_${window.ecTaskUID++}`);
+//     task.agent && task.agent.uidDebug == null && (task.agent.uidDebug = `task_${window.ecTaskUID++}`);
+//     var props = [];
+//     if (task.__pipeline) {
+//         var val = `${task.__idxInPipeline}/${task.__pipeline.tail.__idxInPipeline} ${task.agent ? '(stub)' : ''}`;
+//         props.push({text: 'idx', value: val});
+//     } else {
+//         var stubCount = 0;
+//         task.agentStubMap.each(() => stubCount++);
+//         props.push({text: 'idx', value: `overall (stubs: ${stubCount})`});
+//     }
+//     props.push({text: 'uid', value: task.uidDebug});
+//     if (task.__pipeline) {
+//         props.push({text: 'pid', value: task.__pipeline.id});
+//         task.agent && props.push(
+//             {text: 'stubFor', value: task.agent.uidDebug}
+//         );
+//     }
+//     props.push(
+//         {text: 'dirty', value: task._dirty},
+//         {text: 'dueIndex', value: task._dueIndex},
+//         {text: 'dueEnd', value: task._dueEnd},
+//         {text: 'outputDueEnd', value: task._outputDueEnd}
+//     );
+//     if (extra) {
+//         Object.keys(extra).forEach(key => {
+//             props.push({text: key, value: extra[key]});
+//         });
+//     }
+//     var args = ['color: blue'];
+//     var msg = `%c[${prefix || 'T'}] %c` + props.map(item => (
+//         args.push('color: black', 'color: red'),
+//         `${item.text}: %c${item.value}`
+//     )).join('%c, ');
+//     console.log.apply(console, [msg].concat(args));
+//     // console.log(this);
+// }

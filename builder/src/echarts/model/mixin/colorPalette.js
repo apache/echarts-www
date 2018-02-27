@@ -18,6 +18,14 @@ export default {
     inner(this).colorIdx = 0;
     inner(this).colorNameMap = {};
   },
+
+  /**
+   * @param {string} name MUST NOT be null/undefined. Otherwise call this function
+   *                 twise with the same parameters will get different result.
+   * @param {Object} [scope=this]
+   * @param {Object} [requestColorNum]
+   * @return {string} color string.
+   */
   getColorFromPalette: function (name, scope, requestColorNum) {
     scope = scope || this;
     var scopeFields = inner(scope);

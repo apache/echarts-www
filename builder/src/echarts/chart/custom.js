@@ -85,10 +85,10 @@ echarts.extendChartView({
     var renderItem = makeRenderItem(customSeries, data, ecModel, api);
     this.group.removeAll();
     data.diff(oldData).add(function (newIdx) {
-      data.hasValue(newIdx) && createOrUpdate(null, newIdx, renderItem(newIdx), customSeries, group, data);
+      createOrUpdate(null, newIdx, renderItem(newIdx), customSeries, group, data);
     }).update(function (newIdx, oldIdx) {
       var el = oldData.getItemGraphicEl(oldIdx);
-      data.hasValue(newIdx) ? createOrUpdate(el, newIdx, renderItem(newIdx), customSeries, group, data) : el && group.remove(el);
+      createOrUpdate(el, newIdx, renderItem(newIdx), customSeries, group, data);
     }).remove(function (oldIdx) {
       var el = oldData.getItemGraphicEl(oldIdx);
       el && group.remove(el);

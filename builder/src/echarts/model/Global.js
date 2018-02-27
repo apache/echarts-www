@@ -544,8 +544,15 @@ function isNotTargetSeries(seriesModel, payload) {
 
 
 function mergeTheme(option, theme) {
+  // PENDING
+  // NOT use `colorLayer` in theme if option has `color`
+  var notMergeColorLayer = option.color && !option.colorLayer;
   each(theme, function (themeItem, name) {
-    // 如果有 component model 则把具体的 merge 逻辑交给该 model 处理
+    if (name === 'colorLayer' && notMergeColorLayer) {
+      return;
+    } // 如果有 component model 则把具体的 merge 逻辑交给该 model 处理
+
+
     if (!ComponentModel.hasClass(name)) {
       if (typeof themeItem === 'object') {
         option[name] = !option[name] ? clone(themeItem) : merge(option[name], themeItem, false);

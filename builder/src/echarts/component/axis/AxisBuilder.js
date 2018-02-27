@@ -145,6 +145,11 @@ var builders = {
     })));
     var arrows = axisModel.get('axisLine.symbol');
     var arrowSize = axisModel.get('axisLine.symbolSize');
+    var arrowOffset = axisModel.get('axisLine.symbolOffset') || 0;
+
+    if (typeof arrowOffset === 'number') {
+      arrowOffset = [arrowOffset, arrowOffset];
+    }
 
     if (arrows != null) {
       if (typeof arrows === 'string') {
@@ -159,12 +164,23 @@ var builders = {
 
       var symbolWidth = arrowSize[0];
       var symbolHeight = arrowSize[1];
-      each([[opt.rotation + Math.PI / 2, pt1], [opt.rotation - Math.PI / 2, pt2]], function (item, index) {
+      each([{
+        rotate: opt.rotation + Math.PI / 2,
+        offset: arrowOffset[0],
+        r: 0
+      }, {
+        rotate: opt.rotation - Math.PI / 2,
+        offset: arrowOffset[1],
+        r: Math.sqrt((pt1[0] - pt2[0]) * (pt1[0] - pt2[0]) + (pt1[1] - pt2[1]) * (pt1[1] - pt2[1]))
+      }], function (point, index) {
         if (arrows[index] !== 'none' && arrows[index] != null) {
-          var symbol = createSymbol(arrows[index], -symbolWidth / 2, -symbolHeight / 2, symbolWidth, symbolHeight, lineStyle.stroke, true);
+          var symbol = createSymbol(arrows[index], -symbolWidth / 2, -symbolHeight / 2, symbolWidth, symbolHeight, lineStyle.stroke, true); // Calculate arrow position with offset
+
+          var r = point.r + point.offset;
+          var pos = [pt1[0] + r * Math.cos(opt.rotation), pt1[1] - r * Math.sin(opt.rotation)];
           symbol.attr({
-            rotation: item[0],
-            position: item[1],
+            rotation: point.rotate,
+            position: pos,
             silent: true
           });
           this.group.add(symbol);

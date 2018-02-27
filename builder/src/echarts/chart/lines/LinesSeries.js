@@ -256,8 +256,6 @@ var LinesSeries = SeriesModel.extend({
     large: false,
     // Available when large is true
     largeThreshold: 2000,
-    incremental: false,
-    incrementalThreshold: 3000,
     // If lines are polyline
     // polyline not support curveness, label, animation
     polyline: false,

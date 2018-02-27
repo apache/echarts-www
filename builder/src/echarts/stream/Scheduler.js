@@ -11,11 +11,17 @@ import { normalizeToArray } from '../util/model';
  * @constructor
  */
 
-function Scheduler(ecInstance, api) {
+function Scheduler(ecInstance, api, dataProcessorHandlers, visualHandlers) {
   // this._pipelineMap = createHashMap();
   this.ecInstance = ecInstance;
   this.api = api;
-  this.unfinished;
+  this.unfinished; // Fix current processors in case that in some rear cases that
+  // processors might be registered after echarts instance created.
+  // Register processors incrementally for a echarts instance is
+  // not supported by this stream architecture.
+
+  this._dataProcessorHandlers = dataProcessorHandlers.slice();
+  this._visualHandlers = visualHandlers.slice();
   /**
    * @private
    * @type {
@@ -42,7 +48,7 @@ proto.getPerformArgs = function (task, isBlock) {
   var pipeline = this._pipelineMap.get(task.__pipeline.id);
 
   var pCtx = pipeline.context;
-  var incremental = !isBlock && pipeline.progressiveEnabled && (!pCtx || pCtx.incrementalRender) && task.__idxInPipeline > pipeline.bockIndex;
+  var incremental = !isBlock && pipeline.progressiveEnabled && (!pCtx || pCtx.canProgressiveRender) && task.__idxInPipeline > pipeline.bockIndex;
   return {
     step: incremental ? pipeline.step : null
   };
@@ -64,11 +70,16 @@ proto.updateStreamModes = function (seriesModel, view) {
   var pipeline = this._pipelineMap.get(seriesModel.uid);
 
   var data = seriesModel.getData();
-  var dataLen = data.count();
-  var incrementalRender = pipeline.progressiveEnabled && view.incrementalPrepareRender && dataLen >= pipeline.threshold;
+  var dataLen = data.count(); // `canProgressiveRender` means that can render progressively in each
+  // animation frame. Note that some types of series do not provide
+  // `view.incrementalPrepareRender` but support `chart.appendData`. We
+  // use the term `incremental` but not `progressive` to describe the
+  // case that `chart.appendData`.
+
+  var canProgressiveRender = pipeline.progressiveEnabled && view.incrementalPrepareRender && dataLen >= pipeline.threshold;
   var large = seriesModel.get('large') && dataLen >= seriesModel.get('largeThreshold');
   seriesModel.pipelineContext = pipeline.context = {
-    incrementalRender: incrementalRender,
+    canProgressiveRender: canProgressiveRender,
     large: large
   };
 };
@@ -94,14 +105,16 @@ proto.restorePipelines = function (ecModel) {
   });
 };
 
-proto.prepareStageTasks = function (stageHandlers, useClearVisual) {
+proto.prepareStageTasks = function () {
   var stageTaskMap = this._stageTaskMap;
   var ecModel = this.ecInstance.getModel();
   var api = this.api;
-  each(stageHandlers, function (handler) {
-    var record = stageTaskMap.get(handler.uid) || stageTaskMap.set(handler.uid, []);
-    handler.reset && createSeriesStageTask(this, handler, record, ecModel, api);
-    handler.overallReset && createOverallStageTask(this, handler, record, ecModel, api);
+  each([this._dataProcessorHandlers, this._visualHandlers], function (stageHandlers) {
+    each(stageHandlers, function (handler) {
+      var record = stageTaskMap.get(handler.uid) || stageTaskMap.set(handler.uid, []);
+      handler.reset && createSeriesStageTask(this, handler, record, ecModel, api);
+      handler.overallReset && createOverallStageTask(this, handler, record, ecModel, api);
+    }, this);
   }, this);
 };
 
@@ -115,9 +128,9 @@ proto.prepareView = function (view, model, ecModel, api) {
   pipe(this, model, renderTask);
 };
 
-proto.performDataProcessorTasks = function (stageHandlers, ecModel, payload) {
+proto.performDataProcessorTasks = function (ecModel, payload) {
   // If we do not use `block` here, it should be considered when to update modes.
-  performStageTasks(this, stageHandlers, ecModel, payload, {
+  performStageTasks(this, this._dataProcessorHandlers, ecModel, payload, {
     block: true
   });
 }; // opt
@@ -125,8 +138,8 @@ proto.performDataProcessorTasks = function (stageHandlers, ecModel, payload) {
 // opt.setDirty
 
 
-proto.performVisualTasks = function (stageHandlers, ecModel, payload, opt) {
-  performStageTasks(this, stageHandlers, ecModel, payload, opt);
+proto.performVisualTasks = function (ecModel, payload, opt) {
+  performStageTasks(this, this._visualHandlers, ecModel, payload, opt);
 };
 
 function performStageTasks(scheduler, stageHandlers, ecModel, payload, opt) {

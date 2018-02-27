@@ -77,6 +77,13 @@ SunburstPieceProto.updateData = function (firstCreate, node, state, seriesModel,
       }
     }, seriesModel, node.dataIndex);
     sector.useStyle(style);
+  } else if (typeof style.fill === 'object' && style.fill.type || typeof sector.style.fill === 'object' && sector.style.fill.type) {
+    // Disable animation for gradient since no interpolation method
+    // is supported for gradient
+    graphic.updateProps(sector, {
+      shape: sectorShape
+    }, seriesModel);
+    sector.useStyle(style);
   } else {
     graphic.updateProps(sector, {
       shape: sectorShape,
@@ -84,12 +91,7 @@ SunburstPieceProto.updateData = function (firstCreate, node, state, seriesModel,
     }, seriesModel);
   }
 
-  if (state === 'normal') {
-    sector.hoverStyle = itemModel.getModel('emphasis.itemStyle').getItemStyle();
-    graphic.setHoverStyle(this);
-  }
-
-  this._updateLabel(seriesModel, ecModel, visualColor);
+  this._updateLabel(seriesModel, visualColor, state);
 
   var cursorStyle = itemModel.getShallow('cursor');
   cursorStyle && sector.attr('cursor', cursorStyle);
@@ -135,30 +137,45 @@ SunburstPieceProto.onDownplay = function () {
   this.updateData(false, this.node, 'downplay');
 };
 
-SunburstPieceProto._updateLabel = function (seriesModel, ecModel, visualColor) {
+SunburstPieceProto._updateLabel = function (seriesModel, visualColor, state) {
   var itemModel = this.node.getModel();
-  var labelModel = itemModel.getModel('label');
-  var labelHoverModel = itemModel.getModel('label.emphasis');
+  var normalModel = itemModel.getModel('label');
+  var labelModel = state === 'normal' || state === 'emphasis' ? normalModel : itemModel.getModel(state + '.label');
+  var labelHoverModel = itemModel.getModel('emphasis.label');
   var text = zrUtil.retrieve(seriesModel.getFormattedLabel(this.node.dataIndex, 'normal', null, null, 'label'), this.node.name);
 
-  if (!labelModel.get('show')) {
+  if (getLabelAttr('show') === false) {
+    text = '';
+  }
+
+  var layout = this.node.getLayout();
+  var labelMinAngle = labelModel.get('minAngle');
+
+  if (labelMinAngle == null) {
+    labelMinAngle = normalModel.get('minAngle');
+  }
+
+  labelMinAngle = labelMinAngle / 180 * Math.PI;
+  var angle = layout.endAngle - layout.startAngle;
+
+  if (labelMinAngle != null && Math.abs(angle) < labelMinAngle) {
+    // Not displaying text when angle is too small
     text = '';
   }
 
   var label = this.childAt(1);
-  graphic.setLabelStyle(label.style, label.hoverStyle = {}, labelModel, labelHoverModel, {
+  graphic.setLabelStyle(label.style, label.hoverStyle || {}, normalModel, labelHoverModel, {
     defaultText: labelModel.getShallow('show') ? text : null,
     autoColor: visualColor,
     useInsideStyle: true
   });
-  var layout = this.node.getLayout();
   var midAngle = (layout.startAngle + layout.endAngle) / 2;
   var dx = Math.cos(midAngle);
   var dy = Math.sin(midAngle);
   var r;
-  var labelPosition = labelModel.get('position');
-  var labelPadding = labelModel.get('distance') || 0;
-  var textAlign = labelModel.get('align');
+  var labelPosition = getLabelAttr('position');
+  var labelPadding = getLabelAttr('distance') || 0;
+  var textAlign = getLabelAttr('align');
 
   if (labelPosition === 'outside') {
     r = layout.r + labelPadding;
@@ -185,13 +202,13 @@ SunburstPieceProto._updateLabel = function (seriesModel, ecModel, visualColor) {
   label.attr('style', {
     text: text,
     textAlign: textAlign,
-    textVerticalAlign: labelModel.get('verticalAlign') || 'middle',
-    opacity: labelModel.get('opacity')
+    textVerticalAlign: getLabelAttr('verticalAlign') || 'middle',
+    opacity: getLabelAttr('opacity')
   });
   var textX = r * dx + layout.cx;
   var textY = r * dy + layout.cy;
   label.attr('position', [textX, textY]);
-  var rotateType = labelModel.getShallow('rotate');
+  var rotateType = getLabelAttr('rotate');
   var rotate = 0;
 
   if (rotateType === 'radial') {
@@ -213,6 +230,16 @@ SunburstPieceProto._updateLabel = function (seriesModel, ecModel, visualColor) {
   }
 
   label.attr('rotation', rotate);
+
+  function getLabelAttr(name) {
+    var stateAttr = labelModel.get(name);
+
+    if (stateAttr == null) {
+      return normalModel.get(name);
+    } else {
+      return stateAttr;
+    }
+  }
 };
 
 SunburstPieceProto._initEvents = function (sector, node, seriesModel, highlightPolicy) {
@@ -255,7 +282,7 @@ function getNodeColor(node, seriesModel, ecModel) {
   var visualColor = node.getVisual('color');
   var visualMetaList = node.getVisual('visualMeta');
 
-  if (visualMetaList.length === 0) {
+  if (!visualMetaList || visualMetaList.length === 0) {
     // Use first-generation color if has no visualMap
     visualColor = null;
   } // Self color or level color
