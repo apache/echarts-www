@@ -122,6 +122,10 @@ SVGPainter.prototype = {
 
     this._paintList(list);
   },
+  setBackgroundColor: function (backgroundColor) {
+    // TODO gradient
+    this._viewport.style.background = backgroundColor;
+  },
   _paintList: function (list) {
     this.gradientManager.markAllUnused();
     this.clipPathManager.markAllUnused();
@@ -319,10 +323,10 @@ SVGPainter.prototype = {
       this.root.removeChild(this._viewport);
     }
   },
-  pathToSvg: function () {
+  pathToDataUrl: function () {
     this.refresh();
     var html = this._svgRoot.outerHTML;
-    return 'data:img/svg+xml;utf-8,' + unescape(html);
+    return 'data:image/svg+xml;charset=UTF-8,' + html;
   }
 }; // Not supported methods
 

@@ -38,9 +38,9 @@ var each = zrUtil.each;
 var isFunction = zrUtil.isFunction;
 var isObject = zrUtil.isObject;
 var parseClassType = ComponentModel.parseClassType;
-export var version = '4.0.3';
+export var version = '4.0.4';
 export var dependencies = {
-  zrender: '4.0.2'
+  zrender: '4.0.3'
 };
 var TEST_FRAME_REMAIN_TIME = 1;
 var PRIORITY_PROCESSOR_FILTER = 1000;
@@ -71,7 +71,6 @@ export var PRIORITY = {
 // All events will be triggered out side main process (i.e. when !this[IN_MAIN_PROCESS]).
 
 var IN_MAIN_PROCESS = '__flagInMainProcess';
-var HAS_GRADIENT_OR_PATTERN_BG = '__hasGradientOrPatternBg';
 var OPTION_UPDATED = '__optionUpdated';
 var ACTION_REG = /^[a-zA-Z0-9_]+$/;
 
@@ -430,7 +429,7 @@ echartsProto.getSvgDataUrl = function () {
   zrUtil.each(list, function (el) {
     el.stopAnimation(true);
   });
-  return zr.painter.pathToSvg();
+  return zr.painter.pathToDataUrl();
 };
 /**
  * @return {string}
@@ -720,42 +719,17 @@ var updateMethods = {
     scheduler.performVisualTasks(ecModel, payload);
     render(this, ecModel, api, payload); // Set background
 
-    var backgroundColor = ecModel.get('backgroundColor') || 'transparent';
-    var painter = zr.painter; // TODO all use clearColor ?
+    var backgroundColor = ecModel.get('backgroundColor') || 'transparent'; // In IE8
 
-    if (painter.isSingleCanvas && painter.isSingleCanvas()) {
-      zr.configLayer(0, {
-        clearColor: backgroundColor
-      });
+    if (!env.canvasSupported) {
+      var colorArr = colorTool.parse(backgroundColor);
+      backgroundColor = colorTool.stringify(colorArr, 'rgb');
+
+      if (colorArr[3] === 0) {
+        backgroundColor = 'transparent';
+      }
     } else {
-      // In IE8
-      if (!env.canvasSupported) {
-        var colorArr = colorTool.parse(backgroundColor);
-        backgroundColor = colorTool.stringify(colorArr, 'rgb');
-
-        if (colorArr[3] === 0) {
-          backgroundColor = 'transparent';
-        }
-      }
-
-      if (backgroundColor.colorStops || backgroundColor.image) {
-        // Gradient background
-        // FIXME Fixed layer？
-        zr.configLayer(0, {
-          clearColor: backgroundColor
-        });
-        this[HAS_GRADIENT_OR_PATTERN_BG] = true;
-        this._dom.style.background = 'transparent';
-      } else {
-        if (this[HAS_GRADIENT_OR_PATTERN_BG]) {
-          zr.configLayer(0, {
-            clearColor: null
-          });
-        }
-
-        this[HAS_GRADIENT_OR_PATTERN_BG] = false;
-        this._dom.style.background = backgroundColor;
-      }
+      zr.setBackgroundColor(backgroundColor);
     }
 
     performPostUpdateFuncs(ecModel, api); // console.profile && console.profileEnd('update');

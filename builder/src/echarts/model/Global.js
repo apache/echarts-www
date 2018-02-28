@@ -410,6 +410,9 @@ var GlobalModel = Model.extend({
   },
 
   /**
+   * Get series list before filtered by type.
+   * FIXME: rename to getRawSeriesByType?
+   *
    * @param {string} subType
    * @return {Array.<module:echarts/model/Series>}
    */

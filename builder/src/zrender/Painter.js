@@ -157,22 +157,26 @@ var Painter = function (root, storage, opts) {
     var domRoot = this._domRoot = createRoot(this._width, this._height);
     root.appendChild(domRoot);
   } else {
+    var width = root.width;
+    var height = root.height;
+
     if (opts.width != null) {
-      root.width = opts.width;
+      width = opts.width;
     }
 
     if (opts.height != null) {
-      root.height = opts.height;
-    } // Use canvas width and height directly
+      height = opts.height;
+    }
 
+    this.dpr = opts.devicePixelRatio || 1; // Use canvas width and height directly
 
-    var width = root.width;
-    var height = root.height;
+    root.width = width * this.dpr;
+    root.height = height * this.dpr;
     this._width = width;
     this._height = height; // Create layer if only one given canvas
-    // Device pixel ratio is fixed to 1 because given canvas has its specified width and height
+    // Device can be specified to create a high dpi image.
 
-    var mainLayer = new Layer(root, this, 1);
+    var mainLayer = new Layer(root, this, this.dpr);
     mainLayer.__builtin__ = true;
     mainLayer.initContext(); // FIXME Use canvas width and height
     // mainLayer.resize(width, height);
@@ -240,7 +244,8 @@ Painter.prototype = {
       var layer = this._layers[z];
 
       if (!layer.__builtin__ && layer.refresh) {
-        layer.refresh();
+        var clearColor = i === 0 ? this._backgroundColor : null;
+        layer.refresh(clearColor);
       }
     }
 
@@ -390,15 +395,16 @@ Painter.prototype = {
       ctx.save();
       var start = paintAll ? layer.__startIndex : layer.__drawIndex;
       var useTimer = !paintAll && layer.incremental && Date.now;
-      var startTime = useTimer && Date.now(); // All elements in this layer are cleared.
+      var startTime = useTimer && Date.now();
+      var clearColor = layer.zlevel === this._zlevelList[0] ? this._backgroundColor : null; // All elements in this layer are cleared.
 
       if (layer.__startIndex === layer.__endIndex) {
-        layer.clear();
+        layer.clear(false, clearColor);
       } else if (start === layer.__startIndex) {
         var firstEl = list[start];
 
         if (!firstEl.incremental || !firstEl.notClear || paintAll) {
-          layer.clear();
+          layer.clear(false, clearColor);
         }
       }
 
@@ -727,6 +733,9 @@ Painter.prototype = {
   _clearLayer: function (layer) {
     layer.clear();
   },
+  setBackgroundColor: function (backgroundColor) {
+    this._backgroundColor = backgroundColor;
+  },
 
   /**
    * 修改指定zlevel的绘制参数
@@ -860,8 +869,7 @@ Painter.prototype = {
 
     var imageLayer = new Layer('image', this, opts.pixelRatio || this.dpr);
     imageLayer.initContext();
-    imageLayer.clearColor = opts.backgroundColor;
-    imageLayer.clear();
+    imageLayer.clear(false, opts.backgroundColor || this._backgroundColor);
 
     if (opts.pixelRatio <= this.dpr) {
       this.refresh();
