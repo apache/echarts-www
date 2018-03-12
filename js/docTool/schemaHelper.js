@@ -1,10 +1,3 @@
-// FIXME
-// 清理无用的代码以及注释
-
-/**
- * @file Schema related operations.
- * @author sushuang(sushuang@baidu.com)
- */
 define(function (require) {
 
     /**
@@ -13,53 +6,18 @@ define(function (require) {
      */
 
     /**
-     * [schema格式]：
+     * [Schema Format]：
      * {
      *     type: 类型，如'Array', 'Object', 'string', 'Function'，或者['Array', 'string']
-     *     descriptionCN: '中文解释文字'
-     *     descriptionEN: '英文解释文字'
+     *     description: '解释文字'
      *     default:
      *         default value字段
      *     defaultExplanation:
      *         默认值的补充说明片段，有些默认值可能描述为“各异”“自适应”。如果不存在default字段，则会寻找defaultExplanation。
-     *     items: 如果type为Array，items描述节点。同json-schema中的定义。
      *     properties: 如果type为Object，properties描述属性。同json-schema中的定义。
-     *     definitions: { ... } 同json-schema中的定义。
-     *     applicable: {string|Array.<string>}，详见下面applicable说明。
-     *     oneOf: { ... } 同json-schema中的定义。暂时不支持 anyOf 和 allOf
-     *     enumerateBy: ['line', 'pie'] 在文档中，此项下，按照所给出的值设置applicable并列表显示。
-     *     setApplicable: ['markPoint', 'markLine'] 在此子树中遍历时，用给定的值设置applicable。
-     *     defaultByApplicable: {'line': 'default1', 'pie': 'default2'} doc展示中，根据applicable得到default。
+     *     items: 如果type为Array，items描述节点。同json-schema中的定义。items 可以直接是每个数组节点的定义，也可以是 {anyOf: [...]}
+     *     anyOf: { ... } 同json-schema中的定义。暂时不支持 oneOf 和 allOf
      * }
-     */
-
-    /**
-     * [applicable说明]：
-     *
-     * applicable是特殊添加的字段，表示axis和series的适用类型，
-     * 参见EC_AXIS_APPLICABLE和EC_SERIES_APPLICABLE。
-     * 其值可以是string（表示只有一个aplicable），或Array.<string>
-     * 如果其值为'all'，表示所有。
-     * 在oneOf的各个子项中，如果子项a有applicable: 'all'，子项b有applicable: 'someValue'，则b优先级高。
-     * （不过理论上这是业务层面的处理，不是schame该管的范畴，放在这里说明是为了方便。）
-     *
-     * 在oneOf中，applicable能决定路径的选取，例如：
-     * some: {
-     *    oneOf: [
-     *        {applicable: 'line'},
-     *        {applicable: 'pie'}
-     *    ]
-     * }
-     * 如果当前上下文是'pie'，则some取pie作为定义。
-     *
-     * 在properties中，applicable能决定属性的出现与否，例如：
-     * some: {
-     *     properties: {
-     *         a: {appliable: 'line'},
-     *         b: {appliable: 'pie'}
-     *     }
-     * }
-     * 如果当前上下文是'pie'，则some.b出现而some.a不出现。
      */
 
     // References
@@ -83,70 +41,12 @@ define(function (require) {
     var schemaHelper = {};
 
     /**
-     * ec option中的type枚举
-     *
-     * @public
-     */
-    schemaHelper.EC_OPTION_TYPE = [
-        'Array', 'Object', 'string', 'number', 'boolean', 'color', 'Function', 'Date'
-    ];
-
-    /**
-     * ec option axis的适用类型枚举
-     *
-     * @public
-     */
-    schemaHelper.EC_AXIS_APPLICABLE = ['category', 'value', 'time', 'log'];
-
-    /**
-     * ec option series的适用类型枚举
-     *
-     * @public
-     */
-    schemaHelper.EC_SERIES_APPLICABLE = [
-        'line', 'bar', 'scatter', 'k', 'pie', 'radar', 'chord', 'force', 'map', 'gauge',
-        'funnel', 'eventRiver', 'venn', 'treemap', 'tree', 'wordCloud', 'heatmap'
-    ];
-
-    /**
-     * ec option itemStyle的适用类型枚举
-     *
-     * @public
-     */
-    schemaHelper.EC_ITEM_STYLE_APPLICABLE = schemaHelper.EC_SERIES_APPLICABLE.concat(
-        ['markPoint', 'markLine']
-    );
-
-    /**
      * option path 是类似于这样的东西：
      *
      * 'tooltip.formatter'
      * 'axis[i].symbol' 或 'axis-i.symbol'
      *     当路途中有数组时，[i]表示直接进入数组元素定义继续检索。
      *     为什么兼容两种方式？因为url上[]是unsafe character，须encode，不好看。所以url上使用'-'。
-     * 'series[i](pie,line).itemStyle.normal.borderColor'
-     *     表示，解析到series[i]将当前context中applicable设置成pie和line。
-     *     context中的applicable用于oneOf的选取和properties限定。
-     * 'series[i](!pie,!line).itemStyle.normal.borderColor'
-     *     表示，解析到series[i]将当前context中applicable设置成!pie和!line，即不能是pie也不能是line。
-     *
-     * Input: 'asdf(bb,cc)[i](dd,ee).zzz[i][i]. ee() .ff',
-     * Output:
-     * When arrayOnlyAtom is false: [
-     *     {propertyName: 'asdf', applicable: new Set('bb,cc')},
-     *     {arrayName: 'asdf[i]', applicable: new Set('dd,ee')},
-     *     {propertyName: 'zzz'},
-     *     {arrayName: 'zzz[i]'},
-     *     {arrayName: 'zzz[i][i]'},
-     *     {propertyName: 'ee', applicable: new Set()},
-     *     {propertyName: 'ff'}
-     * ]
-     * When arrayOnlyAtom is true: [
-     *     {arrayName: 'asdf[i]', applicable: new Set().reset('bb,cc').reset('dd,ee')},
-     *     {arrayName: 'zzz[i][i]'},
-     *     {propertyName: 'ee', applicable: new Set()},
-     *     {propertyName: 'ff'}
-     * ]
      *
      * @public
      * @param {string} optionPath
@@ -197,9 +97,6 @@ define(function (require) {
             }
 
             if (ctxVar) {
-                // FIXME
-                // 暂时只支持  series(line),  不支持 series(line,bar,pie)，好像没啥用？
-                // pa.applicable = new dtLib.Set(ctxVarValue);
                 pa.typeEnum = ctxVarValue;
             }
             retArr.push(pa);
@@ -210,9 +107,6 @@ define(function (require) {
                 var thisItem = retArr[i];
                 var nextItem = retArr[i + 1];
                 if (nextItem && nextItem.arrayName) {
-                    if (thisItem.applicable && !nextItem.applicable) {
-                        nextItem.applicable = new dtLib.Set(thisItem.applicable);
-                    }
                     retArr.splice(i, 1);
                 }
                 else {
@@ -347,7 +241,6 @@ define(function (require) {
                 var nextPathIndex = null;
 
                 if (docTree.isEnumParent) {
-                    // if (isApplicableLoosely(child.applicable, subApplicable)) {
                     if (!lastPathItem
                         || !lastPathItem.typeEnum
                         || child.typeEnum === lastPathItem.typeEnum
@@ -384,8 +277,7 @@ define(function (require) {
             if (context.anyText
                 && (
                     pathFuzzyMatch(docTree, context.anyText)
-                    || (docTree.descriptionCN && docTree.descriptionCN.indexOf(context.anyText) >= 0)
-                    || (docTree.descriptionEN && docTree.descriptionEN.indexOf(context.anyText) >= 0)
+                    || (docTree.description && docTree.description.indexOf(context.anyText) >= 0)
                 )
             ) {
                 context.result.push(docTree);
@@ -450,11 +342,9 @@ define(function (require) {
      *                                   enumInfo: {BuildDocInfo},
      *                                   oneOfInfo: {BuildDocInfo},
      *                                   arrayFrom {Array.<Object>},
-     *                                   applicable: {string|Array.<string>},
      *                                   optionPath: {Array.<Object>} Available only in 'doc' mode.
      *                                                                @see parseOptionPath method,
      *                                                                in arrayOnlyAtom mode
-     *                                   schemaPath: {Array.<string>} Available only in 'schema' mode
      *                               }
      */
     schemaHelper.buildDoc = function (schema, renderBase, docRenderer) {
@@ -541,13 +431,6 @@ define(function (require) {
                 lastOptionPathItem.arrayName += '[i]';
             }
 
-            // Make subSchemaPath
-            var subSchemaPath;
-            if (context.schemaPath) {
-                subSchemaPath = context.schemaPath.slice();
-                subSchemaPath.push('items');
-            }
-
             buildRecursively(
                 subRenderBase,
                 schemaItem.items,
@@ -557,8 +440,7 @@ define(function (require) {
                     arrayFrom: arrayFrom
                         ? (arrayFrom.push(schemaItem), arrayFrom)
                         : [schemaItem],
-                    optionPath: subOptionPath,
-                    schemaPath: subSchemaPath
+                    optionPath: subOptionPath
                 })
             );
         }
@@ -578,13 +460,6 @@ define(function (require) {
                         subOptionPath.push({propertyName: propertyName});
                     }
 
-                    // Make subSchemaPath
-                    var subSchemaPath;
-                    if (context.schemaPath) {
-                        subSchemaPath = context.schemaPath.slice();
-                        subSchemaPath.push('properties', propertyName);
-                    }
-
                     buildRecursively(
                         subRenderBase,
                         properties[propertyName],
@@ -592,8 +467,7 @@ define(function (require) {
                             itemName: propertyName,
                             relationInfo: BuildDocInfo.IS_OBJECT_ITEM,
                             arrayFrom: UNDEFINED,
-                            optionPath: subOptionPath,
-                            schemaPath: subSchemaPath
+                            optionPath: subOptionPath
                         })
                     );
                 }
@@ -711,19 +585,12 @@ define(function (require) {
                 value: 'ecapidocid-' + dtLib.localUID(),
                 hasObjectProperties: hasObjectProperties,
                 isEnumParent: isEnumParent,
-                // enumerateBy: isEnumParent ? schemaItem.enumerateBy.slice() : UNDEFINED,
                 type: schemaItem.type,
                 typeEnum: isEnumItem ? getTypeEnum(schemaItem) : null,
                 parent: renderBase,
-                descriptionCN: result.descriptionCN,
-                descriptionEN: result.descriptionEN,
+                description: result.description,
                 defau: result.defau,
-                optionPathForHash: schemaHelper.stringifyOptionPath(
-                    context.optionPath, {useSquareBrackets: false}
-                ),
-                optionPathHTML: schemaHelper.stringifyOptionPath(
-                    context.optionPath, {useSquareBrackets: true, html: true}
-                ),
+                optionPath: context.optionPath.slice(),
                 defaultValueText: schemaHelper.getDefaultValueText(result.defau),
                 itemEncodeHTML: false,
                 tooltipEncodeHTML: false
@@ -746,16 +613,16 @@ define(function (require) {
             //      {
             //          name: 'visualMap',
             //          type: 'Array',
-            //          descriptionCN: 'visualMap introduce',
+            //          description: 'visualMap introduce',
             //          items: {
             //              anyOf: [
             //                  {
             //                      type: 'continuous',
-            //                      descriptionCN: 'visualMapContinuous introduce'
+            //                      description: 'visualMapContinuous introduce'
             //                  },
             //                  {
             //                      type: 'piecewise',
-            //                      descriptionCN: 'visualMapPiecewise introduce'
+            //                      description: 'visualMapPiecewise introduce'
             //                  }
             //              ]
             //          }
@@ -767,7 +634,7 @@ define(function (require) {
             //      {
             //          name: 'data',
             //          type: 'Array',
-            //          descriptionCN: 'description of data',
+            //          description: 'description of data',
             //          items: {
             //              properties: {
             //                  ...
@@ -788,8 +655,7 @@ define(function (require) {
             ) ? arrayFrom[0] : schemaItem;
 
             var result = {
-                descriptionCN: item.descriptionCN,
-                descriptionEN: item.descriptionEN,
+                description: item.description,
                 defau: {type: item.type}
             };
 
@@ -799,20 +665,6 @@ define(function (require) {
 
             return result;
         }
-    };
-
-    /**
-     * 是否合法的type
-     */
-    schemaHelper.isValidEcOptionType = function (type) {
-        return dtLib.arrayIndexOf(schemaHelper.EC_OPTION_TYPE, type) !== -1;
-    };
-
-    /**
-     * @return {Array}
-     */
-    schemaHelper.getEcOptionTypes = function () {
-        return dtLib.clone(schemaHelper.EC_OPTION_TYPE);
     };
 
     /**
@@ -882,6 +734,47 @@ define(function (require) {
                 return '';
             }
         }
+    };
+
+    /**
+     * @param {Object} schema Where schema Will be filled.
+     * @param {Object} descSchema
+     */
+    schemaHelper.fillSchemaWithDescription = function (schema, descSchema) {
+
+        buildRecursively(descSchema.option, schema.option);
+
+        function buildRecursively(descSchemaItem, schemaItem) {
+            if (!dtLib.isObject(schemaItem)) {
+                return;
+            }
+
+            if (schemaItem.anyOf) {
+                schemaItem.anyOf.forEach(function (item, j) {
+                    buildRecursively(descSchemaItem.anyOf[j], item);
+                });
+            }
+            else if (schemaItem.items) {
+                buildRecursively(descSchemaItem.items, schemaItem.items);
+            }
+            else if (schemaItem.properties) {
+                Object.keys(schemaItem.properties).forEach(function (propertyName) {
+                    buildRecursively(
+                        descSchemaItem.properties[propertyName],
+                        schemaItem.properties[propertyName]
+                    );
+                });
+            }
+            else {
+                schemaItem.description = descSchemaItem.description;
+            }
+        }
+    };
+
+    schemaHelper.getOptionPathForHash = function (treeItem) {
+        return schemaHelper.stringifyOptionPath(
+            treeItem.optionPath, {useSquareBrackets: false}
+        );
     };
 
     /**

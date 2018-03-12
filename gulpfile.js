@@ -188,3 +188,11 @@ gulp.task('release-clean', function() {
 });
 
 gulp.task('release', ['release-docJS', 'release-spreadsheetJS', 'release-otherJS', 'release-copy']);
+
+gulp.task('release-doc-web', ['less'], function() {
+    return gulp.src([
+            './js/docTool/*', './vendors/dt/**', './images/**'
+        ], {base: './'})
+        .pipe(gulp.dest('../echarts-doc/public/cn'))
+        .pipe(gulp.dest('../echarts-doc/public/en'));
+});

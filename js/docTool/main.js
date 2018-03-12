@@ -3,6 +3,30 @@
  */
 define(function (require) {
 
+    /**
+     * The optimization of option doc loading (2018-03):
+     *
+     * The facts:
+     * (1) The case of a single `option.json` (700KB, after gz)
+     * From local netword:
+     *      Download: 100ms
+     *      JSON parse: 200ms
+     *      JS rendering: 2s
+     * From gf-page:
+     *      Download: 1.5s~5s
+     * (2) The search feature requires all of the `option.json`.
+     *
+     * Sulotion:
+     * Now that the main info is in `description`, and consider the
+     * simplicity of the implementation, only optimize the rendering.
+     *
+     * Further job if necessary:
+     * Partition `option.json` to by components or `option_outline.json`
+     * and `option_description.json`. Download `option_description.json`
+     * after page rendered (it will block the search, but not block the
+     * option tree behavior).
+     */
+
     var $ = require('jquery');
     var Component = require('dt/ui/Component');
     var schemaHelper = require('./schemaHelper');
@@ -13,12 +37,12 @@ define(function (require) {
     var hashHelper = require('./hashHelper');
     var perfectScrollbar = require('perfectScrollbar');
     var prettyPrint = require('prettyPrint');
-    var iconfont = docUtil.getGlobalArg('iconfont');
     var ecLog = require('ecLog');
+    var iconfont = docUtil.getGlobalArg('iconfont');
+    var pageName = docUtil.getGlobalArg('pageName');
 
     require('dt/componentConfig');
 
-    // var SCHEMA_URL = '/ecOption/schema.json';
     var TPL_TARGET = 'APIMain';
     var SELECTOR_HOVER_DESC = '.ecdoc-api-hover-desc';
     var SELECTOR_COLLAPSE_RADIO = '.query-collapse-radio input[type=radio]';
@@ -113,12 +137,17 @@ define(function (require) {
 
         _prepare: function () {
             $.getJSON(
-                docUtil.addVersionArg(docUtil.getGlobalArg('schemaUrl'))
-            ).done($.proxy(onLoaded, this));
+                docUtil.addVersionArg([
+                    'documents',
+                    lang.langCode,
+                    pageName + '.json'
+                ].join('/'))
+            ).done($.proxy(function (schema) {
 
-            function onLoaded(schema, catagory) {
+console.profile('x1');
                 // Before render page
                 this._prepareDoc(schema);
+console.profileEnd('x1');
 
                 // Render page
                 this._applyTpl(this.$el(), TPL_TARGET);
@@ -135,7 +164,8 @@ define(function (require) {
                 this._initHash();
 
                 this._initScroll();
-            }
+
+            }, this));
         },
 
         _prepareDoc: function (schema) {
@@ -151,7 +181,7 @@ define(function (require) {
                 childrenBrief: '...',
                 children: renderBase.children[0].children,
                 expanded: true,
-                optionPathHTML: 'option',
+                optionPath: ['option'],
                 type: 'Object',
                 hasObjectProperties: true
             };
@@ -162,17 +192,17 @@ define(function (require) {
 
         _initQuickLink: function () {
             var defs = [
-                ['tutorial', '教程'],
-                ['api', 'API'],
-                ['option', '配置项'],
-                ['option-gl', 'GL']
+                ['tutorial', lang.quickLinkTutorial],
+                ['api', lang.quickLinkAPI],
+                ['option', lang.quickLinkOption],
+                ['option-gl', lang.quickLinkOptionGL]
             ];
 
             var html = [];
 
             for (var i = 0; i < defs.length; i++) {
                 html.push(
-                    docUtil.getGlobalArg('pageName') === defs[i][0]
+                    pageName === defs[i][0]
                         ? '<span>' + defs[i][1] + '</span>'
                         : '<a href="' + defs[i][0] + '.html">' + defs[i][1] + '</a>'
                 );
@@ -206,7 +236,7 @@ define(function (require) {
                     this._updateDescArea(treeItem);
 
                     if (!isInit) {
-                        log({key: 'clickTreeItem', data: treeItem.optionPathForHash});
+                        log({key: 'clickTreeItem', data: schemaHelper.getOptionPathForHash(treeItem)});
                     }
 
                     locateToDescAnchor.call(this, treeItem);
@@ -215,9 +245,9 @@ define(function (require) {
                     $el.find('.' + CSS_DESC_GROUP_HIGHLIGHT).removeClass(CSS_DESC_GROUP_HIGHLIGHT);
                     this._findDescNode(treeItem.value).addClass(CSS_DESC_GROUP_HIGHLIGHT);
 
-                    if (treeItem.optionPathForHash) {
+                    if (treeItem.optionPath) {
                         hashHelper.hashRoute({
-                            queryString: treeItem.optionPathForHash
+                            queryString: schemaHelper.getOptionPathForHash(treeItem)
                         });
                     }
                 }
@@ -274,7 +304,7 @@ define(function (require) {
 
                     var list = [];
                     for (var i = 0; i < result.length; i++) {
-                        list.push(result[i].optionPathForHash);
+                        list.push(schemaHelper.getOptionPathForHash(result[i]));
                     }
 
                     suggest(list);
@@ -348,7 +378,7 @@ define(function (require) {
                 var treeItem = this._sub('apiDocTree').findDataItemByValues(
                     [elsInNode.expandBtn.attr('data-tree-item-id')], true
                 );
-                var optionPathForHash = treeItem ? treeItem.optionPathForHash : '';
+                var optionPathForHash = treeItem ? schemaHelper.getOptionPathForHash(treeItem) : '';
 
                 if (elsInNode.subGroup[0].style.display === 'none') {
                     log({key: 'expandDesc', data: optionPathForHash});
@@ -566,9 +596,9 @@ define(function (require) {
             }
 
             // 不需要encodeHTML，本身就是html
-            var descText = treeItem.descriptionCN || '';
+            var descText = treeItem.description;
 
-            if (removeIFrame) {
+            if (removeIFrame && descText) {
                 descText = descText.replace(IFR_REG, '');
             }
 
@@ -576,7 +606,9 @@ define(function (require) {
                 type: dtLib.encodeHTML(type),
                 descText: descText,
                 defaultValueText: dtLib.encodeHTML(treeItem.defaultValueText),
-                optionPath: treeItem.optionPathHTML
+                optionPath: schemaHelper.stringifyOptionPath(
+                    treeItem.optionPath, {useSquareBrackets: true, html: true}
+                )
             };
         },
 
@@ -609,7 +641,7 @@ define(function (require) {
          */
         _handleHashQuery: function (queryString) {
             var dataItem = this._viewModel().apiTreeSelected.getTreeDataItem(true);
-            if (!dataItem || queryString !== dataItem.optionPathForHash) {
+            if (!dataItem || queryString !== schemaHelper.getOptionPathForHash(dataItem)) {
 
                 if (!isInit) {
                     log({key: 'innerLinkChangeHash', data: queryString});
@@ -707,9 +739,7 @@ define(function (require) {
     }
 
     function log(params) {
-        ecLog(dtLib.assign({
-            page: docUtil.getGlobalArg('pageName')
-        }, params));
+        ecLog(dtLib.assign({page: pageName}, params));
     }
 
     return api;
