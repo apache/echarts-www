@@ -181,7 +181,7 @@ console.profileEnd('x1');
                 childrenBrief: '...',
                 children: renderBase.children[0].children,
                 expanded: true,
-                optionPath: ['option'],
+                propertyName: 'option',
                 type: 'Object',
                 hasObjectProperties: true
             };
@@ -245,11 +245,9 @@ console.profileEnd('x1');
                     $el.find('.' + CSS_DESC_GROUP_HIGHLIGHT).removeClass(CSS_DESC_GROUP_HIGHLIGHT);
                     this._findDescNode(treeItem.value).addClass(CSS_DESC_GROUP_HIGHLIGHT);
 
-                    if (treeItem.optionPath) {
-                        hashHelper.hashRoute({
-                            queryString: schemaHelper.getOptionPathForHash(treeItem)
-                        });
-                    }
+                    hashHelper.hashRoute({
+                        queryString: schemaHelper.getOptionPathForHash(treeItem)
+                    });
                 }
             }
 
@@ -606,9 +604,7 @@ console.profileEnd('x1');
                 type: dtLib.encodeHTML(type),
                 descText: descText,
                 defaultValueText: dtLib.encodeHTML(treeItem.defaultValueText),
-                optionPath: schemaHelper.stringifyOptionPath(
-                    treeItem.optionPath, {useSquareBrackets: true, html: true}
-                )
+                optionPath: schemaHelper.getOptionPathForHTML(treeItem)
             };
         },
 
@@ -655,7 +651,7 @@ console.profileEnd('x1');
             try {
                 var args = {};
                 args[queryArgName] = queryStr;
-                args.noCtxVar = docUtil.getGlobalArg('noCtxVar');
+                args.noTypeEnum = docUtil.getGlobalArg('noTypeEnum');
                 return schemaHelper.queryDocTree(this._docTree, args) || [];
             }
             catch (e) {
