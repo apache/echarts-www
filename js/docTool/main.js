@@ -136,6 +136,7 @@ define(function (require) {
         },
 
         _prepare: function () {
+
             $.getJSON(
                 docUtil.addVersionArg([
                     'documents',
@@ -360,9 +361,9 @@ define(function (require) {
             }, this);
 
             function handleDescExpandClick(e) {
-                var $descNode = this._findDescNode(
-                    e.currentTarget.getAttribute('data-tree-item-id')
-                );
+                var treeItemId = e.currentTarget.getAttribute('data-tree-item-id');
+
+                var $descNode = this._findDescNode(treeItemId);
                 var elsInNode = this._findElInDescNode($descNode);
 
                 if (!elsInNode.subGroup.length) {
@@ -379,6 +380,9 @@ define(function (require) {
                     log({key: 'expandDesc', data: optionPathForHash});
 
                     elsInNode.expandBtn[0].innerHTML = ICON_CAN_COLLAPSE;
+
+                    this._completeSubGroupContent(elsInNode.subGroup);
+
                     elsInNode.subGroup.slideDown().promise().always(slideFinal);
                 }
                 else {
@@ -400,6 +404,8 @@ define(function (require) {
             var html = '';
 
             if (base !== this._lastDescBase) {
+                // Reset pendingSubGroupMap.
+                this._pendingSubGroupMap = dtLib.createLiteHashMap();
                 html = this._createDescHTML(base, treeItem);
                 $content[0].innerHTML = html;
             }
@@ -462,6 +468,20 @@ define(function (require) {
         },
 
         /**
+         * @private
+         */
+        _completeSubGroupContent: function ($subGroupEl) {
+            var pendingSubGroupMap = this._pendingSubGroupMap;
+            var treeItemId = $subGroupEl.attr('data-tree-item-id');
+
+            var treeItem = pendingSubGroupMap.get(treeItemId);
+            if (treeItem != null) {
+                $subGroupEl[0].innerHTML = this._createDescSubGroupHTML(treeItem);
+                pendingSubGroupMap.set(treeItemId, null);
+            }
+        },
+
+        /**
          * @param {string|Array.<string>} treeItemValue
          * @return {jQuery}
          */
@@ -514,52 +534,52 @@ define(function (require) {
                 return '';
             }
 
-            var that = this;
-
             var baseDesc = this._wrapDesc(base);
             var descTitleHTML = tpl.render('descGroupTitle', {
                 baseDescOptionPath: baseDesc.optionPath,
                 descText: baseDesc.descText
             });
 
-            return descTitleHTML + buildDescSubGroup(base, selTreeItem);
+            return descTitleHTML + this._createDescSubGroupHTML(base, selTreeItem);
+        },
 
-            function buildDescSubGroup(parentTreeItem, selTreeItem) {
-                var children = parentTreeItem.children;
+        _createDescSubGroupHTML: function (parentTreeItem, selTreeItem) {
+            var children = parentTreeItem.children;
 
-                if (!children) {
-                    return '';
-                }
-
-                var descList = [];
-
-                for (var i = 0; i < children.length; i++) {
-                    var descItem = that._wrapDesc(children[i]);
-                    var subGroupHTML = '';
-
-                    if (children[i].hasObjectProperties) {
-                        subGroupHTML = buildDescSubGroup(children[i], selTreeItem);
-                    }
-
-                    descList.push(tpl.render(
-                        'descGroupLine',
-                        {
-                            descItemOptionPath: descItem.optionPath,
-                            descItemType: descItem.type,
-                            descItemContent: getDefaultHTML(descItem),
-                            descItemDescText: descItem.descText,
-                            showExpandIcon: !!subGroupHTML,
-                            expandIcon: ICON_CAN_EXPAND,
-                            highlightCSS: children[i] === selTreeItem
-                                ? CSS_DESC_GROUP_HIGHLIGHT : '',
-                            idAttr: children[i].value,
-                            subGroupHTML: subGroupHTML
-                        }
-                    ));
-                }
-
-                return descList.join('');
+            if (!children) {
+                return '';
             }
+
+            var descList = [];
+
+            var pendingSubGroupMap = this._pendingSubGroupMap;
+
+            for (var i = 0; i < children.length; i++) {
+                var descItem = this._wrapDesc(children[i]);
+                var hasSubGroup = children[i].hasObjectProperties;
+
+                if (hasSubGroup) {
+                    pendingSubGroupMap.set(children[i].value, children[i]);
+                }
+
+                descList.push(tpl.render(
+                    'descGroupLine',
+                    {
+                        descItemOptionPath: descItem.optionPath,
+                        descItemType: descItem.type,
+                        descItemContent: getDefaultHTML(descItem),
+                        descItemDescText: descItem.descText,
+                        showExpandIcon: hasSubGroup,
+                        expandIcon: ICON_CAN_EXPAND,
+                        hasSubGroup: hasSubGroup,
+                        highlightCSS: children[i] === selTreeItem
+                            ? CSS_DESC_GROUP_HIGHLIGHT : '',
+                        idAttr: children[i].value
+                    }
+                ));
+            }
+
+            return descList.join('');
         },
 
         _doExpand: function (treeItemTrace, $descContent, selTreeItem) {
@@ -579,6 +599,9 @@ define(function (require) {
                 }
 
                 elsInNode.expandBtn[0].innerHTML = ICON_CAN_COLLAPSE;
+
+                that._completeSubGroupContent(elsInNode.subGroup);
+
                 elsInNode.subGroup.show();
             });
         },
