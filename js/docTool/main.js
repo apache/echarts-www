@@ -144,11 +144,8 @@ define(function (require) {
                 ].join('/'))
             ).done($.proxy(function (schema) {
 
-console.profile('x1');
                 // Before render page
                 this._prepareDoc(schema);
-console.profileEnd('x1');
-
                 // Render page
                 this._applyTpl(this.$el(), TPL_TARGET);
 
