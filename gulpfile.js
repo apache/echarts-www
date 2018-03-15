@@ -191,7 +191,7 @@ gulp.task('release', ['release-docJS', 'release-spreadsheetJS', 'release-otherJS
 
 gulp.task('release-doc-web', ['less'], function() {
     return gulp.src([
-            './js/docTool/*', './vendors/dt/**', './images/**'
+            './js/docTool/*', './vendors/dt/**', './css/ecOption.css', './images/**'
         ], {base: './'})
         .pipe(gulp.dest('../echarts-doc/public/cn'))
         .pipe(gulp.dest('../echarts-doc/public/en'));

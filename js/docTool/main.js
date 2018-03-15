@@ -38,7 +38,7 @@ define(function (require) {
     var perfectScrollbar = require('perfectScrollbar');
     var prettyPrint = require('prettyPrint');
     var ecLog = require('ecLog');
-    var iconfont = docUtil.getGlobalArg('iconfont');
+    // var iconfont = docUtil.getGlobalArg('iconfont');
     var pageName = docUtil.getGlobalArg('pageName');
 
     require('dt/componentConfig');
@@ -51,12 +51,14 @@ define(function (require) {
     var SELECTOR_TREE_AREA = '.ecdoc-api-tree-area';
     var SELECTOR_DESC_AREA = '.ecdoc-api-doc-group-area';
     var SELECTOR_QUICK_LINK = '.ecdoc-quick-link';
-    var CSS_DESC_EXPAND_BTN = 'ecdoc-api-doc-line-expand';
+    var CSS_DESC_EXPAND_BTN = 'ecdoc-api-doc-prop-expand';
     var CSS_DESC_LINE_HEAD = 'ecdoc-api-doc-line-head';
     var CSS_DESC_GROUP_HIGHLIGHT = 'ecdoc-api-doc-group-line-highlight';
     var CSS_DESC_SUB_GROUP = 'ecdoc-api-doc-sub-group';
-    var ICON_CAN_COLLAPSE = iconfont.down;
-    var ICON_CAN_EXPAND = iconfont.left;
+    // var ICON_CAN_COLLAPSE = iconfont.down;
+    // var ICON_CAN_EXPAND = iconfont.left;
+    var ICON_CAN_COLLAPSE = lang.hideProperties;
+    var ICON_CAN_EXPAND = lang.showProperties;
     var CSS_DESC_NODE = 'ecdoc-api-doc-group-line';
     var IFR_REG = /<iframe[^>]*>.*?<\/iframe>/g;
 
@@ -569,7 +571,6 @@ define(function (require) {
                         descItemType: descItem.type,
                         descItemContent: getDefaultHTML(descItem),
                         descItemDescText: descItem.descText,
-                        showExpandIcon: hasSubGroup,
                         expandIcon: ICON_CAN_EXPAND,
                         hasSubGroup: hasSubGroup,
                         highlightCSS: children[i] === selTreeItem
