@@ -24,29 +24,27 @@
     resize();
     $(window).resize(resize);
 
-    function resize() {
-        // home video
-        // var video = document.getElementById('video-index');
-        // var banner = document.getElementById('large-banner');
-        // if (window.innerWidth / window.innerHeight < 16 / 9) {
-        //     banner.style.height = window.innerHeight + 'px';
-        //     banner.style.width = 'auto';
-        //     banner.style.marginLeft = Math.floor((window.innerWidth
-        //         - window.innerHeight / 9 * 16) / 2) + 'px';
-        //     banner.style.marginTop = 0;
-        // }
-        // else {
-        //     banner.style.width = window.innerWidth + 'px';
-        //     banner.style.height = 'auto';
-        //     banner.style.marginTop = Math.floor((window.innerHeight
-        //         - window.innerWidth / 16 * 9)) + 'px';
-        //     banner.style.marginLeft = 0;
-        // }
-        // if (charts) {
-        //     for (var i = charts.length - 1; i >= 0; --i) {
-        //         charts[i].resize();
-        //     }
-        // }
+    function resize() {        // home video
+        var video = document.getElementById('video-index');
+        if (window.innerWidth / window.innerHeight < 16 / 9) {
+            video.style.height = window.innerHeight + 'px';
+            video.style.width = 'auto';
+            video.style.marginLeft = Math.floor((window.innerWidth
+                - window.innerHeight / 9 * 16) / 2) + 'px';
+            video.style.marginTop = 0;
+        }
+        else {
+            video.style.width = window.innerWidth + 'px';
+            video.style.height = 'auto';
+            video.style.marginTop = Math.floor((window.innerHeight
+                - window.innerWidth / 16 * 9)) + 'px';
+            video.style.marginLeft = 0;
+        }
+        if (charts) {
+            for (var i = charts.length - 1; i >= 0; --i) {
+                charts[i].resize();
+            }
+        }
     }
 
     var COMPANY_CNT = 21;

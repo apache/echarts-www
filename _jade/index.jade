@@ -12,17 +12,11 @@ block content
 
     #main-content
         section#home-section
-            //- video#video-index(autoplay='true', loop='true', src='video/index.mp4', poster='video/index.jpg')
+            video#video-index(autoplay='true', loop='true', src='video/index-4.mp4', poster='video/index-4.jpg')
 
-            //- New add for 4
-            #large-banner
-
-            script.
-                $('#large-banner').height(window.innerHeight);
-
-            //- .description
-                //- include components/svg/echarts-logo
-                //- a#index-play-btn(href='javascript:;', onclick='playIndexVideo()')
+            .description
+                include components/svg/echarts-logo
+                a#index-play-btn(href='javascript:;', onclick='playIndexVideo()')
                 .btn-panel
                     a.btn.btn-index-home(href='./feature.html') 特性
                     a.btn.btn-index-home(href='./download.html') 下载

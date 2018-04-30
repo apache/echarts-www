@@ -129,29 +129,6 @@ body {
             text-indent: 10px;
         }
     }
-
-    // New add for 4
-    #large-banner {
-        width: 100%;
-        // height: 500px;
-        overflow: hidden;
-        position: relative;
-        overflow: hidden;
-        background-image: url('../images/bg.png');
-        background-position: center center;
-        background-color: #252525;
-        background-repeat: no-repeat;
-
-
-        // img {
-        //     position: absolute;
-        //     max-width: 100%;
-        //     top: 50%;
-        //     left: 50%;
-        //     -webkit-transform: translate(-50%, 50%);
-        //     transform: translate(-50%, 50%);
-        // }
-    }
 }
 
 #efe-more {
@@ -451,11 +428,6 @@ body {
             left: 0;
             margin-left: 10%;
         }
-    }
-
-    // Add for 4
-    #main-content #large-banner {
-        background-image: url(../images/bg2.png);
     }
 
     #feature-section .feature-detail {
