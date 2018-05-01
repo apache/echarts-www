@@ -382,6 +382,42 @@ body {
         top: 7.5%;
     }
 
+    #publication {
+        margin-top: 50px;
+        padding: 50px 0;
+        background-color: #f5f7fd;
+
+        h2 {
+            margin-top: 10px;
+            font-weight: normal;
+            font-size: 28px;
+            line-height: 36px;
+        }
+        .container {
+            max-width: 1000px;
+        }
+        p.note {
+            // font-size: 12px;
+            margin-top: 10px;
+        }
+
+        p.link {
+            color: #555;
+            margin-top: 20px;
+            font-size: 18px;
+
+            a {
+                margin-left: 10px;
+            }
+        }
+
+        .img-container {
+            padding: 50px 10px;
+            background-color: #fff;
+            box-shadow: 3px 3px 11px #ccc;
+        }
+    }
+
     #about-section {
         padding-top: 40px;
         padding-bottom: 90px;
