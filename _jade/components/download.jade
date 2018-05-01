@@ -2,6 +2,7 @@ extends ../layouts/basic
 
 block extra_head
     <title>ECharts 下载</title>
+    script(src="vendors/sweetalert.js")
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
@@ -23,31 +24,38 @@ block content
                 h3 （前往下载 <a href="download.html">4.x 版本）</a>
 
             h3 选择需要的版本 <span class="warn">注：开发环境建议选择源代码版本，该版本包含了常见的警告和错误提示。</span>
+
             .list-wrap.row#download-row
                 .col-sm-3.col-xs-6
-                    a(class="download-echarts" target='_blank' href="#{downloadPath}/echarts.common.min.js" download="echarts.common.min.js")
+                    a(class="download-echarts" href="#{downloadPath}/echarts.common.min.js" download="echarts.common.min.js")
                         .circle-wrap
                             span.mode 常用
                             span.size #{sizeCommon}
                     .text 包含常用的图表组件<br><span>折 柱 饼 散点 图例<br />工具栏 标注/线/域<br /> 数据区域缩放</span>
                 .col-sm-3.col-xs-6
-                    a(class="download-echarts" target='_blank' href="#{downloadPath}/echarts.simple.min.js" download="echarts.simple.min.js")
+                    a(class="download-echarts" href="#{downloadPath}/echarts.simple.min.js" download="echarts.simple.min.js")
                         .circle-wrap
                             span.mode 精简
                             span.size #{sizeSimple}
                     .text 只包含基础图表<br><span>折 柱 饼</span>
                 .col-sm-3.col-xs-6
-                    a(class="download-echarts" target='_blank' href="#{downloadPath}/echarts.min.js" download="echarts.min.js")
+                    a(class="download-echarts" href="#{downloadPath}/echarts.min.js" download="echarts.min.js")
                         .circle-wrap
                             span.mode 完整
                             span.size #{sizeMin}
                     .text 包含所有图表组件
                 .col-sm-3.col-xs-6
-                    a(class="download-echarts" target='_blank' href="#{downloadPath}/echarts.js" download="echarts.js")
+                    a(class="download-echarts" href="#{downloadPath}/echarts.js" download="echarts.js")
                         .circle-wrap
                             span.mode 源代码
                             span.size #{sizeFull}
                     .text 包含所有图表组件<br />的源码，常见的警告和错误提示
+
+            div(class="download-note") <i class="note-icon"><img src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities. <br />  当您在研发项目，研究论文，技术报告，新闻报告，书籍，演示文稿，教学，专利等中使用 ECharts 时，请引用以下论文。
+            div(class="paper-desc")
+                a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
+
+
             if isECharts4
                 a.btn.btn-thirdary.more-btn(href="builder.html") 在线定制
             else
@@ -126,7 +134,15 @@ block extra_js
     script(src="js/log.js")
     script(type='text/javascript').
         document.getElementById('nav-download').className = 'active';
-        $('.download-echarts').click(function () {
+        $('.download-echarts').click(function (e) {
+            var el = document.createElement('div');
+            el.innerHTML = '<div class="download-note"><i class="note-icon"><img src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities. <br />  当您在研发项目，研究论文，技术报告，新闻报告，书籍，演示文稿，教学，专利等中使用 ECharts 时，请引用以下论文。</div>\
+            <div class="paper-desc">\
+                <a href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf"> ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization</a></div>';
+            //- swal({
+            //-     title: 'Notice',
+            //-     content: el
+            //- });
             ecLog({
                 page: 'download',
                 key: 'download-echarts',
