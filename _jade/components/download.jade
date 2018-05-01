@@ -51,9 +51,9 @@ block content
                             span.size #{sizeFull}
                     .text 包含所有图表组件<br />的源码，常见的警告和错误提示
 
-            div(class="download-note") <i class="note-icon"><img src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities. <br />  当您在研发项目，研究论文，技术报告，新闻报告，书籍，演示文稿，教学，专利等中使用 ECharts 时，请引用以下论文。
-            div(class="paper-desc")
-                a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
+            //- div(class="download-note") <i class="note-icon"><img src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities. <br />  当您在研发项目，研究论文，技术报告，新闻报告，书籍，演示文稿，教学，专利等中使用 ECharts 时，请引用以下论文。
+            //- div(class="paper-desc")
+            //-     a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
 
 
             if isECharts4
@@ -139,10 +139,10 @@ block extra_js
             el.innerHTML = '<div class="download-note"><i class="note-icon"><img src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities. <br />  当您在研发项目，研究论文，技术报告，新闻报告，书籍，演示文稿，教学，专利等中使用 ECharts 时，请引用以下论文。</div>\
             <div class="paper-desc">\
                 <a href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf"> ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization</a></div>';
-            //- swal({
-            //-     title: 'Notice',
-            //-     content: el
-            //- });
+            swal({
+                title: 'Notice',
+                content: el
+            });
             ecLog({
                 page: 'download',
                 key: 'download-echarts',
