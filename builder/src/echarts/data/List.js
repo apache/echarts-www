@@ -1,3 +1,22 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 /**
  * List for data storage
  * @module echarts/data/List
@@ -10,21 +29,22 @@ import Source from './Source';
 import { defaultDimValueGetters, DefaultDataProvider } from './helper/dataProvider';
 import { summarizeDimensions } from './helper/dimensionHelper';
 var isObject = zrUtil.isObject;
-var UNDEFINED = 'undefined';
-var globalObj = typeof window === UNDEFINED ? global : window; // Use prefix to avoid index to be the same as otherIdList[idx],
+var UNDEFINED = 'undefined'; // Use prefix to avoid index to be the same as otherIdList[idx],
 // which will cause weird udpate animation.
 
 var ID_PREFIX = 'e\0\0';
 var dataCtors = {
-  'float': typeof globalObj.Float64Array === UNDEFINED ? Array : globalObj.Float64Array,
-  'int': typeof globalObj.Int32Array === UNDEFINED ? Array : globalObj.Int32Array,
+  'float': typeof Float64Array === UNDEFINED ? Array : Float64Array,
+  'int': typeof Int32Array === UNDEFINED ? Array : Int32Array,
   // Ordinal data type can be string or int
   'ordinal': Array,
   'number': Array,
   'time': Array
-};
-var CtorUint32Array = typeof globalObj.Uint32Array === UNDEFINED ? Array : globalObj.Uint32Array;
-var CtorUint16Array = typeof globalObj.Uint16Array === UNDEFINED ? Array : globalObj.Uint16Array;
+}; // Caution: MUST not use `new CtorUint32Array(arr, 0, len)`, because the Ctor of array is
+// different from the Ctor of typed array.
+
+var CtorUint32Array = typeof Uint32Array === UNDEFINED ? Array : Uint32Array;
+var CtorUint16Array = typeof Uint16Array === UNDEFINED ? Array : Uint16Array;
 
 function getIndicesCtor(list) {
   // The possible max value in this._indicies is always this._rawCount despite of filtering.
@@ -37,15 +57,20 @@ function cloneChunk(originalChunk) {
   return Ctor === Array ? originalChunk.slice() : new Ctor(originalChunk);
 }
 
-var TRANSFERABLE_PROPERTIES = ['hasItemOption', '_nameList', '_idList', '_calculationInfo', '_invertedIndicesMap', '_rawData', '_rawExtent', '_chunkSize', '_chunkCount', '_dimValueGetter', '_count', '_rawCount', '_nameDimIdx', '_idDimIdx'];
+var TRANSFERABLE_PROPERTIES = ['hasItemOption', '_nameList', '_idList', '_invertedIndicesMap', '_rawData', '_chunkSize', '_chunkCount', '_dimValueGetter', '_count', '_rawCount', '_nameDimIdx', '_idDimIdx'];
+var CLONE_PROPERTIES = ['_extent', '_approximateExtent', '_rawExtent'];
 
-function transferProperties(a, b) {
-  zrUtil.each(TRANSFERABLE_PROPERTIES.concat(b.__wrappedMethods || []), function (propName) {
-    if (b.hasOwnProperty(propName)) {
-      a[propName] = b[propName];
+function transferProperties(target, source) {
+  zrUtil.each(TRANSFERABLE_PROPERTIES.concat(source.__wrappedMethods || []), function (propName) {
+    if (source.hasOwnProperty(propName)) {
+      target[propName] = source[propName];
     }
   });
-  a.__wrappedMethods = b.__wrappedMethods;
+  target.__wrappedMethods = source.__wrappedMethods;
+  zrUtil.each(CLONE_PROPERTIES, function (propName) {
+    target[propName] = zrUtil.clone(source[propName]);
+  });
+  target._calculationInfo = zrUtil.extend(source._calculationInfo);
 }
 /**
  * @constructor
@@ -399,6 +424,7 @@ listProto._initDataFromProvider = function (start, end) {
   var rawData = this._rawData;
   var storage = this._storage;
   var dimensions = this.dimensions;
+  var dimLen = dimensions.length;
   var dimensionInfoMap = this._dimensionInfos;
   var nameList = this._nameList;
   var idList = this._idList;
@@ -408,7 +434,7 @@ listProto._initDataFromProvider = function (start, end) {
   var chunkCount = this._chunkCount;
   var lastChunkIndex = chunkCount - 1;
 
-  for (var i = 0; i < dimensions.length; i++) {
+  for (var i = 0; i < dimLen; i++) {
     var dim = dimensions[i];
 
     if (!rawExtent[dim]) {
@@ -452,9 +478,11 @@ listProto._initDataFromProvider = function (start, end) {
     this._chunkCount = storage[dim].length;
   }
 
+  var dataItem = new Array(dimLen);
+
   for (var idx = start; idx < end; idx++) {
     // NOTICE: Try not to write things into dataItem
-    var dataItem = rawData.getItem(idx); // Each data item is value
+    dataItem = rawData.getItem(idx, dataItem); // Each data item is value
     // [1, 2]
     // 2
     // Bar chart, line chart which uses category axis
@@ -464,20 +492,21 @@ listProto._initDataFromProvider = function (start, end) {
     var chunkIndex = Math.floor(idx / chunkSize);
     var chunkOffset = idx % chunkSize; // Store the data by dimensions
 
-    for (var k = 0; k < dimensions.length; k++) {
+    for (var k = 0; k < dimLen; k++) {
       var dim = dimensions[k];
       var dimStorage = storage[dim][chunkIndex]; // PENDING NULL is empty or zero
 
       var val = this._dimValueGetter(dataItem, dim, idx, k);
 
       dimStorage[chunkOffset] = val;
+      var dimRawExtent = rawExtent[dim];
 
-      if (val < rawExtent[dim][0]) {
-        rawExtent[dim][0] = val;
+      if (val < dimRawExtent[0]) {
+        dimRawExtent[0] = val;
       }
 
-      if (val > rawExtent[dim][1]) {
-        rawExtent[dim][1] = val;
+      if (val > dimRawExtent[1]) {
+        dimRawExtent[1] = val;
       }
     } // ??? FIXME not check by pure but sourceFormat?
     // TODO refactor these logic.
@@ -486,13 +515,25 @@ listProto._initDataFromProvider = function (start, end) {
     if (!rawData.pure) {
       var name = nameList[idx];
 
-      if (dataItem && !name) {
-        if (nameDimIdx != null) {
-          name = this._getNameFromStore(idx);
-        } else if (dataItem.name != null) {
+      if (dataItem && name == null) {
+        // If dataItem is {name: ...}, it has highest priority.
+        // That is appropriate for many common cases.
+        if (dataItem.name != null) {
           // There is no other place to persistent dataItem.name,
           // so save it to nameList.
           nameList[idx] = name = dataItem.name;
+        } else if (nameDimIdx != null) {
+          var nameDim = dimensions[nameDimIdx];
+          var nameDimChunk = storage[nameDim][chunkIndex];
+
+          if (nameDimChunk) {
+            name = nameDimChunk[chunkOffset];
+            var ordinalMeta = dimensionInfoMap[nameDim].ordinalMeta;
+
+            if (ordinalMeta && ordinalMeta.categories.length) {
+              name = ordinalMeta.categories[name];
+            }
+          }
         }
       } // Try using the id in option
       // id or name is used on dynamical data, mapping old and new items.
@@ -548,47 +589,30 @@ function prepareInvertedIndex(list) {
       }
     }
   });
-} // TODO refactor
+}
 
+function getRawValueFromStore(list, dimIndex, rawIndex) {
+  var val;
 
-listProto._getNameFromStore = function (rawIndex) {
-  var nameDimIdx = this._nameDimIdx;
-
-  if (nameDimIdx != null) {
-    var chunkSize = this._chunkSize;
+  if (dimIndex != null) {
+    var chunkSize = list._chunkSize;
     var chunkIndex = Math.floor(rawIndex / chunkSize);
     var chunkOffset = rawIndex % chunkSize;
-    var dim = this.dimensions[nameDimIdx];
-    var ordinalMeta = this._dimensionInfos[dim].ordinalMeta;
+    var dim = list.dimensions[dimIndex];
+    var chunk = list._storage[dim][chunkIndex];
 
-    if (ordinalMeta) {
-      return ordinalMeta.categories[rawIndex];
-    } else {
-      var chunk = this._storage[dim][chunkIndex];
-      return chunk && chunk[chunkOffset];
+    if (chunk) {
+      val = chunk[chunkOffset];
+      var ordinalMeta = list._dimensionInfos[dim].ordinalMeta;
+
+      if (ordinalMeta && ordinalMeta.categories.length) {
+        val = ordinalMeta.categories[val];
+      }
     }
   }
-}; // TODO refactor
 
-
-listProto._getIdFromStore = function (rawIndex) {
-  var idDimIdx = this._idDimIdx;
-
-  if (idDimIdx != null) {
-    var chunkSize = this._chunkSize;
-    var chunkIndex = Math.floor(rawIndex / chunkSize);
-    var chunkOffset = rawIndex % chunkSize;
-    var dim = this.dimensions[idDimIdx];
-    var ordinalMeta = this._dimensionInfos[dim].ordinalMeta;
-
-    if (ordinalMeta) {
-      return ordinalMeta.categories[rawIndex];
-    } else {
-      var chunk = this._storage[dim][chunkIndex];
-      return chunk && chunk[chunkOffset];
-    }
-  }
-};
+  return val;
+}
 /**
  * @return {number}
  */
@@ -599,19 +623,32 @@ listProto.count = function () {
 };
 
 listProto.getIndices = function () {
-  if (this._indices) {
-    var Ctor = this._indices.constructor;
-    return new Ctor(this._indices.buffer, 0, this._count);
+  var newIndices;
+  var indices = this._indices;
+
+  if (indices) {
+    var Ctor = indices.constructor;
+    var thisCount = this._count; // `new Array(a, b, c)` is different from `new Uint32Array(a, b, c)`.
+
+    if (Ctor === Array) {
+      newIndices = new Ctor(thisCount);
+
+      for (var i = 0; i < thisCount; i++) {
+        newIndices[i] = indices[i];
+      }
+    } else {
+      newIndices = new Ctor(indices.buffer, 0, thisCount);
+    }
+  } else {
+    var Ctor = getIndicesCtor(this);
+    var newIndices = new Ctor(this.count());
+
+    for (var i = 0; i < newIndices.length; i++) {
+      newIndices[i] = i;
+    }
   }
 
-  var Ctor = getIndicesCtor(this);
-  var arr = new Ctor(this.count());
-
-  for (var i = 0; i < arr.length; i++) {
-    arr[i] = i;
-  }
-
-  return arr;
+  return newIndices;
 };
 /**
  * Get value. Return NaN if idx is out of range.
@@ -870,6 +907,32 @@ listProto.getSum = function (dim
   }
 
   return sum;
+};
+/**
+ * Get median of data in one dimension
+ * @param {string} dim
+ */
+
+
+listProto.getMedian = function (dim
+/*, stack */
+) {
+  var dimDataArray = []; // map all data of one dimension
+
+  this.each(dim, function (val, idx) {
+    if (!isNaN(val)) {
+      dimDataArray.push(val);
+    }
+  }); // TODO
+  // Use quick select?
+  // immutability & sort
+
+  var sortedDimDataArray = [].concat(dimDataArray).sort(function (a, b) {
+    return a - b;
+  });
+  var len = this.count(); // calculate median
+
+  return len === 0 ? 0 : len % 2 === 1 ? sortedDimDataArray[(len - 1) / 2] : (sortedDimDataArray[len / 2] + sortedDimDataArray[len / 2 - 1]) / 2;
 }; // /**
 //  * Retreive the index with given value
 //  * @param {string} dim Concrete dimension.
@@ -1071,7 +1134,7 @@ listProto.getRawDataItem = function (idx) {
 
 listProto.getName = function (idx) {
   var rawIndex = this.getRawIndex(idx);
-  return this._nameList[rawIndex] || this._getNameFromStore(rawIndex) || '';
+  return this._nameList[rawIndex] || getRawValueFromStore(this, this._nameDimIdx, rawIndex) || '';
 };
 /**
  * @param {number} idx
@@ -1088,7 +1151,7 @@ function getId(list, rawIndex) {
   var id = list._idList[rawIndex];
 
   if (id == null) {
-    id = list._getIdFromStore(rawIndex);
+    id = getRawValueFromStore(list, list._idDimIdx, rawIndex);
   }
 
   if (id == null) {
@@ -1251,15 +1314,12 @@ listProto.filterSelf = function (dimensions, cb, context, contextCompat) {
  */
 
 
-listProto.selectRange = function (range
-/*, stack */
-) {
+listProto.selectRange = function (range) {
   'use strict';
 
   if (!this._count) {
     return;
-  } // stack = stack || false;
-
+  }
 
   var dimensions = [];
 
@@ -1284,67 +1344,69 @@ listProto.selectRange = function (range
   var max = range[dim0][1];
   var quickFinished = false;
 
-  if (!this._indices
-  /* && !stack */
-  ) {
-      // Extreme optimization for common case. About 2x faster in chrome.
-      var idx = 0;
+  if (!this._indices) {
+    // Extreme optimization for common case. About 2x faster in chrome.
+    var idx = 0;
 
-      if (dimSize === 1) {
-        var dimStorage = this._storage[dimensions[0]];
+    if (dimSize === 1) {
+      var dimStorage = this._storage[dimensions[0]];
 
-        for (var k = 0; k < this._chunkCount; k++) {
-          var chunkStorage = dimStorage[k];
-          var len = Math.min(this._count - k * this._chunkSize, this._chunkSize);
+      for (var k = 0; k < this._chunkCount; k++) {
+        var chunkStorage = dimStorage[k];
+        var len = Math.min(this._count - k * this._chunkSize, this._chunkSize);
 
-          for (var i = 0; i < len; i++) {
-            var val = chunkStorage[i];
+        for (var i = 0; i < len; i++) {
+          var val = chunkStorage[i]; // NaN will not be filtered. Consider the case, in line chart, empty
+          // value indicates the line should be broken. But for the case like
+          // scatter plot, a data item with empty value will not be rendered,
+          // but the axis extent may be effected if some other dim of the data
+          // item has value. Fortunately it is not a significant negative effect.
 
-            if (val >= min && val <= max) {
-              newIndices[offset++] = idx;
-            }
-
-            idx++;
+          if (val >= min && val <= max || isNaN(val)) {
+            newIndices[offset++] = idx;
           }
+
+          idx++;
         }
-
-        quickFinished = true;
-      } else if (dimSize === 2) {
-        var dimStorage = this._storage[dim0];
-        var dimStorage2 = this._storage[dimensions[1]];
-        var min2 = range[dimensions[1]][0];
-        var max2 = range[dimensions[1]][1];
-
-        for (var k = 0; k < this._chunkCount; k++) {
-          var chunkStorage = dimStorage[k];
-          var chunkStorage2 = dimStorage2[k];
-          var len = Math.min(this._count - k * this._chunkSize, this._chunkSize);
-
-          for (var i = 0; i < len; i++) {
-            var val = chunkStorage[i];
-            var val2 = chunkStorage2[i];
-
-            if (val >= min && val <= max && val2 >= min2 && val2 <= max2) {
-              newIndices[offset++] = idx;
-            }
-
-            idx++;
-          }
-        }
-
-        quickFinished = true;
       }
+
+      quickFinished = true;
+    } else if (dimSize === 2) {
+      var dimStorage = this._storage[dim0];
+      var dimStorage2 = this._storage[dimensions[1]];
+      var min2 = range[dimensions[1]][0];
+      var max2 = range[dimensions[1]][1];
+
+      for (var k = 0; k < this._chunkCount; k++) {
+        var chunkStorage = dimStorage[k];
+        var chunkStorage2 = dimStorage2[k];
+        var len = Math.min(this._count - k * this._chunkSize, this._chunkSize);
+
+        for (var i = 0; i < len; i++) {
+          var val = chunkStorage[i];
+          var val2 = chunkStorage2[i]; // Do not filter NaN, see comment above.
+
+          if ((val >= min && val <= max || isNaN(val)) && (val2 >= min2 && val2 <= max2 || isNaN(val2))) {
+            newIndices[offset++] = idx;
+          }
+
+          idx++;
+        }
+      }
+
+      quickFinished = true;
     }
+  }
 
   if (!quickFinished) {
     if (dimSize === 1) {
-      // stack = stack || !!this.getCalculationInfo(dim0);
       for (var i = 0; i < originalCount; i++) {
-        var rawIndex = this.getRawIndex(i); // var val = stack ? this.get(dim0, i, true) : this._getFast(dim0, rawIndex);
+        var rawIndex = this.getRawIndex(i);
 
-        var val = this._getFast(dim0, rawIndex);
+        var val = this._getFast(dim0, rawIndex); // Do not filter NaN, see comment above.
 
-        if (val >= min && val <= max) {
+
+        if (val >= min && val <= max || isNaN(val)) {
           newIndices[offset++] = rawIndex;
         }
       }
@@ -1354,9 +1416,10 @@ listProto.selectRange = function (range
         var rawIndex = this.getRawIndex(i);
 
         for (var k = 0; k < dimSize; k++) {
-          var dimk = dimensions[k]; // var val = stack ? this.get(dimk, i, true) : this._getFast(dim, rawIndex);
+          var dimk = dimensions[k];
 
-          var val = this._getFast(dim, rawIndex);
+          var val = this._getFast(dim, rawIndex); // Do not filter NaN, see comment above.
+
 
           if (val < range[dimk][0] || val > range[dimk][1]) {
             keep = false;
@@ -1416,16 +1479,18 @@ function cloneListForMapAndSample(original, excludeDimensions) {
 
   transferProperties(list, original);
   var storage = list._storage = {};
-  var originalStorage = original._storage;
-  var rawExtent = zrUtil.extend({}, original._rawExtent); // Init storage
+  var originalStorage = original._storage; // Init storage
 
   for (var i = 0; i < allDimensions.length; i++) {
     var dim = allDimensions[i];
 
     if (originalStorage[dim]) {
+      // Notice that we do not reset invertedIndicesMap here, becuase
+      // there is no scenario of mapping or sampling ordinal dimension.
       if (zrUtil.indexOf(excludeDimensions, dim) >= 0) {
         storage[dim] = cloneDimStore(originalStorage[dim]);
-        rawExtent[dim] = getInitialExtent();
+        list._rawExtent[dim] = getInitialExtent();
+        list._extent[dim] = null;
       } else {
         // Direct reference for other dimensions
         storage[dim] = originalStorage[dim];
@@ -1839,8 +1904,6 @@ listProto.cloneShallow = function (list) {
   }
 
   list.getRawIndex = list._indices ? getRawIndexWithIndices : getRawIndexWithoutIndices;
-  list._extent = zrUtil.clone(this._extent);
-  list._approximateExtent = zrUtil.clone(this._approximateExtent);
   return list;
 };
 /**

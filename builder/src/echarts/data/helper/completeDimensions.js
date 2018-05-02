@@ -1,3 +1,22 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 /**
  * @deprecated
  * Use `echarts/data/helper/createDimensions` instead.
@@ -19,7 +38,7 @@ import { OTHER_DIMENSIONS } from './dimensionHelper';
  *      provides not only dim template, but also default order.
  *      properties: 'name', 'type', 'displayName'.
  *      `name` of each item provides default coord name.
- *      [{dimsDef: [string...]}, ...] dimsDef of sysDim item provides default dim name, and
+ *      [{dimsDef: [string|Object, ...]}, ...] dimsDef of sysDim item provides default dim name, and
  *                                    provide dims count that the sysDim required.
  *      [{ordinalMeta}] can be specified.
  * @param {module:echarts/data/Source|Array|Object} source or data (for compatibal with pervious)
@@ -146,7 +165,12 @@ function completeDimensions(sysDims, source, opt) {
       applyDim(defaults(resultItem, sysDimItem), coordDim, coordDimIndex);
 
       if (resultItem.name == null && sysDimItemDimsDef) {
-        resultItem.name = resultItem.displayName = sysDimItemDimsDef[coordDimIndex];
+        var sysDimItemDimsDefItem = sysDimItemDimsDef[coordDimIndex];
+        !isObject(sysDimItemDimsDefItem) && (sysDimItemDimsDefItem = {
+          name: sysDimItemDimsDefItem
+        });
+        resultItem.name = resultItem.displayName = sysDimItemDimsDefItem.name;
+        resultItem.defaultTooltip = sysDimItemDimsDefItem.defaultTooltip;
       } // FIXME refactor, currently only used in case: {otherDims: {tooltip: false}}
 
 

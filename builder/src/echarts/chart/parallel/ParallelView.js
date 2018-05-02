@@ -1,7 +1,25 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 import * as graphic from '../../util/graphic';
 import * as zrUtil from 'zrender/src/core/util';
 import ChartView from '../../view/Chart';
-var SMOOTH = 0.3;
+var DEFAULT_SMOOTH = 0.3;
 var ParallelView = ChartView.extend({
   type: 'parallel',
   init: function () {
@@ -16,52 +34,28 @@ var ParallelView = ChartView.extend({
      */
 
     this._data;
+    /**
+     * @type {boolean}
+     */
+
+    this._initialized;
   },
 
   /**
    * @override
    */
   render: function (seriesModel, ecModel, api, payload) {
-    this._renderForNormal(seriesModel, payload); // this[
-    //     seriesModel.option.progressive
-    //         ? '_renderForProgressive'
-    //         : '_renderForNormal'
-    // ](seriesModel);
-
-  },
-  dispose: function () {},
-
-  /**
-   * @private
-   */
-  _renderForNormal: function (seriesModel, payload) {
     var dataGroup = this._dataGroup;
     var data = seriesModel.getData();
     var oldData = this._data;
     var coordSys = seriesModel.coordinateSystem;
     var dimensions = coordSys.dimensions;
-    var option = seriesModel.option;
-    var smooth = option.smooth ? SMOOTH : null; // Consider switch between progressive and not.
-    // oldData && oldData.__plProgressive && dataGroup.removeAll();
-
-    data.diff(oldData).add(add).update(update).remove(remove).execute(); // Update style
-
-    updateElCommon(data, smooth); // First create
-
-    if (!this._data) {
-      var clipPath = createGridClipShape(coordSys, seriesModel, function () {
-        // Callback will be invoked immediately if there is no animation
-        setTimeout(function () {
-          dataGroup.removeClipPath();
-        });
-      });
-      dataGroup.setClipPath(clipPath);
-    }
-
-    this._data = data;
+    var seriesScope = makeSeriesScope(seriesModel);
+    data.diff(oldData).add(add).update(update).remove(remove).execute();
 
     function add(newDataIndex) {
-      addEl(data, dataGroup, newDataIndex, dimensions, coordSys, null, smooth);
+      var line = addEl(data, dataGroup, newDataIndex, dimensions, coordSys);
+      updateElCommon(line, data, newDataIndex, seriesScope);
     }
 
     function update(newDataIndex, oldDataIndex) {
@@ -74,17 +68,47 @@ var ParallelView = ChartView.extend({
           points: points
         }
       }, animationModel, newDataIndex);
+      updateElCommon(line, data, newDataIndex, seriesScope);
     }
 
     function remove(oldDataIndex) {
       var line = oldData.getItemGraphicEl(oldDataIndex);
       dataGroup.remove(line);
+    } // First create
+
+
+    if (!this._initialized) {
+      this._initialized = true;
+      var clipPath = createGridClipShape(coordSys, seriesModel, function () {
+        // Callback will be invoked immediately if there is no animation
+        setTimeout(function () {
+          dataGroup.removeClipPath();
+        });
+      });
+      dataGroup.setClipPath(clipPath);
+    }
+
+    this._data = data;
+  },
+  incrementalPrepareRender: function (seriesModel, ecModel, api) {
+    this._initialized = true;
+    this._data = null;
+
+    this._dataGroup.removeAll();
+  },
+  incrementalRender: function (taskParams, seriesModel, ecModel) {
+    var data = seriesModel.getData();
+    var coordSys = seriesModel.coordinateSystem;
+    var dimensions = coordSys.dimensions;
+    var seriesScope = makeSeriesScope(seriesModel);
+
+    for (var dataIndex = taskParams.start; dataIndex < taskParams.end; dataIndex++) {
+      var line = addEl(data, this._dataGroup, dataIndex, dimensions, coordSys);
+      line.incremental = true;
+      updateElCommon(line, data, dataIndex, seriesScope);
     }
   },
-
-  /**
-   * @private
-   */
+  dispose: function () {},
   // _renderForProgressive: function (seriesModel) {
   //     var dataGroup = this._dataGroup;
   //     var data = seriesModel.getData();
@@ -168,27 +192,34 @@ function addEl(data, dataGroup, dataIndex, dimensions, coordSys) {
   });
   dataGroup.add(line);
   data.setItemGraphicEl(dataIndex, line);
+  return line;
 }
 
-function updateElCommon(data, smooth) {
-  var seriesStyleModel = data.hostModel.getModel('lineStyle');
-  var lineStyle = seriesStyleModel.getLineStyle();
-  data.eachItemGraphicEl(function (line, dataIndex) {
-    if (data.hasItemOption) {
-      var itemModel = data.getItemModel(dataIndex);
-      var lineStyleModel = itemModel.getModel('lineStyle', seriesStyleModel);
-      lineStyle = lineStyleModel.getLineStyle(['color', 'stroke']);
-    }
+function makeSeriesScope(seriesModel) {
+  var smooth = seriesModel.get('smooth', true);
+  smooth === true && (smooth = DEFAULT_SMOOTH);
+  return {
+    lineStyle: seriesModel.getModel('lineStyle').getLineStyle(),
+    smooth: smooth != null ? smooth : DEFAULT_SMOOTH
+  };
+}
 
-    line.useStyle(zrUtil.extend(lineStyle, {
-      fill: null,
-      // lineStyle.color have been set to itemVisual in module:echarts/visual/seriesColor.
-      stroke: data.getItemVisual(dataIndex, 'color'),
-      // lineStyle.opacity have been set to itemVisual in parallelVisual.
-      opacity: data.getItemVisual(dataIndex, 'opacity')
-    }));
-    line.shape.smooth = smooth;
-  });
+function updateElCommon(el, data, dataIndex, seriesScope) {
+  var lineStyle = seriesScope.lineStyle;
+
+  if (data.hasItemOption) {
+    var lineStyleModel = data.getItemModel(dataIndex).getModel('lineStyle');
+    lineStyle = lineStyleModel.getLineStyle();
+  }
+
+  el.useStyle(lineStyle);
+  var elStyle = el.style;
+  elStyle.fill = null; // lineStyle.color have been set to itemVisual in module:echarts/visual/seriesColor.
+
+  elStyle.stroke = data.getItemVisual(dataIndex, 'color'); // lineStyle.opacity have been set to itemVisual in parallelVisual.
+
+  elStyle.opacity = data.getItemVisual(dataIndex, 'opacity');
+  seriesScope.smooth && (el.shape.smooth = seriesScope.smooth);
 } // function simpleDiff(oldData, newData, dimensions) {
 //     var oldLen;
 //     if (!oldData

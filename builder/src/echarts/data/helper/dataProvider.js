@@ -1,3 +1,21 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 // TODO
 // ??? refactor? check the outer usage of data provider.
 // merge with defaultDimValueGetter?
@@ -119,16 +137,16 @@ var providerMethods = {
     count: function () {
       return this._data ? this._data.length / this._dimSize : 0;
     },
-    getItem: function (idx) {
+    getItem: function (idx, out) {
       idx = idx - this._offset;
-      var item = [];
+      out = out || [];
       var offset = this._dimSize * idx;
 
       for (var i = 0; i < this._dimSize; i++) {
-        item[i] = this._data[offset + i];
+        out[i] = this._data[offset + i];
       }
 
-      return item;
+      return out;
     },
     appendData: function (newData) {
       this._data = newData;

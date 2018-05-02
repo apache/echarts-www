@@ -1,3 +1,21 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 import * as zrUtil from 'zrender/src/core/util';
 import * as eventTool from 'zrender/src/core/event';
 import * as graphic from '../../util/graphic';
@@ -479,6 +497,7 @@ var SliderZoomView = DataZoomView.extend({
    * @private
    * @param {(number|string)} handleIndex 0 or 1 or 'all'
    * @param {number} delta
+   * @return {boolean} changed
    */
   _updateInterval: function (handleIndex, delta) {
     var dataZoomModel = this.dataZoomModel;
@@ -489,7 +508,9 @@ var SliderZoomView = DataZoomView.extend({
     var minMaxSpan = dataZoomModel.findRepresentativeAxisProxy().getMinMaxSpan();
     var percentExtent = [0, 100];
     sliderMove(delta, handleEnds, viewExtend, dataZoomModel.get('zoomLock') ? 'all' : handleIndex, minMaxSpan.minSpan != null ? linearMap(minMaxSpan.minSpan, percentExtent, viewExtend, true) : null, minMaxSpan.maxSpan != null ? linearMap(minMaxSpan.maxSpan, percentExtent, viewExtend, true) : null);
-    this._range = asc([linearMap(handleEnds[0], viewExtend, percentExtent, true), linearMap(handleEnds[1], viewExtend, percentExtent, true)]);
+    var lastRange = this._range;
+    var range = this._range = asc([linearMap(handleEnds[0], viewExtend, percentExtent, true), linearMap(handleEnds[1], viewExtend, percentExtent, true)]);
+    return !lastRange || lastRange[0] !== range[0] || lastRange[1] !== range[1];
   },
 
   /**
@@ -604,13 +625,15 @@ var SliderZoomView = DataZoomView.extend({
 
     var vertex = graphic.applyTransform([dx, dy], barTransform, true);
 
-    this._updateInterval(handleIndex, vertex[0]);
+    var changed = this._updateInterval(handleIndex, vertex[0]);
 
     var realtime = this.dataZoomModel.get('realtime');
 
-    this._updateView(!realtime);
+    this._updateView(!realtime); // Avoid dispatch dataZoom repeatly but range not changed,
+    // which cause bad visual effect when progressive enabled.
 
-    realtime && this._dispatchZoomAction();
+
+    changed && realtime && this._dispatchZoomAction();
   },
   _onDragEnd: function () {
     this._dragging = false;
@@ -634,11 +657,11 @@ var SliderZoomView = DataZoomView.extend({
     var handleEnds = this._handleEnds;
     var center = (handleEnds[0] + handleEnds[1]) / 2;
 
-    this._updateInterval('all', localPoint[0] - center);
+    var changed = this._updateInterval('all', localPoint[0] - center);
 
     this._updateView();
 
-    this._dispatchZoomAction();
+    changed && this._dispatchZoomAction();
   },
 
   /**

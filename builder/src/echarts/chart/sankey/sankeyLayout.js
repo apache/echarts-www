@@ -1,10 +1,30 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 /**
  * @file The layout algorithm of sankey view
- * @author  Deqing Li(annong035@gmail.com)
+ * @author Deqing Li(annong035@gmail.com)
  */
 import * as layout from '../../util/layout';
 import nest from '../../util/array/nest';
 import * as zrUtil from 'zrender/src/core/util';
+import { __DEV__ } from '../../config';
 export default function (ecModel, api, payload) {
   ecModel.eachSeriesByType('sankey', function (seriesModel) {
     var nodeWidth = seriesModel.get('nodeWidth');
@@ -40,7 +60,7 @@ function getViewRect(seriesModel, api) {
 }
 
 function layoutSankey(nodes, edges, nodeWidth, nodeGap, width, height, iterations) {
-  computeNodeBreadths(nodes, nodeWidth, width);
+  computeNodeBreadths(nodes, edges, nodeWidth, width);
   computeNodeDepths(nodes, edges, height, nodeGap, iterations);
   computeEdgeDepths(nodes);
 }
@@ -62,7 +82,10 @@ function computeNodeValues(nodes) {
   });
 }
 /**
- * Compute the x-position for each node
+ * Compute the x-position for each node.
+ * 
+ * Here we use Kahn algorithm to detect cycle when we traverse
+ * the node to computer the initial x position.
  *
  * @param {module:echarts/data/Graph~Node} nodes  node of sankey view
  * @param  {number} nodeWidth  the dx of the node
@@ -70,32 +93,55 @@ function computeNodeValues(nodes) {
  */
 
 
-function computeNodeBreadths(nodes, nodeWidth, width) {
-  var remainNodes = nodes;
-  var nextNode = null;
+function computeNodeBreadths(nodes, edges, nodeWidth, width) {
+  // Used to mark whether the edge is deleted. if it is deleted,
+  // the value is 0, otherwise it is 1.
+  var remainEdges = []; // Storage each node's indegree.
+
+  var indegreeArr = []; //Used to storage the node with indegree is equal to 0.
+
+  var zeroIndegrees = [];
+  var nextNode = [];
   var x = 0;
   var kx = 0;
 
-  while (remainNodes.length) {
-    nextNode = [];
+  for (var i = 0; i < edges.length; i++) {
+    remainEdges[i] = 1;
+  }
 
-    for (var i = 0, len = remainNodes.length; i < len; i++) {
-      var node = remainNodes[i];
+  for (var i = 0; i < nodes.length; i++) {
+    indegreeArr[i] = nodes[i].inEdges.length;
+
+    if (indegreeArr[i] === 0) {
+      zeroIndegrees.push(nodes[i]);
+    }
+  }
+
+  while (zeroIndegrees.length) {
+    zrUtil.each(zeroIndegrees, function (node) {
       node.setLayout({
         x: x
       }, true);
       node.setLayout({
         dx: nodeWidth
       }, true);
+      zrUtil.each(node.outEdges, function (edge) {
+        var indexEdge = edges.indexOf(edge);
+        remainEdges[indexEdge] = 0;
+        var targetNode = edge.node2;
+        var nodeIndex = nodes.indexOf(targetNode);
 
-      for (var j = 0, lenj = node.outEdges.length; j < lenj; j++) {
-        nextNode.push(node.outEdges[j].node2);
-      }
-    }
-
-    remainNodes = nextNode;
+        if (--indegreeArr[nodeIndex] === 0) {
+          nextNode.push(targetNode);
+        }
+      });
+    });
     ++x;
+    zeroIndegrees = nextNode;
+    nextNode = [];
   }
+
+  for (var i = 0; i < remainEdges.length; i++) {}
 
   moveSinksRight(nodes, x);
   kx = (width - nodeWidth) / (x - 1);
@@ -243,7 +289,7 @@ function resolveCollisions(nodesByBreadth, nodeGap, height) {
       }
 
       y0 = node.getLayout().y + node.getLayout().dy + nodeGap;
-    } // if the bottommost node goes outside the bounds, push it back up
+    } // If the bottommost node goes outside the bounds, push it back up
 
 
     dy = y0 - nodeGap - height;
@@ -386,7 +432,7 @@ function ascendingDepth(a, b) {
 }
 
 function ascending(a, b) {
-  return a < b ? -1 : a > b ? 1 : a === b ? 0 : NaN;
+  return a - b;
 }
 
 function getEdgeValue(edge) {

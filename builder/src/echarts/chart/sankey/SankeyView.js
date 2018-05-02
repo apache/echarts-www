@@ -1,3 +1,22 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 /**
  * @file  The file used to draw sankey view
  * @author  Deqing Li(annong035@gmail.com)
@@ -36,7 +55,11 @@ export default echarts.extendChartView({
   render: function (seriesModel, ecModel, api) {
     var graph = seriesModel.getGraph();
     var group = this.group;
-    var layoutInfo = seriesModel.layoutInfo;
+    var layoutInfo = seriesModel.layoutInfo; // view width
+
+    var width = layoutInfo.width; // view height
+
+    var height = layoutInfo.height;
     var nodeData = seriesModel.getData();
     var edgeData = seriesModel.getData('edge');
     this._model = seriesModel;
@@ -51,13 +74,19 @@ export default echarts.extendChartView({
       var lineStyleModel = edge.getModel('lineStyle');
       var curvature = lineStyleModel.get('curveness');
       var n1Layout = edge.node1.getLayout();
+      var node1Model = edge.node1.getModel();
+      var dragX1 = node1Model.get('localX');
+      var dragY1 = node1Model.get('localY');
       var n2Layout = edge.node2.getLayout();
+      var node2Model = edge.node2.getModel();
+      var dragX2 = node2Model.get('localX');
+      var dragY2 = node2Model.get('localY');
       var edgeLayout = edge.getLayout();
       curve.shape.extent = Math.max(1, edgeLayout.dy);
-      var x1 = n1Layout.x + n1Layout.dx;
-      var y1 = n1Layout.y + edgeLayout.sy + edgeLayout.dy / 2;
-      var x2 = n2Layout.x;
-      var y2 = n2Layout.y + edgeLayout.ty + edgeLayout.dy / 2;
+      var x1 = (dragX1 != null ? dragX1 * width : n1Layout.x) + n1Layout.dx;
+      var y1 = (dragY1 != null ? dragY1 * height : n1Layout.y) + edgeLayout.sy + edgeLayout.dy / 2;
+      var x2 = dragX2 != null ? dragX2 * width : n2Layout.x;
+      var y2 = (dragY2 != null ? dragY2 * height : n2Layout.y) + edgeLayout.ty + edgeLayout.dy / 2;
       var cpx1 = x1 * (1 - curvature) + x2 * curvature;
       var cpy1 = y1;
       var cpx2 = x1 * curvature + x2 * (1 - curvature);
@@ -87,19 +116,21 @@ export default echarts.extendChartView({
       graphic.setHoverStyle(curve, edge.getModel('emphasis.lineStyle').getItemStyle());
       group.add(curve);
       edgeData.setItemGraphicEl(edge.dataIndex, curve);
-    }); // generate a rect  for each node
+    }); // generate a rect for each node
 
     graph.eachNode(function (node) {
       var layout = node.getLayout();
       var itemModel = node.getModel();
+      var dragX = itemModel.get('localX');
+      var dragY = itemModel.get('localY');
       var labelModel = itemModel.getModel('label');
       var labelHoverModel = itemModel.getModel('emphasis.label');
       var rect = new graphic.Rect({
         shape: {
-          x: layout.x,
-          y: layout.y,
-          width: node.getLayout().dx,
-          height: node.getLayout().dy
+          x: dragX != null ? dragX * width : layout.x,
+          y: dragY != null ? dragY * height : layout.y,
+          width: layout.dx,
+          height: layout.dy
         },
         style: itemModel.getModel('itemStyle').getItemStyle()
       });
@@ -116,6 +147,27 @@ export default echarts.extendChartView({
       nodeData.setItemGraphicEl(node.dataIndex, rect);
       rect.dataType = 'node';
     });
+    var draggable = seriesModel.get('draggable');
+
+    if (draggable) {
+      nodeData.eachItemGraphicEl(function (el, dataIndex) {
+        el.drift = function (dx, dy) {
+          this.shape.x += dx;
+          this.shape.y += dy;
+          this.dirty();
+          api.dispatchAction({
+            type: 'dragNode',
+            seriesId: seriesModel.id,
+            dataIndex: nodeData.getRawIndex(dataIndex),
+            localX: this.shape.x / width,
+            localY: this.shape.y / height
+          });
+        };
+
+        el.draggable = true;
+        el.cursor = 'move';
+      });
+    }
 
     if (!this._data && seriesModel.get('animation')) {
       group.setClipPath(createGridClipShape(group.getBoundingRect(), seriesModel, function () {

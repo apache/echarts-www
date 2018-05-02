@@ -1,3 +1,21 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 // Only create one roam controller for each coordinate system.
 // one roam controller might be refered by two inside data zoom
 // components (for example, one for x and one for y). When user
@@ -83,21 +101,6 @@ export function unregister(api, dataZoomId) {
  * @public
  */
 
-export function shouldRecordRange(payload, dataZoomId) {
-  if (payload && payload.type === 'dataZoom' && payload.batch) {
-    for (var i = 0, len = payload.batch.length; i < len; i++) {
-      if (payload.batch[i].dataZoomId === dataZoomId) {
-        return false;
-      }
-    }
-  }
-
-  return true;
-}
-/**
- * @public
- */
-
 export function generateCoordId(coordModel) {
   return coordModel.type + '\0_' + coordModel.id;
 }
@@ -151,7 +154,7 @@ function wrapAndDispatch(record, getRange) {
       end: range[1]
     });
   });
-  record.dispatchAction(batch);
+  batch.length && record.dispatchAction(batch);
 }
 /**
  * This action will be throttled.

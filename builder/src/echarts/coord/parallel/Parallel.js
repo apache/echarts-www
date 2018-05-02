@@ -1,3 +1,22 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 /**
  * Parallel Coordinates
  * <https://en.wikipedia.org/wiki/Parallel_coordinates>
@@ -253,8 +272,7 @@ Parallel.prototype = {
         axisLabelShow: posInfo.axisLabelShow,
         nameTruncateMaxWidth: posInfo.nameTruncateMaxWidth,
         tickDirection: 1,
-        labelDirection: 1,
-        labelInterval: axes.get(dim).getLabelInterval()
+        labelDirection: 1
       };
     }, this);
   },
@@ -283,28 +301,33 @@ Parallel.prototype = {
    * @param {module:echarts/data/List} data
    * @param {Functio} cb param: {string} activeState 'active' or 'inactive' or 'normal'
    *                            {number} dataIndex
-   * @param {Object} context
+   * @param {number} [start=0] the start dataIndex that travel from.
+   * @param {number} [end=data.count()] the next dataIndex of the last dataIndex will be travel.
    */
-  eachActiveState: function (data, callback, context) {
-    var dimensions = this.dimensions;
-    var dataDimensions = zrUtil.map(dimensions, function (axisDim) {
-      return data.mapDimension(axisDim);
-    });
+  eachActiveState: function (data, callback, start, end) {
+    start == null && (start = 0);
+    end == null && (end = data.count());
     var axesMap = this._axesMap;
+    var dimensions = this.dimensions;
+    var dataDimensions = [];
+    var axisModels = [];
+    zrUtil.each(dimensions, function (axisDim) {
+      dataDimensions.push(data.mapDimension(axisDim));
+      axisModels.push(axesMap.get(axisDim).model);
+    });
     var hasActiveSet = this.hasAxisBrushed();
 
-    for (var i = 0, len = data.count(); i < len; i++) {
-      var values = data.getValues(dataDimensions, i);
+    for (var dataIndex = start; dataIndex < end; dataIndex++) {
       var activeState;
 
       if (!hasActiveSet) {
         activeState = 'normal';
       } else {
         activeState = 'active';
+        var values = data.getValues(dataDimensions, dataIndex);
 
         for (var j = 0, lenj = dimensions.length; j < lenj; j++) {
-          var dimName = dimensions[j];
-          var state = axesMap.get(dimName).model.getActiveState(values[j], j);
+          var state = axisModels[j].getActiveState(values[j]);
 
           if (state === 'inactive') {
             activeState = 'inactive';
@@ -313,7 +336,7 @@ Parallel.prototype = {
         }
       }
 
-      callback.call(context, activeState, i);
+      callback(activeState, dataIndex);
     }
   },
 

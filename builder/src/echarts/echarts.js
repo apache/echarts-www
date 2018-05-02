@@ -1,12 +1,21 @@
-/*!
- * ECharts, a free, powerful charting and visualization library.
- *
- * Copyright (c) 2017, Baidu Inc.
- * All rights reserved.
- *
- * LICENSE
- * https://github.com/ecomfe/echarts/blob/master/LICENSE.txt
- */
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 import { __DEV__ } from './config';
 import * as zrender from 'zrender/src/zrender';
 import * as zrUtil from 'zrender/src/core/util';
@@ -33,14 +42,15 @@ import loadingDefault from './loading/default';
 import Scheduler from './stream/Scheduler';
 import lightTheme from './theme/light';
 import darkTheme from './theme/dark';
+import './component/dataset';
 var assert = zrUtil.assert;
 var each = zrUtil.each;
 var isFunction = zrUtil.isFunction;
 var isObject = zrUtil.isObject;
 var parseClassType = ComponentModel.parseClassType;
-export var version = '4.0.4';
+export var version = '4.1.0';
 export var dependencies = {
-  zrender: '4.0.3'
+  zrender: '4.0.4'
 };
 var TEST_FRAME_REMAIN_TIME = 1;
 var PRIORITY_PROCESSOR_FILTER = 1000;
@@ -700,7 +710,7 @@ var updateMethods = {
       return;
     }
 
-    ecModel.restoreData(payload);
+    scheduler.restoreData(ecModel, payload);
     scheduler.performSeriesTasks(ecModel); // TODO
     // Save total ecModel here for undo/redo (after restoring data and before processing data).
     // Undo (restoration of total ecModel) can be carried out in 'action' or outside API call.
@@ -712,7 +722,10 @@ var updateMethods = {
     // stream modes after data processing, where the filtered data is used to
     // deteming whether use progressive rendering.
 
-    updateStreamModes(this, ecModel); // stackSeriesData(ecModel);
+    updateStreamModes(this, ecModel); // We update stream modes before coordinate system updated, then the modes info
+    // can be fetched when coord sys updating (consider the barGrid extent fix). But
+    // the drawback is the full coord info can not be fetched. Fortunately this full
+    // coord is not requied in stream mode updater currently.
 
     coordSysMgr.update(ecModel, api);
     clearColorPalette(ecModel);
@@ -880,10 +893,18 @@ function updateDirectly(ecIns, method, payload, mainType, subType) {
     query: query
   };
   subType && (condition.subType = subType); // subType may be '' by parseClassType;
-  // If dispatchAction before setOption, do nothing.
 
-  ecModel && ecModel.eachComponent(condition, function (model, index) {
-    callView(ecIns[mainType === 'series' ? '_chartsMap' : '_componentsMap'][model.__viewId]);
+  var excludeSeriesId = payload.excludeSeriesId;
+
+  if (excludeSeriesId != null) {
+    excludeSeriesId = zrUtil.createHashMap(modelUtil.normalizeToArray(excludeSeriesId));
+  } // If dispatchAction before setOption, do nothing.
+
+
+  ecModel && ecModel.eachComponent(condition, function (model) {
+    if (!excludeSeriesId || excludeSeriesId.get(model.id) == null) {
+      callView(ecIns[mainType === 'series' ? '_chartsMap' : '_componentsMap'][model.__viewId]);
+    }
   }, ecIns);
 
   function callView(view) {

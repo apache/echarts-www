@@ -1,3 +1,21 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 import * as zrUtil from 'zrender/src/core/util';
 import List from '../../data/List';
 import * as numberUtil from '../../util/number';
@@ -6,11 +24,11 @@ import LineDraw from '../../chart/helper/LineDraw';
 import MarkerView from './MarkerView';
 
 var markLineTransform = function (seriesModel, coordSys, mlModel, item) {
-  var data = seriesModel.getData(); // Special type markLine like 'min', 'max', 'average'
+  var data = seriesModel.getData(); // Special type markLine like 'min', 'max', 'average', 'median'
 
   var mlType = item.type;
 
-  if (!zrUtil.isArray(item) && (mlType === 'min' || mlType === 'max' || mlType === 'average' // In case
+  if (!zrUtil.isArray(item) && (mlType === 'min' || mlType === 'max' || mlType === 'average' || mlType === 'median' // In case
   // data: [{
   //   yAxis: 10
   // }]

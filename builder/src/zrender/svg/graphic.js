@@ -4,6 +4,7 @@
 import { createElement } from './core';
 import PathProxy from '../core/PathProxy';
 import BoundingRect from '../core/BoundingRect';
+import * as matrix from '../core/matrix';
 import * as textContain from '../contain/text';
 import * as textHelper from '../graphic/helper/text';
 import Text from '../graphic/Text';
@@ -45,6 +46,10 @@ function setTransform(svgEl, m) {
 function attr(el, key, val) {
   if (!val || val.type !== 'linear' && val.type !== 'radial') {
     // Don't set attribute for gradient, since it need new dom nodes
+    if (typeof val === 'string' && val.indexOf('NaN') > -1) {
+      console.log(val);
+    }
+
     el.setAttribute(key, val);
   }
 }
@@ -398,8 +403,11 @@ var svgTextDrawRectText = function (el, rect, textRect) {
       y = origin[1] + y;
     }
 
-    var rotate = -style.textRotation * 180 / Math.PI;
-    attr(textSvgEl, 'transform', 'rotate(' + rotate + ',' + x + ',' + y + ')');
+    var rotate = -style.textRotation || 0;
+    var transform = matrix.create(); // Apply textRotate to element matrix
+
+    matrix.rotate(transform, el.transform, rotate);
+    setTransform(textSvgEl, transform);
   }
 
   var textLines = text.split('\n');

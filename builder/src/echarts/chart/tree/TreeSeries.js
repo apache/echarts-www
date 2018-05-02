@@ -1,3 +1,22 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 /**
  * @file Create data struct and define tree view's series model
  */
@@ -35,10 +54,27 @@ export default SeriesModel.extend({
     var expandAndCollapse = option.expandAndCollapse;
     var expandTreeDepth = expandAndCollapse && option.initialTreeDepth >= 0 ? option.initialTreeDepth : treeDepth;
     tree.root.eachNode('preorder', function (node) {
-      var item = node.hostTree.data.getRawDataItem(node.dataIndex);
+      var item = node.hostTree.data.getRawDataItem(node.dataIndex); // add item.collapsed != null, because users can collapse node original in the series.data.
+
       node.isExpand = item && item.collapsed != null ? !item.collapsed : node.depth <= expandTreeDepth;
     });
     return tree.data;
+  },
+
+  /**
+   * Make the configuration 'orient' backward compatibly, with 'horizontal = LR', 'vertical = TB'.
+   * @returns {string} orient
+   */
+  getOrient: function () {
+    var orient = this.get('orient');
+
+    if (orient === 'horizontal') {
+      orient = 'LR';
+    } else if (orient === 'vertical') {
+      orient = 'TB';
+    }
+
+    return orient;
   },
 
   /**
@@ -69,8 +105,9 @@ export default SeriesModel.extend({
     bottom: '12%',
     // the layout of the tree, two value can be selected, 'orthogonal' or 'radial'
     layout: 'orthogonal',
-    // the orient of orthoginal layout, can be setted to 'horizontal' or 'vertical'
-    orient: 'horizontal',
+    // The orient of orthoginal layout, can be setted to 'LR', 'TB', 'RL', 'BT'.
+    // and the backward compatibility configuration 'horizontal = LR', 'vertical = TB'.
+    orient: 'LR',
     symbol: 'emptyCircle',
     symbolSize: 7,
     expandAndCollapse: true,

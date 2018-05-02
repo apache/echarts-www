@@ -1,3 +1,22 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 /**
  * @file  This file used to draw tree view
  */
@@ -45,7 +64,7 @@ export default echarts.extendChartView({
     var seriesScope = {
       expandAndCollapse: seriesModel.get('expandAndCollapse'),
       layout: layout,
-      orient: seriesModel.get('orient'),
+      orient: seriesModel.getOrient(),
       curvature: seriesModel.get('lineStyle.curveness'),
       symbolRotate: seriesModel.get('symbolRotate'),
       symbolOffset: seriesModel.get('symbolOffset'),
@@ -62,15 +81,22 @@ export default echarts.extendChartView({
       var symbolEl = oldData.getItemGraphicEl(oldIdx);
 
       if (!symbolNeedsDraw(data, newIdx)) {
-        symbolEl && removeNode(data, newIdx, symbolEl, group, seriesModel, seriesScope);
+        symbolEl && removeNode(oldData, oldIdx, symbolEl, group, seriesModel, seriesScope);
         return;
       } // update  node and edge
 
 
       updateNode(data, newIdx, symbolEl, group, seriesModel, seriesScope);
     }).remove(function (oldIdx) {
-      var symbolEl = oldData.getItemGraphicEl(oldIdx);
-      removeNode(data, oldIdx, symbolEl, group, seriesModel, seriesScope);
+      var symbolEl = oldData.getItemGraphicEl(oldIdx); // When remove a collapsed node of subtree, since the collapsed
+      // node haven't been initialized with a symbol element,
+      // you can't found it's symbol element through index.
+      // so if we want to remove the symbol element we should insure
+      // that the symbol element is not null.
+
+      if (symbolEl) {
+        removeNode(oldData, oldIdx, symbolEl, group, seriesModel, seriesScope);
+      }
     }).execute();
 
     if (seriesScope.expandAndCollapse === true) {
@@ -294,14 +320,14 @@ function getEdgeShape(seriesScope, sourceLayout, targetLayout) {
     var x2 = targetLayout.x;
     var y2 = targetLayout.y;
 
-    if (orient === 'horizontal') {
+    if (orient === 'LR' || orient === 'RL') {
       cpx1 = x1 + (x2 - x1) * seriesScope.curvature;
       cpy1 = y1;
       cpx2 = x2 + (x1 - x2) * seriesScope.curvature;
       cpy2 = y2;
     }
 
-    if (orient === 'vertical') {
+    if (orient === 'TB' || orient === 'BT') {
       cpx1 = x1;
       cpy1 = y1 + (y2 - y1) * seriesScope.curvature;
       cpx2 = x2;
