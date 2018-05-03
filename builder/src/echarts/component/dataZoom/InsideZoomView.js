@@ -1,3 +1,21 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 import * as zrUtil from 'zrender/src/core/util';
 import DataZoomView from './DataZoomView';
 import sliderMove from '../helper/sliderMove';
@@ -23,14 +41,11 @@ var InsideZoomView = DataZoomView.extend({
    * @override
    */
   render: function (dataZoomModel, ecModel, api, payload) {
-    InsideZoomView.superApply(this, 'render', arguments); // Notice: origin this._range should be maintained, and should not be re-fetched
-    // from dataZoomModel when payload.type is 'dataZoom', otherwise 'pan' or 'zoom'
-    // info will be missed because of 'throttle' of this.dispatchAction.
+    InsideZoomView.superApply(this, 'render', arguments); // Hance the `throttle` util ensures to preserve command order,
+    // here simply updating range all the time will not cause missing
+    // any of the the roam change.
 
-    if (roams.shouldRecordRange(payload, dataZoomModel.id)) {
-      this._range = dataZoomModel.getPercentRange();
-    } // Reset controllers.
-
+    this._range = dataZoomModel.getPercentRange(); // Reset controllers.
 
     zrUtil.each(this.getTargetCoordInfo(), function (coordInfoList, coordSysName) {
       var allCoordIds = zrUtil.map(coordInfoList, function (coordInfo) {
@@ -74,8 +89,8 @@ var InsideZoomView = DataZoomView.extend({
    * @private
    */
   _onPan: function (coordInfo, coordSysName, controller, dx, dy, oldX, oldY, newX, newY) {
-    var range = this._range.slice(); // Calculate transform by the first axis.
-
+    var lastRange = this._range;
+    var range = lastRange.slice(); // Calculate transform by the first axis.
 
     var axisModel = coordInfo.axisModels[0];
 
@@ -86,15 +101,19 @@ var InsideZoomView = DataZoomView.extend({
     var directionInfo = getDirectionInfo[coordSysName]([oldX, oldY], [newX, newY], axisModel, controller, coordInfo);
     var percentDelta = directionInfo.signal * (range[1] - range[0]) * directionInfo.pixel / directionInfo.pixelLength;
     sliderMove(percentDelta, range, [0, 100], 'all');
-    return this._range = range;
+    this._range = range;
+
+    if (lastRange[0] !== range[0] || lastRange[1] !== range[1]) {
+      return range;
+    }
   },
 
   /**
    * @private
    */
   _onZoom: function (coordInfo, coordSysName, controller, scale, mouseX, mouseY) {
-    var range = this._range.slice(); // Calculate transform by the first axis.
-
+    var lastRange = this._range;
+    var range = lastRange.slice(); // Calculate transform by the first axis.
 
     var axisModel = coordInfo.axisModels[0];
 
@@ -110,7 +129,11 @@ var InsideZoomView = DataZoomView.extend({
 
     var minMaxSpan = this.dataZoomModel.findRepresentativeAxisProxy().getMinMaxSpan();
     sliderMove(0, range, [0, 100], 0, minMaxSpan.minSpan, minMaxSpan.maxSpan);
-    return this._range = range;
+    this._range = range;
+
+    if (lastRange[0] !== range[0] || lastRange[1] !== range[1]) {
+      return range;
+    }
   }
 });
 var getDirectionInfo = {

@@ -15,6 +15,7 @@ export default function windingLine(x0, y0, x1, y1, x, y) {
     dir = y1 < y0 ? 0.5 : -0.5;
   }
 
-  var x_ = t * (x1 - x0) + x0;
-  return x_ > x ? dir : 0;
+  var x_ = t * (x1 - x0) + x0; // If (x, y) on the line, considered as "contain".
+
+  return x_ === x ? Infinity : x_ > x ? dir : 0;
 }

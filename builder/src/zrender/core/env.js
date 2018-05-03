@@ -7,7 +7,7 @@
  */
 var env = {};
 
-if (typeof wx !== 'undefined') {
+if (typeof wx === 'object' && typeof wx.getSystemInfoSync === 'function') {
   // In Weixin Application
   env = {
     browser: {},

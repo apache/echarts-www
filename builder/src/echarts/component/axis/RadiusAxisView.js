@@ -1,3 +1,21 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 import * as zrUtil from 'zrender/src/core/util';
 import * as graphic from '../../util/graphic';
 import AxisBuilder from './AxisBuilder';
@@ -49,7 +67,7 @@ export default AxisView.extend({
         shape: {
           cx: polar.cx,
           cy: polar.cy,
-          r: ticksCoords[i]
+          r: ticksCoords[i].coord
         },
         silent: true
       }));
@@ -72,13 +90,17 @@ export default AxisView.extend({
    * @private
    */
   _splitArea: function (radiusAxisModel, polar, axisAngle, radiusExtent, ticksCoords) {
+    if (!ticksCoords.length) {
+      return;
+    }
+
     var splitAreaModel = radiusAxisModel.getModel('splitArea');
     var areaStyleModel = splitAreaModel.getModel('areaStyle');
     var areaColors = areaStyleModel.get('color');
     var lineCount = 0;
     areaColors = areaColors instanceof Array ? areaColors : [areaColors];
     var splitAreas = [];
-    var prevRadius = ticksCoords[0];
+    var prevRadius = ticksCoords[0].coord;
 
     for (var i = 1; i < ticksCoords.length; i++) {
       var colorIndex = lineCount++ % areaColors.length;
@@ -88,13 +110,13 @@ export default AxisView.extend({
           cx: polar.cx,
           cy: polar.cy,
           r0: prevRadius,
-          r: ticksCoords[i],
+          r: ticksCoords[i].coord,
           startAngle: 0,
           endAngle: Math.PI * 2
         },
         silent: true
       }));
-      prevRadius = ticksCoords[i];
+      prevRadius = ticksCoords[i].coord;
     } // Simple optimization
     // Batching the lines if color are the same
 

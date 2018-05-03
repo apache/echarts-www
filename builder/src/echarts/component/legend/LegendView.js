@@ -1,3 +1,21 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 import { __DEV__ } from '../../config';
 import * as echarts from '../../echarts';
 import * as zrUtil from 'zrender/src/core/util';
@@ -87,6 +105,10 @@ export default echarts.extendComponentView({
     var contentGroup = this.getContentGroup();
     var legendDrawnMap = zrUtil.createHashMap();
     var selectMode = legendModel.get('selectedMode');
+    var excludeSeriesId = [];
+    ecModel.eachRawSeries(function (seriesModel) {
+      !seriesModel.get('legendHoverLink') && excludeSeriesId.push(seriesModel.id);
+    });
     each(legendModel.getData(), function (itemModel, dataIndex) {
       var name = itemModel.get('name'); // Use empty string or \n as a newline string
 
@@ -95,7 +117,8 @@ export default echarts.extendComponentView({
           newline: true
         }));
         return;
-      }
+      } // Representitive series.
+
 
       var seriesModel = ecModel.getSeriesByName(name)[0];
 
@@ -120,7 +143,7 @@ export default echarts.extendComponentView({
 
         var itemGroup = this._createItem(name, dataIndex, itemModel, legendModel, legendSymbolType, symbolType, itemAlign, color, selectMode);
 
-        itemGroup.on('click', curry(dispatchSelectAction, name, api)).on('mouseover', curry(dispatchHighlightAction, seriesModel, null, api)).on('mouseout', curry(dispatchDownplayAction, seriesModel, null, api));
+        itemGroup.on('click', curry(dispatchSelectAction, name, api)).on('mouseover', curry(dispatchHighlightAction, seriesModel, null, api, excludeSeriesId)).on('mouseout', curry(dispatchDownplayAction, seriesModel, null, api, excludeSeriesId));
         legendDrawnMap.set(name, true);
       } else {
         // Data legend of pie, funnel
@@ -141,10 +164,11 @@ export default echarts.extendComponentView({
             var color = data.getItemVisual(idx, 'color');
             var legendSymbolType = 'roundRect';
 
-            var itemGroup = this._createItem(name, dataIndex, itemModel, legendModel, legendSymbolType, null, itemAlign, color, selectMode);
+            var itemGroup = this._createItem(name, dataIndex, itemModel, legendModel, legendSymbolType, null, itemAlign, color, selectMode); // FIXME: consider different series has items with the same name.
+
 
             itemGroup.on('click', curry(dispatchSelectAction, name, api)) // FIXME Should not specify the series name
-            .on('mouseover', curry(dispatchHighlightAction, seriesModel, name, api)).on('mouseout', curry(dispatchDownplayAction, seriesModel, name, api));
+            .on('mouseover', curry(dispatchHighlightAction, seriesModel, name, api, excludeSeriesId)).on('mouseout', curry(dispatchDownplayAction, seriesModel, name, api, excludeSeriesId));
             legendDrawnMap.set(name, true);
           }
         }, this);
@@ -155,6 +179,7 @@ export default echarts.extendComponentView({
     var itemWidth = legendModel.get('itemWidth');
     var itemHeight = legendModel.get('itemHeight');
     var inactiveColor = legendModel.get('inactiveColor');
+    var symbolKeepAspect = legendModel.get('symbolKeepAspect');
     var isSelected = legendModel.isSelected(name);
     var itemGroup = new Group();
     var textStyleModel = itemModel.getModel('textStyle');
@@ -163,7 +188,8 @@ export default echarts.extendComponentView({
     var legendGlobalTooltipModel = tooltipModel.parentModel; // Use user given icon first
 
     legendSymbolType = itemIcon || legendSymbolType;
-    itemGroup.add(createSymbol(legendSymbolType, 0, 0, itemWidth, itemHeight, isSelected ? color : inactiveColor, true)); // Compose symbols
+    itemGroup.add(createSymbol(legendSymbolType, 0, 0, itemWidth, itemHeight, isSelected ? color : inactiveColor, // symbolKeepAspect default true for legend
+    symbolKeepAspect == null ? true : symbolKeepAspect)); // Compose symbols
     // PENDING
 
     if (!itemIcon && symbolType // At least show one symbol, can't be all none
@@ -175,7 +201,8 @@ export default echarts.extendComponentView({
       } // Put symbol in the center
 
 
-      itemGroup.add(createSymbol(symbolType, (itemWidth - size) / 2, (itemHeight - size) / 2, size, size, isSelected ? color : inactiveColor));
+      itemGroup.add(createSymbol(symbolType, (itemWidth - size) / 2, (itemHeight - size) / 2, size, size, isSelected ? color : inactiveColor, // symbolKeepAspect default true for legend
+      symbolKeepAspect == null ? true : symbolKeepAspect));
     }
 
     var textX = itemAlign === 'left' ? itemWidth + 5 : -5;
@@ -248,28 +275,30 @@ function dispatchSelectAction(name, api) {
   });
 }
 
-function dispatchHighlightAction(seriesModel, dataName, api) {
+function dispatchHighlightAction(seriesModel, dataName, api, excludeSeriesId) {
   // If element hover will move to a hoverLayer.
   var el = api.getZr().storage.getDisplayList()[0];
 
   if (!(el && el.useHoverLayer)) {
-    seriesModel.get('legendHoverLink') && api.dispatchAction({
+    api.dispatchAction({
       type: 'highlight',
       seriesName: seriesModel.name,
-      name: dataName
+      name: dataName,
+      excludeSeriesId: excludeSeriesId
     });
   }
 }
 
-function dispatchDownplayAction(seriesModel, dataName, api) {
+function dispatchDownplayAction(seriesModel, dataName, api, excludeSeriesId) {
   // If element hover will move to a hoverLayer.
   var el = api.getZr().storage.getDisplayList()[0];
 
   if (!(el && el.useHoverLayer)) {
-    seriesModel.get('legendHoverLink') && api.dispatchAction({
+    api.dispatchAction({
       type: 'downplay',
       seriesName: seriesModel.name,
-      name: dataName
+      name: dataName,
+      excludeSeriesId: excludeSeriesId
     });
   }
 }

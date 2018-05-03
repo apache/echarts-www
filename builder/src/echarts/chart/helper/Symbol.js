@@ -1,3 +1,22 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 /**
  * @module echarts/chart/helper/Symbol
  */
@@ -6,15 +25,6 @@ import { createSymbol } from '../../util/symbol';
 import * as graphic from '../../util/graphic';
 import { parsePercent } from '../../util/number';
 import { getDefaultLabel } from './labelHelper';
-
-function getSymbolSize(data, idx) {
-  var symbolSize = data.getItemVisual(idx, 'symbolSize');
-  return symbolSize instanceof Array ? symbolSize.slice() : [+symbolSize, +symbolSize];
-}
-
-function getScale(symbolSize) {
-  return [symbolSize[0] / 2, symbolSize[1] / 2];
-}
 /**
  * @constructor
  * @alias {module:echarts/chart/helper/Symbol}
@@ -23,19 +33,34 @@ function getScale(symbolSize) {
  * @extends {module:zrender/graphic/Group}
  */
 
-
 function SymbolClz(data, idx, seriesScope) {
   graphic.Group.call(this);
   this.updateData(data, idx, seriesScope);
 }
 
 var symbolProto = SymbolClz.prototype;
+/**
+ * @public
+ * @static
+ * @param {module:echarts/data/List} data
+ * @param {number} dataIndex
+ * @return {Array.<number>} [width, height]
+ */
+
+var getSymbolSize = SymbolClz.getSymbolSize = function (data, idx) {
+  var symbolSize = data.getItemVisual(idx, 'symbolSize');
+  return symbolSize instanceof Array ? symbolSize.slice() : [+symbolSize, +symbolSize];
+};
+
+function getScale(symbolSize) {
+  return [symbolSize[0] / 2, symbolSize[1] / 2];
+}
 
 function driftSymbol(dx, dy) {
   this.parent.drift(dx, dy);
 }
 
-symbolProto._createSymbol = function (symbolType, data, idx, symbolSize) {
+symbolProto._createSymbol = function (symbolType, data, idx, symbolSize, keepAspect) {
   // Remove paths created before
   this.removeAll();
   var color = data.getItemVisual(idx, 'color'); // var symbolPath = createSymbol(
@@ -45,7 +70,7 @@ symbolProto._createSymbol = function (symbolType, data, idx, symbolSize) {
   // and macOS Sierra, a circle stroke become a rect, no matter what
   // the scale is set. So we set width/height as 2. See #4150.
 
-  var symbolPath = createSymbol(symbolType, -1, -1, 2, 2, color);
+  var symbolPath = createSymbol(symbolType, -1, -1, 2, 2, color, keepAspect);
   symbolPath.attr({
     z2: 100,
     culling: true,
@@ -148,7 +173,9 @@ symbolProto.updateData = function (data, idx, seriesScope) {
   var isInit = symbolType !== this._symbolType;
 
   if (isInit) {
-    this._createSymbol(symbolType, data, idx, symbolSize);
+    var keepAspect = data.getItemVisual(idx, 'symbolKeepAspect');
+
+    this._createSymbol(symbolType, data, idx, symbolSize, keepAspect);
   } else {
     var symbolPath = this.childAt(0);
     symbolPath.silent = false;
@@ -239,6 +266,19 @@ symbolProto._updateCommon = function (data, idx, symbolSize, seriesScope) {
 
   if (opacity != null) {
     elStyle.opacity = opacity;
+  }
+
+  var liftZ = data.getItemVisual(idx, 'liftZ');
+  var z2Origin = symbolPath.__z2Origin;
+
+  if (liftZ != null) {
+    if (z2Origin == null) {
+      symbolPath.__z2Origin = symbolPath.z2;
+      symbolPath.z2 += liftZ;
+    }
+  } else if (z2Origin != null) {
+    symbolPath.z2 = z2Origin;
+    symbolPath.__z2Origin = null;
   }
 
   var useNameLabel = seriesScope && seriesScope.useNameLabel;

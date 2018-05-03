@@ -1,12 +1,29 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 import { __DEV__ } from '../../config';
 import SeriesModel from '../../model/Series';
 import List from '../../data/List';
 import { concatArray, mergeAll, map } from 'zrender/src/core/util';
 import { encodeHTML } from '../../util/format';
 import CoordinateSystem from '../../CoordinateSystem';
-var globalObj = typeof window === 'undefined' ? global : window;
-var Uint32Arr = globalObj.Uint32Array || Array;
-var Float64Arr = globalObj.Float64Array || Array;
+var Uint32Arr = typeof Uint32Array === 'undefined' ? Array : Uint32Array;
+var Float64Arr = typeof Float64Array === 'undefined' ? Array : Float64Array;
 
 function compatEc2(seriesOpt) {
   var data = seriesOpt.data;
@@ -36,7 +53,9 @@ var LinesSeries = SeriesModel.extend({
   dependencies: ['grid', 'polar'],
   visualColorAccessPath: 'lineStyle.color',
   init: function (option) {
-    // Not using preprocessor because mergeOption may not have series.type
+    // The input data may be null/undefined.
+    option.data = option.data || []; // Not using preprocessor because mergeOption may not have series.type
+
     compatEc2(option);
 
     var result = this._processFlatCoordsArray(option.data);
@@ -51,6 +70,8 @@ var LinesSeries = SeriesModel.extend({
     LinesSeries.superApply(this, 'init', arguments);
   },
   mergeOption: function (option) {
+    // The input data may be null/undefined.
+    option.data = option.data || [];
     compatEc2(option);
 
     if (option.data) {

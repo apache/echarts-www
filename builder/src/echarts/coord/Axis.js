@@ -1,25 +1,33 @@
-import * as zrUtil from 'zrender/src/core/util';
-import * as numberUtil from '../util/number';
-import * as axisHelper from './axisHelper';
-var linearMap = numberUtil.linearMap;
-
-function fixExtentWithBands(extent, nTick) {
-  var size = extent[1] - extent[0];
-  var len = nTick;
-  var margin = size / len / 2;
-  extent[0] += margin;
-  extent[1] -= margin;
-}
-
-var normalizedExtent = [0, 1];
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+import { each, map } from 'zrender/src/core/util';
+import { linearMap, getPixelPrecision } from '../util/number';
+import { createAxisTicks, createAxisLabels, calculateCategoryInterval } from './axisTickLabelBuilder';
+var NORMALIZED_EXTENT = [0, 1];
 /**
- * @name module:echarts/coord/CartesianAxis
+ * Base class of Axis.
  * @constructor
  */
 
 var Axis = function (dim, scale, extent) {
   /**
-   * Axis dimension. Such as 'x', 'y', 'z', 'angle', 'radius'
+   * Axis dimension. Such as 'x', 'y', 'z', 'angle', 'radius'.
    * @type {string}
    */
   this.dim = dim;
@@ -46,12 +54,6 @@ var Axis = function (dim, scale, extent) {
    */
 
   this.onBand = false;
-  /**
-   * @private
-   * @type {number}
-   */
-
-  this._labelInterval;
 };
 
 Axis.prototype = {
@@ -92,7 +94,7 @@ Axis.prototype = {
    * @return {number}
    */
   getPixelPrecision: function (dataExtent) {
-    return numberUtil.getPixelPrecision(dataExtent || this.scale.getExtent(), this._extent);
+    return getPixelPrecision(dataExtent || this.scale.getExtent(), this._extent);
   },
 
   /**
@@ -122,7 +124,7 @@ Axis.prototype = {
       fixExtentWithBands(extent, scale.count());
     }
 
-    return linearMap(data, normalizedExtent, extent, clamp);
+    return linearMap(data, NORMALIZED_EXTENT, extent, clamp);
   },
 
   /**
@@ -140,7 +142,7 @@ Axis.prototype = {
       fixExtentWithBands(extent, scale.count());
     }
 
-    var t = linearMap(coord, extent, normalizedExtent, clamp);
+    var t = linearMap(coord, extent, NORMALIZED_EXTENT, clamp);
     return this.scale.scale(t);
   },
 
@@ -154,57 +156,63 @@ Axis.prototype = {
   },
 
   /**
-   * @return {Array.<number>}
+   * Different from `zrUtil.map(axis.getTicks(), axis.dataToCoord, axis)`,
+   * `axis.getTicksCoords` considers `onBand`, which is used by
+   * `boundaryGap:true` of category axis and splitLine and splitArea.
+   * @param {Object} [opt]
+   * @param {number} [opt.tickModel=axis.model.getModel('axisTick')]
+   * @param {boolean} [opt.clamp] If `true`, the first and the last
+   *        tick must be at the axis end points. Otherwise, clip ticks
+   *        that outside the axis extent.
+   * @return {Array.<Object>} [{
+   *     coord: ...,
+   *     tickValue: ...
+   * }, ...]
    */
-  getTicksCoords: function (alignWithLabel) {
-    if (this.onBand && !alignWithLabel) {
-      var bands = this.getBands();
-      var coords = [];
-
-      for (var i = 0; i < bands.length; i++) {
-        coords.push(bands[i][0]);
-      }
-
-      if (bands[i - 1]) {
-        coords.push(bands[i - 1][1]);
-      }
-
-      return coords;
-    } else {
-      return zrUtil.map(this.scale.getTicks(), this.dataToCoord, this);
-    }
+  getTicksCoords: function (opt) {
+    opt = opt || {};
+    var tickModel = opt.tickModel || this.getTickModel();
+    var result = createAxisTicks(this, tickModel);
+    var ticks = result.ticks;
+    var ticksCoords = map(ticks, function (tickValue) {
+      return {
+        coord: this.dataToCoord(tickValue),
+        tickValue: tickValue
+      };
+    }, this);
+    var alignWithLabel = tickModel.get('alignWithLabel');
+    fixOnBandTicksCoords(this, ticksCoords, result.tickCategoryInterval, alignWithLabel, opt.clamp);
+    return ticksCoords;
   },
 
   /**
-   * Coords of labels are on the ticks or on the middle of bands
-   * @return {Array.<number>}
+   * @return {Array.<Object>} [{
+   *     formattedLabel: string,
+   *     rawLabel: axis.scale.getLabel(tickValue)
+   *     tickValue: number
+   * }, ...]
    */
-  getLabelsCoords: function () {
-    return zrUtil.map(this.scale.getTicks(), this.dataToCoord, this);
+  getViewLabels: function () {
+    return createAxisLabels(this).labels;
   },
 
   /**
-   * Get bands.
-   *
-   * If axis has labels [1, 2, 3, 4]. Bands on the axis are
-   * |---1---|---2---|---3---|---4---|.
-   *
-   * @return {Array}
+   * @return {module:echarts/coord/model/Model}
    */
-  // FIXME Situation when labels is on ticks
-  getBands: function () {
-    var extent = this.getExtent();
-    var bands = [];
-    var len = this.scale.count();
-    var start = extent[0];
-    var end = extent[1];
-    var span = end - start;
+  getLabelModel: function () {
+    return this.model.getModel('axisLabel');
+  },
 
-    for (var i = 0; i < len; i++) {
-      bands.push([span * i / len + start, span * (i + 1) / len + start]);
-    }
-
-    return bands;
+  /**
+   * Notice here we only get the default tick model. For splitLine
+   * or splitArea, we should pass the splitLineModel or splitAreaModel
+   * manually when calling `getTicksCoords`.
+   * In GL, this method may be overrided to:
+   * `axisModel.getModel('axisTick', grid3DModel.getModel('axisTick'));`
+   * @return {module:echarts/coord/model/Model}
+   */
+  getTickModel: function () {
+    return this.model.getModel('axisTick');
   },
 
   /**
@@ -234,27 +242,88 @@ Axis.prototype = {
   getRotate: null,
 
   /**
-   * Get interval of the axis label.
-   * To get precise result, at least one of `getRotate` and `isHorizontal`
-   * should be implemented.
-   * @return {number}
+   * Only be called in category axis.
+   * Can be overrided, consider other axes like in 3D.
+   * @return {number} Auto interval for cateogry axis tick and label
    */
-  getLabelInterval: function () {
-    var labelInterval = this._labelInterval;
-
-    if (!labelInterval) {
-      var axisModel = this.model;
-      var labelModel = axisModel.getModel('axisLabel');
-      labelInterval = labelModel.get('interval');
-
-      if (this.type === 'category' && (labelInterval == null || labelInterval === 'auto')) {
-        labelInterval = axisHelper.getAxisLabelInterval(zrUtil.map(this.scale.getTicks(), this.dataToCoord, this), axisModel.getFormattedLabels(), labelModel.getFont(), this.getRotate ? this.getRotate() : this.isHorizontal && !this.isHorizontal() ? 90 : 0, labelModel.get('rotate'));
-      }
-
-      this._labelInterval = labelInterval;
-    }
-
-    return labelInterval;
+  calculateCategoryInterval: function () {
+    return calculateCategoryInterval(this);
   }
 };
+
+function fixExtentWithBands(extent, nTick) {
+  var size = extent[1] - extent[0];
+  var len = nTick;
+  var margin = size / len / 2;
+  extent[0] += margin;
+  extent[1] -= margin;
+} // If axis has labels [1, 2, 3, 4]. Bands on the axis are
+// |---1---|---2---|---3---|---4---|.
+// So the displayed ticks and splitLine/splitArea should between
+// each data item, otherwise cause misleading (e.g., split tow bars
+// of a single data item when there are two bar series).
+// Also consider if tickCategoryInterval > 0 and onBand, ticks and
+// splitLine/spliteArea should layout appropriately corresponding
+// to displayed labels. (So we should not use `getBandWidth` in this
+// case).
+
+
+function fixOnBandTicksCoords(axis, ticksCoords, tickCategoryInterval, alignWithLabel, clamp) {
+  var ticksLen = ticksCoords.length;
+
+  if (!axis.onBand || alignWithLabel || !ticksLen) {
+    return;
+  }
+
+  var axisExtent = axis.getExtent();
+  var last;
+
+  if (ticksLen === 1) {
+    ticksCoords[0].coord = axisExtent[0];
+    last = ticksCoords[1] = {
+      coord: axisExtent[0]
+    };
+  } else {
+    var shift = ticksCoords[1].coord - ticksCoords[0].coord;
+    each(ticksCoords, function (ticksItem) {
+      ticksItem.coord -= shift / 2;
+      var tickCategoryInterval = tickCategoryInterval || 0; // Avoid split a single data item when odd interval.
+
+      if (tickCategoryInterval % 2 > 0) {
+        ticksItem.coord -= shift / ((tickCategoryInterval + 1) * 2);
+      }
+    });
+    last = {
+      coord: ticksCoords[ticksLen - 1].coord + shift
+    };
+    ticksCoords.push(last);
+  }
+
+  var inverse = axisExtent[0] > axisExtent[1];
+
+  if (littleThan(ticksCoords[0].coord, axisExtent[0])) {
+    clamp ? ticksCoords[0].coord = axisExtent[0] : ticksCoords.shift();
+  }
+
+  if (clamp && littleThan(axisExtent[0], ticksCoords[0].coord)) {
+    ticksCoords.unshift({
+      coord: axisExtent[0]
+    });
+  }
+
+  if (littleThan(axisExtent[1], last.coord)) {
+    clamp ? last.coord = axisExtent[1] : ticksCoords.pop();
+  }
+
+  if (clamp && littleThan(last.coord, axisExtent[1])) {
+    ticksCoords.push({
+      coord: axisExtent[1]
+    });
+  }
+
+  function littleThan(a, b) {
+    return inverse ? a > b : a < b;
+  }
+}
+
 export default Axis;

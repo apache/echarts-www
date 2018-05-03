@@ -1,10 +1,26 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 import * as zrUtil from 'zrender/src/core/util';
 import AxisBuilder from './AxisBuilder';
 import * as graphic from '../../util/graphic';
-import * as singleAxisHelper from './singleAxisHelper';
+import * as singleAxisHelper from '../../coord/single/singleAxisHelper';
 import AxisView from './AxisView';
-var getInterval = AxisBuilder.getInterval;
-var ifIgnoreOnTick = AxisBuilder.ifIgnoreOnTick;
 var axisBuilderAttrs = ['axisLine', 'axisTickLabel', 'axisName'];
 var selfBuilderAttr = 'splitLine';
 var SingleAxisView = AxisView.extend({
@@ -19,12 +35,12 @@ var SingleAxisView = AxisView.extend({
     group.add(axisBuilder.getGroup());
 
     if (axisModel.get(selfBuilderAttr + '.show')) {
-      this['_' + selfBuilderAttr](axisModel, layout.labelInterval);
+      this['_' + selfBuilderAttr](axisModel);
     }
 
     SingleAxisView.superCall(this, 'render', axisModel, ecModel, api, payload);
   },
-  _splitLine: function (axisModel, labelInterval) {
+  _splitLine: function (axisModel) {
     var axis = axisModel.axis;
 
     if (axis.scale.isBlank()) {
@@ -35,24 +51,19 @@ var SingleAxisView = AxisView.extend({
     var lineStyleModel = splitLineModel.getModel('lineStyle');
     var lineWidth = lineStyleModel.get('width');
     var lineColors = lineStyleModel.get('color');
-    var lineInterval = getInterval(splitLineModel, labelInterval);
     lineColors = lineColors instanceof Array ? lineColors : [lineColors];
     var gridRect = axisModel.coordinateSystem.getRect();
     var isHorizontal = axis.isHorizontal();
     var splitLines = [];
     var lineCount = 0;
-    var ticksCoords = axis.getTicksCoords();
+    var ticksCoords = axis.getTicksCoords({
+      tickModel: splitLineModel
+    });
     var p1 = [];
     var p2 = [];
-    var showMinLabel = axisModel.get('axisLabel.showMinLabel');
-    var showMaxLabel = axisModel.get('axisLabel.showMaxLabel');
 
     for (var i = 0; i < ticksCoords.length; ++i) {
-      if (ifIgnoreOnTick(axis, i, lineInterval, ticksCoords.length, showMinLabel, showMaxLabel)) {
-        continue;
-      }
-
-      var tickCoord = axis.toGlobalCoord(ticksCoords[i]);
+      var tickCoord = axis.toGlobalCoord(ticksCoords[i].coord);
 
       if (isHorizontal) {
         p1[0] = tickCoord;
