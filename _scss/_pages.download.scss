@@ -61,10 +61,29 @@ $btn: #40a7dc;
 }
 
 .paper-desc {
-    font-size: 16px;
-    margin-top: 5px;
-    font-weight: bold;
-    margin-bottom: 30px;
+
+    text-align: left;
+
+    margin: 20px -20px;
+    padding: 20px;
+    background-color: #f5f7fd;
+
+
+    .paper-title {
+        font-size: 16px;
+        margin-top: 5px;
+        font-weight: bold;
+    }
+
+    .paper-author {
+        font-size: 12px;
+        margin: 10px 0px;
+        color: #999;
+    }
+
+    .paper-journal{
+        font-size: 14px;
+    }
 }
 
 #download-row {

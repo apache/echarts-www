@@ -138,7 +138,12 @@ block extra_js
             var el = document.createElement('div');
             el.innerHTML = '<div class="download-note"><i class="note-icon"><img src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities. <br />  当您在研发项目，研究论文，技术报告，新闻报告，书籍，演示文稿，教学，专利等中使用 ECharts 时，请引用以下论文。</div>\
             <div class="paper-desc">\
-                <a href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf"> ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization</a></div>';
+                <div class="paper-title">\
+                ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization\
+                </div>\
+                <div class="paper-author">Deqing Li, Honghui Mei, Yi Shen, Shuang Su, Wenli Zhang, Junting Wang, Ming Zu, Wei Chen.</div>\
+                <div class="paper-journal">Visual Informatics, 2018 <a href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf">[PDF]</a></div>\
+            </div>';
             swal({
                 title: 'Notice',
                 content: el
