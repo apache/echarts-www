@@ -1,0 +1,24 @@
+extends ../layouts/basic
+
+block extra_head
+    title ECharts Dependencies
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+    .page-info
+        h1 Dependencies
+
+    .page-content
+        .container
+            h2
+                a(href='https://github.com/ecomfe/zrender') ZRender
+            p A lightweight canvas library which providing 2d draw for ECharts.
+
+    include ./footer
+
+block extra_js
+
+    script(type='text/javascript').
+        document.getElementById('nav-about').className = 'active';

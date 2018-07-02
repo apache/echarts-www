@@ -1,0 +1,29 @@
+extends ../layouts/basic
+
+block extra_head
+    <title>ECharts Changelog</title>
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+    .page-info
+        h1 ECharts Changelog
+        p [+]Add [-]Remove [^]Update [#]Fix
+
+    .page-content.single-page
+        .page-nav
+            a.slide-btn Collapse
+            h4 Versions
+            ul
+        .page-detail
+            include ../../documents/en/changelog.html
+
+block extra_js
+    script(type='text/javascript').
+        document.getElementById('nav-doc').className = 'active';
+
+        // Fix scroll position covered by nav
+        window.addEventListener('hashchange', function() {
+            scrollBy(0, -50);
+        });

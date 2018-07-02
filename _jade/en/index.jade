@@ -1,0 +1,139 @@
+extends ../layouts/basic
+
+block extra_head
+    <title>ECharts</title>
+
+block variables
+    - var useDp = true
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
+        include ./nav
+
+    #main-content
+        section#home-section
+            video#video-index(autoplay='true', muted="true", loop='true', src='video/index-4.mp4', poster='video/index-4.jpg')
+
+            .description
+                include ../components/svg/echarts-logo
+                a#index-play-btn(href='javascript:;', onclick='playIndexVideo()')
+                .btn-panel
+                    a.btn.btn-index-home(href='./download.html', style="letter-spacing:0px") Download
+                    a.btn.btn-index-home(href='https://github.com/apache/incubator-echarts', style="letter-spacing:0px") Source Code
+            .main-bg
+
+        script.
+            void function(e,t){for(var n=t.getElementsByTagName("img"),a=+new Date,i=[],o=function(){this.removeEventListener&&this.removeEventListener("load",o,!1),i.push({img:this,time:+new Date})},s=0;s< n.length;s++)!function(){var e=n[s];e.addEventListener?!e.complete&&e.addEventListener("load",o,!1):e.attachEvent&&e.attachEvent("onreadystatechange",function(){"complete"==e.readyState&&o.call(e,o)})}();alog("speed.set",{fsItems:i,fs:a})}(window,document);
+
+        //- section.banner-section(style='background: #1e2e55')
+        //-     a(href='https://jing.baidu.com/h5/xzzb.html')
+        //-         img.banner-img(src='images/banners/2017-09-12-zhibo.png', style='max-width: 1000px')
+
+
+        script(type='text/javascript').
+            (function () {
+                var ua = navigator.userAgent;
+                var ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/);
+                var edge = ua.match(/Edge\/([\d.]+)/);
+                window.supportTouch = 'ontouchstart' in window && !ie && !edge;
+            })()
+
+
+        section#feature-section
+            .container
+                .row.features
+                    .col-sm-4
+                        .feature-icon-panel
+                            include ../components/svg/heart
+                        h3 Free to use
+                        p Open sourced under Apache License
+                    .col-sm-4
+                        .feature-icon-panel
+                            include ../components/svg/function
+                        h3 Rich Features
+                        p Caters for all needs
+                    .col-sm-4
+                        .feature-icon-panel
+                            include ../components/svg/community
+                        h3 Active Community
+                        p Over 28,000 stars on GitHub
+
+                .row.feature-detail#feature-4
+                    .col-sm-4.col
+                        h2 Brand-new v4.0
+                        p Rendering ability for ten-million-level data
+                        p Supports both SVG and Canvas rendering
+                        p Seperates data and style configuring
+                        p Accessibility supports
+                        p Wechart and Powerpoint supports
+                        .feature-btn
+                            a(href="./tutorial.html") Learn More
+                                include ../components/svg/more
+                    .col-sm-8.col
+                        video#video-feature-4.feature-video(autoplay='true', loop='true', src='video/feature-4.mp4', poster='images/features/scatterGL4.png')
+                .row.feature-detail#feature-dimension
+                    .col-sm-4.col.mobile
+                        h2 Multi-dimension data analysis
+                        h3 Brush data for detail
+                        p Dig more out of data
+                        h3 Multi-chart interaction
+                        p Analysis the relationship between multiple charts
+                        .feature-btn
+                            a(href="./tutorial.html") Learn More
+                                include ../components/svg/more
+                    .col-sm-8.col
+                        #col-desktop
+                            img(src="images/feature-1.png")
+                            video#video-feature-1.feature-video(autoplay='true', loop='true', src='video/feature-1.mp4', poster='video/feature-2.jpg')
+                    .col-sm-4.col.pc#col-analysis
+                        h2 Multi-dimension data analysis
+                        h3 Brush data for detail
+                        p Dig more out of data
+                        h3 Multi-chart interaction
+                        p Analysis the relationship between multiple charts
+                        .feature-btn
+                            a(href="./tutorial.html") Learn More
+                                include ../components/svg/more
+                .row.feature-detail
+                    .col-sm-4.col#col-data
+                        h2 Charts for all sized devices
+                        h3 PC / Phone / Pad / Large Screen ...
+                        p Responsive design for all devices
+                        .feature-btn
+                            a(href="./tutorial.html") Learn More
+                                include ../components/svg/more
+                    .col-sm-8.col
+                        .ch-main#ch-main.pc
+                            .ch-pc-chart
+                            .ch-mobile
+                                img.ch-mobile-box(src='./images/index-chart/iphone.png')
+                                .ch-mobile-content
+                                    .ch-mobile-chart
+                        .mobile
+                            img(src='./images/index-feature.png')
+
+                    script(type='text/javascript').
+                        window.supportTouch && (document.getElementById('ch-main').className += ' ch-on-touch');
+
+        section#publication
+            .container
+                .col-sm-8.col
+                    h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
+                    p.note <i class="note-icon"><img src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
+                    p.link Visual Informatics, 2018
+                        a(href="https://www.sciencedirect.com/science/article/pii/S2468502X18300068") [PDF]
+                .col-sm-4.col
+                    .img-container
+                        img(src="./images/pipeline.png", alt="")
+
+        section.container
+            .companies
+                - for (var i = 1; i <= 24; ++i) {
+                    img(src='images/company/company#{i}.png')
+                -}
+
+    include ./footer
+
+block extra_js
+    script(src='./dist/echarts.min.js')
+    script(src='./js/index.js')

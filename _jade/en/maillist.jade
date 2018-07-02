@@ -1,0 +1,26 @@
+extends ../layouts/basic
+
+block extra_head
+    title ECharts Mailing List
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+    .page-info
+        h1 Mailing List
+
+    .page-content
+        .container
+            ul
+                li
+                    a(href='mailto:dev@echarts.incubator.apache.org') dev@echarts.incubator.apache.org
+                li
+                    a(href='mailto:commits@echarts.incubator.apache.org') commits@echarts.incubator.apache.org
+
+    include ./footer
+
+block extra_js
+
+    script(type='text/javascript').
+        document.getElementById('nav-about').className = 'active';

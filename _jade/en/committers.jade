@@ -1,0 +1,22 @@
+extends ../layouts/basic
+
+block extra_head
+    title ECharts Committers
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+    .page-info
+        h1 Committers
+
+    .page-content
+        .container
+            p <a href='https://github.com/kener'>Lin Zhifeng</a>, <a href='https://github.com/100pah'>Su Shuang</a>, <a href='https://github.com/pissang'>Shen Yi</a>, <a href='https://github.com/Ovilia'>Zhang Wenli</a>, <a href='https://github.com/deqingli'>Li Deqing</a>, <a href='mailto:wangdd0611@gmail.com'>Wang Junting</a>, <a href='https://github.com/erik168'>Dong Rui</a>, <a href='https://github.com/chriswong'>Huang Houjin</a>.
+
+    include ./footer
+
+block extra_js
+
+    script(type='text/javascript').
+        document.getElementById('nav-about').className = 'active';

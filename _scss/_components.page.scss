@@ -39,6 +39,8 @@ $info-height: 120px;
 }
 
 .page-content {
+    min-height: 300px;
+
     h2 {
         color: $clr-secondary;
         padding-bottom: 5px;
@@ -82,6 +84,12 @@ $info-height: 120px;
 
             &:first-child {
                 margin-top: 0;
+            }
+
+            &.inner {
+                margin: 0;
+                padding-left: 0;
+                font-size: 18px;
             }
         }
 

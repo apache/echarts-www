@@ -1,0 +1,92 @@
+extends ../layouts/basic
+
+block content
+
+    style.
+        #download-main h3 {
+            width: 650px;
+        }
+        #download-main .d-section-version .circle-wrap {
+            line-height: 120px;
+            font-size: 20px;
+            font-family: Helvetica;
+            color: #214d62;
+            font-weight: normal;
+        }
+
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+    .page-info
+        h1 Download
+
+    .page-content.container#download-main
+        .d-section-version.d-section(style='border-bottom:0')
+            h2#tag-name
+            h3
+            span.warn
+                | Tip: the version &quot;Source&quot;, which includes common warnings and hints, is recommanded for dev.
+            .list-wrap
+            ul#download-list.row
+
+    include ./footer
+
+block extra_js
+
+    script(type='text/javascript').
+        document.getElementById('nav-downloads').className = 'active';
+
+        var list = [
+                {
+                    label: 'Common',
+                    fileName: 'echarts.common.min.js',
+                    descHTML0: 'Includes common charts and components.',
+                    descHTML1: 'line bar pie scatter legend tooltip toolbox markLine markPoint markArea dataZoom'
+                },
+                {
+                    label: 'Simple',
+                    fileName: 'echarts.simple.min.js',
+                    descHTML0: 'Only includes basic charts.',
+                    descHTML1: 'line bar pie'
+                },
+                {
+                    label: 'Full',
+                    fileName: 'echarts.min.js',
+                    descHTML0: 'Includes all charts and components.',
+                    descHTML1: ''
+                },
+                {
+                    label: 'Source',
+                    fileName: 'echarts.js',
+                    descHTML0: 'Source code of all charts and components, including warnings and hints for dev.',
+                    descHTML1: ''
+                }
+            ];
+
+            function encodeHTML(source) {
+                return source == null
+                    ? ''
+                    : String(source)
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;');
+            }
+
+            $.getJSON("https://api.github.com/repos/ecomfe/echarts/releases/latest").done(function (param) {
+                var tagName = param['tag_name'];
+
+                $('#tag-name').html('Download ' + encodeHTML(tagName));
+
+                var htmls = [];
+                for (var i = 0; i < list.length; i++) {
+                    var item = list[i];
+                    var url = 'https://raw.githubusercontent.com/ecomfe/echarts/' + tagName + '/dist/' + item.fileName;
+
+                    htmls.push(
+                        '<li class="col-md-3 col-md-6"><a target="_blank" href="' + encodeHTML(url) + '" download="' + encodeHTML(item.fileName) + '" class="download-echarts"><div class="circle-wrap">' + encodeHTML(item.label) + '</div></a><div class="text">' + item.descHTML0 + '<br><span>' + item.descHTML1 + '</span></div></li>'
+                    );
+                }
+                $('#download-list')[0].innerHTML = htmls.join('');
+            });

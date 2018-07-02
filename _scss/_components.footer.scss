@@ -1,5 +1,6 @@
 footer {
     background-color: $clr-primary;
+    min-height: 236px;
 
     .row {
         margin-top: 50px !important;
@@ -60,6 +61,7 @@ footer {
     #footer-icon-panel {
         text-align: right;
         font-weight: 300;
+        float: right;
     }
 
         .footer-icon {
