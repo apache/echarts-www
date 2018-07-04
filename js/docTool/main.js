@@ -40,6 +40,7 @@ define(function (require) {
     var ecLog = require('ecLog');
     // var iconfont = docUtil.getGlobalArg('iconfont');
     var pageName = docUtil.getGlobalArg('pageName');
+    var schemaName = docUtil.getGlobalArg('schemaName') || pageName;
 
     require('dt/componentConfig');
 
@@ -143,7 +144,7 @@ define(function (require) {
                 docUtil.addVersionArg([
                     'documents',
                     lang.langCode,
-                    pageName + '.json'
+                    schemaName + '.json'
                 ].join('/'))
             ).done($.proxy(function (schema) {
 

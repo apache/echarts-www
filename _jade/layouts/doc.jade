@@ -22,17 +22,11 @@ block content
 
     block vars
 
-    if isOption
+    if isOption && ecWWWLang == 'cn'
         if isECharts4
-            if ecWWWLang == 'en'
-                a.doc-version-change(href="option3.html") To v3.x
-            else
-                a.doc-version-change(href="option3.html") 切换 v3.x 版本
+            a.doc-version-change(href="option3.html") 切换 v3.x 版本
         else
-            if ecWWWLang == 'en'
-                a.doc-version-change(href="option.html") To v4.x
-            else
-                a.doc-version-change(href="option.html") 切换 v4.x 版本
+            a.doc-version-change(href="option.html") 切换 v4.x 版本
 
 
     .ecdoc-apidoc
