@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "@babel/core": "7.0.0-beta.31",
+    "event-stream": "^3.3.4",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "~3.0.0",
     "gulp-callback": "~0.0.3",
@@ -15,9 +16,11 @@
     "gulp-less": "^3.0.5",
     "gulp-rename": "~1.2.2",
     "gulp-replace": "^0.5.4",
-    "gulp-sass": "~2.3.2",
+    "gulp-sequence": "^1.0.0",
     "gulp-uglify": "~1.4.1",
-    "node-sass": "~3.8.0",
-    "requirejs": "^2.1.22"
+    "requirejs": "^2.1.22",
+    "run-sequence": "^2.2.1",
+    "streamqueue": "^1.1.2",
+    "gulp-sass": "^4.0.1"
   }
 }

@@ -1,7 +1,15 @@
 extends ../layouts/basic
 
+block variables
+    include ./_var.jade
+
 block extra_head
     <title>ECharts Coding Standard</title>
+
+    link(rel='stylesheet', type='text/css', href='./vendors/prettify/prettify.css')
+    script(type='text/javascript', src='./vendors/prettify/prettify.js')
+    script(type='text/javascript', src='./vendors/prettify/lang-css.js')
+
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
@@ -18,6 +26,7 @@ block content
             include ../../documents/en/coding-standard.html
 
 block extra_js
+
     script(type='text/javascript').
         document.getElementById('nav-contribute').className = 'active';
 
@@ -46,3 +55,9 @@ block extra_js
         window.addEventListener('hashchange', function() {
             scrollBy(0, -50);
         });
+
+        $('.page-detail pre code').each(function (index, el) {
+            $(el).addClass('prettyprint');
+        });
+        prettyPrint();
+

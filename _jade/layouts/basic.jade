@@ -1,8 +1,10 @@
+- var ecWWWLang = 'cn';
+- var htmlAttrLang = 'zh-CN';
 
 block variables
 
 doctype html
-html
+html(lang='#{htmlAttrLang}')
     head
         meta(charset='utf-8')
 
@@ -47,6 +49,9 @@ html
         <![endif]-->
 
         link(rel='stylesheet', type='text/css', href='./css/main.css?_v_=#{homeVersion}')
+
+        script.
+            window.EC_WWW_LANG = '#{ecWWWLang}';
 
         script(type='text/javascript', src='./vendors/pace/pace.min.js')
 

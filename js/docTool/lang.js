@@ -62,7 +62,5 @@ define(function (require) {
     $.extend(cn, globalLang.cn || {});
     $.extend(en, globalLang.en || {});
 
-    // Setting in html.
-    // FIXME
-    return ($('html').attr('lang') + '').toLowerCase() === 'en' ? en : cn;
+    return (window.EC_WWW_LANG === 'en' ? en : cn);
 });

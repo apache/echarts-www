@@ -15,15 +15,24 @@ block extra_head
 block content
 
     nav(class='navbar navbar-default navbar-fixed-top')
-        include ../components/nav
+        if ecWWWLang == 'en'
+            include ../en/nav
+        else
+            include ../components/nav
 
     block vars
 
     if isOption
         if isECharts4
-            a.doc-version-change(href="option3.html") 切换 v3.x 版本
+            if ecWWWLang == 'en'
+                a.doc-version-change(href="option3.html") To v3.x
+            else
+                a.doc-version-change(href="option3.html") 切换 v3.x 版本
         else
-            a.doc-version-change(href="option.html") 切换 v4.x 版本
+            if ecWWWLang == 'en'
+                a.doc-version-change(href="option.html") To v4.x
+            else
+                a.doc-version-change(href="option.html") 切换 v4.x 版本
 
 
     .ecdoc-apidoc
