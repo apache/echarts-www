@@ -1,9 +1,13 @@
 extends ../layouts/basic
 
 block extra_head
-    <title>ECharts 在线构建</title>
+    - var isCN = ecWWWLang == 'cn';
+
+    <title>#{isCN ? 'ECharts 在线构建' : 'ECharts Online Builder'}</title>
 
 block content
+    - var isCN = ecWWWLang == 'cn';
+
     nav(class='navbar navbar-default navbar-fixed-top')
         include ./nav
 
@@ -12,80 +16,110 @@ block content
     #builder
         .page-info
             #title.container
-                h1 在线定制
-                p 可自由选择所需图表、坐标系、组件进行打包下载，并且可对兼容及压缩问题进行设置
+                h1 #{isCN ? '在线定制' : 'Online Builder'}
+                if isCN
+                    p 可自由选择所需图表、坐标系、组件进行打包下载，并且可对渲染引擎、兼容及压缩问题进行设置
+                else
+                    p Pack and download the needed charts, coordinates or components<br>with the appropriate settings about rendering engine, compatibility and compression.
 
         .page-content
             #configuration.container
-                if isECharts4
-                    a(href='builder3.html', style="float: right") 前往定制 3.x 版本
-                else
-                    a(href='builder.html', style="float: right") 前往定制 4.x 版本
+
+                if isCN
+                    if isECharts4
+                        a(href='builder3.html', style="float: right") 前往定制 3.x 版本
+                    else
+                        a(href='builder.html', style="float: right") 前往定制 4.x 版本
 
                 section#charts
-                    h3 图表
-                        span chart
-                    p.desc 选择要打包的图表
-                        span.warn （注：开发环境建议不压缩代码，代码压缩会去掉大部分常见的警告和错误提示）
+                    h3 #{isCN ? '图表' : 'Chart'}
+                        span #{isCN ? 'chart' : ''}
+                    p.desc #{isCN ? '选择要打包的图表' : 'Select the charts needed to be packed'}
+                        if isCN
+                            span.warn （注：开发环境建议不压缩代码，代码压缩会去掉大部分常见的警告和错误提示）
+                        else
+                            br
+                            span.warn (The warnings and hints will not be printed on the browser console if using "Code Compression")
 
                     ul
                         each names, key in charts
                             li(class=names[2] ? 'checked' : '')
                                 img(src="images/builder/chart/#{key}.svg", alt="")
                                 input(type="checkbox" name="#{key}")
-                                <h5>#{names[0]} <div>#{names[1]}</div></h5>
+                                <h5>#{isCN ? names[0] : ''} <div>#{names[1]}</div></h5>
 
                 section#coords
-                    h3 坐标系
-                        span coordinate systems
-                    p.desc 选择要打包的坐标系，有些图表像散点图，折线图可以被应用到多个坐标系上
+                    h3 #{isCN ? '坐标系' : 'Coordinate Systems'}
+                        span #{isCN ? 'coordinate systems' : ''}
+                    if isCN
+                        p.desc 选择要打包的坐标系，有些图表像散点图，折线图可以被应用到多个坐标系上
+                    else
+                        p.desc Select coordinate systems needed to be packed. Some of the charts like "scatter", "line", "graph", "custom" can layout on multiple coordiante systems.
 
                     ul
                         each names, key in coords
                             li(class=names[2] ? 'checked' : '')
                                 img(src="images/builder/component/#{key}.svg", alt="")
                                 input(type="checkbox" name="#{key}")
-                                <h5>#{names[0]} <div>#{names[1]}</div></h5>
+                                <h5>#{isCN ? names[0] : ''} <div>#{names[1]}</div></h5>
 
                 section#components
-                    h3 组件
-                        span component
-                    p.desc 选择要打包的组件
+                    h3 #{isCN ? '组件' : 'Component'}
+                        span #{isCN ? 'component' : ''}
+                    if isCN
+                        p.desc 选择要打包的组件
+                    else
+                        p.desc Select components needed to be packed.
 
                     ul
                         each names, key in components
                             li(class=names[2] ? 'checked' : '')
                                 img(src="images/builder/component/#{key}.svg", alt="")
                                 input(type="checkbox" name="#{names[3] || key}")
-                                <h5>#{names[0]} <div>#{names[1]}</div></h5>
+                                <h5>#{isCN ? names[0] : ''} <div>#{names[1]}</div></h5>
 
                 section#other
-                    h3 其它选项
-                        span others
+                    h3 #{isCN ? '其它选项' : 'Others'}
+                        span #{isCN ? 'others' : ''}
                     div.other-option
                         input(type="checkbox" id="svg" name="svg")
-                        label(for="svg") SVG 渲染
-                        p.desc 是否包括 SVG 渲染器，从而能支持使用 SVG 来绘制图表
+                        label(for="svg") #{isCN ? 'SVG 渲染' : 'SVG Renderer'}
+                        if isCN
+                            p.desc 是否包括 SVG 渲染器，从而能支持使用 SVG 来绘制图表
+                        else
+                            p.desc Whether to include the SVG Renderer, which enables rendering based on SVG.
                     div.other-option
                         input(type="checkbox" id="vml" name="vml")
-                        label(for="vml") 兼容 IE8
-                        p.desc 是否包括对 IE8 的兼容代码
+                        label(for="vml") #{isCN ? '兼容 IE8' : 'Available on IE8 (VML Renderer)'}
+                        if isCN
+                            p.desc 是否包括对 IE8 的兼容代码
+                        else
+                            p.desc Whether to include the VML Renderer to support rendering on IE8.
                     div.other-option
                         input(type="checkbox" id="api" name="api" checked="checked")
-                        label(for="api") API
-                        p.desc 是否在 echarts 对象上挂载 API。一般都会挂载，除非对生成的文件的体积有苛求，并且不需要用这些 API。
+                        label(for="api") #{isCN ? '工具集' : 'Utilities'}
+                        if isCN
+                            p.desc 是否在 echarts 对象上挂载常用工具集。一般都会挂载，除非对生成的文件的体积有苛求，并且不需要用这些工具集。
+                        else
+                            p.desc Whether to mount utilities on the echarts namespace. Utilities are usually included, unless requiring minimum bundle size and not need them.
                     div.other-option
                         input(type="checkbox" id="compress" name="compress" checked="checked")
-                        label(for="compress") 代码压缩
-                        p.desc 是否使用 UglifyJS 压缩后的代码，开发环境建议不压缩代码，代码压缩会去掉大部分常见的警告和错误提示。
+                        label(for="compress") #{isCN ? '代码压缩' : 'Code Compression'}
+                        if isCN
+                            p.desc 是否使用 UglifyJS 压缩后的代码，开发环境建议不压缩代码，代码压缩会去掉大部分常见的警告和错误提示。
+                        else
+                            p.desc Whether to Compress code. It is recommended not to compress code in the development environment, because warnings and hints will be removed after compressing.
 
             #action
-                p 感谢对ECharts关注与支持，为了更好地为您提供关于 ECharts 的相关资讯，您可以留下您的电子邮箱
+                if isCN
+                    p 感谢对ECharts关注与支持，为了更好地为您提供关于 ECharts 的相关资讯，您可以留下您的电子邮箱
+                else
+                    p Thank you for your concern and support to ECharts. <br>For deep exchanges or providing more infomation about echarts for you, would you please leave your email:
                 div
                     input(type="text" name="email" id="email" placeholder="someone@email.com")
                 .clear
                 div
-                a.btn.btn-thirdary#build(href="javascript:;") 下载
+                a.btn.btn-thirdary#build(href="javascript:;") #{isCN ? '下载' : 'Download'}
 
     include ./footer
 
