@@ -17,6 +17,7 @@ module.exports = {
         line: ['折线图', 'Line', true],
         pie: ['饼图', 'Pie', true],
         scatter: ['散点图', 'Scatter'],
+        effectScatter: ['涟漪散点图', 'EffectScatter'],
         candlestick: ['K线图', 'Candlestick'],
         radar: ['雷达图', 'Radar'],
         heatmap: ['热力图', 'Heatmap'],
