@@ -72,7 +72,7 @@ gulp.task('less', function () {
 gulp.task('sourceVersion', function () {
     // Replace version
     return gulp.src('builder/echarts.html')
-        .pipe(replace(/(urlArgs:\s*\'v=)([0-9\.]+)\'/, '$1' + config.version + '\''))
+        .pipe(replace(/(urlArgs:\s*\'v=)([0-9rc\.]+)\'/, '$1' + config.version + '\''))
         .pipe(gulp.dest('builder/'));
 });
 
