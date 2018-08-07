@@ -9,7 +9,10 @@ block content
     - var isCN = ecWWWLang == 'cn';
 
     nav(class='navbar navbar-default navbar-fixed-top')
-        include ./nav
+        if isCN
+            include ./nav
+        else
+            include ../en/nav
 
     block vars
 
