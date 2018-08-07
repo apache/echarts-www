@@ -124,7 +124,10 @@ block content
                 div
                 a.btn.btn-thirdary#build(href="javascript:;") #{isCN ? '下载' : 'Download'}
 
-    include ./footer
+    if isCN
+        include ./footer
+    else
+        include ../en/footer
 
 block extra_js
     - var buildVersion = isECharts4 ? '4' : '3';
