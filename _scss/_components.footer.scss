@@ -1,6 +1,8 @@
 footer {
-    background-color: $clr-primary;
     min-height: 236px;
+    background-color: $clr-primary;
+    color: #aaa;
+    font-size: 14px;
 
     .row {
         margin-top: 50px !important;
@@ -15,9 +17,10 @@ footer {
         }
     }
 
-    .logo-apache img {
+    .footer-apache-logo {
         width: 300px;
         max-width: 80%;
+        margin: 0 0 10px 0;
     }
 
     #efe-product {
@@ -82,8 +85,11 @@ footer {
 
 @media (max-width: 992px) {
     footer {
+        .footer-apache-logo {
+            margin: 10px -30px 0 0;
+        }
         .icon-panel {
-            margin: 20px 0 0 0;
+            margin: -20px -50px 20px 0;
             text-align: center;
         }
 
@@ -100,10 +106,6 @@ footer {
 
 @media (max-width: 768px) {
     footer {
-        .icon-panel {
-            margin: 20px 0 0 0;
-        }
-
         .logo img {
             margin: 0 auto;
         }
