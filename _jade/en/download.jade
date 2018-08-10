@@ -24,7 +24,7 @@ block content
         h1 Download
 
     .page-content.container#download-main
-        .d-section-version.d-section(style='border-bottom:0')
+        .d-section-version.d-section
             h2#tag-name
             h3
             span.warn
@@ -32,8 +32,14 @@ block content
             .list-wrap
             ul#download-list.row
 
+            p Select components to pack.
             a.btn.btn-thirdary.more-btn(href="builder.html") Online Builder
-            p Only pack the needed components.
+
+        .d-section-version.d-section(style='border-bottom:0')
+            h2 Download Source
+            p ECharts is an Apache project under incubation. Download source code from Apache release.
+            a.btn.btn-thirdary.more-btn(href="http://www.apache.org/dist/incubator/echarts/") Download
+
 
     include ./footer
 
