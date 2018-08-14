@@ -41,6 +41,7 @@ define(function (require) {
     // var iconfont = docUtil.getGlobalArg('iconfont');
     var pageName = docUtil.getGlobalArg('pageName');
     var schemaName = docUtil.getGlobalArg('schemaName') || pageName;
+    var globalArgs = require('globalArgs');
 
     require('dt/componentConfig');
 
@@ -619,6 +620,10 @@ define(function (require) {
 
             // 不需要encodeHTML，本身就是html
             var descText = treeItem.description;
+            // 兼容 option3.json
+            if (globalArgs.schemaName === 'option3') {
+                descText = treeItem.descriptionCN;
+            }
 
             if (removeIFrame && descText) {
                 descText = descText.replace(IFR_REG, '');
