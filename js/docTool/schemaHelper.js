@@ -93,6 +93,8 @@ define(function (require) {
     var $ = require('jquery');
     var dtLib = require('dt/lib');
     var docUtil = require('./docUtil');
+    var globalArgs = require('globalArgs');
+
     var encodeHTML = dtLib.encodeHTML;
 
     // Inner constants
@@ -540,7 +542,10 @@ define(function (require) {
         ) ? arrayFrom[0] : schemaItem;
 
         var result = {
-            description: item.description,
+            description: globalArgs.schemaName === 'option3'
+                // 兼容 option3.json
+                ? item.descriptionCN
+                : item.description,
             defau: {type: item.type}
         };
 
