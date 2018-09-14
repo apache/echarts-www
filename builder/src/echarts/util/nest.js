@@ -89,9 +89,9 @@ export default function nest() {
       return array.sort(function (a, b) {
         return sortKeyFunction(a.key, b.key);
       });
-    } else {
-      return array;
     }
+
+    return array;
   }
 
   return {
