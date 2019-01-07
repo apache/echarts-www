@@ -7,9 +7,9 @@ module.exports = {
     // Target folder of echarts
     zrenderPath: '../zrender',
 
-    host: 'http://echarts.baidu.com',
-    galleryPath: 'http://echarts.baidu.com/gallery/',
-    blogPath: 'http://efe.baidu.com/tags/ECharts/',
+    host: 'https://echarts.baidu.com',
+    galleryPath: 'https://echarts.baidu.com/gallery/',
+    blogPath: 'https://efe.baidu.com/tags/ECharts/',
 
     // Parameters for builder
     charts: {
