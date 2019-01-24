@@ -3,3 +3,4 @@ css/*.css
 release
 *.zip
 package-lock.json
+*/**/.DS_Store
