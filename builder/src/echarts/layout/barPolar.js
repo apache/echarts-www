@@ -35,6 +35,9 @@ function getAxisKey(axis) {
 
 
 function barLayoutPolar(seriesType, ecModel, api) {
+  // FIXME
+  // Revert becuase it brings bar progressive bug.
+  // The complete fix will be added in the next version.
   var width = api.getWidth();
   var height = api.getHeight();
   var lastStackCoords = {};
@@ -55,9 +58,8 @@ function barLayoutPolar(seriesType, ecModel, api) {
     var columnOffset = columnLayoutInfo.offset;
     var columnWidth = columnLayoutInfo.width;
     var valueAxis = polar.getOtherAxis(baseAxis);
-    var center = seriesModel.get('center') || ['50%', '50%'];
-    var cx = parsePercent(center[0], width);
-    var cy = parsePercent(center[1], height);
+    var cx = seriesModel.coordinateSystem.cx;
+    var cy = seriesModel.coordinateSystem.cy;
     var barMinHeight = seriesModel.get('barMinHeight') || 0;
     var barMinAngle = seriesModel.get('barMinAngle') || 0;
     lastStackCoords[stackId] = lastStackCoords[stackId] || [];

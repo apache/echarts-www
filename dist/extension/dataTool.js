@@ -606,6 +606,8 @@ function asc(arr) {
  */
 
 
+/* eslint-enable */
+
 /**
  * @param {string|Date|number} value These values can be accepted:
  *   + An instance of Date, represent a time in its own time zone.

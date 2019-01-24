@@ -1,15 +1,15 @@
 module.exports = {
 
-    version: '4.1.0',
+    version: '4.2.0-rc.2',
 
     // Source folder of echarts
     echartsPath: '../echarts',
     // Target folder of echarts
     zrenderPath: '../zrender',
 
-    host: 'http://echarts.baidu.com',
-    galleryPath: 'http://echarts.baidu.com/gallery/',
-    blogPath: 'http://efe.baidu.com/tags/ECharts/',
+    host: 'https://echarts.baidu.com',
+    galleryPath: 'https://echarts.baidu.com/gallery/',
+    blogPath: 'https://efe.baidu.com/tags/ECharts/',
 
     // Parameters for builder
     charts: {

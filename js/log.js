@@ -1,6 +1,6 @@
 var EC_LOG_IDX = 0;
 function ecLog(data) {
-    var url = 'http://echarts.baidu.com/statistics/es.gif?';
+    var url = 'https://echarts.baidu.com/statistics/es.gif?';
     var tm = (new Date()).getTime();
     var common = {
         path: document.location.href,
