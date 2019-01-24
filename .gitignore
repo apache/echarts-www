@@ -1,6 +1,5 @@
 node_modules
 css/*.css
-css/font
 release
 *.zip
 package-lock.json
