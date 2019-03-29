@@ -41,8 +41,9 @@ $btn: #40a7dc;
     }
 
     h3 {
-        margin: 7px auto;
-        font-size: 15px;
+        margin: 10px auto;
+        margin-top: 20px;
+        font-size: 16px;
         font-weight: bold;
 
         .warn {
@@ -60,12 +61,14 @@ $btn: #40a7dc;
         }
     }
 
-    blockquote {
+    .checksum {
         text-align: left;
         margin: 20px 0;
+        border-left: 0;
+        padding: 0;
 
         p, li {
-            font-size: 16px;
+            font-size: 14px;
         }
     }
 

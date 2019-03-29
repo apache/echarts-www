@@ -27,8 +27,8 @@ block content
                     th 从镜像网站下载源码
                     th GitHub
 
-            blockquote
-                p <strong>注意：</strong>如果从镜像网站下载，请检查 <a href="http://www.apache.org/dev/release-signing#md5">md5sum</a> 并且检验确认 <a href="http://www.apache.org/dev/release-signing#openpgp">OpenPGP</a> 与 <a href="http://www.apache.org">Apache 主站</a>的签名一致。链接在上面的 Source 旁。这个 <a href="https://dist.apache.org/repos/dist/release/incubator/echarts/KEYS">KEYS</a> 文件包含了用于签名发布版的公钥。如果可能的话，建议使用<a href="http://www.apache.org/dev/release-signing#web-of-trust">可信任的网络（web of trust）</a>确认 KEYS 的同一性。更多信息参见<a href="http://www.apache.org/dev/release.html">Apache Release FAQ</a>。
+            .checksum
+                p <strong>注意：</strong>如果从镜像网站下载，请检查 <a href="http://www.apache.org/dev/release-signing#md5">md5sum</a> 并且检验确认 <a href="http://www.apache.org/dev/release-signing#openpgp">OpenPGP</a> 与 <a href="http://www.apache.org">Apache 主站</a>的签名一致。链接在上面的 Source 旁。这个 <a href="https://dist.apache.org/repos/dist/release/incubator/echarts/KEYS">KEYS</a> 文件包含了用于签名发布版的公钥。如果可能的话，建议使用<a href="http://www.apache.org/dev/release-signing#web-of-trust">可信任的网络（web of trust）</a>确认 KEYS 的同一性。更多信息参见 <a href="http://www.apache.org/dev/release.html">Apache Release FAQ</a>。
 
                 h3 使用 GPG 验证 ECharts 发布版本
                 ol
@@ -38,14 +38,14 @@ block content
                     li gpg –import KEYS
                     li gpg –verify apache-echarts-X.Y.Z-incubating-src.zip.asc
 
-                h3 使用 SHA-256 验证：
+                h3 使用 SHA-256 验证
                 ol
                     li 从镜像网站下载 apache-echarts-X.Y.Z-incubating-src.zip
                     li 从 <a href="http://www.apache.org/dist/incubator/echarts/">Apache</a> 下载 checksum apache-echarts-X.Y.Z-incubating-src.zip.asc
                     li shasum -a 256 apache-echarts-X.Y.Z-incubating-src.zip
 
                 h3 License
-                p Apache ECharts (incubating) 基于 <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a> 发布。
+                p Apache ECharts (incubating) 基于 <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a> 发布
 
             //- if isECharts4
             //-     h3 （前往下载 <a href="download3.html">3.x 版本）</a>
