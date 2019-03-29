@@ -21,6 +21,15 @@ $btn: #40a7dc;
     *zoom: 1;
 }
 
+#download-table {
+    margin: 20px 0;
+
+    td {
+        padding: 8px;
+        text-align: left;
+    }
+}
+
 #download-main {
     max-width: 800px;
 
@@ -32,9 +41,9 @@ $btn: #40a7dc;
     }
 
     h3 {
-        width: 620px;
         margin: 7px auto;
         font-size: 15px;
+        font-weight: bold;
 
         .warn {
             color: #A9334C;
@@ -49,6 +58,20 @@ $btn: #40a7dc;
         h2 {
             margin-top: -30px;
         }
+    }
+
+    blockquote {
+        text-align: left;
+        margin: 20px 0;
+
+        p, li {
+            font-size: 16px;
+        }
+    }
+
+    li {
+        list-style: inherit;
+        margin: 5px 0;
     }
 }
 

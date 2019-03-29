@@ -16,40 +16,69 @@ block content
 
     .page-content.container#download-main
         .d-section-version.d-section
-            h2 下载 #{downloadVersion}
+            h2 下载
 
-            if isECharts4
-                h3 （前往下载 <a href="download3.html">3.x 版本）</a>
-            else
-                h3 （前往下载 <a href="download.html">4.x 版本）</a>
+            p 可以使用 npm 安装 ECharts：<code>npm install echarts</code>，或者下载以下发布版到本地。
 
-            h3 选择需要的版本 <span class="warn">注：开发环境建议选择源代码版本，该版本包含了常见的警告和错误提示。</span>
+            table.table#download-table
+                tr
+                    th 版本
+                    th 发布日期
+                    th 从镜像网站下载源码
+                    th GitHub
 
-            .list-wrap.row#download-row
-                .col-sm-3.col-xs-6
-                    a(class="download-echarts" href="#{downloadPath}/echarts.common.min.js" download="echarts.common.min.js")
-                        .circle-wrap
-                            span.mode 常用
-                            span.size #{sizeCommon}
-                    .text 包含常用的图表组件<br><span>折 柱 饼 散点 图例<br />工具栏 标注/线/域<br /> 数据区域缩放</span>
-                .col-sm-3.col-xs-6
-                    a(class="download-echarts" href="#{downloadPath}/echarts.simple.min.js" download="echarts.simple.min.js")
-                        .circle-wrap
-                            span.mode 精简
-                            span.size #{sizeSimple}
-                    .text 只包含基础图表<br><span>折 柱 饼</span>
-                .col-sm-3.col-xs-6
-                    a(class="download-echarts" href="#{downloadPath}/echarts.min.js" download="echarts.min.js")
-                        .circle-wrap
-                            span.mode 完整
-                            span.size #{sizeMin}
-                    .text 包含所有图表组件
-                .col-sm-3.col-xs-6
-                    a(class="download-echarts" href="#{downloadPath}/echarts.js" download="echarts.js")
-                        .circle-wrap
-                            span.mode 源代码
-                            span.size #{sizeFull}
-                    .text 包含所有图表组件<br />的源码，常见的警告和错误提示
+            blockquote
+                p <strong>注意：</strong>如果从镜像网站下载，请检查 <a href="http://www.apache.org/dev/release-signing#md5">md5sum</a> 并且检验确认 <a href="http://www.apache.org/dev/release-signing#openpgp">OpenPGP</a> 与 <a href="http://www.apache.org">Apache 主站</a>的签名一致。链接在上面的 Source 旁。这个 <a href="https://dist.apache.org/repos/dist/release/incubator/echarts/KEYS">KEYS</a> 文件包含了用于签名发布版的公钥。如果可能的话，建议使用<a href="http://www.apache.org/dev/release-signing#web-of-trust">可信任的网络（web of trust）</a>确认 KEYS 的同一性。更多信息参见<a href="http://www.apache.org/dev/release.html">Apache Release FAQ</a>。
+
+                h3 使用 GPG 验证 ECharts 发布版本
+                ol
+                    li 从镜像网站下载 apache-echarts-X.Y.Z-incubating-src.zip
+                    li 从 <a href="http://www.apache.org/dist/incubator/echarts/">Apache</a> 下载 checksum apache-echarts-X.Y.Z-incubating-src.zip.asc
+                    li 下载 <a href="http://www.apache.org/dist/incubator/echarts/KEYS">ECharts KEYS</a>
+                    li gpg –import KEYS
+                    li gpg –verify apache-echarts-X.Y.Z-incubating-src.zip.asc
+
+                h3 使用 SHA-256 验证：
+                ol
+                    li 从镜像网站下载 apache-echarts-X.Y.Z-incubating-src.zip
+                    li 从 <a href="http://www.apache.org/dist/incubator/echarts/">Apache</a> 下载 checksum apache-echarts-X.Y.Z-incubating-src.zip.asc
+                    li shasum -a 256 apache-echarts-X.Y.Z-incubating-src.zip
+
+                h3 License
+                p Apache ECharts (incubating) 基于 <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a> 发布。
+
+            //- if isECharts4
+            //-     h3 （前往下载 <a href="download3.html">3.x 版本）</a>
+            //- else
+            //-     h3 （前往下载 <a href="download.html">4.x 版本）</a>
+
+            //- h3 选择需要的版本 <span class="warn">注：开发环境建议选择源代码版本，该版本包含了常见的警告和错误提示。</span>
+
+            //- .list-wrap.row#download-row
+            //-     .col-sm-3.col-xs-6
+            //-         a(class="download-echarts" href="#{downloadPath}/echarts.common.min.js" download="echarts.common.min.js")
+            //-             .circle-wrap
+            //-                 span.mode 常用
+            //-                 span.size #{sizeCommon}
+            //-         .text 包含常用的图表组件<br><span>折 柱 饼 散点 图例<br />工具栏 标注/线/域<br /> 数据区域缩放</span>
+            //-     .col-sm-3.col-xs-6
+            //-         a(class="download-echarts" href="#{downloadPath}/echarts.simple.min.js" download="echarts.simple.min.js")
+            //-             .circle-wrap
+            //-                 span.mode 精简
+            //-                 span.size #{sizeSimple}
+            //-         .text 只包含基础图表<br><span>折 柱 饼</span>
+            //-     .col-sm-3.col-xs-6
+            //-         a(class="download-echarts" href="#{downloadPath}/echarts.min.js" download="echarts.min.js")
+            //-             .circle-wrap
+            //-                 span.mode 完整
+            //-                 span.size #{sizeMin}
+            //-         .text 包含所有图表组件
+            //-     .col-sm-3.col-xs-6
+            //-         a(class="download-echarts" href="#{downloadPath}/echarts.js" download="echarts.js")
+            //-             .circle-wrap
+            //-                 span.mode 源代码
+            //-                 span.size #{sizeFull}
+            //-         .text 包含所有图表组件<br />的源码，常见的警告和错误提示
 
             //- div(class="download-note") <i class="note-icon"><img src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities. <br />  当您在研发项目，研究论文，技术报告，新闻报告，书籍，演示文稿，教学，专利等中使用 ECharts 时，请引用以下论文。
             //- div(class="paper-desc")
@@ -132,6 +161,7 @@ block content
 
 block extra_js
     script(src="js/log.js")
+    script(src="js/download.js")
     script(type='text/javascript').
         document.getElementById('nav-download').className = 'active';
         $('.download-echarts').click(function (e) {

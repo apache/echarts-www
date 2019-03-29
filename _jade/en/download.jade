@@ -6,16 +6,13 @@ block variablesLang
 block content
 
     style.
-        #download-main h3 {
-            width: 650px;
-        }
-        #download-main .d-section-version .circle-wrap {
-            line-height: 120px;
-            font-size: 20px;
-            font-family: Helvetica;
-            color: #214d62;
-            font-weight: normal;
-        }
+        //- #download-main .d-section-version .circle-wrap {
+        //-     line-height: 120px;
+        //-     font-size: 20px;
+        //-     font-family: Helvetica;
+        //-     color: #214d62;
+        //-     font-weight: normal;
+        //- }
 
     nav(class='navbar navbar-default navbar-fixed-top')
         include ./nav
@@ -25,26 +22,41 @@ block content
 
     .page-content.container#download-main
         .d-section-version.d-section
-            h2#tag-name
-            h3
-            span.warn
-                | Tip: the version &quot;Source&quot;, which includes common warnings and hints, is recommanded for dev.
-            .list-wrap
-            ul#download-list.row
+            h2 Download Apache ECharts (incubating)
+            p You may use npm to install: <code>npm install echarts</code>, or download from the following.
 
-            p Select components to pack.
-            a.btn.btn-thirdary.more-btn(href="builder.html") Online Builder
+            table.table#download-table
+                tr
+                    th Version
+                    th Release Date
+                    th Download Source from a Mirror
+                    th GitHub
 
-        .d-section-version.d-section(style='border-bottom:0')
-            h2 Download Source
-            p ECharts is an Apache project under incubation. Download source code from Apache release.
-            a.btn.btn-thirdary.more-btn(href="https://www.apache.org/dist/incubator/echarts/") Download
+            blockquote
+                p <strong>Note:</strong> when downloading from a mirror please check the <a href="http://www.apache.org/dev/release-signing#md5">md5sum</a> and verify the <a href="http://www.apache.org/dev/release-signing#openpgp">OpenPGP</a> compatible signature from the main <a href="http://www.apache.org">Apache site</a>. Links are provided above (next to the release download link). This <a href="https://dist.apache.org/repos/dist/release/incubator/echarts/KEYS">KEYS</a> file contains the public keys used for signing release. It is recommended that (when possible) a <a href="http://www.apache.org/dev/release-signing#web-of-trust">web of trust</a> is used to confirm the identity of these keys. For more information, please see the <a href="http://www.apache.org/dev/release.html">Apache Release FAQ</a>.
+
+                h3 To verify ECharts releases using GPG:
+                ol
+                    li Download the release apache-echarts-X.Y.Z-incubating-src.zip from a mirror site.
+                    li Download the checksum apache-echarts-X.Y.Z-incubating-src.zip.asc from <a href="http://www.apache.org/dist/incubator/echarts/">Apache</a>.
+                    li Download the <a href="http://www.apache.org/dist/incubator/echarts/KEYS">ECharts KEYS</a> file.
+                    li gpg –import KEYS
+                    li gpg –verify apache-echarts-X.Y.Z-incubating-src.zip.asc
+
+                h3 To perform a quick check using SHA-256:
+                ol
+                    li Download the release apache-echarts-X.Y.Z-incubating-src.zip from a mirror site.
+                    li Download the checksum apache-echarts-X.Y.Z-incubating-src.zip.asc from <a href="http://www.apache.org/dist/incubator/echarts/">Apache</a>.
+                    li shasum -a 256 apache-echarts-X.Y.Z-incubating-src.zip
+
+                h3 License
+                p Apache ECharts (incubating) is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.
 
 
     include ./footer
 
 block extra_js
-
+    script(src="js/download.js")
     script(type='text/javascript').
         document.getElementById('nav-downloads').className = 'active';
 
@@ -85,20 +97,3 @@ block extra_js
                         .replace(/"/g, '&quot;')
                         .replace(/'/g, '&#39;');
             }
-
-            $.getJSON("https://api.github.com/repos/ecomfe/echarts/releases/latest").done(function (param) {
-                var tagName = param['tag_name'];
-
-                $('#tag-name').html('Download ' + encodeHTML(tagName));
-
-                var htmls = [];
-                for (var i = 0; i < list.length; i++) {
-                    var item = list[i];
-                    var url = 'https://raw.githubusercontent.com/ecomfe/echarts/' + tagName + '/dist/' + item.fileName;
-
-                    htmls.push(
-                        '<li class="col-md-3 col-md-6"><a target="_blank" href="' + encodeHTML(url) + '" download="' + encodeHTML(item.fileName) + '" class="download-echarts"><div class="circle-wrap">' + encodeHTML(item.label) + '</div></a><div class="text">' + item.descHTML0 + '<br><span>' + item.descHTML1 + '</span></div></li>'
-                    );
-                }
-                $('#download-list')[0].innerHTML = htmls.join('');
-            });
