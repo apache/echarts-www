@@ -15,7 +15,7 @@ $.getJSON("https://api.github.com/repos/apache/incubator-echarts/releases").done
                 date.innerHTML = time.getFullYear() + '/' + (time.getMonth() + 1) + '/' + time.getDate();
                 line.appendChild(date);
 
-                var main = 'https://dist.apache.org/repos/dist/release/incubator/echarts/' + version
+                var main = 'https://www.apache.org/dist/incubator/echarts/' + version
                     + '/apache-echarts-' + version + '-incubating';
                 var mirror = 'https://www.apache.org/dyn/closer.cgi/incubator/echarts/' + version
                     + '/apache-echarts-' + version + '-incubating';
