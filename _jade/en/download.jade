@@ -52,13 +52,15 @@ block content
                 h3 License
                 p Apache ECharts (incubating) is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.
 
+                a.btn.btn-thirdary.more-btn(href="builder.html") Customize
+                p Choose the features you want and build the file online.
 
     include ./footer
 
 block extra_js
     script(src="js/download.js")
     script(type='text/javascript').
-        document.getElementById('nav-downloads').className = 'active';
+        document.getElementById('nav-download').className = 'active';
 
         var list = [
                 {

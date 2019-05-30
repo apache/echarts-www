@@ -1,0 +1,30 @@
+extends ../layouts/doc
+
+block global_args_extra
+
+    if ecWWWLang == 'en'
+        - var tutorialInitHash = 'Get Started with ECharts in 5 minutes';
+    else
+        - var tutorialInitHash = '5 分钟上手 ECharts';
+
+    script(type="text/javascript").
+
+        $('#main').addClass('tutorial');
+
+        window.globalArgsExtra = {
+            pageName: 'tutorial',
+            initHash: '#{tutorialInitHash}',
+            hideTreeRoot: true,
+            pureTitle: true,
+            noTypeEnum: true,
+            lang: {
+                zh: {
+                    queryBoxTextFuzzyPath: '教程搜索',
+                    queryBoxPlaceholderFuzzyPath: '教程名称搜索（快捷键\'/\'）'
+                },
+                en: {
+                    queryBoxTextFuzzyPath: 'tutorial search',
+                    queryBoxPlaceholderFuzzyPath: 'tutorial search (shortcut: \'/\')'
+                }
+            }
+        };

@@ -14,6 +14,14 @@ var eventStream = require('event-stream');
 
 var requirejs = require('requirejs');
 
+var argv = require('yargs').argv;
+var isDebug = (argv.debug === undefined) ? false : true;
+if (isDebug) {
+    console.warn('==========================');
+    console.warn('!!! THIS IS DEBUG MODE !!!');
+    console.warn('==========================');
+}
+
 // Update home version each build.
 config.homeVersion = +new Date();
 
@@ -80,6 +88,9 @@ gulp.task('sourceVersion', function () {
  * Generate site using Jade
  */
 gulp.task('jade', function () {
+    if (isDebug) {
+        config.host = config.debugHost;
+    }
     return gulp.src('_jade/**/*.jade')
         .pipe(jade({
             data: config
@@ -146,7 +157,10 @@ gulp.task('default', ['watch']);
 
 
 gulp.task('release-clean', function () {
-    return gulp.src(['./release'], {
+    return gulp.src([
+        './release',
+        '../incubator-echarts-website/*.html'
+    ], {
             read: false
         })
         .pipe(clean({
@@ -188,7 +202,7 @@ gulp.task('release-otherJS', ['release-clean'], function () {
 
 gulp.task('release-js', ['release-docJS', 'release-spreadsheetJS', 'release-otherJS']);
 
-gulp.task('release-cn', ['sass', 'less', 'jade', 'release-js', 'release-clean'], function () {
+gulp.task('copy', ['sass', 'less', 'jade', 'release-js', 'release-clean'], function () {
     return gulp.src([
             './*.html', './vendors/**', './css/**', './documents/**', './blog/**',
             './js/docTool/*.html', './js/spreadsheet/*.html', './images/**', './asset/map/**', './asset/theme/**',
@@ -198,31 +212,37 @@ gulp.task('release-cn', ['sass', 'less', 'jade', 'release-js', 'release-clean'],
         .pipe(copy('release'));
 });
 
-gulp.task('release-en', ['sass', 'less', 'jade', 'release-js', 'release-clean'], function () {
-
-    // Do not pull doc from echarts-doc here, consider that the echarts-www is
-    // needed to be bug fix and release again, but echarts-doc should not
-    // be updated because new dev has been started.
-
-    // Make sure the original en doc website available and consistent.
-    // See <https://ecomfe.github.io/echarts-doc/public/en/option.html#title>
-
+gulp.task('release', ['copy'], function () {
     return eventStream.merge(
-        gulp.src(['css/**/*', 'vendors/**/*', 'images/**/*', 'dist/**/*', 'builder/**/*', 'video/**/*'], {
+        gulp.src(['css/**/*', 'vendors/**/*', 'images/**/*', 'dist/**/*', 'builder/**/*', 'video/**/*',
+                'documents/**/*', 'asset/**/*'
+            ], {
                 base: '.'
             })
-            .pipe(gulp.dest('../incubator-echarts-website'))
-            .pipe(gulp.dest('../echarts-doc/public/en')),
+            .pipe(gulp.dest('../incubator-echarts-website/en'))
+            .pipe(gulp.dest('../incubator-echarts-website/zh'))
+            .pipe(gulp.dest('../echarts-doc/public/en'))
+            .pipe(gulp.dest('../echarts-doc/public/zh')),
 
         gulp.src(['release/js/**/*'], {
                 base: 'release'
             })
-            .pipe(gulp.dest('../incubator-echarts-website'))
-            .pipe(gulp.dest('../echarts-doc/public/en')),
+            .pipe(gulp.dest('../incubator-echarts-website/en'))
+            .pipe(gulp.dest('../incubator-echarts-website/zh'))
+            .pipe(gulp.dest('../echarts-doc/public/en'))
+            .pipe(gulp.dest('../echarts-doc/public/zh')),
 
         gulp.src(['en/*.html'])
+            .pipe(gulp.dest('../incubator-echarts-website/en'))
+            .pipe(gulp.dest('../echarts-doc/public/en')),
+
+        gulp.src(['zh/*.html'])
+            .pipe(gulp.dest('../incubator-echarts-website/zh'))
+            .pipe(gulp.dest('../echarts-doc/public/zh')),
+
+        gulp.src(['*.html'])
             .pipe(gulp.dest('../incubator-echarts-website'))
-            .pipe(gulp.dest('../echarts-doc/public/en'))
+            .pipe(gulp.dest('../echarts-doc/public'))
     );
 });
 

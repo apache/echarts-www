@@ -1,0 +1,64 @@
+extends ../layouts/basic
+
+block extra_head
+    <title>ECharts 主题下载</title>
+    link(rel="stylesheet", type="text/css", href="./vendors/prettify/prettify.css")
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ../components/nav
+
+    .page-info
+        #themes.container
+            h1 主题下载
+            p 让你的图表整体换个装，除了官方提供的主题之外，还可以定制你自己的主题
+
+    .page-content.container#themes
+        .row
+            each themeName, idx in theme
+                .col-sm-4.theme
+                    a(class="download-theme" href="./asset/theme/#{themeName}.js" download="#{themeName}.js" target="_blank")
+                        img(src="asset/theme/thumb/#{themeName}.png" alt="")
+                    p #{themeName}
+
+    section.section-bg#theme-configure-section
+        .container
+            #theme-builder
+                a.btn.btn-thirdary.more-btn(href="https://echarts.baidu.com/theme-builder/") 定制主题
+                p 可在线编辑定义主题并进行下载
+
+    section
+        .container
+            #theme-example
+                h4 主题使用示例
+                pre(class="html").
+                    &lt;script src="echarts.js"&gt;&lt;/script&gt;
+                    &lt;!-- 引入 vintage 主题 --&gt;
+                    &lt;script src="theme/vintage.js"&gt;&lt;/script&gt;
+                    &lt;script&gt;
+                    // 第二个参数可以指定前面引入的主题
+                    var chart = echarts.init(document.getElementById('main'), 'vintage');
+                    chart.setOption({
+                        ...
+                    });
+                    &lt;/script&gt;
+
+    include ../components/footer
+
+block extra_js
+    script(src="./vendors/prettify/prettify.js")
+    script(src="./vendors/prettify/lang-css.js")
+    script(src="./js/log.js")
+    script.
+        document.getElementById('nav-download').className = 'active';
+        $('pre').addClass('prettyprint');
+        prettyPrint();
+
+        $('.download-theme').click(function () {
+            ecLog({
+                page: 'download-theme',
+                key: 'download-theme',
+                file: $(this).attr('download'),
+                version: '#{version}'
+            });
+        });

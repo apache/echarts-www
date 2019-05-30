@@ -1,25 +1,4 @@
-extends layouts/basic
+extends layouts/redirect
 
-block extra_head
-    <title>ECharts 版本记录</title>
-
-block content
-    nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
-        include components/nav
-
-    .page-info
-        h1 ECharts 版本记录
-        p [+]新增 [-]删除 [^]升级 [#]修复
-
-    .page-content.single-page
-        .page-nav
-            a.slide-btn 收起目录
-            h4 版本记录
-            ul
-        .page-detail
-            include ../documents/cn/changelog.html
-
-
-block extra_js
-    script(type='text/javascript').
-        document.getElementById('nav-doc').className = 'active';
+block variables
+    - var redirectTo = 'changelog.html'

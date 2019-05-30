@@ -197,7 +197,7 @@ define(function (require) {
                 ['api', lang.quickLinkAPI],
                 ['option', lang.quickLinkOption]
             ];
-            if (lang.langCode === 'cn') {
+            if (lang.langCode === 'zh') {
                 defs.push(['option-gl', lang.quickLinkOptionGL]);
             }
 

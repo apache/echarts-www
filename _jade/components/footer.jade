@@ -1,35 +1,12 @@
-- var echarts = {'Baidu图说':'http://tushuo.baidu.com/', 'ZRender':'http://github.com/ecomfe/zrender', 'QTEK':'https://github.com/pissang/qtek'}
-- var contact = {'GitHub（问题反馈渠道）':'https://github.com/ecomfe/echarts', 'Weibo':'http://weibo.com/echarts'}
-- var more = { 'License(BSD)':'https://github.com/ecomfe/echarts/blob/master/LICENSE' }
-
 footer
     .container
         .row
-            .col-md-3.col-sm-4.logo
-                img(src='images/echarts-footer-logo.png')
-            .col-md-2.col-sm-4.pc
-                h3 百度EFE更多产品
-                ul#efe-product
-                    li
-                        a(href="https://vis.baidu.com/?fr=echarts", target="_blank") 可视化实验室
-                    li
-                        a(href='https://github.com/ecomfe/zrender?fr=echarts', target="_blank") ZRender
-                    li
-                        a(href='https://github.com/pissang/claygl?fr=echarts', target="_blank") ClayGL
-                    li
-                        a(href='https://github.com/PaddlePaddle/VisualDL?fr=echarts', target="_blank") Visual DL
-                    li
-                        a(href='https://ecomfe.github.io/san/?fr=echarts', target="_blank") SAN
-            .col-md-3.col-md-offset-1.col-sm-4.pc
-                h3 友情链接
-                ul
-                    li
-                        a(href='https://fex.baidu.com/?fr=echarts', target="_blank") FEX
-                    li
-                        a(href='http://bit.baidu.com/?fr=echarts', target="_blank") 百度技术学院
-                    li
-                        a(href='https://git.oschina.net/echarts/echarts?fr=echarts', target="_blank") 码云镜像
+            .col-md-9
+                p Apache ECharts is an effort undergoing incubation at The Apache Software Foundation (ASF), sponsored by the Apache Incubator. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
+                p Copyright © 2017-2019, The Apache Software Foundation Apache ECharts, ECharts, Apache, the Apache feather, and the Apache ECharts project logo are either registered trademarks or trademarks of the Apache Software Foundation.
             .col-md-3#footer-icon-panel
+                a(href='https://www.apache.org')
+                    img(src='images/asf_logo.svg', class="footer-apache-logo")
                 .icon-panel
                     a.footer-icon(href='mailto:echarts@baidu.com?Body=%28Thanks%20for%20using%20ECharts.%20Email%20us%20if%20you%20have%20non-technical%20problems%20using%20ECharts.%20For%20technical%20support%2C%20please%20go%20to%20https%3A//github.com/ecomfe/echarts/issues%20.%29')
                         img(src='images/icon-email.png')
@@ -39,4 +16,3 @@ footer
                         img(src='images/icon-weibo.png')
                     a.footer-icon(href='https://github.com/ecomfe/echarts')
                         img(src='images/icon-github.png')
-                #echarts-copyright &#9400; 2017-2019 Apache ECharts (incubating)

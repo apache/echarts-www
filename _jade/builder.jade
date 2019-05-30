@@ -1,5 +1,4 @@
-extends components/builder
+extends layouts/redirect
 
-block vars
-    - var downloadVersion = version;
-    - var isECharts4 = true;
+block variables
+    - var redirectTo = 'builder.html'

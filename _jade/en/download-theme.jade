@@ -1,0 +1,69 @@
+extends ../layouts/basic
+
+block variablesLang
+    include ./_variablesLang.jade
+
+block extra_head
+    <title>ECharts Themes</title>
+    link(rel="stylesheet", type="text/css", href="./vendors/prettify/prettify.css")
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+    .page-info
+        #themes.container
+            h1 Download Themes
+            p Change the looking of your charts.
+            p You can also make your own theme along with using the themes we provide.
+
+    .page-content.container#themes
+        .row
+            each themeName, idx in theme
+                .col-sm-4.theme
+                    a(class="download-theme" href="./asset/theme/#{themeName}.js" download="#{themeName}.js" target="_blank")
+                        img(src="asset/theme/thumb/#{themeName}.png" alt="")
+                    p #{themeName}
+
+    section.section-bg#theme-configure-section
+        .container
+            #theme-builder
+                a.btn.btn-thirdary.more-btn(href="https://echarts.baidu.com/theme-builder/") Theme Builder
+                p Make a custom theme and use it for your charts. Currently, this tool has Chinese version only.
+
+    section
+        .container
+            #theme-example
+                h4 An example of using a theme
+                pre(class="html").
+                    &lt;script src="echarts.js"&gt;&lt;/script&gt;
+                    &lt;!-- import vintage theme --&gt;
+                    &lt;script src="theme/vintage.js"&gt;&lt;/script&gt;
+                    &lt;script&gt;
+                    // The second parameter is the name of the theme imported
+                    var chart = echarts.init(document.getElementById('main'), 'vintage');
+                    chart.setOption({
+                        ...
+                    });
+                    &lt;/script&gt;
+
+    include ./footer
+
+block extra_js
+    script(src="./vendors/prettify/prettify.js")
+    script(src="./vendors/prettify/lang-css.js")
+    script(src="./js/log.js")
+    script.
+        document.getElementById('nav-download').className = 'active';
+
+        $('pre').addClass('prettyprint');
+        prettyPrint();
+
+        $('.download-theme').click(function () {
+            ecLog({
+                page: 'download-theme',
+                key: 'download-theme',
+                file: $(this).attr('download'),
+                version: '#{version}'
+            });
+        });

@@ -1,0 +1,82 @@
+extends ../layouts/basic
+
+mixin extension(ext)
+    .col-md-3.col-sm-6.extension
+        if ext.website
+            - var website = ext.website
+        else
+            - var website = '#'
+        .extension-content
+            a.extension-head(href="#{website}")
+                if ext.image
+                    img.extension-img(src="images/extensions/#{ext.image}")
+                else
+                    img.extension-img(src="images/extensions/default-extension.png")
+            .extension-info
+                a.extension-name(href="#{website}") #{ext.name}
+                .extension-author
+                    span Contributors:
+                    each author in ext.authors
+                        a.extension-author-name(href="#{author.website}") #{author.name}
+                .extension-desc #{ext.descEN}
+
+block variablesLang
+    include ./_variablesLang.jade
+
+block extra_head
+    <title>ECharts Extensions</title>
+
+block content
+
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+
+    .page-info
+        h1 Download Extensions
+        p Download extensions and enhance what ECharts can do.
+
+    .page-content.container#extension
+        .nav-container
+            ul.nav.nav-tabs
+                li.active
+                    a(href="#chart-type", data-toggle="tab") Charts and Components
+                li
+                    a(href="#functional", data-toggle="tab") Enhancement
+                li
+                    a(href="#framework", data-toggle="tab") Frameworks
+                li
+                    a(href="#language", data-toggle="tab") Languages
+
+        .tab-content
+            .tab-pane.active#chart-type
+                .row
+                    each ext in extensions.chartType
+                        +extension(ext)
+            .tab-pane#functional
+                .row
+                    each ext in extensions.functional
+                        +extension(ext)
+            .tab-pane#framework
+                .row
+                    each ext in extensions.framework
+                        +extension(ext)
+            .tab-pane#language
+                .row
+                    each ext in extensions.language
+                        +extension(ext)
+
+    #submit-extension
+        .container
+            h3 Submit your ECharts extension
+            p We will get in touch with you as soon as possible, and the extensions you make will be available to ECharts users on this page.
+            p Thank you again for your support and contribution to ECharts!
+            a.btn.btn-thirdary(href='mailto:echarts@baidu.com')
+                img(src='images/btn-email.png')
+                span Send Email
+
+    include ./footer
+
+block extra_js
+    script(type='text/javascript').
+        document.getElementById('nav-download').className = 'active';

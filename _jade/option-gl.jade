@@ -1,10 +1,4 @@
-extends layouts/doc
+extends layouts/redirect
 
-block global_args_extra
-
-    script(type="text/javascript").
-        window.globalArgsExtra = {
-            pageName: 'option-gl',
-            initHash: 'globe',
-            docTreeRootText: '.setOption('
-        };
+block variables
+    - var redirectTo = 'option-gl.html'

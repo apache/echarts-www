@@ -7,7 +7,8 @@ module.exports = {
     // Target folder of echarts
     zrenderPath: '../zrender',
 
-    host: 'https://echarts.baidu.com',
+    host: 'https://echarts.apache.org',
+    debugHost: 'http://localhost/incubator-echarts-website',
     galleryPath: 'https://echarts.baidu.com/gallery/',
     blogPath: 'https://efe.baidu.com/tags/ECharts/',
 
@@ -121,7 +122,8 @@ module.exports = {
                 name: 'wangshijun',
                 website: 'https://github.com/wangshijun'
             }],
-            desc: 'AngularJs bindings for Baidu ECharts.'
+            desc: 'AngularJs bindings for Baidu ECharts.',
+            descEN: 'AngularJs bindings for Baidu ECharts.'
         }, {
             image: '',
             name: 'echarts-ng',
@@ -130,7 +132,8 @@ module.exports = {
                 name: 'bornkiller',
                 website: 'https://github.com/bornkiller'
             }],
-            desc: '使用 Angular 封装 ECharts 为指令。'
+            desc: '使用 Angular 封装 ECharts 为指令。',
+            descEN: 'Encapsulate ECharts as an instruction using Angular.'
         }, {
             image: '',
             name: 'ng-echarts',
@@ -139,7 +142,8 @@ module.exports = {
                 name: 'liekkas',
                 website: 'https://github.com/liekkas'
             }],
-            desc: 'AngularJs 版 ECharts，支持最新 ECharts3.x。'
+            desc: 'AngularJs 版 ECharts，支持最新 ECharts3.x。',
+            descEN: 'AngularJs version ECharts, supports the latest ECharts3.x.'
         }, {
             image: '',
             name: 'vue-echarts',
@@ -148,7 +152,8 @@ module.exports = {
                 name: 'Justineo',
                 website: 'https://github.com/Justineo'
             }],
-            desc: 'ECharts component for Vue.js.'
+            desc: 'ECharts component for Vue.js.',
+            descEN: 'ECharts component for Vue.js.'
         }, {
             image: '',
             name: 'vue-echarts',
@@ -157,7 +162,8 @@ module.exports = {
                 name: 'panteng',
                 website: 'https://github.com/panteng'
             }],
-            desc: 'A custom directive for using Echarts in Vue.js apps.'
+            desc: 'A custom directive for using Echarts in Vue.js apps.',
+            descEN: 'A custom directive for using Echarts in Vue.js apps.'
         }, {
             image: '',
             name: 'echarts-middleware',
@@ -166,7 +172,8 @@ module.exports = {
                 name: 'PUGE',
                 website: 'https://github.com/PUGE'
             }],
-            desc: '在vue中优雅，高效的使用echarts在vue中优雅，高效的使用echarts。'
+            desc: '在 Vue 中优雅高效地使用 ECharts。',
+            descEN: 'Use ECharts elegantly and efficiently with Vue.'
         }, {
             image: '',
             name: 'echarts-for-react',
@@ -175,7 +182,8 @@ module.exports = {
                 name: 'hustcc',
                 website: 'https://github.com/hustcc'
             }],
-            desc: '一个简单的 ECharts 的 react 封装。'
+            desc: '一个简单的 ECharts 的 react 封装。',
+            descEN: 'A simple ECharts react package.'
         }, {
             image: '',
             name: 'react-echarts',
@@ -184,7 +192,8 @@ module.exports = {
                 name: 'somonus',
                 website: 'https://github.com/somonus'
             }],
-            desc: 'ECharts + react.'
+            desc: 'ECharts + react.',
+            descEN: 'ECharts + react.'
         }, {
             image: '',
             name: 're-echarts',
@@ -193,7 +202,8 @@ module.exports = {
                 name: 'liekkas',
                 website: 'https://github.com/liekkas'
             }],
-            desc: 'ECharts + react.'
+            desc: 'ECharts + react.',
+            descEN: 'ECharts + react.'
         }],
 
         language: [{
@@ -210,7 +220,8 @@ module.exports = {
                 name: 'kinegratii',
                 website: 'https://github.com/kinegratii'
             }],
-            desc: 'Python Echarts Plotting Library.'
+            desc: 'Python Echarts Plotting Library.',
+            descEN: 'Python Echarts Plotting Library.'
         }, {
             image: '',
             name: 'echarts-python',
@@ -219,7 +230,8 @@ module.exports = {
                 name: 'yufeiminds',
                 website: 'https://github.com/yufeiminds'
             }],
-            desc: 'Generate Echarts options with Python.'
+            desc: 'Generate Echarts options with Python.',
+            descEN: 'Generate Echarts options with Python.'
         }, {
             image: '',
             name: 'krisk',
@@ -228,7 +240,8 @@ module.exports = {
                 name: 'napjon',
                 website: 'https://github.com/napjon'
             }],
-            desc: 'Krisk bring Echarts to Python, and helpful tools for statistical interactive visualization.'
+            desc: 'Krisk bring Echarts to Python, and helpful tools for statistical interactive visualization.',
+            descEN: 'Krisk bring Echarts to Python, and helpful tools for statistical interactive visualization.'
         }, {
             image: '',
             name: 'recharts',
@@ -237,7 +250,8 @@ module.exports = {
                 name: 'taiyun',
                 website: 'https://github.com/taiyun'
             }],
-            desc: 'recharts 提供了 ECharts 的 R 语言接口。'
+            desc: 'recharts 提供了 ECharts 的 R 语言接口。',
+            descEN: 'recharts provides the R language interface of ECharts.'
         }, {
             image: '',
             name: 'recharts',
@@ -246,7 +260,8 @@ module.exports = {
                 name: 'yihui',
                 website: 'https://github.com/yihui'
             }],
-            desc: 'An R Interface to ECharts.'
+            desc: 'An R Interface to ECharts.',
+            descEN: 'An R Interface to ECharts.'
         }, {
             image: '',
             name: 'ECharts2Shiny',
@@ -255,7 +270,8 @@ module.exports = {
                 name: 'XD-DENG',
                 website: 'https://github.com/XD-DENG'
             }],
-            desc: 'To insert interactive charts from ECharts into R Shiny applications.'
+            desc: 'To insert interactive charts from ECharts into R Shiny applications.',
+            descEN: 'To insert interactive charts from ECharts into R Shiny applications.'
         }, {
             image: '',
             name: 'ECharts.jl',
@@ -264,7 +280,8 @@ module.exports = {
                 name: 'randyzwitch',
                 website: 'https://github.com/randyzwitch'
             }],
-            desc: 'Julia package for the ECharts 3 visualization library.'
+            desc: 'Julia package for the ECharts 3 visualization library.',
+            descEN: 'Julia package for the ECharts 3 visualization library.'
         }, {
             image: '',
             name: 'purescript-echarts',
@@ -273,7 +290,8 @@ module.exports = {
                 name: 'slamdata',
                 website: 'https://github.com/slamdata'
             }],
-            desc: 'Purescript bindings for Echarts library.'
+            desc: 'Purescript bindings for Echarts library.',
+            descEN: 'Purescript bindings for Echarts library.'
         }, {
             image: '',
             name: 'iOS-Echarts',
@@ -282,7 +300,8 @@ module.exports = {
                 name: 'Pluto-Y',
                 website: 'https://github.com/Pluto-Y/'
             }],
-            desc: 'This is a highly custom chart control for iOS and Mac apps, which build with ECharts 2.'
+            desc: 'This is a highly custom chart control for iOS and Mac apps, which build with ECharts 2.',
+            descEN: 'This is a highly custom chart control for iOS and Mac apps, which build with ECharts 2.'
         }, {
             image: '',
             name: 'ECharts-Java',
@@ -291,7 +310,8 @@ module.exports = {
                 name: 'abel533',
                 website: 'https://github.com/abel533'
             }],
-            desc: '这是一个针对 ECharts2.x 版本的 Java 类库，实现了所有 ECharts 中的 JSON 结构对应的 Java 对象。'
+            desc: '这是一个针对 ECharts2.x 版本的 Java 类库，实现了所有 ECharts 中的 JSON 结构对应的 Java 对象。',
+            descEN: 'This is a Java version of the ECharts2.x version that implements the Java objects corresponding to the JSON structure in all ECharts.'
         }, {
             image: '',
             name: 'EChartsSDK',
@@ -300,7 +320,8 @@ module.exports = {
                 name: 'idoku',
                 website: 'https://github.com/idoku'
             }],
-            desc: 'ECharts 的 .NET 类库，从 ECharts 的 Java 类库移植。'
+            desc: 'ECharts 的 .NET 类库，从 ECharts 的 Java 类库移植。',
+            descEN: 'ECharts .NET class library, ported from ECharts Java class library.'
         }, {
             image: '',
             name: 'Echarts-PHP',
@@ -309,7 +330,8 @@ module.exports = {
                 name: 'hisune',
                 website: 'https://github.com/hisune'
             }],
-            desc: 'A PHP library that works as a wrapper for Echarts.'
+            desc: 'A PHP library that works as a wrapper for Echarts.',
+            descEN: 'A PHP library that works as a wrapper for Echarts.'
         }],
         chartType: [{
             image: 'word-cloud.jpg',
@@ -319,7 +341,8 @@ module.exports = {
                 name: '沈毅',
                 website: 'https://github.com/pissang'
             }],
-            desc: '字符云可以将文字根据不同的权重布局为大小、颜色各异的图，支持使用图片作为遮罩。'
+            desc: '字符云可以将文字根据不同的权重布局为大小、颜色各异的图，支持使用图片作为遮罩。',
+            descEN: 'Cloud charts can layout text into different sizes and colors. You can also use images as masks.'
         }, {
             image: 'liquidfill.jpg',
             name: '水球图',
@@ -328,7 +351,8 @@ module.exports = {
                 name: '羡辙',
                 website: 'https://github.com/Ovilia'
             }],
-            desc: '水球图是一种适合于展现单个百分比数据的图表，支持多条水波和动画。'
+            desc: '水球图是一种适合于展现单个百分比数据的图表，支持多条水波和动画。',
+            descEN: 'The liquid-fill chart is a chart suitable for presenting a single percentage of data, supporting multiple water waves and animations.'
         }, {
             image: 'bmap.jpg',
             name: '百度地图',
@@ -337,7 +361,8 @@ module.exports = {
                 name: '沈毅',
                 website: 'https://github.com/pissang'
             }],
-            desc: '百度地图扩展，可以在百度地图上展现点图，线图，热力图等。'
+            desc: '百度地图扩展，可以在百度地图上展现点图，线图，热力图等。',
+            descEN: 'With Baidu map extension, you can display scatter charts, line charts, heatmaps and so on.'
         }, {
             image: 'arcgis.jpg',
             name: 'ArcGIS 地图',
@@ -346,7 +371,8 @@ module.exports = {
                 name: 'wandergis',
                 website: 'https://github.com/wandergis'
             }],
-            desc: 'ArcGIS 地图和 ECharts 的结合，支持 ECharts 2 和 ECharts 3。'
+            desc: 'ArcGIS 地图和 ECharts 的结合，支持 ECharts 2 和 ECharts 3。',
+            descEN: 'A combination of ArcGIS maps and ECharts supports ECharts 2 and ECharts 3.'
         }, {
             image: 'leaflet.jpg',
             name: 'Leaflet 地图',
@@ -355,7 +381,8 @@ module.exports = {
                 name: 'wandergis',
                 website: 'https://github.com/wandergis'
             }],
-            desc: 'Leaflet 地图和 ECharts 的结合，支持 ECharts 2 和 ECharts 3。'
+            desc: 'Leaflet 地图和 ECharts 的结合，支持 ECharts 2 和 ECharts 3。',
+            descEN: 'A combination of Leaflet Map and ECharts supports ECharts 2 and ECharts 3.'
         }, {
             image: 'leaflet-2.jpg',
             name: 'echarts-leaflet',
@@ -364,7 +391,8 @@ module.exports = {
                 name: 'gnijuohz',
                 website: 'https://github.com/gnijuohz'
             }],
-            desc: 'ECharts extension for visualizing data on leaftlet.'
+            desc: 'ECharts extension for visualizing data on leaftlet.',
+            descEN: 'ECharts extension for visualizing data on leaftlet.'
         }, {
             image: 'mapbox.jpg',
             name: 'Mapbox 地图',
@@ -373,7 +401,8 @@ module.exports = {
                 name: 'lzxue',
                 website: 'https://github.com/lzxue'
             }],
-            desc: 'Mapbox 地图和 ECharts 的结合。'
+            desc: 'Mapbox 地图和 ECharts 的结合。',
+            descEN: 'A combination of Mapbox maps and ECharts.'
         }],
         functional: [{
             image: 'modularity.jpg',
@@ -383,7 +412,8 @@ module.exports = {
                 name: '沈毅',
                 website: 'https://github.com/pissang'
             }],
-            desc: '该插件可以对 ECharts Graph 图作社群检测，并将图中的顶点分成若干子集。'
+            desc: '该插件可以对 ECharts Graph 图作社群检测，并将图中的顶点分成若干子集。',
+            descEN: 'The plugin can perform community detection on the ECharts Graph and divide the vertices in the graph into subsets.'
         }, {
             image: 'stat.jpg',
             name: '统计工具',
@@ -392,7 +422,8 @@ module.exports = {
                 name: '李德清',
                 website: 'https://github.com/deqingli'
             }],
-            desc: '统计扩展是一个专门用来进行数据分析的工具'
+            desc: '统计扩展是一个专门用来进行数据分析的工具。',
+            descEN: 'The statistical extension is a tool for data analysis.'
         }]
     }
 };

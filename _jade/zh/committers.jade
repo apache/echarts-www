@@ -1,0 +1,266 @@
+extends ../layouts/basic
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ../components/nav
+
+    #about-page
+        #reference
+            .container
+                 #recommends
+                    .recommend
+                        p ECharts 是中国 · 的，也是世界的。
+                        .person
+                            .title 浙江大学CAD&CG国家重点实验室教授，可视化专家
+                            .name 陈为
+                    .recommend
+                        p ECharts，发现数据可视化之美！
+                        .person
+                            .title 中国 · 传媒大学教授
+                            .name 沈浩
+                    .recommend.active
+                        p 在中国 · 可视化生态系统中，ECharts 通过提供方便丰富的可视化图表，极大缩短了用户与数据的距离。
+                        .person
+                            .title 北京大学百人计划研究员，可视化专家
+                            .name 袁晓如
+                    .recommend
+                        p 很高兴ECharts一直保持着可视化的顶尖水平，期待 ECharts 早日动词化的那一天！
+                        .person
+                            .title 游族网络有限公司 CTO
+                            .name 李湛
+                    .recommend
+                        p ECharts 是最让我惊艳的一款数据产品，它满足了甚至超越了我对数据可视化的所有想象，无论是颜值，实用性，还是易用性。
+                        .person
+                            .title PPT 设计师 / 数据分析师
+                            .name 阿文
+            .container
+                .people
+                    img(src='images/people/陈为.png')
+                    img(src='images/people/沈浩.png')
+                    img.active(src='images/people/袁晓如.png')
+                    img(src='images/people/李湛.png')
+                    img(src='images/people/阿文.png')
+
+        section.container.contributor
+            h3 感谢贡献的人
+            p ECharts 的发展离不开其背后很多人的卓越贡献，他们有着不同的技能，甚至来自不同的岗位和公司
+            p 感谢每一个人的帮助与支持，更希望以后能有更多的人助力 ECharts 的成长
+
+            h4.group.code Committers
+            .row
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/pissang', target='_blank')
+                            img(src='images/people/沈毅.png')
+                        h5.about-name 沈毅
+                        .about-desc ECharts 核心开发者
+                        .about-desc 中国 · 上海
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/100pah', target='_blank')
+                            img(src='images/people/宿爽.png')
+                        h5.about-name 宿爽
+                        .about-desc ECharts 核心开发者
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/Ovilia', target='_blank')
+                            img(src='images/people/羡辙.png')
+                        h5.about-name 羡辙
+                        .about-desc ECharts 核心开发者
+                        .about-desc 中国 · 上海
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/deqingli', target='_blank')
+                            img(src='images/people/德清.png')
+                        h5.about-name 德清
+                        .about-desc ECharts 核心开发者
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://www.behance.net/wjtjiayouac8aa', target='_blank')
+                            img(src='images/people/王俊婷.png')
+                        h5.about-name 王俊婷
+                        .about-desc ECharts 设计师
+                        .about-desc 中国 · 上海
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/kener', target='_blank')
+                            img(src='images/people/林峰.png')
+                        h5.about-name 林峰
+                        .about-desc ECharts 核心开发者
+                        .about-desc 中国 · 杭州
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/chriswong', target='_blank')
+                            img(src='images/people/大佛.png')
+                        h5.about-name 黄后锦
+                        .about-desc 跟谁学前端负责人
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/cuijian-dexter', target='_blank')
+                            img(src='images/people/崔健.jpg')
+                        h5.about-name 崔健
+                        .about-desc 中国 · 北京
+
+            h4.group.code 其他贡献者
+            .row
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/ClemMakesApps', target='_blank')
+                            img(src='images/people/clement.jpeg')
+                        h5.about-name Clement Ho
+                        .about-desc GitLab 前端经理
+                        .about-desc 美国 · 得克萨斯州
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/susiwen8', target='_blank')
+                            img(src='images/people/苏思文.png')
+                        h5.about-name 苏思文
+                        .about-desc 中国 · 上海
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/Justineo', target='_blank')
+                            img(src='images/people/顾轶灵.png')
+                        h5.about-name 顾轶灵
+                        .about-desc vue-echarts 作者
+                        .about-desc 中国 · 上海
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/erik168', target='_blank')
+                            img(src='images/people/erik.png')
+                        h5.about-name Erik
+                        .about-desc San 作者
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/The-only', target='_blank')
+                            img(src='images/people/小红.png')
+                        h5.about-name 邓小红
+                        .about-desc ECharts 日历图作者
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/祖明.png')
+                        h5.about-name 祖明
+                        .about-desc ECharts 产品经理
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/firede', target='_blank')
+                            img(src='images/people/田彧.png')
+                        h5.about-name 田彧
+                        .about-desc ECharts 设计师
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/firede', target='_blank')
+                            img(src='images/people/赵雷.png')
+                        h5.about-name 赵雷
+                        .about-desc 中国 · 合肥
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/魏太云.png')
+                        h5.about-name 魏太云
+                        .about-desc recharts 作者
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/周扬.png')
+                        h5.about-name 周扬
+                        .about-desc recharts 作者
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/wind108369', target='_blank')
+                            img(src='images/people/杨骥.png')
+                        h5.about-name 杨骥
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        a(href='https://github.com/loutongbing', target='_blank')
+                            img(src='images/people/娄同兵.png')
+                        h5.about-name 娄同兵
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/黄悦.png')
+                        h5.about-name 黄悦
+                        .about-desc ECharts 设计师
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/JB.png')
+                        h5.about-name Jaroslav Benc
+                        .about-desc R&D Software Engineer
+                        .about-desc New Zealand
+
+            h4.group.code 业界支持
+            .row
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/谢益辉.png')
+                        h5.about-name 谢益辉
+                        .about-desc 统计之都创始人
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/黄志敏.png')
+                        h5.about-name 黄志敏
+                        .about-desc 数可视创始人
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/桑文锋.png')
+                        h5.about-name 桑文锋
+                        .about-desc 神策数据 CEO
+                        .about-desc 中国 · 北京
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/红薯.png')
+                        h5.about-name 红薯
+                        .about-desc 开源中国创始人
+                        .about-desc 中国 · 深圳
+                .col-md-3.col-sm-4.col-xs-6
+                    .about-person
+                        img(src='images/people/王琼.png')
+                        h5.about-name 王琼
+                        .about-desc 镝数创始人
+                        .about-desc 中国 · 武汉
+
+        section.container.company
+            h3 正在使用的公司
+            .row
+                - for (var i = 1; i <= 24; ++i) {
+                    .col-md-3.col-sm-4.col-xs-6
+                        img(src='images/company/company#{i}.png')
+                -}
+
+    include ../components/footer
+
+
+
+block extra_js
+
+    script(type='text/javascript').
+        document.getElementById('nav-about').className = 'active';
+
+        var recommendId = 3;
+        setInterval(function () {
+            recommend(recommendId);
+            ++recommendId;
+            if (recommendId === $('.recommend').length) {
+                recommendId = 0;
+            }
+        }, 3000);
+
+        function recommend(id) {
+            recommendId = id;
+
+            var left = $('.people img').eq(0).remove();
+            $('.people').append(left);
+            $('.people img').removeClass('active');
+            $('.people img').eq(2).addClass('active');
+
+            $('.recommend').removeClass('active');
+            $('.recommend').eq(id).addClass('active');
+        }
+

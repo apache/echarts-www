@@ -10,8 +10,8 @@ define(function (require) {
      * 中文
      * @type {Object}
      */
-    var cn = {
-        langCode: 'cn',
+    var zh = {
+        langCode: 'zh',
         pageTitle: '表格数据转换工具',
         pageDescHTML: '使用说明：在<strong>左侧</strong>贴入数据&nbsp;&nbsp;<strong>右下方</strong>立刻产生结果',
         typeSetting: '结果类型：',
@@ -126,5 +126,5 @@ define(function (require) {
     };
 
     // Setting in html.
-    return ($('html').attr('lang') || '').toLowerCase() === 'en' ? en : cn;
+    return ($('html').attr('lang') || '').toLowerCase() === 'en' ? en : zh;
 });

@@ -1,10 +1,4 @@
-extends components/download
+extends layouts/redirect
 
-block vars
-    - var downloadVersion = version;
-    - var downloadPath = 'dist';
-    - var isECharts4 = true;
-    - var sizeCommon = '473 KB';
-    - var sizeSimple = '308 KB';
-    - var sizeFull = '2.89 MB';
-    - var sizeMin = '748 KB';
+block variables
+    - var redirectTo = 'download.html'

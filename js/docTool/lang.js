@@ -10,8 +10,8 @@ define(function (require) {
      * Chinese
      * @type {Object}
      */
-    var cn = {
-        langCode: 'cn',
+    var zh = {
+        langCode: 'zh',
         quickLinkTutorial: '教程',
         quickLinkAPI: 'API',
         quickLinkOption: '配置项',
@@ -59,8 +59,8 @@ define(function (require) {
     };
 
     var globalLang = globalArgs.lang || {};
-    $.extend(cn, globalLang.cn || {});
+    $.extend(zh, globalLang.zh || {});
     $.extend(en, globalLang.en || {});
 
-    return (window.EC_WWW_LANG === 'en' ? en : cn);
+    return (window.EC_WWW_LANG === 'en' ? en : zh);
 });

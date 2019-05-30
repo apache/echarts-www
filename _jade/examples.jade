@@ -1,35 +1,4 @@
-extends layouts/basic
+extends layouts/redirect
 
-block extra_head
-    <title>ECharts Examples</title>
-    script.
-        var chartId = location.hash.slice(1);
-        window.location ='./examples/index.html';
-    link(rel="stylesheet", href="vendors/perfect-scrollbar/0.6.8/css/perfect-scrollbar.min.css")
-
-block content
-    nav(class='navbar navbar-default navbar-fixed-top')
-        include components/nav
-
-    #left-chart-nav
-        ul
-
-    #explore-container
-        .chart-list-panel
-
-    div(style="display:none") 点击查看详情
-
-block extra_js
-    script(type='text/javascript', src='vendors/jquery.lazyload.min.js')
-    script(type='text/javascript').
-        var GALLERY_PATH = '#{galleryPath}';
-        var GALLERY_EDITOR_PATH = GALLERY_PATH + 'editor.html?c=';
-        var GALLERY_VIEW_PATH = GALLERY_PATH + 'view.html?c=';
-        var GALLERY_THUMB_PATH = GALLERY_PATH + 'data/thumb/';
-
-    script(type='text/javascript', src='js/config.js')
-    script(type='text/javascript', src='js/chart-list.js')
-    script(type='text/javascript', src='js/examples-nav.js')
-
-    script(type='text/javascript').
-        document.getElementById('nav-examples').className = 'active';
+block variables
+    - var redirectTo = 'examples.html'

@@ -1,0 +1,15 @@
+extends ../layouts/doc
+
+block vars
+    - var isECharts4 = false;
+    - var isOption = true;
+
+block global_args_extra
+
+    script(type="text/javascript").
+        window.globalArgsExtra = {
+            pageName: 'option',
+            schemaName: 'option3',
+            initHash: 'title',
+            docTreeRootText: '.setOption('
+        };

@@ -1,0 +1,62 @@
+extends ../layouts/basic
+
+block extra_head
+    <title>ECharts 代码规范</title>
+
+block extra_head
+    <title>ECharts 代码规范</title>
+
+    link(rel='stylesheet', type='text/css', href='./vendors/prettify/prettify.css')
+    script(type='text/javascript', src='./vendors/prettify/prettify.js')
+    script(type='text/javascript', src='./vendors/prettify/lang-css.js')
+
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ../components/nav
+
+    .page-info
+        h1 代码规范
+        p 如果你想要为 ECharts 贡献代码，请遵从以下代码规范。（暂时只有英文版，欢迎提供 PR 翻译。）
+
+    .page-content.single-page
+        .page-nav
+            ul#standard-nav
+        .page-detail
+            include ../../documents/en/coding-standard.html
+
+block extra_js
+
+    script(type='text/javascript').
+        document.getElementById('nav-contribute').className = 'active';
+
+        var $list = $('#standard-nav');
+        $('.page-detail h2, .page-detail h3, .page-detail h4')
+            .each(function () {
+                var $this = $(this);
+                var text = $this.text();
+                var anchor = text.toLowerCase().replace(/[^\w]+/g, '-');
+                var tagName = $this.prop('tagName').toLowerCase();
+
+                if (tagName === 'h2') {
+                    $list.append('<a href="#' + anchor + '"><h4 class="inner">' + text + '</h4></a>');
+                }
+                else {
+                    $list.append('<a href="#' + anchor + '">' + text + '</a>');
+                }
+            });
+
+        $('.page-nav a').click(function () {
+            $('.page-nav a').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        // Fix scroll position covered by nav
+        window.addEventListener('hashchange', function() {
+            scrollBy(0, -50);
+        });
+
+        $('.page-detail pre code').each(function (index, el) {
+            $(el).addClass('prettyprint');
+        });
+        prettyPrint();

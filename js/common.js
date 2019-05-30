@@ -68,3 +68,9 @@ $(document).ready(function () {
         });
     }
 });
+
+function changeLang(lang) {
+    location.href = location.href.replace(
+        new RegExp('/(zh|en)/', 'g'), '/' + lang + '/'
+    );
+}

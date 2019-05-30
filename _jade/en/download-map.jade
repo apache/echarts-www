@@ -1,0 +1,22 @@
+extends ../layouts/basic
+
+block variablesLang
+    include ./_variablesLang.jade
+
+block content
+
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+    .page-info
+        h1 Download Maps
+        p ECharts doesn't provide with Map data to download now.
+
+    .page-content(style='text-align: left; min-height: 300px; margin-top: 30px;', class='container')
+        p ECharts doesn't come with Map data. To create Map charts, it is advised to use Baidu Map or other third party maps for the underlying map. Here is an example of <a href="#{host}/examples/en/editor.html?c=map-polygon">ECharts with Baidu Map</a>.
+        p Please check <a href="./download-extension.html">Download Extension</a> page for other map extensions.
+
+    script(type='text/javascript').
+        document.getElementById('nav-download').className = 'active';
+
+    include ./footer
