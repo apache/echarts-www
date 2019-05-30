@@ -50,7 +50,7 @@ block content
                         .feature-icon-panel
                             include ../components/svg/heart
                         h3 Free to use
-                        p Open sourced under Apache License
+                        p Open sourced under Apache-2.0 License
                     .col-sm-4
                         .feature-icon-panel
                             include ../components/svg/function
@@ -60,7 +60,8 @@ block content
                         .feature-icon-panel
                             include ../components/svg/community
                         h3 Active Community
-                        p Over 28,000 stars on GitHub
+                        p <!-- Place this tag where you want the button to render. -->
+                            <a class="github-button" href="https://github.com/apache/incubator-echarts" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star apache/incubator-echarts on GitHub">GitHub Stars</a>
 
                 .row.feature-detail#feature-4
                     .col-sm-4.col
@@ -141,3 +142,4 @@ block content
 block extra_js
     script(src='./dist/echarts.min.js')
     script(src='./js/index.js')
+    <script async defer src="https://buttons.github.io/buttons.js"></script>

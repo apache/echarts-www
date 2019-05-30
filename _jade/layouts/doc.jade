@@ -22,11 +22,20 @@ block content
 
     block vars
 
-    if isOption && ecWWWLang == 'zh'
-        if isECharts4
-            a.doc-version-change(href="option3.html") 切换 v3.x 版本
-        else
-            a.doc-version-change(href="option.html") 切换 v4.x 版本
+    if isOption
+        .doc-version-change
+            if ecWWWLang == 'zh'
+                if isECharts4
+                    //- a(href="option3.html") 前往 v3.x 文档
+                else
+                    a(href="option.html") 前往 v4.x 文档
+                a(href="https://echarts.baidu.com/echarts2/") 前往 v2.x 文档
+            else
+                if isECharts4
+                    //- a(href="option3.html") v3.x Doc
+                else
+                    a(href="option.html") v4.x Doc
+                a(href="https://echarts.baidu.com/echarts2/index-en.html") v2.x Doc
 
 
     .ecdoc-apidoc

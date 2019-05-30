@@ -6,6 +6,11 @@ $info-height: 120px;
     top: 70px;
     right: 50px;
     z-index: 100;
+
+    a {
+        display: inline-block;
+        margin-left: 20px;
+    }
 }
 
 .section-bg {
