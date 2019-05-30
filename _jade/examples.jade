@@ -1,4 +1,10 @@
-extends layouts/redirect
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
 
-block variables
-    - var redirectTo = 'examples.html'
+        script(type='text/javascript').
+            var lang = navigator.language || navigator.userLanguage;
+            lang = lang.indexOf('zh') > -1 ? 'zh' : 'en';
+            location.href = '#{host}/examples/' + lang + '/index.html';
