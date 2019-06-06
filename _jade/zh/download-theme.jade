@@ -55,10 +55,5 @@ block extra_js
         prettyPrint();
 
         $('.download-theme').click(function () {
-            ecLog({
-                page: 'download-theme',
-                key: 'download-theme',
-                file: $(this).attr('download'),
-                version: '#{version}'
-            });
+            _hmt.push(['_trackEvent', 'download-theme', 'download-theme', version]);
         });

@@ -29,14 +29,6 @@ block extra_js
             basePath: './'
         }, window.globalArgsExtra || {}));
 
-        define('ecLog', function () {
-            // log maybe blocked
-            if (typeof ecLog === 'undefined') {
-                ecLog = function () {};
-            }
-            return ecLog;
-        });
-
         require.config({
             baseUrl: './js',
             paths: {

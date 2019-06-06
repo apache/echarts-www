@@ -134,11 +134,6 @@ block extra_js
 
     script(src="js/log.js")
     script.
-        if (typeof ecLog === 'undefined') {
-            // Incase adblock block log.js
-            ecLog = function () {};
-        }
-
         function updateCheckbox() {
             $('#charts input, #components input, #coords input').each(function () {
                 $(this).attr('checked', $(this).parent().hasClass('checked'));
@@ -191,11 +186,7 @@ block extra_js
             if (email) {
                 log += '&email=' + email;
             }
-            ecLog({
-                'page': 'builder',
-                'version': '#{downloadVersion}',
-                'build-parameters-3': log
-            });
+            _hmt.push(['_trackEvent', 'builder', 'build', '#{downloadVersion}', log]);
 
             window.open('builder/echarts.html?' + parameters);
         });

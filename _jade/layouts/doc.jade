@@ -26,7 +26,7 @@ block content
         .doc-version-change
             if ecWWWLang == 'zh'
                 if isECharts4
-                    //- a(href="option3.html") 前往 v3.x 文档
+                    a(href="option3.html") 前往 v3.x 文档
                 else
                     a(href="option.html") 前往 v4.x 文档
                 a(href="https://echarts.baidu.com/echarts2/") 前往 v2.x 文档
@@ -70,14 +70,6 @@ block extra_js
 
         define('prettyPrint', function () {
             return prettyPrint;
-        });
-
-        define('ecLog', function () {
-            // log maybe blocked
-            if (typeof ecLog === 'undefined') {
-                ecLog = function () {};
-            }
-            return ecLog;
         });
 
         require.config({

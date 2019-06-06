@@ -3,9 +3,6 @@ extends ../layouts/basic
 block variablesLang
     include ./_variablesLang.jade
 
-block variables
-    - var useDp = false
-
 block extra_head
     <title>ECharts</title>
 
@@ -24,10 +21,6 @@ block content
                     a.btn.btn-index-home(href='./download.html', style="letter-spacing:0px") Download
                     a.btn.btn-index-home(href='https://github.com/apache/incubator-echarts', style="letter-spacing:0px") Source Code
             .main-bg
-
-        if useDp
-            script.
-                void function(e,t){for(var n=t.getElementsByTagName("img"),a=+new Date,i=[],o=function(){this.removeEventListener&&this.removeEventListener("load",o,!1),i.push({img:this,time:+new Date})},s=0;s< n.length;s++)!function(){var e=n[s];e.addEventListener?!e.complete&&e.addEventListener("load",o,!1):e.attachEvent&&e.attachEvent("onreadystatechange",function(){"complete"==e.readyState&&o.call(e,o)})}();alog("speed.set",{fsItems:i,fs:a})}(window,document);
 
         //- section.banner-section(style='background: #1e2e55')
         //-     a(href='https://jing.baidu.com/h5/xzzb.html')

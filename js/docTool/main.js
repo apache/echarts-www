@@ -37,7 +37,6 @@ define(function (require) {
     var hashHelper = require('./hashHelper');
     var perfectScrollbar = require('perfectScrollbar');
     var prettyPrint = require('prettyPrint');
-    var ecLog = require('ecLog');
     // var iconfont = docUtil.getGlobalArg('iconfont');
     var pageName = docUtil.getGlobalArg('pageName');
     var schemaName = docUtil.getGlobalArg('schemaName') || pageName;
@@ -142,7 +141,7 @@ define(function (require) {
 
             $.getJSON(
                 docUtil.addVersionArg([
-                    'documents',
+                    '../documents',
                     lang.langCode,
                     schemaName + '.json'
                 ].join('/'))
@@ -759,7 +758,7 @@ define(function (require) {
     }
 
     function log(params) {
-        ecLog(dtLib.assign({page: pageName}, params));
+        _hmt.push(['_trackEvent', 'log', pageName, params]);
     }
 
     return api;

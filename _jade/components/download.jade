@@ -178,18 +178,8 @@ block extra_js
                 title: 'Notice',
                 content: el
             });
-            ecLog({
-                page: 'download',
-                key: 'download-echarts',
-                file: $(this).attr('download'),
-                version: '#{downloadVersion}'
-            });
+            _hmt.push(['_trackEvent', 'download', 'download', '#{downloadVersion}']);
         });
         $('.download-theme').click(function () {
-            ecLog({
-                page: 'download',
-                key: 'download-theme',
-                file: $(this).attr('download'),
-                version: '#{downloadVersion}'
-            });
+            _hmt.push(['_trackEvent', 'download', 'download-theme', '#{downloadVersion}']);
         });

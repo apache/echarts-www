@@ -69,7 +69,7 @@ module.exports = {
         optimize: 'uglify',
         // optimize: 'none',
         name: 'docTool/main',
-        exclude: ['globalArgs', 'prettyPrint', 'ecLog'],
+        exclude: ['globalArgs', 'prettyPrint'],
         out: 'release/js/docTool/main.js',
         baseUrl: './js',
         paths: {
@@ -83,15 +83,14 @@ module.exports = {
         },
         rawText: {
             'globalArgs': 'define(function () {});',
-            'prettyPrint': 'define(function () {});',
-            'ecLog': 'define(function () {});'
+            'prettyPrint': 'define(function () {});'
         }
     },
     spreadsheetConfig: {
         optimize: 'uglify',
         // optimize: 'none',
         name: 'spreadsheet/spreadsheet',
-        exclude: ['globalArgs', 'ecLog'],
+        exclude: ['globalArgs'],
         out: 'release/js/spreadsheet/spreadsheet.js',
         baseUrl: './js',
         paths: {
@@ -108,8 +107,7 @@ module.exports = {
             immutable: '../vendors/immutable/3.7.4/dist/immutable'
         },
         rawText: {
-            'globalArgs': 'define(function () {});',
-            'ecLog': 'define(function () {});'
+            'globalArgs': 'define(function () {});'
         }
     },
 

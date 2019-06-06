@@ -224,9 +224,10 @@ gulp.task('release', ['copy'], function () {
             .pipe(gulp.dest('../echarts-doc/public/en'))
             .pipe(gulp.dest('../echarts-doc/public/zh')),
 
-        gulp.src(['release/js/**/*'], {
+        gulp.src(['release/js/**/*', 'release/documents/**/*'], {
                 base: 'release'
             })
+            .pipe(gulp.dest('../incubator-echarts-website'))
             .pipe(gulp.dest('../incubator-echarts-website/en'))
             .pipe(gulp.dest('../incubator-echarts-website/zh'))
             .pipe(gulp.dest('../echarts-doc/public/en'))

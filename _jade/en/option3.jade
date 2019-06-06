@@ -1,4 +1,23 @@
-extends ../zh/option3
+extends ../layouts/basic
 
 block variablesLang
     include ./_variablesLang.jade
+
+block variables
+    - var pageTitle = 'ECharts Configurations'
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+    .page-info
+        .container
+            h1 ECharts Configurations v3
+            p Sorry. This page is currently not available. Please checkout <a href="./option.html">Configurations of v4</a>.
+
+block extra_js
+
+    script(type='text/javascript').
+        document.getElementById('nav-doc').className = 'active';
+
+    include ./footer
