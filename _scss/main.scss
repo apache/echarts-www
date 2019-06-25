@@ -90,6 +90,7 @@ body {
 @import 'pages.extension';
 @import 'pages.faq';
 @import 'pages.maillist';
+@import 'pages.cheatsheet';
 
 #main {
     position: relative;
@@ -249,5 +250,13 @@ body {
         background-color: $clr-thirdary;
         color: white;
         border: 1px solid $clr-thirdary;
+    }
+}
+
+.btn-group {
+    margin: 0 5px;
+
+    .caret {
+        margin-left: 5px;
     }
 }

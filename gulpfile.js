@@ -102,15 +102,36 @@ gulp.task('jade', function () {
  * Watch scss files for changes & recompile
  * Watch html/md files
  */
-gulp.task('watch', ['sass', 'less', 'jade'], function () {
-    gulp.watch('_scss/*.scss', ['sass']);
+gulp.task('watch', ['sass-copy', 'less', 'jade-copy', 'js-copy'], function () {
+    gulp.watch('_scss/*.scss', ['sass-copy']);
     gulp.watch([
         'js/docTool/ecOption.less',
         'js/spreadsheet/spreadsheet.less'
     ], ['less']);
-    gulp.watch(['_jade/*', '_jade/components/*', '_jade/layouts/*'], ['jade']);
-    // gulp.watch(['js/*'], ['js']);
+    gulp.watch(['_jade/**/*'], ['jade-copy']);
+    gulp.watch(['js/*'], ['js-copy']);
 });
+
+gulp.task('jade-copy', ['jade'], function () {
+    return gulp.src('**/*.html')
+        .pipe(copy('../incubator-echarts-website'));
+});
+
+gulp.task('sass-copy', ['sass'], function () {
+    return eventStream.merge(
+        gulp.src('css/**').pipe(copy('../incubator-echarts-website')),
+        gulp.src('css/**').pipe(copy('../incubator-echarts-website/en')),
+        gulp.src('css/**').pipe(copy('../incubator-echarts-website/zh'))
+    );
+});
+
+gulp.task('js-copy', function () {
+    return eventStream.merge(
+        gulp.src('js/*.js').pipe(copy('../incubator-echarts-website')),
+        gulp.src('js/*.js').pipe(copy('../incubator-echarts-website/en')),
+        gulp.src('js/*.js').pipe(copy('../incubator-echarts-website/zh'))
+    );
+})
 
 /**
  * generate font file
