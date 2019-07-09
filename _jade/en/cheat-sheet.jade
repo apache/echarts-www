@@ -1,18 +1,18 @@
 extends ../layouts/basic
 
 block extra_head
-    <title>ECharts 速查手册</title>
+    <title>ECharts Cheat Sheet</title>
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
         include ../components/nav
 
     .page-info
-        h1 ECharts 速查手册
-        p 快速了解功能名称，帮助定位到配置项手册
+        h1 ECharts Cheat Sheet
+        p Learn the component names quickly.
 
     .page-content.container.page-cheatsheet
-        h2 常用组件说明
+        h2 Frequently-used Components
         #cheat-chart-container
             .row
                 .col-lg-9
@@ -20,24 +20,24 @@ block content
                 .col-lg-3
                     #cheat-detail
 
-        h2 系列类型文档速查
+        h2 Series
         ul
             each names, key in charts
                 li.cheat-chart-item
                     a(href="option.html#series-#{key}", target="_blank")
                         img(src="images/builder/chart/#{key}.svg", alt="")
-                        <h5>#{names[0]}<div>#{names[1]}</div></h5>
+                        <h5><div>#{names[1]}</div></h5>
 
-        h2 坐标系文档速查
+        h2 Coordinates
         ul
             each names, key in coords
                 li.cheat-chart-item
                     - var url = key == 'gridSimple' ? 'grid' : key;
                     a(href="option.html##{url}", target="_blank")
                         img(src="images/builder/component/#{key}.svg", alt="")
-                        <h5>#{names[0]}<div>#{names[1]}</div></h5>
+                        <h5><div>#{names[1]}</div></h5>
 
-        h2 组件文档速查
+        h2 Components
         ul
             each names, key in components
                 li.cheat-chart-item
@@ -47,9 +47,9 @@ block content
                         - var url = key
                     a(href="option.html##{url}", target="_blank")
                         img(src="images/builder/component/#{key}.svg", alt="")
-                        <h5>#{names[0]}<div>#{names[1]}</div></h5>
+                        <h5><div>#{names[1]}</div></h5>
 
 
 block extra_js
     script(src='./dist/echarts.min.js')
-    script(src='./js/cheat-sheet.js')
+    script(src='./js/cheat-sheet-en.js')
