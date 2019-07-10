@@ -1,14 +1,14 @@
 extends ../layouts/basic
 
 block extra_head
-    <title>ECharts 速查手册</title>
+    <title>ECharts 术语速查手册</title>
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
         include ../components/nav
 
     .page-info
-        h1 ECharts 速查手册
+        h1 ECharts 术语速查手册
         p 快速了解功能名称，帮助定位到配置项手册
 
     .page-content.container.page-cheatsheet
@@ -51,5 +51,8 @@ block content
 
 
 block extra_js
-    script(src='./dist/echarts.min.js')
+    script(type='text/javascript').
+        document.getElementById('nav-doc').className = 'active';
+
+    script(src='./vendors/echarts/echarts-20190709.min.js')
     script(src='./js/cheat-sheet.js')

@@ -27,7 +27,9 @@ var $detail = $('#cheat-detail');
 var selectedRegion = null;
 $(window).click(function (e) {
     // When click outside of detail area, cancel selection
-    if ($(e.target).closest($('#cheat-detail')).length < 1) {
+    if (e.target !== $('#cheat-chart canvas')[0]
+        && $(e.target).closest($('#cheat-detail')).length < 1
+    ) {
         selectedRegion = null;
         _doUnhighlight(option.graphic.elements, true);
         chart.setOption(option);

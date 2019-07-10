@@ -1,4 +1,13 @@
-$.getJSON("https://api.github.com/repos/apache/incubator-echarts/releases").done(function (param) {
+// $.getJSON("https://api.github.com/repos/apache/incubator-echarts/releases").done(function (param) {
+    var param = [{
+        published_at: '2019-03-21T10:27:59Z',
+        prerelease: false,
+        name: '4.2.1'
+    }, {
+        published_at: '2018-08-04T12:55:30Z',
+        prerelease: false,
+        name: '4.1.0'
+    }];
     var table = document.getElementById('download-table');
     for (var i = 0; i < param.length; ++i) {
         if (!param[i].prerelease) {
@@ -27,12 +36,12 @@ $.getJSON("https://api.github.com/repos/apache/incubator-echarts/releases").done
                 line.appendChild(source);
 
                 var bin = document.createElement('td');
-                bin.innerHTML = '<a target="_blank" href="https://github.com/apache/incubator-echarts/releases/tag/'
-                    + version + '">GitHub v' + version + '</a>';
+                bin.innerHTML = '<a target="_blank" href="https://github.com/apache/incubator-echarts/tree/'
+                    + version + '/dist">Dist</a>';
                 line.appendChild(bin);
 
                 table.appendChild(line);
             }
         }
     }
-});
+// });

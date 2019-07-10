@@ -18,24 +18,26 @@ block content
         include ./nav
 
     .page-info
-        h1 Download
+        h1 Download Apache ECharts (incubating)
 
     .page-content.container#download-main
         .d-section-version.d-section
-            h2 Download Apache ECharts (incubating)
-            p You may use npm to install: <code>npm install echarts</code>, or download from the following.
+            h3.first Option 1: Install from npm
+            p <code>npm install echarts</code>
+
+            h3 Option 2: Install from released binary, or download source code
 
             table.table#download-table
                 tr
                     th Version
                     th Release Date
                     th Download Source from a Mirror
-                    th GitHub
+                    th Dist files on GitHub
 
             .checksum
                 p <strong>Note:</strong> when downloading from a mirror please check the <a href="https://www.apache.org/dev/release-signing#sha-checksum">SHA-512</a> and verify the <a href="https://www.apache.org/dev/release-signing#openpgp">OpenPGP</a> compatible signature from the main <a href="https://www.apache.org">Apache site</a>. Links are provided above (next to the release download link). This <a href="https://www.apache.org/dist/incubator/echarts/KEYS">KEYS</a> file contains the public keys used for signing release. It is recommended that (when possible) a <a href="https://www.apache.org/dev/release-signing#web-of-trust">web of trust</a> is used to confirm the identity of these keys.
 
-                h3 To verify ECharts releases using GPG:
+                h4 To verify ECharts releases using GPG:
                 ol
                     li Download the release apache-echarts-X.Y.Z-incubating-src.zip from a mirror site.
                     li Download the checksum apache-echarts-X.Y.Z-incubating-src.zip.asc from <a href="https://www.apache.org/dist/incubator/echarts/">Apache</a>.
@@ -43,17 +45,22 @@ block content
                     li gpg –import KEYS
                     li gpg –verify apache-echarts-X.Y.Z-incubating-src.zip.asc
 
-                h3 To perform a quick check using SHA-512:
+                h4 To perform a quick check using SHA-512:
                 ol
                     li Download the release apache-echarts-X.Y.Z-incubating-src.zip from a mirror site.
                     li Download the checksum apache-echarts-X.Y.Z-incubating-src.zip.512 from <a href="https://www.apache.org/dist/incubator/echarts/">Apache</a>.
                     li shasum -a 512 apache-echarts-X.Y.Z-incubating-src.zip
 
-                h3 License
+                h4 License
                 p Apache ECharts (incubating) is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.
 
+                h3 Option 3: Custom Build
                 a.btn.btn-thirdary.more-btn(href="builder.html") Customize
                 p Choose the features you want and build the file online.
+
+                h3 After downloading...
+                p
+                    a(href='./tutorial.html') Get Started
 
     include ./footer
 

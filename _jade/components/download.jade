@@ -16,21 +16,22 @@ block content
 
     .page-content.container#download-main
         .d-section-version.d-section
-            h2 下载
+            h3.first 方法一：从 npm 安装
+            p <code>npm install echarts</code>
 
-            p 可以使用 npm 安装 ECharts：<code>npm install echarts</code>，或者下载以下发布版到本地。
+            h3 方法二：下载发布版本的编译产物，或下载源代码
 
             table.table#download-table
                 tr
                     th 版本
                     th 发布日期
                     th 从镜像网站下载源码
-                    th GitHub
+                    th 从 GitHub 下载编译产物
 
             .checksum
                 p <strong>注意：</strong>如果从镜像网站下载，请检查 <a href="https://www.apache.org/dev/release-signing#sha-checksum">SHA-512</a> 并且检验确认 <a href="https://www.apache.org/dev/release-signing#openpgp">OpenPGP</a> 与 <a href="https://www.apache.org">Apache 主站</a>的签名一致。链接在上面的 Source 旁。这个 <a href="https://www.apache.org/dist/incubator/echarts/KEYS">KEYS</a> 文件包含了用于签名发布版的公钥。如果可能的话，建议使用<a href="https://www.apache.org/dev/release-signing#web-of-trust">可信任的网络（web of trust）</a>确认 KEYS 的同一性。
 
-                h3 使用 GPG 验证 ECharts 发布版本
+                h4 使用 GPG 验证 ECharts 发布版本
                 ol
                     li 从镜像网站下载 apache-echarts-X.Y.Z-incubating-src.zip
                     li 从 <a href="https://www.apache.org/dist/incubator/echarts/">Apache</a> 下载 checksum apache-echarts-X.Y.Z-incubating-src.zip.asc
@@ -38,13 +39,13 @@ block content
                     li gpg –import KEYS
                     li gpg –verify apache-echarts-X.Y.Z-incubating-src.zip.asc
 
-                h3 使用 SHA-512 验证
+                h4 使用 SHA-512 验证
                 ol
                     li 从镜像网站下载 apache-echarts-X.Y.Z-incubating-src.zip
                     li 从 <a href="https://www.apache.org/dist/incubator/echarts/">Apache</a> 下载 checksum apache-echarts-X.Y.Z-incubating-src.zip.sha512
                     li shasum -a 512 apache-echarts-X.Y.Z-incubating-src.zip
 
-                h3 License
+                h4 License
                 p Apache ECharts (incubating) 基于 <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a> 发布
 
             //- if isECharts4
@@ -84,17 +85,22 @@ block content
             //- div(class="paper-desc")
             //-     a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
 
+            h3 方法三：选择需要的模块，在线定制下载
 
             if isECharts4
                 a.btn.btn-thirdary.more-btn(href="builder.html") 在线定制
             else
                 a.btn.btn-thirdary.more-btn(href="builder3.html") 在线定制
-            p 可自由选择所需图表和组件进行打包下载
+            p.center 可自由选择所需图表和组件进行打包下载
+
+            h3 下载后……
+            p
+                a(href='./tutorial.html') 5 分钟上手 ECharts
 
         .d-section-gl.d-section
             h2 下载 ECharts GL 1.1.1
             p ECharts GL 是 WebGL 的扩展包，提供了丰富的三维可视化组件以及常规图表的性能增强。
-            h3 选择需要的版本 <span class="warn">注：开发环境建议选择源代码版本，该版本包含了常见的警告和错误提示。</span>
+            h4 选择需要的版本 <span class="warn">注：开发环境建议选择源代码版本，该版本包含了常见的警告和错误提示。</span>
             .list-wrap.row
                 .col-xs-6.col-sm-3.col-sm-offset-3
                     a(target='_blank' href="#{downloadPath}/echarts-gl.min.js")

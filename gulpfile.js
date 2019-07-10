@@ -113,7 +113,7 @@ gulp.task('watch', ['sass-copy', 'less', 'jade-copy', 'js-copy'], function () {
 });
 
 gulp.task('jade-copy', ['jade'], function () {
-    return gulp.src('**/*.html')
+    return gulp.src(['./*.html', 'zh/*.html', 'en/*.html'])
         .pipe(copy('../incubator-echarts-website'));
 });
 

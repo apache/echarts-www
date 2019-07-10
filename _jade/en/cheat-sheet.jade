@@ -1,11 +1,14 @@
 extends ../layouts/basic
 
+block variablesLang
+    include ./_variablesLang.jade
+
 block extra_head
     <title>ECharts Cheat Sheet</title>
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
-        include ../components/nav
+        include ./nav
 
     .page-info
         h1 ECharts Cheat Sheet
@@ -51,5 +54,8 @@ block content
 
 
 block extra_js
-    script(src='./dist/echarts.min.js')
+    script(type='text/javascript').
+        document.getElementById('nav-doc').className = 'active';
+
+    script(src='./vendors/echarts/echarts-20190709.min.js')
     script(src='./js/cheat-sheet-en.js')

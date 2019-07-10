@@ -33,18 +33,44 @@ $btn: #40a7dc;
 #download-main {
     max-width: 800px;
 
+    .d-section {
+        margin-top: 20px;
+        padding-top: 20px;
+    }
+
     h2 {
         font-size: 25px;
         border-bottom: 0;
         text-align: center;
         color: $clr-primary;
+        text-align: left;
     }
 
     h3 {
+        margin-top: 40px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
+
+        &.first {
+            margin-top: -20px;
+        }
+    }
+
+    p {
+        text-align: left;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    h4 {
         margin: 10px auto;
         margin-top: 20px;
         font-size: 16px;
         font-weight: bold;
+        text-align: left;
 
         .warn {
             color: #A9334C;
@@ -52,7 +78,7 @@ $btn: #40a7dc;
     }
 
     .list-wrap {
-        margin: 40px 0;
+        margin: 20px 0 0 0;
     }
 
     .d-section-version {
@@ -200,7 +226,7 @@ $btn: #40a7dc;
 .more-btn {
     position: relative;
     display: block;
-    margin: 0 auto;
+    margin: 20px auto;
     margin-bottom: 10px;
 
     &:after {
