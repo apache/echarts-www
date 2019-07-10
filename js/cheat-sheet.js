@@ -9,7 +9,7 @@ var highlightFill = 'rgba(132, 181, 228, 0.5)';
 
 var grid = {
     left: 60,
-    top: 70,
+    top: 100,
     bottom: 70,
     right: 100
 };
@@ -37,6 +37,11 @@ $(window).click(function (e) {
 });
 
 var baseOption = {
+    title: {
+        text: '图表的标题',
+        left: 5,
+        top: 5
+    },
     tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -86,8 +91,8 @@ var baseOption = {
     },
     legend: {
         data: ['蒸发量', '降水量', '平均温度'],
-        top: 5,
-        left: 10
+        top: 35,
+        left: 5
     },
     grid: grid,
     xAxis: [{
@@ -213,6 +218,15 @@ var regions = [{
 }, {
     left: 10,
     top: 5,
+    width: 100,
+    height: 24,
+    option: {
+        id: 'title',
+        desc: '图表的标题'
+    }
+}, {
+    left: 10,
+    top: 35,
     width: 238,
     height: 24,
     option: {
@@ -349,7 +363,7 @@ var regions = [{
     }
 }, {
     left: grid.left,
-    bottom: grid.bottom,
+    bottom: grid.bottom - 3,
     width: grid.width,
     height: 6,
     option: {
