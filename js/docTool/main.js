@@ -139,6 +139,8 @@ define(function (require) {
 
         _prepare: function () {
 
+            var startTime = Date.now();
+
             $.getJSON(
                 docUtil.addVersionArg([
                     '../documents',
@@ -146,6 +148,10 @@ define(function (require) {
                     schemaName + '.json'
                 ].join('/'))
             ).done($.proxy(function (schema) {
+
+                var endTime = Date.now();
+                var duration = Math.round((endTime - startTime) / 1000);
+                _hmt.push(['_setCustomVar', 1, 'optionLoadTime', duration, 3]);
 
                 // Before render page
                 this._prepareDoc(schema);
