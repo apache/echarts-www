@@ -764,7 +764,7 @@ define(function (require) {
     }
 
     function log(params) {
-        _hmt.push(['_trackEvent', 'log', pageName, params]);
+        _hmt.push(['_trackEvent', 'doc-' + params.key, pageName, params.data]);
     }
 
     return api;
