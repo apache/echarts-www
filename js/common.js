@@ -109,7 +109,7 @@ function closeApacheBanner(isManualClose) {
     }
 }
 
-function visitApache() {
+function logApache() {
     _hmt.push(['_trackEvent', 'apacheBanner', 'visit']);
 }
 
