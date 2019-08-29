@@ -1,5 +1,5 @@
 
-ecHomePath='https://echarts.baidu.com'
+ecHomePath='https://www.echartsjs.com'
 localPath=$(cd `dirname $0`; pwd)
 
 normalPages=(
@@ -32,7 +32,7 @@ codeDownloadURLs=(
 
 function checkNormalPage() {
     pagePath=$1
-    remotePageFullPath=${ecHomePath}/${pagePath}
+    remotePageFullPath=${ecHomePath}/zh/${pagePath}
 
     echo "Checking: ${remotePageFullPath} ..."
 
@@ -63,7 +63,7 @@ function checkCodeDownload() {
     # Do not use "\d" or "[ ]" in shell, which does not work in online OS.
     # see https://en.wikibooks.org/wiki/Regular_Expressions/POSIX_Extended_Regular_Expressions
     versionFetchRegExp="version:[[:space:]]*.[[:digit:]]\\+[.][[:digit:]]\\+[.][[:digit:]]\\+"
-    versionStr=`cat ${localPath}"/config/env.js" | grep -o -e ${versionFetchRegExp}`
+    versionStr=`cat ${localPath}"/config/common.js" | grep -o -e ${versionFetchRegExp}`
 
     if [[ "$versionStr" == "" ]]
     then
