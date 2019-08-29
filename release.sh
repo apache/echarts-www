@@ -1,14 +1,35 @@
-basepath=$(cd `dirname $0`; pwd)
+#!/bin/bash
 
-rm -r ${basepath}/release
-rm ${basepath}/echarts-www.zip
+# ------------------------------------------------------------------------
+# Usage:
+# sh release.sh --env asf
+# sh release.sh --env echartsjs
+# sh release.sh --env dev # the same as "debug"
+# # Check `./config` to see the available env
+# ------------------------------------------------------------------------
 
-node ${basepath}/node_modules/gulp/bin/gulp.js release-cn
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --env) envType="$2"; shift; shift ;;
+        --env=*) envType="${1#*=}"; shift ;;
+        *) shift ;;
+    esac
+done
+if [[ ! -n "${envType}" ]]; then
+    echo "--env must be specified."
+    exit 1;
+fi
 
-zip -r echarts-www.zip release
+basePath=$(cd `dirname $0`; pwd)
+currPath=$(pwd)
 
-rm -r ${basepath}/release
+cd ${basePath}
+node ./node_modules/.bin/gulp release --env ${envType}
+cd ${currPath}
 
-node node_modules/gulp/bin/gulp.js release-en
-
-rm -r ${basepath}/release
+if [[ ${envType} -eq "echartsjs" ]]; then
+    cd ${basePath}
+    zip -r echarts-www.zip release
+    rm -r release
+    cd ${currPath}
+fi
