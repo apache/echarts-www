@@ -7,24 +7,47 @@ var clean = require('gulp-clean');
 var uglify = require('gulp-uglify');
 var copy = require('gulp-copy');
 var jade = require('gulp-jade');
-var fontmin = require('gulp-fontmin');
+// var fontmin = require('gulp-fontmin');
 var replace = require('gulp-replace');
-var config = require('./config/env');
 var eventStream = require('event-stream');
-
 var requirejs = require('requirejs');
-
 var argv = require('yargs').argv;
-var isDebug = (argv.debug === undefined) ? false : true;
-if (isDebug) {
-    console.warn('==========================');
-    console.warn('!!! THIS IS DEBUG MODE !!!');
-    console.warn('==========================');
+
+/**
+ * ------------------------------------------------------------------------
+ * Usage:
+ *
+ * ```shell
+ * ./nodule_modules/.bin/gulp release --env asf
+ * ./nodule_modules/.bin/gulp release --env echartsjs
+ * ./nodule_modules/.bin/gulp release --env dev # the same as "debug"
+ * # Check `./config` to see the available env
+ * ```
+ * ------------------------------------------------------------------------
+ */
+
+function initEnv() {
+    var envType = argv.env;
+    var isDev = argv.dev != null || argv.debug != null || envType === 'debug';
+
+    if (isDev) {
+        console.warn('=============================');
+        console.warn('!!! THIS IS IN DEV MODE !!!');
+        console.warn('=============================');
+        envType = 'dev';
+    }
+
+    if (!envType) {
+        throw new Error('--env MUST be specified');
+    }
+
+    return require('./config/env.' + envType);
 }
+
+var config = initEnv();
 
 // Update home version each build.
 config.homeVersion = +new Date();
-
 
 /**
  * Build files for release
@@ -88,9 +111,6 @@ gulp.task('sourceVersion', function () {
  * Generate site using Jade
  */
 gulp.task('jade', function () {
-    if (isDebug) {
-        config.host = config.debugHost;
-    }
     return gulp.src('_jade/**/*.jade')
         .pipe(jade({
             data: config
@@ -114,37 +134,37 @@ gulp.task('watch', ['sass-copy', 'less', 'jade-copy', 'js-copy'], function () {
 
 gulp.task('jade-copy', ['jade'], function () {
     return gulp.src(['./*.html', 'zh/*.html', 'en/*.html'])
-        .pipe(copy('../incubator-echarts-website'));
+        .pipe(copy(config.releaseDestDir));
 });
 
 gulp.task('sass-copy', ['sass'], function () {
     return eventStream.merge(
-        gulp.src('css/**').pipe(copy('../incubator-echarts-website')),
-        gulp.src('css/**').pipe(copy('../incubator-echarts-website/en')),
-        gulp.src('css/**').pipe(copy('../incubator-echarts-website/zh'))
+        gulp.src('css/**').pipe(copy(config.releaseDestDir)),
+        gulp.src('css/**').pipe(copy(config.releaseDestDir + '/en')),
+        gulp.src('css/**').pipe(copy(config.releaseDestDir + '/zh'))
     );
 });
 
 gulp.task('js-copy', function () {
     return eventStream.merge(
-        gulp.src('js/*.js').pipe(copy('../incubator-echarts-website')),
-        gulp.src('js/*.js').pipe(copy('../incubator-echarts-website/en')),
-        gulp.src('js/*.js').pipe(copy('../incubator-echarts-website/zh'))
+        gulp.src('js/*.js').pipe(copy(config.releaseDestDir)),
+        gulp.src('js/*.js').pipe(copy(config.releaseDestDir + '/en')),
+        gulp.src('js/*.js').pipe(copy(config.releaseDestDir + '/zh'))
     );
 })
 
-/**
- * generate font file
- */
-function minifyFont(text, cb) {
-    gulp
-        .src('_font/NotoSans*.ttf')
-        .pipe(fontmin({
-            text: text
-        }))
-        .pipe(gulp.dest('css/font'))
-        .on('end', cb);
-}
+// /**
+//  * generate font file
+//  */
+// function minifyFont(text, cb) {
+//     gulp
+//         .src('_font/NotoSans*.ttf')
+//         .pipe(fontmin({
+//             text: text
+//         }))
+//         .pipe(gulp.dest('css/font'))
+//         .on('end', cb);
+// }
 
 // gulp.task('fonts', ['jade'], function(cb) {
 
@@ -178,15 +198,16 @@ gulp.task('default', ['watch']);
 
 
 gulp.task('release-clean', function () {
+    // Do not clean ./release here, because
+    // echarts-examples will copy their release to ./release/examples.
     return gulp.src([
-        './release',
-        '../incubator-echarts-website/*.html'
+        config.releaseDestDir + '/*.html'
     ], {
-            read: false
-        })
-        .pipe(clean({
-            force: true
-        }));
+        read: false
+    })
+    .pipe(clean({
+        force: true
+    }));
 });
 
 gulp.task('release-docJS', ['release-clean'], function (taskReady) {
@@ -235,35 +256,38 @@ gulp.task('copy', ['sass', 'less', 'jade', 'release-js', 'release-clean'], funct
 
 gulp.task('release', ['copy'], function () {
     return eventStream.merge(
-        gulp.src(['css/**/*', 'vendors/**/*', 'images/**/*', 'dist/**/*', 'builder/**/*', 'video/**/*',
-                'documents/**/*', 'asset/**/*'
-            ], {
-                base: '.'
-            })
-            .pipe(gulp.dest('../incubator-echarts-website/en'))
-            .pipe(gulp.dest('../incubator-echarts-website/zh'))
+        gulp.src([
+            'css/**/*', 'vendors/**/*', 'images/**/*', 'dist/**/*', 'builder/**/*', 'video/**/*',
+            'documents/**/*', 'asset/**/*'
+        ], {
+            base: '.'
+        })
+            .pipe(gulp.dest(config.releaseDestDir + '/en'))
+            .pipe(gulp.dest(config.releaseDestDir + '/zh'))
             .pipe(gulp.dest('../echarts-doc/public/en'))
             .pipe(gulp.dest('../echarts-doc/public/zh')),
 
-        gulp.src(['release/js/**/*', 'release/documents/**/*'], {
-                base: 'release'
-            })
-            .pipe(gulp.dest('../incubator-echarts-website'))
-            .pipe(gulp.dest('../incubator-echarts-website/en'))
-            .pipe(gulp.dest('../incubator-echarts-website/zh'))
+        gulp.src([
+            'release/js/**/*', 'release/documents/**/*'
+        ], {
+            base: 'release'
+        })
+            .pipe(gulp.dest(config.releaseDestDir))
+            .pipe(gulp.dest(config.releaseDestDir + '/en'))
+            .pipe(gulp.dest(config.releaseDestDir + '/zh'))
             .pipe(gulp.dest('../echarts-doc/public/en'))
             .pipe(gulp.dest('../echarts-doc/public/zh')),
 
         gulp.src(['en/*.html'])
-            .pipe(gulp.dest('../incubator-echarts-website/en'))
+            .pipe(gulp.dest(config.releaseDestDir + '/en'))
             .pipe(gulp.dest('../echarts-doc/public/en')),
 
         gulp.src(['zh/*.html'])
-            .pipe(gulp.dest('../incubator-echarts-website/zh'))
+            .pipe(gulp.dest(config.releaseDestDir + '/zh'))
             .pipe(gulp.dest('../echarts-doc/public/zh')),
 
         gulp.src(['*.html'])
-            .pipe(gulp.dest('../incubator-echarts-website'))
+            .pipe(gulp.dest(config.releaseDestDir))
             .pipe(gulp.dest('../echarts-doc/public'))
     );
 });
