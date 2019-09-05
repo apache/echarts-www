@@ -103,14 +103,8 @@ block content
                             a(href="./tutorial.html") Learn More
                                 include ../components/svg/more
                     .col-sm-8.col
-                        .ch-main#ch-main.pc
-                            .ch-pc-chart
-                            .ch-mobile
-                                img.ch-mobile-box(src='./images/index-chart/iphone.png')
-                                .ch-mobile-content
-                                    .ch-mobile-chart
-                        .mobile
-                            img(src='./images/index-feature.jpg')
+                        #col-desktop
+                            img(src="images/index-feature.jpg")
 
                     script(type='text/javascript').
                         window.supportTouch && (document.getElementById('ch-main').className += ' ch-on-touch');
