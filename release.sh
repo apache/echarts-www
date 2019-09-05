@@ -20,14 +20,18 @@ if [[ ! -n "${envType}" ]]; then
     exit 1;
 fi
 
+echo "Building with env type: ${envType}"
+
 basePath=$(cd `dirname $0`; pwd)
 currPath=$(pwd)
 
 cd ${basePath}
+# Do not rm release here, because release may be created by echarts-example.
+rm echarts-www.zip
 node ./node_modules/.bin/gulp release --env ${envType}
 cd ${currPath}
 
-if [[ ${envType} -eq "echartsjs" ]]; then
+if [[ "${envType}" = "echartsjs" ]]; then
     cd ${basePath}
     zip -r echarts-www.zip release
     rm -r release
