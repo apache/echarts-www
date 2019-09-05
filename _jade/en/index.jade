@@ -68,8 +68,8 @@ block content
                             a(href="./tutorial.html") Learn More
                                 include ../components/svg/more
                     .col-sm-8.col
-                        //- video#video-feature-4.feature-video(autoplay='true', loop='true', muted="true" src='video/feature-4.mp4', poster='images/features/scatterGL4.jpg')
-                        img#video-feature-4(src="images/features/scatterGL4.jpg")
+                        video.lazy#video-feature-4.feature-video(autoplay='true', loop='true', muted="true" data-src='video/feature-4.mp4', poster='images/features/scatterGL4.jpg')
+                        //- img.lazy#video-feature-4(data-src="images/features/scatterGL4.jpg")
                 .row.feature-detail#feature-dimension
                     .col-sm-4.col.mobile
                         h2 Multi-dimension data analysis
@@ -82,9 +82,9 @@ block content
                                 include ../components/svg/more
                     .col-sm-8.col
                         #col-desktop
-                            img(src="images/feature-1.png")
-                            //- video#video-feature-1.feature-video(autoplay='true', loop='true', muted="true" src='video/feature-1.mp4', poster='video/feature-2.jpg')
-                            img#video-feature-1(src="video/feature-2.jpg")
+                            img.lazy(data-src="images/feature-1.png")
+                            video.lazy#video-feature-1.feature-video(autoplay='true', loop='true', muted="true" data-src='video/feature-1.mp4', poster='video/feature-2.jpg')
+                            //- img.lazy#video-feature-1(data-src="video/feature-2.jpg")
                     .col-sm-4.col.pc#col-analysis
                         h2 Multi-dimension data analysis
                         h3 Brush data for detail
@@ -104,7 +104,7 @@ block content
                                 include ../components/svg/more
                     .col-sm-8.col
                         #col-desktop
-                            img(src="images/index-feature.jpg")
+                            img.lazy(data-src="images/index-feature.jpg")
 
                     script(type='text/javascript').
                         window.supportTouch && (document.getElementById('ch-main').className += ' ch-on-touch');
@@ -113,21 +113,26 @@ block content
             .container
                 .col-sm-8.col
                     h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                    p.note <i class="note-icon"><img src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
+                    p.note <i class="note-icon"><img classs="lazy" data-src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
                     p.link Visual Informatics, 2018
                         a(href="https://www.sciencedirect.com/science/article/pii/S2468502X18300068") [PDF]
                 .col-sm-4.col
                     .img-container
-                        img(src="./images/pipeline.jpg", alt="")
+                        img.lazy(data-src="./images/pipeline.jpg", alt="")
 
         section.container
             .companies
                 - for (var i = 1; i <= 24; ++i) {
-                    img(src='images/company/company#{i}.jpg')
+                    img.lazy(data-src='images/company/company#{i}.jpg')
                 -}
 
     include ./footer
 
 block extra_js
+    script.
+        window.lazyLoadOptions = {
+            elements_selector: ".lazy"
+        };
+    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
     script(src='./js/index.js')
     <script async defer src="https://buttons.github.io/buttons.js"></script>

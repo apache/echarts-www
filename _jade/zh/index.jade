@@ -65,8 +65,8 @@ block content
                             a(href="feature.html") 了解更多
                                 include ../components/svg/more
                     .col-sm-8.col
-                        //- video#video-feature-4.feature-video(autoplay='true', loop='true', muted="true" src='video/feature-4.mp4', poster='images/features/scatterGL4.jpg')
-                        img#video-feature-4(src="images/features/scatterGL4.jpg")
+                        video.lazy#video-feature-4.feature-video(autoplay='true' loop='true' muted="true" data-src='video/feature-4.mp4' poster='video/feature-4.jpg')
+                        //- img#video-feature-4(src="images/features/scatterGL4.jpg")
                 .row.feature-detail#feature-dimension
                     .col-sm-4.col.mobile
                         h2 多维度数据分析
@@ -80,10 +80,10 @@ block content
 
                     .col-sm-8.col
                         #col-desktop
-                            img(src="images/feature-1.png")
-                            //- video#video-feature-1.feature-video(autoplay='true', loop='true', muted="true", src='video/feature-1.mp4', poster='video/feature-2.jpg')
-                            img#video-feature-1(src="video/feature-2.jpg")
-                            
+                            img.lazy(data-src="images/feature-1.png")
+                            video.lazy#video-feature-1.feature-video(autoplay='true' loop='true' muted="true" data-src='video/feature-1.mp4' poster='video/feature-2.jpg')
+                            //- img#video-feature-1(src="video/feature-2.jpg")
+
                     .col-sm-4.col.pc#col-analysis
                         h2 多维度数据分析
                         h3 数据自由刷选
@@ -105,72 +105,24 @@ block content
 
                     .col-sm-8.col
                         #col-desktop
-                            img(src="images/index-feature.jpg")
+                            img.lazy(data-src="images/index-feature.jpg")
 
-                    //- .col-sm-8.col
-                    //-     .ch-main#ch-main.pc
-                    //-         .ch-pc-chart
-                    //-         .ch-mobile
-                    //-             img.ch-mobile-box(src='./images/index-chart/iphone.png')
-                    //-             .ch-mobile-content
-                    //-                 .ch-mobile-chart
-                    //-     .mobile
-                    //-         img(src='./images/index-feature.png')
-
-                    //- script(type='text/javascript').
-                    //-     window.supportTouch && (document.getElementById('ch-main').className += ' ch-on-touch');
 
         section#publication
             .container
                 .col-sm-8.col
                     h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                    p.note <i class="note-icon"><img src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
+                    p.note <i class="note-icon"><img classs="lazy" data-src="./images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
                     p.link Visual Informatics, 2018
                         a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") [PDF]
                 .col-sm-4.col
                     .img-container
-                        img(src="./images/pipeline.jpg", alt="")
-
-        //- section#reference
-        //-     .container
-        //-          #recommends
-        //-             .recommend
-        //-                 p ECharts 是中国的，也是世界的。
-        //-                 .person
-        //-                     .title 浙江大学CAD&CG国家重点实验室教授，可视化专家
-        //-                     .name 陈为
-        //-             .recommend
-        //-                 p ECharts，发现数据可视化之美！
-        //-                 .person
-        //-                     .title 中国传媒大学教授
-        //-                     .name 沈浩
-        //-             .recommend.active
-        //-                 p 在中国可视化生态系统中，ECharts 通过提供方便丰富的可视化图表，极大缩短了用户与数据的距离。
-        //-                 .person
-        //-                     .title 北京大学百人计划研究员，可视化专家
-        //-                     .name 袁晓如
-        //-             .recommend
-        //-                 p 很高兴ECharts一直保持着可视化的顶尖水平，期待 ECharts 早日动词化的那一天！
-        //-                 .person
-        //-                     .title 游族网络有限公司 CTO
-        //-                     .name 李湛
-        //-             .recommend
-        //-                 p ECharts 是最让我惊艳的一款数据产品，它满足了甚至超越了我对数据可视化的所有想象，无论是颜值，实用性，还是易用性。
-        //-                 .person
-        //-                     .title PPT 设计师 / 数据分析师
-        //-                     .name 阿文
-        //-     .container
-        //-         .people
-        //-             img(src='images/people/陈为.png')
-        //-             img(src='images/people/沈浩.png')
-        //-             img.active(src='images/people/袁晓如.png')
-        //-             img(src='images/people/李湛.png')
-        //-             img(src='images/people/阿文.png')
+                        img.lazy(data-src="./images/pipeline.jpg", alt="")
 
         section.container
             .companies
                 - for (var i = 1; i <= 24; ++i) {
-                    img(src='images/company/company#{i}.jpg')
+                    img.lazy(data-src='images/company/company#{i}.jpg')
                 -}
 
         section.normal#about-section
@@ -179,14 +131,19 @@ block content
                 p 可以通过以下渠道关注 ECharts，及时获得更多最新动态
                 .btn-panel
                     a.btn.btn-blue(href='https://github.com/ecomfe/echarts')
-                        img(src='images/btn-github.png')
+                        img.lazy(data-src='images/btn-github.png')
                         span GitHub
                     a.btn.btn-red(href='https://weibo.com/echarts')
-                        img(src='images/btn-weibo.png')
+                        img.lazy(data-src='images/btn-weibo.png')
                         span 微博
 
     include ../components/footer
 
 block extra_js
+    script.
+        window.lazyLoadOptions = {
+            elements_selector: ".lazy"
+        };
+    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
     script(src='./js/index.js')
     <script async defer src="https://buttons.github.io/buttons.js"></script>
