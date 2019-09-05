@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ECharts</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>ECharts2</title>
 </head>
 <body>
     <!--Step:1 Prepare a dom for ECharts which (must) has size (width & hight)-->
@@ -13,7 +14,7 @@
     <!--Step:2 Import echarts-all.js-->
     <!--Step:2 引入echarts-all.js-->
     <script src="js/echarts-all.js"></script>
-    
+
     <script type="text/javascript">
         // Step:3 echarts & zrender as a Global Interface by the echarts-plain.js.
         // Step:3 echarts和zrender被echarts-plain.js写入为全局接口
@@ -61,7 +62,7 @@
                 }
             ]
         });
-        
+
         // --- 地图 ---
         var myChart2 = echarts.init(document.getElementById('mainMap'));
         myChart2.setOption({

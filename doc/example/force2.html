@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ECharts">
-    <meta name="author" content="kener.linfeng@gmail.com">
-    <title>ECharts · Example</title>
+
+    <meta name="robots" content="noindex, nofollow">
+    <title>ECharts2 · Example</title>
 
     <link rel="shortcut icon" href="../asset/ico/favicon.png">
 
@@ -80,13 +80,13 @@ function forceMockThreeData() {
 
     function mock(parentNode, depth) {
         var nChildren = Math.round(rangeRandom(constMinChildren, constMaxChildren));
-        
+
         for (var i = 0; i < nChildren; i++) {
             var childNode = createRandomNode(depth);
             links.push({
                 source : parentNode.id,
                 target : childNode.id,
-                weight : 1 
+                weight : 1
             });
             if (depth < constMaxDepth) {
                 mock(childNode, depth + 1);
@@ -175,7 +175,7 @@ option = {
                 </div>
             </div><!--/span-->
         </div><!--/row-->
-        
+
         </div><!--/.fluid-container-->
 
     <footer id="footer"></footer>

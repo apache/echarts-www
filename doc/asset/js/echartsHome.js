@@ -72,7 +72,8 @@ if (location.href.indexOf('.baidu.com') < 0) {
 }
 
 $('#head')[0].innerHTML =
-    '<div class="container">'
+    '<div class="important-information">ECharts 2.0 已经不再维护，建议升级到 <a href="https://echarts.apache.org/zh/index.html">4.0</a></div>'
+    + '<div class="container">'
         + '<div class="navbar-header">'
           + '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">'
             + '<span class="sr-only">Toggle navigation</span>'
@@ -85,7 +86,7 @@ $('#head')[0].innerHTML =
           + '.html">ECharts</a>'
         + '</div>'
         + '<a href="http://echarts.baidu.com" target="_blank">'
-            + '<img id="fork-image" style="position:absolute;top:0;right:0;border:0;z-index:1000;width:' + forkWidth + 'px" src="'+ (loc.img || '.') + '/asset/img/try3.png" alt="Fork me on GitHub">'
+            + '<img id="fork-image" style="position:absolute;top:0;right:0;border:0;z-index:1000;width:' + forkWidth + 'px" src="'+ (loc.img || '.') + '/asset/img/fork.png" alt="Fork me on GitHub">'
         + '</a>'
         + '<div class="navbar-collapse collapse" id="nav-wrap">'
           + '<ul class="nav navbar-nav navbar-right" id="nav" style="max-width:100%;">'
@@ -175,47 +176,6 @@ function changeVersion() {
         }
         window.location.reload();
     }
-}
-
-var $footer = $('#footer');
-if ($footer.length) {
-    $footer[0].style.marginTop = '50px';
-    $footer[0].innerHTML =
-         '<div class="container">'
-            + '<div class="row" style="padding-bottom:20px;">'
-                + '<div class="col-md-3">'
-                    + '<p>' + (enVersion ? 'Link' : 'ECharts团队出品') + '</p>'
-                    + '<ul>'
-                        + '<li><a href="http://tushuo.baidu.com/" target="_blank">Baidu 图说</a></li>'
-                        + '<li><a href="' + (enVersion ? "http://ecomfe.github.io/echarts-x" : 'http://echarts.baidu.com/x/doc') + '" target="_blank">ECharts-X</a></li>'
-                        + '<li><a href="http://ecomfe.github.io/zrender/index.html" target="_blank">ZRender</a></li>'
-                        + '<li><a href="https://github.com/pissang/qtek" target="_blank">QTEK</a></li>'
-                    + '</ul>'
-                + '</div>'
-                + '<div class="col-md-3">'
-                    + '<p>' + (enVersion ? 'More' : '更多') + '</p>'
-                    + '<ul>'
-                        + '<li><a href="https://github.com/ecomfe/echarts/blob/master/LICENSE.txt" target="_blank">License</a></li>'
-                        + '<li><a href="http://echarts.baidu.com/doc/changelog' + (enVersion ? '-en' : '') + '.html" target="_blank">Changelog</a></li>'
-                        + '<li><a href="http://efe.baidu.com" target="_blank">Baidu EFE</a></li>'
-                        + '<li><a href="http://www.oschina.net/p/echarts" target="_blank">' + (enVersion ? 'Open Source China' : '开源中国') + '</a></li>'
-                    + '</ul>'
-                + '</div>'
-                + '<div class="col-md-3">'
-                    + '<p>' + (enVersion ? 'Contact Us' : '联系我们') + '</p>'
-                    + '<ul>'
-                        + '<li><a href="mailto:echarts(a)baidu.com">echarts(a)baidu.com</a></li>'
-                        + '<li><a href="https://github.com/ecomfe/echarts" target="_blank"> Github</a></li>'
-                        + '<li><a href="http://weibo.com/echarts" target="_blank">Weibo</a></li>'
-                    + '</ul>'
-                + '</div>'
-                + '<div class="col-md-3 flogo">'
-                    + '<a href="javascript:void(0)" onclick="back2Top()" title="' + (enVersion ? 'Back to top' : '回到顶部') + '"><img src="'+ (loc.img || '.')+ '/asset/img/echarts-logo2.png" alt="ECharts"/></a>'
-                + '</div>'
-            + '</div>'
-            + '<p class="pull-right"><a href="javascript:void(0)" onclick="back2Top()" >Back to top</a></p>'
-            + '<p>&copy; 2015 <a href="http://www.baidu.com/" target="_blank">Baidu</a></p>'
-        + '</div>';
 }
 
 if (document.location.href.indexOf('local') == -1) {

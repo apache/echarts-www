@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ECharts">
-    <meta name="author" content="kener.linfeng@gmail.com">
-    <title>ECharts · Example</title>
+
+    <meta name="robots" content="noindex, nofollow">
+    <title>ECharts2 · Example</title>
 
     <link rel="shortcut icon" href="../asset/ico/favicon.png">
 
@@ -48,7 +48,7 @@ option = {
         trigger: 'axis',
         formatter: function (params){
             return params[0].name + ' : '
-                   + (params[2].value - params[1].value > 0 ? '+' : '-') 
+                   + (params[2].value - params[1].value > 0 ? '+' : '-')
                    + params[0].value + '<br/>'
                    + params[2].seriesName + ' : ' + params[2].value + '<br/>'
                    + params[3].seriesName + ' : ' + params[3].value + '<br/>'
@@ -121,9 +121,9 @@ option = {
             type:'bar',
             stack: '1',
             data:[
-              80, 42, 
+              80, 42,
               {value : 50, itemStyle:{ normal:{color:'red'}}},
-              {value : 34, itemStyle:{ normal:{color:'red'}}}, 
+              {value : 34, itemStyle:{ normal:{color:'red'}}},
               60, 70, 90
             ]
         }
@@ -143,7 +143,7 @@ option = {
                 </div>
             </div><!--/span-->
         </div><!--/row-->
-        
+
         </div><!--/.fluid-container-->
 
     <footer id="footer"></footer>

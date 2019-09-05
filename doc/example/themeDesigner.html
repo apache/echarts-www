@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ECharts">
-    <meta name="author" content="kener.linfeng@gmail.com">
-    <title>ECharts · Example</title>
+
+    <meta name="robots" content="noindex, nofollow">
+    <title>ECharts2 · Example</title>
 
     <link rel="shortcut icon" href="../asset/ico/favicon.png">
 
@@ -113,7 +113,7 @@
                     <h3><a href="../doc.html#DataRange" target="_blank">dataRange（值域）</a></h3>
                     <p><img src="../asset/img/doc/dataRange.png" title="" alt="值域"/></P>
                 </div>
-                
+
                 <div class='doc-image col-md-4'>
                     <h3><a href="../doc.html#Grid" target="_blank">grid（绘图网格）</a></h3>
                     <p><img src="../asset/img/doc/grid.jpg" title="" alt="绘图网格"/></P>
@@ -179,7 +179,7 @@
 theme = {
     // 全图默认背景
     // backgroundColor: 'rgba(0,0,0,0)',
-    
+
     // 默认色板
     color: ['#ff7f50','#87cefa','#da70d6','#32cd32','#6495ed',
             '#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0',
@@ -210,7 +210,7 @@ theme = {
             color: '#aaa'          // 副标题文字颜色
         }
     },
-    
+
     // 图例
     legend: {
         orient: 'horizontal',      // 布局方式，默认为水平布局，可选为：
@@ -234,7 +234,7 @@ theme = {
             color: '#333'          // 图例文字颜色
         }
     },
-    
+
     // 值域
     dataRange: {
         orient: 'vertical',        // 布局方式，默认为垂直布局，可选为：
@@ -255,7 +255,7 @@ theme = {
         itemWidth: 20,             // 值域图形宽度，线性渐变水平布局宽度为该值 * 10
         itemHeight: 14,            // 值域图形高度，线性渐变垂直布局高度为该值 * 10
         splitNumber: 5,            // 分割段数，默认为5，为0时为线性渐变
-        color:['#1e90ff','#f0ffff'],//颜色 
+        color:['#1e90ff','#f0ffff'],//颜色
         //text:['高','低'],         // 文本，默认为数值文本
         textStyle: {
             color: '#333'          // 值域文字颜色
@@ -370,7 +370,7 @@ theme = {
             show: true,       // 属性show控制显示与否，默认不显示
             interval: 'auto',
             // onGap: null,
-            inside : false,    // 控制小标记是否在grid里 
+            inside : false,    // 控制小标记是否在grid里
             length :5,         // 属性length控制线长
             lineStyle: {       // 属性lineStyle控制线条样式
                 color: '#333',
@@ -422,7 +422,7 @@ theme = {
         },
         axisTick: {            // 坐标轴小标记
             show: false,       // 属性show控制显示与否，默认不显示
-            inside : false,    // 控制小标记是否在grid里 
+            inside : false,    // 控制小标记是否在grid里
             length :5,         // 属性length控制线长
             lineStyle: {       // 属性lineStyle控制线条样式
                 color: '#333',
@@ -564,11 +564,11 @@ theme = {
         //symbolRotate : null,  // 拐点图形旋转控制
         showAllSymbol: false    // 标志图形默认只有主轴显示（随主轴标签间隔隐藏策略）
     },
-    
+
     // K线图默认参数
     k: {
         // barWidth : null          // 默认自适应
-        // barMaxWidth : null       // 默认自适应 
+        // barMaxWidth : null       // 默认自适应
         itemStyle: {
             normal: {
                 color: '#fff',          // 阳线填充颜色
@@ -585,7 +585,7 @@ theme = {
             }
         }
     },
-    
+
     // 散点图默认参数
     scatter: {
         //symbol: null,      // 图形类型
@@ -689,7 +689,7 @@ theme = {
             }
         }
     },
-    
+
     map: {
         mapType: 'china',   // 各省的mapType暂时都用中文
         mapLocation: {
@@ -730,7 +730,7 @@ theme = {
             }
         }
     },
-    
+
     force : {
         // 数据map到圆的半径的最小值和最大值
         minRadius : 10,
@@ -818,7 +818,7 @@ theme = {
         r: 15,
         calculateStep: 0.1  // 滚轮可计算步长 0.1 = 10%
     },
-    
+
     markPoint : {
         symbol: 'pin',         // 标注类型
         symbolSize: 10,        // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
@@ -826,7 +826,7 @@ theme = {
         itemStyle: {
             normal: {
                 // color: 各异，
-                // borderColor: 各异,     // 标注边线颜色，优先于color 
+                // borderColor: 各异,     // 标注边线颜色，优先于color
                 borderWidth: 2,            // 标注边线线宽，单位px，默认为1
                 label: {
                     show: true,
@@ -844,10 +844,10 @@ theme = {
             }
         }
     },
-    
+
     markLine : {
         // 标线起始和结束的symbol介绍类型，如果都一样，可以直接传string
-        symbol: ['circle', 'arrow'],  
+        symbol: ['circle', 'arrow'],
         // 标线起始和结束的symbol大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
         symbolSize: [2, 4],
         // 标线起始和结束的symbol旋转控制
@@ -855,12 +855,12 @@ theme = {
         itemStyle: {
             normal: {
                 // color: 各异,           // 标线主色，线色，symbol主色
-                // borderColor: 随color,     // 标线symbol边框颜色，优先于color 
+                // borderColor: 随color,     // 标线symbol边框颜色，优先于color
                 borderWidth: 2,          // 标线symbol边框线宽，单位px，默认为2
                 label: {
                     show: false,
                     // 可选为 'start'|'end'|'left'|'right'|'top'|'bottom'
-                    position: 'inside',  
+                    position: 'inside',
                     textStyle: {         // 默认使用全局文本样式，详见TEXTSTYLE
                         color: '#333'
                     }
@@ -921,7 +921,7 @@ theme = {
                   <button class="btn btn-large btn-info" type="button" onclick="saveAsImage()">保存图片</button>
               </div>
             </div><!--/div sidebar-code-->
-            
+
             <div id="graphic" class="col-md-8">
                 <div class="row-fluid">
                     <div class="col-md-12">
@@ -972,7 +972,7 @@ theme = {
                 </div>
             </div><!--/col-md--->
         </div><!--/row-->
-        
+
         </div><!--/.fluid-container-->
 
     <footer id="footer"></footer>

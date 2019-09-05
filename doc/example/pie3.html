@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ECharts">
-    <meta name="author" content="kener.linfeng@gmail.com">
-    <title>ECharts · Example</title>
+
+    <meta name="robots" content="noindex, nofollow">
+    <title>ECharts2 · Example</title>
 
     <link rel="shortcut icon" href="../asset/ico/favicon.png">
 
@@ -55,7 +55,7 @@ option = {
             mark : {show: true},
             dataView : {show: true, readOnly: false},
             magicType : {
-                show: true, 
+                show: true,
                 type: ['pie', 'funnel']
             },
             restore : {show: true},
@@ -69,13 +69,13 @@ option = {
             type:'pie',
             selectedMode: 'single',
             radius : [0, 70],
-            
+
             // for funnel
             x: '20%',
             width: '40%',
             funnelAlign: 'right',
             max: 1548,
-            
+
             itemStyle : {
                 normal : {
                     label : {
@@ -96,13 +96,13 @@ option = {
             name:'访问来源',
             type:'pie',
             radius : [100, 140],
-            
+
             // for funnel
             x: '60%',
             width: '35%',
             funnelAlign: 'left',
             max: 1048,
-            
+
             data:[
                 {value:335, name:'直达'},
                 {value:310, name:'邮件营销'},
@@ -125,7 +125,7 @@ myChart.on(ecConfig.EVENT.PIE_SELECTED, function (param){
         serie = option.series[idx];
         for (var i = 0, l = serie.data.length; i < l; i++) {
             if (selected[idx][i]) {
-                str += '【系列' + idx + '】' + serie.name + ' : ' + 
+                str += '【系列' + idx + '】' + serie.name + ' : ' +
                        '【数据' + i + '】' + serie.data[i].name + ' ';
             }
         }
@@ -146,7 +146,7 @@ myChart.on(ecConfig.EVENT.PIE_SELECTED, function (param){
                 </div>
             </div><!--/span-->
         </div><!--/row-->
-        
+
         </div><!--/.fluid-container-->
 
     <footer id="footer"></footer>

@@ -1,6 +1,13 @@
 * {
     font-family: "Microsoft YaHei";
 }
+.important-information {
+    text-align: center;
+    font-size: 24px;
+    color: white;
+    line-height: 60px;
+    background: #8c0000;
+}
 .CodeMirror * {
     font-family: sans-serif;
 }
@@ -159,7 +166,7 @@ hr {
 
 #footer {
     clear:both;
-    background-color: rgb(6, 19, 37);
+    /* background-color: rgb(6, 19, 37); */
     padding: 30px 0;
 }
 #footer p {

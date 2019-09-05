@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ECharts">
-    <meta name="author" content="kener.linfeng@gmail.com">
-    <title>ECharts · Example</title>
+
+    <meta name="robots" content="noindex, nofollow">
+    <title>ECharts2 · Example</title>
 
     <link rel="shortcut icon" href="../asset/ico/favicon.png">
 
@@ -179,7 +179,7 @@ function changePieSeries(params) {
     option.series[2].data[0].name = params.name;
     option.series[2].data[0].value = curData;
     option.series[2].data[1].value = total - curData;
-    
+
     for (var i = 1, l = option.series[0].data.length - 1; i < l; i++) {
         if (option.series[0].data[i].symbol) {
             option.series[0].data[i].symbol = 'emptyCircle';
@@ -218,7 +218,7 @@ changePieSeries({
                 </div>
             </div><!--/span-->
         </div><!--/row-->
-        
+
         </div><!--/.fluid-container-->
 
     <footer id="footer"></footer>

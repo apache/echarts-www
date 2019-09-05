@@ -4,12 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ECharts">
-    <meta name="author" content="kener.linfeng@gmail.com">
-    <title>ECharts · Start</title>
-    
+    <meta name="robots" content="noindex, nofollow">
+    <title>ECharts2 · Start</title>
+
     <link rel="shortcut icon" href="./asset/ico/favicon.png">
-    
+
     <link href="./asset/css/font-awesome.min.css" rel="stylesheet">
     <link href="./asset/css/bootstrap.css" rel="stylesheet">
     <link href="./asset/css/carousel.css" rel="stylesheet">
@@ -39,7 +38,7 @@
   <body onload="prettyPrint()">
     <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation" id="head"></div>
-    
+
     <div class="container">
         <h2 class="text-center">5分钟上手写ECharts的第一个图表</h2>
         <ul class="nav nav-tabs nav-justified">
@@ -115,7 +114,7 @@
                 echarts: 'http://echarts.baidu.com/build/dist'
             }
         });
-        
+
         // 使用
         require(
             [
@@ -124,8 +123,8 @@
             ],
             function (ec) {
                 // 基于准备好的dom，初始化echarts图表
-                var myChart = ec.init(document.getElementById('main')); 
-                
+                var myChart = ec.init(document.getElementById('main'));
+
                 var option = {
                     tooltip: {
                         show: true
@@ -152,9 +151,9 @@
                         }
                     ]
                 };
-        
-                // 为echarts对象加载数据 
-                myChart.setOption(option); 
+
+                // 为echarts对象加载数据
+                myChart.setOption(option);
             }
         );
     </script>
@@ -206,8 +205,8 @@
     <script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
     <script type="text/javascript">
         // 基于准备好的dom，初始化echarts图表
-        var myChart = echarts.init(document.getElementById('main')); 
-        
+        var myChart = echarts.init(document.getElementById('main'));
+
         var option = {
             tooltip: {
                 show: true
@@ -235,26 +234,26 @@
             ]
         };
 
-        // 为echarts对象加载数据 
-        myChart.setOption(option); 
+        // 为echarts对象加载数据
+        myChart.setOption(option);
     </script>
 </body></xmp></pre>
 
 
         <b>4、浏览器中打开echarts.html，就可看到以下效果</b>
             </div>
-        
-        
+
+
         </div>
         <div id="main" style="height:400px;border: 1px solid #dddddd;border-top-width:0"></div>
-        
+
         <div class="row" style="margin: 30px 0;">
             <h2>最好的参考资源：实例</h2>
             <p>ECharts可以说是数据驱动的图表，大部分时候你关心的是那个option该如何实现，官网的<a href="./doc.html">文档</a>提供详细的说明，另外我们还有近100个<a href="./example.html">实例</a>，这些例子都为你展现了最核心的option代码，可以通过在线修改查看效果，ECharts是玩出来的，希望你玩得开心。</p>
         </div>
     </div>
     <script src="../build/dist/echarts.js"></script>
-     
+
     <script type="text/javascript">
         require.config({
             paths: {
@@ -298,7 +297,7 @@
             ]
         };
     </script>
-    
+
     <footer id="footer"></footer>
     <!-- Le javascript
     ================================================== -->
