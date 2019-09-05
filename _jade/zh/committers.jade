@@ -1,46 +1,50 @@
 extends ../layouts/basic
 
+block extra_head
+    title Committers - Apache ECharts (incubating)
+
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
-        include ../components/nav
+       include ../components/nav
 
+    .page-info
+        h1 贡献者列表
+        
+            //-      #recommends
+            //-         .recommend
+            //-             p ECharts 是中国 · 的，也是世界的。
+            //-             .person
+            //-                 .title 浙江大学CAD&CG国家重点实验室教授，可视化专家
+            //-                 .name 陈为
+            //-         .recommend
+            //-             p ECharts，发现数据可视化之美！
+            //-             .person
+            //-                 .title 中国 · 传媒大学教授
+            //-                 .name 沈浩
+            //-         .recommend.active
+            //-             p 在中国 · 可视化生态系统中，ECharts 通过提供方便丰富的可视化图表，极大缩短了用户与数据的距离。
+            //-             .person
+            //-                 .title 北京大学百人计划研究员，可视化专家
+            //-                 .name 袁晓如
+            //-         .recommend
+            //-             p 很高兴ECharts一直保持着可视化的顶尖水平，期待 ECharts 早日动词化的那一天！
+            //-             .person
+            //-                 .title 游族网络有限公司 CTO
+            //-                 .name 李湛
+            //-         .recommend
+            //-             p ECharts 是最让我惊艳的一款数据产品，它满足了甚至超越了我对数据可视化的所有想象，无论是颜值，实用性，还是易用性。
+            //-             .person
+            //-                 .title PPT 设计师 / 数据分析师
+            //-                 .name 阿文
+            //- .container
+            //-     .people
+            //-         img(src='images/people/陈为.png')
+            //-         img(src='images/people/沈浩.png')
+            //-         img.active(src='images/people/袁晓如.png')
+            //-         img(src='images/people/李湛.png')
+            //-         img(src='images/people/阿文.png')
+                
     #about-page
-        #reference
-            .container
-                 #recommends
-                    .recommend
-                        p ECharts 是中国 · 的，也是世界的。
-                        .person
-                            .title 浙江大学CAD&CG国家重点实验室教授，可视化专家
-                            .name 陈为
-                    .recommend
-                        p ECharts，发现数据可视化之美！
-                        .person
-                            .title 中国 · 传媒大学教授
-                            .name 沈浩
-                    .recommend.active
-                        p 在中国 · 可视化生态系统中，ECharts 通过提供方便丰富的可视化图表，极大缩短了用户与数据的距离。
-                        .person
-                            .title 北京大学百人计划研究员，可视化专家
-                            .name 袁晓如
-                    .recommend
-                        p 很高兴ECharts一直保持着可视化的顶尖水平，期待 ECharts 早日动词化的那一天！
-                        .person
-                            .title 游族网络有限公司 CTO
-                            .name 李湛
-                    .recommend
-                        p ECharts 是最让我惊艳的一款数据产品，它满足了甚至超越了我对数据可视化的所有想象，无论是颜值，实用性，还是易用性。
-                        .person
-                            .title PPT 设计师 / 数据分析师
-                            .name 阿文
-            .container
-                .people
-                    img(src='images/people/陈为.png')
-                    img(src='images/people/沈浩.png')
-                    img.active(src='images/people/袁晓如.png')
-                    img(src='images/people/李湛.png')
-                    img(src='images/people/阿文.png')
-
         section.container.contributor
             h3 感谢贡献的人
             p ECharts 的发展离不开其背后很多人的卓越贡献，他们有着不同的技能，甚至来自不同的岗位和公司
@@ -231,7 +235,7 @@ block content
             .row
                 - for (var i = 1; i <= 24; ++i) {
                     .col-md-3.col-sm-4.col-xs-6
-                        img(src='images/company/company#{i}.png')
+                        img(src='images/company/company#{i}.jpg')
                 -}
 
     include ../components/footer

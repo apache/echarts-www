@@ -4,7 +4,7 @@ block variablesLang
     include ./_variablesLang.jade
 
 block extra_head
-    <title>ECharts</title>
+    <title>Apache ECharts (incubating)</title>
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
@@ -68,7 +68,8 @@ block content
                             a(href="./tutorial.html") Learn More
                                 include ../components/svg/more
                     .col-sm-8.col
-                        video#video-feature-4.feature-video(autoplay='true', loop='true', src='video/feature-4.mp4', poster='images/features/scatterGL4.png')
+                        //- video#video-feature-4.feature-video(autoplay='true', loop='true', muted="true" src='video/feature-4.mp4', poster='images/features/scatterGL4.jpg')
+                        img#video-feature-4(src="images/features/scatterGL4.jpg")
                 .row.feature-detail#feature-dimension
                     .col-sm-4.col.mobile
                         h2 Multi-dimension data analysis
@@ -82,7 +83,8 @@ block content
                     .col-sm-8.col
                         #col-desktop
                             img(src="images/feature-1.png")
-                            video#video-feature-1.feature-video(autoplay='true', loop='true', src='video/feature-1.mp4', poster='video/feature-2.jpg')
+                            //- video#video-feature-1.feature-video(autoplay='true', loop='true', muted="true" src='video/feature-1.mp4', poster='video/feature-2.jpg')
+                            img#video-feature-1(src="video/feature-2.jpg")
                     .col-sm-4.col.pc#col-analysis
                         h2 Multi-dimension data analysis
                         h3 Brush data for detail
@@ -108,7 +110,7 @@ block content
                                 .ch-mobile-content
                                     .ch-mobile-chart
                         .mobile
-                            img(src='./images/index-feature.png')
+                            img(src='./images/index-feature.jpg')
 
                     script(type='text/javascript').
                         window.supportTouch && (document.getElementById('ch-main').className += ' ch-on-touch');
@@ -122,17 +124,16 @@ block content
                         a(href="https://www.sciencedirect.com/science/article/pii/S2468502X18300068") [PDF]
                 .col-sm-4.col
                     .img-container
-                        img(src="./images/pipeline.png", alt="")
+                        img(src="./images/pipeline.jpg", alt="")
 
         section.container
             .companies
                 - for (var i = 1; i <= 24; ++i) {
-                    img(src='images/company/company#{i}.png')
+                    img(src='images/company/company#{i}.jpg')
                 -}
 
     include ./footer
 
 block extra_js
-    script(src='./dist/echarts.min.js')
     script(src='./js/index.js')
     <script async defer src="https://buttons.github.io/buttons.js"></script>

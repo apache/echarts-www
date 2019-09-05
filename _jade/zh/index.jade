@@ -1,7 +1,7 @@
 extends ../layouts/basic
 
 block extra_head
-    <title>ECharts</title>
+    <title>Apache ECharts (incubating)</title>
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
@@ -65,7 +65,8 @@ block content
                             a(href="feature.html") 了解更多
                                 include ../components/svg/more
                     .col-sm-8.col
-                        video#video-feature-4.feature-video(autoplay='true', loop='true', src='video/feature-4.mp4', poster='images/features/scatterGL4.png')
+                        //- video#video-feature-4.feature-video(autoplay='true', loop='true', muted="true" src='video/feature-4.mp4', poster='images/features/scatterGL4.jpg')
+                        img#video-feature-4(src="images/features/scatterGL4.jpg")
                 .row.feature-detail#feature-dimension
                     .col-sm-4.col.mobile
                         h2 多维度数据分析
@@ -76,10 +77,13 @@ block content
                         .feature-btn
                             a(href="feature.html") 了解更多
                                 include ../components/svg/more
+
                     .col-sm-8.col
                         #col-desktop
                             img(src="images/feature-1.png")
-                            video#video-feature-1.feature-video(autoplay='true', loop='true', src='video/feature-1.mp4', poster='video/feature-2.jpg')
+                            //- video#video-feature-1.feature-video(autoplay='true', loop='true', muted="true", src='video/feature-1.mp4', poster='video/feature-2.jpg')
+                            img#video-feature-1(src="video/feature-2.jpg")
+                            
                     .col-sm-4.col.pc#col-analysis
                         h2 多维度数据分析
                         h3 数据自由刷选
@@ -89,6 +93,7 @@ block content
                         .feature-btn
                             a(href="feature.html") 了解更多
                                 include ../components/svg/more
+
                 .row.feature-detail
                     .col-sm-4.col#col-data
                         h2 多设备随意展示
@@ -97,18 +102,23 @@ block content
                         .feature-btn
                             a(href="feature.html") 了解更多
                                 include ../components/svg/more
-                    .col-sm-8.col
-                        .ch-main#ch-main.pc
-                            .ch-pc-chart
-                            .ch-mobile
-                                img.ch-mobile-box(src='./images/index-chart/iphone.png')
-                                .ch-mobile-content
-                                    .ch-mobile-chart
-                        .mobile
-                            img(src='./images/index-feature.png')
 
-                    script(type='text/javascript').
-                        window.supportTouch && (document.getElementById('ch-main').className += ' ch-on-touch');
+                    .col-sm-8.col
+                        #col-desktop
+                            img(src="images/index-feature.jpg")
+
+                    //- .col-sm-8.col
+                    //-     .ch-main#ch-main.pc
+                    //-         .ch-pc-chart
+                    //-         .ch-mobile
+                    //-             img.ch-mobile-box(src='./images/index-chart/iphone.png')
+                    //-             .ch-mobile-content
+                    //-                 .ch-mobile-chart
+                    //-     .mobile
+                    //-         img(src='./images/index-feature.png')
+
+                    //- script(type='text/javascript').
+                    //-     window.supportTouch && (document.getElementById('ch-main').className += ' ch-on-touch');
 
         section#publication
             .container
@@ -119,48 +129,48 @@ block content
                         a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") [PDF]
                 .col-sm-4.col
                     .img-container
-                        img(src="./images/pipeline.png", alt="")
+                        img(src="./images/pipeline.jpg", alt="")
 
-        section#reference
-            .container
-                 #recommends
-                    .recommend
-                        p ECharts 是中国的，也是世界的。
-                        .person
-                            .title 浙江大学CAD&CG国家重点实验室教授，可视化专家
-                            .name 陈为
-                    .recommend
-                        p ECharts，发现数据可视化之美！
-                        .person
-                            .title 中国传媒大学教授
-                            .name 沈浩
-                    .recommend.active
-                        p 在中国可视化生态系统中，ECharts 通过提供方便丰富的可视化图表，极大缩短了用户与数据的距离。
-                        .person
-                            .title 北京大学百人计划研究员，可视化专家
-                            .name 袁晓如
-                    .recommend
-                        p 很高兴ECharts一直保持着可视化的顶尖水平，期待 ECharts 早日动词化的那一天！
-                        .person
-                            .title 游族网络有限公司 CTO
-                            .name 李湛
-                    .recommend
-                        p ECharts 是最让我惊艳的一款数据产品，它满足了甚至超越了我对数据可视化的所有想象，无论是颜值，实用性，还是易用性。
-                        .person
-                            .title PPT 设计师 / 数据分析师
-                            .name 阿文
-            .container
-                .people
-                    img(src='images/people/陈为.png')
-                    img(src='images/people/沈浩.png')
-                    img.active(src='images/people/袁晓如.png')
-                    img(src='images/people/李湛.png')
-                    img(src='images/people/阿文.png')
+        //- section#reference
+        //-     .container
+        //-          #recommends
+        //-             .recommend
+        //-                 p ECharts 是中国的，也是世界的。
+        //-                 .person
+        //-                     .title 浙江大学CAD&CG国家重点实验室教授，可视化专家
+        //-                     .name 陈为
+        //-             .recommend
+        //-                 p ECharts，发现数据可视化之美！
+        //-                 .person
+        //-                     .title 中国传媒大学教授
+        //-                     .name 沈浩
+        //-             .recommend.active
+        //-                 p 在中国可视化生态系统中，ECharts 通过提供方便丰富的可视化图表，极大缩短了用户与数据的距离。
+        //-                 .person
+        //-                     .title 北京大学百人计划研究员，可视化专家
+        //-                     .name 袁晓如
+        //-             .recommend
+        //-                 p 很高兴ECharts一直保持着可视化的顶尖水平，期待 ECharts 早日动词化的那一天！
+        //-                 .person
+        //-                     .title 游族网络有限公司 CTO
+        //-                     .name 李湛
+        //-             .recommend
+        //-                 p ECharts 是最让我惊艳的一款数据产品，它满足了甚至超越了我对数据可视化的所有想象，无论是颜值，实用性，还是易用性。
+        //-                 .person
+        //-                     .title PPT 设计师 / 数据分析师
+        //-                     .name 阿文
+        //-     .container
+        //-         .people
+        //-             img(src='images/people/陈为.png')
+        //-             img(src='images/people/沈浩.png')
+        //-             img.active(src='images/people/袁晓如.png')
+        //-             img(src='images/people/李湛.png')
+        //-             img(src='images/people/阿文.png')
 
         section.container
             .companies
                 - for (var i = 1; i <= 24; ++i) {
-                    img(src='images/company/company#{i}.png')
+                    img(src='images/company/company#{i}.jpg')
                 -}
 
         section.normal#about-section
@@ -178,6 +188,5 @@ block content
     include ../components/footer
 
 block extra_js
-    script(src='./dist/echarts.min.js')
     script(src='./js/index.js')
     <script async defer src="https://buttons.github.io/buttons.js"></script>

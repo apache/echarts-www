@@ -1,0 +1,13 @@
+extends ../layouts/basic
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ../components/nav
+
+    .not-found
+        img(src="./images/404.png", alt="404")
+        .text Sorry, the page you are looking for can`t be found. Go home by <a href="./index.html", class="link">clicking here</a>!
+
+block extra_js
+
+    script(type='text/javascript').

@@ -3,6 +3,9 @@ extends ../layouts/basic
 block variablesLang
     include ./_variablesLang.jade
 
+block extra_head
+    title Download - Apache ECharts (incubating)
+
 block content
 
     style.
@@ -18,8 +21,8 @@ block content
         include ./nav
 
     .page-info
-        h1 Download Apache ECharts (incubating)
-
+        h1 Download 
+        p Free to choose to download different versions, different topics, the map data you need. You can be customized according to your needs.
     .page-content.container#download-main
         .d-section-version.d-section
             h3.first Option 1: Install from npm
