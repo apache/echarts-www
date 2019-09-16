@@ -22,6 +22,8 @@ var argv = require('yargs').argv;
  * ./nodule_modules/.bin/gulp release --env echartsjs
  * ./nodule_modules/.bin/gulp release --env dev # the same as "debug"
  * # Check `./config` to see the available env
+ *
+ * ./nodule_modules/.bin/gulp sourceVersion
  * ```
  * ------------------------------------------------------------------------
  */
@@ -29,12 +31,16 @@ var argv = require('yargs').argv;
 function initEnv() {
     var envType = argv.env;
     var isDev = argv.dev != null || argv.debug != null || envType === 'debug';
+    var notNeedEnv = (argv._ || [])[0] === 'sourceVersion';
 
     if (isDev) {
         console.warn('=============================');
         console.warn('!!! THIS IS IN DEV MODE !!!');
         console.warn('=============================');
         envType = 'dev';
+    }
+    if (notNeedEnv) {
+        envType = 'asf';
     }
 
     if (!envType) {
@@ -45,6 +51,7 @@ function initEnv() {
 }
 
 var config = initEnv();
+
 
 // Update home version each build.
 config.homeVersion = +new Date();
