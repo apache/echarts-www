@@ -21,19 +21,25 @@
 
     h4.group {
         text-align: left;
-        margin: 40px 0 10px 0;
+        // margin: 40px 0 10px 0;
         border-left: 4px solid;
         padding-left: 15px;
 
-        &.code {
-            border-color: #40A7DC;
-        }
-
-        &.design {
+        &.mentors {
+            margin: 0px 0 10px 0;
             border-color: #E86C4B;
         }
 
-        &.community {
+        &.code {
+            margin: 40px 0 10px 0;
+            border-color: #40A7DC;
+        }
+        &.contributor {
+            margin: 40px 0 40px 0;
+            border-color: #40A7DC;
+        }
+        &.companie {
+            margin: 40px 0 40px 0;
             border-color: #58A77C;
         }
     }
