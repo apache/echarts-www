@@ -1,1 +1,3 @@
 ./docv/src/api/preview.css
+node_modules
+release/

@@ -9,7 +9,7 @@
     { "name": "Erik", "email": "errorrik@gmail.com" },
     { "name": "Yangji", "email": "511415343@qq.com" }
   ],
-  "description": "Enterprise Charts 【Baidu Hi : 1379172 | Email : echarts@baidu.com】",
+  "description": "Enterprise Charts 【Baidu Hi : 1379172 | Email : dev@echarts.apache.com】",
   "main": ["build/dist/echarts.js"],
   "keywords": [
     "baidu",
