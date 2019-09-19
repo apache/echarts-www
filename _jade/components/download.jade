@@ -167,7 +167,7 @@ block content
 
 block extra_js
     script(src="js/log.js")
-    script(src="js/download.js")
+    script(src="js/download.js?_v_=#{homeVersion}")
     script(type='text/javascript').
         document.getElementById('nav-download').className = 'active';
         $('.download-echarts').click(function (e) {
