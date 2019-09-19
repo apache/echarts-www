@@ -1,7 +1,5 @@
 module.exports = {
 
-    version: '4.3.0',
-
     // Source folder of echarts
     echartsPath: '../echarts',
     // Target folder of echarts
