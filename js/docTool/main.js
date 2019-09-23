@@ -454,10 +454,15 @@ define(function (require) {
             this._doLazyLoad = lazyload;
 
             // Twentytwenty
+            this._initTwentyTwenty($content);
+        },
+
+        _initTwentyTwenty: function ($content) {
             if ($.fn.twentytwenty && !$content.find('.twentytwenty-wrapper').length) {
                 $content.find('.twentytwenty-container').each(function () {
                     var self = this;
                     var loading = 0;
+                    console.log($(this).find('img'));
                     // http://stackoverflow.com/questions/3877027/jquery-callback-on-image-load-even-when-the-image-is-cached
                     $(this).find('img').one('load', function () {
                         loading--;
@@ -488,6 +493,8 @@ define(function (require) {
             if (treeItem != null) {
                 $subGroupEl[0].innerHTML = this._createDescSubGroupHTML(treeItem);
                 pendingSubGroupMap.set(treeItemId, null);
+
+                this._initTwentyTwenty($subGroupEl);
             }
         },
 
