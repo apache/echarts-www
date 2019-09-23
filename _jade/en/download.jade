@@ -21,7 +21,7 @@ block content
         include ./nav
 
     .page-info
-        h1 Download 
+        h1 Download
         p Free to choose to download different versions, different topics, the map data you need. You can be customized according to your needs.
     .page-content.container#download-main
         .d-section-version.d-section
@@ -68,7 +68,7 @@ block content
     include ./footer
 
 block extra_js
-    script(src="js/download.js")
+    script(src="js/download.js?_v_=#{homeVersion}")
     script(type='text/javascript').
         document.getElementById('nav-download').className = 'active';
 
