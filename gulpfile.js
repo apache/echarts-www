@@ -62,6 +62,7 @@ function initEnv() {
 
 var config = initEnv();
 
+config.downloadVersion = '4.5.0';
 
 // Update home version each build.
 config.homeVersion = +new Date();
