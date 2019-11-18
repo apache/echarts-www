@@ -9,13 +9,15 @@ block extra_head
 block content
 
     style.
-        //- #download-main .d-section-version .circle-wrap {
-        //-     line-height: 120px;
-        //-     font-size: 20px;
-        //-     font-family: Helvetica;
-        //-     color: #214d62;
-        //-     font-weight: normal;
-        //- }
+        /*
+        #download-main .d-section-version .circle-wrap {
+            line-height: 120px;
+            font-size: 20px;
+            font-family: Helvetica;
+            color: #214d62;
+            font-weight: normal;
+        }
+        */
 
     nav(class='navbar navbar-default navbar-fixed-top')
         include ./nav
@@ -72,40 +74,40 @@ block extra_js
     script(type='text/javascript').
         document.getElementById('nav-download').className = 'active';
 
-        var list = [
-                {
-                    label: 'Common',
-                    fileName: 'echarts.common.min.js',
-                    descHTML0: 'Includes common charts and components.',
-                    descHTML1: 'line bar pie scatter legend tooltip toolbox markLine markPoint markArea dataZoom'
-                },
-                {
-                    label: 'Simple',
-                    fileName: 'echarts.simple.min.js',
-                    descHTML0: 'Only includes basic charts.',
-                    descHTML1: 'line bar pie'
-                },
-                {
-                    label: 'Full',
-                    fileName: 'echarts.min.js',
-                    descHTML0: 'Includes all charts and components.',
-                    descHTML1: ''
-                },
-                {
-                    label: 'Source',
-                    fileName: 'echarts.js',
-                    descHTML0: 'Source code of all charts and components, including warnings and hints for dev.',
-                    descHTML1: ''
-                }
-            ];
+        //- var list = [
+        //-         {
+        //-             label: 'Common',
+        //-             fileName: 'echarts.common.min.js',
+        //-             descHTML0: 'Includes common charts and components.',
+        //-             descHTML1: 'line bar pie scatter legend tooltip toolbox markLine markPoint markArea dataZoom'
+        //-         },
+        //-         {
+        //-             label: 'Simple',
+        //-             fileName: 'echarts.simple.min.js',
+        //-             descHTML0: 'Only includes basic charts.',
+        //-             descHTML1: 'line bar pie'
+        //-         },
+        //-         {
+        //-             label: 'Full',
+        //-             fileName: 'echarts.min.js',
+        //-             descHTML0: 'Includes all charts and components.',
+        //-             descHTML1: ''
+        //-         },
+        //-         {
+        //-             label: 'Source',
+        //-             fileName: 'echarts.js',
+        //-             descHTML0: 'Source code of all charts and components, including warnings and hints for dev.',
+        //-             descHTML1: ''
+        //-         }
+        //-     ];
 
-            function encodeHTML(source) {
-                return source == null
-                    ? ''
-                    : String(source)
-                        .replace(/&/g, '&amp;')
-                        .replace(/</g, '&lt;')
-                        .replace(/>/g, '&gt;')
-                        .replace(/"/g, '&quot;')
-                        .replace(/'/g, '&#39;');
-            }
+        //-     function encodeHTML(source) {
+        //-         return source == null
+        //-             ? ''
+        //-             : String(source)
+        //-                 .replace(/&/g, '&amp;')
+        //-                 .replace(/</g, '&lt;')
+        //-                 .replace(/>/g, '&gt;')
+        //-                 .replace(/"/g, '&quot;')
+        //-                 .replace(/'/g, '&#39;');
+        //-     }
