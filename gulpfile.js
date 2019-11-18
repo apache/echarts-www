@@ -18,9 +18,9 @@ var argv = require('yargs').argv;
  * Usage:
  *
  * ```shell
- * ./nodule_modules/.bin/gulp release --env asf
- * ./nodule_modules/.bin/gulp release --env echartsjs
- * ./nodule_modules/.bin/gulp release --env dev # the same as "debug"
+ * ./node_modules/.bin/gulp release --env asf
+ * ./node_modules/.bin/gulp release --env echartsjs
+ * ./node_modules/.bin/gulp release --env dev # the same as "debug"
  * # Check `./config` to see the available env
  *
  * ./nodule_modules/.bin/gulp sourceVersion
@@ -30,13 +30,14 @@ var argv = require('yargs').argv;
 
 function initEnv() {
     var envType = argv.env;
-    var isDev = argv.dev != null || argv.debug != null || envType === 'debug';
+    var isDev = argv.dev != null || argv.debug != null || envType === 'debug' || envType === 'dev';
     var notNeedEnv = (argv._ || [])[0] === 'sourceVersion';
 
     if (isDev) {
-        console.warn('=============================');
-        console.warn('!!! THIS IS IN DEV MODE !!!');
-        console.warn('=============================');
+        console.warn('====================================================================');
+        console.warn('THIS IS IN DEV MODE');
+        console.warn('!!! Please input your local host in `config/env.dev.js` firstly !!!');
+        console.warn('====================================================================');
         envType = 'dev';
     }
     if (notNeedEnv) {
@@ -47,7 +48,16 @@ function initEnv() {
         throw new Error('--env MUST be specified');
     }
 
-    return require('./config/env.' + envType);
+    var config = require('./config/env.' + envType);
+
+    if (isDev) {
+        console.warn('====================================================================');
+        console.warn('Please visit the website: ');
+        console.warn(config.host);
+        console.warn('====================================================================');
+    }
+
+    return config;
 }
 
 var config = initEnv();
