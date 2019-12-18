@@ -26,14 +26,27 @@ basePath=$(cd `dirname $0`; pwd)
 currPath=$(pwd)
 
 cd ${basePath}
-# Do not rm release here, because release may be created by echarts-example.
+# Cleanup
+rm -r release
 rm echarts-www.zip
+
+# Build doc
+sh ../echarts-doc/release.sh --env ${envType}
+
+# Build examples
+sh ../echarts-examples/release.sh --env ${envType}
+
+cd ${basePath}
+# Copy examples distributions
+cp -R ../echarts-examples/public release/examples
+
+# Release
 node ./node_modules/.bin/gulp release --env ${envType}
+
 cd ${currPath}
 
 if [[ "${envType}" = "echartsjs" ]]; then
     cd ${basePath}
     zip -r echarts-www.zip release
-    rm -r release
     cd ${currPath}
 fi

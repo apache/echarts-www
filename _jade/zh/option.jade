@@ -1,14 +1,10 @@
 extends ../layouts/doc
 
-block vars
-    - var isECharts4 = true;
-    - var isOption = true;
-
 block global_args_extra
 
     script(type="text/javascript").
         window.globalArgsExtra = {
-            pageName: 'option',
-            initHash: 'title',
-            docTreeRootText: '.setOption('
+            baseUrl: 'documents/option-parts',
+            docType: 'option',
+            locale: 'zh'
         };

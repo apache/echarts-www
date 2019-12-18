@@ -2,15 +2,7 @@ extends basic
 
 block extra_head
     <title>ECharts Documentation</title>
-    link(rel="stylesheet", type="text/css", href="css/ecOption.css?_v_=#{homeVersion}")
-    link(rel="stylesheet", type="text/css", href="vendors/prettify/prettify.css")
-    link(rel="stylesheet", type="text/css", href="vendors/perfect-scrollbar/0.6.8/css/perfect-scrollbar.min.css")
-    link(rel="stylesheet", type="text/css", href="vendors/jquery-autocomplete/jquery.auto-complete.css")
-    link(rel="stylesheet", type="text/css", href="vendors/twentytwenty/twentytwenty.css")
-    script(src="js/log.js")
-    script(src="vendors/prettify/prettify.js")
-    script(src="vendors/prettify/lang-css.js")
-    script(src="vendors/esl.js")
+    link(rel="stylesheet", href="css/doc-bundle.css")
 
 block content
 
@@ -38,62 +30,14 @@ block content
                 a(href="https://echarts.baidu.com/echarts2/index-en.html") v2.x Doc
 
 
-    .ecdoc-apidoc
+    #ec-doc-main
 
 block extra_js
-
-    script(src="vendors/twentytwenty/jquery.event.move.js")
-    script(src="vendors/twentytwenty/jquery.twentytwenty.js")
-
+    script(src="js/doc-bundle.js")
     block global_args_extra
-
-    script(src="vendors/jquery-autocomplete/jquery.auto-complete.min.js")
 
     script(type="text/javascript").
         document.getElementById('nav-doc').className = 'active';
+        window.globalArgsExtra.version = '#${homeVersion}';
+        echartsDoc.init('#ec-doc-main', window.globalArgsExtra);
 
-        var vendorPath = '../vendors';
-
-        define('globalArgs', extend({
-            version: '#{homeVersion}',
-            basePath: './',
-            // Schema url is added by each doc page
-            schemaUrl: '',
-            iconfont: {
-                down: '&#' + parseInt('e600', 16),
-                up: '&#' + parseInt('e603', 16),
-                right: '&#' + parseInt('e602', 16),
-                left: '&#' + parseInt('e604', 16),
-                handLens: '&#' + parseInt('e601', 16)
-            }
-        }, window.globalArgsExtra || {}));
-
-        define('prettyPrint', function () {
-            return prettyPrint;
-        });
-
-        require.config({
-            baseUrl: './js',
-            paths: {
-                dt: vendorPath + '/dt/0.0.1',
-                tpl: vendorPath + '/dt/0.0.1/tplLoader',
-                etpl: vendorPath + '/etpl/3.0.0/etpl.min',
-                signals: vendorPath + '/signals/1.0.0/signals.min',
-                hasher: vendorPath + '/hasher/1.2.0/hasher.min',
-                perfectScrollbar: vendorPath + '/perfect-scrollbar/0.6.8/js/perfect-scrollbar'
-            },
-            urlArgs: '_v_=#{homeVersion}'
-        });
-
-        require(['docTool/main'], function (main) {
-            main.init();
-        });
-
-        function extend(tar, src) {
-            for (var name in src) {
-                if (src.hasOwnProperty(name)) {
-                    tar[name] = src[name];
-                }
-            }
-            return tar;
-        }
