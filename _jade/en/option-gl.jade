@@ -1,13 +1,10 @@
 extends ../layouts/doc
 
-block variablesLang
-    include ./_variablesLang.jade
-
 block global_args_extra
 
     script(type="text/javascript").
         window.globalArgsExtra = {
-            pageName: 'option-gl',
-            initHash: 'globe',
-            docTreeRootText: '.setOption('
+            baseUrl: 'documents/option-gl-parts',
+            docType: 'option-gl',
+            locale: 'en'
         };

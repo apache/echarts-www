@@ -9,9 +9,11 @@ var copy = require('gulp-copy');
 var jade = require('gulp-jade');
 // var fontmin = require('gulp-fontmin');
 var replace = require('gulp-replace');
-var eventStream = require('event-stream');
 var requirejs = require('requirejs');
 var argv = require('yargs').argv;
+var path = require('path');
+var fse = require('fs-extra');
+var eventStream = require('event-stream');
 
 /**
  * ------------------------------------------------------------------------
@@ -60,7 +62,8 @@ function initEnv() {
     return config;
 }
 
-var config = initEnv();
+const config = initEnv();
+const TEMP_RELEASE_DIR = 'release';
 
 config.downloadVersion = '4.5.0';
 
@@ -73,6 +76,7 @@ config.homeVersion = +new Date();
 gulp.task('build', function () {
     gulp.run('jade');
     gulp.run('sass');
+    gulp.run('less');
 });
 
 /**
@@ -90,9 +94,9 @@ gulp.task('sass', function () {
         .pipe(prefix(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], {
             cascade: true
         }))
-        .pipe(gulp.dest('css'));
+        .pipe(gulp.dest(path.join(TEMP_RELEASE_DIR, 'zh/css')))
+        .pipe(gulp.dest(path.join(TEMP_RELEASE_DIR, 'en/css')));
 });
-
 /**
  * Ye, I think it's reasonable that both use less and sass in this project.
  */
@@ -114,7 +118,6 @@ gulp.task('less', function () {
         }))
         .pipe(gulp.dest('css'));
 });
-
 /**
  * Update source code version
  */
@@ -134,82 +137,8 @@ gulp.task('jade', function () {
         .pipe(jade({
             data: config
         }))
-        .pipe(gulp.dest('.'));
+        .pipe(gulp.dest(TEMP_RELEASE_DIR));
 });
-
-/**
- * Watch scss files for changes & recompile
- * Watch html/md files
- */
-gulp.task('watch', ['sass-copy', 'less', 'jade-copy', 'js-copy'], function () {
-    gulp.watch('_scss/*.scss', ['sass-copy']);
-    gulp.watch([
-        'js/docTool/ecOption.less',
-        'js/spreadsheet/spreadsheet.less'
-    ], ['less']);
-    gulp.watch(['_jade/**/*'], ['jade-copy']);
-    gulp.watch(['js/*'], ['js-copy']);
-});
-
-gulp.task('jade-copy', ['jade'], function () {
-    return gulp.src(['./*.html', 'zh/*.html', 'en/*.html'])
-        .pipe(copy(config.releaseDestDir));
-});
-
-gulp.task('sass-copy', ['sass'], function () {
-    return eventStream.merge(
-        gulp.src('css/**').pipe(copy(config.releaseDestDir)),
-        gulp.src('css/**').pipe(copy(config.releaseDestDir + '/en')),
-        gulp.src('css/**').pipe(copy(config.releaseDestDir + '/zh'))
-    );
-});
-
-gulp.task('js-copy', function () {
-    return eventStream.merge(
-        gulp.src('js/*.js').pipe(copy(config.releaseDestDir)),
-        gulp.src('js/*.js').pipe(copy(config.releaseDestDir + '/en')),
-        gulp.src('js/*.js').pipe(copy(config.releaseDestDir + '/zh'))
-    );
-})
-
-// /**
-//  * generate font file
-//  */
-// function minifyFont(text, cb) {
-//     gulp
-//         .src('_font/NotoSans*.ttf')
-//         .pipe(fontmin({
-//             text: text
-//         }))
-//         .pipe(gulp.dest('css/font'))
-//         .on('end', cb);
-// }
-
-// gulp.task('fonts', ['jade'], function(cb) {
-
-//     var buffers = [];
-
-//     gulp
-//         .src(['*.html', 'js/config.js', 'build/config.js'])
-//         .on('data', function(file) {
-//             buffers.push(file.contents);
-//         })
-//         .on('end', function() {
-//             var text = Buffer.concat(buffers).toString('utf-8');
-//             minifyFont(text, cb);
-//         });
-
-// });
-
-/**
- * Default task, running just `gulp` will compile the sass.
- */
-gulp.task('default', ['watch']);
-
-
-
-
-
 
 // -------------------
 // Release
@@ -217,35 +146,27 @@ gulp.task('default', ['watch']);
 
 
 gulp.task('release-clean', function () {
-    // Do not clean ./release here, because
-    // echarts-examples will copy their release to ./release/examples.
     return gulp.src([
-        config.releaseDestDir + '/*.html'
+        // Remove all files in sub folder and html files in the roo
+        path.join(config.releaseDestDir, '*/*'),
+        path.join(config.releaseDestDir, '*.html')
+        // keep .gitignore .htaccess README.md
     ], {
         read: false
-    })
-    .pipe(clean({
+    }).pipe(clean({
         force: true
     }));
 });
 
-gulp.task('release-docJS', ['release-clean'], function (taskReady) {
-    requirejs.optimize(
-        config.docToolConfig,
-        function () {
-            taskReady();
-        },
-        function (error) {
-            console.error('requirejs task failed', error.message);
-            process.exit(1);
-        }
-    );
-});
-
-gulp.task('release-spreadsheetJS', ['release-clean'], function (taskReady) {
+gulp.task('release-spreadsheetJS', function (taskReady) {
     requirejs.optimize(
         config.spreadsheetConfig,
         function () {
+            fse.ensureDirSync('release/en/js/spreadsheet/');
+            fse.copyFileSync(
+                'release/zh/js/spreadsheet/spreadsheet.js',
+                'release/en/js/spreadsheet/spreadsheet.js',
+            );
             taskReady();
         },
         function (error) {
@@ -255,59 +176,48 @@ gulp.task('release-spreadsheetJS', ['release-clean'], function (taskReady) {
     );
 });
 
-gulp.task('release-otherJS', ['release-clean'], function () {
+gulp.task('release-otherJS', function () {
     return gulp.src(['js/*.js'])
         .pipe(uglify())
-        .pipe(gulp.dest('release/js/'));
+        .pipe(gulp.dest(path.join(TEMP_RELEASE_DIR, 'zh/js')))
+        .pipe(gulp.dest(path.join(TEMP_RELEASE_DIR, 'en/js')));
 });
 
-gulp.task('release-js', ['release-docJS', 'release-spreadsheetJS', 'release-otherJS']);
+gulp.task('release-js', ['release-spreadsheetJS', 'release-otherJS']);
 
 gulp.task('copy', ['sass', 'less', 'jade', 'release-js', 'release-clean'], function () {
-    return gulp.src([
-            './*.html', './vendors/**', './css/**', './documents/**', './blog/**',
-            './js/docTool/*.html', './js/spreadsheet/*.html', './images/**', './asset/map/**', './asset/theme/**',
-            './builder/**', './dist/**', './meeting/**', './share/**', './slides/**', './video/**',
-            './config'
-        ])
-        .pipe(copy('release'));
+    ['vendors', 'images', 'js/spreadsheet', 'asset/map', 'asset/theme', 'builder', 'dist', 'video', 'config'].forEach(function (folder) {
+        fse.ensureDirSync(path.join(TEMP_RELEASE_DIR, 'zh', folder));
+        fse.ensureDirSync(path.join(TEMP_RELEASE_DIR, 'en', folder));
+    });
+
+    let patterns = [
+        'vendors/**/*',
+        'images/**/*',
+        'js/spreadsheet/*.tpl.html',
+        'asset/map/**/*', 'asset/theme/**/*',
+        'builder/**/*',
+        'dist/**/*', 'video/**/*',
+        'config/**/*'
+    ];
+
+    return eventStream.merge([
+        gulp.src(patterns)
+            .pipe(copy(path.join(TEMP_RELEASE_DIR, 'zh'))),
+        gulp.src(patterns)
+            .pipe(copy(path.join(TEMP_RELEASE_DIR, 'en')))
+    ]);
 });
 
-gulp.task('release', ['copy'], function () {
-    return eventStream.merge(
-        gulp.src([
-            'css/**/*', 'vendors/**/*', 'images/**/*', 'dist/**/*', 'builder/**/*', 'video/**/*',
-            'documents/**/*', 'asset/**/*'
-        ], {
-            base: '.'
-        })
-            .pipe(gulp.dest(config.releaseDestDir + '/en'))
-            .pipe(gulp.dest(config.releaseDestDir + '/zh'))
-            .pipe(gulp.dest('../echarts-doc/public/en'))
-            .pipe(gulp.dest('../echarts-doc/public/zh')),
+// gulp.task('copy-resources', function () {
+//     return gulp.src([
+//         './blog/**',
+//         './meeting/**', './share/**', './slides/**'
+//     ]).pipe(gulp.dest(TEMP_RELEASE_DIR));
+// });
 
-        gulp.src([
-            'release/js/**/*', 'release/documents/**/*'
-        ], {
-            base: 'release'
-        })
-            .pipe(gulp.dest(config.releaseDestDir))
-            .pipe(gulp.dest(config.releaseDestDir + '/en'))
-            .pipe(gulp.dest(config.releaseDestDir + '/zh'))
-            .pipe(gulp.dest('../echarts-doc/public/en'))
-            .pipe(gulp.dest('../echarts-doc/public/zh')),
-
-        gulp.src(['en/*.html'])
-            .pipe(gulp.dest(config.releaseDestDir + '/en'))
-            .pipe(gulp.dest('../echarts-doc/public/en')),
-
-        gulp.src(['zh/*.html'])
-            .pipe(gulp.dest(config.releaseDestDir + '/zh'))
-            .pipe(gulp.dest('../echarts-doc/public/zh')),
-
-        gulp.src(['*.html'])
-            .pipe(gulp.dest(config.releaseDestDir))
-            .pipe(gulp.dest('../echarts-doc/public'))
-    );
+gulp.task('release', ['copy', 'release-clean'], function () {
+    gulp.src(path.join(TEMP_RELEASE_DIR, '**/*'))
+        .pipe(gulp.dest(config.releaseDestDir));
 });
 

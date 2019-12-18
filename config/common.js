@@ -84,7 +84,7 @@ module.exports = {
         // optimize: 'none',
         name: 'spreadsheet/spreadsheet',
         exclude: ['globalArgs'],
-        out: 'release/js/spreadsheet/spreadsheet.js',
+        out: 'release/zh/js/spreadsheet/spreadsheet.js',
         baseUrl: './js',
         paths: {
             dt: '../vendors/dt/0.0.1',

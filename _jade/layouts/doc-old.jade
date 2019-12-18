@@ -1,0 +1,98 @@
+extends basic
+
+block extra_head
+    <title>ECharts Documentation</title>
+    link(rel="stylesheet", type="text/css", href="css/ecOption.css?_v_=#{homeVersion}")
+    link(rel="stylesheet", type="text/css", href="vendors/prettify/prettify.css")
+    link(rel="stylesheet", type="text/css", href="vendors/perfect-scrollbar/0.6.8/css/perfect-scrollbar.min.css")
+    link(rel="stylesheet", type="text/css", href="vendors/jquery-autocomplete/jquery.auto-complete.css")
+    link(rel="stylesheet", type="text/css", href="vendors/twentytwenty/twentytwenty.css")
+    script(src="vendors/prettify/prettify.js")
+    script(src="vendors/prettify/lang-css.js")
+    script(src="vendors/esl.js")
+
+block content
+
+    nav(class='navbar navbar-default navbar-fixed-top')
+        if ecWWWLang == 'en'
+            include ../en/nav
+        else
+            include ../components/nav
+
+    block vars
+
+    if isOption
+        .doc-version-change
+            if ecWWWLang == 'zh'
+                if isECharts4
+                    a(href="option3.html") 前往 v3.x 文档
+                else
+                    a(href="option.html") 前往 v4.x 文档
+                a(href="https://echarts.baidu.com/echarts2/") 前往 v2.x 文档
+            else
+                if isECharts4
+                    //- a(href="option3.html") v3.x Doc
+                else
+                    a(href="option.html") v4.x Doc
+                a(href="https://echarts.baidu.com/echarts2/index-en.html") v2.x Doc
+
+
+    .ecdoc-apidoc
+
+block extra_js
+
+    script(src="vendors/twentytwenty/jquery.event.move.js")
+    script(src="vendors/twentytwenty/jquery.twentytwenty.js")
+
+    block global_args_extra
+
+    script(src="vendors/jquery-autocomplete/jquery.auto-complete.min.js")
+
+    script(type="text/javascript").
+        document.getElementById('nav-doc').className = 'active';
+
+        var vendorPath = '../vendors';
+
+        define('globalArgs', extend({
+            version: '#{homeVersion}',
+            basePath: './',
+            // Schema url is added by each doc page
+            schemaUrl: '',
+            iconfont: {
+                down: '&#' + parseInt('e600', 16),
+                up: '&#' + parseInt('e603', 16),
+                right: '&#' + parseInt('e602', 16),
+                left: '&#' + parseInt('e604', 16),
+                handLens: '&#' + parseInt('e601', 16)
+            }
+        }, window.globalArgsExtra || {}));
+
+        define('prettyPrint', function () {
+            return prettyPrint;
+        });
+
+        require.config({
+            baseUrl: './js',
+            paths: {
+                dt: vendorPath + '/dt/0.0.1',
+                tpl: vendorPath + '/dt/0.0.1/tplLoader',
+                etpl: vendorPath + '/etpl/3.0.0/etpl.min',
+                signals: vendorPath + '/signals/1.0.0/signals.min',
+                hasher: vendorPath + '/hasher/1.2.0/hasher.min',
+                perfectScrollbar: vendorPath + '/perfect-scrollbar/0.6.8/js/perfect-scrollbar'
+            },
+            urlArgs: '_v_=#{homeVersion}'
+        });
+
+        require(['docTool/main'], function (main) {
+            main.init();
+        });
+
+        function extend(tar, src) {
+            for (var name in src) {
+                if (src.hasOwnProperty(name)) {
+                    tar[name] = src[name];
+                }
+            }
+            return tar;
+        }
