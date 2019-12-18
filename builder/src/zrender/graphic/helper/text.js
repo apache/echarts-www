@@ -435,7 +435,7 @@ function onBgImageLoaded(image, textBackgroundColor) {
   textBackgroundColor.image = image;
 }
 
-function getBoxPosition(out, hostEl, style, rect) {
+export function getBoxPosition(out, hostEl, style, rect) {
   var baseX = style.x || 0;
   var baseY = style.y || 0;
   var textAlign = style.textAlign;
@@ -494,8 +494,7 @@ export function getFill(fill) {
   return fill == null || fill === 'none' ? null // TODO pattern and gradient?
   : fill.image || fill.colorStops ? '#000' : fill;
 }
-
-function parsePercent(value, maxValue) {
+export function parsePercent(value, maxValue) {
   if (typeof value === 'string') {
     if (value.lastIndexOf('%') >= 0) {
       return parseFloat(value) / 100 * maxValue;
