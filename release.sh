@@ -31,7 +31,7 @@ rm -r release
 rm echarts-www.zip
 
 # Build doc
-sh ../echarts-doc/release.sh --env ${envType}
+sh ../incubator-echarts-doc/release.sh --env ${envType}
 
 # Build examples
 sh ../echarts-examples/release.sh --env ${envType}
