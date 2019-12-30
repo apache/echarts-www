@@ -65,7 +65,7 @@ function initEnv() {
 const config = initEnv();
 const TEMP_RELEASE_DIR = 'release';
 
-config.downloadVersion = '4.5.0';
+config.downloadVersion = '4.6.0';
 
 // Update home version each build.
 config.homeVersion = +new Date();
