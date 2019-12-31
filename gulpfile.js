@@ -103,8 +103,8 @@ gulp.task('sass', function () {
 gulp.task('less', function () {
     // FIXME: where to put css, when using lots of vendor components including css.
     return gulp.src([
-            'js/docTool/ecOption.less',
-            'js/spreadsheet/spreadsheet.less'
+            'legacy/js/docTool/ecOption.less',
+            'legacy/js/spreadsheet/spreadsheet.less'
         ])
         .pipe(less({
             paths: ['vendors'],
@@ -116,7 +116,8 @@ gulp.task('less', function () {
         .pipe(prefix(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], {
             cascade: true
         }))
-        .pipe(gulp.dest('css'));
+        .pipe(gulp.dest(path.join(TEMP_RELEASE_DIR, 'zh/css')))
+        .pipe(gulp.dest(path.join(TEMP_RELEASE_DIR, 'en/css')));
 });
 /**
  * Update source code version
@@ -176,6 +177,26 @@ gulp.task('release-spreadsheetJS', function (taskReady) {
     );
 });
 
+// DEPRECATED Remove this when option3.html is not support ASAP.
+gulp.task('release-docJS-old', function (taskReady) {
+    requirejs.optimize(
+        config.docToolConfig,
+        function () {
+            fse.ensureDirSync('release/en/js/docTool/');
+            fse.copyFileSync(
+                'release/zh/js/docTool/main.js',
+                'release/en/js/docTool/main.js',
+            );
+            taskReady();
+        },
+        function (error) {
+            console.error('requirejs task failed', error.message);
+            process.exit(1);
+        }
+    );
+
+});
+
 gulp.task('release-otherJS', function () {
     return gulp.src(['js/*.js'])
         .pipe(uglify())
@@ -183,7 +204,7 @@ gulp.task('release-otherJS', function () {
         .pipe(gulp.dest(path.join(TEMP_RELEASE_DIR, 'en/js')));
 });
 
-gulp.task('release-js', ['release-spreadsheetJS', 'release-otherJS']);
+gulp.task('release-js', ['release-spreadsheetJS', 'release-docJS-old', 'release-otherJS']);
 
 gulp.task('copy', ['sass', 'less', 'jade', 'release-js', 'release-clean'], function () {
     ['vendors', 'images', 'js/spreadsheet', 'asset/map', 'asset/theme', 'builder', 'dist', 'video', 'config'].forEach(function (folder) {
@@ -205,7 +226,16 @@ gulp.task('copy', ['sass', 'less', 'jade', 'release-js', 'release-clean'], funct
         gulp.src(patterns)
             .pipe(copy(path.join(TEMP_RELEASE_DIR, 'zh'))),
         gulp.src(patterns)
-            .pipe(copy(path.join(TEMP_RELEASE_DIR, 'en')))
+            .pipe(copy(path.join(TEMP_RELEASE_DIR, 'en'))),
+
+        // Move legacy option3.json
+        gulp.src(['legacy/option3.json'])
+            .pipe(gulp.dest(path.join(TEMP_RELEASE_DIR, 'zh/documents/'))),
+        // Move legacy css fonts
+        gulp.src(['legacy/css/font/*'])
+            .pipe(gulp.dest(path.join(TEMP_RELEASE_DIR, 'zh/css/font/'))),
+        gulp.src(['legacy/js/docTool/*.tpl.html'])
+            .pipe(gulp.dest(path.join(TEMP_RELEASE_DIR, 'zh/js/docTool/')))
     ]);
 });
 
