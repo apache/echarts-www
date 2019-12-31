@@ -170,8 +170,7 @@ async function copyResource(config) {
         'asset/theme/**/*',
         'builder/**/*',
         'dist/**/*',
-        'video/**/*',
-        'config/**/*'
+        'video/**/*'
     ], {
         cwd: projectDir
     });
