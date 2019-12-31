@@ -30,18 +30,24 @@ cd ${basePath}
 rm -r release
 rm echarts-www.zip
 
+if [[ "${envType}" = "echartsjs" ]]; then
+    mkdir ${basePath}/release
+fi
+
 # Build doc
+echo "Build doc ..."
 sh ../incubator-echarts-doc/release.sh --env ${envType}
+echo "Build doc done."
 
 # Build examples
+echo "Build examples ..."
 sh ../echarts-examples/release.sh --env ${envType}
-
-cd ${basePath}
-# Copy examples distributions
-cp -R ../echarts-examples/public release/examples
+echo "Build examples done."
 
 # Release
-node ./node_modules/.bin/gulp release --env ${envType}
+echo "Build www ..."
+node ${basePath}/build.js --env ${envType}
+echo "Build www done."
 
 cd ${currPath}
 

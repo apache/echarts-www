@@ -4,6 +4,6 @@ release
 *.zip
 package-lock.json
 */**/.DS_Store
-
+_generated
 
 doc-dist

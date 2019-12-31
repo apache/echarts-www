@@ -3,27 +3,21 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "./node_modules/.bin/gulp release --env=dev"
+    "dev": "sh release.sh --env=dev"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.31",
-    "event-stream": "^3.3.4",
     "fs-extra": "^8.1.0",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "~3.0.0",
-    "gulp-callback": "~0.0.3",
-    "gulp-clean": "^0.3.1",
-    "gulp-copy": "~0.0.2",
-    "gulp-fontmin": "^0.7.3",
-    "gulp-if": "~2.0.0",
-    "gulp-jade": "~1.1.0",
-    "gulp-less": "^3.0.5",
-    "gulp-rename": "~1.2.2",
-    "gulp-replace": "^0.5.4",
-    "gulp-sass": "^4.0.1",
-    "gulp-uglify": "~1.4.1",
+    "less": "^3.10.3",
     "requirejs": "^2.1.22",
-    "yargs": "^13.2.4"
+    "yargs": "^13.2.4",
+    "autoprefixer": "^9.7.3",
+    "chalk": "^3.0.0",
+    "globby": "^10.0.1",
+    "jade": "^1.11.0",
+    "node-sass": "^4.13.0",
+    "postcss": "^7.0.25",
+    "uglify-js": "^3.7.3"
   },
   "dependencies": {}
 }
