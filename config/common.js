@@ -58,52 +58,6 @@ module.exports = {
 
     theme: ['vintage', 'dark', 'macarons', 'infographic', 'shine', 'roma'],
 
-    docToolConfig: {
-        optimize: 'uglify',
-        // optimize: 'none',
-        name: 'docTool/main',
-        exclude: ['globalArgs', 'prettyPrint'],
-        out: 'release/zh/js/docTool/main.js',
-        baseUrl: './legacy/js',
-        paths: {
-            dt: '../../vendors/dt/0.0.1',
-            tpl: '../../vendors/dt/0.0.1/tplLoader',
-            etpl: '../../vendors/etpl/3.0.0/etpl.min',
-            signals: '../../vendors/signals/1.0.0/signals.min',
-            hasher: '../../vendors/hasher/1.2.0/hasher.min',
-            jquery: '../../vendors/jquery/jquery.min',
-            perfectScrollbar: '../../vendors/perfect-scrollbar/0.6.8/js/perfect-scrollbar'
-        },
-        rawText: {
-            'globalArgs': 'define(function () {});',
-            'prettyPrint': 'define(function () {});'
-        }
-    },
-    spreadsheetConfig: {
-        optimize: 'uglify',
-        // optimize: 'none',
-        name: 'spreadsheet/spreadsheet',
-        exclude: ['globalArgs'],
-        out: 'release/zh/js/spreadsheet/spreadsheet.js',
-        baseUrl: './js',
-        paths: {
-            dt: '../vendors/dt/0.0.1',
-            tpl: '../vendors/dt/0.0.1/tplLoader',
-            etpl: '../vendors/etpl/3.0.0/etpl.min',
-            signals: '../vendors/signals/1.0.0/signals.min',
-            hasher: '../vendors/hasher/1.2.0/hasher.min',
-            jquery: '../vendors/jquery/jquery.min',
-            jquerymousewheel: '../vendors/jquery-mousewheel/3.1.11/jquery.mousewheel.min',
-            handsontable: '../vendors/handsontable/0.26.1/dist/handsontable.full.min',
-            latinize: '../vendors/latinize/latinize',
-            numeral: '../vendors/numeral/1.4.7/numeral.min',
-            immutable: '../vendors/immutable/3.7.4/dist/immutable'
-        },
-        rawText: {
-            'globalArgs': 'define(function () {});'
-        }
-    },
-
     extensions: {
         framework: [{
             image: '',

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const fse = require('fs-extra');
 const sass = require('node-sass');
-// const less = require('less');
+const less = require('less');
 const globby = require('globby');
 const chalk = require('chalk');
 const autoprefixer = require('autoprefixer');
@@ -11,6 +11,7 @@ const path = require('path');
 const uglify = require('uglify-js');
 const argv = require('yargs').argv;
 const assert = require('assert');
+const requirejs = require('requirejs');
 
 const LANGUAGES = ['zh', 'en'];
 const projectDir = __dirname;
@@ -160,30 +161,6 @@ async function buildJS(config) {
     console.log('buildJS done.');
 }
 
-// gulp.task('copy', ['sass', 'less', 'jade', 'release-js', 'release-clean'], function () {
-//     ['vendors', 'images', 'js/spreadsheet', 'asset/map', 'asset/theme', 'builder', 'dist', 'video', 'config'].forEach(function (folder) {
-//         fse.ensureDirSync(path.join(TEMP_RELEASE_DIR, 'zh', folder));
-//         fse.ensureDirSync(path.join(TEMP_RELEASE_DIR, 'en', folder));
-//     });
-
-//     let patterns = [
-//         'vendors/**/*',
-//         'images/**/*',
-//         'js/spreadsheet/*.tpl.html',
-//         'asset/map/**/*', 'asset/theme/**/*',
-//         'builder/**/*',
-//         'dist/**/*', 'video/**/*',
-//         'config/**/*'
-//     ];
-
-//     return eventStream.merge([
-//         gulp.src(patterns)
-//             .pipe(copy(path.join(TEMP_RELEASE_DIR, 'zh'))),
-//         gulp.src(patterns)
-//             .pipe(copy(path.join(TEMP_RELEASE_DIR, 'en')))
-//     ]);
-// });
-
 async function copyResource(config) {
     const srcRelativePathList = await globby([
         'vendors/**/*',
@@ -225,42 +202,143 @@ async function updateSourceVersion(config) {
     console.log(chalk.green(`sourceVersion updated: ${filePath}`));
 }
 
+async function buildLegacyDoc(config) {
+    // Build JS
+    let jsDestPathZH = path.resolve(config.releaseDestDir, 'zh/js/docTool/main.js');
+    let jsDestPathEN = path.resolve(config.releaseDestDir, 'en/js/docTool/main.js');
 
-// gulp.task('less', function () {
-//     // FIXME: where to put css, when using lots of vendor components including css.
-//     return gulp.src([
-//             'js/docTool/ecOption.less',
-//             'js/spreadsheet/spreadsheet.less'
-//         ])
-//         .pipe(less({
-//             paths: ['vendors'],
-//             onError: function (e) {
-//                 console.error(e);
-//             },
-//             outputStyle: 'compressed'
-//         }))
-//         .pipe(prefix(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], {
-//             cascade: true
-//         }))
-//         .pipe(gulp.dest('css'));
-// });
-// gulp.task('release-spreadsheetJS', function (taskReady) {
-//     requirejs.optimize(
-//         config.spreadsheetConfig,
-//         function () {
-//             fse.ensureDirSync('release/en/js/spreadsheet/');
-//             fse.copyFileSync(
-//                 'release/zh/js/spreadsheet/spreadsheet.js',
-//                 'release/en/js/spreadsheet/spreadsheet.js',
-//             );
-//             taskReady();
-//         },
-//         function (error) {
-//             console.error('requirejs task failed', error.message);
-//             process.exit(1);
-//         }
-//     );
-// });
+    let docToolConfig = {
+        optimize: 'uglify',
+        // optimize: 'none',
+        name: 'docTool/main',
+        exclude: ['globalArgs', 'prettyPrint'],
+        out: jsDestPathZH,
+        baseUrl: './legacy/js',
+        paths: {
+            dt: '../../vendors/dt/0.0.1',
+            tpl: '../../vendors/dt/0.0.1/tplLoader',
+            etpl: '../../vendors/etpl/3.0.0/etpl.min',
+            signals: '../../vendors/signals/1.0.0/signals.min',
+            hasher: '../../vendors/hasher/1.2.0/hasher.min',
+            jquery: '../../vendors/jquery/jquery.min',
+            perfectScrollbar: '../../vendors/perfect-scrollbar/0.6.8/js/perfect-scrollbar'
+        },
+        rawText: {
+            'globalArgs': 'define(function () {});',
+            'prettyPrint': 'define(function () {});'
+        }
+    };
+
+    await new Promise((reslove, reject) => {
+        requirejs.optimize(
+            docToolConfig,
+            function () {
+                fse.ensureDirSync(path.dirname(jsDestPathEN));
+                fse.copyFileSync(jsDestPathZH, jsDestPathEN);
+                reslove();
+            },
+            function (error) {
+                console.error(chalk.red(`buildLegacyDoc requirejs ${error.message}`));
+                process.exit(1);
+            }
+        );
+    });
+
+    // Build less
+    let cssSrcPath = path.resolve(projectDir, 'legacy/js/docTool/ecOption.less');
+    let cssContent = fs.readFileSync(cssSrcPath, 'utf8');
+    let cssResult;
+    try {
+        cssResult = await less.render(cssContent, {
+            paths: ['vendors'],
+            javascriptEnabled: true,
+            compress: true
+        });
+    }
+    catch (err) {
+        console.error(err);
+        process.exit(1);
+    }
+    let cssDestPathZH = path.resolve(config.releaseDestDir, 'zh/css/ecOption.css');
+    fs.writeFileSync(cssDestPathZH, cssResult.css, 'utf8');
+    let cssDestPathEN = path.resolve(config.releaseDestDir, 'en/css/ecOption.css');
+    fs.writeFileSync(cssDestPathEN, cssResult.css, 'utf8');
+
+    // Copy option3.json
+    let option3SrcPath = path.resolve(projectDir, 'legacy/option3.json');
+    let option3DestPath = path.resolve(config.releaseDestDir, 'zh/documents/option3.json');
+    fse.copyFileSync(option3SrcPath, option3DestPath);
+
+    console.log('\nBuild legacy doc done.');
+}
+
+async function buildSpreadsheet(config) {
+    // Build JS
+    let jsDestPathZH = path.resolve(config.releaseDestDir, 'zh/js/spreadsheet/spreadsheet.js');
+    let jsDestPathEN = path.resolve(config.releaseDestDir, 'en/js/spreadsheet/spreadsheet.js');
+
+    let spreadsheetConfig = {
+        optimize: 'uglify',
+        // optimize: 'none',
+        name: 'spreadsheet/spreadsheet',
+        exclude: ['globalArgs'],
+        out: jsDestPathZH,
+        baseUrl: './js',
+        paths: {
+            dt: '../vendors/dt/0.0.1',
+            tpl: '../vendors/dt/0.0.1/tplLoader',
+            etpl: '../vendors/etpl/3.0.0/etpl.min',
+            signals: '../vendors/signals/1.0.0/signals.min',
+            hasher: '../vendors/hasher/1.2.0/hasher.min',
+            jquery: '../vendors/jquery/jquery.min',
+            jquerymousewheel: '../vendors/jquery-mousewheel/3.1.11/jquery.mousewheel.min',
+            handsontable: '../vendors/handsontable/0.26.1/dist/handsontable.full.min',
+            latinize: '../vendors/latinize/latinize',
+            numeral: '../vendors/numeral/1.4.7/numeral.min',
+            immutable: '../vendors/immutable/3.7.4/dist/immutable'
+        },
+        rawText: {
+            'globalArgs': 'define(function () {});'
+        }
+    };
+
+    await new Promise((resolve, reject) => {
+        requirejs.optimize(
+            spreadsheetConfig,
+            function () {
+                fse.ensureDirSync(path.dirname(jsDestPathEN));
+                fse.copyFileSync(jsDestPathZH, jsDestPathEN);
+                reslove();
+            },
+            function (error) {
+                console.error(chalk.red(`buildSpreadsheet requirejs failed ${error.message}`));
+                process.exit(1);
+            }
+        );
+    });
+
+    // Build less
+    let cssSrcPath = path.resolve(projectDir, 'js/spreadsheet/spreadsheet.less');
+    let cssContent = fs.readFileSync(cssSrcPath, 'utf8');
+    let cssResult;
+    try {
+        cssResult = await less.render(cssContent, {
+            paths: ['vendors'],
+            javascriptEnabled: true,
+            compress: true
+        });
+    }
+    catch (err) {
+        console.error(err);
+        process.exit(1);
+    }
+    let cssDestPathZH = path.resolve(config.releaseDestDir, 'zh/css/spreadsheet.css');
+    fs.writeFileSync(cssDestPathZH, cssResult.css, 'utf8');
+    let cssDestPathEN = path.resolve(config.releaseDestDir, 'en/css/spreadsheet.css');
+    fs.writeFileSync(cssDestPathEN, cssResult.css, 'utf8');
+
+    console.log('\nBuild spreadsheet done.');
+}
 
 
 async function run() {
@@ -272,6 +350,9 @@ async function run() {
     await buildJS(config);
     await copyResource(config);
     await updateSourceVersion(config);
+
+    await buildLegacyDoc(config);
+    await buildSpreadsheet(config);
 
     console.log('All done.');
 }
