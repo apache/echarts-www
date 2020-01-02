@@ -62,13 +62,21 @@ echo "Build examples done."
 
 # Build www
 echo "Build www ..."
-node ${basePath}/build.js --env ${envType}
+cd ${basePath}
+node build.js --env ${envType}
+cd ${currPath}
 echo "Build www done."
 
-cd ${currPath}
 
 if [[ "${envType}" = "echartsjs" ]]; then
     cd ${basePath}
-    zip -r echarts-www.zip release
+    echo "zip echarts-www.zip ..."
+    if [ -f echarts-www.zip ]; then
+        rm echarts-www.zip
+    fi
+    zip -r -q echarts-www.zip release
+    echo "zip echarts-www.zip done."
     cd ${currPath}
 fi
+
+echo "echarts-www release done for ${envType}"

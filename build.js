@@ -291,7 +291,9 @@ async function buildLegacyDoc(config) {
         let assetSrcPath = path.resolve(assetDir, assetPath);
         let assetDestPathZH = path.resolve(config.releaseDestDir, 'zh/css', assetPath);
         let assetDestPathEN = path.resolve(config.releaseDestDir, 'en/css', assetPath);
+        fse.ensureDirSync(path.dirname(assetDestPathZH));
         fse.copyFileSync(assetSrcPath, assetDestPathZH);
+        fse.ensureDirSync(path.dirname(assetDestPathEN));
         fse.copyFileSync(assetSrcPath, assetDestPathEN);
     }
 
@@ -299,12 +301,15 @@ async function buildLegacyDoc(config) {
     let tplSrcPath = path.resolve(projectDir, 'legacy/js/docTool/main.tpl.html');
     let tplDestPathZH = path.resolve(config.releaseDestDir, 'zh/js/docTool/main.tpl.html');
     let tplDestPathEN = path.resolve(config.releaseDestDir, 'en/js/docTool/main.tpl.html');
+    fse.ensureDirSync(path.dirname(tplDestPathZH));
     fse.copyFileSync(tplSrcPath, tplDestPathZH);
+    fse.ensureDirSync(path.dirname(tplDestPathEN));
     fse.copyFileSync(tplSrcPath, tplDestPathEN);
 
     // Copy option3.json
     let option3SrcPath = path.resolve(projectDir, 'legacy/option3.json');
     let option3DestPath = path.resolve(config.releaseDestDir, 'zh/documents/option3.json');
+    fse.ensureDirSync(path.dirname(option3DestPath));
     fse.copyFileSync(option3SrcPath, option3DestPath);
 
     console.log('\nBuild legacy doc done.');
@@ -379,7 +384,9 @@ async function buildSpreadsheet(config) {
     let tplSrcPath = path.resolve(projectDir, 'js/spreadsheet/spreadsheet.tpl.html');
     let tplDestPathZH = path.resolve(config.releaseDestDir, 'zh/js/spreadsheet/spreadsheet.tpl.html');
     let tplDestPathEN = path.resolve(config.releaseDestDir, 'en/js/spreadsheet/spreadsheet.tpl.html');
+    fse.ensureDirSync(path.dirname(tplDestPathZH));
     fse.copyFileSync(tplSrcPath, tplDestPathZH);
+    fse.ensureDirSync(path.dirname(tplDestPathEN));
     fse.copyFileSync(tplSrcPath, tplDestPathEN);
 
     console.log('\nBuild spreadsheet done.');
