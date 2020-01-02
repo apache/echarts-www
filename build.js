@@ -100,9 +100,8 @@ async function buildSASS(config) {
             from: undefined
         });
 
-        let destDir = path.resolve(config.releaseDestDir, lang, 'css');
-        fse.ensureDirSync(destDir);
-        let destPath = path.resolve(destDir, 'main.css');
+        let destPath = path.resolve(config.releaseDestDir, lang, 'css/main.css');
+        fse.ensureDirSync(path.dirname(destPath));
         fs.writeFileSync(destPath, result.css, 'utf8');
         console.log(chalk.green(`generated: ${destPath}`));
     }
@@ -125,8 +124,7 @@ async function buildJade(config) {
         let html = compiledFunction(config);
 
         let destPath = path.resolve(config.releaseDestDir, srcPath.replace('.jade', '.html'));
-        let destDir = path.dirname(destPath);
-        fse.ensureDirSync(destDir);
+        fse.ensureDirSync(path.dirname(destPath));
         fs.writeFileSync(destPath, html, 'utf8');
 
         console.log(chalk.green(`generated: ${destPath}`));
@@ -143,15 +141,14 @@ async function buildJS(config) {
     });
 
 
-    for (let srcRelativePath of srcRelativePathList) {
-        let srcAbsolutePath = path.resolve(projectDir, srcRelativePath);
-        let content = fs.readFileSync(srcAbsolutePath, 'utf8');
-        let code = uglify.minify(content).code;
+    for (let lang of LANGUAGES) {
+        for (let srcRelativePath of srcRelativePathList) {
+            let srcAbsolutePath = path.resolve(projectDir, srcRelativePath);
+            let content = fs.readFileSync(srcAbsolutePath, 'utf8');
+            let code = uglify.minify(content).code;
 
-        for (let lang of LANGUAGES) {
-            let destDir = path.resolve(config.releaseDestDir, lang);
-            fse.ensureDirSync(destDir);
-            let destPath = path.resolve(destDir, srcRelativePath);
+            let destPath = path.resolve(config.releaseDestDir, lang, srcRelativePath);
+            fse.ensureDirSync(path.dirname(destPath));
             fs.writeFileSync(destPath, code, 'utf8');
 
             console.log(chalk.green(`generated: ${destPath}`));
@@ -177,28 +174,31 @@ async function copyResource(config) {
 
     console.log();
 
-    for (let i = 0; i < srcRelativePathList.length; i++) {
-        let srcRelativePath = srcRelativePathList[i];
-        let srcAbsolutePath = path.resolve(projectDir, srcRelativePath);
-        let destAbsolutePath = path.resolve(config.releaseDestDir, srcRelativePath);
-        let destAbsoluteDir = path.dirname(destAbsolutePath);
-        fse.ensureDirSync(destAbsoluteDir);
-        fs.copyFileSync(srcAbsolutePath, destAbsolutePath);
+    for (let lang of LANGUAGES) {
+        for (let i = 0; i < srcRelativePathList.length; i++) {
+            let srcRelativePath = srcRelativePathList[i];
+            let srcAbsolutePath = path.resolve(projectDir, srcRelativePath);
+            let destAbsolutePath = path.resolve(config.releaseDestDir, lang, srcRelativePath);
+            fse.ensureDirSync(path.dirname(destAbsolutePath));
+            fs.copyFileSync(srcAbsolutePath, destAbsolutePath);
 
-        process.stdout.clearLine();
-        process.stdout.cursorTo(0);
-        process.stdout.write('(' + (i + 1) + '/' + srcRelativePathList.length + ') ' + chalk.green(`resource copied to: ${destAbsolutePath}`));
+            process.stdout.clearLine();
+            process.stdout.cursorTo(0);
+            process.stdout.write('(' + (i + 1) + '/' + srcRelativePathList.length + ') ' + chalk.green(`resource copied to: ${destAbsolutePath}`));
+        }
     }
 
     console.log('\ncopyResources done.');
 }
 
 async function updateSourceVersion(config) {
-    let filePath = path.resolve(config.releaseDestDir, 'builder/echarts.html');
-    let content = fs.readFileSync(filePath, 'utf8');
-    content = content.replace(/(urlArgs:\s*\'v=)([0-9rc\.-]+)\'/, '$1' + config.homeVersion + '\'');
-    fs.writeFileSync(filePath, content, 'utf8');
-    console.log(chalk.green(`sourceVersion updated: ${filePath}`));
+    for (let lang of LANGUAGES) {
+        let filePath = path.resolve(config.releaseDestDir, lang, 'builder/echarts.html');
+        let content = fs.readFileSync(filePath, 'utf8');
+        content = content.replace(/(urlArgs:\s*\'v=)([0-9rc\.-]+)\'/, '$1' + config.homeVersion + '\'');
+        fs.writeFileSync(filePath, content, 'utf8');
+        console.log(chalk.green(`sourceVersion updated: ${filePath}`));
+    }
 }
 
 async function buildLegacyDoc(config) {
