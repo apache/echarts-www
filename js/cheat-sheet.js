@@ -200,7 +200,7 @@ var regions = [{
     }
 }, {
     group: (function () {
-        const group = [];
+        var group = [];
         for (var i = 0; i < 12; ++i) {
             group.push({
                 left: grid.left + grid.width / 12 * (i + 0.05),
@@ -296,7 +296,7 @@ var regions = [{
     }
 }, {
     group: (function () {
-        const group = [];
+        var group = [];
         for (var i = 0; i < 6; ++i) {
             group.push({
                 left: 11,
@@ -321,7 +321,7 @@ var regions = [{
     }
 }, {
     group: (function () {
-        const group = [];
+        var group = [];
         for (var i = 0; i < 5; ++i) {
             group.push({
                 left: grid.left,
@@ -338,7 +338,7 @@ var regions = [{
     }
 }, {
     group: (function () {
-        const group = [];
+        var group = [];
         for (var i = 0; i < 6; ++i) {
             group.push({
                 left: 50,
@@ -381,7 +381,7 @@ var regions = [{
     }
 }, {
     group: (function () {
-        const group = [];
+        var group = [];
         for (var i = 0; i < 12; ++i) {
             group.push({
                 left: grid.left + grid.width * (i + 0.5) / 12 - 20 * xScale,
@@ -398,7 +398,7 @@ var regions = [{
     }
 }, {
     group: (function () {
-        const group = [];
+        var group = [];
         for (var i = 0; i < 13; ++i) {
             group.push({
                 left: grid.left + grid.width * (i / 12) - 5,

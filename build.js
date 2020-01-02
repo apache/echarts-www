@@ -154,21 +154,26 @@ async function buildJade(config) {
 
 async function buildJS(config) {
     const srcRelativePathList = await globby([
-        'js/*.js'
+        'js/*.js',
+        '!js/spreadsheet/**/*'
     ], {
         cwd: projectDir
     });
-
-
     for (let lang of LANGUAGES) {
         for (let srcRelativePath of srcRelativePathList) {
             let srcAbsolutePath = path.resolve(projectDir, srcRelativePath);
             let content = fs.readFileSync(srcAbsolutePath, 'utf8');
-            let code = uglify.minify(content).code;
+
+            let result = uglify.minify(content);
+            if (result.error) {
+                console.log(chalk.red(srcAbsolutePath));
+                console.error(result.error);
+                process.exit(1);
+            }
 
             let destPath = path.resolve(config.releaseDestDir, lang, srcRelativePath);
             fse.ensureDirSync(path.dirname(destPath));
-            fs.writeFileSync(destPath, code, 'utf8');
+            fs.writeFileSync(destPath, result.code, 'utf8');
 
             console.log(chalk.green(`generated: ${destPath}`));
         }
