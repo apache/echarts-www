@@ -307,7 +307,7 @@ async function buildSpreadsheet(config) {
             function () {
                 fse.ensureDirSync(path.dirname(jsDestPathEN));
                 fse.copyFileSync(jsDestPathZH, jsDestPathEN);
-                reslove();
+                resolve();
             },
             function (error) {
                 console.error(chalk.red(`buildSpreadsheet requirejs failed ${error.message}`));

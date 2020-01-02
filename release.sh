@@ -36,7 +36,7 @@ fi
 
 # Build doc
 echo "Build doc ..."
-sh ../incubator-echarts-doc/release.sh --env ${envType}
+sh ../echarts-doc/release.sh --env ${envType}
 echo "Build doc done."
 
 # Build examples

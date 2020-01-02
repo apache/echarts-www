@@ -2,11 +2,16 @@ extends basic
 
 block extra_head
     <title>ECharts Documentation</title>
+    style.
+        html, body {
+            /* position: sticky should not have overflow parents.*/
+            overflow-x: hidden;
+        }
     link(rel="stylesheet", href="css/doc-bundle.css")
 
 block content
 
-    nav(class='navbar navbar-default navbar-fixed-top')
+    nav(class='navbar navbar-default navbar-fixed-top doc-nav' id="ec-doc-nav")
         if ecWWWLang == 'en'
             include ../en/nav
         else
@@ -38,6 +43,6 @@ block extra_js
 
     script(type="text/javascript").
         document.getElementById('nav-doc').className = 'active';
-        window.globalArgsExtra.version = '#${homeVersion}';
+        window.globalArgsExtra.version = '#{homeVersion}';
         echartsDoc.init('#ec-doc-main', window.globalArgsExtra);
 

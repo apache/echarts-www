@@ -59,13 +59,13 @@ $info-height: 120px;
         margin: 10px 0;
     }
 
-    &.single-page {
-        position: absolute;
-        top: $info-height;
-        bottom: 0;
-        left: 0;
-        right: 0;
-    }
+    // &.single-page {
+    //     position: absolute;
+    //     top: $info-height;
+    //     bottom: 0;
+    //     left: 0;
+    //     right: 0;
+    // }
 
     section {
         padding: 40px 0;
@@ -143,9 +143,9 @@ $info-height: 120px;
         margin-left: $single-page-left-width + 20px;
         margin-bottom: 20px;
         padding: 30px 40px 0 40px;
-        position: absolute;
-        right: 0;
-        left: 0;
+        // position: absolute;
+        // right: 0;
+        // left: 0;
         overflow-x: hidden;
 
         h2 {
