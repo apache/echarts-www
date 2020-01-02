@@ -28,13 +28,14 @@ docProjectPath="${basePath}/../incubator-echarts-doc";
 examplesProjectPath="${basePath}/../echarts-examples";
 
 cd ${basePath}
-# Cleanup
-rm -r release
-rm echarts-www.zip
 
 if [[ "${envType}" = "echartsjs" ]]; then
     mkdir ${basePath}/release
 fi
+
+# Cleanup
+cd ${basePath}
+node build.js --env ${envType} --clean
 
 # Build doc
 echo "Build doc ..."

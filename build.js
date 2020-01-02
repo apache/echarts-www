@@ -24,8 +24,11 @@ const projectDir = __dirname;
  * node build.js --env asf # build all for asf
  * node build.js --env echartsjs # build all for echartsjs.
  * node build.js --env localsite # build all for localsite.
- * node build.js --env dev # the same as "debug", dev the content of doc & examples.
  * # Check `./config` to see the available env
+ *
+ * node build.js --env asf --clean
+ * node build.js --env echartsjs --clean
+ * node build.js --env localsite --clean
  * ```
  * ----------------------------------------------------------------------------------
  */
@@ -66,11 +69,26 @@ function initEnv() {
     return config;
 }
 
-async function releaseClean(config) {
-    fse.ensureDirSync(config.releaseDestDir);
+async function clean(config) {
+    let destDir = path.resolve(config.releaseDestDir);
 
-    for (let lang of LANGUAGES) {
-        fse.ensureDirSync(path.resolve(config.releaseDestDir, lang));
+    fse.ensureDirSync(destDir);
+
+    const srcRelativePathList = await globby([
+        '**/*',
+        '!.*', // .git .gitignore .htaccess
+        '!README.md'
+    ], {
+        cwd: destDir
+    });
+
+    for (let i = 0; i < srcRelativePathList.length; i++) {
+        let srcRelativePath = srcRelativePathList[i];
+        let srcAbsolutePath = path.resolve(destDir, srcRelativePath);
+
+        fs.unlinkSync(srcAbsolutePath);
+
+        replaceLog(chalk.blue('deleted files: ' + (i + 1) + '/' + srcRelativePathList.length + '. '));
     }
 
     console.log('\nclean done.');
@@ -163,7 +181,6 @@ async function copyResource(config) {
     const srcRelativePathList = await globby([
         'vendors/**/*',
         'images/**/*',
-        'js/spreadsheet/*.tpl.html',
         'asset/map/**/*',
         'asset/theme/**/*',
         'builder/**/*',
@@ -183,9 +200,7 @@ async function copyResource(config) {
             fse.ensureDirSync(path.dirname(destAbsolutePath));
             fs.copyFileSync(srcAbsolutePath, destAbsolutePath);
 
-            process.stdout.clearLine();
-            process.stdout.cursorTo(0);
-            process.stdout.write('(' + (i + 1) + '/' + srcRelativePathList.length + ') ' + chalk.green(`resource copied to: ${destAbsolutePath}`));
+            replaceLog('(' + (i + 1) + '/' + srcRelativePathList.length + ') ' + chalk.green(`resource copied to: ${destAbsolutePath}`));
         }
     }
 
@@ -264,6 +279,24 @@ async function buildLegacyDoc(config) {
     let cssDestPathEN = path.resolve(config.releaseDestDir, 'en/css/ecOption.css');
     fs.writeFileSync(cssDestPathEN, cssResult.css, 'utf8');
 
+    // Copy css assets
+    const assetDir = path.resolve(projectDir, 'legacy/css');
+    const assetPaths = await globby(['**/*'], {cwd: assetDir});
+    for (let assetPath of assetPaths) {
+        let assetSrcPath = path.resolve(assetDir, assetPath);
+        let assetDestPathZH = path.resolve(config.releaseDestDir, 'zh/css', assetPath);
+        let assetDestPathEN = path.resolve(config.releaseDestDir, 'en/css', assetPath);
+        fse.copyFileSync(assetSrcPath, assetDestPathZH);
+        fse.copyFileSync(assetSrcPath, assetDestPathEN);
+    }
+
+    // Copy tpl.html
+    let tplSrcPath = path.resolve(projectDir, 'legacy/js/docTool/main.tpl.html');
+    let tplDestPathZH = path.resolve(config.releaseDestDir, 'zh/js/docTool/main.tpl.html');
+    let tplDestPathEN = path.resolve(config.releaseDestDir, 'en/js/docTool/main.tpl.html');
+    fse.copyFileSync(tplSrcPath, tplDestPathZH);
+    fse.copyFileSync(tplSrcPath, tplDestPathEN);
+
     // Copy option3.json
     let option3SrcPath = path.resolve(projectDir, 'legacy/option3.json');
     let option3DestPath = path.resolve(config.releaseDestDir, 'zh/documents/option3.json');
@@ -337,22 +370,38 @@ async function buildSpreadsheet(config) {
     let cssDestPathEN = path.resolve(config.releaseDestDir, 'en/css/spreadsheet.css');
     fs.writeFileSync(cssDestPathEN, cssResult.css, 'utf8');
 
+    // Copy tpl.html
+    let tplSrcPath = path.resolve(projectDir, 'js/spreadsheet/spreadsheet.tpl.html');
+    let tplDestPathZH = path.resolve(config.releaseDestDir, 'zh/js/spreadsheet/spreadsheet.tpl.html');
+    let tplDestPathEN = path.resolve(config.releaseDestDir, 'en/js/spreadsheet/spreadsheet.tpl.html');
+    fse.copyFileSync(tplSrcPath, tplDestPathZH);
+    fse.copyFileSync(tplSrcPath, tplDestPathEN);
+
     console.log('\nBuild spreadsheet done.');
 }
 
+function replaceLog(log) {
+    process.stdout.clearLine();
+    process.stdout.cursorTo(0);
+    process.stdout.write(log);
+}
 
 async function run() {
     const config = initEnv();
 
-    await releaseClean(config);
-    await buildSASS(config);
-    await buildJade(config);
-    await buildJS(config);
-    await copyResource(config);
-    await updateSourceVersion(config);
+    if (argv.clean) {
+        await clean(config);
+    }
+    else {
+        await buildSASS(config);
+        await buildJade(config);
+        await buildJS(config);
+        await copyResource(config);
+        await updateSourceVersion(config);
 
-    await buildLegacyDoc(config);
-    await buildSpreadsheet(config);
+        await buildLegacyDoc(config);
+        await buildSpreadsheet(config);
+    }
 
     console.log('All done.');
 }
