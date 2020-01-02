@@ -24,6 +24,8 @@ echo "Building with env type: ${envType}"
 
 basePath=$(cd `dirname $0`; pwd)
 currPath=$(pwd)
+docProjectPath="${basePath}/../incubator-echarts-doc";
+examplesProjectPath="${basePath}/../echarts-examples";
 
 cd ${basePath}
 # Cleanup
@@ -36,15 +38,28 @@ fi
 
 # Build doc
 echo "Build doc ..."
-sh ../echarts-doc/release.sh --env ${envType}
+if [ ! -d "${docProjectPath}" ]; then
+    echo "Directory ${docProjectPath} DOES NOT exists."
+    exit 1
+fi
+cd ${docProjectPath}
+npm run build:site
+node build.js --env ${envType}
+cd ${currPath}
 echo "Build doc done."
 
 # Build examples
 echo "Build examples ..."
-sh ../echarts-examples/release.sh --env ${envType}
+if [ ! -d "${examplesProjectPath}" ]; then
+    echo "Directory ${examplesProjectPath} DOES NOT exists."
+    exit 1
+fi
+cd ${examplesProjectPath}
+node build.js --env ${envType}
+cd ${currPath}
 echo "Build examples done."
 
-# Release
+# Build www
 echo "Build www ..."
 node ${basePath}/build.js --env ${envType}
 echo "Build www done."

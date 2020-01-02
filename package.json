@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "sh release.sh --env=dev"
+    "localsite": "sh release.sh --env=localsite"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.31",
