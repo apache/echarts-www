@@ -42,7 +42,7 @@ block content
             h2#mobile Mobile Optimization
             p ECharts has been carefully optimized for mobile interaction, such zooming and panning the coordinate system with your fingers on small screens. The PC users can also use the mouse wheel to do the same interaction.
             p The fine-grained modularity and packaging mechanism allows ECharts to have a small package size on the mobile, and the optional SVG rendering engine makes the memory cost of the mobile much smaller.
-            iframe(data-src="https://echarts.apache.org/examples/en/view.html?c=area-simple&reset=1&edit=1&renderer=svg", width="60%", height="400")
+            iframe(data-src="#{host}/examples/en/view.html?c=area-simple&reset=1&edit=1&renderer=svg", width="60%", height="400")
 
             h2#mult-platform Multi-Rendering Solutions and Cross-Platform Support
 
@@ -58,20 +58,20 @@ block content
             p Interaction is an important means of mining information from data. Overview first, zoom filtering to view details as needed is a basic requirement for data visualization interaction.
             p ECharts has been on the road of <em>interaction</em>. We have provided <a href="option.html#legend" target="_blank">legend</a>, <a href="option.html#visualMap" target="_blank">visualMap</a>, <a href="option.html#dataZoom" target="_blank">dataZoom</a>, <a href="option.html#tooltip" target="_blank">tooltip</a>, <a href="option.html#brush">brushing</a> and other ready-to-use interactive components, which can perform interactive operations such as multi-dimensional data screening, view zooming, and display details on the data.
 
-            //- iframe(data-src="https://echarts.apache.org/examples/en/view.html?c=map-parallel-prices&reset=1&edit=1", width="60%", height="540")
-            iframe(data-src="https://echarts.apache.org/examples/en/view.html?c=scatter-matrix&reset=1&edit=1", width="60%", height="540")
+            //- iframe(data-src="#{host}/examples/en/view.html?c=map-parallel-prices&reset=1&edit=1", width="60%", height="540")
+            iframe(data-src="#{host}/examples/en/view.html?c=scatter-matrix&reset=1&edit=1", width="60%", height="540")
 
             h2#visual-mapping Multi-Dimensional Data Support and Rich Visual Coding
             p ECharts 3 began to strengthen support for multi-dimensional data. In addition to the common multi-dimensional data visualization tools such as parallel coordinates, for traditional scatter plots, etc., the input data can also be multiple dimensions. With the rich visual coding provided by the visual mapping component <a href="option.html#visualMap" target="_blank">visualMap</a>, it is possible to map data of different dimensions to color, size, transparency, shading, etc. Different visual channels.
-            iframe(data-src="https://echarts.apache.org/examples/en/view.html?c=scatter-nutrients-matrix&reset=1&edit=1", width="60%", height="400")
+            iframe(data-src="#{host}/examples/en/view.html?c=scatter-nutrients-matrix&reset=1&edit=1", width="60%", height="400")
 
             h2#dynamic-data Dynamic Data
             p ECharts is driven by data, and changes in data drive changes in the chart. So the implementation of dynamic data has become extremely simple, just need to get the data, fill in the data, ECharts will find the difference between the two sets of data and then use the appropriate animation to represent the data changes. The <a href="option.html#timeline" target="_blank">timeline</a> component can present data information in a higher time dimension.
-            iframe(data-src="https://echarts.apache.org/examples/en/view.html?c=scatter-life-expectancy-timeline&reset=1&edit=1", width="60%", height="400")
+            iframe(data-src="#{host}/examples/en/view.html?c=scatter-life-expectancy-timeline&reset=1&edit=1", width="60%", height="400")
 
             h2#fancy-effects Special Effects
             p ECharts provides eye-catching effects for the visualization of geographic data such as line data and point data.
-            iframe(data-src="https://echarts.apache.org/examples/en/view.html?c=lines-bmap-effect&reset=1&edit=1", width="60%", height="400")
+            iframe(data-src="#{host}/examples/en/view.html?c=lines-bmap-effect&reset=1&edit=1", width="60%", height="400")
 
             h2#gl More Powerful and Beautiful 3D Visualization with GL
             p Do you want to achieve 3D visualization in VR, large screen scenes? We provide WebGL-based ECharts GL. You can use ECharts GL to draw 3D Earth, buildings, and population distribution histograms as easily as ECharts common components. Furthermore, we also provide configuration items so that you can get artistic results with a few lines of configuration!
