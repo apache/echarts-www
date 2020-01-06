@@ -7,7 +7,7 @@ block extra_head
             /* position: sticky should not have overflow parents.*/
             overflow-x: hidden;
         }
-    link(rel="stylesheet", href="css/doc-bundle.css")
+    link(rel="stylesheet", href="css/doc-bundle.css?_v_=#{homeVersion}")
 
 block content
 
@@ -38,7 +38,7 @@ block content
     #ec-doc-main
 
 block extra_js
-    script(src="js/doc-bundle.js")
+    script(src="js/doc-bundle.js?_v_=#{homeVersion}")
     block global_args_extra
 
     script(type="text/javascript").
