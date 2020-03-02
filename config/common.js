@@ -277,6 +277,16 @@ module.exports = {
             }],
             desc: 'A PHP library that works as a wrapper for Echarts.',
             descEN: 'A PHP library that works as a wrapper for Echarts.'
+        }, {
+            image: '',
+            name: 'flutter_echarts',
+            website: 'https://github.com/entronad/flutter_echarts',
+            authors: [{
+                name: 'entronad',
+                website: 'https://github.com/entronad'
+            }],
+            desc: 'A Flutter widget to use Echarts in a reactive way.',
+            descEN: 'A Flutter widget to use Echarts in a reactive way.'
         }],
         chartType: [{
             image: 'word-cloud.jpg',
