@@ -66,6 +66,8 @@ function initEnv() {
 
     config.downloadVersion = '4.6.0';
 
+    config.envType = envType;
+
     return config;
 }
 
