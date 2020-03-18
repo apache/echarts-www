@@ -24,7 +24,7 @@ echo "Building with env type: ${envType}"
 
 basePath=$(cd `dirname $0`; pwd)
 currPath=$(pwd)
-docProjectPath="${basePath}/../echarts-doc";
+docProjectPath="${basePath}/../incubator-echarts-doc";
 examplesProjectPath="${basePath}/../echarts-examples";
 
 cd ${basePath}
