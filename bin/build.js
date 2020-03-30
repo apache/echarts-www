@@ -72,10 +72,6 @@ function initEnv() {
     }
     config.filter = filter;
 
-    if (argv.jade) {
-        config.jade = argv.jade;
-    }
-
     assert(path.isAbsolute(config.releaseDestDir));
 
     // Update home version each build.
@@ -148,14 +144,12 @@ async function buildSASS(config) {
 }
 
 async function buildJade(config) {
-    const basePath = path.resolve(projectDir, config.jade ? '../' : '../_jade');
-    const srcPaths = config.jade
-        ? [config.jade]
-        : await globby([
-            '**/*.jade'
-        ], {
-            cwd: basePath
-        });
+    const basePath = path.resolve(projectDir, '../_jade');
+    const srcPaths = await globby([
+        '**/*.jade'
+    ], {
+        cwd: basePath
+    });
 
     for (let srcPath of srcPaths) {
         let filePath = path.resolve(basePath, srcPath);
