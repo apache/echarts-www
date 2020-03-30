@@ -22,8 +22,8 @@ fi
 
 echo "Building with env type: ${envType}"
 
-basePath=$(cd `dirname $0`; pwd)
-currPath=$(pwd)
+currPath=$(cd `dirname $0`; pwd)
+basePath="${currPath}/..";
 docProjectPath="${basePath}/../incubator-echarts-doc";
 examplesProjectPath="${basePath}/../echarts-examples";
 
@@ -34,7 +34,7 @@ if [[ "${envType}" = "echartsjs" ]]; then
 fi
 
 # Cleanup
-cd ${basePath}
+cd ${currPath}
 node build.js --env ${envType} --clean
 
 # Build doc
@@ -63,7 +63,7 @@ echo "Build examples done."
 # Build www
 echo "Build www ..."
 cd ${basePath}
-node build.js --env ${envType}
+node bin/build.js --env ${envType}
 cd ${currPath}
 echo "Build www done."
 

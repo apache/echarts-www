@@ -12,6 +12,7 @@ const uglify = require('uglify-js');
 const argv = require('yargs').argv;
 const assert = require('assert');
 const requirejs = require('requirejs');
+const readline = require('readline');
 
 const LANGUAGES = ['zh', 'en'];
 const projectDir = __dirname;
@@ -24,11 +25,16 @@ const projectDir = __dirname;
  * node build.js --env asf # build all for asf
  * node build.js --env echartsjs # build all for echartsjs.
  * node build.js --env localsite # build all for localsite.
- * # Check `./config` to see the available env
+ * # Check `../config` to see the available env
  *
  * node build.js --env asf --clean
  * node build.js --env echartsjs --clean
  * node build.js --env localsite --clean
+ *
+ * # Build all files by default.
+ * # If you wish to build sass and jade only:
+ * node build.js --env localsite --filter=sass,jade
+ * # Supported: sass,jade,js
  * ```
  * ----------------------------------------------------------------------------------
  */
@@ -49,7 +55,7 @@ function initEnv() {
         throw new Error('--env MUST be specified');
     }
 
-    var config = require('./config/env.' + envType);
+    var config = require('../config/env.' + envType);
 
     if (isDev) {
         console.warn('====================================================================');
@@ -58,6 +64,17 @@ function initEnv() {
         console.warn('====================================================================');
     }
 
+    var filter = argv.filter || 'all';
+    if (argv.filter) {
+        console.warn('====================================================================');
+        console.warn('Build only: ' + argv.filter);
+        console.warn('====================================================================');
+    }
+    config.filter = filter;
+
+    if (argv.jade) {
+        config.jade = argv.jade;
+    }
 
     assert(path.isAbsolute(config.releaseDestDir));
 
@@ -100,7 +117,7 @@ async function buildSASS(config) {
     for (let lang of LANGUAGES) {
         let cssContent = await new Promise((resolve, reject) => {
             sass.render({
-                file: path.resolve(projectDir, '_scss/main.scss'),
+                file: path.resolve(projectDir, '../_scss/main.scss'),
                 includePaths: ['scss'],
                 outputStyle: 'compressed'
             }, function (err, result) {
@@ -121,7 +138,7 @@ async function buildSASS(config) {
             from: undefined
         });
 
-        let destPath = path.resolve(config.releaseDestDir, lang, 'css/main.css');
+        let destPath = path.resolve(config.releaseDestDir, lang, '../css/main.css');
         fse.ensureDirSync(path.dirname(destPath));
         fs.writeFileSync(destPath, result.css, 'utf8');
         console.log(chalk.green(`generated: ${destPath}`));
@@ -131,12 +148,14 @@ async function buildSASS(config) {
 }
 
 async function buildJade(config) {
-    const basePath = path.resolve(projectDir, '_jade');
-    const srcPaths = await globby([
-        '**/*.jade'
-    ], {
-        cwd: basePath
-    });
+    const basePath = path.resolve(projectDir, config.jade ? '../' : '../_jade');
+    const srcPaths = config.jade
+        ? [config.jade]
+        : await globby([
+            '**/*.jade'
+        ], {
+            cwd: basePath
+        });
 
     for (let srcPath of srcPaths) {
         let filePath = path.resolve(basePath, srcPath);
@@ -156,8 +175,8 @@ async function buildJade(config) {
 
 async function buildJS(config) {
     const srcRelativePathList = await globby([
-        'js/*.js',
-        '!js/spreadsheet/**/*'
+        '../js/*.js',
+        '!../js/spreadsheet/**/*'
     ], {
         cwd: projectDir
     });
@@ -186,13 +205,13 @@ async function buildJS(config) {
 
 async function copyResource(config) {
     const srcRelativePathList = await globby([
-        'vendors/**/*',
-        'images/**/*',
-        'asset/map/**/*',
-        'asset/theme/**/*',
-        'builder/**/*',
-        'dist/**/*',
-        'video/**/*'
+        '../vendors/**/*',
+        '../images/**/*',
+        '../asset/map/**/*',
+        '../asset/theme/**/*',
+        '../builder/**/*',
+        '../dist/**/*',
+        '../video/**/*'
     ], {
         cwd: projectDir
     });
@@ -216,7 +235,7 @@ async function copyResource(config) {
 
 async function updateSourceVersion(config) {
     for (let lang of LANGUAGES) {
-        let filePath = path.resolve(config.releaseDestDir, lang, 'builder/echarts.html');
+        let filePath = path.resolve(config.releaseDestDir, lang, '../builder/echarts.html');
         let content = fs.readFileSync(filePath, 'utf8');
         content = content.replace(/(urlArgs:\s*\'v=)([0-9rc\.-]+)\'/, '$1' + config.homeVersion + '\'');
         fs.writeFileSync(filePath, content, 'utf8');
@@ -226,8 +245,8 @@ async function updateSourceVersion(config) {
 
 async function buildLegacyDoc(config) {
     // Build JS
-    let jsDestPathZH = path.resolve(config.releaseDestDir, 'zh/js/docTool/main.js');
-    let jsDestPathEN = path.resolve(config.releaseDestDir, 'en/js/docTool/main.js');
+    let jsDestPathZH = path.resolve(config.releaseDestDir, './zh/js/docTool/main.js');
+    let jsDestPathEN = path.resolve(config.releaseDestDir, './en/js/docTool/main.js');
 
     let docToolConfig = {
         optimize: 'uglify',
@@ -267,7 +286,7 @@ async function buildLegacyDoc(config) {
     });
 
     // Build less
-    let cssSrcPath = path.resolve(projectDir, 'legacy/js/docTool/ecOption.less');
+    let cssSrcPath = path.resolve(projectDir, '../legacy/js/docTool/ecOption.less');
     let cssContent = fs.readFileSync(cssSrcPath, 'utf8');
     let cssResult;
     try {
@@ -281,18 +300,18 @@ async function buildLegacyDoc(config) {
         console.error(err);
         process.exit(1);
     }
-    let cssDestPathZH = path.resolve(config.releaseDestDir, 'zh/css/ecOption.css');
+    let cssDestPathZH = path.resolve(config.releaseDestDir, './zh/css/ecOption.css');
     fs.writeFileSync(cssDestPathZH, cssResult.css, 'utf8');
-    let cssDestPathEN = path.resolve(config.releaseDestDir, 'en/css/ecOption.css');
+    let cssDestPathEN = path.resolve(config.releaseDestDir, './en/css/ecOption.css');
     fs.writeFileSync(cssDestPathEN, cssResult.css, 'utf8');
 
     // Copy css assets
-    const assetDir = path.resolve(projectDir, 'legacy/css');
+    const assetDir = path.resolve(projectDir, '../legacy/css');
     const assetPaths = await globby(['**/*'], {cwd: assetDir});
     for (let assetPath of assetPaths) {
         let assetSrcPath = path.resolve(assetDir, assetPath);
-        let assetDestPathZH = path.resolve(config.releaseDestDir, 'zh/css', assetPath);
-        let assetDestPathEN = path.resolve(config.releaseDestDir, 'en/css', assetPath);
+        let assetDestPathZH = path.resolve(config.releaseDestDir, './zh/css', assetPath);
+        let assetDestPathEN = path.resolve(config.releaseDestDir, './en/css', assetPath);
         fse.ensureDirSync(path.dirname(assetDestPathZH));
         fse.copyFileSync(assetSrcPath, assetDestPathZH);
         fse.ensureDirSync(path.dirname(assetDestPathEN));
@@ -300,17 +319,17 @@ async function buildLegacyDoc(config) {
     }
 
     // Copy tpl.html
-    let tplSrcPath = path.resolve(projectDir, 'legacy/js/docTool/main.tpl.html');
-    let tplDestPathZH = path.resolve(config.releaseDestDir, 'zh/js/docTool/main.tpl.html');
-    let tplDestPathEN = path.resolve(config.releaseDestDir, 'en/js/docTool/main.tpl.html');
+    let tplSrcPath = path.resolve(projectDir, '../legacy/js/docTool/main.tpl.html');
+    let tplDestPathZH = path.resolve(config.releaseDestDir, './zh/js/docTool/main.tpl.html');
+    let tplDestPathEN = path.resolve(config.releaseDestDir, './en/js/docTool/main.tpl.html');
     fse.ensureDirSync(path.dirname(tplDestPathZH));
     fse.copyFileSync(tplSrcPath, tplDestPathZH);
     fse.ensureDirSync(path.dirname(tplDestPathEN));
     fse.copyFileSync(tplSrcPath, tplDestPathEN);
 
     // Copy option3.json
-    let option3SrcPath = path.resolve(projectDir, 'legacy/option3.json');
-    let option3DestPath = path.resolve(config.releaseDestDir, 'zh/documents/option3.json');
+    let option3SrcPath = path.resolve(projectDir, '../legacy/option3.json');
+    let option3DestPath = path.resolve(config.releaseDestDir, './zh/documents/option3.json');
     fse.ensureDirSync(path.dirname(option3DestPath));
     fse.copyFileSync(option3SrcPath, option3DestPath);
 
@@ -319,8 +338,8 @@ async function buildLegacyDoc(config) {
 
 async function buildSpreadsheet(config) {
     // Build JS
-    let jsDestPathZH = path.resolve(config.releaseDestDir, 'zh/js/spreadsheet/spreadsheet.js');
-    let jsDestPathEN = path.resolve(config.releaseDestDir, 'en/js/spreadsheet/spreadsheet.js');
+    let jsDestPathZH = path.resolve(config.releaseDestDir, './zh/js/spreadsheet/spreadsheet.js');
+    let jsDestPathEN = path.resolve(config.releaseDestDir, './en/js/spreadsheet/spreadsheet.js');
 
     let spreadsheetConfig = {
         optimize: 'uglify',
@@ -363,7 +382,7 @@ async function buildSpreadsheet(config) {
     });
 
     // Build less
-    let cssSrcPath = path.resolve(projectDir, 'js/spreadsheet/spreadsheet.less');
+    let cssSrcPath = path.resolve(projectDir, '../js/spreadsheet/spreadsheet.less');
     let cssContent = fs.readFileSync(cssSrcPath, 'utf8');
     let cssResult;
     try {
@@ -377,15 +396,15 @@ async function buildSpreadsheet(config) {
         console.error(err);
         process.exit(1);
     }
-    let cssDestPathZH = path.resolve(config.releaseDestDir, 'zh/css/spreadsheet.css');
+    let cssDestPathZH = path.resolve(config.releaseDestDir, './zh/css/spreadsheet.css');
     fs.writeFileSync(cssDestPathZH, cssResult.css, 'utf8');
-    let cssDestPathEN = path.resolve(config.releaseDestDir, 'en/css/spreadsheet.css');
+    let cssDestPathEN = path.resolve(config.releaseDestDir, './en/css/spreadsheet.css');
     fs.writeFileSync(cssDestPathEN, cssResult.css, 'utf8');
 
     // Copy tpl.html
-    let tplSrcPath = path.resolve(projectDir, 'js/spreadsheet/spreadsheet.tpl.html');
-    let tplDestPathZH = path.resolve(config.releaseDestDir, 'zh/js/spreadsheet/spreadsheet.tpl.html');
-    let tplDestPathEN = path.resolve(config.releaseDestDir, 'en/js/spreadsheet/spreadsheet.tpl.html');
+    let tplSrcPath = path.resolve(projectDir, '../js/spreadsheet/spreadsheet.tpl.html');
+    let tplDestPathZH = path.resolve(config.releaseDestDir, './zh/js/spreadsheet/spreadsheet.tpl.html');
+    let tplDestPathEN = path.resolve(config.releaseDestDir, './en/js/spreadsheet/spreadsheet.tpl.html');
     fse.ensureDirSync(path.dirname(tplDestPathZH));
     fse.copyFileSync(tplSrcPath, tplDestPathZH);
     fse.ensureDirSync(path.dirname(tplDestPathEN));
@@ -395,8 +414,7 @@ async function buildSpreadsheet(config) {
 }
 
 function replaceLog(log) {
-    process.stdout.clearLine();
-    process.stdout.cursorTo(0);
+    readline.cursorTo(process.stdout, 0);
     process.stdout.write(log);
 }
 
@@ -407,14 +425,41 @@ async function run() {
         await clean(config);
     }
     else {
-        await buildSASS(config);
-        await buildJade(config);
-        await buildJS(config);
-        await copyResource(config);
-        await updateSourceVersion(config);
+        if (config.filter === 'all') {
+            await buildSASS(config);
+            await buildJade(config);
+            await buildJS(config);
+            await copyResource(config);
+            await updateSourceVersion(config);
 
-        await buildLegacyDoc(config);
-        await buildSpreadsheet(config);
+            await buildLegacyDoc(config);
+            await buildSpreadsheet(config);
+        }
+        else {
+            const filters = config.filter.split(',');
+            for (let i = 0; i < filters.length; ++i) {
+                switch (filters[i]) {
+                    case 'sass':
+                        await buildSASS(config);
+                        break;
+
+                    case 'jade':
+                        await buildJade(config);
+                        break;
+
+                    case 'js':
+                        await buildJS(config);
+                        break;
+
+                    default:
+                        console.warn('====================================================================');
+                        console.warn('Filter is not supported: ' + filters[i]);
+                        console.warn('Valid parameters of `--filter` includes sass, jade and js');
+                        console.warn('E.g.: node build.js --env localsite --filter=sass,jade');
+                        console.warn('====================================================================');
+                }
+            }
+        }
     }
 
     console.log('All done.');
