@@ -138,7 +138,7 @@ async function buildSASS(config) {
             from: undefined
         });
 
-        let destPath = path.resolve(config.releaseDestDir, lang, '../css/main.css');
+        let destPath = path.resolve(config.releaseDestDir, lang, './css/main.css');
         fse.ensureDirSync(path.dirname(destPath));
         fs.writeFileSync(destPath, result.css, 'utf8');
         console.log(chalk.green(`generated: ${destPath}`));
@@ -192,7 +192,11 @@ async function buildJS(config) {
                 process.exit(1);
             }
 
-            let destPath = path.resolve(config.releaseDestDir, lang, srcRelativePath);
+            let destPath = path.resolve(
+                config.releaseDestDir,
+                lang,
+                srcRelativePath.substr(1, srcRelativePath.length - 1)
+            );
             fse.ensureDirSync(path.dirname(destPath));
             fs.writeFileSync(destPath, result.code, 'utf8');
 
@@ -222,7 +226,14 @@ async function copyResource(config) {
         for (let i = 0; i < srcRelativePathList.length; i++) {
             let srcRelativePath = srcRelativePathList[i];
             let srcAbsolutePath = path.resolve(projectDir, srcRelativePath);
-            let destAbsolutePath = path.resolve(config.releaseDestDir, lang, srcRelativePath);
+
+            // dest path should be in the form of './vendors/xxx'
+            let destAbsolutePath = path.resolve(
+                config.releaseDestDir,
+                lang,
+                srcRelativePath.substr(1, srcRelativePath.length - 1)
+            );
+
             fse.ensureDirSync(path.dirname(destAbsolutePath));
             fs.copyFileSync(srcAbsolutePath, destAbsolutePath);
 
