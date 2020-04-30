@@ -9,11 +9,15 @@ block content
 
     #main-content
         section#home-section
-            video#video-index(autoplay='true', muted="true", loop='true', src='video/index-4.mp4', poster='video/index-4.jpg')
+            video#video-index(muted="true", loop='true', src='video/index-4.mp4', poster='video/index-4.jpg')
+
+            a#video-index-play.video-index-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-index")')
+                include ../components/svg/play
+            a#video-index-pause.video-index-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-index")')
+                include ../components/svg/pause
 
             .description
                 include ../components/svg/echarts-logo
-                a#index-play-btn(href='javascript:;', onclick='playIndexVideo()')
                 .btn-panel
                     a.btn.btn-index-home(href='./feature.html') 特性
                     a.btn.btn-index-home(href='./download.html') 下载
@@ -65,7 +69,12 @@ block content
                             a(href="feature.html") 了解更多
                                 include ../components/svg/more
                     .col-sm-8.col
-                        video.lazy#video-feature-4.feature-video(autoplay='true' loop='true' muted="true" data-src='video/feature-4.mp4' poster='video/feature-4.jpg')
+                        video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='video/feature-4.mp4' poster='video/feature-4.jpg')
+
+                        a#video-feature-4-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-4")')
+                            include ../components/svg/play
+                        a#video-feature-4-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-4")')
+                            include ../components/svg/pause
                         //- img#video-feature-4(src="images/features/scatterGL4.jpg")
                 .row.feature-detail#feature-dimension
                     .col-sm-4.col.mobile
@@ -81,7 +90,11 @@ block content
                     .col-sm-8.col
                         #col-desktop
                             img.lazy(data-src="images/feature-1.png")
-                            video.lazy#video-feature-1.feature-video(autoplay='true' loop='true' muted="true" data-src='video/feature-1.mp4' poster='video/feature-2.jpg')
+                            video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='video/feature-1.mp4' poster='video/feature-2.jpg')
+                            a#video-feature-1-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-1")')
+                                include ../components/svg/play
+                            a#video-feature-1-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-1")')
+                                include ../components/svg/pause
                             //- img#video-feature-1(src="video/feature-2.jpg")
 
                     .col-sm-4.col.pc#col-analysis
