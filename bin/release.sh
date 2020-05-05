@@ -22,61 +22,62 @@ fi
 
 echo "Building with env type: ${envType}"
 
-currPath=$(cd `dirname $0`; pwd)
-basePath="${currPath}/..";
-docProjectPath="${basePath}/../incubator-echarts-doc";
-examplesProjectPath="${basePath}/../echarts-examples";
+currWorkingDir=$(pwd)
+thisScriptDir=$(cd `dirname $0`; pwd)
+wwwProjectDir="${thisScriptDir}/..";
+docProjectDir="${wwwProjectDir}/../incubator-echarts-doc";
+examplesProjectDir="${wwwProjectDir}/../echarts-examples";
 
-cd ${basePath}
+cd ${wwwProjectDir}
 
 if [[ "${envType}" = "echartsjs" ]]; then
-    mkdir ${basePath}/release
+    mkdir ${wwwProjectDir}/release
 fi
 
 # Cleanup
-cd ${currPath}
+cd ${thisScriptDir}
 node build.js --env ${envType} --clean
 
 # Build doc
 echo "Build doc ..."
-if [ ! -d "${docProjectPath}" ]; then
-    echo "Directory ${docProjectPath} DOES NOT exists."
+if [ ! -d "${docProjectDir}" ]; then
+    echo "Directory ${docProjectDir} DOES NOT exists."
     exit 1
 fi
-cd ${docProjectPath}
+cd ${docProjectDir}
 npm run build:site
 node build.js --env ${envType}
-cd ${currPath}
+cd ${currWorkingDir}
 echo "Build doc done."
 
 # Build examples
 echo "Build examples ..."
-if [ ! -d "${examplesProjectPath}" ]; then
-    echo "Directory ${examplesProjectPath} DOES NOT exists."
+if [ ! -d "${examplesProjectDir}" ]; then
+    echo "Directory ${examplesProjectDir} DOES NOT exists."
     exit 1
 fi
-cd ${examplesProjectPath}
+cd ${examplesProjectDir}
 node build.js --env ${envType}
-cd ${currPath}
+cd ${currWorkingDir}
 echo "Build examples done."
 
 # Build www
 echo "Build www ..."
-cd ${basePath}
+cd ${wwwProjectDir}
 node bin/build.js --env ${envType}
-cd ${currPath}
+cd ${currWorkingDir}
 echo "Build www done."
 
 
 if [[ "${envType}" = "echartsjs" ]]; then
-    cd ${basePath}
+    cd ${wwwProjectDir}
     echo "zip echarts-www.zip ..."
     if [ -f echarts-www.zip ]; then
         rm echarts-www.zip
     fi
     zip -r -q echarts-www.zip release
     echo "zip echarts-www.zip done."
-    cd ${currPath}
+    cd ${currWorkingDir}
 fi
 
 echo "echarts-www release done for ${envType}"
