@@ -15,7 +15,7 @@ const requirejs = require('requirejs');
 const readline = require('readline');
 
 const LANGUAGES = ['zh', 'en'];
-const projectDir = __dirname;
+const projectDir = path.resolve(__dirname, '..');
 
 /**
  * ----------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ async function buildSASS(config) {
     for (let lang of LANGUAGES) {
         let cssContent = await new Promise((resolve, reject) => {
             sass.render({
-                file: path.resolve(projectDir, '../_scss/main.scss'),
+                file: path.resolve(projectDir, '_scss/main.scss'),
                 includePaths: ['scss'],
                 outputStyle: 'compressed'
             }, function (err, result) {
@@ -144,7 +144,7 @@ async function buildSASS(config) {
 }
 
 async function buildJade(config) {
-    const basePath = path.resolve(projectDir, '../_jade');
+    const basePath = path.resolve(projectDir, '_jade');
     const srcPaths = await globby([
         '**/*.jade'
     ], {
@@ -169,8 +169,8 @@ async function buildJade(config) {
 
 async function buildJS(config) {
     const srcRelativePathList = await globby([
-        '../js/*.js',
-        '!../js/spreadsheet/**/*'
+        'js/*.js',
+        '!js/spreadsheet/**/*'
     ], {
         cwd: projectDir
     });
@@ -186,11 +186,7 @@ async function buildJS(config) {
                 process.exit(1);
             }
 
-            let destPath = path.resolve(
-                config.releaseDestDir,
-                lang,
-                srcRelativePath.substr(1, srcRelativePath.length - 1)
-            );
+            let destPath = path.resolve(config.releaseDestDir, lang, srcRelativePath);
             fse.ensureDirSync(path.dirname(destPath));
             fs.writeFileSync(destPath, result.code, 'utf8');
 
@@ -203,13 +199,13 @@ async function buildJS(config) {
 
 async function copyResource(config) {
     const srcRelativePathList = await globby([
-        '../vendors/**/*',
-        '../images/**/*',
-        '../asset/map/**/*',
-        '../asset/theme/**/*',
-        '../builder/**/*',
-        '../dist/**/*',
-        '../video/**/*'
+        'vendors/**/*',
+        'images/**/*',
+        'asset/map/**/*',
+        'asset/theme/**/*',
+        'builder/**/*',
+        'dist/**/*',
+        'video/**/*'
     ], {
         cwd: projectDir
     });
@@ -220,13 +216,7 @@ async function copyResource(config) {
         for (let i = 0; i < srcRelativePathList.length; i++) {
             let srcRelativePath = srcRelativePathList[i];
             let srcAbsolutePath = path.resolve(projectDir, srcRelativePath);
-
-            // dest path should be in the form of './vendors/xxx'
-            let destAbsolutePath = path.resolve(
-                config.releaseDestDir,
-                lang,
-                srcRelativePath.substr(1, srcRelativePath.length - 1)
-            );
+            let destAbsolutePath = path.resolve(config.releaseDestDir, lang, srcRelativePath);
 
             fse.ensureDirSync(path.dirname(destAbsolutePath));
             fs.copyFileSync(srcAbsolutePath, destAbsolutePath);
@@ -240,7 +230,7 @@ async function copyResource(config) {
 
 async function updateSourceVersion(config) {
     for (let lang of LANGUAGES) {
-        let filePath = path.resolve(config.releaseDestDir, lang, '../builder/echarts.html');
+        let filePath = path.resolve(config.releaseDestDir, lang, 'builder/echarts.html');
         let content = fs.readFileSync(filePath, 'utf8');
         content = content.replace(/(urlArgs:\s*\'v=)([0-9rc\.-]+)\'/, '$1' + config.homeVersion + '\'');
         fs.writeFileSync(filePath, content, 'utf8');
@@ -291,7 +281,7 @@ async function buildLegacyDoc(config) {
     });
 
     // Build less
-    let cssSrcPath = path.resolve(projectDir, '../legacy/js/docTool/ecOption.less');
+    let cssSrcPath = path.resolve(projectDir, 'legacy/js/docTool/ecOption.less');
     let cssContent = fs.readFileSync(cssSrcPath, 'utf8');
     let cssResult;
     try {
@@ -311,7 +301,7 @@ async function buildLegacyDoc(config) {
     fs.writeFileSync(cssDestPathEN, cssResult.css, 'utf8');
 
     // Copy css assets
-    const assetDir = path.resolve(projectDir, '../legacy/css');
+    const assetDir = path.resolve(projectDir, 'legacy/css');
     const assetPaths = await globby(['**/*'], {cwd: assetDir});
     for (let assetPath of assetPaths) {
         let assetSrcPath = path.resolve(assetDir, assetPath);
@@ -324,7 +314,7 @@ async function buildLegacyDoc(config) {
     }
 
     // Copy tpl.html
-    let tplSrcPath = path.resolve(projectDir, '../legacy/js/docTool/main.tpl.html');
+    let tplSrcPath = path.resolve(projectDir, 'legacy/js/docTool/main.tpl.html');
     let tplDestPathZH = path.resolve(config.releaseDestDir, './zh/js/docTool/main.tpl.html');
     let tplDestPathEN = path.resolve(config.releaseDestDir, './en/js/docTool/main.tpl.html');
     fse.ensureDirSync(path.dirname(tplDestPathZH));
@@ -333,7 +323,7 @@ async function buildLegacyDoc(config) {
     fse.copyFileSync(tplSrcPath, tplDestPathEN);
 
     // Copy option3.json
-    let option3SrcPath = path.resolve(projectDir, '../legacy/option3.json');
+    let option3SrcPath = path.resolve(projectDir, 'legacy/option3.json');
     let option3DestPath = path.resolve(config.releaseDestDir, './zh/documents/option3.json');
     fse.ensureDirSync(path.dirname(option3DestPath));
     fse.copyFileSync(option3SrcPath, option3DestPath);
@@ -387,7 +377,7 @@ async function buildSpreadsheet(config) {
     });
 
     // Build less
-    let cssSrcPath = path.resolve(projectDir, '../js/spreadsheet/spreadsheet.less');
+    let cssSrcPath = path.resolve(projectDir, 'js/spreadsheet/spreadsheet.less');
     let cssContent = fs.readFileSync(cssSrcPath, 'utf8');
     let cssResult;
     try {
@@ -407,7 +397,7 @@ async function buildSpreadsheet(config) {
     fs.writeFileSync(cssDestPathEN, cssResult.css, 'utf8');
 
     // Copy tpl.html
-    let tplSrcPath = path.resolve(projectDir, '../js/spreadsheet/spreadsheet.tpl.html');
+    let tplSrcPath = path.resolve(projectDir, 'js/spreadsheet/spreadsheet.tpl.html');
     let tplDestPathZH = path.resolve(config.releaseDestDir, './zh/js/spreadsheet/spreadsheet.tpl.html');
     let tplDestPathEN = path.resolve(config.releaseDestDir, './en/js/spreadsheet/spreadsheet.tpl.html');
     fse.ensureDirSync(path.dirname(tplDestPathZH));
