@@ -1,4 +1,4 @@
-mixin nav(basePath)
+mixin nav(basePath, cdnBasePath)
     div(class='container-fluid')
         div(class='navbar-header')
             button(type="button", class="navbar-toggle collapsed", data-toggle="collapse", data-target="#navbar-collapse", aria-expanded="false")
@@ -7,7 +7,7 @@ mixin nav(basePath)
                 span.icon-bar
                 span.icon-bar
             a(class='navbar-brand' href="#{basePath}/zh/index.html")
-                img(class="navbar-logo", src="#{basePath}/zh/images/logo.png", alt="echarts logo")
+                img(class="navbar-logo", src="#{cdnBasePath}/zh/images/logo.png", alt="echarts logo")
         div(class="collapse navbar-collapse", id="navbar-collapse")
             ul(class='nav navbar-nav navbar-left')
                 li#nav-index
@@ -96,7 +96,7 @@ mixin nav(basePath)
             ul(class='nav navbar-nav navbar-right')
                 li#nav-github
                     a(href="https://github.com/ecomfe/echarts" target="_blank")
-                        img(src="#{basePath}/zh/images/github.png", width="18")
+                        img(src="#{cdnBasePath}/zh/images/github.png", width="18")
                 li#nav-homeen
                     a(href='javascript:;', onclick="changeLang('en')") EN
 

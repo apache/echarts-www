@@ -25,7 +25,7 @@ block content
             each names, key in charts
                 li.cheat-chart-item
                     a(href="option.html#series-#{key}", target="_blank")
-                        img(src="images/builder/chart/#{key}.svg", alt="")
+                        img(src="#{cdnRoot}/#{ecWWWLang}/images/builder/chart/#{key}.svg", alt="")
                         <h5>#{names[0]}<div>#{names[1]}</div></h5>
 
         h2 坐标系文档速查
@@ -34,7 +34,7 @@ block content
                 li.cheat-chart-item
                     - var url = key == 'gridSimple' ? 'grid' : key;
                     a(href="option.html##{url}", target="_blank")
-                        img(src="images/builder/component/#{key}.svg", alt="")
+                        img(src="#{cdnRoot}/#{ecWWWLang}/images/builder/component/#{key}.svg", alt="")
                         <h5>#{names[0]}<div>#{names[1]}</div></h5>
 
         h2 组件文档速查
@@ -46,7 +46,7 @@ block content
                     else
                         - var url = key
                     a(href="option.html##{url}", target="_blank")
-                        img(src="images/builder/component/#{key}.svg", alt="")
+                        img(src="#{cdnRoot}/#{ecWWWLang}/images/builder/component/#{key}.svg", alt="")
                         <h5>#{names[0]}<div>#{names[1]}</div></h5>
 
 
@@ -54,5 +54,5 @@ block extra_js
     script(type='text/javascript').
         document.getElementById('nav-doc').className = 'active';
 
-    script(src='./vendors/echarts/echarts-20190709.min.js')
-    script(src='./js/cheat-sheet.js')
+    script(src='#{cdnRoot}/#{ecWWWLang}/vendors/echarts/echarts-20190709.min.js')
+    script(src='#{cdnRoot}/#{ecWWWLang}/js/cheat-sheet.js')

@@ -63,7 +63,7 @@ block content
                     ul
                         each names, key in coords
                             li(class=names[2] ? 'checked' : '')
-                                img(src="images/builder/component/#{key}.svg", alt="")
+                                img(src="#{cdnRoot}/#{ecWWWLang}/images/builder/component/#{key}.svg", alt="")
                                 input(type="checkbox" name="#{key}")
                                 <h5>#{isCN ? names[0] : ''} <div>#{names[1]}</div></h5>
 
@@ -78,7 +78,7 @@ block content
                     ul
                         each names, key in components
                             li(class=names[2] ? 'checked' : '')
-                                img(src="images/builder/component/#{key}.svg", alt="")
+                                img(src="#{cdnRoot}/#{ecWWWLang}/images/builder/component/#{key}.svg", alt="")
                                 input(type="checkbox" name="#{names[3] || key}")
                                 <h5>#{isCN ? names[0] : ''} <div>#{names[1]}</div></h5>
 

@@ -16,7 +16,7 @@ html(lang='#{htmlAttrLang}')
 
         meta(name="description" content="ECharts, a powerful, interactive charting and visualization library for browser")
 
-        link(rel='shortcut icon', href='images/favicon.png')
+        link(rel='shortcut icon', href='#{cdnRoot}/#{ecWWWLang}/images/favicon.png')
         link(rel='stylesheet', type='text/css', href='https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css')
         // HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
         <!--[if lt IE 9]>
@@ -24,12 +24,12 @@ html(lang='#{htmlAttrLang}')
         script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
         <![endif]-->
 
-        link(rel='stylesheet', type='text/css', href='./css/main.css?_v_=#{homeVersion}')
+        link(rel='stylesheet', type='text/css', href='#{cdnRoot}/#{ecWWWLang}/css/main.css?_v_=#{homeVersion}')
 
         script.
             window.EC_WWW_LANG = '#{ecWWWLang}';
 
-        script(type='text/javascript', src='./vendors/pace/pace.min.js')
+        script(type='text/javascript', src='#{cdnRoot}/#{ecWWWLang}/vendors/pace/pace.min.js')
 
         script(id='font-hack', type='text/javascript').
             if (/windows/i.test(navigator.userAgent)) {
@@ -47,7 +47,7 @@ html(lang='#{htmlAttrLang}')
     <!--[if lte IE 8]>
     body.lower-ie
         #lowie-main
-            img(src="./images/forie.png", alt="ie tip")
+            img(src="#{cdnRoot}/#{ecWWWLang}/images/forie.png", alt="ie tip")
     <![endif]-->
     <!--[if (gt IE 8)|!(IE)]>
     body(class="#{pageTitle}")
@@ -71,7 +71,7 @@ html(lang='#{htmlAttrLang}')
         block content
 
     script(type='text/javascript', src='https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js')
-    script(type='text/javascript', src='./js/common.js')
+    script(type='text/javascript', src='#{cdnRoot}/#{ecWWWLang}/js/common.js')
 
     block extra_js
 

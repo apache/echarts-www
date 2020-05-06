@@ -151,6 +151,8 @@ async function buildJade(config) {
         cwd: basePath
     });
 
+    assert(config.cdnRoot && config.host);
+
     for (let srcPath of srcPaths) {
         let filePath = path.resolve(basePath, srcPath);
         let compiledFunction = jade.compileFile(filePath);

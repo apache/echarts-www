@@ -9,9 +9,9 @@ mixin extension(ext)
         .extension-content
             a.extension-head(href="#{website}")
                 if ext.image
-                    img.extension-img(src="images/extensions/#{ext.image}")
+                    img.extension-img(src="#{cdnRoot}/#{ecWWWLang}/images/extensions/#{ext.image}")
                 else
-                    img.extension-img(src="images/extensions/default-extension.png")
+                    img.extension-img(src="#{cdnRoot}/#{ecWWWLang}/images/extensions/default-extension.png")
             .extension-info
                 a.extension-name(href="#{website}") #{ext.name}
                 .extension-author
@@ -72,7 +72,7 @@ block content
             p We will get in touch with you as soon as possible, and the extensions you make will be available to ECharts users on this page.
             p Thank you again for your support and contribution to ECharts!
             a.btn.btn-thirdary(href='mailto:dev@echarts.apache.com')
-                img(src='images/btn-email.png')
+                img(src='#{cdnRoot}/#{ecWWWLang}/images/btn-email.png')
                 span Send Email
 
     include ./footer
