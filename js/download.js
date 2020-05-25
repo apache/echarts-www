@@ -1,6 +1,10 @@
 // $.getJSON("https://api.github.com/repos/apache/incubator-echarts/releases").done(function (param) {
     // `yyyy-MM-dd` should be correct. `hh:mm:ss` doesn't matter.
     var param = [{
+        publishedAt: '2020-05-25T00:00:00Z',
+        prerelease: false,
+        name: '4.8.0'
+    }, {
         publishedAt: '2020-03-19T00:00:00Z',
         prerelease: false,
         name: '4.7.0'

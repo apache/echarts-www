@@ -77,7 +77,7 @@ function initEnv() {
     // Update home version each build.
     config.homeVersion = +new Date();
 
-    config.downloadVersion = '4.7.0';
+    config.downloadVersion = '4.8.0';
 
     config.envType = envType;
 
