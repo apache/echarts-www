@@ -23,7 +23,7 @@ block content
         .page-nav
             ul#standard-nav
         .page-detail
-            include ../../_generated/coding-standard-content.html
+            include ../../_generated/en/coding-standard-content.html
 
 block extra_js
 
@@ -35,14 +35,14 @@ block extra_js
             .each(function () {
                 var $this = $(this);
                 var text = $this.text();
-                var anchor = text.toLowerCase().replace(/[^\w]+/g, '-');
+                var anchor = text.toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-');
                 var tagName = $this.prop('tagName').toLowerCase();
 
                 if (tagName === 'h2') {
-                    $list.append('<a href="#' + anchor + '"><h4 class="inner">' + text + '</h4></a>');
+                    $list.append('<li><a href="#' + anchor + '"><h4 class="inner">' + text + '</h4></a></li>');
                 }
                 else {
-                    $list.append('<a href="#' + anchor + '">' + text + '</a>');
+                    $list.append('<li><a href="#' + anchor + '">' + text + '</a></li>');
                 }
             });
 
