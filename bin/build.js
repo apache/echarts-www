@@ -151,15 +151,26 @@ async function buildJade(config) {
         cwd: basePath
     });
 
-    assert(config.cdnRoot && config.host);
-
     for (let srcPath of srcPaths) {
         let filePath = path.resolve(basePath, srcPath);
         let compiledFunction = jade.compileFile(filePath);
 
-        let html = compiledFunction(config);
+        let cfg;
+        if (config.cdnRootMap) {
+            cfg = Object.assign({}, config);
+            cfg.cdnRoot = srcPath.indexOf('zh/') === 0
+                ? config.cdnRootMap['zh']
+                : config.cdnRootMap['en'];
+        }
+        else {
+            cfg = config;
+        }
 
-        let destPath = path.resolve(config.releaseDestDir, srcPath.replace('.jade', '.html'));
+        assert(cfg.cdnRoot && cfg.host);
+
+        let html = compiledFunction(cfg);
+
+        let destPath = path.resolve(cfg.releaseDestDir, srcPath.replace('.jade', '.html'));
         fse.ensureDirSync(path.dirname(destPath));
         fs.writeFileSync(destPath, html, 'utf8');
 
