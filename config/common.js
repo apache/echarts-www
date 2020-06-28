@@ -1,5 +1,15 @@
 module.exports = {
 
+    cdnThirdParty: {
+        jquery: 'https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js',
+        jquery_1_11_3: 'https://cdn.jsdelivr.net/npm/jquery@1.11.3/dist/jquery.min.js',
+        bootstrapCSS: 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css',
+        bootstrapJS: 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js',
+        lodash: 'https://cdn.jsdelivr.net/npm/lodash@3.10.1/index.min.js',
+        perfectScrollbarJS: 'https://cdn.jsdelivr.net/npm/perfect-scrollbar@0.6.8/dist/js/min/perfect-scrollbar.min.js',
+        perfectScrollbarCSS: 'https://cdn.jsdelivr.net/npm/perfect-scrollbar@0.6.8/dist/css/perfect-scrollbar.min.css',
+    },
+
     // Source folder of echarts
     echartsPath: '../echarts',
     // Target folder of echarts

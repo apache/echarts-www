@@ -5,7 +5,7 @@ block extra_head
     script.
         var chartId = location.hash.slice(1);
         window.location ='./examples/editor.html?c=' + chartId;
-    link(rel="stylesheet", href="#{cdnRoot}/#{ecWWWLang}/vendors/perfect-scrollbar/0.6.8/css/perfect-scrollbar.min.css")
+    link(rel="stylesheet", href="#{cdnThirdParty.perfectScrollbarCSS}")
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
@@ -21,9 +21,9 @@ block content
     #chart-demo
 
 block extra_js
-    script(type='text/javascript', src='#{cdnRoot}/#{ecWWWLang}/vendors/lodash.js')
+    script(type='text/javascript', src='#{cdnThirdParty.lodash}')
 
-    script(type='text/javascript', src='#{cdnRoot}/#{ecWWWLang}/vendors/perfect-scrollbar/0.6.8/js/perfect-scrollbar.min.js')
+    script(type='text/javascript', src='#{cdnThirdParty.perfectScrollbarJS}')
 
     script(type='text/javascript').
         var GALLERY_PATH = '#{galleryPath}';
