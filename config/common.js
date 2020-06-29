@@ -15,6 +15,7 @@ module.exports = {
         // Can not find good prettify css in jsdelivr.
         // prettifyCSS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/styles/doxy.css',
         prettifyCSSHandlerJS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/src/lang-css.js',
+        jqueryLazyloadJS: 'https://cdn.jsdelivr.net/npm/jquery-lazyload@1.9.7/jquery.lazyload.min.js',
     },
 
     // Source folder of echarts

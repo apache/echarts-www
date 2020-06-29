@@ -5,7 +5,7 @@ block extra_head
     script.
         var chartId = location.hash.slice(1);
         window.location ='./examples/index.html';
-    link(rel="stylesheet", href="#{cdnPayRoot}/#{ecWWWLang}/vendors/perfect-scrollbar/0.6.8/css/perfect-scrollbar.min.css")
+    link(rel="stylesheet", href="#{cdnThirdParty.perfectScrollbarCSS}")
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
@@ -20,7 +20,7 @@ block content
     div(style="display:none") 点击查看详情
 
 block extra_js
-    script(type='text/javascript', src='#{cdnPayRoot}/#{ecWWWLang}/vendors/jquery.lazyload.min.js')
+    script(type='text/javascript', src='#{cdnThirdParty.jqueryLazyloadJS}')
     script(type='text/javascript').
         var GALLERY_PATH = '#{galleryPath}';
         var GALLERY_EDITOR_PATH = GALLERY_PATH + 'editor.html?c=';
