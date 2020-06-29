@@ -2,11 +2,16 @@ const path = require('path');
 const config = require('./common');
 
 config.host = 'https://echarts.apache.org';
-// config.cdnRoot = 'https://echarts.cdn.apache.org';
+
 config.cdnRootMap = {
-    // zh: 'https://echarts-www.bj.bcebos.com',
-    zh: 'https://echarts-www.cdn.bcebos.com',
-    en: 'https://echarts.cdn.apache.org'
+    // Expensive!!! use it carefully.
+    zh: 'https://echarts-www.cdn.bcebos.com', // origin: 'https://echarts-www.bj.bcebos.com'
+    en: 'https://echarts.apache.org'
+};
+config.cdnFreeRootMap = {
+    // 'echarts.cdn.apache.org' have been configured for zh (?)
+    zh: 'https://echarts.cdn.apache.org',
+    en: 'https://echarts.apache.org'
 };
 config.galleryPath = 'https://www.echartsjs.com/gallery/';
 config.blogPath = 'https://efe.baidu.com/tags/ECharts/';

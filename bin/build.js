@@ -153,20 +153,24 @@ async function buildJade(config) {
 
     for (let srcPath of srcPaths) {
         let filePath = path.resolve(basePath, srcPath);
+        const lang = srcPath.indexOf('zh/') === 0 ? 'zh' : 'en';
+
         let compiledFunction = jade.compileFile(filePath);
 
-        let cfg;
-        if (config.cdnRootMap) {
-            cfg = Object.assign({}, config);
-            cfg.cdnRoot = srcPath.indexOf('zh/') === 0
-                ? config.cdnRootMap['zh']
-                : config.cdnRootMap['en'];
-        }
-        else {
-            cfg = config;
-        }
+        const cfg = Object.assign({}, config);
+        cfg.cdnRoot = config.cdnRootMap[lang];
+        cfg.cdnFreeRoot = config.cdnFreeRootMap[lang];
 
-        assert(cfg.cdnRoot && cfg.host);
+        // This props can be read in jade tpl, like: `#{cdnRoot}`
+        assert(
+            cfg.cdnRoot
+            && cfg.cdnFreeRoot
+            && cfg.host
+            && cfg.cdnThirdParty
+            && cfg.galleryPath
+            && cfg.blogPath
+            && cfg.releaseDestDir
+        );
 
         let html = compiledFunction(cfg);
 
