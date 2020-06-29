@@ -8,6 +8,7 @@ module.exports = {
         lodash: 'https://cdn.jsdelivr.net/npm/lodash@3.10.1/index.min.js',
         perfectScrollbarJS: 'https://cdn.jsdelivr.net/npm/perfect-scrollbar@0.6.8/dist/js/min/perfect-scrollbar.min.js',
         perfectScrollbarCSS: 'https://cdn.jsdelivr.net/npm/perfect-scrollbar@0.6.8/dist/css/perfect-scrollbar.min.css',
+        paceProgressBarJS: 'https://cdn.jsdelivr.net/npm/pace-progressbar@1.0.2/pace.min.js',
     },
 
     // Source folder of echarts

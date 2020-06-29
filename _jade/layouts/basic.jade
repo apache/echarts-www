@@ -29,7 +29,7 @@ html(lang='#{htmlAttrLang}')
         script.
             window.EC_WWW_LANG = '#{ecWWWLang}';
 
-        script(type='text/javascript', src='#{cdnPayRoot}/#{ecWWWLang}/vendors/pace/pace.min.js')
+        script(type='text/javascript', src='#{cdnThirdParty.paceProgressBarJS}')
 
         script(id='font-hack', type='text/javascript').
             if (/windows/i.test(navigator.userAgent)) {
