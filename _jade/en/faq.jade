@@ -70,7 +70,7 @@ block content
             h2#map-chart map-chart
             h3 Province names overlap on the chart. How to modify the location of the names?
             p You can modify the <code>cp</code> coordinates of the corresponding province in the map file (JS or JSON), or modify the map data that has been loaded by <code>echarts.getMap('china')</code>.
-            p For more details, please refer to <a href="https://github.com/ecomfe/echarts/issues/4379#issuecomment-257765948">GitHub</a>.
+            p For more details, please refer to <a href="https://github.com/apache/incubator-echarts/issues/4379#issuecomment-257765948">GitHub</a>.
 
             h3 Where can I download maps from other countries?
             p Map information for other countries can be downloaded from <a href="https://github.com/echarts-maps/echarts-countries-js">here</a>.
@@ -86,7 +86,7 @@ block content
             p Please refer to <a href="https://gallery.echartsjs.com/editor.html?c=xHyqn_rQ6g">this example</a>.
 
             h3 How to make my custom map?
-            p The ECharts map is <a href="https://github.com/ecomfe/echarts/blob/8eeb7e5abe207d0536c62ce1f4ddecc6adfdf85e/src/util/mapData/rawData/encode.js">additionally encoded</a> from original coordinates. You can use the <a href="https://github.com/giscafer/mapshaper-plus">mapshaper-plus tool</a> to upload a custom geojson file and then generate a map file that can be used in Echarts.
+            p The ECharts map is <a href="https://github.com/apache/incubator-echarts/blob/8eeb7e5abe207d0536c62ce1f4ddecc6adfdf85e/src/util/mapData/rawData/encode.js">additionally encoded</a> from original coordinates. You can use the <a href="https://github.com/giscafer/mapshaper-plus">mapshaper-plus tool</a> to upload a custom geojson file and then generate a map file that can be used in Echarts.
 
 
             h2#baidu-map baidu-map
@@ -94,7 +94,7 @@ block content
             ol
                 li Include <code>echarts.js</code>, <code>bmap.js</code> and <code>https://api.map.baidu.com/api?v=2.0&ak=Here is the access key you obtained on the Baidu development platform</code>.
                 li Set <code>bmap</code> in <code>option</code>，You can refer to this<a href="https://gallery.echartsjs.com/editor.html?c=effectScatter-bmap"> example</a>.
-                li If you need to get a Baidu map instance, you can use <code>chart.getModel().getComponent('bmap').getBMap()</code>，and then make do settings based on <a href="https://developer.baidu.com/map/reference/index.php?title=Class:%E6%80%BB%E7%B1%BB/%E6%A0%B8%E5%BF%83%E7%B1%BB">Baidu Maps API</a> .
+                li If you need to get a Baidu map instance, you can use <code>chart.getModel().getComponent('bmap').getBMap()</code>，and then make do settings based on <a href="https://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference.html">Baidu Maps API</a> .
             p There are more examples about Baidu maps on <a href="https://gallery.echartsjs.com/explore.html#components=bmap~sort=rank~timeframe=all~author=all">ECharts Gallery</a> , which can be used as a reference.
 
 
