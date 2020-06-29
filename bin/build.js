@@ -158,12 +158,12 @@ async function buildJade(config) {
         let compiledFunction = jade.compileFile(filePath);
 
         const cfg = Object.assign({}, config);
-        cfg.cdnRoot = config.cdnRootMap[lang];
+        cfg.cdnPayRoot = config.cdnPayRootMap[lang];
         cfg.cdnFreeRoot = config.cdnFreeRootMap[lang];
 
-        // This props can be read in jade tpl, like: `#{cdnRoot}`
+        // This props can be read in jade tpl, like: `#{cdnPayRoot}`
         assert(
-            cfg.cdnRoot
+            cfg.cdnPayRoot
             && cfg.cdnFreeRoot
             && cfg.host
             && cfg.cdnThirdParty

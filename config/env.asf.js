@@ -3,7 +3,7 @@ const config = require('./common');
 
 config.host = 'https://echarts.apache.org';
 
-config.cdnRootMap = {
+config.cdnPayRootMap = {
     // Expensive!!! use it carefully.
     zh: 'https://echarts-www.cdn.bcebos.com', // origin: 'https://echarts-www.bj.bcebos.com'
     en: 'https://echarts.apache.org'

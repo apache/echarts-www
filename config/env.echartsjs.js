@@ -2,7 +2,7 @@ const path = require('path');
 const config = require('./common');
 
 config.host = 'https://www.echartsjs.com';
-config.cdnRootMap = {
+config.cdnPayRootMap = {
     zh: config.host,
     en: config.host
 };

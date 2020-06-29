@@ -3,7 +3,7 @@ const config = require('./common');
 
 // config.host = 'http://localhost/incubator-echarts-website';
 config.host = 'http://localhost:8000/echarts/incubator-echarts-website';
-config.cdnRootMap = {
+config.cdnPayRootMap = {
     zh: config.host,
     en: config.host
 };
