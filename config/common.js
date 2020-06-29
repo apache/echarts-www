@@ -12,7 +12,8 @@ module.exports = {
         sweetalertJS: 'https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js',
         echartsMinJS_4_8_0: 'https://cdn.jsdelivr.net/npm/echarts@4.8.0/dist/echarts.min.js',
         prettifyJS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/src/prettify.min.js',
-        prettifyCSS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/styles/sunburst.css',
+        // Can not find good prettify css in jsdelivr.
+        // prettifyCSS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/styles/doxy.css',
         prettifyCSSHandlerJS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/src/lang-css.js',
     },
 
