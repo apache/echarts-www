@@ -2,7 +2,7 @@ extends ../layouts/basic
 
 block extra_head
     <title>地图下载 - Apache ECharts (incubating)</title>
-    link(rel="stylesheet", type="text/css", href="#{cdnPayRoot}/#{ecWWWLang}/vendors/prettify/prettify.css")
+    link(rel="stylesheet", type="text/css", href="#{cdnThirdParty.prettifyCSS}")
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
@@ -97,8 +97,8 @@ block content
     include ../components/footer
 
 block extra_js
-    script(src="#{cdnPayRoot}/#{ecWWWLang}/vendors/prettify/prettify.js")
-    script(src="#{cdnPayRoot}/#{ecWWWLang}/vendors/prettify/lang-css.js")
+    script(src="#{cdnThirdParty.prettifyJS}")
+    script(src="#{cdnThirdParty.prettifyCSSHandlerJS}")
     script.
         document.getElementById('nav-download').className = 'active';
         $('pre').addClass('prettyprint');

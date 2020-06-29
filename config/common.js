@@ -9,6 +9,11 @@ module.exports = {
         perfectScrollbarJS: 'https://cdn.jsdelivr.net/npm/perfect-scrollbar@0.6.8/dist/js/min/perfect-scrollbar.min.js',
         perfectScrollbarCSS: 'https://cdn.jsdelivr.net/npm/perfect-scrollbar@0.6.8/dist/css/perfect-scrollbar.min.css',
         paceProgressBarJS: 'https://cdn.jsdelivr.net/npm/pace-progressbar@1.0.2/pace.min.js',
+        sweetalertJS: 'https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js',
+        echartsMinJS_4_8_0: 'https://cdn.jsdelivr.net/npm/echarts@4.8.0/dist/echarts.min.js',
+        prettifyJS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/src/prettify.min.js',
+        prettifyCSS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/styles/sunburst.css',
+        prettifyCSSHandlerJS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/src/lang-css.js',
     },
 
     // Source folder of echarts
