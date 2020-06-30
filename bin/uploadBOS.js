@@ -28,6 +28,24 @@ async function upload() {
     });
 
     for (relativePath of filePathList) {
+        if (
+            /\.html$/.test(relativePath)
+            || relativePath.indexOf('en/') === 0
+            || relativePath.includes('vendors/echarts')
+            || relativePath.includes('vendors/ace')
+            || relativePath.includes('vendors/bootstrap')
+            || relativePath.includes('vendors/d3')
+            || relativePath.includes('vendors/jquery')
+            || relativePath.includes('vendors/dat.gui')
+            || relativePath.includes('vendors/jquery.lazyload')
+            || relativePath.includes('vendors/loadash')
+            || relativePath.includes('vendors/waypoint')
+            || relativePath.indexOf('zh/builder') === 0
+            || relativePath.indexOf('zh/dist') === 0
+        ) {
+            continue;
+        }
+
         const absolutePath = path.resolve(artifactDir, relativePath);
 
         await client.putObjectFromFile(BUCKET_NAME, relativePath, absolutePath)

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "sh bin/release.sh --env=localsite",
+    "dev:all": "sh bin/release.sh --env=localsite",
     "dev": "node bin/build.js --env=localsite",
     "jade": "node bin/build.js --env=localsite --filter=jade",
     "sass": "node bin/build.js --env=localsite --filter=sass",
