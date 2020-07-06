@@ -5,7 +5,7 @@ block variablesLang
 
 block extra_head
     <title>Download Themes - Apache ECharts (incubating)</title>
-    link(rel="stylesheet", type="text/css", href="#{cdnRoot}/#{ecWWWLang}/vendors/prettify/prettify.css")
+    link(rel='stylesheet', type='text/css', href='#{cdnPayRoot}/#{ecWWWLang}/vendors/prettify/prettify.css')
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
@@ -21,8 +21,8 @@ block content
         .row
             each themeName, idx in theme
                 .col-sm-4.theme
-                    a(class="download-theme" href="#{cdnRoot}/#{ecWWWLang}/asset/theme/#{themeName}.js" download="#{themeName}.js" target="_blank")
-                        img(src="#{cdnRoot}/#{ecWWWLang}/asset/theme/thumb/#{themeName}.png" alt="")
+                    a(class="download-theme" href="#{cdnPayRoot}/#{ecWWWLang}/asset/theme/#{themeName}.js" download="#{themeName}.js" target="_blank")
+                        img(src="#{cdnPayRoot}/#{ecWWWLang}/asset/theme/thumb/#{themeName}.png" alt="")
                     p #{themeName}
 
     section.section-bg#theme-configure-section
@@ -50,8 +50,8 @@ block content
     include ./footer
 
 block extra_js
-    script(src="#{cdnRoot}/#{ecWWWLang}/vendors/prettify/prettify.js")
-    script(src="#{cdnRoot}/#{ecWWWLang}/vendors/prettify/lang-css.js")
+    script(src="#{cdnThirdParty.prettifyJS}")
+    script(src="#{cdnThirdParty.prettifyCSSHandlerJS}")
     script.
         document.getElementById('nav-download').className = 'active';
 

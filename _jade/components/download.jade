@@ -3,7 +3,7 @@ extends ../layouts/basic
 block extra_head
 
     <title>下载 - Apache ECharts (incubating)</title>
-    script(src="#{cdnRoot}/#{ecWWWLang}/vendors/sweetalert.js")
+    //- script(src="#{cdnThirdParty.sweetalertJS}")
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
@@ -167,7 +167,7 @@ block content
 
 
 block extra_js
-    script(src="#{cdnRoot}/#{ecWWWLang}/js/download.js?_v_=#{homeVersion}")
+    script(src="#{cdnPayRoot}/#{ecWWWLang}/js/download.js?_v_=#{homeVersion}")
     script(type='text/javascript').
         document.getElementById('nav-download').className = 'active';
 

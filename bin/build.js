@@ -151,15 +151,30 @@ async function buildJade(config) {
         cwd: basePath
     });
 
-    assert(config.cdnRoot && config.host);
-
     for (let srcPath of srcPaths) {
         let filePath = path.resolve(basePath, srcPath);
+        const lang = srcPath.indexOf('zh/') === 0 ? 'zh' : 'en';
+
         let compiledFunction = jade.compileFile(filePath);
 
-        let html = compiledFunction(config);
+        const cfg = Object.assign({}, config);
+        cfg.cdnPayRoot = config.cdnPayRootMap[lang];
+        cfg.cdnFreeRoot = config.cdnFreeRootMap[lang];
 
-        let destPath = path.resolve(config.releaseDestDir, srcPath.replace('.jade', '.html'));
+        // This props can be read in jade tpl, like: `#{cdnPayRoot}`
+        assert(
+            cfg.cdnPayRoot
+            && cfg.cdnFreeRoot
+            && cfg.host
+            && cfg.cdnThirdParty
+            && cfg.galleryPath
+            && cfg.blogPath
+            && cfg.releaseDestDir
+        );
+
+        let html = compiledFunction(cfg);
+
+        let destPath = path.resolve(cfg.releaseDestDir, srcPath.replace('.jade', '.html'));
         fse.ensureDirSync(path.dirname(destPath));
         fs.writeFileSync(destPath, html, 'utf8');
 

@@ -12,7 +12,7 @@ block content
 
     #main-content
         section#home-section
-            video#video-index(muted="true", loop='true', src='#{cdnRoot}/#{ecWWWLang}/video/index-4.mp4', poster='#{cdnRoot}/#{ecWWWLang}/video/index-4.jpg')
+            video#video-index(muted="true", loop='true', src='#{cdnFreeRoot}/#{ecWWWLang}/video/index-4.mp4', poster='#{cdnPayRoot}/#{ecWWWLang}/video/index-4.jpg')
 
             a#video-index-play.video-index-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-index")')
                 include ../components/svg/play
@@ -73,7 +73,7 @@ block content
                             a(href="./tutorial.html") Learn More
                                 include ../components/svg/more
                     .col-sm-8.col
-                        video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='#{cdnRoot}/#{ecWWWLang}/video/feature-4.mp4' poster='#{cdnRoot}/#{ecWWWLang}/video/feature-4.jpg')
+                        video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-4.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-4.jpg')
 
                         a#video-feature-4-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-4")')
                             include ../components/svg/play
@@ -92,13 +92,13 @@ block content
                                 include ../components/svg/more
                     .col-sm-8.col
                         #col-desktop
-                            img.lazy(data-src="#{cdnRoot}/#{ecWWWLang}/images/feature-1.png")
-                            video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='#{cdnRoot}/#{ecWWWLang}/video/feature-1.mp4' poster='#{cdnRoot}/#{ecWWWLang}/video/feature-2.jpg')
+                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/feature-1.png")
+                            video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-1.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg')
                             a#video-feature-1-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-1")')
                                 include ../components/svg/play
                             a#video-feature-1-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-1")')
                                 include ../components/svg/pause
-                            //- img.lazy#video-feature-1(data-src="#{cdnRoot}/#{ecWWWLang}/video/feature-2.jpg")
+                            //- img.lazy#video-feature-1(data-src="#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg")
                     .col-sm-4.col.pc#col-analysis
                         h2 Multi-dimension data analysis
                         h3 Brush data for detail
@@ -118,7 +118,7 @@ block content
                                 include ../components/svg/more
                     .col-sm-8.col
                         #col-desktop
-                            img.lazy(data-src="#{cdnRoot}/#{ecWWWLang}/images/index-feature.jpg")
+                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/index-feature.jpg")
 
                     script(type='text/javascript').
                         window.supportTouch && (document.getElementById('ch-main').className += ' ch-on-touch');
@@ -127,17 +127,17 @@ block content
             .container
                 .col-sm-8.col
                     h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                    p.note <i class="note-icon"><img classs="lazy" data-src="#{cdnRoot}/#{ecWWWLang}/images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
+                    p.note <i class="note-icon"><img classs="lazy" data-src="#{cdnPayRoot}/#{ecWWWLang}/images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
                     p.link Visual Informatics, 2018
                         a(href="https://www.sciencedirect.com/science/article/pii/S2468502X18300068") [PDF]
                 .col-sm-4.col
                     .img-container
-                        img.lazy(data-src="#{cdnRoot}/#{ecWWWLang}/images/pipeline.jpg", alt="")
+                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/pipeline.jpg", alt="")
 
         section.container
             .companies
                 - for (var i = 1; i <= 24; ++i) {
-                    img.lazy(data-src='#{cdnRoot}/#{ecWWWLang}/images/company/company#{i}.jpg')
+                    img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/company/company#{i}.jpg')
                 -}
 
     include ./footer
@@ -148,5 +148,5 @@ block extra_js
             elements_selector: ".lazy"
         };
     script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
-    script(src='#{cdnRoot}/#{ecWWWLang}/js/index.js?_v_=#{homeVersion}')
+    script(src='#{cdnPayRoot}/#{ecWWWLang}/js/index.js?_v_=#{homeVersion}')
     <script async defer src="https://buttons.github.io/buttons.js"></script>
