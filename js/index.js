@@ -57,12 +57,12 @@
                 var companyImages = $('.companies img');
                 var loadedCompanyImages = companyImages.filter('.loaded');
                 companyLoaded = loadedCompanyImages.length === companyImages.length;
-                for (var i = 1, len = loadedCompanyImages.length; i < len; ++i) {
-                    companyTotalWidth += loadedCompanyImages[i].width;
+                for (var i = 0, len = loadedCompanyImages.length; i < len; ++i) {
+                    companyTotalWidth += loadedCompanyImages[i].width + 30;
                 }
             }
             companyLeft += 1;
-            if (companyLeft > companyTotalWidth) {
+            if (companyLeft > companyTotalWidth - $('.companies').width()) {
                 companyLeft = 0;
             }
             $('.companies').scrollLeft(companyLeft);
