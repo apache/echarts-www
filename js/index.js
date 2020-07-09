@@ -57,8 +57,8 @@
                 var companyImages = $('.companies img');
                 var loadedCompanyImages = companyImages.filter('.loaded');
                 companyLoaded = loadedCompanyImages.length === companyImages.length;
-                for (var i = 1, len = loadedCompanyImages.length; i < len - 3; ++i) {
-                    companyTotalWidth += loadedCompanyImages[i].width + (i === len - 4 ? 60 : 30);
+                for (var i = 1, len = loadedCompanyImages.length; i < len; ++i) {
+                    companyTotalWidth += loadedCompanyImages[i].width;
                 }
             }
             companyLeft += 1;
