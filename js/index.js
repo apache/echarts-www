@@ -43,18 +43,22 @@
         }
     }
 
-    var COMPANY_CNT = 21;
     var companyLeft = 0;
     var companyTotalWidth = 0;
+    var companyLoaded = false;
 
     moveCompany();
 
     function moveCompany() {
         requestAnimationFrame(function () {
-            // compute total width for the first time
-            if (companyTotalWidth === 0) {
-                for (var i = 1; i < COMPANY_CNT - 1; ++i) {
-                    companyTotalWidth += $('.companies img').eq(i).width() + 30;
+            // compute total width
+            if (!companyLoaded) {
+                companyTotalWidth = 0;
+                var companyImages = $('.companies img');
+                var loadedCompanyImages = companyImages.filter('.loaded');
+                companyLoaded = loadedCompanyImages.length === companyImages.length;
+                for (var i = 1, len = loadedCompanyImages.length; i < len - 3; ++i) {
+                    companyTotalWidth += loadedCompanyImages[i].width + (i === len - 4 ? 60 : 30);
                 }
             }
             companyLeft += 1;
