@@ -77,7 +77,7 @@ function initEnv() {
     // Update home version each build.
     config.homeVersion = +new Date();
     // Temp: give a fixed version until need to update.
-    config.cdnPayVersion = '20200710';
+    config.cdnPayVersion = '20200710_1';
 
     config.downloadVersion = '4.8.0';
 
@@ -157,11 +157,11 @@ async function buildJade(config) {
         let filePath = path.resolve(basePath, srcPath);
         const lang = srcPath.indexOf('zh/') === 0 ? 'zh' : 'en';
 
-        let compiledFunction = jade.compileFile(filePath);
-
         const cfg = Object.assign({}, config);
         cfg.cdnPayRoot = config.cdnPayRootMap[lang];
         cfg.cdnFreeRoot = config.cdnFreeRootMap[lang];
+
+        let destPath = path.resolve(cfg.releaseDestDir, srcPath.replace('.jade', '.html'));
 
         // This props can be read in jade tpl, like: `#{cdnPayRoot}`
         assert(
@@ -176,13 +176,21 @@ async function buildJade(config) {
             && cfg.cdnPayVersion
         );
 
-        let html = compiledFunction(cfg);
+        process.stdout.write(`generating: ${destPath} ...`);
 
-        let destPath = path.resolve(cfg.releaseDestDir, srcPath.replace('.jade', '.html'));
-        fse.ensureDirSync(path.dirname(destPath));
-        fs.writeFileSync(destPath, html, 'utf8');
+        try {
+            let compiledFunction = jade.compileFile(filePath);
+            let html = compiledFunction(cfg);
 
-        console.log(chalk.green(`generated: ${destPath}`));
+            fse.ensureDirSync(path.dirname(destPath));
+            fs.writeFileSync(destPath, html, 'utf8');
+
+            console.log(chalk.green(` Done.`));
+        }
+        catch (err) {
+            console.error(err.stack);
+            console.error(err);
+        }
     }
 
     console.log('buildJade done.');
