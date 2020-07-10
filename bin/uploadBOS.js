@@ -67,8 +67,13 @@ async function upload(onlyDoc) {
         }
 
         const absolutePath = path.resolve(artifactDir, relativePath);
+        const opt = {
+            // Try to force use browser cache to save money.
+            // If source changed, change the version param in URL to invalid the cache.
+            'Cache-Control': 'public, max-age=31536000'
+        };
 
-        await client.putObjectFromFile(BUCKET_NAME, relativePath, absolutePath)
+        await client.putObjectFromFile(BUCKET_NAME, relativePath, absolutePath, opt)
 
         console.log(chalk.green(`uploaded: ${absolutePath}`));
     }
