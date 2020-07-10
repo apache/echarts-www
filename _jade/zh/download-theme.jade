@@ -2,7 +2,7 @@ extends ../layouts/basic
 
 block extra_head
     <title>主题下载 - Apache ECharts (incubating)</title>
-    link(rel='stylesheet', type='text/css', href='#{cdnPayRoot}/#{ecWWWLang}/vendors/prettify/prettify.css')
+    link(rel='stylesheet', type='text/css', href='#{cdnPayRoot}/#{ecWWWLang}/vendors/prettify/prettify.css?_v_=#{cdnPayVersion}')
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
@@ -17,8 +17,8 @@ block content
         .row
             each themeName, idx in theme
                 .col-sm-4.theme
-                    a(class="download-theme" href="#{cdnPayRoot}/#{ecWWWLang}/asset/theme/#{themeName}.js" download="#{themeName}.js" target="_blank")
-                        img(src="#{cdnPayRoot}/#{ecWWWLang}/asset/theme/thumb/#{themeName}.png" alt="")
+                    a(class="download-theme" href="#{cdnPayRoot}/#{ecWWWLang}/asset/theme/#{themeName}.js?_v_=#{cdnPayVersion}" download="#{themeName}.js" target="_blank")
+                        img(src="#{cdnPayRoot}/#{ecWWWLang}/asset/theme/thumb/#{themeName}.png?_v_=#{cdnPayVersion}" alt="")
                     p #{themeName}
 
     section.section-bg#theme-configure-section

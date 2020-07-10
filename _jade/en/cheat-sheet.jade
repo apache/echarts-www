@@ -28,7 +28,7 @@ block content
             each names, key in charts
                 li.cheat-chart-item
                     a(href="option.html#series-#{key}", target="_blank")
-                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/builder/chart/#{key}.svg", alt="")
+                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/builder/chart/#{key}.svg?_v_=#{cdnPayVersion}", alt="")
                         <h5><div>#{names[1]}</div></h5>
 
         h2 Coordinates
@@ -37,7 +37,7 @@ block content
                 li.cheat-chart-item
                     - var url = key == 'gridSimple' ? 'grid' : key;
                     a(href="option.html##{url}", target="_blank")
-                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/builder/component/#{key}.svg", alt="")
+                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/builder/component/#{key}.svg?_v_=#{cdnPayVersion}", alt="")
                         <h5><div>#{names[1]}</div></h5>
 
         h2 Components
@@ -49,7 +49,7 @@ block content
                     else
                         - var url = key
                     a(href="option.html##{url}", target="_blank")
-                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/builder/component/#{key}.svg", alt="")
+                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/builder/component/#{key}.svg?_v_=#{cdnPayVersion}", alt="")
                         <h5><div>#{names[1]}</div></h5>
 
 
@@ -58,4 +58,4 @@ block extra_js
         document.getElementById('nav-doc').className = 'active';
 
     script(src='#{cdnThirdParty.echartsMinJS_4_8_0}')
-    script(src='#{cdnPayRoot}/#{ecWWWLang}/js/cheat-sheet-en.js')
+    script(src='#{cdnPayRoot}/#{ecWWWLang}/js/cheat-sheet-en.js?_v_=#{homeVersion}')

@@ -9,7 +9,7 @@ block content
 
     #main-content
         section#home-section
-            video#video-index(muted="true", loop='true', src='#{cdnFreeRoot}/#{ecWWWLang}/video/index-4.mp4', poster='#{cdnPayRoot}/#{ecWWWLang}/video/index-4.jpg')
+            video#video-index(muted="true", loop='true', src='#{cdnFreeRoot}/#{ecWWWLang}/video/index-4.mp4', poster='#{cdnPayRoot}/#{ecWWWLang}/video/index-4.jpg?_v_=#{cdnPayVersion}')
 
             a#video-index-play.video-index-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-index")')
                 include ../components/svg/play
@@ -69,7 +69,7 @@ block content
                             a(href="feature.html") 了解更多
                                 include ../components/svg/more
                     .col-sm-8.col
-                        video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-4.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-4.jpg')
+                        video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-4.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-4.jpg?_v_=#{cdnPayVersion}')
 
                         a#video-feature-4-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-4")')
                             include ../components/svg/play
@@ -89,8 +89,8 @@ block content
 
                     .col-sm-8.col
                         #col-desktop
-                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/feature-1.png")
-                            video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-1.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg')
+                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/feature-1.png?_v_=#{cdnPayVersion}")
+                            video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-1.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg?_v_=#{cdnPayVersion}')
                             a#video-feature-1-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-1")')
                                 include ../components/svg/play
                             a#video-feature-1-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-1")')
@@ -118,19 +118,19 @@ block content
 
                     .col-sm-8.col
                         #col-desktop
-                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/index-feature.jpg")
+                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/index-feature.jpg?_v_=#{cdnPayVersion}")
 
 
         section#publication
             .container
                 .col-sm-8.col
                     h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                    p.note <i class="note-icon"><img classs="lazy" data-src="#{cdnPayRoot}/#{ecWWWLang}/images/note.svg" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
+                    p.note <i class="note-icon"><img classs="lazy" data-src="#{cdnPayRoot}/#{ecWWWLang}/images/note.svg?_v_=#{cdnPayVersion}" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
                     p.link Visual Informatics, 2018
                         a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") [PDF]
                 .col-sm-4.col
                     .img-container
-                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/pipeline.jpg", alt="")
+                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/pipeline.jpg?_v_=#{cdnPayVersion}", alt="")
 
         section.container
             .companies
@@ -144,10 +144,10 @@ block content
                 p 可以通过以下渠道关注 ECharts，及时获得更多最新动态
                 .btn-panel
                     a.btn.btn-blue(href='https://github.com/apache/incubator-echarts')
-                        img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/btn-github.png')
+                        img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/btn-github.png?_v_=#{cdnPayVersion}')
                         span GitHub
                     a.btn.btn-red(href='https://weibo.com/echarts')
-                        img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/btn-weibo.png')
+                        img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/btn-weibo.png?_v_=#{cdnPayVersion}')
                         span 微博
 
     include ../components/footer

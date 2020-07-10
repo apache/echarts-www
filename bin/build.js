@@ -76,6 +76,8 @@ function initEnv() {
 
     // Update home version each build.
     config.homeVersion = +new Date();
+    // Temp: give a fixed version until need to update.
+    config.cdnPayVersion = '20200710';
 
     config.downloadVersion = '4.8.0';
 
@@ -170,6 +172,8 @@ async function buildJade(config) {
             && cfg.galleryPath
             && cfg.blogPath
             && cfg.releaseDestDir
+            && cfg.homeVersion
+            && cfg.cdnPayVersion
         );
 
         let html = compiledFunction(cfg);
