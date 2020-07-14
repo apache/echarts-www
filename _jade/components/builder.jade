@@ -3,7 +3,7 @@ extends ../layouts/basic
 block extra_head
     - var isCN = ecWWWLang == 'zh';
 
-    <title>#{isCN ? 'ECharts 在线构建' : 'ECharts Online Builder'}</title>
+    title #{isCN ? 'ECharts 在线构建' : 'ECharts Online Builder'}
 
 block content
     - var isCN = ecWWWLang == 'zh';
