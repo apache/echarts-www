@@ -15,15 +15,17 @@ block content
     nav(class='navbar navbar-default navbar-fixed-top')
         include ./nav
 
-    .page-info
-        h1 Coding Standard
-        p Please follow this standard when contribute to ECharts project.
+    .page-main
+        .page-info
+            h1 Coding Standard
+            p Please follow this standard when contribute to ECharts project.
 
-    .page-content.single-page
-        .page-nav
-            ul#standard-nav
-        .page-detail
-            include ../../_generated/coding-standard-content.html
+        .page-content.single-page
+            .page-nav
+                ul#standard-nav
+            .page-detail
+                include ../../_generated/coding-standard-content.html
+                include ../components/inner-footer
 
 block extra_js
 

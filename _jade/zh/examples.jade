@@ -11,13 +11,16 @@ block content
     nav(class='navbar navbar-default navbar-fixed-top')
         include ../components/nav
 
-    #left-chart-nav
-        ul
+    .page-main
+        #left-chart-nav
+            ul
 
-    #explore-container
-        .chart-list-panel
+        #explore-container
+            .chart-list-panel
 
-    div(style="display:none") 点击查看详情
+        div(style="display:none") 点击查看详情
+
+        include ../components/footer
 
 block extra_js
     script(type='text/javascript', src='#{cdnThirdParty.jqueryLazyloadJS}')

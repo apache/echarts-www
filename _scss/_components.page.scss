@@ -1,6 +1,15 @@
 $single-page-left-width: 200px;
 $info-height: 120px;
 
+.page-main {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50px;
+    bottom: 0;
+    overflow-y: auto;
+}
+
 .doc-version-change {
     position: absolute;
     top: 70px;
@@ -24,7 +33,6 @@ $info-height: 120px;
 }
 
 .page-info {
-    margin-top: 50px;
     margin-bottom: 30px;
     text-align: center;
     padding: 40px;
@@ -183,13 +191,12 @@ $info-height: 120px;
         }
     }
 
-        p.page-detail-desc {
-            margin-top: 25px;
-        }
-
-
-
 @media screen and (max-device-width: 600px) {
+    .page-main {
+        -webkit-overflow-scrolling: touch;
+        position: static;
+    }
+
     .page-content {
         &.single-page {
             position: static;

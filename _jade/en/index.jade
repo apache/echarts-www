@@ -10,137 +10,155 @@ block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
         include ./nav
 
-    #main-content
-        section#home-section
-            video#video-index(muted="true", loop='true', src='#{cdnFreeRoot}/#{ecWWWLang}/video/index-4.mp4', poster='#{cdnPayRoot}/#{ecWWWLang}/video/index-4.jpg?_v_=#{cdnPayVersion}')
+    .page-main#page-index
+        #main-content
+            section#home-section
+                video#video-index(muted="true", loop='true', src='#{cdnFreeRoot}/#{ecWWWLang}/video/index-4.mp4', poster='#{cdnPayRoot}/#{ecWWWLang}/video/index-4.jpg?_v_=#{cdnPayVersion}')
 
-            a#video-index-play.video-index-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-index")')
-                include ../components/svg/play
-            a#video-index-pause.video-index-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-index")')
-                include ../components/svg/pause
+                a#video-index-play.video-index-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-index")')
+                    include ../components/svg/play
+                a#video-index-pause.video-index-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-index")')
+                    include ../components/svg/pause
 
-            .description
-                include ../components/svg/echarts-logo
-                a#index-play-btn(href='javascript:;', onclick='playIndexVideo()')
-                .btn-panel
-                    a.btn.btn-index-home(href='./download.html', style="letter-spacing:0px") Download
-                    a.btn.btn-index-home(href='https://github.com/apache/incubator-echarts', style="letter-spacing:0px") Source Code
-            .main-bg
+                .description
+                    include ../components/svg/echarts-logo
+                    a#index-play-btn(href='javascript:;', onclick='playIndexVideo()')
+                    .btn-panel
+                        a.btn.btn-index-home(href='./download.html', style="letter-spacing:0px") Download
+                        a.btn.btn-index-home(href='https://github.com/apache/incubator-echarts', style="letter-spacing:0px") Source Code
+                .main-bg
 
-        //- section.banner-section(style='background: #1e2e55')
-        //-     a(href='https://jing.baidu.com/h5/xzzb.html')
-        //-         img.banner-img(src='images/banners/2017-09-12-zhibo.png', style='max-width: 1000px')
-
-
-        script(type='text/javascript').
-            (function () {
-                var ua = navigator.userAgent;
-                var ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/);
-                var edge = ua.match(/Edge\/([\d.]+)/);
-                window.supportTouch = 'ontouchstart' in window && !ie && !edge;
-            })()
+            //- section.banner-section(style='background: #1e2e55')
+            //-     a(href='https://jing.baidu.com/h5/xzzb.html')
+            //-         img.banner-img(src='images/banners/2017-09-12-zhibo.png', style='max-width: 1000px')
 
 
-        section#feature-section
-            .container
-                .row.features
-                    .col-sm-4
-                        .feature-icon-panel
-                            include ../components/svg/heart
-                        h3 Free to use
-                        p Open sourced under Apache-2.0 License
-                    .col-sm-4
-                        .feature-icon-panel
-                            include ../components/svg/function
-                        h3 Rich Features
-                        p Caters for all needs
-                    .col-sm-4
-                        .feature-icon-panel
-                            include ../components/svg/community
-                        h3 Active Community
-                        p <!-- Place this tag where you want the button to render. -->
-                            <a class="github-button" href="https://github.com/apache/incubator-echarts" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star apache/incubator-echarts on GitHub">GitHub Stars</a>
+            script(type='text/javascript').
+                (function () {
+                    var ua = navigator.userAgent;
+                    var ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/);
+                    var edge = ua.match(/Edge\/([\d.]+)/);
+                    window.supportTouch = 'ontouchstart' in window && !ie && !edge;
+                })()
 
-                .row.feature-detail#feature-4
-                    .col-sm-4.col
-                        h2 Brand-new v4.0
-                        p Rendering ability for ten-million-level data
-                        p Supports both SVG and Canvas rendering
-                        p Seperates data and style configuring
-                        p Accessibility supports
-                        p Wechart and Powerpoint supports
-                        .feature-btn
-                            a(href="./tutorial.html") Learn More
-                                include ../components/svg/more
-                    .col-sm-8.col
-                        video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-4.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-4.jpg?_v_=#{cdnPayVersion}')
 
-                        a#video-feature-4-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-4")')
-                            include ../components/svg/play
-                        a#video-feature-4-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-4")')
-                            include ../components/svg/pause
-                        //- img.lazy#video-feature-4(data-src="images/features/scatterGL4.jpg")
-                .row.feature-detail#feature-dimension
-                    .col-sm-4.col.mobile
-                        h2 Multi-dimension data analysis
-                        h3 Brush data for detail
-                        p Dig more out of data
-                        h3 Multi-chart interaction
-                        p Analysis the relationship between multiple charts
-                        .feature-btn
-                            a(href="./tutorial.html") Learn More
-                                include ../components/svg/more
-                    .col-sm-8.col
-                        #col-desktop
-                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/feature-1.png?_v_=#{cdnPayVersion}")
-                            video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-1.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg?_v_=#{cdnPayVersion}')
-                            a#video-feature-1-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-1")')
+            section#feature-section
+                .container
+                    .row.features
+                        .col-sm-4
+                            .feature-icon-panel
+                                include ../components/svg/heart
+                            h3 Free to use
+                            p Open sourced under Apache-2.0 License
+                        .col-sm-4
+                            .feature-icon-panel
+                                include ../components/svg/function
+                            h3 Rich Features
+                            p Caters for all needs
+                        .col-sm-4
+                            .feature-icon-panel
+                                include ../components/svg/community
+                            h3 Active Community
+                            p <!-- Place this tag where you want the button to render. -->
+                                <a class="github-button" href="https://github.com/apache/incubator-echarts" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star apache/incubator-echarts on GitHub">GitHub Stars</a>
+
+                    .row.feature-detail#feature-4
+                        .col-sm-4.col
+                            h2 Brand-new v4.0
+                            p Rendering ability for ten-million-level data
+                            p Supports both SVG and Canvas rendering
+                            p Seperates data and style configuring
+                            p Accessibility supports
+                            p Wechart and Powerpoint supports
+                            .feature-btn
+                                a(href="./tutorial.html") Learn More
+                                    include ../components/svg/more
+                        .col-sm-8.col
+                            video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-4.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-4.jpg?_v_=#{cdnPayVersion}')
+
+                            a#video-feature-4-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-4")')
                                 include ../components/svg/play
-                            a#video-feature-1-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-1")')
+                            a#video-feature-4-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-4")')
                                 include ../components/svg/pause
-                            //- img.lazy#video-feature-1(data-src="#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg?_v_=#{cdnPayVersion}")
-                    .col-sm-4.col.pc#col-analysis
-                        h2 Multi-dimension data analysis
-                        h3 Brush data for detail
-                        p Dig more out of data
-                        h3 Multi-chart interaction
-                        p Analysis the relationship between multiple charts
-                        .feature-btn
-                            a(href="./tutorial.html") Learn More
-                                include ../components/svg/more
-                .row.feature-detail
-                    .col-sm-4.col#col-data
-                        h2 Charts for all sized devices
-                        h3 PC / Phone / Pad / Large Screen ...
-                        p Responsive design for all devices
-                        .feature-btn
-                            a(href="./tutorial.html") Learn More
-                                include ../components/svg/more
+                            //- img.lazy#video-feature-4(data-src="images/features/scatterGL4.jpg")
+                    .row.feature-detail#feature-dimension
+                        .col-sm-4.col.mobile
+                            h2 Multi-dimension data analysis
+                            h3 Brush data for detail
+                            p Dig more out of data
+                            h3 Multi-chart interaction
+                            p Analysis the relationship between multiple charts
+                            .feature-btn
+                                a(href="./tutorial.html") Learn More
+                                    include ../components/svg/more
+                        .col-sm-8.col
+                            #col-desktop
+                                img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/feature-1.png?_v_=#{cdnPayVersion}")
+                                video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-1.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg?_v_=#{cdnPayVersion}')
+                                a#video-feature-1-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-1")')
+                                    include ../components/svg/play
+                                a#video-feature-1-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-1")')
+                                    include ../components/svg/pause
+                                //- img.lazy#video-feature-1(data-src="#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg?_v_=#{cdnPayVersion}")
+                        .col-sm-4.col.pc#col-analysis
+                            h2 Multi-dimension data analysis
+                            h3 Brush data for detail
+                            p Dig more out of data
+                            h3 Multi-chart interaction
+                            p Analysis the relationship between multiple charts
+                            .feature-btn
+                                a(href="./tutorial.html") Learn More
+                                    include ../components/svg/more
+                    .row.feature-detail
+                        .col-sm-4.col#col-data
+                            h2 Charts for all sized devices
+                            h3 PC / Phone / Pad / Large Screen ...
+                            p Responsive design for all devices
+                            .feature-btn
+                                a(href="./tutorial.html") Learn More
+                                    include ../components/svg/more
+                        .col-sm-8.col
+                            #col-desktop
+                                img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/index-feature.jpg?_v_=#{cdnPayVersion}")
+
+                        script(type='text/javascript').
+                            window.supportTouch && (document.getElementById('ch-main').className += ' ch-on-touch');
+
+            section#publication
+                .container
                     .col-sm-8.col
-                        #col-desktop
-                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/index-feature.jpg?_v_=#{cdnPayVersion}")
+                        h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
+                        p.note <i class="note-icon"><img classs="lazy" data-src="#{cdnPayRoot}/#{ecWWWLang}/images/note.svg?_v_=#{cdnPayVersion}" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
+                        p.link Visual Informatics, 2018
+                            a(href="https://www.sciencedirect.com/science/article/pii/S2468502X18300068") [PDF]
+                    .col-sm-4.col
+                        .img-container
+                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/pipeline.jpg?_v_=#{cdnPayVersion}", alt="")
 
-                    script(type='text/javascript').
-                        window.supportTouch && (document.getElementById('ch-main').className += ' ch-on-touch');
+            section.normal#about-section
+                .container
+                    h3 Follow Us
+                    p You may follow Apache ECharts (incubating) to keep informed.
+                    .btn-panel
+                        a#btn-github(href='https://github.com/apache/incubator-echarts')
+                            .btn-content
+                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-github.png?_v_=#{cdnPayVersion}')
+                                span GitHub
+                            .btn-shadow
 
-        section#publication
-            .container
-                .col-sm-8.col
-                    h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                    p.note <i class="note-icon"><img classs="lazy" data-src="#{cdnPayRoot}/#{ecWWWLang}/images/note.svg?_v_=#{cdnPayVersion}" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
-                    p.link Visual Informatics, 2018
-                        a(href="https://www.sciencedirect.com/science/article/pii/S2468502X18300068") [PDF]
-                .col-sm-4.col
-                    .img-container
-                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/pipeline.jpg?_v_=#{cdnPayVersion}", alt="")
+                        a#btn-weibo(href='https://weibo.com/echarts')
+                            .btn-content
+                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-weibo.png?_v_=#{cdnPayVersion}')
+                                span Weibo
+                            .btn-shadow
 
-        section.container
-            .companies
-                - for (var i = 1; i <= 24; ++i) {
-                    img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/company/company#{i}.jpg?_v_=#{cdnPayVersion}')
-                -}
+                        a#btn-twitter(href='https://twitter.com/echartsjs')
+                            .btn-content
+                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-twitter.png?_v_=#{cdnPayVersion}')
+                                span Twitter
+                            .btn-shadow
 
-    include ./footer
+        include ./footer
 
 block extra_js
     script.

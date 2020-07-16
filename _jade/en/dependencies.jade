@@ -4,21 +4,22 @@ block variablesLang
     include ./_variablesLang.jade
 
 block extra_head
-    title Dependencies - Apache ECharts (incubating) 
+    title Dependencies - Apache ECharts (incubating)
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
         include ./nav
 
-    .page-info
-        h1 Dependencies
+    .page-main
+        .page-info
+            h1 Dependencies
 
-    .page-content
-        .container
-            h2 ZRender
-            p ECharts depends on <a href="https://github.com/ecomfe/zrender">ZRender</a>, a lightweight canvas library which provides 2d draw.
+        .page-content
+            .container
+                h2 ZRender
+                p ECharts depends on <a href="https://github.com/ecomfe/zrender">ZRender</a>, a lightweight canvas library which provides 2d draw.
 
-    include ./footer
+        include ./footer
 
 block extra_js
 

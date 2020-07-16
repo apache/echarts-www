@@ -142,6 +142,10 @@ $nav-height: 51px;
     }
 }
 
+    .container-fluid {
+        padding-left: 25px;
+    }
+
 
 #menu-btn {
     display: none;
@@ -155,13 +159,12 @@ $nav-height: 51px;
 }
 
 .navbar-bg {
-    background-color: rgba(41, 60, 85, 0.1);
-    // opacity: 0.75;
+    background-color: rgba(41, 60, 85, 0.3);
     transition-duration: 0.3s;
-    transition-property: opacity;
+    transition-property: background-color, opacity;
 
     &:hover {
-        opacity: 1;
+        background-color: rgba(41, 60, 85, 0.8);
     }
 
     .navbar-nav {
@@ -176,23 +179,28 @@ $nav-height: 51px;
                 background-color: transparent;
             }
         }
-        #nav-github {
+        #nav-apache {
             opacity: 1;
         }
     }
 }
 
-#nav-github {
-    opacity: 0.4;
-    transition: 0.5s;
-
-    img {
-        position: relative;
-        margin-top: -3px;
-    }
+#nav-apache {
+    margin-left: 10px;
+    margin-right: 10px;
+    opacity: 0.6;
 
     &:hover {
         opacity: 1;
+    }
+
+    a {
+        padding: 10px 15px;
+
+        img {
+            width: 127px;
+            height: 30px;
+        }
     }
 }
 

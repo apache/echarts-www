@@ -307,6 +307,16 @@ module.exports = {
             descEN: 'A Flutter widget to use Echarts in a reactive way.'
         }],
         chartType: [{
+            image: 'gl.png',
+            name: 'ECharts GL',
+            website: 'https://github.com/ecomfe/echarts-gl',
+            authors: [{
+                name: '沈毅',
+                website: 'https://github.com/pissang'
+            }],
+            desc: '3D 图表、地理可视化、WebGL 加速渲染',
+            descEN: 'ECharts-GL provides 3D plots, globe visualization and WebGL acceleration.'
+        }, {
             image: 'word-cloud.jpg',
             name: '字符云',
             website: 'https://github.com/ecomfe/echarts-wordcloud',

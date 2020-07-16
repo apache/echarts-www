@@ -7,150 +7,156 @@ block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
         include ../components/nav
 
-    #main-content
-        section#home-section
-            video#video-index(muted="true", loop='true', src='#{cdnFreeRoot}/#{ecWWWLang}/video/index-4.mp4', poster='#{cdnPayRoot}/#{ecWWWLang}/video/index-4.jpg?_v_=#{cdnPayVersion}')
+    .page-main#page-index
+        #main-content
+            section#home-section
+                video#video-index(muted="true", loop='true', src='#{cdnFreeRoot}/#{ecWWWLang}/video/index-4.mp4', poster='#{cdnPayRoot}/#{ecWWWLang}/video/index-4.jpg?_v_=#{cdnPayVersion}')
 
-            a#video-index-play.video-index-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-index")')
-                include ../components/svg/play
-            a#video-index-pause.video-index-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-index")')
-                include ../components/svg/pause
+                a#video-index-play.video-index-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-index")')
+                    include ../components/svg/play
+                a#video-index-pause.video-index-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-index")')
+                    include ../components/svg/pause
 
-            .description
-                include ../components/svg/echarts-logo
-                .btn-panel
-                    a.btn.btn-index-home(href='./feature.html') 特性
-                    a.btn.btn-index-home(href='./download.html') 下载
-            .main-bg
+                .description
+                    include ../components/svg/echarts-logo
+                    .btn-panel
+                        a.btn.btn-index-home(href='./feature.html') 特性
+                        a.btn.btn-index-home(href='./download.html') 下载
+                .main-bg
 
-        //- section.banner-section(style='background: #1e2e55')
-        //-     a(href='https://jing.baidu.com/h5/xzzb.html')
-        //-         img.banner-img(src='images/banners/2017-09-12-zhibo.png', style='max-width: 1000px')
-
-
-        script(type='text/javascript').
-            (function () {
-                var ua = navigator.userAgent;
-                var ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/);
-                var edge = ua.match(/Edge\/([\d.]+)/);
-                window.supportTouch = 'ontouchstart' in window && !ie && !edge;
-            })()
+            //- section.banner-section(style='background: #1e2e55')
+            //-     a(href='https://jing.baidu.com/h5/xzzb.html')
+            //-         img.banner-img(src='images/banners/2017-09-12-zhibo.png', style='max-width: 1000px')
 
 
-        section#feature-section
-            .container
-                .row.features
-                    .col-sm-4
-                        .feature-icon-panel
-                            include ../components/svg/heart
-                        h3 开源免费
-                        p 遵循 Apache-2.0 开源协议，免费商用
-                    .col-sm-4
-                        .feature-icon-panel
-                            include ../components/svg/function
-                        h3 功能丰富
-                        p 涵盖各行业图表，满足各种需求
-                    .col-sm-4
-                        .feature-icon-panel
-                            include ../components/svg/community
-                        h3 社区活跃
-                        p <a class="github-button" href="https://github.com/apache/incubator-echarts" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star apache/incubator-echarts on GitHub">GitHub Stars</a>
+            script(type='text/javascript').
+                (function () {
+                    var ua = navigator.userAgent;
+                    var ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/);
+                    var edge = ua.match(/Edge\/([\d.]+)/);
+                    window.supportTouch = 'ontouchstart' in window && !ie && !edge;
+                })()
 
-                .row.feature-detail#feature-4
-                    .col-sm-4.col
-                        h2 全新 4.0
-                        h3(style="color:#000;font-weight:bold;margin-bottom:20px;") 八项新科技
-                        p 千万级数据可视化渲染能力
-                        p SVG + Canvas 双引擎动力更佳
-                        p 数据样式分离及扁平配置让开发更便捷
-                        p 首创无障碍访问支持
-                        p 微信小程序、PPT，哪里都能用
-                        .feature-btn
-                            a(href="feature.html") 了解更多
-                                include ../components/svg/more
-                    .col-sm-8.col
-                        video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-4.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-4.jpg?_v_=#{cdnPayVersion}')
 
-                        a#video-feature-4-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-4")')
-                            include ../components/svg/play
-                        a#video-feature-4-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-4")')
-                            include ../components/svg/pause
-                        //- img#video-feature-4(src="images/features/scatterGL4.jpg")
-                .row.feature-detail#feature-dimension
-                    .col-sm-4.col.mobile
-                        h2 多维度数据分析
-                        h3 数据自由刷选
-                        p 自由选择数据，发掘数据背后的更多秘密
-                        h3 多图表联动查看
-                        p 对多个图表数据联动查看，进行多维有效分析
-                        .feature-btn
-                            a(href="feature.html") 了解更多
-                                include ../components/svg/more
+            section#feature-section
+                .container
+                    .row.features
+                        .col-sm-4
+                            .feature-icon-panel
+                                include ../components/svg/heart
+                            h3 开源免费
+                            p 遵循 Apache-2.0 开源协议，免费商用
+                        .col-sm-4
+                            .feature-icon-panel
+                                include ../components/svg/function
+                            h3 功能丰富
+                            p 涵盖各行业图表，满足各种需求
+                        .col-sm-4
+                            .feature-icon-panel
+                                include ../components/svg/community
+                            h3 社区活跃
+                            p <a class="github-button" href="https://github.com/apache/incubator-echarts" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star apache/incubator-echarts on GitHub">GitHub Stars</a>
 
-                    .col-sm-8.col
-                        #col-desktop
-                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/feature-1.png?_v_=#{cdnPayVersion}")
-                            video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-1.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg?_v_=#{cdnPayVersion}')
-                            a#video-feature-1-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-1")')
+                    .row.feature-detail#feature-4
+                        .col-sm-4.col
+                            h2 全新 4.0
+                            h3(style="color:#000;font-weight:bold;margin-bottom:20px;") 八项新科技
+                            p 千万级数据可视化渲染能力
+                            p SVG + Canvas 双引擎动力更佳
+                            p 数据样式分离及扁平配置让开发更便捷
+                            p 首创无障碍访问支持
+                            p 微信小程序、PPT，哪里都能用
+                            .feature-btn
+                                a(href="feature.html") 了解更多
+                                    include ../components/svg/more
+                        .col-sm-8.col
+                            video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-4.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-4.jpg?_v_=#{cdnPayVersion}')
+
+                            a#video-feature-4-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-4")')
                                 include ../components/svg/play
-                            a#video-feature-1-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-1")')
+                            a#video-feature-4-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-4")')
                                 include ../components/svg/pause
-                            //- img#video-feature-1(src="video/feature-2.jpg")
+                            //- img#video-feature-4(src="images/features/scatterGL4.jpg")
+                    .row.feature-detail#feature-dimension
+                        .col-sm-4.col.mobile
+                            h2 多维度数据分析
+                            h3 数据自由刷选
+                            p 自由选择数据，发掘数据背后的更多秘密
+                            h3 多图表联动查看
+                            p 对多个图表数据联动查看，进行多维有效分析
+                            .feature-btn
+                                a(href="feature.html") 了解更多
+                                    include ../components/svg/more
 
-                    .col-sm-4.col.pc#col-analysis
-                        h2 多维度数据分析
-                        h3 数据自由刷选
-                        p 自由选择数据，发掘数据背后的更多秘密
-                        h3 多图表联动查看
-                        p 对多个图表数据联动查看，进行多维有效分析
-                        .feature-btn
-                            a(href="feature.html") 了解更多
-                                include ../components/svg/more
+                        .col-sm-8.col
+                            #col-desktop
+                                img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/feature-1.png?_v_=#{cdnPayVersion}")
+                                video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-1.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg?_v_=#{cdnPayVersion}')
+                                a#video-feature-1-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-1")')
+                                    include ../components/svg/play
+                                a#video-feature-1-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-1")')
+                                    include ../components/svg/pause
+                                //- img#video-feature-1(src="video/feature-2.jpg")
 
-                .row.feature-detail
-                    .col-sm-4.col#col-data
-                        h2 多设备随意展示
-                        h3 电脑／手机／平板／大屏  …
-                        p 兼容多种设备，可随时随地任性展示
-                        .feature-btn
-                            a(href="feature.html") 了解更多
-                                include ../components/svg/more
+                        .col-sm-4.col.pc#col-analysis
+                            h2 多维度数据分析
+                            h3 数据自由刷选
+                            p 自由选择数据，发掘数据背后的更多秘密
+                            h3 多图表联动查看
+                            p 对多个图表数据联动查看，进行多维有效分析
+                            .feature-btn
+                                a(href="feature.html") 了解更多
+                                    include ../components/svg/more
 
+                    .row.feature-detail
+                        .col-sm-4.col#col-data
+                            h2 多设备随意展示
+                            h3 电脑／手机／平板／大屏  …
+                            p 兼容多种设备，可随时随地任性展示
+                            .feature-btn
+                                a(href="feature.html") 了解更多
+                                    include ../components/svg/more
+
+                        .col-sm-8.col
+                            #col-desktop
+                                img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/index-feature.jpg?_v_=#{cdnPayVersion}")
+
+
+            section#publication
+                .container
                     .col-sm-8.col
-                        #col-desktop
-                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/index-feature.jpg?_v_=#{cdnPayVersion}")
+                        h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
+                        p.note <i class="note-icon"><img classs="lazy" data-src="#{cdnPayRoot}/#{ecWWWLang}/images/note.svg?_v_=#{cdnPayVersion}" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
+                        p.link Visual Informatics, 2018
+                            a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") [PDF]
+                    .col-sm-4.col
+                        .img-container
+                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/pipeline.jpg?_v_=#{cdnPayVersion}", alt="")
 
+            section.normal#about-section
+                .container
+                    h3 关注我们
+                    p 可以通过以下渠道关注 ECharts，及时获得更多最新动态
+                    .btn-panel
+                        a#btn-github(href='https://github.com/apache/incubator-echarts')
+                            .btn-content
+                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-github.png?_v_=#{cdnPayVersion}')
+                                span GitHub
+                            .btn-shadow
 
-        section#publication
-            .container
-                .col-sm-8.col
-                    h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                    p.note <i class="note-icon"><img classs="lazy" data-src="#{cdnPayRoot}/#{ecWWWLang}/images/note.svg?_v_=#{cdnPayVersion}" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
-                    p.link Visual Informatics, 2018
-                        a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") [PDF]
-                .col-sm-4.col
-                    .img-container
-                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/pipeline.jpg?_v_=#{cdnPayVersion}", alt="")
+                        a#btn-weibo(href='https://weibo.com/echarts')
+                            .btn-content.zh
+                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-weibo.png?_v_=#{cdnPayVersion}')
+                                span 微博
+                            .btn-shadow
 
-        section.container
-            .companies
-                - for (var i = 1; i <= 24; ++i) {
-                    img.lazy(data-src='#{cdnFreeRoot}/#{ecWWWLang}/images/company/company#{i}.jpg')
-                -}
+                        a#btn-twitter(href='https://twitter.com/echartsjs')
+                            .btn-content
+                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-twitter.png?_v_=#{cdnPayVersion}')
+                                span Twitter
+                            .btn-shadow
 
-        section.normal#about-section
-            .container
-                h3 关注我们
-                p 可以通过以下渠道关注 ECharts，及时获得更多最新动态
-                .btn-panel
-                    a.btn.btn-blue(href='https://github.com/apache/incubator-echarts')
-                        img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/btn-github.png?_v_=#{cdnPayVersion}')
-                        span GitHub
-                    a.btn.btn-red(href='https://weibo.com/echarts')
-                        img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/btn-weibo.png?_v_=#{cdnPayVersion}')
-                        span 微博
-
-    include ../components/footer
+        include ../components/footer
 
 block extra_js
     script.

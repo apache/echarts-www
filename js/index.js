@@ -6,8 +6,8 @@
     var defaultEle = $('.navbar-default');
     defaultEle.addClass('navbar-bg');
 
-    $(window).scroll(function () {
-        if (window.pageYOffset > 600) {
+    $('#page-index').scroll(function () {
+        if ($('#page-index')[0].scrollTop > 600) {
             defaultEle.removeClass('navbar-bg');
         }
         else {
@@ -42,56 +42,7 @@
             }
         }
     }
-
-    var companyLeft = 0;
-    var companyTotalWidth = 0;
-    var companyLoaded = false;
-
-    moveCompany();
-
-    function moveCompany() {
-        requestAnimationFrame(function () {
-            // compute total width
-            if (!companyLoaded) {
-                companyTotalWidth = 0;
-                var companyImages = $('.companies img');
-                var loadedCompanyImages = companyImages.filter('.loaded');
-                companyLoaded = loadedCompanyImages.length === companyImages.length;
-                for (var i = 0, len = loadedCompanyImages.length; i < len; ++i) {
-                    companyTotalWidth += loadedCompanyImages[i].width + 30;
-                }
-            }
-            companyLeft += 1;
-            if (companyLeft > companyTotalWidth - $('.companies').width()) {
-                companyLeft = 0;
-            }
-            $('.companies').scrollLeft(companyLeft);
-
-            moveCompany();
-        });
-    }
 })();
-
-var recommendId = 3;
-setInterval(function () {
-    recommend(recommendId);
-    ++recommendId;
-    if (recommendId === $('.recommend').length) {
-        recommendId = 0;
-    }
-}, 3000);
-
-function recommend(id) {
-    recommendId = id;
-
-    var left = $('.people img').eq(0).remove();
-    $('.people').append(left);
-    $('.people img').removeClass('active');
-    $('.people img').eq(2).addClass('active');
-
-    $('.recommend').removeClass('active');
-    $('.recommend').eq(id).addClass('active');
-}
 
 function renderHomepage3TouchDemo(echarts) {
 

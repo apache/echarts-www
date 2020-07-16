@@ -1,18 +1,4 @@
-#ec-doc-main {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50px;
-    bottom: 0;
-}
-
-
 @media (max-width: 600px) {
-    #ec-doc-main {
-        -webkit-overflow-scrolling: touch;
-        position: static;
-    }
-
     #ec-doc-nav {
         position: static;
         margin-bottom: 0;

@@ -55,8 +55,6 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                     ul.dropdown-menu
                         li
                             a(href="https://gallery.echartsjs.com") Gallery
-                        li
-                            a(href="#{blogPath}") 博客
                 li#nav-tool
                     a(href='#', class="dropdown-toggle", data-toggle="dropdown") 工具
                         b.caret
@@ -94,9 +92,8 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                             a(href='#{hostParam}/zh/faq.html') 常见问题
 
             ul(class='nav navbar-nav navbar-right')
-                li#nav-github
-                    a(href="https://github.com/apache/incubator-echarts" target="_blank")
-                        img(src="#{cdnPayRootParam}/zh/images/github.png?_v_=#{cdnPayVersionParam}", width="18")
                 li#nav-homeen
                     a(href='javascript:;', onclick="changeLang('en')") EN
-
+                li#nav-apache
+                    a(href="https://www.apache.org/" target="_blank")
+                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/apache-incubator-white.png?_v_=#{cdnPayVersionParam}", width="18")
