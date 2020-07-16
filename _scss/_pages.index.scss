@@ -335,8 +335,6 @@ body {
     }
 
     #feature-section {
-        // box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.05);
-        border-top: 1px solid #eee;
         padding-top: 50px;
 
         .container {
@@ -807,5 +805,12 @@ body {
             bottom: 20%;
         }
 
+    }
+
+    #about-section .btn-panel {
+        a {
+            display: block;
+            margin: 20px auto;
+        }
     }
 }

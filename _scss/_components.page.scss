@@ -40,7 +40,7 @@ $info-height: 120px;
     background: #F4F7FC;
 
     h1 {
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         font-size: 40px;
         font-weight: bold;
         color: #333;
@@ -49,6 +49,12 @@ $info-height: 120px;
     p {
         font-size: 16px;
     }
+}
+
+.page-info-echarts {
+    font-size: 12px;
+    margin-top: 15px;
+    color: #8E99AB;
 }
 
 .page-content {
@@ -192,11 +198,6 @@ $info-height: 120px;
     }
 
 @media screen and (max-device-width: 600px) {
-    .page-main {
-        -webkit-overflow-scrolling: touch;
-        position: static;
-    }
-
     .page-content {
         &.single-page {
             position: static;
@@ -215,6 +216,10 @@ $info-height: 120px;
         text-align: left;
         padding: 15px;
         margin-bottom: 10px;
+
+        h1 {
+            margin-bottom: 10px;
+        }
     }
 
     .page-nav {
