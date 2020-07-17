@@ -65,9 +65,11 @@ mixin nav(basePath, cdnBasePath)
                             a(href="https://www.echartsjs.com/theme-builder/") Theme Builder (Chinese)
                 li#nav-contribute
                     a.dropdown-toggle(href='#', data-toggle='dropdown')
-                        | Contribute
+                        | Contributing
                         b.caret
                     ul.dropdown-menu
+                        li
+                            a(href='#{basePath}/en/contributing.html') How to Contribute
                         li
                             a(href='https://github.com/apache/incubator-echarts', target='_blank') Source Code (GitHub)
                         li
@@ -86,6 +88,8 @@ mixin nav(basePath, cdnBasePath)
                             a(href='#{basePath}/en/maillist.html') Mailing List
                         li
                             a(href='#{basePath}/en/dependencies.html') Dependencies
+                        li
+                            a(href='#{basePath}/en/security.html') Security
                         li
                             a(href='#{basePath}/en/faq.html') FAQ
 
