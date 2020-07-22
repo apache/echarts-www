@@ -267,6 +267,24 @@ async function updateSourceVersion(config) {
     }
 }
 
+async function makeCDNChecker(config) {
+    const relativePath = 'zh/css/only_for_cdn_ready_check.css';
+    const targetPath = path.resolve(config.releaseDestDir, relativePath);
+    const content = `/* ${config.homeVersion} OK */`;
+    fs.writeFileSync(targetPath, content, 'utf8');
+    const cdnPayRoot = config.cdnPayRootMap.zh;
+    const homeVersion = config.homeVersion;
+
+    console.log(chalk.green('================================================='));
+    console.log(chalk.green('====== CDN checker made ========================='));
+    console.log(`Please waite for a while, and then use this shell cmd to check: `);
+    console.log(chalk.green(`curl "${cdnPayRoot}/${relativePath}?_v_=${homeVersion}_test_1" | grep ${homeVersion}`));
+    console.log(`If there is no ${chalk.green('OK')} printed, wait for a while and then use this cmd to check again:`);
+    console.log(chalk.green(`curl "${cdnPayRoot}/${relativePath}?_v_=${homeVersion}_test_2" | grep ${homeVersion}`));
+    console.log(`repeat this process until ${chalk.green('OK')} printed.`);
+    console.log(chalk.green('================================================='));
+}
+
 async function buildLegacyDoc(config) {
     // Build JS
     let jsDestPathZH = path.resolve(config.releaseDestDir, './zh/js/docTool/main.js');
@@ -458,6 +476,8 @@ async function run() {
 
             await buildLegacyDoc(config);
             await buildSpreadsheet(config);
+
+            await makeCDNChecker(config);
         }
         else {
             const filters = config.filter.split(',');
