@@ -276,7 +276,7 @@ async function makeCDNChecker(config) {
     const homeVersion = config.homeVersion;
 
     console.log(chalk.green('================================================='));
-    console.log(chalk.green('====== CDN checker made ========================='));
+    console.log(chalk.green('====== CDN checker =============================='));
     console.log(`Please waite for a while, and then use this shell cmd to check: `);
     console.log(chalk.green(`curl "${cdnPayRoot}/${relativePath}?_v_=${homeVersion}_test_1" | grep ${homeVersion}`));
     console.log(`If there is no ${chalk.green('OK')} printed, wait for a while and then use this cmd to check again:`);
