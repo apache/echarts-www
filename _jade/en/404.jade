@@ -1,14 +1,16 @@
 extends ../layouts/basic
 
 block content
-    nav(class='navbar navbar-default navbar-fixed-top')
-        include ../components/nav
+    .page-main
+        nav(class='navbar navbar-default navbar-fixed-top')
+            include ../components/nav
 
-    .not-found
-        img(src="#{cdnRoot}/#{ecWWWLang}/images/404.png", alt="404")
-        .text This is not the web page you are looking for.
-            a(href="./index.html", class="link") Back to home
+        .not-found
+            img(src="#{cdnPayRoot}/#{ecWWWLang}/images/404.png?_v_=#{cdnPayVersion}", alt="404")
+            .text This is not the web page you are looking for.
+                a(href="./index.html", class="link") Back to home
 
+        include ../components/footer
 
 block extra_js
 

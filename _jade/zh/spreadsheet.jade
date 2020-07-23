@@ -1,9 +1,9 @@
 extends ../layouts/basic
 
 block extra_head
-    <title>Spreadsheet Tool - Apache ECharts (incubating)</title>
-    link(rel="stylesheet", type="text/css", href="#{cdnRoot}/#{ecWWWLang}/vendors/handsontable/0.26.1/dist/handsontable.full.min.css?_v_=1.0.0")
-    link(rel="stylesheet", type="text/css", href="#{cdnRoot}/#{ecWWWLang}/css/spreadsheet.css?_v_=#{homeVersion}")
+    title Spreadsheet Tool - Apache ECharts (incubating)
+    link(rel="stylesheet", type="text/css", href="#{cdnPayRoot}/#{ecWWWLang}/vendors/handsontable/0.26.1/dist/handsontable.full.min.css?_v_=#{cdnPayVersion}")
+    link(rel="stylesheet", type="text/css", href="#{cdnPayRoot}/#{ecWWWLang}/css/spreadsheet.css?_v_=#{homeVersion}")
     script(src="vendors/esl.js")
 
 
@@ -29,7 +29,7 @@ block extra_js
         }, window.globalArgsExtra || {}));
 
         require.config({
-            baseUrl: '#{cdnRoot}/#{ecWWWLang}/js',
+            baseUrl: '#{cdnPayRoot}/#{ecWWWLang}/js',
             paths: {
                 dt: vendorPath + '/dt/0.0.1',
                 tpl: vendorPath + '/dt/0.0.1/tplLoader',

@@ -76,6 +76,8 @@ function initEnv() {
 
     // Update home version each build.
     config.homeVersion = +new Date();
+    // Temp: give a fixed version until need to update.
+    config.cdnPayVersion = '20200710_1';
 
     config.downloadVersion = '4.8.0';
 
@@ -151,19 +153,44 @@ async function buildJade(config) {
         cwd: basePath
     });
 
-    assert(config.cdnRoot && config.host);
-
     for (let srcPath of srcPaths) {
         let filePath = path.resolve(basePath, srcPath);
-        let compiledFunction = jade.compileFile(filePath);
+        const lang = srcPath.indexOf('zh/') === 0 ? 'zh' : 'en';
 
-        let html = compiledFunction(config);
+        const cfg = Object.assign({}, config);
+        cfg.cdnPayRoot = config.cdnPayRootMap[lang];
+        cfg.cdnFreeRoot = config.cdnFreeRootMap[lang];
 
-        let destPath = path.resolve(config.releaseDestDir, srcPath.replace('.jade', '.html'));
-        fse.ensureDirSync(path.dirname(destPath));
-        fs.writeFileSync(destPath, html, 'utf8');
+        let destPath = path.resolve(cfg.releaseDestDir, srcPath.replace('.jade', '.html'));
 
-        console.log(chalk.green(`generated: ${destPath}`));
+        // This props can be read in jade tpl, like: `#{cdnPayRoot}`
+        assert(
+            cfg.cdnPayRoot
+            && cfg.cdnFreeRoot
+            && cfg.host
+            && cfg.cdnThirdParty
+            && cfg.galleryPath
+            && cfg.blogPath
+            && cfg.releaseDestDir
+            && cfg.homeVersion
+            && cfg.cdnPayVersion
+        );
+
+        process.stdout.write(`generating: ${destPath} ...`);
+
+        try {
+            let compiledFunction = jade.compileFile(filePath);
+            let html = compiledFunction(cfg);
+
+            fse.ensureDirSync(path.dirname(destPath));
+            fs.writeFileSync(destPath, html, 'utf8');
+
+            console.log(chalk.green(` Done.`));
+        }
+        catch (err) {
+            console.error(err.stack);
+            console.error(err);
+        }
     }
 
     console.log('buildJade done.');
@@ -238,6 +265,24 @@ async function updateSourceVersion(config) {
         fs.writeFileSync(filePath, content, 'utf8');
         console.log(chalk.green(`sourceVersion updated: ${filePath}`));
     }
+}
+
+async function makeCDNChecker(config) {
+    const relativePath = 'zh/css/only_for_cdn_ready_check.css';
+    const targetPath = path.resolve(config.releaseDestDir, relativePath);
+    const content = `/* ${config.homeVersion} OK */`;
+    fs.writeFileSync(targetPath, content, 'utf8');
+    const cdnPayRoot = config.cdnPayRootMap.zh;
+    const homeVersion = config.homeVersion;
+
+    console.log(chalk.green('================================================='));
+    console.log(chalk.green('====== CDN checker made ========================='));
+    console.log(`Please waite for a while, and then use this shell cmd to check: `);
+    console.log(chalk.green(`curl "${cdnPayRoot}/${relativePath}?_v_=${homeVersion}_test_1" | grep ${homeVersion}`));
+    console.log(`If there is no ${chalk.green('OK')} printed, wait for a while and then use this cmd to check again:`);
+    console.log(chalk.green(`curl "${cdnPayRoot}/${relativePath}?_v_=${homeVersion}_test_2" | grep ${homeVersion}`));
+    console.log(`repeat this process until ${chalk.green('OK')} printed.`);
+    console.log(chalk.green('================================================='));
 }
 
 async function buildLegacyDoc(config) {
@@ -431,6 +476,8 @@ async function run() {
 
             await buildLegacyDoc(config);
             await buildSpreadsheet(config);
+
+            await makeCDNChecker(config);
         }
         else {
             const filters = config.filter.split(',');

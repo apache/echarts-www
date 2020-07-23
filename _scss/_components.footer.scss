@@ -1,8 +1,37 @@
 footer {
     min-height: 236px;
     background-color: $clr-primary;
-    color: #aaa;
+    color: #808795;
     font-size: 14px;
+
+    &.inner-footer {
+        background-color: transparent;
+        border-top: 1px solid #eee;
+        margin-top: 40px;
+        color: #aaa;
+        font-size: 12px;
+
+        .container {
+            padding: 0;
+        }
+
+        p {
+            line-height: 20px;
+        }
+
+        .row {
+            margin-top: 20px !important;
+        }
+
+        #footer-icon-panel {
+            text-align: left;
+
+            img {
+                margin-top: 20px;
+                width: 250px;
+            }
+        }
+    }
 
     .row {
         margin-top: 50px !important;

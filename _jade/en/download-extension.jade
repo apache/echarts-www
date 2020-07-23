@@ -9,9 +9,9 @@ mixin extension(ext)
         .extension-content
             a.extension-head(href="#{website}")
                 if ext.image
-                    img.extension-img(src="#{cdnRoot}/#{ecWWWLang}/images/extensions/#{ext.image}")
+                    img.extension-img(src="#{cdnPayRoot}/#{ecWWWLang}/images/extensions/#{ext.image}?_v_=#{cdnPayVersion}")
                 else
-                    img.extension-img(src="#{cdnRoot}/#{ecWWWLang}/images/extensions/default-extension.png")
+                    img.extension-img(src="#{cdnPayRoot}/#{ecWWWLang}/images/extensions/default-extension.png?_v_=#{cdnPayVersion}")
             .extension-info
                 a.extension-name(href="#{website}") #{ext.name}
                 .extension-author
@@ -24,58 +24,59 @@ block variablesLang
     include ./_variablesLang.jade
 
 block extra_head
-    <title> Extensions - Apache ECharts (incubating)</title>
+    title Download Extensions - Apache ECharts (incubating)
 
 block content
 
     nav(class='navbar navbar-default navbar-fixed-top')
         include ./nav
 
+    .page-main
+        .page-info
+            h1 Download Extensions
+            p Download extensions and enhance what ECharts can do.
+            p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
 
-    .page-info
-        h1 Download Extensions
-        p Download extensions and enhance what ECharts can do.
+        .page-content.container#extension
+            .nav-container
+                ul.nav.nav-tabs
+                    li.active
+                        a(href="#chart-type", data-toggle="tab") Charts and Components
+                    li
+                        a(href="#functional", data-toggle="tab") Enhancement
+                    li
+                        a(href="#framework", data-toggle="tab") Frameworks
+                    li
+                        a(href="#language", data-toggle="tab") Languages
 
-    .page-content.container#extension
-        .nav-container
-            ul.nav.nav-tabs
-                li.active
-                    a(href="#chart-type", data-toggle="tab") Charts and Components
-                li
-                    a(href="#functional", data-toggle="tab") Enhancement
-                li
-                    a(href="#framework", data-toggle="tab") Frameworks
-                li
-                    a(href="#language", data-toggle="tab") Languages
+            .tab-content
+                .tab-pane.active#chart-type
+                    .row
+                        each ext in extensions.chartType
+                            +extension(ext)
+                .tab-pane#functional
+                    .row
+                        each ext in extensions.functional
+                            +extension(ext)
+                .tab-pane#framework
+                    .row
+                        each ext in extensions.framework
+                            +extension(ext)
+                .tab-pane#language
+                    .row
+                        each ext in extensions.language
+                            +extension(ext)
 
-        .tab-content
-            .tab-pane.active#chart-type
-                .row
-                    each ext in extensions.chartType
-                        +extension(ext)
-            .tab-pane#functional
-                .row
-                    each ext in extensions.functional
-                        +extension(ext)
-            .tab-pane#framework
-                .row
-                    each ext in extensions.framework
-                        +extension(ext)
-            .tab-pane#language
-                .row
-                    each ext in extensions.language
-                        +extension(ext)
+        #submit-extension
+            .container
+                h3 Submit your ECharts extension
+                p We will get in touch with you as soon as possible, and the extensions you make will be available to ECharts users on this page.
+                p Thank you again for your support and contribution to ECharts!
+                a.btn.btn-thirdary(href='mailto:dev@echarts.apache.com')
+                    img(src='#{cdnPayRoot}/#{ecWWWLang}/images/btn-email.png?_v_=#{cdnPayVersion}')
+                    span Send Email
 
-    #submit-extension
-        .container
-            h3 Submit your ECharts extension
-            p We will get in touch with you as soon as possible, and the extensions you make will be available to ECharts users on this page.
-            p Thank you again for your support and contribution to ECharts!
-            a.btn.btn-thirdary(href='mailto:dev@echarts.apache.com')
-                img(src='#{cdnRoot}/#{ecWWWLang}/images/btn-email.png')
-                span Send Email
-
-    include ./footer
+        include ./footer
 
 block extra_js
     script(type='text/javascript').

@@ -4,54 +4,56 @@ block variablesLang
     include ./_variablesLang.jade
 
 block extra_head
-    <title>Download Themes - Apache ECharts (incubating)</title>
-    link(rel="stylesheet", type="text/css", href="#{cdnRoot}/#{ecWWWLang}/vendors/prettify/prettify.css")
+    title Download Themes - Apache ECharts (incubating)
+    link(rel='stylesheet', type='text/css', href='#{cdnPayRoot}/#{ecWWWLang}/vendors/prettify/prettify.css?_v_=#{cdnPayVersion}')
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
         include ./nav
 
-    .page-info
-        #themes.container
-            h1 Download Themes
-            p Change the looking of your charts.
-            p You can also make your own theme along with using the themes we provide.
+    .page-main
+        .page-info
+            #themes.container
+                h1 Download Themes
+                p Change the looking of your charts.
+                p You can also make your own theme along with using the themes we provide.
+                p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
 
-    .page-content.container#themes
-        .row
-            each themeName, idx in theme
-                .col-sm-4.theme
-                    a(class="download-theme" href="#{cdnRoot}/#{ecWWWLang}/asset/theme/#{themeName}.js" download="#{themeName}.js" target="_blank")
-                        img(src="#{cdnRoot}/#{ecWWWLang}/asset/theme/thumb/#{themeName}.png" alt="")
-                    p #{themeName}
+        .page-content.container#themes
+            .row
+                each themeName, idx in theme
+                    .col-sm-4.theme
+                        a(class="download-theme" href="#{cdnPayRoot}/#{ecWWWLang}/asset/theme/#{themeName}.js?_v_=#{cdnPayVersion}" download="#{themeName}.js" target="_blank")
+                            img(src="#{cdnPayRoot}/#{ecWWWLang}/asset/theme/thumb/#{themeName}.png?_v_=#{cdnPayVersion}" alt="")
+                        p #{themeName}
 
-    section.section-bg#theme-configure-section
-        .container
-            #theme-builder
-                a.btn.btn-thirdary.more-btn(href="https://www.echartsjs.com/theme-builder/") Theme Builder
-                p Make a custom theme and use it for your charts. Currently, this tool has Chinese version only.
+        section.section-bg#theme-configure-section
+            .container
+                #theme-builder
+                    a.btn.btn-thirdary.more-btn(href="https://www.echartsjs.com/theme-builder/") Theme Builder
+                    p Make a custom theme and use it for your charts. Currently, this tool has Chinese version only.
 
-    section
-        .container
-            #theme-example
-                h4 An example of using a theme
-                pre(class="html").
-                    &lt;script src="echarts.js"&gt;&lt;/script&gt;
-                    &lt;!-- import vintage theme --&gt;
-                    &lt;script src="theme/vintage.js"&gt;&lt;/script&gt;
-                    &lt;script&gt;
-                    // The second parameter is the name of the theme imported
-                    var chart = echarts.init(document.getElementById('main'), 'vintage');
-                    chart.setOption({
-                        ...
-                    });
-                    &lt;/script&gt;
+        section
+            .container
+                #theme-example
+                    h4 An example of using a theme
+                    pre(class="html").
+                        &lt;script src="echarts.js"&gt;&lt;/script&gt;
+                        &lt;!-- import vintage theme --&gt;
+                        &lt;script src="theme/vintage.js"&gt;&lt;/script&gt;
+                        &lt;script&gt;
+                        // The second parameter is the name of the theme imported
+                        var chart = echarts.init(document.getElementById('main'), 'vintage');
+                        chart.setOption({
+                            ...
+                        });
+                        &lt;/script&gt;
 
-    include ./footer
+        include ./footer
 
 block extra_js
-    script(src="#{cdnRoot}/#{ecWWWLang}/vendors/prettify/prettify.js")
-    script(src="#{cdnRoot}/#{ecWWWLang}/vendors/prettify/lang-css.js")
+    script(src="#{cdnThirdParty.prettifyJS}")
+    script(src="#{cdnThirdParty.prettifyCSSHandlerJS}")
     script.
         document.getElementById('nav-download').className = 'active';
 

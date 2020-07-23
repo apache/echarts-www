@@ -4,36 +4,38 @@ block variablesLang
     include ./_variablesLang.jade
 
 block extra_head
-    title Mailing List - Apache ECharts (incubating) 
+    title Mailing List - Apache ECharts (incubating)
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
         include ./nav
 
-    .page-info
-        h1 Mailing List
+    .page-main
+        .page-info
+            h1 Mailing List
+            p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
 
-    .page-content#maillist
-        .container
-            h2 About Mailing List
-            p Mailing list is where we discuss in public and keep everything tracked. You are welcomed to subscribe it if you wish:
-            ul
-                li To be informed about bug reports or feature requests;
-                li To discuss about developing plans or specific issues;
-                li To offer helps to those who ask questions by email;
-                li And etc.
+        .page-content#maillist
+            .container
+                h2 About Mailing List
+                p Mailing list is where we discuss in public and keep everything tracked. You are welcomed to subscribe it if you wish:
+                ul
+                    li To be informed about bug reports or feature requests;
+                    li To discuss about developing plans or specific issues;
+                    li To offer helps to those who ask questions by email;
+                    li And etc.
 
-            p If you have a specific bug to report or feature request, we'd suggest you opening an issue with our <a href="https://ecomfe.github.io/echarts-issue-helper">issue helper tool</a>, which is a more efficient way to report the details.
+                p If you have a specific bug to report or feature request, we'd suggest you opening an issue with our <a href="https://ecomfe.github.io/echarts-issue-helper">issue helper tool</a>, which is a more efficient way to report the details.
 
-            p <a href="mailto:commits@echarts.incubator.apache.org">commits@echarts.incubator.apache.org</a> focuses on the commit logs, while <a href="mailto:dev@echarts.incubator.apache.org">dev@echarts.incubator.apache.org</a> holds other general discussions.
+                p <a href="mailto:commits@echarts.incubator.apache.org">commits@echarts.incubator.apache.org</a> focuses on the commit logs, while <a href="mailto:dev@echarts.incubator.apache.org">dev@echarts.incubator.apache.org</a> holds other general discussions.
 
-            p These two are public mailing list, and you can get access to them on Website <a href="https://lists.apache.org/list.html?commits@echarts.apache.org">https://lists.apache.org/list.html?commits@echarts.apache.org</a> and <a href="https://lists.apache.org/list.html?dev@echarts.apache.org">https://lists.apache.org/list.html?dev@echarts.apache.org</a> without subscribing.
+                p These two are public mailing list, and you can get access to them on Website <a href="https://lists.apache.org/list.html?commits@echarts.apache.org">https://lists.apache.org/list.html?commits@echarts.apache.org</a> and <a href="https://lists.apache.org/list.html?dev@echarts.apache.org">https://lists.apache.org/list.html?dev@echarts.apache.org</a> without subscribing.
 
-            h2 How To Subscribe
-            p Email <a href="mailto:commits-subscribe@echarts.incubator.apache.org">commits-subscribe@echarts.incubator.apache.org</a> or <a href="mailto:dev-subscribe@echarts.incubator.apache.org">dev-subscribe@echarts.incubator.apache.org</a> to subscribe commits@echarts.incubator.apache.org and dev@echarts.incubator.apache.org accordingly.
-            p You should receive an email and please follow the instructions in that.
+                h2 How To Subscribe
+                p Email <a href="mailto:commits-subscribe@echarts.incubator.apache.org">commits-subscribe@echarts.incubator.apache.org</a> or <a href="mailto:dev-subscribe@echarts.incubator.apache.org">dev-subscribe@echarts.incubator.apache.org</a> to subscribe commits@echarts.incubator.apache.org and dev@echarts.incubator.apache.org accordingly.
+                p You should receive an email and please follow the instructions in that.
 
-    include ./footer
+        include ./footer
 
 block extra_js
 

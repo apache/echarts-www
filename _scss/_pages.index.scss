@@ -17,6 +17,10 @@ body {
     background-color: #fff;
 }
 
+#page-index {
+    top: 0;
+}
+
 #main-content {
     color: $clr-text-home;
     font-weight: 300;
@@ -331,8 +335,6 @@ body {
     }
 
     #feature-section {
-        // box-shadow: 0 -10px 20px 0 rgba(0, 0, 0, 0.05);
-        border-top: 1px solid #eee;
         padding-top: 50px;
 
         .container {
@@ -481,7 +483,7 @@ body {
     #about-section {
         padding-top: 40px;
         padding-bottom: 90px;
-        background-color: #F4F7FC;
+        background-color: #fff;
 
         p {
             margin-top: 12px;
@@ -510,9 +512,137 @@ body {
     }
 }
 
-#about-section .btn-panel .btn-red img {
+#about-section a {
+    color: #fff;
     position: relative;
-    left: -2px;
+    background-color: transparent;
+    width: 140px;
+    height: 40px;
+    display: inline-block;
+    margin: 0 15px;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+    .btn-content {
+        border-radius: 25px;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        padding-left: 8px;
+        text-indent: 10px;
+        position: relative;
+        z-index: 100;
+        transition: 0.3s;
+
+        img {
+            margin-right: 10px;
+            position: relative;
+            top: -2px;
+        }
+    }
+
+    .btn-shadow {
+        display: block;
+        width: 136px;
+        height: 37px;
+        border-radius: 19px;
+        position: absolute;
+        top: 2px;
+        left: 1px;
+        box-shadow: 1px 0 9px rgba(187, 37, 48, 0.6);
+        transition: 0.3s;
+    }
+
+#btn-github {
+    .btn-content {
+        background-color: #4D62F6;
+
+        &:hover {
+            background-color: #7086FF;
+            box-shadow: none;
+        }
+
+        &:active {
+            background-color: #4151CA;
+            box-shadow: none;
+        }
+
+        img {
+            width: 20px;
+            top: -3px;
+        }
+    }
+
+    .btn-shadow {
+        box-shadow: 1px 0 9px rgba(52, 57, 107, 0.6);
+    }
+
+    &:hover .btn-shadow {
+        box-shadow: 1px 3px 9px rgba(52, 57, 107, 0.7);
+    }
+}
+
+#btn-weibo {
+    .btn-content {
+        background-color: #FF414F;
+
+        &:hover {
+            background-color: #FF6060;
+            box-shadow: none;
+        }
+
+        &:active {
+            background-color: #D72D3A;
+            box-shadow: none;
+        }
+
+        &.zh {
+            letter-spacing: 5px;
+        }
+
+        img {
+            width: 22px;
+        }
+    }
+
+    .btn-shadow {
+        box-shadow: 1px 2px 7px rgba(187, 37, 48, 0.5);
+    }
+
+    &:hover .btn-shadow {
+        box-shadow: 1px 3px 9px rgba(187, 37, 48, 0.7);
+    }
+}
+
+#btn-twitter {
+    .btn-content {
+        background-color: #00ACED;
+
+        &:hover {
+            background-color: #67CFF6;
+            box-shadow: none;
+        }
+
+        &:active {
+            background-color: #019CD6;
+            box-shadow: none;
+        }
+
+        img {
+            width: 22px;
+        }
+    }
+
+    .btn-shadow {
+        box-shadow: 1px 0 7px rgba(11, 126, 170, 0.4);
+    }
+
+    &:hover .btn-shadow {
+        box-shadow: 1px 3px 9px rgba(11, 126, 170, 0.7);
+    }
 }
 
 
@@ -675,5 +805,12 @@ body {
             bottom: 20%;
         }
 
+    }
+
+    #about-section .btn-panel {
+        a {
+            display: block;
+            margin: 20px auto;
+        }
     }
 }

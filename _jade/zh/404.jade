@@ -4,11 +4,13 @@ block content
     nav(class='navbar navbar-default navbar-fixed-top')
         include ../components/nav
 
-    .not-found
-        img(src="#{cdnRoot}/#{ecWWWLang}/images/404.png", alt="404")
-        .text 非常抱歉，您所访问的网页找不到了！您可以选择
-            a(href="./index.html", class="link") 返回首页
+    .page-main
+        .not-found
+            img(src="#{cdnPayRoot}/#{ecWWWLang}/images/404.png?_v_=#{cdnPayVersion}", alt="404")
+            .text 非常抱歉，您所访问的网页找不到了！您可以选择
+                a(href="./index.html", class="link") 返回首页
 
+        include ../components/footer
 
 block extra_js
 

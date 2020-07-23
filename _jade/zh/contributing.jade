@@ -1,0 +1,59 @@
+extends ../layouts/basic
+
+block variables
+    - var pageTitle = 'ECharts FAQ'
+
+block extra_head
+    title 如何贡献 - Apache ECharts (incubating)
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
+        include ../components/nav
+
+    .page-main
+        .page-info
+            .container
+                h1 如何贡献
+                p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
+
+
+        .page-content
+            .container
+                h2 如何为 Apache ECharts (incubating) 项目贡献一份力量
+                p ECharts 欢迎各种形式的贡献！
+
+                h3 Issues
+                p 查看 <a href="https://github.com/apache/incubator-echarts/issues" target="_blank">issue</a> 中是否有可以提供帮助的问题。
+                ul
+                    li 如果是一个报 bug 或者提问如何使用 ECharts 的 issue，可以帮忙提醒创建者提供一个可复现的在线例子。例子可以通过 <a href="https://codepen.io/Ovilia/pen/dyYWXWM" target="_blank">Codepen</a> 或者 <a href="https://gallery.echartsjs.com/editor.html" target="_blank">ECharts Gallery</a> 创建。
+                    li 如果是一个提新需求的 issue，可以帮忙确保创建者对预期的效果有清晰的表述。很多情况下，一个简单的设计图对清晰地表达需求是有必要的。
+                    li 帮助复现问题，并根据 <a href="https://echarts.apache.org/zh/option.html" target="_blank">文档</a>判断这是否是一个 bug。
+                    li 没有标记 "pending" 标签的 issue，是我们明确是 bug 或新需求的 issue。欢迎提 pull request 帮忙修复这些问题。
+
+                h3 Pull Requests
+                p 我们非常欢迎社区贡献者以 PR 的形式作贡献！
+                p 在开始之前，请先阅读我们的<a href="./coding-standard.html">代码规范</a>以及<a href="https://www.apache.org/foundation/policies/conduct.html" target="_blank">Apache 行为规范</a>。
+                p 具体操作请参考 <a href="https://github.com/apache/incubator-echarts/wiki/How-to-setup-the-dev-environment" target="_blank">How to setup the dev environment</a> 以及 <a href="https://github.com/apache/incubator-echarts/wiki/How-to-make-a-pull-request" target="_blank">How to make a pull request</a>。
+                p 如果在提 PR 过程中碰到问题，欢迎在 issue 或 PR 中评论，或者给 <a href="mailto:dev@echarts.apache.org">dev@echarts.apache.org</a>发邮件咨询。
+
+                h3 邮件组
+                p 欢迎订阅<a href="./mailist.html">邮件组</a>参与我们的讨论。
+
+                h3 文档
+                p 文档的修缮可能是 Apache ECharts (incubating) 最需要帮助的地方。如果你对此感兴趣，无论是对某个页面文字的小修改，还是纠正一个连接或者其他的小改动，我们都非常欢迎！
+                p 文档的源代码可以在 <a href="https://github.com/apache/incubator-echarts-doc" target="_blank">GitHub</a> 找到。如果想要知道应该修改项目中的哪个文件，通常最简单的方式是在项目中搜索关键字。
+                p 在 issue 列表中，<a href="https://github.com/apache/incubator-echarts/labels/doc" target="_blank">"doc" 标签</a>表示相关文档需要修改。我们非常欢迎提 PR 修改这些问题！
+
+
+
+                h2 成为 PPMC 或 Committer！
+                p 正如上面所说，我们非常欢迎社区以任何形式为 ECharts 项目作贡献。当我们发现社区中长期持续贡献的伙伴，会邀请他们成为 PPMC 或者 Committer。
+                p 成为 Committer 意味着你拥有对 ECharts 项目的“写”权限，可以更方便高效地为项目贡献。
+                p PPMC（Podling Project Management Committee）是孵化项目管理委员会的意思，帮助 ECharts 项目在孵化期间学习自我管理。更多详细信息请参考 <a href="https://incubator.apache.org/guides/ppmc.html">Podling Project Management Committee</a>。
+                p 成为 PPMC 和 Committer 没有唯一固定的标，因为我们鼓励不同形式的贡献。通常来说，现在的 PPMC 会考察社区贡献者的表现，在发现有符合标准的人选后，会在内部发起讨论和投票，投票通过后将邀请成为 PPMC 或 Committer。
+
+        include ../components/footer
+
+block extra_js
+    script(type='text/javascript').
+        document.getElementById('nav-about').className = 'active';

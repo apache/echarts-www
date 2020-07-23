@@ -1,0 +1,30 @@
+extends ../layouts/basic
+
+block variables
+    - var pageTitle = 'Security'
+
+block extra_head
+    title Security - Apache ECharts (incubating)
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
+        include ./nav
+
+    .page-main
+        .page-info
+            .container
+                h1 Security
+                p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
+
+        .page-content#maillist
+            .page-nav
+            .container
+                p The Apache ECharts (incubating)<sup>TM</sup> takes a rigorous standpoint in annihilating the security issues in its software projects. Apache ServiceComb is highly sensitive and forthcoming to issues pertaining to its features and functionality.
+                p If you have apprehensions regarding ServiceComb’s security or you discover vulnerability or potential threat, don’t hesitate to get in touch with the <a href="http://www.apache.org/security/" target="_blank">Apache Security Team</a> by dropping a mail at <a href="mailto:security@apache.org">security@apache.org</a>. In the mail, specify the project name ServiceComb with the description of the issue or potential threat. You are also urged to recommend the way to reproduce and replicate the issue. The security team and the ServiceComb community will get back to you after assessing and analysing the findings.
+                p PLEASE PAY ATTENTION to report the security issue on the security email before disclosing it on public domain.
+
+        include ../components/footer
+
+block extra_js
+    script(type='text/javascript').
+        document.getElementById('nav-about').className = 'active';

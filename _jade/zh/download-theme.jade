@@ -1,53 +1,55 @@
 extends ../layouts/basic
 
 block extra_head
-    <title>主题下载 - Apache ECharts (incubating)</title>
-    link(rel="stylesheet", type="text/css", href="#{cdnRoot}/#{ecWWWLang}/vendors/prettify/prettify.css")
+    title 主题下载 - Apache ECharts (incubating)
+    link(rel='stylesheet', type='text/css', href='#{cdnPayRoot}/#{ecWWWLang}/vendors/prettify/prettify.css?_v_=#{cdnPayVersion}')
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
         include ../components/nav
 
-    .page-info
-        #themes.container
-            h1 主题下载
-            p 让你的图表整体换个装，除了官方提供的主题之外，还可以定制你自己的主题
+    .page-main
+        .page-info
+            #themes.container
+                h1 主题下载
+                p 让你的图表整体换个装，除了官方提供的主题之外，还可以定制你自己的主题
+                p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
 
-    .page-content.container#themes
-        .row
-            each themeName, idx in theme
-                .col-sm-4.theme
-                    a(class="download-theme" href="#{cdnRoot}/#{ecWWWLang}/asset/theme/#{themeName}.js" download="#{themeName}.js" target="_blank")
-                        img(src="#{cdnRoot}/#{ecWWWLang}/asset/theme/thumb/#{themeName}.png" alt="")
-                    p #{themeName}
+        .page-content.container#themes
+            .row
+                each themeName, idx in theme
+                    .col-sm-4.theme
+                        a(class="download-theme" href="#{cdnPayRoot}/#{ecWWWLang}/asset/theme/#{themeName}.js?_v_=#{cdnPayVersion}" download="#{themeName}.js" target="_blank")
+                            img(src="#{cdnPayRoot}/#{ecWWWLang}/asset/theme/thumb/#{themeName}.png?_v_=#{cdnPayVersion}" alt="")
+                        p #{themeName}
 
-    section.section-bg#theme-configure-section
-        .container
-            #theme-builder
-                a.btn.btn-thirdary.more-btn(href="https://www.echartsjs.com/theme-builder/") 定制主题
-                p 可在线编辑定义主题并进行下载
+        section.section-bg#theme-configure-section
+            .container
+                #theme-builder
+                    a.btn.btn-thirdary.more-btn(href="https://www.echartsjs.com/theme-builder/") 定制主题
+                    p 可在线编辑定义主题并进行下载
 
-    section
-        .container
-            #theme-example
-                h4 主题使用示例
-                pre(class="html").
-                    &lt;script src="echarts.js"&gt;&lt;/script&gt;
-                    &lt;!-- 引入 vintage 主题 --&gt;
-                    &lt;script src="theme/vintage.js"&gt;&lt;/script&gt;
-                    &lt;script&gt;
-                    // 第二个参数可以指定前面引入的主题
-                    var chart = echarts.init(document.getElementById('main'), 'vintage');
-                    chart.setOption({
-                        ...
-                    });
-                    &lt;/script&gt;
+        section
+            .container
+                #theme-example
+                    h4 主题使用示例
+                    pre(class="html").
+                        &lt;script src="echarts.js"&gt;&lt;/script&gt;
+                        &lt;!-- 引入 vintage 主题 --&gt;
+                        &lt;script src="theme/vintage.js"&gt;&lt;/script&gt;
+                        &lt;script&gt;
+                        // 第二个参数可以指定前面引入的主题
+                        var chart = echarts.init(document.getElementById('main'), 'vintage');
+                        chart.setOption({
+                            ...
+                        });
+                        &lt;/script&gt;
 
-    include ../components/footer
+        include ../components/footer
 
 block extra_js
-    script(src="#{cdnRoot}/#{ecWWWLang}/vendors/prettify/prettify.js")
-    script(src="#{cdnRoot}/#{ecWWWLang}/vendors/prettify/lang-css.js")
+    script(src="#{cdnThirdParty.prettifyJS}")
+    script(src="#{cdnThirdParty.prettifyCSSHandlerJS}")
     script.
         document.getElementById('nav-download').className = 'active';
         $('pre').addClass('prettyprint');

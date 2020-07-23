@@ -1,6 +1,15 @@
 $single-page-left-width: 200px;
 $info-height: 120px;
 
+.page-main {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50px;
+    bottom: 0;
+    overflow-y: auto;
+}
+
 .doc-version-change {
     position: absolute;
     top: 70px;
@@ -24,7 +33,6 @@ $info-height: 120px;
 }
 
 .page-info {
-    margin-top: 50px;
     margin-bottom: 30px;
     text-align: center;
     padding: 40px;
@@ -32,7 +40,7 @@ $info-height: 120px;
     background: #F4F7FC;
 
     h1 {
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         font-size: 40px;
         font-weight: bold;
         color: #333;
@@ -43,19 +51,35 @@ $info-height: 120px;
     }
 }
 
+.page-info-echarts {
+    font-size: 12px;
+    margin-top: 15px;
+    color: #8E99AB;
+}
+
 .page-content {
     min-height: 300px;
     padding-bottom: 40px;
+    font-size: 16px;
+    line-height: 22px;
 
     h2 {
         color: $clr-secondary;
-        padding-bottom: 5px;
+        padding-bottom: 15px;
         border-bottom: 1px solid #ddd;
+        margin-top: 40px;
+        margin-bottom: 20px;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+
+    h3 {
+        margin: 30px 0 10px 0;
     }
 
     p {
-        font-size: 16px;
-        line-height: 28px;
         margin: 10px 0;
     }
 
@@ -71,13 +95,22 @@ $info-height: 120px;
         padding: 40px 0;
         text-align: center;
     }
+
+    ul {
+        padding-left: 30px;
+    }
+
+        li {
+            margin: 5px 0;
+            list-style: disc;
+        }
 }
 
     .page-nav {
         position: fixed;
         overflow: auto;
         width: $single-page-left-width;
-        top: 230px;
+        top: 260px;
         bottom: 0;
         margin: 0 0 0 30px;
         padding: 0 0 20px 0;
@@ -142,7 +175,7 @@ $info-height: 120px;
     .page-detail {
         margin-left: $single-page-left-width + 20px;
         margin-bottom: 20px;
-        padding: 30px 40px 0 40px;
+        padding: 0 40px 0 40px;
         // position: absolute;
         // right: 0;
         // left: 0;
@@ -152,6 +185,11 @@ $info-height: 120px;
             margin: 10px 0;
             padding-top: 20px;
             font-size: 22px;
+
+            &:first-child {
+                margin-top: 0;
+                padding-top: 0;
+            }
 
             &+h3 {
                 margin-top: 20px;
@@ -183,12 +221,6 @@ $info-height: 120px;
         }
     }
 
-        p.page-detail-desc {
-            margin-top: 25px;
-        }
-
-
-
 @media screen and (max-device-width: 600px) {
     .page-content {
         &.single-page {
@@ -208,6 +240,10 @@ $info-height: 120px;
         text-align: left;
         padding: 15px;
         margin-bottom: 10px;
+
+        h1 {
+            margin-bottom: 10px;
+        }
     }
 
     .page-nav {

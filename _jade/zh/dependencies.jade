@@ -4,21 +4,23 @@ block variables
     - var pageTitle = 'ECharts FAQ'
 
 block extra_head
-    <title>依赖项 - Apache ECharts (incubating)</title>
+    title 依赖项 - Apache ECharts (incubating)
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
         include ../components/nav
 
-    .page-info
-        h1 依赖项
+    .page-main
+        .page-info
+            h1 依赖项
+            p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
 
-    .page-content
-        .container
-            h2 ZRender
-            p ECharts 底层依赖 <a href="https://github.com/ecomfe/zrender">ZRender</a>，一个轻量级的二维绘制库。
+        .page-content
+            .container
+                h2 ZRender
+                p Apache ECharts (incubating)<sup>TM</sup> 底层依赖 <a href="https://github.com/ecomfe/zrender">ZRender</a>，一个轻量级的二维绘制库。
 
-    include ../components/footer
+        include ../components/footer
 
 
 block extra_js

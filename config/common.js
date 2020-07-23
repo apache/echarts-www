@@ -1,5 +1,23 @@
 module.exports = {
 
+    cdnThirdParty: {
+        jquery: 'https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js',
+        jquery_1_11_3: 'https://cdn.jsdelivr.net/npm/jquery@1.11.3/dist/jquery.min.js',
+        bootstrapCSS: 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css',
+        bootstrapJS: 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js',
+        lodash: 'https://cdn.jsdelivr.net/npm/lodash@3.10.1/index.min.js',
+        perfectScrollbarJS: 'https://cdn.jsdelivr.net/npm/perfect-scrollbar@0.6.8/dist/js/min/perfect-scrollbar.min.js',
+        perfectScrollbarCSS: 'https://cdn.jsdelivr.net/npm/perfect-scrollbar@0.6.8/dist/css/perfect-scrollbar.min.css',
+        paceProgressBarJS: 'https://cdn.jsdelivr.net/npm/pace-progressbar@1.0.2/pace.min.js',
+        sweetalertJS: 'https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js',
+        echartsMinJS_4_8_0: 'https://cdn.jsdelivr.net/npm/echarts@4.8.0/dist/echarts.min.js',
+        prettifyJS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/src/prettify.min.js',
+        // Can not find good prettify css in jsdelivr.
+        // prettifyCSS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/styles/doxy.css',
+        prettifyCSSHandlerJS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/src/lang-css.js',
+        jqueryLazyloadJS: 'https://cdn.jsdelivr.net/npm/jquery-lazyload@1.9.7/jquery.lazyload.min.js',
+    },
+
     // Source folder of echarts
     echartsPath: '../echarts',
     // Target folder of echarts
@@ -289,6 +307,16 @@ module.exports = {
             descEN: 'A Flutter widget to use Echarts in a reactive way.'
         }],
         chartType: [{
+            image: 'gl.png',
+            name: 'ECharts GL',
+            website: 'https://github.com/ecomfe/echarts-gl',
+            authors: [{
+                name: '沈毅',
+                website: 'https://github.com/pissang'
+            }],
+            desc: '3D 图表、地理可视化、WebGL 加速渲染',
+            descEN: 'ECharts-GL provides 3D plots, globe visualization and WebGL acceleration.'
+        }, {
             image: 'word-cloud.jpg',
             name: '字符云',
             website: 'https://github.com/ecomfe/echarts-wordcloud',

@@ -28,7 +28,7 @@ mixin nav(basePath, cdnBasePath)
                         li
                             a(href="#{basePath}/en/option.html") Chart Configuration
                         li
-                            a(href="#{basePath}/en/option-gl.html") GL Configuration (Chinese)
+                            a(href="#{basePath}/en/option-gl.html") GL Configuration
                         li
                             a(href="#{basePath}/en/changelog.html") Changelog
                 li#nav-download.dropdown
@@ -49,27 +49,27 @@ mixin nav(basePath, cdnBasePath)
                             a(href='#{basePath}/examples/en/index.html') ECharts Examples
                         li
                             a(href='#{basePath}/examples/en/index.html#chart-type-globe') GL Examples
-                //- li#nav-community
-                //-     a(href='#', class="dropdown-toggle", data-toggle="dropdown") Community
-                //-         b.caret
-                //-     ul.dropdown-menu
-                //-         li
-                //-             a(href="https://gallery.echartsjs.com") Gallery (Chinese)
-                //-         li
-                //-             a(href="#{blogPath}") Blog (Chinese)
-                //- li#nav-tool
-                //-     a(href='#', class="dropdown-toggle", data-toggle="dropdown") Tools
-                //-         b.caret
-                //-     ul.dropdown-menu
-                //-         li
-                //-             a(href="#{basePath}/zh/spreadsheet.html") Spread Sheet Tool (Chinese)
-                //-         li
-                //-             a(href="https://echarts.baidu.com/theme-builder/") Theme Builder (Chinese)
-                li#nav-contribute
-                    a.dropdown-toggle(href='#', data-toggle='dropdown')
-                        | Contribute
+                li#nav-community
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") Community
                         b.caret
                     ul.dropdown-menu
+                        li
+                            a(href="https://gallery.echartsjs.com") Gallery (Chinese)
+                li#nav-tool
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") Tools
+                        b.caret
+                    ul.dropdown-menu
+                        li
+                            a(href="#{hostParam}/zh/spreadsheet.html") Spread Sheet Tool (Chinese)
+                        li
+                            a(href="https://www.echartsjs.com/theme-builder/") Theme Builder (Chinese)
+                li#nav-contribute
+                    a.dropdown-toggle(href='#', data-toggle='dropdown')
+                        | Contributing
+                        b.caret
+                    ul.dropdown-menu
+                        li
+                            a(href='#{basePath}/en/contributing.html') How to Contribute
                         li
                             a(href='https://github.com/apache/incubator-echarts', target='_blank') Source Code (GitHub)
                         li
@@ -89,12 +89,13 @@ mixin nav(basePath, cdnBasePath)
                         li
                             a(href='#{basePath}/en/dependencies.html') Dependencies
                         li
+                            a(href='#{basePath}/en/security.html') Security
+                        li
                             a(href='#{basePath}/en/faq.html') FAQ
 
             ul(class='nav navbar-nav navbar-right')
-                li#nav-github
-                    a(href="https://github.com/ecomfe/echarts" target="_blank")
-                        img(src="#{cdnBasePath}/en/images/github.png", width="18")
                 li#nav-homeen
                     a(href='javascript:;', onclick="changeLang('zh')") 中文
-
+                li#nav-apache
+                    a(href="https://www.apache.org/" target="_blank")
+                        img(src="#{basePath}/en/images/apache-incubator-white.png?_v_=#{cdnPayVersionParam}", width="18")

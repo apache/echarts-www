@@ -4,23 +4,27 @@ block variablesLang
     include ./_variablesLang.jade
 
 block extra_head
-    <title>Changelog - Apache ECharts (incubating)</title>
+    title Changelog - Apache ECharts (incubating)
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
         include ./nav
 
-    .page-info
-        h1 Changelog - Apache ECharts (incubating)
-        p [+]Add [-]Remove [^]Update [#]Fix
+    .page-main
+        .page-info
+            h1 Changelog
+            p [+]Add [-]Remove [^]Update [#]Fix
+            p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
 
-    .page-content.single-page
-        .page-nav
-            a.slide-btn Collapse
-            h4 Versions
-            ul
-        .page-detail
-            include ../../_generated/en/documents/changelog-content.html
+        .page-content.single-page
+            .page-nav
+                a.slide-btn Collapse
+                h4 Versions
+                ul
+            .page-detail
+                include ../../_generated/en/documents/changelog-content.html
+
+                include ../components/inner-footer
 
 block extra_js
     script(type='text/javascript').
