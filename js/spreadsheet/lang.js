@@ -72,7 +72,7 @@ define(function (require) {
      */
     var en = {
         langCode: 'en',
-        pageTitle: 'Spreadsheet Data Convert Tool',
+        pageTitle: 'Spreadsheet Data Converter',
         pageDescHTML: 'Tip: Paste data on the <strong>left</strong>, and get result <strong>below</strong> immediately.', // jshint ignore:line
         typeSetting: 'Type: ',
         emptyValueSetting: 'Empty Value: ',
@@ -83,20 +83,20 @@ define(function (require) {
         },
         dimensionSetting: 'Dimension: ',
         dimDesc: {
-            dim1to1: 'Convert each column to 1-dimension array.',
-            dimallto2: 'Convert all of the data converted to 2-dimension array.',
-            dim1to2: 'Convert each column converted to 2-dimension array.',
-            dim2to2: 'Convert each two column converted to 2-dimension array.',
-            dim3to2: 'Convert each three column converted to 2-dimension array.',
-            dim4to2: 'Convert each fore column converted to 2-dimension array.',
-            dim5to2: 'Convert each five column converted to 2-dimension array.'
+            dim1to1: 'Convert to a 1-dimension array every column.',
+            dimallto2: 'Convert all of the data to a 2-dimension array.',
+            dim1to2: 'Convert to a 2-dimension array every column.',
+            dim2to2: 'Convert to a 2-dimension array every 2 columns.',
+            dim3to2: 'Convert to a 2-dimension array every 3 columns.',
+            dim4to2: 'Convert to a 2-dimension array every 4 columns.',
+            dim5to2: 'Convert to a 2-dimension array every 5 columns.'
         },
         attributeSetting: 'Attributes: ',
         codeFormatSetting: 'Formatting Result: ',
         codeFormat: {
             compressed: 'compress',
-            expanded2Indent: 'expand and indent with 2 space',
-            expanded4Indent: 'expand and indent with 4 space'
+            expanded2Indent: 'expand and indent with 2 spaces',
+            expanded4Indent: 'expand and indent with 4 spaces'
         },
         convertResult: 'Result: ',
         codeInputTitle: 'Result from Column #{rangeDesc}:',
@@ -112,7 +112,7 @@ define(function (require) {
         outputFormatJSON: 'JSON',
         geoConvertDesc: 'Paste names of countries or regions, and then click: ',
         geoConvertBtn: 'Convert',
-        geoDesc: 'Explanation：B: longitude，C: latitude, D: alpha-2',
+        geoDesc: 'Explanation：B: longitude, C: latitude, D: alpha-2',
 
         dataTableControl: {
             clear: 'Clear',
@@ -126,5 +126,5 @@ define(function (require) {
     };
 
     // Setting in html.
-    return ($('html').attr('lang') || '').toLowerCase() === 'en' ? en : zh;
+    return (window.EC_WWW_LANG || $('html').attr('lang') || '').toLowerCase().indexOf('zh') > -1 ? zh : en;
 });
