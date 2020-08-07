@@ -13,7 +13,7 @@ mixin nav(hostParam, cdnPayRootParam)
                 li#nav-index
                     a(href='#{hostParam}/en/index.html') Home
                 li#nav-doc.dropdown
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") Documents
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") Docs
                         b.caret
                     ul.dropdown-menu
                         li
@@ -23,14 +23,13 @@ mixin nav(hostParam, cdnPayRootParam)
                         li
                             a(href="#{hostParam}/en/api.html") API
                         li
-                            a(href="#{hostParam}/en/cheat-sheet.html") Cheat Sheet
-                                span.new NEW
-                        li
                             a(href="#{hostParam}/en/option.html") Chart Configuration
-                        li
-                            a(href="#{hostParam}/en/option-gl.html") GL Configuration
+                        //- li
+                        //-     a(href="#{hostParam}/en/option-gl.html") GL Configuration
                         li
                             a(href="#{hostParam}/en/changelog.html") Changelog
+                        li
+                            a(href='#{hostParam}/en/faq.html') FAQ
                 li#nav-download.dropdown
                     a(href='#', class="dropdown-toggle", data-toggle="dropdown") Download
                         b.caret
@@ -42,56 +41,58 @@ mixin nav(hostParam, cdnPayRootParam)
                         li
                             a(href="#{hostParam}/en/download-extension.html") Download Extensions
                 li#nav-examples
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") Examples
-                        b.caret
-                    ul.dropdown-menu
-                        li
-                            a(href='#{hostParam}/examples/en/index.html') ECharts Examples
-                        li
-                            a(href='#{hostParam}/examples/en/index.html#chart-type-globe') GL Examples
-                li#nav-community
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") Community
-                        b.caret
-                    ul.dropdown-menu
-                        li
-                            a(href="https://gallery.echartsjs.com") Gallery (Chinese)
-                li#nav-tool
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") Tools
+                    a(href='#{hostParam}/examples/en/index.html') Examples
+                li#nav-resources
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") Resources
                         b.caret
                     ul.dropdown-menu
                         li
                             a(href="#{hostParam}/en/spreadsheet.html") Spread Sheet Tool
                         li
-                            a(href="https://www.echartsjs.com/theme-builder/") Theme Builder (Chinese)
+                            a(href="#{hostParam}/en/theme-builder.html") Theme Builder
+                        li
+                            a(href="#{hostParam}/en/cheat-sheet.html") Cheat Sheet
+                        li
+                            a(href="#{hostParam}/en/resources.html") More Resources
                 li#nav-contribute
                     a.dropdown-toggle(href='#', data-toggle='dropdown')
-                        | Contributing
-                        b.caret
-                    ul.dropdown-menu
-                        li
-                            a(href='#{hostParam}/en/contributing.html') How to Contribute
-                        li
-                            a(href='https://github.com/apache/incubator-echarts', target='_blank') Source Code (GitHub)
-                        li
-                            a(href='https://github.com/apache/incubator-echarts/issues', target='_blank') Issue Tracking
-                        li
-                            a(href='#{hostParam}/en/coding-standard.html') Code Standard
-                li#nav-about
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") About
+                        | Community
                         b.caret
                     ul.dropdown-menu
                         li
                             a(href='#{hostParam}/en/committers.html') Committers
                         li
-                            a(href='https://www.apache.org/licenses/') License
-                        li
                             a(href='#{hostParam}/en/maillist.html') Mailing List
+                        li
+                            a(href='#{hostParam}/en/contributing.html') How to Contribute
                         li
                             a(href='#{hostParam}/en/dependencies.html') Dependencies
                         li
+                            a(href='#{hostParam}/en/coding-standard.html') Code Standard
+                        li
+                            a(href='https://github.com/apache/incubator-echarts', target='_blank') Source Code (GitHub)
+                                include ../components/svg/external-link
+                        li
+                            a(href='https://github.com/apache/incubator-echarts/issues', target='_blank') Issues (GitHub)
+                                include ../components/svg/external-link
+                li#nav-others
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") Others
+                        b.caret
+                    ul.dropdown-menu
+                        li
+                            a(href='https://www.apache.org/', target='_blank') Apache Software Foundation
+                                include ../components/svg/external-link
+                        li
                             a(href='#{hostParam}/en/security.html') Security
                         li
-                            a(href='#{hostParam}/en/faq.html') FAQ
+                            a(href='https://www.apache.org/licenses/', target='_blank') Licenses
+                                include ../components/svg/external-link
+                        li
+                            a(href='https://www.apache.org/foundation/sponsorship.html', target='_blank') Sponsorship
+                                include ../components/svg/external-link
+                        li
+                            a(href='https://www.apache.org/foundation/thanks.html', target='_blank') Thanks
+                                include ../components/svg/external-link
 
             ul(class='nav navbar-nav navbar-right')
                 li#nav-homeen

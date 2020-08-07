@@ -1,10 +1,10 @@
 extends ../layouts/basic
 
 block variables
-    - var pageTitle = 'ECharts FAQ'
+    - var pageTitle = '安全'
 
 block extra_head
-    title 安全问题 - Apache ECharts (incubating)
+    title 安全 - Apache ECharts (incubating)
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
@@ -13,7 +13,7 @@ block content
     .page-main
         .page-info
             .container
-                h1 安全问题
+                h1 安全
                 p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
 
         .page-content#maillist
@@ -27,4 +27,4 @@ block content
 
 block extra_js
     script(type='text/javascript').
-        document.getElementById('nav-about').className = 'active';
+        document.getElementById('nav-others').className = 'active';

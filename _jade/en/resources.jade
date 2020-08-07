@@ -1,0 +1,29 @@
+extends ../layouts/basic
+
+block variables
+    - var pageTitle = 'More Resources'
+
+block extra_head
+    title More Resources - Apache ECharts (incubating)
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
+        include ./nav
+
+    .page-main
+        .page-info
+            .container
+                h1 More Resources
+                p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
+
+        .page-content
+            .page-nav
+            .container
+                p Besides the official resources we provided in this Website, the community has also created abundant resources like the support of multiple programming languages, or an online platform to host ECharts works called <a href="https://gallery.echartsjs.com">Gallery</a>.
+                p <a href="https://github.com/ecomfe/awesome-echarts">github.com/ecomfe/awesome-echarts</a> project provides a full list of these resources. Please check it out and add more as you know.
+
+        include ../components/footer
+
+block extra_js
+    script(type='text/javascript').
+        document.getElementById('nav-resources').className = 'active';

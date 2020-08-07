@@ -23,14 +23,13 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                         li
                             a(href="#{hostParam}/zh/api.html") API
                         li
-                            a(href="#{hostParam}/zh/cheat-sheet.html") 术语速查手册
-                                span.new NEW
-                        li
                             a(href="#{hostParam}/zh/option.html") 配置项手册
-                        li
-                            a(href="#{hostParam}/zh/option-gl.html") GL 配置项手册
+                        //- li
+                        //-     a(href="#{hostParam}/zh/option-gl.html") GL 配置项手册
                         li
                             a(href="#{hostParam}/zh/changelog.html") 版本记录
+                        li
+                            a(href='#{hostParam}/zh/faq.html') 常见问题
                 li#nav-download.dropdown
                     a(href='#', class="dropdown-toggle", data-toggle="dropdown") 下载
                         b.caret
@@ -42,21 +41,9 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                         li
                             a(href="#{hostParam}/zh/download-extension.html") 扩展下载
                 li#nav-examples
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") 实例
-                        b.caret
-                    ul.dropdown-menu
-                        li
-                            a(href='#{hostParam}/examples/zh/index.html') 官方实例
-                        li
-                            a(href='#{hostParam}/examples/zh/index.html#chart-type-globe') GL 实例
-                li#nav-community
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") 社区
-                        b.caret
-                    ul.dropdown-menu
-                        li
-                            a(href="https://gallery.echartsjs.com") Gallery
-                li#nav-tool
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") 工具
+                    a(href='#{hostParam}/examples/zh/index.html') 实例
+                li#nav-resources
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") 资源
                         b.caret
                     ul.dropdown-menu
                         li
@@ -64,36 +51,50 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                         //- li
                         //-     a(href="https://ecomfe.github.io/echarts-map-tool/") 地图数据在线工具
                         li
-                            a(href="https://www.echartsjs.com/theme-builder/") 主题构建工具
+                            a(href="#{hostParam}/zh/theme-builder.html") 主题构建工具
+                        li
+                            a(href="#{hostParam}/zh/cheat-sheet.html") 术语速查手册
+                        li
+                            a(href="#{hostParam}/zh/resources.html") 更多资源
                 li#nav-contribute
                     a.dropdown-toggle(href='#', data-toggle='dropdown')
-                        | 贡献
-                        b.caret
-                    ul.dropdown-menu
-                        li
-                            a(href='#{hostParam}/zh/contributing.html') 如何贡献
-                        li
-                            a(href='https://github.com/apache/incubator-echarts', target='_blank') 源码（GitHub）
-                        li
-                            a(href='https://github.com/apache/incubator-echarts/issues', target='_blank') Issues
-                        li
-                            a(href='#{hostParam}/zh/coding-standard.html') 代码规范
-                li#nav-about
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") 关于
+                        | 社区
                         b.caret
                     ul.dropdown-menu
                         li
                             a(href='#{hostParam}/zh/committers.html') 贡献者列表
                         li
-                            a(href='https://www.apache.org/licenses/') 版权声明
-                        li
                             a(href='#{hostParam}/zh/maillist.html') 邮件列表
+                        li
+                            a(href='#{hostParam}/zh/contributing.html') 如何贡献
                         li
                             a(href='#{hostParam}/zh/dependencies.html') 依赖项
                         li
-                            a(href='#{hostParam}/zh/security.html') 安全问题
+                            a(href='#{hostParam}/zh/coding-standard.html') 代码规范
                         li
-                            a(href='#{hostParam}/zh/faq.html') 常见问题
+                            a(href='https://github.com/apache/incubator-echarts', target='_blank') 源码（GitHub）
+                                include ./svg/external-link
+                        li
+                            a(href='https://github.com/apache/incubator-echarts/issues', target='_blank') Issues（GitHub）
+                                include ./svg/external-link
+                li#nav-others
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") 其他
+                        b.caret
+                    ul.dropdown-menu
+                        li
+                            a(href='https://www.apache.org/', target='_blank') Apache Software Foundation
+                                include ./svg/external-link
+                        li
+                            a(href='#{hostParam}/zh/security.html') 安全
+                        li
+                            a(href='https://www.apache.org/licenses/', target='_blank') 版权
+                                include ./svg/external-link
+                        li
+                            a(href='https://www.apache.org/foundation/sponsorship.html', target='_blank') 捐赠
+                                include ./svg/external-link
+                        li
+                            a(href='https://www.apache.org/foundation/thanks.html', target='_blank') 鸣谢
+                                include ./svg/external-link
 
             ul(class='nav navbar-nav navbar-right')
                 li#nav-homeen
