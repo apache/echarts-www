@@ -1,0 +1,18 @@
+extends ../layouts/basic
+
+block variablesLang
+    include ./_variablesLang.jade
+
+block extra_head
+    title Theme Builder - Apache ECharts (incubating)
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+    .page-main
+        include ../../_generated/zh/theme-builder/body.html
+
+block extra_js
+    script(type='text/javascript').
+        document.getElementById('nav-resources').className = 'active';
