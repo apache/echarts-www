@@ -7,6 +7,7 @@ block extra_head
             /* position: sticky should not have overflow parents.*/
             overflow-x: hidden;
         }
+    link(rel="stylesheet", href="#{cdnThirdParty.elementUICSS}")
     link(rel="stylesheet", href="#{cdnPayRoot}/#{ecWWWLang}/css/doc-bundle.css?_v_=#{homeVersion}")
 
 block content
@@ -39,6 +40,13 @@ block content
         #ec-doc-main
 
 block extra_js
+    script(src="#{cdnThirdParty.vueJS}")
+    script(src="#{cdnThirdParty.elementUIJS}")
+    script(src="#{cdnThirdParty.codeMirrorJS}")
+    script(src="#{cdnThirdParty.codeMirrorJSModeJS}")
+    script(src="#{cdnThirdParty.beautifierJS}")
+    script(src="#{cdnPayRoot}/#{ecWWWLang}/js/doc-bundle.js?_v_=#{homeVersion}")
+    script(src="#{cdnPayRoot}/#{ecWWWLang}/js/doc-bundle.js?_v_=#{homeVersion}")
     script(src="#{cdnPayRoot}/#{ecWWWLang}/js/doc-bundle.js?_v_=#{homeVersion}")
     script(type="text/javascript").
         window.EC_WWW_CDN_PAY_ROOT = '#{cdnPayRoot}';
