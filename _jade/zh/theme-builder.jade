@@ -1,0 +1,15 @@
+extends ../layouts/basic
+
+block extra_head
+    title 主题编辑器 - Apache ECharts (incubating)
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
+        include ../components/nav
+
+    .page-main
+        include ../../_generated/zh/theme-builder/body.html
+
+block extra_js
+    script(type='text/javascript').
+        document.getElementById('nav-resources').className = 'active';

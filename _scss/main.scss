@@ -207,10 +207,10 @@ body {
 }
 
 
-
-.btn {
-    padding: 8px 50px;
+.btn-main {
     border-radius: 20px;
+    padding: 8px 50px;
+
     transition-duration: 0.5s;
 
     & + .btn {
