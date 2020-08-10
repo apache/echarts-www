@@ -56,6 +56,19 @@
         height: 132px;
         overflow: hidden;
     }
+    @media (min-width: 992px) {
+        .extension-info:lang(en) {
+            height: 195px;
+        }
+        .extension-info:lang(zh) {
+            height: 155px;
+        }
+    }
+    @media (min-width: 768px) {
+        .extension-info:lang(en) {
+            height: 155px;
+        }
+    }
 
         .extension-name {
             font-size: 18px;
