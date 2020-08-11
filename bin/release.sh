@@ -27,6 +27,7 @@ thisScriptDir=$(cd `dirname $0`; pwd)
 wwwProjectDir="${thisScriptDir}/..";
 docProjectDir="${wwwProjectDir}/../incubator-echarts-doc";
 examplesProjectDir="${wwwProjectDir}/../echarts-examples";
+themeProjectDir="${wwwProjectDir}/../ECharts-Theme-Builder";
 
 cd ${wwwProjectDir}
 
@@ -37,6 +38,15 @@ fi
 # Cleanup
 cd ${thisScriptDir}
 node build.js --env ${envType} --clean
+
+# Build Theme Builder
+echo "Build theme builder ..."
+if [ ! -d "${themeProjectDir}" ]; then
+    echo "Directory ${themeProjectDir} DOES NOT exists."
+    exit 1
+fi
+cd ${themeProjectDir}
+node build.js --release
 
 # Build doc
 echo "Build doc ..."

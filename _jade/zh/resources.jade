@@ -1,0 +1,29 @@
+extends ../layouts/basic
+
+block variables
+    - var pageTitle = '更多资源'
+
+block extra_head
+    title 更多资源 - Apache ECharts (incubating)
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
+        include ../components/nav
+
+    .page-main
+        .page-info
+            .container
+                h1 更多资源
+                p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
+
+        .page-content
+            .page-nav
+            .container
+                p 除了本站官方提供的资源外，社区也提供了非常丰富的资源，比如各种语言的支持，比如在线创建 ECharts 图表的平台 <a target="_blank" href="https://gallery.echartsjs.com">Gallery</a> 等等。
+                p <a target="_blank" href="https://github.com/ecomfe/awesome-echarts">github.com/ecomfe/awesome-echarts</a> 项目提供了完整的资源列表，欢迎了解及补充。
+
+        include ../components/footer
+
+block extra_js
+    script(type='text/javascript').
+        document.getElementById('nav-resources').className = 'active';

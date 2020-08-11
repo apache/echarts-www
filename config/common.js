@@ -16,6 +16,14 @@ module.exports = {
         // prettifyCSS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/styles/doxy.css',
         prettifyCSSHandlerJS: 'https://cdn.jsdelivr.net/npm/code-prettify@0.1.0/src/lang-css.js',
         jqueryLazyloadJS: 'https://cdn.jsdelivr.net/npm/jquery-lazyload@1.9.7/jquery.lazyload.min.js',
+
+        // CDN for doc
+        vueJS: 'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
+        elementUIJS: 'https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/index.js',
+        elementUICSS: 'https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css',
+        codeMirrorJS: 'https://cdn.jsdelivr.net/npm/codemirror@5.56.0/lib/codemirror.min.js',
+        codeMirrorJSModeJS: 'https://cdn.jsdelivr.net/npm/codemirror@5.56.0/mode/javascript/javascript.js',
+        beautifierJS: 'https://cdn.jsdelivr.net/npm/js-beautify@1.11.0/js/lib/beautifier.min.js',
     },
 
     // Source folder of echarts
