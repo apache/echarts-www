@@ -71,8 +71,9 @@ body {
 // styles only used in certain pages like index or examples
 @import 'pages.index';
 @import 'pages.index.feature';
-@import 'pages.examples.nav';
-@import 'pages.examples.charts';
+// @import 'pages.examples.nav';
+// @import 'pages.examples.charts';
+@import 'pages.examples.next';
 
 @import 'components.reset';
 @import 'pages.download';

@@ -25,8 +25,9 @@ echo "Building with env type: ${envType}"
 currWorkingDir=$(pwd)
 thisScriptDir=$(cd `dirname $0`; pwd)
 wwwProjectDir="${thisScriptDir}/..";
-docProjectDir="${wwwProjectDir}/../incubator-echarts-doc";
+docProjectDir="${wwwProjectDir}/../echarts-doc";
 examplesProjectDir="${wwwProjectDir}/../echarts-examples";
+nextExamplesProjectDir="${wwwProjectDir}/../echarts-examples-next";
 themeProjectDir="${wwwProjectDir}/../ECharts-Theme-Builder";
 
 cd ${wwwProjectDir}
@@ -70,6 +71,18 @@ cd ${examplesProjectDir}
 node build.js --env ${envType}
 cd ${currWorkingDir}
 echo "Build examples done."
+
+# Build examples next
+echo "Build examples next..."
+if [ ! -d "${nextExamplesProjectDir}" ]; then
+    echo "Directory ${nextExamplesProjectDir} DOES NOT exists."
+    exit 1
+fi
+cd ${nextExamplesProjectDir}
+npm run release
+cd ${currWorkingDir}
+echo "Build examples done."
+
 
 # Build www
 echo "Build www ..."

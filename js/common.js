@@ -1,7 +1,9 @@
 $(document).ready(function () {
     if (location.host !== 'echarts.apache.org') {
-        var banner = document.getElementById('apache-banner');
-        banner.style.display = 'block';
+		var banner = document.getElementById('apache-banner');
+		if (banner) {
+			banner.style.display = 'block';
+		}
     }
 
     // close apache banner when found in cookie
