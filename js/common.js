@@ -101,7 +101,7 @@ function changeLang(lang) {
 
 function closeApacheBanner(isManualClose) {
     var banner = document.getElementById('apache-banner');
-    banner.remove();
+    banner && banner.remove();
 
     if (isManualClose) {
         _hmt.push(['_trackEvent', 'apacheBanner', 'close']);
