@@ -25,7 +25,7 @@ echo "Building with env type: ${envType}"
 currWorkingDir=$(pwd)
 thisScriptDir=$(cd `dirname $0`; pwd)
 wwwProjectDir="${thisScriptDir}/..";
-docProjectDir="${wwwProjectDir}/../echarts-doc";
+docProjectDir="${wwwProjectDir}/../incubator-echarts-doc";
 examplesProjectDir="${wwwProjectDir}/../echarts-examples";
 nextExamplesProjectDir="${wwwProjectDir}/../echarts-examples-next";
 themeProjectDir="${wwwProjectDir}/../ECharts-Theme-Builder";
