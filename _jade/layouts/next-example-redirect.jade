@@ -11,5 +11,5 @@ html
             var search = (location.search || '').replace('?', '');
             var lang = navigator.language || navigator.userLanguage;
             lang = lang.indexOf('zh') > -1 ? 'zh' : 'en';
-            location.href = '#{host}/examples/' + lang + '/#{redirectTo}'
+            location.href = '#{host}/next/examples/' + lang + '/#{redirectTo}'
                 + (search ? '?' + search : '') + (hash ? '#' + hash : '');
