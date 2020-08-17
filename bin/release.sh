@@ -27,8 +27,11 @@ thisScriptDir=$(cd `dirname $0`; pwd)
 wwwProjectDir="${thisScriptDir}/..";
 docProjectDir="${wwwProjectDir}/../incubator-echarts-doc";
 examplesProjectDir="${wwwProjectDir}/../echarts-examples";
-nextExamplesProjectDir="${wwwProjectDir}/../echarts-examples-next";
 themeProjectDir="${wwwProjectDir}/../ECharts-Theme-Builder";
+
+# Next
+nextDocProjectDir="${wwwProjectDir}/../incubator-echarts-doc-next";
+nextExamplesProjectDir="${wwwProjectDir}/../echarts-examples-next";
 
 cd ${wwwProjectDir}
 
@@ -72,6 +75,18 @@ node build.js --env ${envType}
 cd ${currWorkingDir}
 echo "Build examples done."
 
+# Build doc next
+echo "Build doc next ..."
+if [ ! -d "${nextDocProjectDir}" ]; then
+    echo "Directory ${nextDocProjectDir} DOES NOT exists."
+    exit 1
+fi
+cd ${nextDocProjectDir}
+npm run build:site
+node build.js --env ${envType}
+cd ${currWorkingDir}
+echo "Build doc next done."
+
 # Build examples next
 echo "Build examples next..."
 if [ ! -d "${nextExamplesProjectDir}" ]; then
@@ -81,7 +96,7 @@ fi
 cd ${nextExamplesProjectDir}
 npm run release
 cd ${currWorkingDir}
-echo "Build examples done."
+echo "Build examples next done."
 
 
 # Build www
