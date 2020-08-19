@@ -1,0 +1,16 @@
+extends ../../layouts/next-doc
+
+block variablesLang
+    include ../../en/_variablesLang.jade
+
+block global_args_extra
+
+    script(type="text/javascript").
+        window.globalArgsExtra = {
+            baseUrl: 'documents/api-parts',
+            docType: 'api',
+            locale: 'en'
+        };
+        if (window.EC_WWW_CDN_PAY_ROOT) {
+            window.globalArgsExtra.cdnRoot = window.EC_WWW_CDN_PAY_ROOT + '/next/en/' + window.globalArgsExtra.baseUrl
+        }

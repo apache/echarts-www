@@ -8,7 +8,7 @@ block extra_head
             overflow-x: hidden;
         }
     link(rel="stylesheet", href="#{cdnThirdParty.elementUICSS}")
-    link(rel="stylesheet", href="#{cdnPayRoot}/#{ecWWWLang}/css/doc-bundle.css?_v_=#{homeVersion}")
+    link(rel="stylesheet", href="#{cdnPayRoot}/next/#{ecWWWLang}/css/doc-bundle.css?_v_=#{homeVersion}")
 
 block content
 
@@ -21,22 +21,6 @@ block content
     .page-main
         block vars
 
-        if isOption
-            .doc-version-change
-                if ecWWWLang == 'zh'
-                    if isECharts4
-                        a(href="option3.html") 前往 v3.x 文档
-                    else
-                        a(href="option.html") 前往 v4.x 文档
-                    a(href="https://www.echartsjs.com/echarts2/") 前往 v2.x 文档
-                else
-                    if isECharts4
-                        //- a(href="option3.html") v3.x Doc
-                    else
-                        a(href="option.html") v4.x Doc
-                    a(href="https://www.echartsjs.com/echarts2/index-en.html") v2.x Doc
-
-
         #ec-doc-main
 
 block extra_js
@@ -45,7 +29,7 @@ block extra_js
     script(src="#{cdnThirdParty.codeMirrorJS}")
     script(src="#{cdnThirdParty.codeMirrorJSModeJS}")
     script(src="#{cdnThirdParty.beautifierJS}")
-    script(src="#{cdnPayRoot}/#{ecWWWLang}/js/doc-bundle.js?_v_=#{homeVersion}")
+    script(src="#{cdnPayRoot}/next/#{ecWWWLang}/js/doc-bundle.js?_v_=#{homeVersion}")
     script(type="text/javascript").
         window.EC_WWW_CDN_PAY_ROOT = '#{cdnPayRoot}';
 

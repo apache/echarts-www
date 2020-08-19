@@ -1,0 +1,13 @@
+extends ../../layouts/next-doc
+
+block global_args_extra
+
+    script(type="text/javascript").
+        window.globalArgsExtra = {
+            baseUrl: 'documents/option-parts',
+            docType: 'option',
+            locale: 'zh'
+        };
+        if (window.EC_WWW_CDN_PAY_ROOT) {
+            window.globalArgsExtra.cdnRoot = window.EC_WWW_CDN_PAY_ROOT + '/next/zh/' + window.globalArgsExtra.baseUrl
+        }

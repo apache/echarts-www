@@ -1,0 +1,40 @@
+extends basic
+
+block extra_head
+    title Examples - Apache ECharts(incubating)
+    style.
+        html, body {
+            /* position: sticky should not have overflow parents.*/
+            overflow-x: hidden;
+        }
+    link(rel="stylesheet", href="#{cdnThirdParty.elementUICSS}")
+    link(rel="stylesheet", href="#{cdnPayRoot}/next/examples/css/example-bundle.css?_v_=#{homeVersion}")
+
+block content
+
+    nav(class='navbar navbar-default navbar-fixed-top' id="ec-example-nav")
+        if ecWWWLang == 'en'
+            include ../en/nav
+        else
+            include ../components/nav
+
+    .page-main
+        block vars
+
+        #ec-example-main
+
+block extra_js
+    script(src="#{cdnThirdParty.vueJS}")
+    script(src="#{cdnThirdParty.elementUIJS}")
+    script(src="#{cdnPayRoot}/next/examples/js/example-bundle.js?_v_=#{homeVersion}")
+    script(type="text/javascript").
+        window.EC_WWW_CDN_PAY_ROOT = '#{cdnPayRoot}';
+
+    block global_args_extra
+
+    script(type="text/javascript").
+        document.getElementById('nav-doc').className = 'active';
+        window.globalArgsExtra.version = '#{homeVersion}';
+        window.globalArgsExtra.cdnRoot = EC_WWW_CDN_PAY_ROOT + '/next/examples';
+        echartsExample.init('#ec-example-main', window.globalArgsExtra);
+
