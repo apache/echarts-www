@@ -23,8 +23,13 @@ head
 body
     div.main
         div.content
-            span 该域名已不再使用，请访问 &nbsp;
-            a(id="a", href="https://echarts.apache.org/zh/index.html") https://echarts.apache.org
+            div
+                span 该域名已不再使用，请访问 &nbsp;
+                a(id="a", href="https://echarts.apache.org/zh/index.html") https://echarts.apache.org
+            div
+                span (This domain name is no longer in use. Visit
+                a(id="a", href="https://echarts.apache.org/zh/index.html") https://echarts.apache.org
+                span please)
     script(type="text/javascript").
         document.getElementById('a').setAttribute('href', 'https://echarts.apache.org/zh/index.html'+((!location.pathname||location.pathname==='/')?'':location.pathname+(!location.search?'':location.search+(!location.hash?'':location.hash))));
 
