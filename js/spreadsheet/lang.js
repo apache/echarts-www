@@ -78,8 +78,8 @@ define(function (require) {
         emptyValueSetting: 'Empty Value: ',
         quotationMarkSetting: 'Quotation Mark: ',
         quotationMarks: {
-            singleQuotes: 'single qutation mark',
-            doubleQuotes: 'double qutation mark'
+            singleQuotes: 'single quotation mark',
+            doubleQuotes: 'double quotation mark'
         },
         dimensionSetting: 'Dimension: ',
         dimDesc: {
