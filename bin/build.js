@@ -232,6 +232,7 @@ async function copyResource(config) {
         'images/**/*',
         'asset/map/**/*',
         'asset/theme/**/*',
+        'asset/lottie/**/*',
         'builder/**/*',
         'dist/**/*',
         'video/**/*'

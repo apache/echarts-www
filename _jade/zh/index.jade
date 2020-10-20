@@ -37,102 +37,134 @@ block content
                     window.supportTouch = 'ontouchstart' in window && !ie && !edge;
                 })()
 
+            script(src="#{cdnPayRoot}/#{ecWWWLang}/asset/lottie/js/lottie.min.js?_v_=#{cdnPayVersion}")
 
             section#feature-section
                 .container
-                    .row.features
-                        p Apache ECharts (incubating)<sup>TM</sup> 是一个正在 <a target="_blank" href="https://www.apache.org/">Apache Software Foundation</a> (ASF) 孵化中的项目。
+                    .features
+                        .title
+                            .content ECharts Features
+                            hr
+                            p 我们希望 ECharts 可能满足你的任何数据可视化的需求，并且让这一切都变得更加
+                            p 简单、美好、强大，相信 ECharts 一直在成长
+                            p.more 更多功能，等你体验
+                        .list
+                            .list-line
+                                .list-item
+                                    .item
+                                        .left
+                                            .feature-icon-panel#icon-1
+                                        .right 
+                                            h3 超多图表类型和强大的自定义，满足千万种可能
+                                            .content
+                                                p 30多种图表和强大的自定义功能，类型不设限，机会无极限。
+                                                p 满足你千变万化的数据和场景，更注重满足你的个性化需求
+                                .list-item
+                                    .item
+                                        .left
+                                            .feature-icon-panel#icon-2
+                                        .right 
+                                            h3 千万级别数据量的前端展现，仍然轻松流畅
+                                            .content
+                                                p 使用增量渲染、对流加载等技术，配合各种细致的优化，在展现
+                                                p 千万级的数据量的同时依然能进行流畅的图表交互
+                                .list-item
+                                    .item
+                                        .left
+                                            .feature-icon-panel#icon-3
+                                        .right 
+                                            h3 打破与图表的边界，获得更多的体验机会
+                                            .content
+                                                p 无论是「无障碍访问」还是「多设备兼容」，我们一直在持续
+                                                p 拓展更多可能性，希望更多的人，在更多的场景，都能获得顺畅
+                                                p 如一的美好体验
+                            .list-hr 
+                            .list-line                
+                                .list-item
+                                    .item
+                                        .left
+                                            .feature-icon-panel#icon-4
+                                        .right 
+                                            h3 开箱即用，做图表变得更简单
+                                            .content
+                                                p 提供开箱即用的组件和配置，极简配置即可实现万千可能。
+                                                p 支持多种数据格式、多渲染方案，直接使用毫无压力
+                                .list-item
+                                    .item
+                                        .left
+                                            .feature-icon-panel#icon-5
+                                        .right 
+                                            h3 多维度的数据分析，发掘更多数据的价值
+                                            .content
+                                                p 数据自由刷选 —— 自由选择数据，发掘数据背后的更多秘密
+                                                p 多图表联动查看 —— 对多个图表数据联动查看，多维有效分析
+                                                p dataset 数据变换——对数据自由的过滤、统计，深度探索数据
+                                                p storytelling ——  提升数据自己讲故事的能力，更加生动的展现
+                                .list-item
+                                    .item
+                                        .left
+                                            .feature-icon-panel#icon-6
+                                        .right 
+                                            h3 才华与颜值兼备，玩转图表新可能
+                                            .content
+                                                p 完善的图表交互，让你一上手就自然顺手，与数据实现轻松互动
+                                                p 恰当的动画，更自然的反馈与图形过渡，更易理解数据间的联系
+                                                p 细致且多样的样式与主题设计，一切都只为更好地展现你的数据
 
-                    .row.features
-                        .col-sm-4
-                            .feature-icon-panel
-                                include ../components/svg/heart
-                            h3 开源免费
-                            p 遵循 Apache-2.0 开源协议，免费商用
-                        .col-sm-4
-                            .feature-icon-panel
-                                include ../components/svg/function
-                            h3 功能丰富
-                            p 涵盖各行业图表，满足各种需求
-                        .col-sm-4
-                            .feature-icon-panel
-                                include ../components/svg/community
-                            h3 社区活跃
-                            p <a class="github-button" href="https://github.com/apache/incubator-echarts" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star apache/incubator-echarts on GitHub">GitHub Stars</a>
-
-                    .row.feature-detail#feature-4
-                        .col-sm-4.col
-                            h2 全新 4.0
-                            h3(style="color:#000;font-weight:bold;margin-bottom:20px;") 八项新科技
-                            p 千万级数据可视化渲染能力
-                            p SVG + Canvas 双引擎动力更佳
-                            p 数据样式分离及扁平配置让开发更便捷
-                            p 首创无障碍访问支持
-                            p 微信小程序、PPT，哪里都能用
-                            .feature-btn
-                                a(href="feature.html") 了解更多
-                                    include ../components/svg/more
-                        .col-sm-8.col
-                            video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-4.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-4.jpg?_v_=#{cdnPayVersion}')
-
-                            a#video-feature-4-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-4")')
-                                include ../components/svg/play
-                            a#video-feature-4-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-4")')
-                                include ../components/svg/pause
-                            //- img#video-feature-4(src="images/features/scatterGL4.jpg")
-                    .row.feature-detail#feature-dimension
-                        .col-sm-4.col.mobile
-                            h2 多维度数据分析
-                            h3 数据自由刷选
-                            p 自由选择数据，发掘数据背后的更多秘密
-                            h3 多图表联动查看
-                            p 对多个图表数据联动查看，进行多维有效分析
-                            .feature-btn
-                                a(href="feature.html") 了解更多
-                                    include ../components/svg/more
-
-                        .col-sm-8.col
-                            #col-desktop
-                                img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/feature-1.png?_v_=#{cdnPayVersion}")
-                                video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-1.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg?_v_=#{cdnPayVersion}')
-                                a#video-feature-1-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-1")')
-                                    include ../components/svg/play
-                                a#video-feature-1-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-1")')
-                                    include ../components/svg/pause
-                                //- img#video-feature-1(src="video/feature-2.jpg")
-
-                        .col-sm-4.col.pc#col-analysis
-                            h2 多维度数据分析
-                            h3 数据自由刷选
-                            p 自由选择数据，发掘数据背后的更多秘密
-                            h3 多图表联动查看
-                            p 对多个图表数据联动查看，进行多维有效分析
-                            .feature-btn
-                                a(href="feature.html") 了解更多
-                                    include ../components/svg/more
-
-                    .row.feature-detail
-                        .col-sm-4.col#col-data
-                            h2 多设备随意展示
-                            h3 电脑／手机／平板／大屏  …
-                            p 兼容多种设备，可随时随地任性展示
-                            .feature-btn
-                                a(href="feature.html") 了解更多
-                                    include ../components/svg/more
-
-                        .col-sm-8.col
-                            #col-desktop
-                                img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/index-feature.jpg?_v_=#{cdnPayVersion}")
-
+            script(type='text/javascript').
+                (function () {
+                    lottie.loadAnimation({
+                        container: document.getElementById('icon-1'), // the dom element that will contain the animation
+                        renderer: 'svg',
+                        loop: false,
+                        autoplay: true,
+                        path: 'asset/lottie/json/chart.json' // the path to the animation json
+                    });
+                    lottie.loadAnimation({
+                        container: document.getElementById('icon-2'), // the dom element that will contain the animation
+                        renderer: 'svg',
+                        loop: false,
+                        autoplay: true,
+                        path: 'asset/lottie/json/simple.json' // the path to the animation json
+                    });
+                    lottie.loadAnimation({
+                        container: document.getElementById('icon-3'), // the dom element that will contain the animation
+                        renderer: 'svg',
+                        loop: false,
+                        autoplay: true,
+                        path: 'asset/lottie/json/fly.json' // the path to the animation json
+                    });
+                    lottie.loadAnimation({
+                        container: document.getElementById('icon-4'), // the dom element that will contain the animation
+                        renderer: 'svg',
+                        loop: false,
+                        autoplay: true,
+                        path: 'asset/lottie/json/analysis.json' // the path to the animation json
+                    });
+                    lottie.loadAnimation({
+                        container: document.getElementById('icon-5'), // the dom element that will contain the animation
+                        renderer: 'svg',
+                        loop: false,
+                        autoplay: true,
+                        path: 'asset/lottie/json/compatible.json' // the path to the animation json
+                    });
+                    lottie.loadAnimation({
+                        container: document.getElementById('icon-6'), // the dom element that will contain the animation
+                        renderer: 'svg',
+                        loop: false,
+                        autoplay: true,
+                        path: 'asset/lottie/json/grown.json' // the path to the animation json
+                    });
+                })()
 
             section#publication
                 .container
-                    .col-sm-8.col
+                    .content
                         h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                        p.note <i class="note-icon"><img classs="lazy" data-src="#{cdnPayRoot}/#{ecWWWLang}/images/note.svg?_v_=#{cdnPayVersion}" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
+                        p.note Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
                         p.link Visual Informatics, 2018
                             a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") [PDF]
-                    .col-sm-4.col
+                    .icon
                         .img-container
                             img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/pipeline.jpg?_v_=#{cdnPayVersion}", alt="")
 
