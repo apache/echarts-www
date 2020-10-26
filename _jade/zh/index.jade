@@ -112,61 +112,49 @@ block content
                                                 p 细致且多样的样式与主题设计，一切都只为更好地展现你的数据
 
             script(type='text/javascript').
-                (function () {
-                    lottie.loadAnimation({
-                        container: document.getElementById('icon-1'), // the dom element that will contain the animation
+                var animationMap = {};
+                function setLottieAnimatiion(id, path) {
+                    var container = document.getElementById(id);
+                    animationMap[id] = lottie.loadAnimation({
+                        container, // the dom element that will contain the animation
                         renderer: 'svg',
                         loop: false,
                         autoplay: true,
-                        path: 'asset/lottie/json/chart.json' // the path to the animation json
+                        path, // the path to the animation json
                     });
-                    lottie.loadAnimation({
-                        container: document.getElementById('icon-2'), // the dom element that will contain the animation
-                        renderer: 'svg',
-                        loop: false,
-                        autoplay: true,
-                        path: 'asset/lottie/json/simple.json' // the path to the animation json
-                    });
-                    lottie.loadAnimation({
-                        container: document.getElementById('icon-3'), // the dom element that will contain the animation
-                        renderer: 'svg',
-                        loop: false,
-                        autoplay: true,
-                        path: 'asset/lottie/json/fly.json' // the path to the animation json
-                    });
-                    lottie.loadAnimation({
-                        container: document.getElementById('icon-4'), // the dom element that will contain the animation
-                        renderer: 'svg',
-                        loop: false,
-                        autoplay: true,
-                        path: 'asset/lottie/json/analysis.json' // the path to the animation json
-                    });
-                    lottie.loadAnimation({
-                        container: document.getElementById('icon-5'), // the dom element that will contain the animation
-                        renderer: 'svg',
-                        loop: false,
-                        autoplay: true,
-                        path: 'asset/lottie/json/compatible.json' // the path to the animation json
-                    });
-                    lottie.loadAnimation({
-                        container: document.getElementById('icon-6'), // the dom element that will contain the animation
-                        renderer: 'svg',
-                        loop: false,
-                        autoplay: true,
-                        path: 'asset/lottie/json/grown.json' // the path to the animation json
-                    });
-                })()
+                }
+                setLottieAnimatiion('icon-1', 'asset/lottie/json/chart.json');
+                setLottieAnimatiion('icon-2', 'asset/lottie/json/simple.json');
+                setLottieAnimatiion('icon-3', 'asset/lottie/json/fly.json');
+                setLottieAnimatiion('icon-4', 'asset/lottie/json/analysis.json');
+                setLottieAnimatiion('icon-5', 'asset/lottie/json/compatible.json');
+                setLottieAnimatiion('icon-6', 'asset/lottie/json/grown.json');
+
+                $('.list-item').mouseenter(function(el) {
+                    var id = $(this).find('.feature-icon-panel')[0].id;
+                    console.error(id, animationMap[id]);
+                    animationMap[id].goToAndPlay(0);
+                });
 
             section#publication
                 .container
-                    .content
-                        h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                        p.note Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
-                        p.link Visual Informatics, 2018
-                            a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") [PDF]
-                    .icon
-                        .img-container
-                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/pipeline.jpg?_v_=#{cdnPayVersion}", alt="")
+                    #start-line
+                    .paper
+                        .content
+                            h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
+                            p.note Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
+                            p.link Visual Informatics, 2018
+                                a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") [PDF]
+                        .icon
+                            #paper-icon
+                    #end-line
+            
+            script(type='text/javascript').
+                (function () {
+                    setLottieAnimatiion('paper-icon', 'asset/lottie/json/paper.json');
+                    setLottieAnimatiion('start-line', 'asset/lottie/json/start_line.json');
+                    setLottieAnimatiion('end-line', 'asset/lottie/json/end_line.json');
+                })()
 
             section.normal#about-section
                 .container
