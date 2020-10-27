@@ -79,7 +79,7 @@ function initEnv() {
     // Temp: give a fixed version until need to update.
     config.cdnPayVersion = '20200710_1';
 
-    config.downloadVersion = '4.8.0';
+    config.downloadVersion = '4.9.0';
 
     config.envType = envType;
 
