@@ -1,12 +1,12 @@
 const path = require('path');
 const config = require('./common');
 
-// config.host = 'http://localhost/incubator-echarts-website';
-config.host = 'http://localhost:8000/echarts/incubator-echarts-website';
+config.host = 'http://localhost/incubator-echarts-website';
+// config.host = 'http://localhost:8000/echarts/incubator-echarts-website';
 
 config.cdnPayRootMap = {
     zh: config.host,
-    en: 'http://127.0.0.1:8000/echarts/incubator-echarts-website'
+    en: 'http://127.0.0.1/incubator-echarts-website'
 };
 config.cdnFreeRootMap = {
     zh: config.host,

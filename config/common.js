@@ -362,18 +362,8 @@ module.exports = {
                 name: 'wandergis',
                 website: 'https://github.com/wandergis'
             }],
-            desc: 'ArcGIS 地图和 ECharts 的结合，支持 ECharts 2 和 ECharts 3。',
+            desc: 'ArcGIS 地图和 ECharts 的结合。',
             descEN: 'A combination of ArcGIS maps and ECharts supports ECharts 2 and ECharts 3.'
-        }, {
-            image: 'leaflet.jpg',
-            name: 'Leaflet 地图',
-            website: 'https://github.com/wandergis/leaflet-echarts3',
-            authors: [{
-                name: 'wandergis',
-                website: 'https://github.com/wandergis'
-            }],
-            desc: 'Leaflet 地图和 ECharts 的结合，支持 ECharts 2 和 ECharts 3。',
-            descEN: 'A combination of Leaflet Map and ECharts supports ECharts 2 and ECharts 3.'
         }, {
             image: 'leaflet-2.jpg',
             name: 'echarts-leaflet',
