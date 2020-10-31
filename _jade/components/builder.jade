@@ -21,19 +21,20 @@ block content
                 #title.container
                     h1 #{isCN ? '在线定制' : 'Online Builder'}
                     if isCN
-                        p 可自由选择所需图表、坐标系、组件进行打包下载，并且可对渲染引擎、兼容及压缩问题进行设置
+                        p 可自由选择所需图表、坐标系、组件进行打包下载。
+                        p 注意：打包的源文件来自 jsdelivr CDN，非 Apache 官方源代码和编译产物
                     else
-                        p Pack and download the needed charts, coordinates or components<br>with the appropriate settings about rendering engine, compatibility and compression.
-                    div.download-version (version: #{downloadVersion})
+                        p Pack and download the needed charts, coordinates or components.
+                        p NOTE: The bundler download sources from jsdelivr CDN, It's not an official apache source release or distribution.
+                    div.download-version
+                        if isCN
+                            span 选择版本
+                        else
+                            span Select a verion
+                        select#versions
 
             .page-content
                 #configuration.container
-
-                    if isCN
-                        if isECharts4
-                            a(href='builder3.html', style="float: right") 前往定制 3.x 版本
-                        else
-                            a(href='builder.html', style="float: right") 前往定制 4.x 版本
 
                     section#charts
                         h3 #{isCN ? '图表' : 'Chart'}
@@ -115,14 +116,6 @@ block content
                                 p.desc Whether to Compress code. It is recommended not to compress code in the development environment, because warnings and hints will be removed after compressing.
 
                 #action
-                    //- if isCN
-                    //-     p 感谢对ECharts关注与支持，为了更好地为您提供关于 ECharts 的相关资讯，您可以留下您的电子邮箱
-                    //- else
-                    //-     p Thank you for your concern and support to ECharts. <br>For deep exchanges or providing more infomation about echarts for you, would you please leave your email:
-                    //- div
-                    //-     input(type="text" name="email" id="email" placeholder="someone@email.com")
-                    //- .clear
-                    //- div
                     a.btn.btn-main.btn-thirdary#build(href="javascript:;") #{isCN ? '下载' : 'Download'}
 
         if isCN
@@ -131,9 +124,23 @@ block content
             include ../en/footer
 
 block extra_js
-    - var buildVersion = isECharts4 ? '4' : '3';
-
+    script(src="https://cdn.jsdelivr.net/npm/compare-versions@3.6.0/index.min.js")
     script.
+        var $versionsDom = document.querySelector('#versions');
+
+        fetch('https://data.jsdelivr.com/v1/package/npm/echarts', {
+            mode: 'cors'
+        }).then(res => res.json()).then(json => {
+            const versions = json.versions.filter(version => compareVersions(version, '3.8.0') >= 0);
+            versions.forEach(version => {
+                const $optionDom = document.createElement('option');
+                $optionDom.value = version;
+                $optionDom.innerHTML = version;
+                $versionsDom.appendChild($optionDom);
+            });
+            $versionsDom.value = json.tags.latest;
+        });
+
         function updateCheckbox() {
             $('#charts input, #components input, #coords input').each(function () {
                 $(this).attr('checked', $(this).parent().hasClass('checked'));
@@ -178,8 +185,7 @@ block extra_js
                 parameters += '&api=true';
             }
 
-            parameters += '&version=#{buildVersion}'
-                + '&versionCode=#{downloadVersion}';
+            parameters += `&version=${$versionsDom.value || ''}`;
 
             //- var email = $('#email').val();
             var log = parameters;
