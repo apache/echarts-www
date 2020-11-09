@@ -159,25 +159,37 @@ block content
             section.normal#about-section
                 .container
                     h3 关注我们
+                    hr
                     p 可以通过以下渠道关注 ECharts，及时获得更多最新动态
                     .btn-panel
                         a#btn-github(href='https://github.com/apache/incubator-echarts')
                             .btn-content
-                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-github.png?_v_=#{cdnPayVersion}')
-                                span GitHub
-                            .btn-shadow
+                                .btn-logo
+                                    include ../components/svg/github
+                                    span GitHub
+                                .icon-v-right
+
+                        a#btn-weixin
+                            .btn-content.zh
+                                .btn-logo
+                                    include ../components/svg/wechart
+                                    span 公众号
+                                .weixin-code
+                                    img(src="images/ercode.jpg")
 
                         a#btn-weibo(href='https://weibo.com/echarts')
-                            .btn-content.zh
-                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-weibo.png?_v_=#{cdnPayVersion}')
-                                span 微博
-                            .btn-shadow
+                            .btn-content
+                                .btn-logo
+                                    include ../components/svg/weibo
+                                    span 微博
+                                .icon-v-right
 
                         a#btn-twitter(href='https://twitter.com/echartsjs')
                             .btn-content
-                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-twitter.png?_v_=#{cdnPayVersion}')
-                                span Twitter
-                            .btn-shadow
+                                .btn-logo
+                                    include ../components/svg/twitter
+                                    span Twitter
+                                .icon-v-right
 
         include ../components/footer
 
