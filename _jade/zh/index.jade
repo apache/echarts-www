@@ -53,6 +53,7 @@ block content
                                 .list-item
                                     .item
                                         .left
+                                            .icon-bg
                                             .feature-icon-panel#icon-1
                                         .right 
                                             h3 超多图表类型和强大的自定义，满足千万种可能
@@ -62,6 +63,7 @@ block content
                                 .list-item
                                     .item
                                         .left
+                                            .icon-bg
                                             .feature-icon-panel#icon-2
                                         .right 
                                             h3 千万级别数据量的前端展现，仍然轻松流畅
@@ -71,6 +73,7 @@ block content
                                 .list-item
                                     .item
                                         .left
+                                            .icon-bg
                                             .feature-icon-panel#icon-3
                                         .right 
                                             h3 打破与图表的边界，获得更多的体验机会
@@ -83,6 +86,7 @@ block content
                                 .list-item
                                     .item
                                         .left
+                                            .icon-bg
                                             .feature-icon-panel#icon-4
                                         .right 
                                             h3 开箱即用，做图表变得更简单
@@ -92,6 +96,7 @@ block content
                                 .list-item
                                     .item
                                         .left
+                                            .icon-bg
                                             .feature-icon-panel#icon-5
                                         .right 
                                             h3 多维度的数据分析，发掘更多数据的价值
@@ -103,6 +108,7 @@ block content
                                 .list-item
                                     .item
                                         .left
+                                            .icon-bg
                                             .feature-icon-panel#icon-6
                                         .right 
                                             h3 才华与颜值兼备，玩转图表新可能
@@ -114,7 +120,11 @@ block content
             script(type='text/javascript').
                 var animationMap = {};
                 function setLottieAnimatiion(id, path) {
-                    var container = document.getElementById(id);
+                    var container = id;
+                    if (typeof(id) === 'string') {
+                        container = document.getElementById(id);
+                    }
+                    
                     animationMap[id] = lottie.loadAnimation({
                         container, // the dom element that will contain the animation
                         renderer: 'svg',
@@ -130,6 +140,11 @@ block content
                 setLottieAnimatiion('icon-5', 'asset/lottie/json/compatible.json');
                 setLottieAnimatiion('icon-6', 'asset/lottie/json/grown.json');
 
+                var bgs = document.querySelectorAll('.icon-bg');
+                for(var i = 0; i < bgs.length; i++) {
+                    setLottieAnimatiion(bgs[i], 'asset/lottie/json/bg.json');
+                }
+
                 $('.list-item').mouseenter(function(el) {
                     var id = $(this).find('.feature-icon-panel')[0].id;
                     console.error(id, animationMap[id]);
@@ -143,8 +158,8 @@ block content
                         .content
                             h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
                             p.note Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
-                            p.link Visual Informatics, 2018
-                                a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") [PDF]
+                            .link
+                                a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf").pdf Visual Informatics, 2018 [PDF]
                         .icon
                             #paper-icon
                     #end-line
