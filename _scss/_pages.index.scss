@@ -329,7 +329,6 @@ body {
 
         .features {
             margin-top: 20px;
-            margin-bottom: 50px;
             text-align: center;
 
             .title {
@@ -372,6 +371,7 @@ body {
                 .list-line {
                     width: 537px;
                     .list-item {
+                        position: relative;
                         flex: auto;
                         height: 178px;
 
@@ -422,11 +422,10 @@ body {
                             border: none;
                         }
                     }
-
                     .list-item:hover {
-                        border: 1px solid #ECECEC;
                         box-shadow: 0 9px 12px 0 rgba(0,0,0,0.10);
                     }
+
                 }
                 .list-hr {
                     width: 1px;
@@ -501,9 +500,9 @@ body {
 
         #start-line {
             position: relative;
-            left: 700px;
-            top: 50px;
-            width: 125px;
+            left: 548px;
+            top: 82px;
+            width: 200px;
         }
 
         #end-line {
@@ -525,6 +524,7 @@ body {
                     width: 528px;
                     h2 {
                         line-height: 36px;
+                        font-weight: 600;
                         font-size: 25px;
                         color: #090909;
                     }
@@ -532,9 +532,7 @@ body {
                 
                 .icon {
                     #paper-icon {
-                        top: -50px;
-                        width: 456px;
-                        height: 304px;
+                        width: 530px;
                     }
                 }
             }
@@ -744,10 +742,6 @@ body {
 
     .features {
         margin-bottom: 0;
-
-        p {
-            margin-bottom: 70px;
-        }
     }
 
     #feature-section {

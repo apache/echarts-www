@@ -50,30 +50,30 @@ block content
                             p.more 更多功能，等你体验
                         .list
                             .list-line
-                                .list-item
+                                .list-item(feat="0")
                                     .item
                                         .left
-                                            .icon-bg
+                                            .icon-bg#bg-icon-1
                                             .feature-icon-panel#icon-1
                                         .right 
                                             h3 超多图表类型和强大的自定义，满足千万种可能
                                             .content
                                                 p 30多种图表和强大的自定义功能，类型不设限，机会无极限。
                                                 p 满足你千变万化的数据和场景，更注重满足你的个性化需求
-                                .list-item
+                                .list-item(feat="1")
                                     .item
                                         .left
-                                            .icon-bg
+                                            .icon-bg#bg-icon-2
                                             .feature-icon-panel#icon-2
                                         .right 
                                             h3 千万级别数据量的前端展现，仍然轻松流畅
                                             .content
                                                 p 使用增量渲染、对流加载等技术，配合各种细致的优化，在展现
                                                 p 千万级的数据量的同时依然能进行流畅的图表交互
-                                .list-item
+                                .list-item(feat="2")
                                     .item
                                         .left
-                                            .icon-bg
+                                            .icon-bg#bg-icon-3
                                             .feature-icon-panel#icon-3
                                         .right 
                                             h3 打破与图表的边界，获得更多的体验机会
@@ -83,20 +83,20 @@ block content
                                                 p 如一的美好体验
                             .list-hr 
                             .list-line                
-                                .list-item
+                                .list-item(feat="3")
                                     .item
                                         .left
-                                            .icon-bg
+                                            .icon-bg#bg-icon-4
                                             .feature-icon-panel#icon-4
                                         .right 
                                             h3 开箱即用，做图表变得更简单
                                             .content
                                                 p 提供开箱即用的组件和配置，极简配置即可实现万千可能。
                                                 p 支持多种数据格式、多渲染方案，直接使用毫无压力
-                                .list-item
+                                .list-item(feat="4")
                                     .item
                                         .left
-                                            .icon-bg
+                                            .icon-bg#bg-icon-5
                                             .feature-icon-panel#icon-5
                                         .right 
                                             h3 多维度的数据分析，发掘更多数据的价值
@@ -105,10 +105,10 @@ block content
                                                 p 多图表联动查看 —— 对多个图表数据联动查看，多维有效分析
                                                 p dataset 数据变换——对数据自由的过滤、统计，深度探索数据
                                                 p storytelling ——  提升数据自己讲故事的能力，更加生动的展现
-                                .list-item
+                                .list-item(feat="5")
                                     .item
                                         .left
-                                            .icon-bg
+                                            .icon-bg#bg-icon-6
                                             .feature-icon-panel#icon-6
                                         .right 
                                             h3 才华与颜值兼备，玩转图表新可能
@@ -140,15 +140,48 @@ block content
                 setLottieAnimatiion('icon-5', 'asset/lottie/json/compatible.json');
                 setLottieAnimatiion('icon-6', 'asset/lottie/json/grown.json');
 
-                var bgs = document.querySelectorAll('.icon-bg');
-                for(var i = 0; i < bgs.length; i++) {
-                    setLottieAnimatiion(bgs[i], 'asset/lottie/json/bg.json');
+                for(var i = 0; i < 6; i++) {
+                    setLottieAnimatiion('bg-icon-' + (i + 1), 'asset/lottie/json/bg_0'+ (i + 1) + '.json');
                 }
 
-                $('.list-item').mouseenter(function(el) {
+                $('.list-item').mouseenter(function(event) {
+                    var num = +$(this).attr('feat');
+                    var list = $('.list-item .item');
+                    
+                    if (num === 0 || num === 3) {
+                        $(list[num]).css('border-bottom', 0);
+                    }
+
+                    if (num === 1 || num === 4) {
+                        $(list[num - 1]).css('border-bottom', 0);
+                        $(list[num]).css('border-bottom', 0);
+                    }
+
+                    if (num === 2 || num === 5) {
+                        $(list[num - 1]).css('border-bottom', 0);
+                    }
+
                     var id = $(this).find('.feature-icon-panel')[0].id;
-                    console.error(id, animationMap[id]);
+                    animationMap['bg-' + id].goToAndPlay(0);
                     animationMap[id].goToAndPlay(0);
+                });
+
+                $('.list-item').mouseleave(function(event) {
+                    var num = +$(this).attr('feat');
+                    var list = $('.list-item .item');
+                    
+                    if (num === 0 || num === 3) {
+                        $(list[num]).css('border-bottom', '1px solid rgba(151,151,151,0.25)');
+                    }
+
+                    if (num === 1 || num === 4) {
+                        $(list[num - 1]).css('border-bottom', '1px solid rgba(151,151,151,0.25)');
+                        $(list[num]).css('border-bottom', '1px solid rgba(151,151,151,0.25)');
+                    }
+
+                    if (num === 2 || num === 5) {
+                        $(list[num - 1]).css('border-bottom', '1px solid rgba(151,151,151,0.25)');
+                    }
                 });
 
             section#publication
@@ -166,9 +199,61 @@ block content
             
             script(type='text/javascript').
                 (function () {
+                    var hasStartLineShow = false;
+                    var hasPaperShow = false;
+                    var hasEndLineShow = false;
+
                     setLottieAnimatiion('paper-icon', 'asset/lottie/json/paper.json');
-                    setLottieAnimatiion('start-line', 'asset/lottie/json/start_line.json');
-                    setLottieAnimatiion('end-line', 'asset/lottie/json/end_line.json');
+                    
+
+                    $('#page-index').scroll(function () {
+                        var startLine = $("#start-line").offset().top;
+                        var endLine = $("#end-line").offset().top;
+
+                        if (startLine >= $(window).scrollTop() && startLine < ($(window).scrollTop() + $(window).height())) {
+                            if (!hasStartLineShow) {
+                                if (animationMap['start-line']) {
+                                    animationMap['start-line'].goToAndPlay(0);
+                                }
+                                else {
+                                    setLottieAnimatiion('start-line', 'asset/lottie/json/start_line.json');
+                                }
+
+                                if (animationMap['paper-icon']) {
+                                    animationMap['paper-icon'].goToAndPlay(0);
+                                }
+                                else {
+                                    setLottieAnimatiion('paper-icon', 'asset/lottie/json/paper.json');
+                                }
+                                hasStartLineShow = true;
+                                hasPaperShow = true;
+                            }
+                        }
+                        else {
+                            if (!hasStartLineShow) {
+                                hasStartLineShow = false;
+                            }
+                        }
+
+                        if (endLine <= 100) {
+                            if (!hasEndLineShow) {
+                                if (animationMap['end-line']) {
+                                    animationMap['end-line'].goToAndPlay(0);
+                                }
+                                else {
+                                    setLottieAnimatiion('end-line', 'asset/lottie/json/end_line.json');
+                                }
+                                
+                                hasEndLineShow = true;
+                            }
+                        }
+                        else {
+                            if (!hasEndLineShow) {
+                                hasEndLineShow = false;
+                            }
+                        }
+                    });
+
                 })()
 
             section.normal#about-section
