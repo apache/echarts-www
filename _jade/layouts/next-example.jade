@@ -8,7 +8,7 @@ block extra_head
             overflow-x: hidden;
         }
     link(rel="stylesheet", href="#{cdnThirdParty.elementUICSS}")
-    link(rel="stylesheet", href="#{cdnPayRoot}/next/examples/css/example-bundle.css?_v_=#{homeVersion}")
+    link(rel="stylesheet", href="#{cdnPayRoot}/next/examples/#{ecWWWLang}/css/example-bundle.css?_v_=#{homeVersion}")
 
 block content
 
@@ -26,7 +26,7 @@ block content
 block extra_js
     script(src="#{cdnThirdParty.vueJS}")
     script(src="#{cdnThirdParty.elementUIJS}")
-    script(src="#{cdnPayRoot}/next/examples/js/example-bundle.js?_v_=#{homeVersion}")
+    script(src="#{cdnPayRoot}/next/examples/#{ecWWWLang}/js/example-bundle.js?_v_=#{homeVersion}")
     script(type="text/javascript").
         window.EC_WWW_CDN_PAY_ROOT = '#{cdnPayRoot}';
 
