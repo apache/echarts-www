@@ -1,0 +1,119 @@
+extends ../layouts/basic
+
+block variables
+    - var pageTitle = 'ECharts 动态排序柱状图生成工具'
+
+block extra_head
+    title 动态排序柱状图生成器 - Apache ECharts (incubating)
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/handsontable@6.2.2/dist/handsontable.css')
+    style.
+        #table-row {
+            margin: 0;
+        }
+        #table-panel {
+            border: 1px solid #eee;
+            height: 600px;
+            overflow: hidden;
+        }
+        #bar-race-preview {
+            width: 100%;
+            height: 300px;
+            margin: 30px 0;
+        }
+        #bar-race-preview div, #bar-race-preview canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        .btn {
+            margin-right: 10px;
+        }
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top', role='navigation')
+        include ../components/nav
+
+    .page-main
+        .page-info
+            .container
+                h1 动态排序柱状图生成工具
+                p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
+
+        .page-content
+            .row#table-row
+                .col-md-6
+                    #table-panel
+                .col-md-6
+                    div
+                        button.btn.btn-default(type='button') 运行
+                        button.btn.btn-default(type='button') 导出
+                    #bar-race-preview
+
+        include ../components/footer
+
+block extra_js
+    script(src='https://cdn.jsdelivr.net/npm/handsontable@6.2.2/dist/handsontable.js')
+    script(src='#{cdnThirdParty.echartsMinJS_4_8_0}')
+    script(type='text/javascript').
+        document.getElementById('nav-contribute').className = 'active';
+
+        var data = [
+            ["", "Ford", "Tesla", "Toyota", "Honda"],
+            ["Color", "", "", "", ""],
+            ["Icon", "", "", "", ""],
+            ["2017", 10, 11, 12, 13],
+            ["2018", 20, 11, 14, 13],
+            ["2019", 30, 15, 12, 13]
+        ];
+        for (var i = 0; i < data.length; ++i) {
+            for (var j = data[i].length; j < 50; ++j) {
+                data[i].push('');
+            }
+        }
+        for (var i = data.length; i < 100; ++i) {
+            var row = [];
+            for (var j = 0; j < 50; ++j) {
+                row.push('');
+            }
+            data.push(row);
+        }
+
+        var container = document.getElementById('table-panel');
+        var hot = new Handsontable(container, {
+            data: data,
+            rowHeaders: true,
+            colHeaders: true,
+            filters: true,
+            dropdownMenu: true,
+            cell: [{
+                row: 0,
+                col: 0,
+                readOnly: true
+            }, {
+                row: 1,
+                col: 0,
+                readOnly: true
+            }, {
+                row: 2,
+                col: 0,
+                readOnly: true
+            }]
+        });
+
+        var dom = document.getElementById('bar-race-preview');
+        var chart = echarts.init(dom, null, {
+            width: dom.clientWidth * 2,
+            height: dom.clientHeight * 2
+        });
+        chart.setOption({
+            title: {
+                text: 'Awesome Chart'
+            },
+            xAxis: {
+                data: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+            },
+            yAxis: {},
+            series: [{
+                type: 'line',
+                data:[220, 182, 191, 234, 290, 330, 310]
+            }]
+        });
