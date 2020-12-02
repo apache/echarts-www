@@ -19,11 +19,17 @@ mixin nav(hostParam, cdnPayRootParam)
                         li
                             a(href="#{hostParam}/en/feature.html") Features
                         li
-                            a(href="#{hostParam}/en/tutorial.html") Tutorials
+                            a(href="#{hostParam}/en/tutorial.html") Tutorials v4.9
                         li
-                            a(href="#{hostParam}/en/api.html") API
+                            a(href="#{hostParam}/en/api.html") API v4.9
                         li
-                            a(href="#{hostParam}/en/option.html") Chart Configuration
+                            a(href="#{hostParam}/en/option.html") Chart Configuration v4.9
+                        li
+                            a(href="#{hostParam}/next/en/tutorial.html") Tutorials v5.x
+                        li
+                            a(href="#{hostParam}/next/en/api.html") API v5.x
+                        li
+                            a(href="#{hostParam}/next/en/option.html") Chart Configuration v5.x
                         //- li
                         //-     a(href="#{hostParam}/en/option-gl.html") GL Configuration
                         li
@@ -41,7 +47,13 @@ mixin nav(hostParam, cdnPayRootParam)
                         li
                             a(href="#{hostParam}/en/download-extension.html") Download Extensions
                 li#nav-examples
-                    a(href='#{hostParam}/examples/en/index.html') Examples
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") Examples
+                        b.caret
+                    ul.dropdown-menu
+                        li
+                            a(href='#{hostParam}/examples/en/index.html') Examples v4.9
+                        li
+                            a(href='#{hostParam}/next/examples/en/index.html') Examples v5.x
                 li#nav-resources
                     a(href='#', class="dropdown-toggle", data-toggle="dropdown") Resources
                         b.caret
