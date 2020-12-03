@@ -19,17 +19,11 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                         li
                             a(href="#{hostParam}/zh/feature.html") 特性
                         li
-                            a(href="#{hostParam}/zh/tutorial.html") 教程 v4.9
+                            a(href="#{hostParam}/zh/tutorial.html") 教程
                         li
-                            a(href="#{hostParam}/zh/api.html") API v4.9
+                            a(href="#{hostParam}/zh/api.html") API
                         li
-                            a(href="#{hostParam}/zh/option.html") 配置项手册 v4.9
-                        li
-                            a(href="#{hostParam}/next/zh/tutorial.html") 教程 v5.x
-                        li
-                            a(href="#{hostParam}/next/zh/api.html") API v5.x
-                        li
-                            a(href="#{hostParam}/next/zh/option.html") 配置项手册 v5.x
+                            a(href="#{hostParam}/zh/option.html") 配置项手册
                         //- li
                         //-     a(href="#{hostParam}/zh/option-gl.html") GL 配置项手册
                         li
@@ -47,13 +41,7 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                         li
                             a(href="#{hostParam}/zh/download-extension.html") 扩展下载
                 li#nav-examples
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") 实例
-                        b.caret
-                    ul.dropdown-menu
-                        li
-                            a(href='#{hostParam}/examples/zh/index.html') 实例 v4.9
-                        li
-                            a(href='#{hostParam}/next/examples/zh/index.html') 实例 v5.x
+                    a(href='#{hostParam}/examples/zh/index.html') 实例
                 li#nav-resources
                     a(href='#', class="dropdown-toggle", data-toggle="dropdown") 资源
                         b.caret
@@ -110,6 +98,18 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                         li
                             a(href='https://www.apache.org/foundation/thanks.html', target='_blank') 鸣谢
                                 include ./svg/external-link
+                li#nav-ec5
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") ECharts 5
+                        b.caret
+                    ul.dropdown-menu
+                        li
+                            a(href="#{hostParam}/next/zh/tutorial.html") 教程
+                        li
+                            a(href="#{hostParam}/next/zh/api.html") API
+                        li
+                            a(href="#{hostParam}/next/zh/option.html") 配置项手册
+                        li
+                            a(href='#{hostParam}/next/examples/zh/index.html') 实例
 
             ul(class='nav navbar-nav navbar-right')
                 li#nav-homeen
