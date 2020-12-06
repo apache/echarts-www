@@ -8,7 +8,7 @@ block extra_head
             overflow-x: hidden;
         }
     link(rel="stylesheet", href="#{cdnThirdParty.elementUICSS}")
-    link(rel="stylesheet", href="#{cdnPayRoot}/next/#{ecWWWLang}/css/doc-bundle.css?_v_=#{homeVersion}")
+    link(rel="stylesheet", href="#{getAssetUrl(cdnPayRoot, 'next/' + ecWWWLang + '/css/doc-bundle.css')}")
 
 block content
 
@@ -29,7 +29,7 @@ block extra_js
     script(src="#{cdnThirdParty.codeMirrorJS}")
     script(src="#{cdnThirdParty.codeMirrorJSModeJS}")
     script(src="#{cdnThirdParty.beautifierJS}")
-    script(src="#{cdnPayRoot}/next/#{ecWWWLang}/js/doc-bundle.js?_v_=#{homeVersion}")
+    script(src="#{getAssetUrl(cdnPayRoot, 'next/' + ecWWWLang + '/js/doc-bundle.js')}")
     script(type="text/javascript").
         window.EC_WWW_CDN_PAY_ROOT = '#{cdnPayRoot}';
 
@@ -37,6 +37,6 @@ block extra_js
 
     script(type="text/javascript").
         document.getElementById('nav-ec5').className = 'active';
-        window.globalArgsExtra.version = '#{homeVersion}';
+        window.globalArgsExtra.version = '#{nextDocHash}';
         echartsDoc.init('#ec-doc-main', window.globalArgsExtra);
 

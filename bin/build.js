@@ -13,6 +13,7 @@ const argv = require('yargs').argv;
 const assert = require('assert');
 const requirejs = require('requirejs');
 const readline = require('readline');
+const md5 = require('md5');
 
 const LANGUAGES = ['zh', 'en'];
 const projectDir = path.resolve(__dirname, '..');
@@ -74,6 +75,18 @@ function initEnv() {
 
     assert(path.isAbsolute(config.releaseDestDir));
 
+    config.getAssetUrl = function (cdnPayRoot, filePath) {
+        const fullFilePath = path.join(config.releaseDestDir, filePath);
+        let content;
+        try {
+            content = fs.readFileSync(fullFilePath, 'utf-8');
+        }
+        catch (e) {
+            throw new Error(`Unkown file ${fullFilePath}`);
+        }
+        const hash = md5(content);
+        return cdnPayRoot + '/' + filePath + '?_v_=' + hash.substr(-10);
+    };
     // Update home version each build.
     config.homeVersion = +new Date();
     // Temp: give a fixed version until need to update.
@@ -145,6 +158,20 @@ async function buildSASS(config) {
     console.log('buildSASS done.');
 }
 
+async function getFolderHash(globPattern) {
+    const files = await globby(globPattern);
+    if (!files.length) {
+        throw new Error('No file exists for pattern ' + globPattern);
+    }
+    let concatedStr = '';
+    for (let file of files) {
+        const content = fs.readFileSync(file);
+        concatedStr += md5(content);
+    }
+    assert(concatedStr);
+    return md5(concatedStr).substr(-10);
+}
+
 async function buildJade(config) {
     const basePath = path.resolve(projectDir, '_jade');
     const srcPaths = await globby([
@@ -153,11 +180,21 @@ async function buildJade(config) {
         cwd: basePath
     });
 
+    const hashes = {};
+    for (let lang of ['zh', 'en']) {
+        hashes[lang] = {
+            docHash: await getFolderHash(path.resolve(config.releaseDestDir, lang, 'documents/**/*.js')),
+            nextDocHash: await getFolderHash(path.resolve(config.releaseDestDir, 'next', lang, 'documents/**/*.js'))
+        };
+    }
+
     for (let srcPath of srcPaths) {
         let filePath = path.resolve(basePath, srcPath);
         const lang = srcPath.indexOf('zh/') === 0 ? 'zh' : 'en';
 
-        const cfg = Object.assign({}, config);
+        assert(hashes[lang]);
+
+        const cfg = Object.assign({}, config, hashes[lang]);
         cfg.cdnPayRoot = config.cdnPayRootMap[lang];
         cfg.cdnFreeRoot = config.cdnFreeRootMap[lang];
 
@@ -469,13 +506,15 @@ async function run() {
     else {
         if (config.filter === 'all') {
             await buildSASS(config);
-            await buildJade(config);
             await buildJS(config);
             await copyResource(config);
             await updateSourceVersion(config);
 
             await buildLegacyDoc(config);
             await buildSpreadsheet(config);
+
+            // Build jade at last because it needs to read the resources.
+            await buildJade(config);
 
             await makeCDNChecker(config);
         }

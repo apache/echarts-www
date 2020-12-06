@@ -24,7 +24,7 @@ html(lang='#{htmlAttrLang}')
         script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
         <![endif]-->
 
-        link(rel='stylesheet', type='text/css', href='#{cdnPayRoot}/#{ecWWWLang}/css/main.css?_v_=#{homeVersion}')
+        link(rel='stylesheet', type='text/css', href="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/css/main.css')}")
 
         script.
             window.EC_WWW_LANG = '#{ecWWWLang}';
@@ -71,7 +71,7 @@ html(lang='#{htmlAttrLang}')
         block content
 
     script(type='text/javascript', src='#{cdnThirdParty.bootstrapJS}')
-    script(type='text/javascript', src='#{cdnPayRoot}/#{ecWWWLang}/js/common.js?_v_=#{homeVersion}')
+    script(type='text/javascript', src="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/js/common.js')}")
 
     block extra_js
 

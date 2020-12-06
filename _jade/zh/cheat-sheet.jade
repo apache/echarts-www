@@ -58,4 +58,4 @@ block extra_js
         document.getElementById('nav-resources').className = 'active';
 
     script(src='#{cdnThirdParty.echartsMinJS_4_8_0}')
-    script(src='#{cdnPayRoot}/#{ecWWWLang}/js/cheat-sheet.js?_v_=#{homeVersion}')
+    script(type='text/javascript', src="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/js/cheat-sheet.js')}")

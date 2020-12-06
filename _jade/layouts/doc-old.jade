@@ -2,7 +2,7 @@ extends basic
 
 block extra_head
     title ECharts Documentation
-    link(rel="stylesheet", type="text/css", href="css/ecOption.css?_v_=#{homeVersion}")
+    link(rel="stylesheet", type="text/css", href="css/ecOption.css")
     link(rel="stylesheet", type="text/css", href="vendors/prettify/prettify.css")
     link(rel="stylesheet", type="text/css", href="vendors/perfect-scrollbar/0.6.8/css/perfect-scrollbar.min.css")
     link(rel="stylesheet", type="text/css", href="vendors/jquery-autocomplete/jquery.auto-complete.css")
@@ -54,7 +54,7 @@ block extra_js
         var vendorPath = '../vendors';
 
         define('globalArgs', extend({
-            version: '#{homeVersion}',
+            version: '',
             basePath: './',
             // Schema url is added by each doc page
             schemaUrl: '',
@@ -81,7 +81,7 @@ block extra_js
                 hasher: vendorPath + '/hasher/1.2.0/hasher.min',
                 perfectScrollbar: vendorPath + '/perfect-scrollbar/0.6.8/js/perfect-scrollbar'
             },
-            urlArgs: '_v_=#{homeVersion}'
+            urlArgs: ''
         });
 
         require(['docTool/main'], function (main) {
