@@ -107,10 +107,11 @@ $info-height: 120px;
 }
 
     .page-nav {
-        position: fixed;
+        position: sticky;
         overflow: auto;
+        float: left;
         width: $single-page-left-width;
-        top: 260px;
+        top: 20px;
         bottom: 0;
         margin: 0 0 0 30px;
         padding: 0 0 20px 0;
