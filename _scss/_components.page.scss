@@ -112,7 +112,7 @@ $info-height: 120px;
         float: left;
         width: $single-page-left-width;
         top: 20px;
-        bottom: 0;
+        height: calc(100vh - 100px);
         margin: 0 0 0 30px;
         padding: 0 0 20px 0;
 
