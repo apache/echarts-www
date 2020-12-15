@@ -17,7 +17,7 @@ block extra_head
         }
         #bar-race-preview {
             width: 100%;
-            height: 500px;
+            height: 400px;
             margin: 30px 0;
         }
         #bar-race-preview div, #bar-race-preview canvas {
@@ -43,6 +43,15 @@ block content
                 .col-md-6
                     #table-panel
                 .col-md-6
+                    .bar-race-config
+                        form
+                            .form-group
+                                label.col-lg-6 标题
+                                input.form-control#input-title(value='汽车产量动态排名')
+                            .form-group
+                                label.col-lg-6 显示排名上限
+                                input.form-control#input-max(type='number', value='10')
+
                     div
                         button.btn.btn-default(type='button', onclick="run()") 运行
                         button.btn.btn-default(type='button') 导出
@@ -107,23 +116,32 @@ block extra_js
         };
 
         var getYData = function () {
-            if (data.length < 1) {
+            if (data.length <= headerLength) {
                 return [];
             }
             return trimColumns(data[0]);
         };
 
         var getChartData = function (id) {
-            if (data.length < 4) {
+            if (data.length <= id + headerLength) {
                 return [];
             }
             return trimColumns(data[id + headerLength]);
         };
 
+        var getDataName = function (id) {
+            if (data.length <= id + headerLength) {
+                return '';
+            }
+            else {
+                return data[id + headerLength][0];
+            }
+        }
+
         var container = document.getElementById('table-panel');
 
         function colorRenderer(instance, td, row, col) {
-            console.log(instance);
+            //- console.log(instance);
 
         }
 
@@ -133,25 +151,25 @@ block extra_js
             colHeaders: true,
             filters: true,
             dropdownMenu: true,
-            //- cell: [{
-            //-     row: 0,
-            //-     col: 0,
-            //-     readOnly: true
-            //- }, {
-            //-     row: 1,
-            //-     col: 0,
-            //-     readOnly: true
-            //- }],
-            cells: function (row, col) {
-                if (row === 1) {
-                    return {
-                        renderer: colorRenderer
-                    }
-                }
-                else {
-                    return {};
-                }
-            }
+            cell: [{
+                row: 0,
+                col: 0,
+                readOnly: true
+            }, {
+                row: 1,
+                col: 0,
+                readOnly: true
+            }],
+            //- cells: function (row, col) {
+            //-     if (row === 1) {
+            //-         return {
+            //-             renderer: colorRenderer
+            //-         }
+            //-     }
+            //-     else {
+            //-         return {};
+            //-     }
+            //- }
         });
         table.updateSettings({
             afterChange: function (e) {
@@ -159,13 +177,12 @@ block extra_js
             }
         });
 
-        var dom = document.getElementById('bar-race-preview');
-
         echarts.registerTransform(myTransform.id);
-        var chart = echarts.init(dom);
+        var chart = echarts.init($('#bar-race-preview')[0]);
 
         var timeoutHandlers = [];
 
+        initEvents();
         run();
 
         function clearTimeoutHandlers() {
@@ -182,40 +199,38 @@ block extra_js
             }
         }
 
+        function initEvents() {
+            $('.form-group').change(function () {
+                run();
+            });
+        }
+
         function run() {
             clearTimeoutHandlers();
-            console.log({
-                title: {
-                    text: 'Awesome Chart'
-                },
-                yAxis: {
-                    type: 'category',
-                    data: getYData(),
-                    inverse: true,
-                    max: 10,
-                    animationDuration: 0,
-                    animationDurationUpdate: 0
-                },
-                xAxis: {},
-                series: [{
-                    type: 'bar',
-                    data: getChartData(0),
-                    realtimeSort: true
-                }],
-                animationDurationUpdate: 5000,
-                animationEasing: 'linear',
-                animationEasingUpdate: 'linear'
-            })
 
+            var title = $('#input-title').val();
+            var max = $('#input-max').val();
             chart.setOption({
-                title: {
-                    text: 'Awesome Chart'
+                title: [{
+                    text: getDataName(0),
+                    textStyle: {
+                        fontFamily: 'monospace',
+                        fontSize: 80,
+                        color: 'rgba(100, 100, 100, 0.2)'
+                    },
+                    bottom: 60,
+                    right: 20
+                }, {
+                    text: title
+                }],
+                grid: {
+                    right: 20
                 },
                 yAxis: {
                     type: 'category',
                     data: getYData(),
                     inverse: true,
-                    max: 10,
+                    max: max,
                     animationDuration: 0,
                     animationDurationUpdate: 0
                 },
@@ -223,7 +238,8 @@ block extra_js
                 series: [{
                     type: 'bar',
                     data: getChartData(0),
-                    realtimeSort: true
+                    realtimeSort: true,
+                    colorBy: 'item'
                 }],
                 animationDurationUpdate: 5000,
                 animationEasing: 'linear',
@@ -236,6 +252,9 @@ block extra_js
                     var dataRow = getChartData(i);
                     var timeout = function () {
                         chart.setOption({
+                            title: [{
+                                text: getDataName(i)
+                            }],
                             yAxis: {
                                 animationDuration: 300,
                                 animationDurationUpdate: 300,
