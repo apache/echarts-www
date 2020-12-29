@@ -3,7 +3,7 @@ general@incubator.apache.org
 ---------------------------------------------------------------
 
 --- Subject: ---
-[RESULT] [VOTE] Release Apache ECharts (incubating) 4.8.0
+[RESULT] [VOTE] Release Apache ECharts 4.8.0
 ---------------------------------------------------------------
 
 
@@ -22,5 +22,5 @@ The release has PASSED with the following IPMC votes:
 Vote thread:
 https://lists.apache.org/thread.html/rc2527174db0d238c140e88e6135999af5f393b07a8db9f71ffa200b4%40%3Cgeneral.incubator.apache.org%3E
 
-I'm going to release the source release of Apache ECharts (incubating) 4.8.0.
+I'm going to release the source release of Apache ECharts 4.8.0.
 Thank you all for making this happen!
