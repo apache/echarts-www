@@ -2,7 +2,9 @@ footer
     .container
         .row
             .col-md-9
-                p Copyright © 2017-2020, The Apache Software Foundation Apache ECharts, ECharts, Apache, the Apache feather, and the Apache ECharts project logo are either registered trademarks or trademarks of the Apache Software Foundation.
+                p Copyright ©
+                    span#copy-right
+                    span , The Apache Software Foundation Apache ECharts, ECharts, Apache, the Apache feather, and the Apache ECharts project logo are either registered trademarks or trademarks of the Apache Software Foundation.
 
                 .icon-panel
                     a.footer-icon(href='mailto:dev@echarts.apache.org?body=%28Thanks%20for%20using%20ECharts.%20Email%20us%20if%20you%20have%20non-technical%20problems%20using%20ECharts.%20For%20technical%20support%2C%20please%20go%20to%20https%3A//github.com/apache/incubator-echarts/issues%20.%29')
@@ -17,3 +19,7 @@ footer
             .col-md-3#footer-icon-panel
                 a(href='https://www.apache.org')
                     img(src='#{cdnPayRoot}/#{ecWWWLang}/images/asf_logo.svg?_v_=#{cdnPayVersion}', class="footer-apache-logo")
+
+block extra_js
+    script(type='text/javascript').
+        document.getElementById('copy-right').innerText = '2017-' + (new Date()).getFullYear();
