@@ -17,11 +17,11 @@ body {
 }
 
 #main-content {
-    color: $clr-text-home;
+    color: $clr-text;
     font-weight: 300;
 
     h1, h2, h3, h4, h5, h6 {
-        color: $clr-primary-home;
+        color: $clr-darker;
         font-weight: 400;
     }
 
@@ -225,7 +225,7 @@ body {
 
     .person {
         margin: 10px 0 20px 0;
-        color: $clr-text-home;
+        color: $clr-text;
 
         .name {
             margin-top: -5px;
@@ -355,7 +355,7 @@ body {
                             .right {
                                 width: 352px;
                             }
-    
+
                             h3 {
                                 margin-bottom: 16px;
                                 font-size: 16px;
@@ -363,7 +363,7 @@ body {
                                 line-height: 18px;
                                 color: #090909;
                             }
-    
+
                             p {
                                 margin-top: 3px;
                                 color: #8D909A;
@@ -427,7 +427,7 @@ body {
             h3 {
                 font-size: 18px;
                 font-weight: 300;
-                color: $clr-text-home;
+                color: $clr-text;
                 margin-top: 30px;
 
                 & ~ h3 {
@@ -484,7 +484,7 @@ body {
                         color: #090909;
                     }
                 }
-                
+
                 .icon {
                     #paper-icon {
                         width: 530px;
@@ -569,7 +569,7 @@ body {
             background: #FFFFFF;
             box-shadow: 2px 4px 14px 4px rgba(112,114,124,0.15);
             border-radius: 8px;
-        
+
             &:hover {
                 text-decoration: none;
             }
@@ -609,7 +609,7 @@ body {
                 height: 41px;
                 width: 41px;
             }
-            
+
         }
 
         .icon-v-right {
@@ -760,7 +760,7 @@ body {
 
         #home-section .btn {
             background-color: white;
-            color: $clr-primary-home;
+            color: $clr-darker;
             text-shadow: none;
         }
 

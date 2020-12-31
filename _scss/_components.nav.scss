@@ -2,11 +2,11 @@ $nav-height: 51px;
 
 .navbar-default {
     border: none;
-    // border-bottom: 1px solid $clr-primary-darker;
-    background-color: $clr-primary;
+    background-color: $clr-nav-bg;
     z-index: 10000;
     transition: background-color 0.5s linear;
     height: 50px;
+    box-shadow: 0 0 20px #ddd;
 
     .navbar-nav {
         transition: background-color 0.5s linear;
@@ -14,7 +14,7 @@ $nav-height: 51px;
     .navbar-nav li {
         position: relative;
         a {
-            color: rgba(255, 255, 255, 0.45);
+            color: $clr-nav-link;
             background-color: none!important;
             padding: 15px 20px;
             transition: 0.5s background-color;
@@ -26,7 +26,7 @@ $nav-height: 51px;
                 left: 50%;
                 right: 50%;
                 top: 0;
-                background: $clr-secondary;
+                background: $clr-contrast;
                 height: 4px;
                 transition-property: 'left, right';
                 transition-duration: .3s;
@@ -34,8 +34,8 @@ $nav-height: 51px;
             }
 
             &:hover, &:focus {
-                color: $clr-lightest;
-                background-color: $clr-primary-dark;
+                color: $clr-nav-link;
+                background-color: $clr-nav-bg-hover;
 
                 &:before {
                     left: 0;
@@ -70,8 +70,8 @@ $nav-height: 51px;
         &.active>a {
             padding-top: 11px;
             border-top: 4px solid $clr-secondary;
-            color: #fff;
-            background-color: $clr-primary-darker;
+            color: $clr-nav-link-active;
+            background-color: $clr-nav-bg;
             transition: 0.5s background-color;
 
             &:before {
@@ -84,14 +84,12 @@ $nav-height: 51px;
             }
         }
         .dropdown-menu {
-            // position: static;
-            // right: 0;
-            // top: 40px;
             width: 250px;
             padding: 0;
-            background-color: $clr-primary-dark;
+            border: none;
+
             li {
-                background-color: $clr-primary-dark;
+                background-color: $clr-nav-bg;
 
                 a {
                     padding: 8px 20px;
@@ -99,18 +97,20 @@ $nav-height: 51px;
 
                 &:hover, &:focus {
                     a {
-                        background-color: $clr-secondary;
+                        background-color: $clr-nav-bg-hover;
                     }
-                    background-color: $clr-secondary;
+                    background-color: $clr-nav-bg-hover;
                 }
                 border-top: none;
                 padding: 5px 0;
             }
-            box-shadow: none;
-            border: none;
         }
 
         ul {
+            box-shadow: 0 0 20px #ddd;
+            border-radius: 0 0 4px 5px;
+            overflow: hidden;
+
             a:before {
                 display: none;
             }
@@ -159,23 +159,20 @@ $nav-height: 51px;
 }
 
 .navbar-bg {
-    background-color: rgba(41, 60, 85, 0.3);
+    background-color: $clr-nav-bg;
     transition-duration: 0.3s;
     transition-property: background-color, opacity;
-
-    &:hover {
-        background-color: rgba(41, 60, 85, 0.8);
-    }
+    box-shadow: 0 0 20px #ddd;
 
     .navbar-nav {
         li {
             a {
-                color: #fff;
+                color: $clr-nav-link;
             }
         }
         li.active {
             a {
-                color: #fff;
+                color: $clr-contrast;
                 background-color: transparent;
             }
         }
@@ -214,7 +211,6 @@ $nav-height: 51px;
 @media (max-width: 768px) {
     .navbar-default {
         .navbar-nav {
-            background-color: $clr-primary;
             transition: background-color 0.5s linear;
             margin-top: 0;
             margin-bottom: 0;

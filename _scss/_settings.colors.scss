@@ -1,20 +1,19 @@
-$clr-primary:        #293c55;
-$clr-primary-light:  #849dbe;
-$clr-primary-dark:   #162436;
-$clr-primary-darker: #0e151f;
+$clr-primary-lighter:#cbd7ff;
+$clr-primary-light:  #7A93E7;
+$clr-primary:        #5E7AD9;
+$clr-primary-dark:   #4B65BD;
+$clr-primary-darker: #344C9B;
 
-$clr-primary-home:   #333743;
-$clr-text-home:      #9297A3;
+$clr-text: #949CB1;
 
-$clr-secondary:      #a9334c;
-// $clr-secondary-dark: #3095c6;
-
-$clr-contrast:       #e43c59;
+$clr-contrast-lightest: #ffb8c9;
+$clr-contrast:       #F72C5B;
 $clr-contrast-dark:  #bf465b;
+$clr-secondary:      $clr-contrast;
 
 $clr-darkest:        #000;
-$clr-darker:         #333;
-$clr-dark:           #666;
+$clr-darker:         #06133B;
+$clr-dark:           #081642;
 $clr-light:          #999;
 $clr-lighter:        #eee;
 $clr-lightest:       #f9f9f9;
@@ -24,3 +23,8 @@ $clr-thirdary-light: lighten($clr-thirdary, 10%);
 
 $clr-border: rgba(78, 97, 118, 0.45);
 $clr-border-light: rgba(78, 97, 118, 0.25);
+
+$clr-nav-bg: #fff;
+$clr-nav-bg-hover: #f3f3f3;
+$clr-nav-link: $clr-dark;
+$clr-nav-link-active: $clr-contrast;
