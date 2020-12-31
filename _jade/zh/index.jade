@@ -3,7 +3,7 @@ html.sr
 extends ../layouts/basic
 
 block extra_head
-    title Apache ECharts (incubating)
+    title Apache ECharts
     script(src="https://unpkg.com/scrollreveal")
     script(src="#{cdnPayRoot}/#{ecWWWLang}/asset/lottie/js/lottie.min.js?_v_=#{cdnPayVersion}")
 
@@ -47,7 +47,7 @@ block content
                                         .left
                                             .icon-bg#bg-icon-1
                                             .feature-icon-panel#icon-1
-                                        .right 
+                                        .right
                                             h3 超多图表类型和强大的自定义，满足千万种可能
                                             .content
                                                 p 30多种图表和强大的自定义功能，类型不设限，机会无极限。
@@ -57,7 +57,7 @@ block content
                                         .left
                                             .icon-bg#bg-icon-2
                                             .feature-icon-panel#icon-2
-                                        .right 
+                                        .right
                                             h3 千万级别数据量的前端展现，仍然轻松流畅
                                             .content
                                                 p 使用增量渲染、对流加载等技术，配合各种细致的优化，在展现
@@ -67,20 +67,20 @@ block content
                                         .left
                                             .icon-bg#bg-icon-3
                                             .feature-icon-panel#icon-3
-                                        .right 
+                                        .right
                                             h3 打破与图表的边界，获得更多的体验机会
                                             .content
                                                 p 无论是「无障碍访问」还是「多设备兼容」，我们一直在持续
                                                 p 拓展更多可能性，希望更多的人，在更多的场景，都能获得顺畅
                                                 p 如一的美好体验
-                            .list-hr 
-                            .list-line                
+                            .list-hr
+                            .list-line
                                 .list-item(feat="3")
                                     .item
                                         .left
                                             .icon-bg#bg-icon-4
                                             .feature-icon-panel#icon-4
-                                        .right 
+                                        .right
                                             h3 开箱即用，做图表变得更简单
                                             .content
                                                 p 提供开箱即用的组件和配置，极简配置即可实现万千可能。
@@ -90,7 +90,7 @@ block content
                                         .left
                                             .icon-bg#bg-icon-5
                                             .feature-icon-panel#icon-5
-                                        .right 
+                                        .right
                                             h3 多维度的数据分析，发掘更多数据的价值
                                             .content
                                                 p 数据自由刷选 —— 自由选择数据，发掘数据背后的更多秘密
@@ -102,7 +102,7 @@ block content
                                         .left
                                             .icon-bg#bg-icon-6
                                             .feature-icon-panel#icon-6
-                                        .right 
+                                        .right
                                             h3 才华与颜值兼备，玩转图表新可能
                                             .content
                                                 p 完善的图表交互，让你一上手就自然顺手，与数据实现轻松互动
@@ -116,7 +116,7 @@ block content
                     if (typeof(id) === 'string') {
                         container = document.getElementById(id);
                     }
-                    
+
                     animationMap[id] = lottie.loadAnimation({
                         container, // the dom element that will contain the animation
                         renderer: 'svg',
@@ -139,7 +139,7 @@ block content
                 $('.list-item').mouseenter(function(event) {
                     var num = +$(this).attr('feat');
                     var list = $('.list-item .item');
-                    
+
                     if (num === 0 || num === 3) {
                         $(list[num]).css('border-bottom', 0);
                     }
@@ -160,7 +160,7 @@ block content
                 $('.list-item').mouseleave(function(event) {
                     var num = +$(this).attr('feat');
                     var list = $('.list-item .item');
-                    
+
                     if (num === 0 || num === 3) {
                         $(list[num]).css('border-bottom', '1px solid rgba(151,151,151,0.25)');
                     }
@@ -194,7 +194,7 @@ block content
                         .icon
                             #paper-icon
                     #end-line
-            
+
             script(type='text/javascript').
                 (function () {
                     var hasStartLineShow = false;
@@ -202,7 +202,7 @@ block content
                     var hasEndLineShow = false;
 
                     setLottieAnimatiion('paper-icon', 'asset/lottie/json/paper.json');
-                    
+
 
                     $('#page-index').scroll(function () {
                         var startLine = $("#start-line").offset().top;
@@ -241,7 +241,7 @@ block content
                                 else {
                                     setLottieAnimatiion('end-line', 'asset/lottie/json/end_line.json');
                                 }
-                                
+
                                 hasEndLineShow = true;
                             }
                         }

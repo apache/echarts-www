@@ -4,7 +4,7 @@ block variablesLang
     include ./_variablesLang.jade
 
 block extra_head
-    title Download - Apache ECharts (incubating)
+    title Download - Apache ECharts
 
 block content
 
@@ -26,7 +26,7 @@ block content
         .page-info
             h1 Download
             p Free to choose to download different versions, different topics, the map data you need. You can be customized according to your needs.
-            p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
+            p.page-info-echarts Apache ECharts<sup>TM</sup>
         .page-content.container#download-main
             .d-section-version.d-section
 
@@ -57,7 +57,7 @@ block content
                         li shasum -a 512 apache-echarts-X.Y.Z-incubating-src.zip
 
                     h4 License
-                    p Apache ECharts (incubating) is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.
+                    p Apache ECharts is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.
 
                 h3 Option 2: Install from npm
                 p <code>npm install echarts</code>
@@ -73,7 +73,7 @@ block content
         include ./footer
 
 block extra_js
-    script(src="#{cdnPayRoot}/#{ecWWWLang}/js/download.js?_v_=#{homeVersion}")
+    script(src="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/js/download.js')}")
     script(type='text/javascript').
         document.getElementById('nav-download').className = 'active';
 

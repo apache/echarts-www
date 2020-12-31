@@ -107,11 +107,12 @@ $info-height: 120px;
 }
 
     .page-nav {
-        position: fixed;
+        position: sticky;
         overflow: auto;
+        float: left;
         width: $single-page-left-width;
-        top: 260px;
-        bottom: 0;
+        top: 20px;
+        height: calc(100vh - 100px);
         margin: 0 0 0 30px;
         padding: 0 0 20px 0;
 
@@ -209,7 +210,6 @@ $info-height: 120px;
             padding-left: 0;
 
             li {
-                padding-left: 20px;
                 margin: 5px 0;
             }
         }

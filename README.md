@@ -1,4 +1,6 @@
-# echarts-www
+# About
+
+This project is part of the source of [The Apache ECharts Official Website](https://echarts.apache.org/). See [echarts-website](https://github.com/apache/incubator-echarts-website) for more details of the building process.
 
 ## dev
 

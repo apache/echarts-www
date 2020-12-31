@@ -85,7 +85,10 @@ mixin nav(hostParam, cdnPayRootParam)
                         li
                             a(href='#{hostParam}/en/security.html') Security
                         li
-                            a(href='https://www.apache.org/licenses/', target='_blank') Licenses
+                            a(href='https://www.apache.org/licenses/', target='_blank') License
+                                include ../components/svg/external-link
+                        li
+                            a(href='https://www.apache.org/events/current-event', target='_blank') Events
                                 include ../components/svg/external-link
                         li
                             a(href='https://www.apache.org/foundation/sponsorship.html', target='_blank') Sponsorship
@@ -93,10 +96,23 @@ mixin nav(hostParam, cdnPayRootParam)
                         li
                             a(href='https://www.apache.org/foundation/thanks.html', target='_blank') Thanks
                                 include ../components/svg/external-link
+                li#nav-ec5
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") ECharts 5
+                        span.new new
+                        b.caret
+                    ul.dropdown-menu
+                        li
+                            a(href="#{hostParam}/next/en/tutorial.html") Tutorials
+                        li
+                            a(href="#{hostParam}/next/en/api.html") API
+                        li
+                            a(href="#{hostParam}/next/en/option.html") Chart Configuration
+                        li
+                            a(href='#{hostParam}/next/examples/en/index.html') Examples
 
             ul(class='nav navbar-nav navbar-right')
                 li#nav-homeen
                     a(href='javascript:;', onclick="changeLang('zh')") 中文
                 li#nav-apache
                     a(href="https://www.apache.org/" target="_blank")
-                        img(src="#{cdnPayRootParam}/en/images/apache-incubator-white.png", width="18")
+                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/asf_logo_white.png?_v_=#{cdnPayVersion}")

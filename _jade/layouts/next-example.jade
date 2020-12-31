@@ -1,14 +1,14 @@
 extends basic
 
 block extra_head
-    title Examples - Apache ECharts(incubating)
+    title Examples - Apache ECharts
     style.
         html, body {
             /* position: sticky should not have overflow parents.*/
             overflow-x: hidden;
         }
     link(rel="stylesheet", href="#{cdnThirdParty.elementUICSS}")
-    link(rel="stylesheet", href="#{cdnPayRoot}/next/examples/css/example-bundle.css?_v_=#{homeVersion}")
+    link(rel="stylesheet", href="#{getAssetUrl(cdnPayRoot, 'next/examples/css/example-bundle.css')}")
 
 block content
 
@@ -26,14 +26,14 @@ block content
 block extra_js
     script(src="#{cdnThirdParty.vueJS}")
     script(src="#{cdnThirdParty.elementUIJS}")
-    script(src="#{cdnPayRoot}/next/examples/js/example-bundle.js?_v_=#{homeVersion}")
+    script(src="#{getAssetUrl(cdnPayRoot, 'next/examples/js/example-bundle.js')}")
     script(type="text/javascript").
         window.EC_WWW_CDN_PAY_ROOT = '#{cdnPayRoot}';
 
     block global_args_extra
 
     script(type="text/javascript").
-        document.getElementById('nav-doc').className = 'active';
+        document.getElementById('nav-ec5').className = 'active';
         window.globalArgsExtra.version = '#{homeVersion}';
         window.globalArgsExtra.cdnRoot = EC_WWW_CDN_PAY_ROOT + '/next/examples';
         echartsExample.init('#ec-example-main', window.globalArgsExtra);

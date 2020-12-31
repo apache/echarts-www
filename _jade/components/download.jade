@@ -2,7 +2,7 @@ extends ../layouts/basic
 
 block extra_head
 
-    title 下载 - Apache ECharts (incubating)
+    title 下载 - Apache ECharts
     //- script(src="#{cdnThirdParty.sweetalertJS}")
 
 block content
@@ -45,7 +45,7 @@ block content
                         li shasum -a 512 apache-echarts-X.Y.Z-incubating-src.zip
 
                     h4 License
-                    p Apache ECharts (incubating) 基于 <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a> 发布
+                    p Apache ECharts 基于 <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a> 发布
 
                 //- if isECharts4
                 //-     h3 （前往下载 <a href="download3.html">3.x 版本）</a>
@@ -168,7 +168,7 @@ block content
 
 
 block extra_js
-    script(src="#{cdnPayRoot}/#{ecWWWLang}/js/download.js?_v_=#{homeVersion}")
+    script(src="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/js/download.js')}")
     script(type='text/javascript').
         document.getElementById('nav-download').className = 'active';
 

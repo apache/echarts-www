@@ -3,7 +3,7 @@ dev@echarts.apache.org
 ---------------------------------------------------------------------------------
 
 --- Subject: ---
-[RESULTS] [VOTE] Release Apache ECharts (incubating) 4.8.0 (release candidate 1)
+[RESULTS] [VOTE] Release Apache ECharts 4.8.0 (release candidate 1)
 ---------------------------------------------------------------------------------
 
 
