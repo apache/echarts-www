@@ -62,7 +62,6 @@ block content
 block extra_js
     script(src='https://cdn.jsdelivr.net/npm/handsontable@6.2.2/dist/handsontable.js')
     script(src='http://localhost/echarts/dist/echarts.js')
-    script(src='http://localhost/echarts-examples/public/data/asset/js/myTransform.js')
     script(type='text/javascript').
         document.getElementById('nav-contribute').className = 'active';
 
@@ -177,7 +176,6 @@ block extra_js
             }
         });
 
-        echarts.registerTransform(myTransform.id);
         var chart = echarts.init($('#bar-race-preview')[0]);
 
         var timeoutHandlers = [];
@@ -239,7 +237,11 @@ block extra_js
                     type: 'bar',
                     data: getChartData(0),
                     realtimeSort: true,
-                    colorBy: 'item'
+                    colorBy: 'item',
+                    label: {
+                        show: true,
+                        position: 'insideRight'
+                    }
                 }],
                 animationDurationUpdate: 5000,
                 animationEasing: 'linear',
@@ -270,4 +272,27 @@ block extra_js
                     setTimeout(timeout, (i - 1) * 5000);
                 })(i);
             }
+        }
+
+        function download() {
+            saveFile()
+        }
+
+        function saveFile(data, name, type) {
+            if (isSafari()) {
+                window.open('data:text/plain;charset=utf-8,' + encodeURIComponent(data));
+            } else {
+                try {
+                    var file = new Blob([data], {type: type});
+                    saveAs(file, name);
+                } catch(e) {
+                    console.error(e);
+                    window.open('data:text/plain;charset=utf-8,' + encodeURIComponent(data));
+                }
+            }
+        }
+
+        function isSafari() {
+            return navigator.userAgent.indexOf('Safari') > 0 &&
+                navigator.userAgent.indexOf('Chrome') < 0;
         }
