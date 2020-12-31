@@ -1,7 +1,11 @@
+html.sr
+
 extends ../layouts/basic
 
 block extra_head
     title Apache ECharts (incubating)
+    script(src="https://unpkg.com/scrollreveal")
+    script(src="#{cdnPayRoot}/#{ecWWWLang}/asset/lottie/js/lottie.min.js?_v_=#{cdnPayVersion}")
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
@@ -10,12 +14,6 @@ block content
     .page-main#page-index
         #main-content
             section#home-section
-                video#video-index(muted="true", loop='true', src='#{cdnFreeRoot}/#{ecWWWLang}/video/index-4.mp4', poster='#{cdnPayRoot}/#{ecWWWLang}/video/index-4.jpg?_v_=#{cdnPayVersion}')
-
-                a#video-index-play.video-index-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-index")')
-                    include ../components/svg/play
-                a#video-index-pause.video-index-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-index")')
-                    include ../components/svg/pause
 
                 .description
                     include ../components/svg/echarts-logo
@@ -23,10 +21,6 @@ block content
                         a.btn.btn-main.btn-index-home(href='./feature.html') 特性
                         a.btn.btn-main.btn-index-home(href='./download.html') 下载
                 .main-bg
-
-            //- section.banner-section(style='background: #1e2e55')
-            //-     a(href='https://jing.baidu.com/h5/xzzb.html')
-            //-         img.banner-img(src='images/banners/2017-09-12-zhibo.png', style='max-width: 1000px')
 
 
             script(type='text/javascript').
@@ -36,8 +30,6 @@ block content
                     var edge = ua.match(/Edge\/([\d.]+)/);
                     window.supportTouch = 'ontouchstart' in window && !ie && !edge;
                 })()
-
-            script(src="#{cdnPayRoot}/#{ecWWWLang}/asset/lottie/js/lottie.min.js?_v_=#{cdnPayVersion}")
 
             section#feature-section
                 .container
@@ -162,7 +154,6 @@ block content
                     }
 
                     var id = $(this).find('.feature-icon-panel')[0].id;
-                    animationMap['bg-' + id].goToAndPlay(0);
                     animationMap[id].goToAndPlay(0);
                 });
 
@@ -183,6 +174,13 @@ block content
                         $(list[num - 1]).css('border-bottom', '1px solid rgba(151,151,151,0.25)');
                     }
                 });
+
+                ScrollReveal().reveal('#feature-section', {delay: 0});
+                ScrollReveal().reveal('#feature-section .title p', {delay: 300});
+                ScrollReveal().reveal('#feature-section .title p.more', {delay: 600});
+                ScrollReveal().reveal('#feature-section .list-item .left', {delay: 900});
+                ScrollReveal().reveal('#feature-section .list-item .right h3', {delay: 1200});
+                ScrollReveal().reveal('#feature-section .list-item .right .content', {delay: 1500});
 
             section#publication
                 .container
