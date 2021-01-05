@@ -41,7 +41,7 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                         li
                             a(href="#{hostParam}/zh/download-extension.html") 扩展下载
                 li#nav-examples
-                    a(href='#{hostParam}/examples/zh/index.html') 实例
+                    a(href='#{hostParam}/examples/zh/index.html') 示例
                 li#nav-resources
                     a(href='#', class="dropdown-toggle", data-toggle="dropdown") 资源
                         b.caret
@@ -114,7 +114,13 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
 
             ul(class='nav navbar-nav navbar-right')
                 li#nav-homeen
-                    a(href='javascript:;', onclick="changeLang('en')") EN
+                    .nav-circle
+                        .nav-circle-inner
+                            a(href='javascript:;', onclick="changeLang('en')") EN
+                li#nav-github
+                    a(href='https://github.com/apache/incubator-echarts', target='_blank')
+                        include ./svg/github
+                        +svgGithub('#333')
                 li#nav-apache
                     a(href="https://www.apache.org/" target="_blank")
-                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/asf_logo_white.png?_v_=#{cdnPayVersion}")
+                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/asf_logo.png?_v_=#{cdnPayVersion}")

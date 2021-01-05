@@ -26,7 +26,7 @@ $nav-height: 51px;
                 left: 50%;
                 right: 50%;
                 top: 0;
-                background: $clr-contrast;
+                background: $clr-nav-link;
                 height: 4px;
                 transition-property: 'left, right';
                 transition-duration: .3s;
@@ -42,6 +42,7 @@ $nav-height: 51px;
                     right: 0;
                 }
             }
+
             .iconfont {
                 font-size: 12px;
             }
@@ -53,24 +54,25 @@ $nav-height: 51px;
                 color: #fff;
                 font-size: 12px;
                 border-radius: 3px;
-                transform: scale(0.65);
+                transform: scale(0.8);
                 vertical-align: top;
             }
         }
         &.open {
-            background-color: $clr-primary-dark;
+            background-color: $clr-nav-bg-hover;
             color: #fff;
+
             &>a {
                 &:focus, &:hover {
-                    color: $clr-lighter;
-                    background-color: $clr-primary-dark;;
+                    color: $clr-nav-link;
+                    background-color: $clr-nav-bg-hover;
                 }
             }
         }
 
         &.active>a {
             padding-top: 11px;
-            border-top: 4px solid $clr-secondary;
+            border-top: 4px solid $clr-nav-link-active;
             color: $clr-nav-link-active;
             background-color: $clr-nav-bg;
             transition: 0.5s background-color;
@@ -80,10 +82,11 @@ $nav-height: 51px;
             }
 
             &:hover, &:focus {
-                color: $clr-lightest;
-                background-color: $clr-primary-dark;
+                color: $clr-nav-link-active-hover;
+                background-color: $clr-nav-bg-hover;
             }
         }
+
         .dropdown-menu {
             width: 250px;
             padding: 0;
@@ -93,23 +96,23 @@ $nav-height: 51px;
                 background-color: $clr-nav-bg;
 
                 a {
-                    padding: 8px 20px;
+                    padding: 13px 20px;
                 }
 
                 &:hover, &:focus {
                     a {
+                        color: $clr-nav-link-hover;
                         background-color: $clr-nav-bg-hover;
                     }
                     background-color: $clr-nav-bg-hover;
                 }
                 border-top: none;
-                padding: 5px 0;
             }
         }
 
         ul {
             box-shadow: 0 0 20px #ddd;
-            border-radius: 0 0 4px 5px;
+            border-radius: 0 0 10px 10px;
             overflow: hidden;
 
             a:before {
@@ -177,26 +180,54 @@ $nav-height: 51px;
                 background-color: transparent;
             }
         }
-        #nav-apache {
-            opacity: 1;
-        }
     }
 }
 
 #nav-apache {
     margin-left: 10px;
     margin-right: 10px;
-    opacity: 0.6;
-
-    &:hover {
-        opacity: 1;
-    }
+    position: relative;
+    top: 1px;
 
     a {
         padding: 10px 15px;
 
         img {
             height: 30px;
+        }
+    }
+}
+
+
+#nav-github {
+    height: 50px;
+    overflow: hidden;
+
+    a {
+        padding-top: 13px;
+    }
+}
+
+.nav-circle {
+    height: 50px;
+}
+
+.nav-circle-inner {
+    width: 22px;
+    height: 22px;
+    margin: 14px 20px;
+    text-align: center;
+    overflow: hidden;
+    border: 1px solid;
+    border-radius: 50%;
+
+    .navbar-default .navbar-nav li & a {
+        height: 100%;
+        padding: 0;
+        font-size: 12px;
+
+        &:hover {
+            text-decoration: none;
         }
     }
 }
@@ -221,8 +252,9 @@ $nav-height: 51px;
                 }
                 padding: 0;
             }
+
             li.active>a {
-                border-left: 4px solid $clr-secondary;
+                border-left: 4px solid $clr-nav-link;
                 border-top: none;
                 padding: 10px 15px 10px 11px;
             }

@@ -18,6 +18,20 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url(font/OpenSans-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: bold;
+    font-weight: 800;
+    src: url(font/OpenSans-Bold.ttf) format('truetype');
+}
+
 @mixin clearfix() {
     &:before,
     &:after {
@@ -34,7 +48,7 @@ html {
     height: 100%;
 }
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', "PingFang SC", Helvetica, Arial, sans-serif;
 }
 
 #lowie-main {
@@ -298,18 +312,6 @@ body {
         background-color: #95CC81;
         color: white;
         box-shadow: 1px 3px 8px 0 rgba(76, 151, 47, 0.4);
-    }
-}
-
-.btn-index-home {
-    background-color: transparent;
-    border: 1px solid white;
-    color: white;
-
-    &:hover, &:focus {
-        background-color: white;
-        color: $clr-darker;
-        box-shadow: 6px 14px 31px 0 rgba(0, 0, 0, 0.3);
     }
 }
 

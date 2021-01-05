@@ -42,86 +42,85 @@ body {
         height: 100vh;
     }
 
-    #video-index {
-        width: 100%;
+    .home-brand-panel {
+        margin: 0 auto;
+        max-width: 1000px;
+        height: 100%;
+        padding: 0 30px;
+        position: relative;
     }
 
-    #home-logo {
-        width: $index-logo-width;
-        max-width: 95%;
-    }
-
-    .video-btn {
-        width: 60px;
-        height: 60px;
-        position: absolute;
-        padding-top: 18px;
-        border-radius: 50%;
-        background-color: #fff;
-        text-align: center;
-        cursor: pointer;
-        z-index: 100;
-    }
-
-    .video-index-btn {
-        bottom: 55px;
-        left: 70px;
-    }
-
-    .video-play-btn {
-        padding-left: 4px;
-    }
-
-    .video-pause-btn {
-        display: none;
-    }
-
-    #video-index-play {
-        @keyframes fx-plyr-play-button{
-            0% {
-                transform: scale(.5);
-            }
-            to {
-                opacity:0;
-            }
-        }
-
-        &:before {
-            animation: fx-plyr-play-button 1.5s ease-out infinite;
-            border: 4px solid #fff;
-            border-radius: 150%;
-            box-shadow: 0 0 5px #fff;
-            box-sizing: border-box;
-            content: "";
-            height: 150%;
-            left: -25%;
+        .home-info {
+            height: 256px;
+            margin-top: 50vh;
             position: absolute;
-            top: -25%;
-            width: 150%;
+            top: -178px;
         }
-    }
 
-    .feature-play-btn {
-        transform: scale(0.7);
-    }
+            .home-apache {
+                position: relative;
+                left: 8px;
+                font-size: 32px;
+            }
 
-    #video-feature-4-play, #video-feature-4-pause {
-        left: 5%;
-        bottom: 6%;
-    }
+            .home-brand {
+                font-size: 100px;
+                font-weight: 800;
+                color: $clr-dark;
+                margin: -26px 0 -15px 0;
+            }
 
-    #video-feature-1-play, #video-feature-1-pause {
-        left: 15%;
-        bottom: 25%;
-    }
+            .home-subtitle {
+                position: relative;
+                left: 8px;
+                font-size: 16px;
+                color: $clr-dark-light;
+            }
 
-    .main-bg {
-        width: 100%;
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        bottom: 5px;
-    }
+            .home-btn-panel {
+                margin-top: 30px;
+            }
+
+                .btn-index-home {
+                    min-width: 180px;
+                    padding: 15px 25px;
+                    border-radius: 30px;
+                    background-color: $clr-lighter;
+                    color: $clr-dark;
+                    opacity: 0.8;
+                    font-size: 18px;
+
+                    &:first-child {
+                        background-color: $clr-contrast;
+                        color: #fff;
+                        opacity: 1;
+
+                        .index-home-svg {
+                            left: -3px;
+                        }
+                    }
+
+                    &:hover, &:focus {
+                        box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.2);
+                    }
+                }
+
+                    .index-home-svg {
+                        position: relative;
+                        top: 3px;
+                        left: -5px;
+                    }
+
+        .home-chart {
+            height: 60%;
+            top: 16%;
+            position: absolute;
+            right: 0;
+
+            img {
+                height: 100%;
+            }
+        }
 
     .banner-section {
         position: relative;
@@ -377,9 +376,10 @@ body {
                             border: none;
                         }
                     }
-                    .list-item:hover {
-                        box-shadow: 0 9px 12px 0 rgba(0,0,0,0.10);
-                    }
+                    // don't show shadow unless we have something to click
+                    // .list-item:hover {
+                    //     box-shadow: 0 9px 12px 0 rgba(0,0,0,0.10);
+                    // }
 
                 }
                 .list-hr {
@@ -452,70 +452,72 @@ body {
 }
 
 #publication {
+    overflow: hidden;
+    height: 720px;
 
-        #start-line {
-            position: relative;
-            left: 548px;
-            top: 82px;
-            width: 200px;
-        }
+    #start-line {
+        position: relative;
+        left: 548px;
+        top: 82px;
+        width: 200px;
+    }
 
-        #end-line {
-            position: relative;
-            left: 1045px;
-            top: -84px;
-            width: 257px;
-        }
+    #end-line {
+        position: relative;
+        left: 1045px;
+        top: -84px;
+        width: 257px;
+    }
 
-        .container {
-            width: 1195px;
-            max-width: 1440px;
+    .container {
+        width: 1195px;
+        max-width: 1440px;
 
-            .paper {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-end;
-                .content {
-                    width: 528px;
-                    h2 {
-                        line-height: 36px;
-                        font-weight: 600;
-                        font-size: 25px;
-                        color: #090909;
-                    }
-                }
-
-                .icon {
-                    #paper-icon {
-                        width: 530px;
-                    }
+        .paper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            .content {
+                width: 528px;
+                h2 {
+                    line-height: 36px;
+                    font-weight: 600;
+                    font-size: 25px;
+                    color: #090909;
                 }
             }
 
-
-        }
-        p.note {
-            // font-size: 12px;
-            margin-top: 10px;
-        }
-
-        .link {
-            display: inline-block;
-            margin-top: 20px;
-            height: 45px;
-            width: 237px;
-            text-align: center;
-            background: #5E7AD9;
-            box-shadow: 2px 6px 18px 0 rgba(73,103,201,0.30);
-            border-radius: 22.5px;
-            .pdf {
-                line-height: 45px;
-                color: #fff;
-                opacity: 0.8;
-                font-size: 14px;
+            .icon {
+                #paper-icon {
+                    width: 530px;
+                }
             }
-
         }
+
+
+    }
+    p.note {
+        // font-size: 12px;
+        margin-top: 10px;
+    }
+
+    .link {
+        display: inline-block;
+        margin-top: 20px;
+        height: 45px;
+        width: 237px;
+        text-align: center;
+        background: #5E7AD9;
+        box-shadow: 2px 6px 18px 0 rgba(73,103,201,0.30);
+        border-radius: 22.5px;
+        .pdf {
+            line-height: 45px;
+            color: #fff;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+    }
 }
 
 #gongzhonghao {
@@ -636,7 +638,7 @@ body {
 
 @media (max-width: 992px) {
     #home-section {
-        .description {
+        .home-brand-panel {
             width: 80%;
             left: 0;
             margin-left: 10%;
@@ -670,11 +672,6 @@ body {
 
     #col-data {
         padding-top: 100px;
-    }
-
-    #video-feature-1 {
-        width: 64%;
-        left: 15%;
     }
 }
 
@@ -723,19 +720,11 @@ body {
             height: 180px;
         }
     }
-
-    .pc {
-        display: none;
-    }
-
-    .mobile {
-        display: block;
-    }
 }
 
 @media (max-width: 480px) {
     #home-section {
-        .description {
+        .home-brand-panel {
             text-align: center;
             top: 40%;
 
@@ -744,50 +733,6 @@ body {
                 margin: 25px auto;
             }
         }
-    }
-
-    #main-content {
-        #home-logo {
-            margin-bottom: 20px;
-        }
-
-        #index-play-btn {
-            display: block;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto;
-        }
-
-        #home-section .btn {
-            background-color: white;
-            color: $clr-darker;
-            text-shadow: none;
-        }
-
-        h2 {
-            margin-top: 20px;
-        }
-
-        .video-index-btn {
-            left: 50%;
-            margin-left: -30px;
-            bottom: 40px;
-        }
-
-        #video-index-play:before {
-            display: none;
-        }
-
-        #video-feature-4-play, #video-feature-4-pause {
-            left: 9%;
-            bottom: 10%;
-        }
-
-        #video-feature-1-play, #video-feature-1-pause {
-            left: 15%;
-            bottom: 20%;
-        }
-
     }
 
     #about-section .btn-panel {
