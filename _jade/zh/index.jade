@@ -14,7 +14,7 @@ block content
     .page-main#page-index
         #main-content
             section#home-section
-                .home-brand-panel.description
+                .home-brand-panel.description.container
                     .home-info
                         .home-apache Apache
                         .home-brand ECharts
@@ -39,81 +39,53 @@ block content
 
             section#feature-section
                 .container
-                    .features
-                        .title
-                            .content ECharts Features
-                            hr
-                            p 我们希望 ECharts 可能满足你的任何数据可视化的需求，并且让这一切都变得更加
-                            p 简单、美好、强大，相信 ECharts 一直在成长
-                            p.more 更多功能，等你体验
-                        .list
-                            .list-line
-                                .list-item(feat="0")
-                                    .item
-                                        .left
-                                            .icon-bg#bg-icon-1
-                                            .feature-icon-panel#icon-1
-                                        .right
-                                            h3 超多图表类型和强大的自定义，满足千万种可能
-                                            .content
-                                                p 30多种图表和强大的自定义功能，类型不设限，机会无极限。
-                                                p 满足你千变万化的数据和场景，更注重满足你的个性化需求
-                                .list-item(feat="1")
-                                    .item
-                                        .left
-                                            .icon-bg#bg-icon-2
-                                            .feature-icon-panel#icon-2
-                                        .right
-                                            h3 千万级别数据量的前端展现，仍然轻松流畅
-                                            .content
-                                                p 使用增量渲染、对流加载等技术，配合各种细致的优化，在展现
-                                                p 千万级的数据量的同时依然能进行流畅的图表交互
-                                .list-item(feat="2")
-                                    .item
-                                        .left
-                                            .icon-bg#bg-icon-3
-                                            .feature-icon-panel#icon-3
-                                        .right
-                                            h3 打破与图表的边界，获得更多的体验机会
-                                            .content
-                                                p 无论是「无障碍访问」还是「多设备兼容」，我们一直在持续
-                                                p 拓展更多可能性，希望更多的人，在更多的场景，都能获得顺畅
-                                                p 如一的美好体验
-                            .list-hr
-                            .list-line
-                                .list-item(feat="3")
-                                    .item
-                                        .left
-                                            .icon-bg#bg-icon-4
-                                            .feature-icon-panel#icon-4
-                                        .right
-                                            h3 开箱即用，做图表变得更简单
-                                            .content
-                                                p 提供开箱即用的组件和配置，极简配置即可实现万千可能。
-                                                p 支持多种数据格式、多渲染方案，直接使用毫无压力
-                                .list-item(feat="4")
-                                    .item
-                                        .left
-                                            .icon-bg#bg-icon-5
-                                            .feature-icon-panel#icon-5
-                                        .right
-                                            h3 多维度的数据分析，发掘更多数据的价值
-                                            .content
-                                                p 数据自由刷选 —— 自由选择数据，发掘数据背后的更多秘密
-                                                p 多图表联动查看 —— 对多个图表数据联动查看，多维有效分析
-                                                p dataset 数据变换——对数据自由的过滤、统计，深度探索数据
-                                                p storytelling ——  提升数据自己讲故事的能力，更加生动的展现
-                                .list-item(feat="5")
-                                    .item
-                                        .left
-                                            .icon-bg#bg-icon-6
-                                            .feature-icon-panel#icon-6
-                                        .right
-                                            h3 才华与颜值兼备，玩转图表新可能
-                                            .content
-                                                p 完善的图表交互，让你一上手就自然顺手，与数据实现轻松互动
-                                                p 恰当的动画，更自然的反馈与图形过渡，更易理解数据间的联系
-                                                p 细致且多样的样式与主题设计，一切都只为更好地展现你的数据
+                    .index-features
+                        h2 特性
+                        hr
+                    .row
+                        .col-md-6.index-feature
+                            .index-feature-left
+                                .index-feature-icon-bg#bg-icon-1
+                                .index-feature-icon#icon-1
+                            .index-feature-right
+                                h3 丰富的图表类型
+                                p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                        .col-md-6.index-feature
+                            .index-feature-left
+                                .index-feature-icon-bg#bg-icon-2
+                                .index-feature-icon#icon-2
+                            .index-feature-right
+                                h3 强劲的渲染引擎
+                                p 采用增量渲染、流式加载等技术，千万级数据的图表也能在网页上流畅交互。
+                        .col-md-6.index-feature
+                            .index-feature-left
+                                .index-feature-icon-bg#bg-icon-3
+                                .index-feature-icon#icon-3
+                            .index-feature-right
+                                h3 丰富的图表类型
+                                p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                        .col-md-6.index-feature
+                            .index-feature-left
+                                .index-feature-icon-bg#bg-icon-4
+                                .index-feature-icon#icon-4
+                            .index-feature-right
+                                h3 丰富的图表类型
+                                p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                        .col-md-6.index-feature
+                            .index-feature-left
+                                .index-feature-icon-bg#bg-icon-5
+                                .index-feature-icon#icon-5
+                            .index-feature-right
+                                h3 丰富的图表类型
+                                p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                        .col-md-6.index-feature
+                            .index-feature-left
+                                .index-feature-icon-bg#bg-icon-6
+                                .index-feature-icon#icon-6
+                            .index-feature-right
+                                h3 丰富的图表类型
+                                p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                    a.more(href='#') 了解更多特性
 
             script(type='text/javascript').
                 var animationMap = {};
@@ -146,18 +118,18 @@ block content
                     var num = +$(this).attr('feat');
                     var list = $('.list-item .item');
 
-                    if (num === 0 || num === 3) {
-                        $(list[num]).css('border-bottom', 0);
-                    }
+                    //- if (num === 0 || num === 3) {
+                    //-     $(list[num]).css('border-bottom', 0);
+                    //- }
 
-                    if (num === 1 || num === 4) {
-                        $(list[num - 1]).css('border-bottom', 0);
-                        $(list[num]).css('border-bottom', 0);
-                    }
+                    //- if (num === 1 || num === 4) {
+                    //-     $(list[num - 1]).css('border-bottom', 0);
+                    //-     $(list[num]).css('border-bottom', 0);
+                    //- }
 
-                    if (num === 2 || num === 5) {
-                        $(list[num - 1]).css('border-bottom', 0);
-                    }
+                    //- if (num === 2 || num === 5) {
+                    //-     $(list[num - 1]).css('border-bottom', 0);
+                    //- }
 
                     var id = $(this).find('.feature-icon-panel')[0].id;
                     animationMap[id].goToAndPlay(0);
@@ -194,7 +166,7 @@ block content
                     .paper
                         .content
                             h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                            p.note Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
+                            p.note 如果您在科研项目、产品、学术论文、技术报告、新闻报告、教育、专利以及其他相关活动中使用了 Apache ECharts，欢迎引用本论文。
                             .link
                                 a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf").pdf Visual Informatics, 2018 [PDF]
                         .icon
@@ -264,7 +236,7 @@ block content
                 .container
                     h3 关注我们
                     hr
-                    p 可以通过以下渠道关注 ECharts，及时获得更多最新动态
+                    p 关注我们以及时获得更多最新动态
                     .btn-panel
                         a#btn-github(href='https://github.com/apache/incubator-echarts')
                             .btn-content

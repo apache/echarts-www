@@ -24,6 +24,8 @@ $clr-lightest:       #f9f9f9;
 $clr-thirdary:       #40A7DC;
 $clr-thirdary-light: lighten($clr-thirdary, 10%);
 
+$clr-link: $clr-primary;
+
 $clr-border: rgba(78, 97, 118, 0.45);
 $clr-border-light: rgba(78, 97, 118, 0.25);
 
