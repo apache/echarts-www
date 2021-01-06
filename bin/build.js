@@ -206,7 +206,6 @@ async function buildJade(config) {
             && cfg.host
             && cfg.cdnThirdParty
             && cfg.galleryPath
-            && cfg.blogPath
             && cfg.releaseDestDir
             && cfg.homeVersion
             && cfg.cdnPayVersion
