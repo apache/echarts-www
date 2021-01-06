@@ -17,6 +17,7 @@ body {
 }
 
 #main-content {
+    overflow: hidden;
     color: $clr-text;
 
     a {
@@ -39,6 +40,7 @@ body {
     #home-section {
         width: 100%;
         height: 100vh;
+        overflow: hidden;
     }
 
     .home-brand-panel {
@@ -81,13 +83,13 @@ body {
             }
 
                 .btn-index-home {
-                    min-width: 180px;
-                    padding: 15px 25px;
+                    min-width: 155px;
+                    padding: 10px;
                     border-radius: 30px;
                     background-color: $clr-lighter;
                     color: $clr-dark;
                     opacity: 0.8;
-                    font-size: 18px;
+                    font-size: 16px;
 
                     &:first-child {
                         background-color: $clr-contrast;
@@ -96,6 +98,7 @@ body {
 
                         .index-home-svg {
                             left: -3px;
+                            top: 3px;
                         }
                     }
 
@@ -103,10 +106,15 @@ body {
                         box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.2);
                     }
                 }
+                    .btn-index-github {
+                        min-width: 46px;
+                        height: 46px;
+                        background: transparent;
+                    }
 
                     .index-home-svg {
                         position: relative;
-                        top: 3px;
+                        top: 4px;
                         left: -5px;
                     }
 
@@ -141,7 +149,8 @@ body {
     }
 
     .row {
-        margin: 20px 0;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     section.normal {
@@ -243,7 +252,7 @@ body {
         display: inline-block;
         text-align: center;
         width: 36px;
-        margin: 15px 0 0 0;
+        margin: 15px 0;
         height: 2px;
         border: 0;
         background-color: $clr-primary;
@@ -264,7 +273,6 @@ body {
 
         .index-feature {
             margin: 30px 0;
-            padding: 0 50px;
         }
 
             .index-feature-left {
@@ -301,24 +309,26 @@ body {
 #publication {
     overflow: hidden;
     height: 720px;
+    opacity: 0;
+    transition: 1s;
 
     #start-line {
         position: relative;
-        left: 548px;
+        left: 518px;
         top: 82px;
         width: 200px;
+        z-index: -10;
     }
 
     #end-line {
         position: relative;
-        left: 1045px;
+        left: 1015px;
         top: -84px;
         width: 257px;
+        z-index: -10;
     }
 
     .container {
-        padding: 15px 65px;
-
         .paper {
             display: flex;
             justify-content: space-between;
@@ -347,7 +357,7 @@ body {
         margin-top: 10px;
     }
 
-    .link {
+    .pdf {
         display: inline-block;
         margin-top: 20px;
         height: 45px;
@@ -355,18 +365,13 @@ body {
         text-align: center;
         background: $clr-primary;
         border-radius: 22.5px;
+        padding: 13px 0;
+        color: #fff;
         transition: 0.5s;
 
         &:hover, &:focus {
             text-decoration: none;
             box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .pdf {
-            line-height: 45px;
-            color: #fff;
-            opacity: 0.8;
-            font-size: 14px;
         }
     }
 }
@@ -409,29 +414,15 @@ body {
     }
 
     .btn-panel {
-        display: flex;
-        justify-content: center;
-        margin-top: 71px;
         text-align: center;
+        margin-top: 30px;
 
         a {
-            flex: 0 0 220px;
             height: 78px;
-            display: inline-block;
-            margin: 0 15px;
-            background: #FFFFFF;
-            box-shadow: 2px 4px 14px 4px rgba(112,114,124,0.15);
-            border-radius: 8px;
 
             &:hover {
                 text-decoration: none;
             }
-        }
-    }
-
-    #btn-weixin {
-        .btn-logo span {
-            margin-left: 0px;
         }
     }
 
@@ -441,12 +432,15 @@ body {
         align-items: center;
         width: 100%;
         height: 100%;
+        margin: 20px 0;
         padding: 9px 22px 9px 24px;
         text-indent: 10px;
         position: relative;
         z-index: 100;
         transition: 0.3s;
         line-height: 60px;
+        box-shadow: 2px 4px 14px 4px rgba(112,114,124,0.2);
+        border-radius: 8px;
 
         .btn-logo {
             display: flex;
@@ -488,25 +482,47 @@ body {
 }
 
 @media (max-width: 992px) {
-    #home-section {
+    #main-content {
         .home-brand-panel {
             width: 80%;
             left: 0;
             margin-left: 10%;
         }
+
+            .home-info {
+                width: 100%;
+                left: 0;
+                margin-left: 0;
+                text-align: center;
+            }
+
+                .home-apache {
+                    color: $clr-dark-light;
+                }
+
+            .home-chart {
+                position: relative;
+                margin: 0 auto;
+                width: 100%;
+                text-align: center;
+                top: 50px;
+                opacity: 0.3;
+                right: auto;
+            }
     }
 
-    #col-desktop > * {
-        margin-left: 0;
+    #start-line, #paper-icon, #end-line {
+        display: none;
     }
 
-    #col-data {
-        padding-top: 100px;
-    }
-}
+    #publication {
+        height: auto;
+        margin: 80px 10px;
 
-.mobile {
-    display: none;
+        .container .paper .content {
+            width: 100%;
+        }
+    }
 }
 
 @media (max-width: 768px) {
@@ -521,14 +537,6 @@ body {
             text-align: center;
         }
     }
-
-        .home-chart {
-            position: relative;
-            left: 50%;
-            margin-left: -143px;
-            top: 50px;
-            opacity: 0.5;
-        }
 
     #reference {
         background-size: cover;
@@ -549,13 +557,6 @@ body {
                 display: block;
                 margin: 25px auto;
             }
-        }
-    }
-
-    #about-section .btn-panel {
-        a {
-            display: block;
-            margin: 20px auto;
         }
     }
 }

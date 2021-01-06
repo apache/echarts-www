@@ -26,6 +26,9 @@ block content
                             a.btn.btn-main.btn-index-home(href='./download.html')
                                 include ../components/svg/index-example
                                 span 所有示例
+                            a.btn.btn-main.btn-index-home.btn-index-github(href='https://github.com/apache/incubator-echarts', target='_blank')
+                                include ../components/svg/github
+                                +svgGithub('#081642')
                     .home-chart
                         img(src="images/index-home-pie.png")
 
@@ -42,50 +45,56 @@ block content
                     .index-features
                         h2 特性
                         hr
+                        a.more(href='#') 查看完整特性
                     .row
-                        .col-md-6.index-feature
-                            .index-feature-left
-                                .index-feature-icon-bg#bg-icon-1
-                                .index-feature-icon#icon-1
-                            .index-feature-right
-                                h3 丰富的图表类型
-                                p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
-                        .col-md-6.index-feature
-                            .index-feature-left
-                                .index-feature-icon-bg#bg-icon-2
-                                .index-feature-icon#icon-2
-                            .index-feature-right
-                                h3 强劲的渲染引擎
-                                p 采用增量渲染、流式加载等技术，千万级数据的图表也能在网页上流畅交互。
-                        .col-md-6.index-feature
-                            .index-feature-left
-                                .index-feature-icon-bg#bg-icon-3
-                                .index-feature-icon#icon-3
-                            .index-feature-right
-                                h3 丰富的图表类型
-                                p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
-                        .col-md-6.index-feature
-                            .index-feature-left
-                                .index-feature-icon-bg#bg-icon-4
-                                .index-feature-icon#icon-4
-                            .index-feature-right
-                                h3 丰富的图表类型
-                                p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
-                        .col-md-6.index-feature
-                            .index-feature-left
-                                .index-feature-icon-bg#bg-icon-5
-                                .index-feature-icon#icon-5
-                            .index-feature-right
-                                h3 丰富的图表类型
-                                p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
-                        .col-md-6.index-feature
-                            .index-feature-left
-                                .index-feature-icon-bg#bg-icon-6
-                                .index-feature-icon#icon-6
-                            .index-feature-right
-                                h3 丰富的图表类型
-                                p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
-                    a.more(href='#') 了解更多特性
+                        .col-md-6
+                            .index-feature
+                                .index-feature-left
+                                    .index-feature-icon-bg#bg-icon-1
+                                    .index-feature-icon#icon-1
+                                .index-feature-right
+                                    h3 丰富的图表类型
+                                    p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                        .col-md-6
+                            .index-feature
+                                .index-feature-left
+                                    .index-feature-icon-bg#bg-icon-2
+                                    .index-feature-icon#icon-2
+                                .index-feature-right
+                                    h3 强劲的渲染引擎
+                                    p 采用增量渲染、流式加载等技术，千万级数据的图表也能在网页上流畅交互。
+                        .col-md-6
+                            .index-feature
+                                .index-feature-left
+                                    .index-feature-icon-bg#bg-icon-3
+                                    .index-feature-icon#icon-3
+                                .index-feature-right
+                                    h3 丰富的图表类型
+                                    p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                        .col-md-6
+                            .index-feature
+                                .index-feature-left
+                                    .index-feature-icon-bg#bg-icon-4
+                                    .index-feature-icon#icon-4
+                                .index-feature-right
+                                    h3 丰富的图表类型
+                                    p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                        .col-md-6
+                            .index-feature
+                                .index-feature-left
+                                    .index-feature-icon-bg#bg-icon-5
+                                    .index-feature-icon#icon-5
+                                .index-feature-right
+                                    h3 丰富的图表类型
+                                    p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                        .col-md-6
+                            .index-feature
+                                .index-feature-left
+                                    .index-feature-icon-bg#bg-icon-6
+                                    .index-feature-icon#icon-6
+                                .index-feature-right
+                                    h3 丰富的图表类型
+                                    p 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
 
             script(type='text/javascript').
                 var animationMap = {};
@@ -114,45 +123,6 @@ block content
                     setLottieAnimatiion('bg-icon-' + (i + 1), 'asset/lottie/json/bg_0'+ (i + 1) + '.json');
                 }
 
-                $('.list-item').mouseenter(function(event) {
-                    var num = +$(this).attr('feat');
-                    var list = $('.list-item .item');
-
-                    //- if (num === 0 || num === 3) {
-                    //-     $(list[num]).css('border-bottom', 0);
-                    //- }
-
-                    //- if (num === 1 || num === 4) {
-                    //-     $(list[num - 1]).css('border-bottom', 0);
-                    //-     $(list[num]).css('border-bottom', 0);
-                    //- }
-
-                    //- if (num === 2 || num === 5) {
-                    //-     $(list[num - 1]).css('border-bottom', 0);
-                    //- }
-
-                    var id = $(this).find('.feature-icon-panel')[0].id;
-                    animationMap[id].goToAndPlay(0);
-                });
-
-                $('.list-item').mouseleave(function(event) {
-                    var num = +$(this).attr('feat');
-                    var list = $('.list-item .item');
-
-                    if (num === 0 || num === 3) {
-                        $(list[num]).css('border-bottom', '1px solid rgba(151,151,151,0.25)');
-                    }
-
-                    if (num === 1 || num === 4) {
-                        $(list[num - 1]).css('border-bottom', '1px solid rgba(151,151,151,0.25)');
-                        $(list[num]).css('border-bottom', '1px solid rgba(151,151,151,0.25)');
-                    }
-
-                    if (num === 2 || num === 5) {
-                        $(list[num - 1]).css('border-bottom', '1px solid rgba(151,151,151,0.25)');
-                    }
-                });
-
                 //- ScrollReveal().reveal('#feature-section', {delay: 0});
                 //- ScrollReveal().reveal('#feature-section .title p', {delay: 300});
                 //- ScrollReveal().reveal('#feature-section .title p.more', {delay: 600});
@@ -167,8 +137,7 @@ block content
                         .content
                             h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
                             p.note 如果您在科研项目、产品、学术论文、技术报告、新闻报告、教育、专利以及其他相关活动中使用了 Apache ECharts，欢迎引用本论文。
-                            .link
-                                a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf").pdf Visual Informatics, 2018 [PDF]
+                            a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf").pdf Visual Informatics, 2018 [PDF]
                         .icon
                             #paper-icon
                     #end-line
@@ -186,8 +155,9 @@ block content
                         var startLine = $("#start-line").offset().top;
                         var endLine = $("#end-line").offset().top;
 
-                        if (startLine >= $(window).scrollTop() && startLine < ($(window).scrollTop() + $(window).height())) {
+                        if (startLine >= $(window).scrollTop() && startLine < ($(window).scrollTop() + $(window).height() - 200)) {
                             if (!hasStartLineShow) {
+                                $('#publication').css('opacity', 1);
                                 if (animationMap['start-line']) {
                                     animationMap['start-line'].goToAndPlay(0);
                                 }
@@ -211,7 +181,7 @@ block content
                             }
                         }
 
-                        if (endLine <= 100) {
+                        if (endLine <= 200) {
                             if (!hasEndLineShow) {
                                 if (animationMap['end-line']) {
                                     animationMap['end-line'].goToAndPlay(0);
@@ -237,36 +207,40 @@ block content
                     h3 关注我们
                     hr
                     p 关注我们以及时获得更多最新动态
-                    .btn-panel
-                        a#btn-github(href='https://github.com/apache/incubator-echarts')
-                            .btn-content
-                                .btn-logo
-                                    include ../components/svg/github
-                                    +svgGithub('#081642')
-                                    span GitHub
-                                .icon-v-right
+                    .btn-panel.row
+                        .col-md-3.col-sm-6
+                            a#btn-github(href='https://github.com/apache/incubator-echarts')
+                                .btn-content
+                                    .btn-logo
+                                        include ../components/svg/github
+                                        +svgGithub('#081642')
+                                        span GitHub
+                                    .icon-v-right
 
-                        a#btn-weixin
-                            .btn-content.zh
-                                .btn-logo
-                                    include ../components/svg/wechart
-                                    span 公众号
-                                .weixin-code
-                                    img(src="images/ercode.jpg")
+                        .col-md-3.col-sm-6
+                            a#btn-weixin
+                                .btn-content.zh
+                                    .btn-logo
+                                        include ../components/svg/wechart
+                                        span 公众号
+                                    .weixin-code
+                                        img(src="images/ercode.jpg")
 
-                        a#btn-weibo(href='https://weibo.com/echarts')
-                            .btn-content
-                                .btn-logo
-                                    include ../components/svg/weibo
-                                    span 微博
-                                .icon-v-right
+                        .col-md-3.col-sm-6
+                            a#btn-weibo(href='https://weibo.com/echarts')
+                                .btn-content
+                                    .btn-logo
+                                        include ../components/svg/weibo
+                                        span 微博
+                                    .icon-v-right
 
-                        a#btn-twitter(href='https://twitter.com/echartsjs')
-                            .btn-content
-                                .btn-logo
-                                    include ../components/svg/twitter
-                                    span Twitter
-                                .icon-v-right
+                        .col-md-3.col-sm-6
+                            a#btn-twitter(href='https://twitter.com/echartsjs')
+                                .btn-content
+                                    .btn-logo
+                                        include ../components/svg/twitter
+                                        span Twitter
+                                    .icon-v-right
 
         include ../components/footer
 
