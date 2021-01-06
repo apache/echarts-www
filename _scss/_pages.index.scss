@@ -51,43 +51,33 @@ body {
     }
 
         .home-info {
-            height: 256px;
-            margin-top: 50vh;
-            margin-left: 50px;
-            position: absolute;
-            top: -178px;
+            margin-top: 20vh;
         }
 
-            .home-apache {
-                position: relative;
-                left: 8px;
-                font-size: 32px;
-            }
-
             .home-brand {
-                font-size: 100px;
+                font-size: 75px;
                 font-weight: 800;
                 color: $clr-dark;
-                margin: -26px 0 -15px 0;
+                line-height: 1.2em;
             }
 
             .home-subtitle {
-                position: relative;
-                left: 5px;
                 font-size: 21px;
                 color: $clr-dark-light;
+                margin-top: 15px;
             }
 
             .home-btn-panel {
-                margin-top: 30px;
+                margin-top: 40px;
             }
 
                 .btn-index-home {
-                    min-width: 155px;
-                    padding: 10px;
+                    min-width: 150px;
+                    padding: 15px 10px;
                     border-radius: 30px;
-                    background-color: $clr-lighter;
-                    color: $clr-dark;
+                    background-color: #fff;
+                    border: 1px solid $clr-contrast;
+                    color: $clr-contrast;
                     opacity: 0.8;
                     font-size: 16px;
 
@@ -106,16 +96,18 @@ body {
                         box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.2);
                     }
                 }
+
                     .btn-index-github {
-                        min-width: 46px;
-                        height: 46px;
+                        min-width: 56px;
+                        height: 56px;
                         background: transparent;
+                        border: none;
                     }
 
                     .index-home-svg {
                         position: relative;
                         top: 4px;
-                        left: -5px;
+                        left: -6px;
                     }
 
         .home-chart {
@@ -126,7 +118,7 @@ body {
             z-index: -100;
 
             img {
-                height: 100%;
+                max-height: 100%;
             }
         }
 
@@ -483,32 +475,30 @@ body {
 
 @media (max-width: 992px) {
     #main-content {
-        .home-brand-panel {
-            width: 80%;
+        .home-info {
+            width: 100%;
             left: 0;
-            margin-left: 10%;
+            margin-left: 0;
+            text-align: center;
         }
 
-            .home-info {
-                width: 100%;
-                left: 0;
-                margin-left: 0;
-                text-align: center;
-            }
+        .home-brand {
+            font-size: 55px;
+        }
 
-                .home-apache {
-                    color: $clr-dark-light;
-                }
+        .home-chart {
+            margin: 0 auto;
+            width: 100%;
+            left: 0;
+            text-align: center;
+            top: 15vh;
+            opacity: 0.3;
+            right: auto;
+        }
+    }
 
-            .home-chart {
-                position: relative;
-                margin: 0 auto;
-                width: 100%;
-                text-align: center;
-                top: 50px;
-                opacity: 0.3;
-                right: auto;
-            }
+    .single-btn-panel {
+        text-align: center;
     }
 
     #start-line, #paper-icon, #end-line {
@@ -522,19 +512,47 @@ body {
         .container .paper .content {
             width: 100%;
         }
+
+        .home-chart {
+            top: 140px;
+        }
     }
 }
 
 @media (max-width: 768px) {
     #main-content {
-        h2 {
-            font-size: 24px;
+        .home-brand {
+            font-size: 48px;
+        }
+
+        .home-btn-panel {
+            margin: 40px auto;
+        }
+
+        .home-subtitle {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .btn-index-home {
+            display: block;
+            margin: 15px auto;
+            width: 220px;
         }
 
         .feature-btn {
             margin: 0 auto;
             margin-top: 50px;
             text-align: center;
+        }
+
+        .container .paper .content h2 {
+            font-size: 20px;
+            line-height: 25px;
+        }
+
+        .index-feature {
+            margin: 50px 0;
         }
     }
 
@@ -551,11 +569,10 @@ body {
     #home-section {
         .home-brand-panel {
             text-align: center;
-            top: 40%;
 
             .btn {
                 display: block;
-                margin: 25px auto;
+                margin: 10px auto;
             }
         }
     }

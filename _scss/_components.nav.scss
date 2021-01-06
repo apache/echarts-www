@@ -6,7 +6,6 @@ $nav-height: 51px;
     z-index: 10000;
     transition: background-color 0.5s linear;
     height: 50px;
-    box-shadow: 0 0 20px #ddd;
 
     .navbar-nav {
         transition: background-color 0.5s linear;
@@ -27,7 +26,7 @@ $nav-height: 51px;
                 right: 50%;
                 top: 0;
                 background: $clr-nav-link;
-                height: 4px;
+                height: 3px;
                 transition-property: 'left, right';
                 transition-duration: .3s;
                 transition-timing-function: ease-out;
@@ -72,7 +71,7 @@ $nav-height: 51px;
 
         &.active>a {
             padding-top: 11px;
-            border-top: 4px solid $clr-nav-link-active;
+            border-top: 3px solid $clr-nav-link-active;
             color: $clr-nav-link-active;
             background-color: $clr-nav-bg;
             transition: 0.5s background-color;
@@ -111,7 +110,7 @@ $nav-height: 51px;
         }
 
         ul {
-            box-shadow: 0 0 20px #ddd;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             border-radius: 0 0 10px 10px;
             overflow: hidden;
 
@@ -254,7 +253,7 @@ $nav-height: 51px;
             margin-bottom: 0;
 
             li.active>a {
-                border-left: 4px solid $clr-nav-link;
+                border-left: 3px solid $clr-nav-link;
                 border-top: none;
                 padding: 10px 15px 10px 11px;
             }
