@@ -102,6 +102,11 @@ body {
                         height: 56px;
                         background: transparent;
                         border: none;
+                        opacity: 0.5;
+
+                        &:hover {
+                            opacity: 1;
+                        }
                     }
 
                     .index-home-svg {
@@ -238,8 +243,6 @@ body {
 }
 
 #feature-section {
-    padding-top: 50px;
-
     hr {
         display: inline-block;
         text-align: center;
@@ -306,8 +309,8 @@ body {
 
     #start-line {
         position: relative;
-        left: 518px;
-        top: 82px;
+        left: 500px;
+        top: 95px;
         width: 200px;
         z-index: -10;
     }
@@ -440,8 +443,7 @@ body {
             span {
                 margin-left: 14px;
                 font-size: 20px;
-                font-weight: 500;
-                color: #06133B;
+                color: $clr-darker;
             }
 
             svg {

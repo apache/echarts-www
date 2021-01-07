@@ -4,7 +4,7 @@ extends ../layouts/basic
 
 block extra_head
     title Apache ECharts
-    script(src="https://unpkg.com/scrollreveal")
+    script(src="#{cdnPayRoot}/#{ecWWWLang}/vendors/scrollreveal.js")
     script(src="#{cdnPayRoot}/#{ecWWWLang}/asset/lottie/js/lottie.min.js?_v_=#{cdnPayVersion}")
 
 block content
@@ -47,55 +47,53 @@ block content
                         a.more.reveal(href='#') 查看完整特性
                     .row
                         .col-md-6
-                            .index-feature
+                            .index-feature#index-feature-1
                                 .index-feature-left.reveal
                                     .index-feature-icon-bg#bg-icon-1
                                     .index-feature-icon#icon-1
                                 .index-feature-right.reveal
                                     h3.reveal 丰富的图表类型
-                                    p.reveal-later 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                                    p.reveal-later 提供开箱即用的 20 多种图表和十几种组件，并且支持各种图表以及组件的任意组合。
                         .col-md-6
-                            .index-feature
+                            .index-feature#index-feature-2
                                 .index-feature-left.reveal
                                     .index-feature-icon-bg#bg-icon-2
                                     .index-feature-icon#icon-2
                                 .index-feature-right
-                                    h3.reveal 丰富的图表类型
-                                    p.reveal-later 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
-                                    //- h3.reveal 强劲的渲染引擎
-                                    //- p.reveal-later 采用增量渲染、流式加载等技术，千万级数据的图表也能在网页上流畅交互。
+                                    h3.reveal 强劲的渲染引擎
+                                    p.reveal-later Canvas、SVG 双引擎一键切换，增量渲染、流加载等技术实现千万级数据的流畅交互。
                         .col-md-6
-                            .index-feature
+                            .index-feature#index-feature-3
                                 .index-feature-left.reveal
                                     .index-feature-icon-bg#bg-icon-3
                                     .index-feature-icon#icon-3
                                 .index-feature-right
-                                    h3.reveal 丰富的图表类型
-                                    p.reveal-later 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                                    h3.reveal 专业的数据分析
+                                    p.reveal-later 通过数据集管理数据，支持数据过滤、聚类、回归，帮助实现同一份数据的多维度分析。
                         .col-md-6
-                            .index-feature
+                            .index-feature#index-feature-4
                                 .index-feature-left.reveal
                                     .index-feature-icon-bg#bg-icon-4
                                     .index-feature-icon#icon-4
                                 .index-feature-right
-                                    h3.reveal 丰富的图表类型
-                                    p.reveal-later 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                                    h3.reveal 优雅的可视化设计
+                                    p.reveal-later 默认设计遵从可视化原则，支持响应式设计，并且提供了灵活的配置项方便开发者定制。
                         .col-md-6
-                            .index-feature
+                            .index-feature#index-feature-5
                                 .index-feature-left.reveal
                                     .index-feature-icon-bg#bg-icon-5
                                     .index-feature-icon#icon-5
                                 .index-feature-right
-                                    h3.reveal 丰富的图表类型
-                                    p.reveal-later 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                                    h3.reveal 健康的开源社区
+                                    p.reveal-later 活跃的社区用户保证了项目的健康发展，也贡献了丰富的第三方插件满足不同场景的需求。
                         .col-md-6
-                            .index-feature
+                            .index-feature#index-feature-6
                                 .index-feature-left.reveal
                                     .index-feature-icon-bg#bg-icon-6
                                     .index-feature-icon#icon-6
                                 .index-feature-right
-                                    h3.reveal 丰富的图表类型
-                                    p.reveal-later 内置的 20 多种图表、强大的自定义系列以及来自社区贡献的扩展插件，助你轻松实现各种可视化需求。
+                                    h3.reveal 友好的无障碍访问
+                                    p.reveal-later 智能生成的图表描述和贴花图案，帮助视力障碍人士了解图表内容，读懂图表背后的故事。
 
             script(type='text/javascript').
                 var animationMap = {};
@@ -114,14 +112,23 @@ block content
                     });
                 }
                 setLottieAnimatiion('icon-1', 'asset/lottie/json/chart.json');
-                setLottieAnimatiion('icon-2', 'asset/lottie/json/simple.json');
-                setLottieAnimatiion('icon-3', 'asset/lottie/json/fly.json');
-                setLottieAnimatiion('icon-4', 'asset/lottie/json/analysis.json');
-                setLottieAnimatiion('icon-5', 'asset/lottie/json/compatible.json');
-                setLottieAnimatiion('icon-6', 'asset/lottie/json/grown.json');
+                setLottieAnimatiion('icon-2', 'asset/lottie/json/fly.json');
+                setLottieAnimatiion('icon-3', 'asset/lottie/json/analysis.json');
+                setLottieAnimatiion('icon-4', 'asset/lottie/json/compatible.json');
+                setLottieAnimatiion('icon-5', 'asset/lottie/json/grown.json');
+                setLottieAnimatiion('icon-6', 'asset/lottie/json/simple.json');
 
                 for(var i = 0; i < 6; i++) {
                     setLottieAnimatiion('bg-icon-' + (i + 1), 'asset/lottie/json/bg_0'+ (i + 1) + '.json');
+                    (function (i) {
+                        //- setTimeout(function () {
+                            console.log(i, '#index-feature-' + (i + 1), $('#index-feature-' + (i + i)))
+                            $('#index-feature-' + (i + 1)).mouseenter(function () {
+                                console.log('hover' + (i + 1));
+                                animationMap['icon-' + (i + 1)].goToAndPlay(0);
+                            });
+                        //- });
+                    })(i);
                 }
 
             section#publication
@@ -129,9 +136,9 @@ block content
                     #start-line
                     .paper
                         .content
-                            h2.reveal ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                            p.note.reveal-later 如果您在科研项目、产品、学术论文、技术报告、新闻报告、教育、专利以及其他相关活动中使用了 Apache ECharts，欢迎引用本论文。
-                            .single-btn-panel
+                            h2.reveal-latest ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
+                            p.note.reveal-latest 如果您在科研项目、产品、学术论文、技术报告、新闻报告、教育、专利以及其他相关活动中使用了 Apache ECharts，欢迎引用本论文。
+                            .single-btn-panel.reveal-latest
                                 a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf").pdf.reveal-later Visual Informatics, 2018 [PDF]
                         .icon
                             #paper-icon
@@ -150,7 +157,7 @@ block content
                         var startLine = $("#start-line").offset().top;
                         var endLine = $("#end-line").offset().top;
 
-                        if (startLine >= $(window).scrollTop() && startLine < ($(window).scrollTop() + $(window).height() - 300)) {
+                        if (startLine >= $(window).scrollTop() && startLine < ($(window).scrollTop() + $(window).height() - 200)) {
                             if (!hasStartLineShow) {
                                 $('#publication').css('opacity', 1);
                                 if (animationMap['start-line']) {
@@ -176,7 +183,7 @@ block content
                             }
                         }
 
-                        if (endLine <= 300) {
+                        if (endLine <= 400) {
                             if (!hasEndLineShow) {
                                 if (animationMap['end-line']) {
                                     animationMap['end-line'].goToAndPlay(0);
@@ -203,7 +210,7 @@ block content
                     hr
                     p 关注我们以及时获得更多最新动态
                     .btn-panel.row
-                        .col-md-3.col-sm-6
+                        .col-lg-3.col-sm-6
                             a#btn-github(href='https://github.com/apache/incubator-echarts')
                                 .btn-content
                                     .btn-logo
@@ -212,7 +219,7 @@ block content
                                         span GitHub
                                     .icon-v-right
 
-                        .col-md-3.col-sm-6
+                        .col-lg-3.col-sm-6
                             a#btn-weixin
                                 .btn-content.zh
                                     .btn-logo
@@ -221,7 +228,7 @@ block content
                                     .weixin-code
                                         img(src="images/ercode.jpg")
 
-                        .col-md-3.col-sm-6
+                        .col-lg-3.col-sm-6
                             a#btn-weibo(href='https://weibo.com/echarts')
                                 .btn-content
                                     .btn-logo
@@ -229,7 +236,7 @@ block content
                                         span 微博
                                     .icon-v-right
 
-                        .col-md-3.col-sm-6
+                        .col-lg-3.col-sm-6
                             a#btn-twitter(href='https://twitter.com/ApacheECharts')
                                 .btn-content
                                     .btn-logo
@@ -246,9 +253,13 @@ block content
                     container: '#page-index',
                     delay: 600
                 });
+                ScrollReveal().reveal('.reveal-latest', {
+                    container: '#page-index',
+                    delay: 1200
+                });
                 ScrollReveal().reveal('.reveal-about', {
                     container: '#page-index',
-                    delay: 1500
+                    delay: 600
                 });
 
         include ../components/footer
