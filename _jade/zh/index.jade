@@ -19,10 +19,10 @@ block content
                         .home-brand Apache ECharts
                         .home-subtitle 一个基于 JavaScript 的开源可视化图表库
                         .home-btn-panel
-                            a.btn.btn-main.btn-index-home(href='./feature.html')
+                            a.btn.btn-main.btn-index-home(href='./tutorial.html#5%20分钟上手%20ECharts')
                                 include ../components/svg/index-learn
                                 span 快速入门
-                            a.btn.btn-main.btn-index-home(href='./download.html')
+                            a.btn.btn-main.btn-index-home(href='#{hostParam}/examples/zh/index.html')
                                 include ../components/svg/index-example
                                 span 所有示例
                             a.btn.btn-main.btn-index-home.btn-index-github(href='https://github.com/apache/incubator-echarts', target='_blank')
@@ -30,15 +30,6 @@ block content
                                 +svgGithub('#081642')
                     .home-chart
                         img(src="images/index-home-pie.png")
-
-            script(type='text/javascript').
-                (function () {
-                    var ua = navigator.userAgent;
-                    var ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/);
-                    var edge = ua.match(/Edge\/([\d.]+)/);
-                    window.supportTouch = 'ontouchstart' in window && !ie && !edge;
-                })()
-
             section#feature-section
                 .container
                     .index-features
@@ -94,43 +85,6 @@ block content
                                 .index-feature-right
                                     h3.reveal 友好的无障碍访问
                                     p.reveal-later 智能生成的图表描述和贴花图案，帮助视力障碍人士了解图表内容，读懂图表背后的故事。
-
-            script(type='text/javascript').
-                var animationMap = {};
-                function setLottieAnimatiion(id, path) {
-                    var container = id;
-                    if (typeof(id) === 'string') {
-                        container = document.getElementById(id);
-                    }
-
-                    animationMap[id] = lottie.loadAnimation({
-                        container, // the dom element that will contain the animation
-                        renderer: 'svg',
-                        loop: false,
-                        autoplay: true,
-                        path, // the path to the animation json
-                    });
-                }
-                setLottieAnimatiion('icon-1', 'asset/lottie/json/chart.json');
-                setLottieAnimatiion('icon-2', 'asset/lottie/json/fly.json');
-                setLottieAnimatiion('icon-3', 'asset/lottie/json/analysis.json');
-                setLottieAnimatiion('icon-4', 'asset/lottie/json/compatible.json');
-                setLottieAnimatiion('icon-5', 'asset/lottie/json/grown.json');
-                setLottieAnimatiion('icon-6', 'asset/lottie/json/simple.json');
-
-                for(var i = 0; i < 6; i++) {
-                    setLottieAnimatiion('bg-icon-' + (i + 1), 'asset/lottie/json/bg_0'+ (i + 1) + '.json');
-                    (function (i) {
-                        //- setTimeout(function () {
-                            console.log(i, '#index-feature-' + (i + 1), $('#index-feature-' + (i + i)))
-                            $('#index-feature-' + (i + 1)).mouseenter(function () {
-                                console.log('hover' + (i + 1));
-                                animationMap['icon-' + (i + 1)].goToAndPlay(0);
-                            });
-                        //- });
-                    })(i);
-                }
-
             section#publication
                 .container
                     #start-line
@@ -143,67 +97,6 @@ block content
                         .icon
                             #paper-icon
                     #end-line
-
-            script(type='text/javascript').
-                (function () {
-                    var hasStartLineShow = false;
-                    var hasPaperShow = false;
-                    var hasEndLineShow = false;
-
-                    setLottieAnimatiion('paper-icon', 'asset/lottie/json/paper.json');
-
-
-                    $('#page-index').scroll(function () {
-                        var startLine = $("#start-line").offset().top;
-                        var endLine = $("#end-line").offset().top;
-
-                        if (startLine >= $(window).scrollTop() && startLine < ($(window).scrollTop() + $(window).height() - 200)) {
-                            if (!hasStartLineShow) {
-                                $('#publication').css('opacity', 1);
-                                if (animationMap['start-line']) {
-                                    animationMap['start-line'].goToAndPlay(0);
-                                }
-                                else {
-                                    setLottieAnimatiion('start-line', 'asset/lottie/json/start_line.json');
-                                }
-
-                                if (animationMap['paper-icon']) {
-                                    animationMap['paper-icon'].goToAndPlay(0);
-                                }
-                                else {
-                                    setLottieAnimatiion('paper-icon', 'asset/lottie/json/paper.json');
-                                }
-                                hasStartLineShow = true;
-                                hasPaperShow = true;
-                            }
-                        }
-                        else {
-                            if (!hasStartLineShow) {
-                                hasStartLineShow = false;
-                            }
-                        }
-
-                        if (endLine <= 400) {
-                            if (!hasEndLineShow) {
-                                if (animationMap['end-line']) {
-                                    animationMap['end-line'].goToAndPlay(0);
-                                }
-                                else {
-                                    setLottieAnimatiion('end-line', 'asset/lottie/json/end_line.json');
-                                }
-
-                                hasEndLineShow = true;
-                            }
-                        }
-                        else {
-                            if (!hasEndLineShow) {
-                                hasEndLineShow = false;
-                            }
-                        }
-                    });
-
-                })()
-
             section.normal#about-section.reveal-about
                 .container
                     h3 关注我们
@@ -243,32 +136,9 @@ block content
                                         include ../components/svg/twitter
                                         span Twitter
                                     .icon-v-right
-
-            script(type='text/javascript').
-                ScrollReveal().reveal('.reveal', {
-                    container: '#page-index',
-                    delay: 300
-                });
-                ScrollReveal().reveal('.reveal-later', {
-                    container: '#page-index',
-                    delay: 600
-                });
-                ScrollReveal().reveal('.reveal-latest', {
-                    container: '#page-index',
-                    delay: 1200
-                });
-                ScrollReveal().reveal('.reveal-about', {
-                    container: '#page-index',
-                    delay: 600
-                });
-
         include ../components/footer
 
 block extra_js
-    script.
-        window.lazyLoadOptions = {
-            elements_selector: ".lazy"
-        };
     script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
     script(src='#{cdnPayRoot}/#{ecWWWLang}/js/index.js?_v_=#{homeVersion}')
     <script async defer src="https://buttons.github.io/buttons.js"></script>
