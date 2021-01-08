@@ -183,8 +183,7 @@ async function buildJade(config) {
     const hashes = {};
     for (let lang of ['zh', 'en']) {
         hashes[lang] = {
-            docHash: await getFolderHash(path.resolve(config.releaseDestDir, lang, 'documents/**/*.js')),
-            nextDocHash: await getFolderHash(path.resolve(config.releaseDestDir, 'next', lang, 'documents/**/*.js'))
+            docHash: await getFolderHash(path.resolve(config.releaseDestDir, lang, 'documents/**/*.js'))
         };
     }
 
@@ -207,7 +206,6 @@ async function buildJade(config) {
             && cfg.host
             && cfg.cdnThirdParty
             && cfg.galleryPath
-            && cfg.blogPath
             && cfg.releaseDestDir
             && cfg.homeVersion
             && cfg.cdnPayVersion

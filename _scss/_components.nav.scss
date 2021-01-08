@@ -6,6 +6,7 @@ $nav-height: 51px;
     z-index: 10000;
     transition: background-color 0.5s linear;
     height: 50px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 
     .navbar-nav {
         transition: background-color 0.5s linear;
@@ -153,7 +154,6 @@ $nav-height: 51px;
 
     .container-fluid {
         padding: 0 25px;
-        box-shadow: 0 0 20px #ddd;
     }
 
 
@@ -172,7 +172,6 @@ $nav-height: 51px;
     background-color: $clr-nav-bg;
     transition-duration: 0.3s;
     transition-property: background-color, opacity;
-    box-shadow: 0 0 20px #ddd;
 
     .navbar-nav {
         li {

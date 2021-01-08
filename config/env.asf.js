@@ -15,8 +15,7 @@ config.cdnFreeRootMap = {
     zh: 'https://cdn.jsdelivr.net/gh/apache/incubator-echarts-website@asf-site',
     en: 'https://echarts.apache.org'
 };
-config.galleryPath = 'https://www.echartsjs.com/gallery/';
-config.blogPath = 'https://efe.baidu.com/tags/ECharts/';
+config.galleryPath = 'https://echarts.apache.org/examples/';
 config.releaseDestDir = path.resolve(__dirname, '../../incubator-echarts-website');
 
 module.exports = config;

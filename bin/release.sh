@@ -31,10 +31,6 @@ docProjectDir="${wwwProjectDir}/../incubator-echarts-doc";
 examplesProjectDir="${wwwProjectDir}/../echarts-examples";
 themeProjectDir="${wwwProjectDir}/../ECharts-Theme-Builder";
 
-# Next
-nextDocProjectDir="${wwwProjectDir}/../incubator-echarts-doc-next";
-nextExamplesProjectDir="${wwwProjectDir}/../echarts-examples-next";
-
 cd ${wwwProjectDir}
 
 if [[ "${envType}" = "echartsjs" ]]; then
@@ -70,42 +66,16 @@ if [[ ! -n "${onlyNext}" ]]; then
     echo "Build doc done."
 
     # Build examples
-    echo "Build examples ..."
+    echo "Build examples..."
     if [ ! -d "${examplesProjectDir}" ]; then
         echo "Directory ${examplesProjectDir} DOES NOT exists."
         exit 1
     fi
     cd ${examplesProjectDir}
-    node build.js --env ${envType}
+    npm run release
     cd ${currWorkingDir}
     echo "Build examples done."
-
 fi
-
-
-# Build doc next
-echo "Build doc next ..."
-if [ ! -d "${nextDocProjectDir}" ]; then
-    echo "Directory ${nextDocProjectDir} DOES NOT exists."
-    exit 1
-fi
-cd ${nextDocProjectDir}
-npm run build:site
-node build.js --env ${envType}
-cd ${currWorkingDir}
-echo "Build doc next done."
-
-# Build examples next
-echo "Build examples next..."
-if [ ! -d "${nextExamplesProjectDir}" ]; then
-    echo "Directory ${nextExamplesProjectDir} DOES NOT exists."
-    exit 1
-fi
-cd ${nextExamplesProjectDir}
-npm run release
-cd ${currWorkingDir}
-echo "Build examples next done."
-
 
 # Build www
 echo "Build www ..."
