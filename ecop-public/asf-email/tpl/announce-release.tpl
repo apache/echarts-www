@@ -10,7 +10,7 @@ general@incubator.apache.org
 Hi all,
 
 The Apache ECharts team is proud to announce Apache ECharts
-version {{ECHARTS_RELEASE_VERSION}}-incubating.
+version {{ECHARTS_RELEASE_VERSION}}.
 
 ECharts is a powerful, interactive charting and visualization library.
 

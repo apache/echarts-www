@@ -7,7 +7,7 @@ const bosSDK = require('@baiducloud/sdk');
 const argv = require('yargs').argv;
 
 const projectDir = path.resolve(__dirname, '..');
-const artifactDir = path.resolve(projectDir, '../incubator-echarts-website');
+const artifactDir = path.resolve(projectDir, '../echarts-website');
 const BosClient = bosSDK.BosClient;
 
 // -------------------------------------------------------------------------

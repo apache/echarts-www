@@ -40,21 +40,21 @@ block content
                         th Dist files on GitHub
 
                 .checksum
-                    p <strong>Note:</strong> when downloading from a mirror please check the <a href="https://www.apache.org/dev/release-signing#sha-checksum">SHA-512</a> and verify the <a href="https://www.apache.org/dev/release-signing#openpgp">OpenPGP</a> compatible signature from the main <a href="https://www.apache.org">Apache site</a>. Links are provided above (next to the release download link). This <a href="https://www.apache.org/dist/incubator/echarts/KEYS">KEYS</a> file contains the public keys used for signing release. It is recommended that (when possible) a <a href="https://www.apache.org/dev/release-signing#web-of-trust">web of trust</a> is used to confirm the identity of these keys.
+                    p <strong>Note:</strong> when downloading from a mirror please check the <a href="https://www.apache.org/dev/release-signing#sha-checksum">SHA-512</a> and verify the <a href="https://www.apache.org/dev/release-signing#openpgp">OpenPGP</a> compatible signature from the main <a href="https://www.apache.org">Apache site</a>. Links are provided above (next to the release download link). This <a href="https://www.apache.org/dist/echarts/KEYS">KEYS</a> file contains the public keys used for signing release. It is recommended that (when possible) a <a href="https://www.apache.org/dev/release-signing#web-of-trust">web of trust</a> is used to confirm the identity of these keys.
 
                     h4 To verify ECharts releases using GPG:
                     ol
-                        li Download the release apache-echarts-X.Y.Z-incubating-src.zip from a mirror site.
-                        li Download the checksum apache-echarts-X.Y.Z-incubating-src.zip.asc from <a href="https://www.apache.org/dist/incubator/echarts/">Apache</a>.
-                        li Download the <a href="https://www.apache.org/dist/incubator/echarts/KEYS">ECharts KEYS</a> file.
+                        li Download the release apache-echarts-X.Y.Z-src.zip from a mirror site.
+                        li Download the checksum apache-echarts-X.Y.Z-src.zip.asc from <a href="https://www.apache.org/dist/echarts/">Apache</a>.
+                        li Download the <a href="https://www.apache.org/dist/echarts/KEYS">ECharts KEYS</a> file.
                         li gpg –import KEYS
-                        li gpg –verify apache-echarts-X.Y.Z-incubating-src.zip.asc
+                        li gpg –verify apache-echarts-X.Y.Z-src.zip.asc
 
                     h4 To perform a quick check using SHA-512:
                     ol
-                        li Download the release apache-echarts-X.Y.Z-incubating-src.zip from a mirror site.
-                        li Download the checksum apache-echarts-X.Y.Z-incubating-src.zip.512 from <a href="https://www.apache.org/dist/incubator/echarts/">Apache</a>.
-                        li shasum -a 512 apache-echarts-X.Y.Z-incubating-src.zip
+                        li Download the release apache-echarts-X.Y.Z-src.zip from a mirror site.
+                        li Download the checksum apache-echarts-X.Y.Z-src.zip.512 from <a href="https://www.apache.org/dist/echarts/">Apache</a>.
+                        li shasum -a 512 apache-echarts-X.Y.Z-src.zip
 
                     h4 License
                     p Apache ECharts is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.

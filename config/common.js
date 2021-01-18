@@ -347,7 +347,7 @@ module.exports = {
         }, {
             image: 'bmap.jpg',
             name: '百度地图',
-            website: 'https://github.com/apache/incubator-echarts/tree/master/extension-src/bmap',
+            website: 'https://github.com/apache/echarts/tree/master/extension-src/bmap',
             authors: [{
                 name: '沈毅',
                 website: 'https://github.com/pissang'
