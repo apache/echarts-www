@@ -32,7 +32,7 @@ examplesProjectDir="${wwwProjectDir}/../echarts-examples";
 themeProjectDir="${wwwProjectDir}/../ECharts-Theme-Builder";
 
 # Next
-nextDocProjectDir="${wwwProjectDir}/../incubator-echarts-doc-next";
+nextDocProjectDir="${wwwProjectDir}/../echarts-doc-next";
 nextExamplesProjectDir="${wwwProjectDir}/../echarts-examples-next";
 
 cd ${wwwProjectDir}
