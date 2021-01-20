@@ -13,7 +13,6 @@ while [[ $# -gt 0 ]]; do
     case "$1" in
         --env) envType="$2"; shift; shift ;;
         --env=*) envType="${1#*=}"; shift ;;
-        --onlynext) onlyNext="YES"; shift ;;
         *) shift ;;
     esac
 done
@@ -41,41 +40,37 @@ fi
 cd ${thisScriptDir}
 node build.js --env ${envType} --clean
 
-
-if [[ ! -n "${onlyNext}" ]]; then
-
-    # Build Theme Builder
-    echo "Build theme builder ..."
-    if [ ! -d "${themeProjectDir}" ]; then
-        echo "Directory ${themeProjectDir} DOES NOT exists."
-        exit 1
-    fi
-    cd ${themeProjectDir}
-    node build.js --release
-
-    # Build doc
-    echo "Build doc ..."
-    if [ ! -d "${docProjectDir}" ]; then
-        echo "Directory ${docProjectDir} DOES NOT exists."
-        exit 1
-    fi
-    cd ${docProjectDir}
-    npm run build:site
-    node build.js --env ${envType}
-    cd ${currWorkingDir}
-    echo "Build doc done."
-
-    # Build examples
-    echo "Build examples..."
-    if [ ! -d "${examplesProjectDir}" ]; then
-        echo "Directory ${examplesProjectDir} DOES NOT exists."
-        exit 1
-    fi
-    cd ${examplesProjectDir}
-    npm run release
-    cd ${currWorkingDir}
-    echo "Build examples done."
+# Build Theme Builder
+echo "Build theme builder ..."
+if [ ! -d "${themeProjectDir}" ]; then
+    echo "Directory ${themeProjectDir} DOES NOT exists."
+    exit 1
 fi
+cd ${themeProjectDir}
+node build.js --release
+
+# Build doc
+echo "Build doc ..."
+if [ ! -d "${docProjectDir}" ]; then
+    echo "Directory ${docProjectDir} DOES NOT exists."
+    exit 1
+fi
+cd ${docProjectDir}
+npm run build:site
+node build.js --env ${envType}
+cd ${currWorkingDir}
+echo "Build doc done."
+
+# Build examples
+echo "Build examples..."
+if [ ! -d "${examplesProjectDir}" ]; then
+    echo "Directory ${examplesProjectDir} DOES NOT exists."
+    exit 1
+fi
+cd ${examplesProjectDir}
+npm run release
+cd ${currWorkingDir}
+echo "Build examples done."
 
 # Build www
 echo "Build www ..."
