@@ -145,6 +145,16 @@ body {
     }
 }
 
+#v5-link {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    width: 300px;
+    margin-left: -150px;
+    text-align: center;
+    z-index: 1000;
+}
+
 @media (max-width: 768px) {
     #apache-banner {
         padding: 15px;
