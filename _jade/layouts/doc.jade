@@ -23,6 +23,16 @@ block content
 
         #ec-doc-main
 
+        #v4-link.alert.alert-info.alert-dismissible
+            if ecWWWLang == 'en'
+                a(href="#{host}/v4/option.html") V4 Documentation
+            else
+                a(href="#{host}/v4/option.html") 旧版本文档
+
+            button.close(type="button", data-dismiss="alert", aria-label="Close")
+                span(aria-hidden="true") &times;
+
+
 block extra_js
     script(src="#{cdnThirdParty.vueJS}")
     script(src="#{cdnThirdParty.elementUIJS}")
