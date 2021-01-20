@@ -1,0 +1,29 @@
+extends ../layouts/basic
+
+block variablesLang
+    include ./_variablesLang.jade
+
+block variables
+    - var pageTitle = 'Events - Apache ECharts'
+
+block extra_head
+    title Events - Apache ECharts
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+    .page-main
+        .page-info
+            .container
+                h1 Events
+                p.page-info-echarts Apache ECharts<sup>TM</sup>
+
+        .page-content
+            .page-detail
+                p No events for now.
+
+                include ../components/inner-footer
+block extra_js
+    script(type='text/javascript').
+        document.getElementById('nav-contribute').className = 'active';

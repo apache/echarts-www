@@ -1,0 +1,29 @@
+extends ../layouts/basic
+
+block variables
+    - var pageTitle = 'Apache ECharts - 活动'
+
+block extra_head
+    title 活动 - Apache ECharts
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
+        include ../components/nav
+
+    .page-main
+        .page-info
+            .container
+                h1 活动
+                p.page-info-echarts Apache ECharts<sup>TM</sup>
+
+        .page-content#maillist
+            .container
+                a.event(href='https://echarts-5-live.bj.bcebos.com/echarts-5-event.html?ref=ec-event')
+                    img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20200128-apache-echarts-5.png?_v_=#{cdnPayVersion}")
+
+block extra_js
+    script.
+        window.lazyLoadOptions = {
+            elements_selector: ".lazy"
+        };
+    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')

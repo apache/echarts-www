@@ -1,0 +1,15 @@
+.event {
+    display: block;
+    margin: 20px 0 50px 0;
+
+    img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+
+    &:hover img {
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+}
