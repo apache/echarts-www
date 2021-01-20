@@ -107,6 +107,7 @@ async function clean(config) {
     const srcRelativePathList = await globby([
         '**/*',
         '!.*', // .git .gitignore .htaccess
+        '!v4/**/*', // v4 website
         '!README.md'
     ], {
         cwd: destDir
