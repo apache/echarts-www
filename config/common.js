@@ -347,7 +347,7 @@ module.exports = {
         }, {
             image: 'bmap.jpg',
             name: '百度地图',
-            website: 'https://github.com/apache/incubator-echarts/tree/master/extension-src/bmap',
+            website: 'https://github.com/apache/echarts/tree/master/extension-src/bmap',
             authors: [{
                 name: '沈毅',
                 website: 'https://github.com/pissang'
@@ -384,6 +384,16 @@ module.exports = {
             }],
             desc: 'Mapbox 地图和 ECharts 的结合。',
             descEN: 'A combination of Mapbox maps and ECharts.'
+        }, {
+            image: 'amap.jpg',
+            name: '高德地图',
+            website: 'https://github.com/plainheart/echarts-extension-amap',
+            authors: [{
+                name: 'plainheart',
+                website: 'https://github.com/plainheart'
+            }],
+            desc: '高德地图扩展，可以在高德地图上展现点图，线图，热力图等。',
+            descEN: 'AMap extension for ECharts which is used to display visualizations such as Scatter, Lines, Heatmap.'
         }],
         functional: [{
             image: 'modularity.jpg',

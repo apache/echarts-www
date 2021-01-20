@@ -1,6 +1,10 @@
-// $.getJSON("https://api.github.com/repos/apache/incubator-echarts/releases").done(function (param) {
+// $.getJSON("https://api.github.com/repos/apache/echarts/releases").done(function (param) {
     // `yyyy-MM-dd` should be correct. `hh:mm:ss` doesn't matter.
     var param = [{
+        publishedAt: '2020-12-18T00:00:00Z',
+        prerelease: false,
+        name: '5.0.1'
+    }, {
         publishedAt: '2020-12-02T00:00:00Z',
         prerelease: false,
         name: '5.0.0'
@@ -42,6 +46,12 @@
         name: '4.1.0'
     }];
     var table = document.getElementById('download-table');
+
+    function isIncubatingVersion(version) {
+        // The first release version after graduated is 5.0.1.
+        return version.split('.')[0] < 5 || version === '5.0.0';
+    }
+
     for (var i = 0; i < param.length; ++i) {
         if (!param[i].prerelease) {
             var time = new Date(param[i].publishedAt);
@@ -57,10 +67,12 @@
                 date.innerHTML = time.getFullYear() + '/' + (time.getMonth() + 1) + '/' + time.getDate();
                 line.appendChild(date);
 
-                var main = 'https://www.apache.org/dist/incubator/echarts/' + version
-                    + '/apache-echarts-' + version + '-incubating';
-                var mirror = 'https://www.apache.org/dyn/closer.cgi/incubator/echarts/' + version
-                    + '/apache-echarts-' + version + '-incubating';
+                var isIncubating = isIncubatingVersion(version);
+
+                var main = 'https://www.apache.org/dist/echarts/' + version
+                    + '/apache-echarts-' + version + (isIncubating ? '-incubating' : '');
+                var mirror = 'https://www.apache.org/dyn/closer.cgi/echarts/' + version
+                    + '/apache-echarts-' + version + (isIncubating ? '-incubating' : '');
 
                 var source = document.createElement('td');
                 source.innerHTML = '<a target="_blank" href="' + mirror + '-src.zip">Source</a> '
@@ -69,7 +81,7 @@
                 line.appendChild(source);
 
                 var bin = document.createElement('td');
-                bin.innerHTML = '<a target="_blank" href="https://github.com/apache/incubator-echarts/tree/'
+                bin.innerHTML = '<a target="_blank" href="https://github.com/apache/echarts/tree/'
                     + version + '/dist">Dist</a>';
                 line.appendChild(bin);
 
