@@ -53,10 +53,11 @@ $collapse-break-point: 768px;
                 padding: 0 5px;
                 background-color: $clr-secondary;
                 color: #fff;
-                font-size: 12px;
+                font-size: 10px;
                 border-radius: 3px;
-                transform: scale(0.8);
-                vertical-align: top;
+                height: 15px;
+                // transform: scale(0.8);
+                vertical-align: middle;
             }
         }
         &.open {
