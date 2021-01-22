@@ -42,5 +42,5 @@ npm run watch:jade
 ## release
 
 ```sh
-sh bin/release.sh --env asf
+npm run release
 ```
