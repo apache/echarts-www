@@ -190,7 +190,9 @@ async function buildJade(config) {
 
     for (let srcPath of srcPaths) {
         let filePath = path.resolve(basePath, srcPath);
-        const lang = srcPath.indexOf('zh/') === 0 ? 'zh' : 'en';
+
+        const lang = (srcPath.indexOf('zh/') === 0
+            || srcPath.indexOf('examples/zh/') === 0) ? 'zh' : 'en';
 
         assert(hashes[lang]);
 
