@@ -96,6 +96,8 @@ function initEnv() {
 
     config.envType = envType;
 
+    config.copyRightYear = new Date().getFullYear();
+
     return config;
 }
 
