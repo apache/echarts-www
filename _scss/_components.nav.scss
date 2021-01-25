@@ -51,13 +51,12 @@ $collapse-break-point: 768px;
             .new {
                 display: inline-block;
                 padding: 0 5px;
-                background-color: $clr-secondary;
+                background-color: #F72C5B;
                 color: #fff;
-                font-size: 10px;
+                font-size: 12px;
                 border-radius: 3px;
-                height: 15px;
-                // transform: scale(0.8);
                 vertical-align: middle;
+                transform: scale(0.8);
             }
         }
         &.open {

@@ -41,6 +41,7 @@ block extra_js
     script(src="#{cdnThirdParty.beautifierJS}")
     script(src="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/js/doc-bundle.js')}")
     script(type="text/javascript").
+        document.getElementById('nav-doc').className = 'active';
         window.EC_WWW_CDN_PAY_ROOT = '#{cdnPayRoot}';
 
     block global_args_extra

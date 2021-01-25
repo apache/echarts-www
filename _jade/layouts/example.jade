@@ -38,6 +38,7 @@ block extra_js
     script(src="#{cdnThirdParty.elementUIJS}")
     script(src="#{getAssetUrl(cdnPayRoot, 'examples/js/example-bundle.js')}")
     script(type="text/javascript").
+        document.getElementById('nav-examples').className = 'active';
         window.EC_WWW_CDN_PAY_ROOT = '#{cdnPayRoot}';
 
     block global_args_extra
