@@ -23,7 +23,7 @@ define(function (require) {
     var srcFolder = version.startsWith('5.0.0') ? 'esm' // Only 5.0.0 has esm folder
         : isVersion5 ? 'lib' : 'src';
 
-    if (BUILD_CONFIG.api) {
+    if (BUILD_CONFIG.api && (version.startsWith('5.0.0') || !isVersion5)) {
         topCode.push(`export * from "echarts/src/export";`);
     }
 
