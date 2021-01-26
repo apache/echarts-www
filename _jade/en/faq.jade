@@ -30,12 +30,12 @@ block content
                 h3 What to do if you have technical problem?
                 p 1）It is recommended that you read the navigation on the left side of the <a href="https://echarts.apache.org/en/option.html">option manual</a> before you ask questions. In the option manual, you can find out what configuration items does ECharts have. And you can find under the relevant components whether there are configuration items that can implement the functions you need.
                 p 2）Browse FAQ questions on this page.
-                p 3）Create a simple example to reproduce your problem on  <a href="https://gallery.echartsjs.com/editor.html">ECharts Gallery</a>. If you can't use the code to describe the requirements, you can try to provide a design draft or draw a sketch.
+                p 3）Create a simple example to reproduce your problem on  <a href="https://www.makeapie.com/editor.html">ECharts Gallery</a>. If you can't use the code to describe the requirements, you can try to provide a design draft or draw a sketch.
                 p 4）Paste the link when you ask questions on <a href="https://stackoverflow.com">stackoverflow</a>, <a href="https://www.oschina.net/question/tag/echarts">OSCHINA</a> or <a href="https://segmentfault.com/t/echarts">segmentfault.com</a> and etc. Plaes attach the example link.
 
 
                 h3 Is ECharts free to use?
-                p Yes, ECharts is open-sourced under <a href="./license.html">Apache License 2.0</a>.
+                p Yes, ECharts is open-sourced under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.
 
                 h2#axis Axis
                 h3 What should I do if the axis label don`t have enough space?
@@ -47,7 +47,7 @@ block content
 
                 h3 How do I force the first / last label of the axis to be displayed?
                 p Both <a href="https://echarts.apache.org/en/option.html#xAxis.axisLabel.showMinLabel">axisLabel.showMinLabel</a> and <a href="https://echarts.apache.org/en/option.html#xAxis.axisLabel.showMaxLabel">axisLabel.showMaxLabel</a> are supported since ECharts version 3.5.2. It can be used to control whether the first / last tags are forced to display.
-                p If you can't update the version, please refer to this <a href="https://gallery.echartsjs.com/editor.html?c=xry06afSje">example</a> to achieve the same effect.
+                p If you can't update the version, please refer to this <a href="https://www.makeapie.com/editor.html?c=xry06afSje">example</a> to achieve the same effect.
 
 
 
@@ -85,7 +85,7 @@ block content
                         | myChart.on('georoam', function (params) {
                         |    console.log(params);
                         | });
-                p Please refer to <a href="https://gallery.echartsjs.com/editor.html?c=xHyqn_rQ6g">this example</a>.
+                p Please refer to <a href="https://www.makeapie.com/editor.html?c=xHyqn_rQ6g">this example</a>.
 
                 h3 How to make my custom map?
                 p The ECharts map is <a href="https://github.com/apache/echarts/blob/8eeb7e5abe207d0536c62ce1f4ddecc6adfdf85e/src/util/mapData/rawData/encode.js">additionally encoded</a> from original coordinates. You can use the <a href="https://github.com/giscafer/mapshaper-plus">mapshaper-plus tool</a> to upload a custom geojson file and then generate a map file that can be used in Echarts.
@@ -97,7 +97,7 @@ block content
                     li Include <code>echarts.js</code>, <code>bmap.js</code> and <code>https://api.map.baidu.com/api?v=2.0&ak=Here is the access key you obtained on the Baidu development platform</code>.
                     li Set <code>bmap</code> in <code>option</code>，You can refer to this <a href="https://echarts.apache.org/examples/en/editor.html?c=effectScatter-bmap">example</a>.
                     li If you need to get a Baidu map instance, you can use <code>chart.getModel().getComponent('bmap').getBMap()</code>，and then make do settings based on <a href="https://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference.html">Baidu Maps API</a> .
-                p There are more examples about Baidu maps on <a href="https://gallery.echartsjs.com/explore.html#components=bmap~sort=rank~timeframe=all~author=all">ECharts Gallery</a> , which can be used as a reference.
+                p There are more examples about Baidu maps on <a href="https://www.makeapie.com/explore.html">ECharts Gallery</a> , which can be used as a reference.
 
 
 
@@ -122,7 +122,7 @@ block content
                     li Whether the DOM container has a width or height when calling <code>echarts.init</code>.
 
                 h3 Where can I learn ECharts?
-                p The official website is the best learning platform. In addition, learning other people's work on the <a href="https://gallery.echartsjs.com">ECharts Gallery</a> is also a good choice.
+                p The official website is the best learning platform. In addition, learning other people's work on the <a href="https://www.makeapie.com">ECharts Gallery</a> is also a good choice.
                 p ECharts related projects and resources can be found at <a href="https://github.com/ecomfe/awesome-echarts">awesome-echarts</a>.
 
                 include ../components/inner-footer
