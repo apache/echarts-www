@@ -5,7 +5,7 @@
         prerelease: false,
         name: '5.0.2'
     }, {
-        publishedAt: '2020-12-18T00:00:00Z',
+        publishedAt: '2021-01-16T00:00:00Z',
         prerelease: false,
         name: '5.0.1'
     }, {
