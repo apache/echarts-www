@@ -32,6 +32,14 @@ block content
                         img(src="#{cdnPayRoot}/#{ecWWWLang}/images/index-home-pie.png?_v_=#{cdnPayVersion}")
 
 
+            section#events-section
+                .container
+                    a.event(href='./events/2021-05-13-iscas.html')
+                        picture
+                            source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.webp?_v_=#{cdnPayVersion}", type="image/webp")
+                            source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
+                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.jpeg?_v_=#{cdnPayVersion}", alt="开源软件供应链点亮计划 - 暑期 2021")
+
             section#feature-section
                 .container
                     .index-features
