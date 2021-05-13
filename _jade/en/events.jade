@@ -20,10 +20,16 @@ block content
                 p.page-info-echarts Apache ECharts<sup>TM</sup>
 
         .page-content
-            .page-detail
-                p No events for now.
+            .container
+                h2 Current Events
+                a.event(href='./events/2021-05-13-iscas.html')
+                    picture
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.webp?_v_=#{cdnPayVersion}", type="image/webp")
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
+                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.jpeg?_v_=#{cdnPayVersion}", alt="Summer 2021 of Open Source Promotion Plan")
 
-                include ../components/inner-footer
+
+        include ../components/inner-footer
 block extra_js
     script(type='text/javascript').
         window.lazyLoadOptions = {

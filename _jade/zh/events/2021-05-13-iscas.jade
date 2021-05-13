@@ -1,0 +1,131 @@
+extends ../../layouts/basic
+
+block variables
+    - var pageTitle = 'Apache ECharts - 活动'
+
+block extra_head
+    title 活动 - Apache ECharts
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
+        include ../../components/nav
+
+    .page-main
+        .page-info
+            .container
+                h1 开源软件供应链点亮计划 - 暑期 2021
+                p.page-info-echarts Apache ECharts<sup>TM</sup>
+
+        .page-content
+            .container
+                div
+                    a(href="../events.html") 返回活动列表
+
+                .event.event-detail-img
+                    picture
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.webp?_v_=#{cdnPayVersion}", type="image/webp")
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
+                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.jpeg?_v_=#{cdnPayVersion}", alt="开源软件供应链点亮计划 - 暑期 2021")
+
+                h3 活动说明
+                p <a href="https://summer.iscas.ac.cn/#/homepage" target="_blank">开源软件供应链点亮计划</a>鼓励大家关注开源软件和开源社区，致力于培养和发掘更多优秀的开发者。我们鼓励研究人员、开源爱好者、在校师生参与开源软件的开发与维护，促进开源软件的发展和优秀开源软件社区建设，增加开源项目的活跃度，推进开源生态的发展。
+                p 主办方会资助最终有学生申请的项目，根据难度不同，对应税前奖金分别为高（12000 元）、中（9000 元）、低（6000 元）（注：奖金数额为税前人民币金额），具体请参考开源软件供应链点亮计划官方说明。
+                p 社区针对每个项目需要指定一名社区导师，在这一过程中，可以在导师的帮助下对 Apache ECharts 项目开发有更好的了解。
+
+                h3 活动报名
+                p 请前往<a href="https://summer.iscas.ac.cn/help/student/" target="_blank">活动官网</a>报名或了解更多信息。
+
+                h3 项目列表
+                p 申请者可以在以下列表中选一个项目完成：
+
+                table
+                    tr
+                        th 序号
+                        th 名称
+                        th 难度
+                        th(style="width: 40%") 描述
+                        th 产出
+                        th 要求
+                    tr
+                        td #1
+                        td 关系图支持拖动数据点
+                        td 低
+                        td 支持关系图 layout: none 情况下的数据点拖动功能。相关 issue：<a href="https://github.com/apache/echarts/issues/14510" target="_blank">#14510</a>
+                        td 实现关系图 layout: none 情况下的数据点拖动功能
+                        td TypeScript
+                    tr
+                        td #2
+                        td 关系图可配置是否自动缩放成视图大小
+                        td 低
+                        td 在 layout: none 布局下，允许开发者通过配置项关闭节点位置的调整，保证开发者给定的位置即为最终渲染的坐标。相关 issue：<a href="https://github.com/apache/echarts/issues/13516" target="_blank">#13516</a>
+                        td 添加一个配置项，开启后可以实现坐标轴标签的交替显示
+                        td TypeScript
+                    tr
+                        td #3
+                        td Apache ECharts Issue Helper
+                        td 中
+                        td <a href="https://github.com/ecomfe/echarts-issue-helper" target="_blank">Apache ECharts Issue Helper</a> 是用来生成 GitHub Issue 的表单工具，通过表单而非 Markdown 的形式能更好地确保提问者给出必要的信息。但是目前功能比较有限，希望增强 Markdown 相关功能
+                        td
+                            ol
+                                li 支持 Markdown 格式（含代码）高亮
+                                li 支持上传图片
+                                li 支持 Markdown 结果预览
+                        td TypeScript；Vue.js（可以现学）
+                    tr
+                        td #4
+                        td 官网示例支持第三方编辑器
+                        td 中
+                        td Apache ECharts 官方网站示例部分目前使用自有的代码编辑器，社区希望同样提供在主要第三方在线编辑器（StackBiz、 JSFiddle、 CodePen、 CodeSandbox）中编辑示例的功能
+                        td
+                            ol
+                                li 在Apache ECharts 官网示例组件中添加 ”前往 CodeSandbox / StackBlitz / jsfiddle / CodePen 编辑“的按钮
+                                li 调用第三方在线编辑器的 API，在跳转时将该示例所使用的代码传入
+                        td JavaScript
+                    tr
+                        td #5
+                        td 河流图的非对称绘制
+                        td 中
+                        td Apache ECharts 的河流图目前使用对称绘制的方法进行绘制（整体图案沿 x 轴对称），希望通过 wiggle 算法实现非对称的绘制以增加河流图的可观性。相关 issue：<a href="https://github.com/apache/echarts/issues/14643" target="_blank">#14643</a>
+                        td 添加一个配置项，开启后可以实现坐标轴标签的交替显示
+                        td TypeScript；对图形学有简单了解（需要阅读算法论文并实现）
+                    tr
+                        td #6
+                        td 扩展标签的防重叠
+                        td 高
+                        td Apache ECharts 现在在饼图等某些特定的图上提供了标签的防重叠布局算法。现在希望能够增加一个更加通用的布局算法，通过迭代搜寻标签可以放置的位置，寻找一个较优的位置，解决散点图等图中数据量比较多的时候的标签重叠问题。可以参考已有的论文和实现：1. An Empirical Study of Algorithms for Point-Feature Label Placement 2. <a href="https://github.com/tinker10/D3-Labeler" target="_blank">https://github.com/tinker10/D3-Labeler</a> 3. <a href="https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html" target="_blank">https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html</a>
+                        td
+                            ol
+                                li 添加一个配置项，开启后可以实现标签的只能防重叠
+                                li 防重叠的算法能够做到性能，实现复杂度（代码量）和最终效果之间的平衡
+                        td TypeScript
+                    tr
+                        td #7
+                        td 坐标轴标签实现交错显示从而优化标签的重叠问题
+                        td 高
+                        td 现在 Apache ECharts 的坐标轴在标签过多的时候只能做到隐藏部分会重叠的标签，但是某些场景下可以做到标签的上下交错显示而不用隐藏，现在希望能够添加一个配置，用户开启后可以智能得把重叠的标签往上/下移（如果是 Y 轴则是左/右）
+                        td 加一个配置项，开启后可以实现坐标轴标签的交替显示
+                        td TypeScript；需要阅读算法论文并实现
+                    tr
+                        td #8
+                        td 关系图节点自身的循环引用
+                        td 高
+                        td 关系图节点可以指向自己，目前尚未支持这一功能。相关 issue：<a href="https://github.com/apache/echarts/issues/12951" target="_blank">#12951</a>
+                        td
+                            ol
+                                li 关系图节点可以指向自己
+                                li 可以配置参数控制连线位置
+                                li 支持多条指向自己的连线
+                        td TypeScript
+
+                h3 寻求帮助
+                p 如果有活动形式相关的问题，请咨询<a href="https://summer.iscas.ac.cn/help/contactus/">活动主办方</a>。如有和项目相关的问题，可以在 Apache ECharts <a href="mailto:dev@echarts.apache.org">邮件列表</a>中和我们交流。
+        include ../../components/footer
+
+
+block extra_js
+    script.
+        window.lazyLoadOptions = {
+            elements_selector: ".lazy"
+        };
+        document.getElementById('nav-contribute').className = 'active';
+    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')

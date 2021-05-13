@@ -10,19 +10,29 @@ block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
         include ../components/nav
 
-    .page-main
+    .page-main#page-events
         .page-info
             .container
                 h1 活动
                 p.page-info-echarts Apache ECharts<sup>TM</sup>
 
-        .page-content#maillist
+        .page-content
             .container
+                h2 进行中的活动
+                a.event(href='./events/2021-05-13-iscas.html')
+                    picture
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.webp?_v_=#{cdnPayVersion}", type="image/webp")
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
+                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.jpeg?_v_=#{cdnPayVersion}", alt="开源软件供应链点亮计划 - 暑期 2021")
+
+                h2 过期的活动
                 a.event(href='https://echarts-5-live.bj.bcebos.com/echarts-5-event.html?ref=ec-event')
                     picture
                         source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20200128-apache-echarts-5.webp?_v_=#{cdnPayVersion}", type="image/webp")
                         source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20200128-apache-echarts-5.png?_v_=#{cdnPayVersion}", type="image/jpeg")
                         img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20200128-apache-echarts-5.png?_v_=#{cdnPayVersion}", alt="Apache ECharts 5 Official Release")
+
+        include ../components/footer
 
 block extra_js
     script.

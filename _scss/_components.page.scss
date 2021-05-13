@@ -96,13 +96,31 @@ $info-height: 120px;
         text-align: center;
     }
 
+    td, th {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+
+        ol {
+            padding-left: 1em;
+        }
+    }
+
     ul {
         padding-left: 30px;
+
+        li {
+            list-style: disc;
+        }
+    }
+
+    ol {
+        li {
+            list-style: decimal;
+        }
     }
 
         li {
             margin: 5px 0;
-            list-style: disc;
         }
 }
 
