@@ -1,0 +1,6 @@
+extends basic
+
+block content
+    .page-main
+        #page-#{pageConfig.pageName}.page-spa-container
+            include ../../_generated/spa/#{pageConfig.pageName}/body.html

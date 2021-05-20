@@ -72,6 +72,9 @@ npm run release
 cd ${currWorkingDir}
 echo "Build examples done."
 
+# Build SPA pages.
+node releasePages.js
+
 # Build www
 echo "Build www ..."
 cd ${wwwProjectDir}

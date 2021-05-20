@@ -12,6 +12,7 @@
     "jade": "node bin/build.js --env=localsite --filter=jade",
     "sass": "node bin/build.js --env=localsite --filter=sass",
     "watch": "npm run watch:jade & npm run watch:sass",
+    "create:page": "node bin/createPage.js",
     "watch:jade": "onchange '_jade/**/*' -- node bin/build.js --env=localsite --filter=jade --jade={{changed}}",
     "watch:sass": "onchange '_scss/**/*' -- npm run sass"
   },
@@ -20,7 +21,7 @@
     "@baiducloud/sdk": "^1.0.0-rc.17",
     "autoprefixer": "^9.7.3",
     "chalk": "^3.0.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^10.0.0",
     "globby": "^10.0.1",
     "jade": "^1.11.0",
     "less": "^3.10.3",
@@ -29,6 +30,7 @@
     "onchange": "^6.1.0",
     "postcss": "^7.0.25",
     "requirejs": "^2.3.6",
+    "shelljs": "^0.8.4",
     "uglify-js": "^3.7.3",
     "yargs": "^13.2.4"
   }

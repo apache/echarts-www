@@ -183,6 +183,8 @@ async function buildJade(config) {
         cwd: basePath
     });
 
+    const spaPageConfigs = JSON.parse(fs.readFileSync(path.resolve(__dirname, + '../config/spa-pages.json'), 'utf-8'));
+
     const hashes = {};
     for (let lang of ['zh', 'en']) {
         hashes[lang] = {
@@ -190,9 +192,7 @@ async function buildJade(config) {
         };
     }
 
-    for (let srcPath of srcPaths) {
-        let filePath = path.resolve(basePath, srcPath);
-
+    function prepareConfig(srcPath) {
         const lang = (srcPath.indexOf('zh/') === 0
             || srcPath.indexOf('examples/zh/') === 0) ? 'zh' : 'en';
 
@@ -202,7 +202,10 @@ async function buildJade(config) {
         cfg.cdnPayRoot = config.cdnPayRootMap[lang];
         cfg.cdnFreeRoot = config.cdnFreeRootMap[lang];
 
-        let destPath = path.resolve(cfg.releaseDestDir, srcPath.replace('.jade', '.html'));
+        const pageCfg = spaPageConfigs.find(pageCfg => srcPath.endsWith(pageCfg.entry));
+        if (pageCfg) {
+            cfg.pageConfig = pageCfg;
+        }
 
         // This props can be read in jade tpl, like: `#{cdnPayRoot}`
         assert(
@@ -215,6 +218,15 @@ async function buildJade(config) {
             && cfg.homeVersion
             && cfg.cdnPayVersion
         );
+
+        return cfg;
+    }
+
+    for (let srcPath of srcPaths) {
+        const cfg = prepareConfig(srcPath);
+        const filePath = path.resolve(basePath, srcPath);
+
+        const destPath = path.resolve(cfg.releaseDestDir, srcPath.replace('.jade', '.html'));
 
         process.stdout.write(`generating: ${destPath} ...`);
 

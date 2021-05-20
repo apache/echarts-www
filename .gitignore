@@ -8,3 +8,4 @@ _generated
 .DS_Store
 
 doc-dist
+tmp
