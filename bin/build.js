@@ -206,7 +206,7 @@ async function buildJade(config) {
         if (pageCfg) {
             cfg.pageConfig = Object.assign({}, pageCfg, {
                 // Because jade doesn't support dynamic include. we have to read HTML and insert it in jade manually.
-                bodyHtml: fs.readFileSync(path.resolve(__dirname, `../_generated/spa/${pageCfg.pageName}/body.html`), 'utf-8')
+                bodyHtml: fs.readFileSync(path.resolve(__dirname, `../_generated/spa/${pageCfg.pageName}/_body.html`), 'utf-8')
             });
         }
         else {
