@@ -20,46 +20,72 @@ function createPage({
     pageChineseTitle,
 }) {
     const entry = path.join(pageName, 'index.jade');
-    spaPages.push({
+
+    const idx = spaPages.findIndex(page => page.pageName === pageName);
+
+    function doCreatePage() {
+        fse.copySync(
+            path.join(__dirname, "asset/template/page-redirect.jade"),
+            path.join(JADE_PATH, `${pageName}.jade`),
+            { overwrite: true }
+        );
+
+        fse.copySync(
+            path.join(__dirname, "asset/template/page-zh.jade"),
+            path.join(JADE_ZH_PATH, entry),
+            { overwrite: true }
+        );
+
+        fse.copySync(
+            path.join(__dirname, "asset/template/page-en.jade"),
+            path.join(JADE_EN_PATH, entry),
+            { overwrite: true }
+        );
+
+        fs.writeFileSync(SPA_PAGE_CONFIG_PATH, JSON.stringify(spaPages, null, 2), 'utf-8');
+
+        console.log('Page created successfully!');
+        console.log('You can change the page title in the config/spa-pages.json');
+    }
+
+    const pageCfg = {
         projectName,
         pageName,
         pageTitle,
         pageChineseTitle,
         entry
-    });
+    };
+    if (idx >= 0) {
+        rl.question(`Page exists. Do you wan\'t to replace it? (Yes or No): `, function (response) {
+            if (response.toLowerCase() === 'yes' || response.toLowerCase() === 'y') {
+                spaPages[idx] = pageCfg;
+                doCreatePage();
+            }
+            else {
+                return;
+            }
 
-    fse.copySync(
-        path.join(__dirname, "asset/template/page-redirect.jade"),
-        path.join(JADE_PATH, `${pageName}.jade`)
-    );
+            rl.close();
+        });
+    }
+    else {
+        spaPages.push(pageCfg);
+        doCreatePage();
 
-    fse.copySync(
-        path.join(__dirname, "asset/template/page-zh.jade"),
-        path.join(JADE_ZH_PATH, entry)
-    );
-
-    fse.copySync(
-        path.join(__dirname, "asset/template/page-en.jade"),
-        path.join(JADE_EN_PATH, entry)
-    );
-
-    fs.writeFileSync(SPA_PAGE_CONFIG_PATH, JSON.stringify(spaPages, null, 2), 'utf-8');
+        rl.close();
+    }
 }
 
 rl.question('Project Name? (It will use it locate the project): ', function (projectName) {
     rl.question('Page Name? (It will be used to create page file): ', function (pageName) {
         rl.question('Page Title? (It will be displayed on title): ', function (pageTitle) {
             rl.question('Page Chinese Title? (It will be displayed on title): ', function (pageChineseTitle) {
-                rl.close();
-
                 createPage({
                     projectName,
                     pageName,
                     pageTitle,
                     pageChineseTitle
                 });
-                console.log('Page created successfully!');
-                console.log('You can change the page title in the config/spa-pages.json');
             });
         });
     });

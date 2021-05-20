@@ -73,6 +73,7 @@ cd ${currWorkingDir}
 echo "Build examples done."
 
 # Build SPA pages.
+cd ${thisScriptDir}
 node releasePages.js
 
 # Build www

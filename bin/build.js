@@ -183,7 +183,7 @@ async function buildJade(config) {
         cwd: basePath
     });
 
-    const spaPageConfigs = JSON.parse(fs.readFileSync(path.resolve(__dirname, + '../config/spa-pages.json'), 'utf-8'));
+    const spaPageConfigs = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../config/spa-pages.json'), 'utf-8'));
 
     const hashes = {};
     for (let lang of ['zh', 'en']) {
@@ -204,7 +204,14 @@ async function buildJade(config) {
 
         const pageCfg = spaPageConfigs.find(pageCfg => srcPath.endsWith(pageCfg.entry));
         if (pageCfg) {
-            cfg.pageConfig = pageCfg;
+            cfg.pageConfig = Object.assign({}, pageCfg, {
+                // Because jade doesn't support dynamic include. we have to read HTML and insert it in jade manually.
+                bodyHtml: fs.readFileSync(path.resolve(__dirname, `../_generated/spa/${pageCfg.pageName}/body.html`), 'utf-8')
+            });
+        }
+        else {
+            // Avoid error
+            cfg.pageConfig = {};
         }
 
         // This props can be read in jade tpl, like: `#{cdnPayRoot}`
@@ -279,7 +286,30 @@ async function buildJS(config) {
 }
 
 async function copyResource(config) {
-    const srcRelativePathList = await globby([
+
+    async function doCopy(pattern, cwd) {
+        const srcRelativePathList = await globby(pattern, {
+            cwd
+        });
+
+        for (let lang of LANGUAGES) {
+            for (let i = 0; i < srcRelativePathList.length; i++) {
+                let srcRelativePath = srcRelativePathList[i];
+                let srcAbsolutePath = path.resolve(cwd, srcRelativePath);
+                let destAbsolutePath = path.resolve(config.releaseDestDir, lang, srcRelativePath);
+
+
+                fse.ensureDirSync(path.dirname(destAbsolutePath));
+                fs.copyFileSync(srcAbsolutePath, destAbsolutePath);
+
+                replaceLog('(' + (i + 1) + '/' + srcRelativePathList.length + ') ' + chalk.green(`resource copied to: ${destAbsolutePath}`));
+            }
+        }
+    }
+
+    console.log();
+
+    await doCopy([
         'vendors/**/*',
         'images/**/*',
         'asset/map/**/*',
@@ -288,24 +318,12 @@ async function copyResource(config) {
         'builder/**/*',
         'dist/**/*',
         'video/**/*'
-    ], {
-        cwd: projectDir
-    });
+    ], projectDir);
 
-    console.log();
-
-    for (let lang of LANGUAGES) {
-        for (let i = 0; i < srcRelativePathList.length; i++) {
-            let srcRelativePath = srcRelativePathList[i];
-            let srcAbsolutePath = path.resolve(projectDir, srcRelativePath);
-            let destAbsolutePath = path.resolve(config.releaseDestDir, lang, srcRelativePath);
-
-            fse.ensureDirSync(path.dirname(destAbsolutePath));
-            fs.copyFileSync(srcAbsolutePath, destAbsolutePath);
-
-            replaceLog('(' + (i + 1) + '/' + srcRelativePathList.length + ') ' + chalk.green(`resource copied to: ${destAbsolutePath}`));
-        }
-    }
+    await doCopy([
+        '**/*',
+        '!**/index.html',
+    ], path.resolve(__dirname, '../_generated/spa/'))
 
     console.log('\ncopyResources done.');
 }
