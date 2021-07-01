@@ -1,10 +1,10 @@
 # About
 
-This project is part of the source of [The Apache ECharts (incubating) Official Website](https://echarts.apache.org/). See [incubator-echarts-website](https://github.com/apache/incubator-echarts-website) for more details of the building process.
+This project is part of the source of [The Apache ECharts Official Website](https://echarts.apache.org/). See [echarts-website](https://github.com/apache/echarts-website) for more details of the building process.
 
 ## dev
 
-### Build localsite
+### Build website for local preview
 
 ```sh
 npm run dev
@@ -42,5 +42,15 @@ npm run watch:jade
 ## release
 
 ```sh
-sh bin/release.sh --env asf
+npm run release
 ```
+
+### Add SPA page
+
+Add SPA page created by [echarts-www-spa-boilerplate](https://github.com/pissang/echarts-www-spa-boilerplate)
+
+```sh
+npm run create:page
+```
+
+Then add this page entry in the menu.

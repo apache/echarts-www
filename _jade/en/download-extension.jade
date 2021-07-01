@@ -15,7 +15,7 @@ mixin extension(ext)
             .extension-info
                 a.extension-name(href="#{website}") #{ext.name}
                 .extension-author
-                    span Contributors:
+                    span Contributors: 
                     each author in ext.authors
                         a.extension-author-name(href="#{author.website}") #{author.name}
                 .extension-desc #{ext.descEN}
@@ -24,7 +24,7 @@ block variablesLang
     include ./_variablesLang.jade
 
 block extra_head
-    title Download Extensions - Apache ECharts (incubating)
+    title Download Extensions - Apache ECharts
 
 block content
 
@@ -35,7 +35,7 @@ block content
         .page-info
             h1 Download Extensions
             p Download extensions and enhance what ECharts can do.
-            p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
+            p.page-info-echarts Apache ECharts<sup>TM</sup>
 
         .page-content.container#extension
             .nav-container
@@ -72,7 +72,7 @@ block content
                 h3 Submit your ECharts extension
                 p We will get in touch with you as soon as possible, and the extensions you make will be available to ECharts users on this page.
                 p Thank you again for your support and contribution to ECharts!
-                a.btn.btn-main.btn-thirdary(href='mailto:dev@echarts.apache.com')
+                a.btn.btn-main.btn-thirdary(href='mailto:dev@echarts.apache.org')
                     img(src='#{cdnPayRoot}/#{ecWWWLang}/images/btn-email.png?_v_=#{cdnPayVersion}')
                     span Send Email
 

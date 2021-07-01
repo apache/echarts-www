@@ -1,7 +1,11 @@
+html.sr
+
 extends ../layouts/basic
 
 block extra_head
-    title Apache ECharts (incubating)
+    title Apache ECharts
+    script(src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.7/dist/scrollreveal.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/lottie-web@5.7.6/build/player/lottie.min.js")
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
@@ -10,162 +14,147 @@ block content
     .page-main#page-index
         #main-content
             section#home-section
-                video#video-index(muted="true", loop='true', src='#{cdnFreeRoot}/#{ecWWWLang}/video/index-4.mp4', poster='#{cdnPayRoot}/#{ecWWWLang}/video/index-4.jpg?_v_=#{cdnPayVersion}')
+                .home-brand-panel.description.container
+                    .home-info
+                        .home-brand Apache ECharts
+                        .home-subtitle 一个基于 JavaScript 的开源可视化图表库
+                        .home-btn-panel
+                            a.btn.btn-main.btn-index-home(href='#{host}/tutorial.html#5%20分钟上手%20ECharts')
+                                include ../components/svg/index-learn
+                                span 快速入门
+                            a.btn.btn-main.btn-index-home(href='#{host}/examples/zh/index.html')
+                                include ../components/svg/index-example
+                                span 所有示例
+                            a.btn.btn-main.btn-index-home.btn-index-github(href='https://github.com/apache/echarts', target='_blank')
+                                include ../components/svg/github
+                                +svgGithub('#081642')
+                    .home-chart
+                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/index-home-pie.png?_v_=#{cdnPayVersion}")
 
-                a#video-index-play.video-index-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-index")')
-                    include ../components/svg/play
-                a#video-index-pause.video-index-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-index")')
-                    include ../components/svg/pause
 
-                .description
-                    include ../components/svg/echarts-logo
-                    .btn-panel
-                        a.btn.btn-main.btn-index-home(href='./feature.html') 特性
-                        a.btn.btn-main.btn-index-home(href='./download.html') 下载
-                .main-bg
-
-            //- section.banner-section(style='background: #1e2e55')
-            //-     a(href='https://jing.baidu.com/h5/xzzb.html')
-            //-         img.banner-img(src='images/banners/2017-09-12-zhibo.png', style='max-width: 1000px')
-
-
-            script(type='text/javascript').
-                (function () {
-                    var ua = navigator.userAgent;
-                    var ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/);
-                    var edge = ua.match(/Edge\/([\d.]+)/);
-                    window.supportTouch = 'ontouchstart' in window && !ie && !edge;
-                })()
-
+            section#events-section
+                .container
+                    a.event(href='./events/2021-05-13-iscas.html')
+                        picture
+                            source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.webp?_v_=#{cdnPayVersion}", type="image/webp")
+                            source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
+                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.jpeg?_v_=#{cdnPayVersion}", alt="开源软件供应链点亮计划 - 暑期 2021")
 
             section#feature-section
                 .container
-                    .row.features
-                        p Apache ECharts (incubating)<sup>TM</sup> 是一个正在 <a target="_blank" href="https://www.apache.org/">Apache Software Foundation</a> (ASF) 孵化中的项目。
-
-                    .row.features
-                        .col-sm-4
-                            .feature-icon-panel
-                                include ../components/svg/heart
-                            h3 开源免费
-                            p 遵循 Apache-2.0 开源协议，免费商用
-                        .col-sm-4
-                            .feature-icon-panel
-                                include ../components/svg/function
-                            h3 功能丰富
-                            p 涵盖各行业图表，满足各种需求
-                        .col-sm-4
-                            .feature-icon-panel
-                                include ../components/svg/community
-                            h3 社区活跃
-                            p <a class="github-button" href="https://github.com/apache/incubator-echarts" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star apache/incubator-echarts on GitHub">GitHub Stars</a>
-
-                    .row.feature-detail#feature-4
-                        .col-sm-4.col
-                            h2 全新 4.0
-                            h3(style="color:#000;font-weight:bold;margin-bottom:20px;") 八项新科技
-                            p 千万级数据可视化渲染能力
-                            p SVG + Canvas 双引擎动力更佳
-                            p 数据样式分离及扁平配置让开发更便捷
-                            p 首创无障碍访问支持
-                            p 微信小程序、PPT，哪里都能用
-                            .feature-btn
-                                a(href="feature.html") 了解更多
-                                    include ../components/svg/more
-                        .col-sm-8.col
-                            video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-4.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-4.jpg?_v_=#{cdnPayVersion}')
-
-                            a#video-feature-4-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-4")')
-                                include ../components/svg/play
-                            a#video-feature-4-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-4")')
-                                include ../components/svg/pause
-                            //- img#video-feature-4(src="images/features/scatterGL4.jpg")
-                    .row.feature-detail#feature-dimension
-                        .col-sm-4.col.mobile
-                            h2 多维度数据分析
-                            h3 数据自由刷选
-                            p 自由选择数据，发掘数据背后的更多秘密
-                            h3 多图表联动查看
-                            p 对多个图表数据联动查看，进行多维有效分析
-                            .feature-btn
-                                a(href="feature.html") 了解更多
-                                    include ../components/svg/more
-
-                        .col-sm-8.col
-                            #col-desktop
-                                img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/feature-1.png?_v_=#{cdnPayVersion}")
-                                video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-1.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg?_v_=#{cdnPayVersion}')
-                                a#video-feature-1-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-1")')
-                                    include ../components/svg/play
-                                a#video-feature-1-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-1")')
-                                    include ../components/svg/pause
-                                //- img#video-feature-1(src="video/feature-2.jpg")
-
-                        .col-sm-4.col.pc#col-analysis
-                            h2 多维度数据分析
-                            h3 数据自由刷选
-                            p 自由选择数据，发掘数据背后的更多秘密
-                            h3 多图表联动查看
-                            p 对多个图表数据联动查看，进行多维有效分析
-                            .feature-btn
-                                a(href="feature.html") 了解更多
-                                    include ../components/svg/more
-
-                    .row.feature-detail
-                        .col-sm-4.col#col-data
-                            h2 多设备随意展示
-                            h3 电脑／手机／平板／大屏  …
-                            p 兼容多种设备，可随时随地任性展示
-                            .feature-btn
-                                a(href="feature.html") 了解更多
-                                    include ../components/svg/more
-
-                        .col-sm-8.col
-                            #col-desktop
-                                img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/index-feature.jpg?_v_=#{cdnPayVersion}")
-
-
+                    .index-features
+                        h2.reveal 特性
+                        hr.reveal
+                        a.more.reveal(href='#{host}/feature.html') 查看完整特性
+                    .row
+                        .col-md-6
+                            .index-feature#index-feature-1
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-1
+                                    .index-feature-icon#icon-1
+                                .index-feature-right.reveal
+                                    h3.reveal 丰富的图表类型
+                                    p.reveal-later 提供开箱即用的 20 多种图表和十几种组件，并且支持各种图表以及组件的任意组合。
+                        .col-md-6
+                            .index-feature#index-feature-2
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-2
+                                    .index-feature-icon#icon-2
+                                .index-feature-right
+                                    h3.reveal 强劲的渲染引擎
+                                    p.reveal-later Canvas、SVG 双引擎一键切换，增量渲染、流加载等技术实现千万级数据的流畅交互。
+                        .col-md-6
+                            .index-feature#index-feature-3
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-3
+                                    .index-feature-icon#icon-3
+                                .index-feature-right
+                                    h3.reveal 专业的数据分析
+                                    p.reveal-later 通过数据集管理数据，支持数据过滤、聚类、回归，帮助实现同一份数据的多维度分析。
+                        .col-md-6
+                            .index-feature#index-feature-4
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-4
+                                    .index-feature-icon#icon-4
+                                .index-feature-right
+                                    h3.reveal 优雅的可视化设计
+                                    p.reveal-later 默认设计遵从可视化原则，支持响应式设计，并且提供了灵活的配置项方便开发者定制。
+                        .col-md-6
+                            .index-feature#index-feature-5
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-5
+                                    .index-feature-icon#icon-5
+                                .index-feature-right
+                                    h3.reveal 健康的开源社区
+                                    p.reveal-later 活跃的社区用户保证了项目的健康发展，也贡献了丰富的第三方插件满足不同场景的需求。
+                        .col-md-6
+                            .index-feature#index-feature-6
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-6
+                                    .index-feature-icon#icon-6
+                                .index-feature-right
+                                    h3.reveal 友好的无障碍访问
+                                    p.reveal-later 智能生成的图表描述和贴花图案，帮助视力障碍人士了解图表内容，读懂图表背后的故事。
             section#publication
                 .container
-                    .col-sm-8.col
-                        h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                        p.note <i class="note-icon"><img classs="lazy" data-src="#{cdnPayRoot}/#{ecWWWLang}/images/note.svg?_v_=#{cdnPayVersion}" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
-                        p.link Visual Informatics, 2018
-                            a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf") [PDF]
-                    .col-sm-4.col
-                        .img-container
-                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/pipeline.jpg?_v_=#{cdnPayVersion}", alt="")
-
-            section.normal#about-section
+                    #start-line
+                    .paper
+                        .content
+                            h2.reveal-latest ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
+                            p.note.reveal-latest 如果您在科研项目、产品、学术论文、技术报告、新闻报告、教育、专利以及其他相关活动中使用了 Apache ECharts，欢迎引用本论文。
+                            .single-btn-panel.reveal-latest
+                                a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf").pdf.reveal-later Visual Informatics, 2018 [PDF]
+                        .icon
+                            #paper-icon
+                    #end-line
+            section.normal#about-section.reveal-about
                 .container
                     h3 关注我们
-                    p 可以通过以下渠道关注 ECharts，及时获得更多最新动态
-                    .btn-panel
-                        a#btn-github(href='https://github.com/apache/incubator-echarts')
-                            .btn-content
-                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-github.png?_v_=#{cdnPayVersion}')
-                                span GitHub
-                            .btn-shadow
+                    hr
+                    p 关注我们以及时获得更多最新动态
+                    .btn-panel.row
+                        .col-lg-3.col-sm-6
+                            a#btn-github(href='https://github.com/apache/echarts')
+                                .btn-content
+                                    .btn-logo
+                                        include ../components/svg/github
+                                        +svgGithub('#081642')
+                                        span GitHub
+                                    .icon-v-right
 
-                        a#btn-weibo(href='https://weibo.com/echarts')
-                            .btn-content.zh
-                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-weibo.png?_v_=#{cdnPayVersion}')
-                                span 微博
-                            .btn-shadow
+                        .col-lg-3.col-sm-6
+                            a#btn-weixin
+                                .btn-content.zh
+                                    .btn-logo
+                                        include ../components/svg/wechart
+                                        span 公众号
+                                    .weixin-code
+                                        img(src="#{cdnPayRoot}/#{ecWWWLang}/images/ercode.jpg?_v_=#{cdnPayVersion}")
 
-                        a#btn-twitter(href='https://twitter.com/echartsjs')
-                            .btn-content
-                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-twitter.png?_v_=#{cdnPayVersion}')
-                                span Twitter
-                            .btn-shadow
+                        .col-lg-3.col-sm-6
+                            a#btn-weibo(href='https://weibo.com/echarts')
+                                .btn-content
+                                    .btn-logo
+                                        include ../components/svg/weibo
+                                        span 微博
+                                    .icon-v-right
 
+                        .col-lg-3.col-sm-6
+                            a#btn-twitter(href='https://twitter.com/ApacheECharts')
+                                .btn-content
+                                    .btn-logo
+                                        include ../components/svg/twitter
+                                        span Twitter
+                                    .icon-v-right
         include ../components/footer
 
 block extra_js
+    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
+    script(src='#{cdnPayRoot}/#{ecWWWLang}/js/index.js?_v_=#{homeVersion}')
+    //- <script async defer src="https://buttons.github.io/buttons.js"></script>
+
     script.
         window.lazyLoadOptions = {
             elements_selector: ".lazy"
         };
     script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
-    script(src='#{cdnPayRoot}/#{ecWWWLang}/js/index.js?_v_=#{homeVersion}')
-    <script async defer src="https://buttons.github.io/buttons.js"></script>

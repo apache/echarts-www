@@ -2,7 +2,7 @@ extends ../layouts/basic
 
 block extra_head
 
-    title 下载 - Apache ECharts (incubating)
+    title 下载 - Apache ECharts
     //- script(src="#{cdnThirdParty.sweetalertJS}")
 
 block content
@@ -28,24 +28,24 @@ block content
                         th 从 GitHub 下载编译产物
 
                 .checksum
-                    p <strong>注意：</strong>如果从镜像网站下载，请检查 <a href="https://www.apache.org/dev/release-signing#sha-checksum">SHA-512</a> 并且检验确认 <a href="https://www.apache.org/dev/release-signing#openpgp">OpenPGP</a> 与 <a href="https://www.apache.org">Apache 主站</a>的签名一致。链接在上面的 Source 旁。这个 <a href="https://www.apache.org/dist/incubator/echarts/KEYS">KEYS</a> 文件包含了用于签名发布版的公钥。如果可能的话，建议使用<a href="https://www.apache.org/dev/release-signing#web-of-trust">可信任的网络（web of trust）</a>确认 KEYS 的同一性。
+                    p <strong>注意：</strong>如果从镜像网站下载，请检查 <a href="https://www.apache.org/dev/release-signing#sha-checksum">SHA-512</a> 并且检验确认 <a href="https://www.apache.org/dev/release-signing#openpgp">OpenPGP</a> 与 <a href="https://www.apache.org">Apache 主站</a>的签名一致。链接在上面的 Source 旁。这个 <a href="https://www.apache.org/dist/echarts/KEYS">KEYS</a> 文件包含了用于签名发布版的公钥。如果可能的话，建议使用<a href="https://www.apache.org/dev/release-signing#web-of-trust">可信任的网络（web of trust）</a>确认 KEYS 的同一性。
 
                     h4 使用 GPG 验证 ECharts 发布版本
                     ol
-                        li 从镜像网站下载 apache-echarts-X.Y.Z-incubating-src.zip
-                        li 从 <a href="https://www.apache.org/dist/incubator/echarts/">Apache</a> 下载 checksum apache-echarts-X.Y.Z-incubating-src.zip.asc
-                        li 下载 <a href="https://www.apache.org/dist/incubator/echarts/KEYS">ECharts KEYS</a>
+                        li 从镜像网站下载 apache-echarts-X.Y.Z-src.zip
+                        li 从 <a href="https://www.apache.org/dist/echarts/">Apache</a> 下载 checksum apache-echarts-X.Y.Z-src.zip.asc
+                        li 下载 <a href="https://www.apache.org/dist/echarts/KEYS">ECharts KEYS</a>
                         li gpg –import KEYS
-                        li gpg –verify apache-echarts-X.Y.Z-incubating-src.zip.asc
+                        li gpg –verify apache-echarts-X.Y.Z-src.zip.asc
 
                     h4 使用 SHA-512 验证
                     ol
-                        li 从镜像网站下载 apache-echarts-X.Y.Z-incubating-src.zip
-                        li 从 <a href="https://www.apache.org/dist/incubator/echarts/">Apache</a> 下载 checksum apache-echarts-X.Y.Z-incubating-src.zip.sha512
-                        li shasum -a 512 apache-echarts-X.Y.Z-incubating-src.zip
+                        li 从镜像网站下载 apache-echarts-X.Y.Z-src.zip
+                        li 从 <a href="https://www.apache.org/dist/echarts/">Apache</a> 下载 checksum apache-echarts-X.Y.Z-src.zip.sha512
+                        li shasum -a 512 apache-echarts-X.Y.Z-src.zip
 
                     h4 License
-                    p Apache ECharts (incubating) 基于 <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a> 发布
+                    p Apache ECharts 基于 <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a> 发布
 
                 //- if isECharts4
                 //-     h3 （前往下载 <a href="download3.html">3.x 版本）</a>
@@ -168,7 +168,7 @@ block content
 
 
 block extra_js
-    script(src="#{cdnPayRoot}/#{ecWWWLang}/js/download.js?_v_=#{homeVersion}")
+    script(src="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/js/download.js')}")
     script(type='text/javascript').
         document.getElementById('nav-download').className = 'active';
 

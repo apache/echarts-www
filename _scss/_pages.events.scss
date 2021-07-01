@@ -1,0 +1,31 @@
+#page-events {
+    .page-content h2 {
+        border-bottom: none;
+        margin-bottom: 0;
+        margin-top: 80px;
+
+        &:first-child {
+            margin-top: 20px;
+        }
+    }
+}
+
+.event {
+    display: block;
+    margin: 15px 0;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    overflow: hidden;
+
+    &:hover {
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    &.event-detail-img {
+        &:hover {
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+    }
+}

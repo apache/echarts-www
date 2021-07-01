@@ -1,5 +1,5 @@
 #about-page {
-    margin-top: 60px;
+    margin-bottom: 20px;
     text-align: center;
 
     section {
@@ -25,20 +25,15 @@
         border-left: 4px solid;
         padding-left: 15px;
 
-        &.mentors {
+        &.pmc {
             margin: 0px 0 10px 0;
             border-color: #E86C4B;
         }
-
-        &.code {
-            margin: 40px 0 10px 0;
-            border-color: #40A7DC;
-        }
-        &.contributor {
+        &.committer {
             margin: 40px 0 40px 0;
             border-color: #40A7DC;
         }
-        &.companie {
+        &.contributor {
             margin: 40px 0 40px 0;
             border-color: #58A77C;
         }

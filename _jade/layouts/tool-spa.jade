@@ -1,0 +1,12 @@
+extends basic
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top doc-nav' id="ec-doc-nav")
+        if ecWWWLang == 'en'
+            include ../en/nav
+        else
+            include ../components/nav
+
+    .page-main
+        div(id="page-#{pageConfig.pageName}" class="page-spa-container")
+            |!{pageConfig.bodyHtml}

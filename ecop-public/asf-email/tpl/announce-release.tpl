@@ -3,14 +3,14 @@ general@incubator.apache.org
 ------------------------------------------------------------------------------
 
 --- Subject: ---
-[ANNOUNCE] Release Apache ECharts (incubating) {{ECHARTS_RELEASE_VERSION}}
+[ANNOUNCE] Release Apache ECharts {{ECHARTS_RELEASE_VERSION}}
 ------------------------------------------------------------------------------
 
 
 Hi all,
 
-The Apache ECharts (incubating) team is proud to announce Apache ECharts
-version {{ECHARTS_RELEASE_VERSION}}-incubating.
+The Apache ECharts team is proud to announce Apache ECharts
+version {{ECHARTS_RELEASE_VERSION}}.
 
 ECharts is a powerful, interactive charting and visualization library.
 
@@ -24,4 +24,4 @@ Website: http://echarts.apache.org/
 ECharts Resources:
 - Issue: https://github.com/apache/incubator-echarts/issues
 - Build Guide: https://github.com/apache/incubator-echarts/blob/{{ECHARTS_RELEASE_VERSION}}/README.md
-- Mailing list: dev@echarts.incubator.apache.org
+- Mailing list: dev@echarts.apache.org

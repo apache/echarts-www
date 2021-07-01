@@ -1,0 +1,39 @@
+extends ../layouts/basic
+
+block variablesLang
+    include ./_variablesLang.jade
+
+block variables
+    - var pageTitle = 'Events - Apache ECharts'
+
+block extra_head
+    title Events - Apache ECharts
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ./nav
+
+    .page-main
+        .page-info
+            .container
+                h1 Events
+                p.page-info-echarts Apache ECharts<sup>TM</sup>
+
+        .page-content
+            .container
+                h2 Current Events
+                a.event(href='./events/2021-05-13-iscas.html')
+                    picture
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.webp?_v_=#{cdnPayVersion}", type="image/webp")
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
+                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.jpeg?_v_=#{cdnPayVersion}", alt="Summer 2021 of Open Source Promotion Plan")
+
+
+        include ../components/inner-footer
+block extra_js
+    script(type='text/javascript').
+        window.lazyLoadOptions = {
+            elements_selector: ".lazy"
+        };
+        document.getElementById('nav-contribute').className = 'active';
+    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')

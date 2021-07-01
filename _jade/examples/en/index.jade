@@ -1,0 +1,12 @@
+extends ../../layouts/example
+
+block variablesLang
+    include ./_variablesLang.jade
+
+block global_args_extra
+
+    script(type="text/javascript").
+        window.globalArgsExtra = {
+            page: 'explore',
+            locale: 'en'
+        };

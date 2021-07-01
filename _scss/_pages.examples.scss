@@ -1,0 +1,4 @@
+// Override the nav position
+#ec-example-main #toolbar {
+    top: $nav-height + 30px;
+}

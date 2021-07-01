@@ -1,0 +1,50 @@
+extends basic
+
+block extra_head
+    title Examples - Apache ECharts
+    style.
+        html, body {
+            /* position: sticky should not have overflow parents.*/
+            overflow-x: hidden;
+        }
+    link(rel="stylesheet", href="#{cdnThirdParty.elementUICSS}")
+    link(rel="stylesheet", href="#{getAssetUrl(cdnPayRoot, 'examples/css/example-bundle.css')}")
+
+block content
+
+    nav(class='navbar navbar-default navbar-fixed-top' id="ec-example-nav")
+        if ecWWWLang == 'en'
+            include ../en/nav
+        else
+            include ../components/nav
+
+    .page-main
+        block vars
+
+        #ec-example-main
+
+        #v4-link.alert.alert-info.alert-dismissible
+            if ecWWWLang == 'en'
+                a(href="#{host}/v4/examples/") V4 Examples
+            else
+                a(href="#{host}/v4/examples/") 旧版本示例
+
+            button.close(type="button", data-dismiss="alert", aria-label="Close")
+                span(aria-hidden="true") &times;
+
+
+block extra_js
+    script(src="#{cdnThirdParty.vueJS}")
+    script(src="#{cdnThirdParty.elementUIJS}")
+    script(src="#{getAssetUrl(cdnPayRoot, 'examples/js/example-bundle.js')}")
+    script(type="text/javascript").
+        document.getElementById('nav-examples').className = 'active';
+        window.EC_WWW_CDN_PAY_ROOT = '#{cdnPayRoot}';
+
+    block global_args_extra
+
+    script(type="text/javascript").
+        window.globalArgsExtra.version = '#{homeVersion}';
+        window.globalArgsExtra.cdnRoot = EC_WWW_CDN_PAY_ROOT + '/examples';
+        echartsExample.init('#ec-example-main', window.globalArgsExtra);
+

@@ -4,7 +4,9 @@ block variablesLang
     include ./_variablesLang.jade
 
 block extra_head
-    title Apache ECharts (incubating)
+    title Apache ECharts
+    script(src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.7/dist/scrollreveal.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/lottie-web@5.7.6/build/player/lottie.min.js")
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
@@ -13,161 +15,144 @@ block content
     .page-main#page-index
         #main-content
             section#home-section
-                video#video-index(muted="true", loop='true', src='#{cdnFreeRoot}/#{ecWWWLang}/video/index-4.mp4', poster='#{cdnPayRoot}/#{ecWWWLang}/video/index-4.jpg?_v_=#{cdnPayVersion}')
+                .home-brand-panel.description.container
+                    .home-info
+                        .home-brand Apache ECharts
+                        .home-subtitle An Open Source JavaScript Visualization Library
+                        .home-btn-panel
+                            a.btn.btn-main.btn-index-home(href='#{host}/en/tutorial.html#Get%20Started%20with%20ECharts%20in%205%20minutes')
+                                include ../components/svg/index-learn
+                                span Get Started
+                            a.btn.btn-main.btn-index-home(href='#{host}/examples/en/index.html')
+                                include ../components/svg/index-example
+                                span Demo
+                            a.btn.btn-main.btn-index-home.btn-index-github(href='https://github.com/apache/echarts', target='_blank')
+                                include ../components/svg/github
+                                +svgGithub('#081642')
+                    .home-chart
+                        img(src="images/index-home-pie.png")
 
-                a#video-index-play.video-index-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-index")')
-                    include ../components/svg/play
-                a#video-index-pause.video-index-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-index")')
-                    include ../components/svg/pause
-
-                .description
-                    include ../components/svg/echarts-logo
-                    a#index-play-btn(href='javascript:;', onclick='playIndexVideo()')
-                    .btn-panel
-                        a.btn.btn-index-home(href='./download.html', style="letter-spacing:0px") Download
-                        a.btn.btn-index-home(href='https://github.com/apache/incubator-echarts', style="letter-spacing:0px") Source Code
-                .main-bg
-
-            //- section.banner-section(style='background: #1e2e55')
-            //-     a(href='https://jing.baidu.com/h5/xzzb.html')
-            //-         img.banner-img(src='images/banners/2017-09-12-zhibo.png', style='max-width: 1000px')
-
-
-            script(type='text/javascript').
-                (function () {
-                    var ua = navigator.userAgent;
-                    var ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/);
-                    var edge = ua.match(/Edge\/([\d.]+)/);
-                    window.supportTouch = 'ontouchstart' in window && !ie && !edge;
-                })()
-
+            section#events-section
+                .container
+                    a.event(href='./events/2021-05-13-iscas.html')
+                        picture
+                            source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.webp?_v_=#{cdnPayVersion}", type="image/webp")
+                            source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
+                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.jpeg?_v_=#{cdnPayVersion}", alt="Summer 2021 of Open Source Promotion Plan")
 
             section#feature-section
                 .container
-                    .row.features
-                        p Apache ECharts (incubating)<sup>TM</sup> is an incubation project at <a target="_blank" href="https://www.apache.org/">The Apache Software Foundation</a> (ASF).
-
-                    .row.features
-                        .col-sm-4
-                            .feature-icon-panel
-                                include ../components/svg/heart
-                            h3 Free to use
-                            p Open sourced under Apache-2.0 License
-                        .col-sm-4
-                            .feature-icon-panel
-                                include ../components/svg/function
-                            h3 Rich Features
-                            p Caters for all needs
-                        .col-sm-4
-                            .feature-icon-panel
-                                include ../components/svg/community
-                            h3 Active Community
-                            p <!-- Place this tag where you want the button to render. -->
-                                <a class="github-button" href="https://github.com/apache/incubator-echarts" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star apache/incubator-echarts on GitHub">GitHub Stars</a>
-
-                    .row.feature-detail#feature-4
-                        .col-sm-4.col
-                            h2 Brand-new v4.0
-                            p Rendering ability for ten-million-level data
-                            p Supports both SVG and Canvas rendering
-                            p Seperates data and style configuring
-                            p Accessibility supports
-                            p Wechart and Powerpoint supports
-                            .feature-btn
-                                a(href="./tutorial.html") Learn More
-                                    include ../components/svg/more
-                        .col-sm-8.col
-                            video.lazy#video-feature-4.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-4.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-4.jpg?_v_=#{cdnPayVersion}')
-
-                            a#video-feature-4-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-4")')
-                                include ../components/svg/play
-                            a#video-feature-4-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-4")')
-                                include ../components/svg/pause
-                            //- img.lazy#video-feature-4(data-src="images/features/scatterGL4.jpg")
-                    .row.feature-detail#feature-dimension
-                        .col-sm-4.col.mobile
-                            h2 Multi-dimension data analysis
-                            h3 Brush data for detail
-                            p Dig more out of data
-                            h3 Multi-chart interaction
-                            p Analysis the relationship between multiple charts
-                            .feature-btn
-                                a(href="./tutorial.html") Learn More
-                                    include ../components/svg/more
-                        .col-sm-8.col
-                            #col-desktop
-                                img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/feature-1.png?_v_=#{cdnPayVersion}")
-                                video.lazy#video-feature-1.feature-video(loop='true' muted="true" data-src='#{cdnFreeRoot}/#{ecWWWLang}/video/feature-1.mp4' poster='#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg?_v_=#{cdnPayVersion}')
-                                a#video-feature-1-play.feature-play-btn.video-play-btn.video-btn(href='javascript:;', onclick='playVideo("video-feature-1")')
-                                    include ../components/svg/play
-                                a#video-feature-1-pause.feature-play-btn.video-pause-btn.video-btn(href='javascript:;', onclick='pauseVideo("video-feature-1")')
-                                    include ../components/svg/pause
-                                //- img.lazy#video-feature-1(data-src="#{cdnPayRoot}/#{ecWWWLang}/video/feature-2.jpg?_v_=#{cdnPayVersion}")
-                        .col-sm-4.col.pc#col-analysis
-                            h2 Multi-dimension data analysis
-                            h3 Brush data for detail
-                            p Dig more out of data
-                            h3 Multi-chart interaction
-                            p Analysis the relationship between multiple charts
-                            .feature-btn
-                                a(href="./tutorial.html") Learn More
-                                    include ../components/svg/more
-                    .row.feature-detail
-                        .col-sm-4.col#col-data
-                            h2 Charts for all sized devices
-                            h3 PC / Phone / Pad / Large Screen ...
-                            p Responsive design for all devices
-                            .feature-btn
-                                a(href="./tutorial.html") Learn More
-                                    include ../components/svg/more
-                        .col-sm-8.col
-                            #col-desktop
-                                img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/index-feature.jpg?_v_=#{cdnPayVersion}")
-
-                        script(type='text/javascript').
-                            window.supportTouch && (document.getElementById('ch-main').className += ' ch-on-touch');
-
+                    .index-features
+                        h2.reveal Features
+                        hr.reveal
+                        a.more.reveal(href='#{host}/en/feature.html') View More
+                    .row
+                        .col-md-6
+                            .index-feature#index-feature-1
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-1
+                                    .index-feature-icon#icon-1
+                                .index-feature-right.reveal
+                                    h3.reveal Flexible Chart Types
+                                    p.reveal-later Apache ECharts provides more than 20 chart types available out of the box, along with a dozen components, and each of them can be arbitrarily combined to use.
+                        .col-md-6
+                            .index-feature#index-feature-2
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-2
+                                    .index-feature-icon#icon-2
+                                .index-feature-right
+                                    h3.reveal Powerful Rendering Engine
+                                    p.reveal-later Easily switch between Canvas and SVG rendering. Progressive rendering and stream loading make it possible to render 10 million data in realtime.
+                        .col-md-6
+                            .index-feature#index-feature-3
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-3
+                                    .index-feature-icon#icon-3
+                                .index-feature-right
+                                    h3.reveal Professional Data Analysis
+                                    p.reveal-later Manage data through datasets, which support data transforms like filtering, clustering, and regression to help analyze multi-dimensional analysis of the same data.
+                        .col-md-6
+                            .index-feature#index-feature-4
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-4
+                                    .index-feature-icon#icon-4
+                                .index-feature-right
+                                    h3.reveal Elegant Visual Design
+                                    p.reveal-later The default design follows visualization principles, supports responsive design. Flexible configurations make it easy to customize.
+                        .col-md-6
+                            .index-feature#index-feature-5
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-5
+                                    .index-feature-icon#icon-5
+                                .index-feature-right
+                                    h3.reveal A Healthy Community
+                                    p.reveal-later The active open source community ensures the healthy development of the project and contributes a wealth of third-party extensions.
+                        .col-md-6
+                            .index-feature#index-feature-6
+                                .index-feature-left.reveal
+                                    .index-feature-icon-bg#bg-icon-6
+                                    .index-feature-icon#icon-6
+                                .index-feature-right
+                                    h3.reveal Accessibility-Friendly
+                                    p.reveal-later Automatically generated chart descriptions and decal patterns help users with disabilities understand the content and the stories behind the charts.
             section#publication
                 .container
-                    .col-sm-8.col
-                        h2 ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
-                        p.note <i class="note-icon"><img classs="lazy" data-src="#{cdnPayRoot}/#{ecWWWLang}/images/note.svg?_v_=#{cdnPayVersion}" /></i> Please cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
-                        p.link Visual Informatics, 2018
-                            a(href="https://www.sciencedirect.com/science/article/pii/S2468502X18300068") [PDF]
-                    .col-sm-4.col
-                        .img-container
-                            img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/pipeline.jpg?_v_=#{cdnPayVersion}", alt="")
-
-            section.normal#about-section
+                    #start-line
+                    .paper
+                        .content
+                            h2.reveal-latest ECharts: A Declarative Framework for Rapid Construction of Web-based Visualization
+                            p.note.reveal-latest You are welcomed to cite the following paper whenever you use ECharts in your R&D projects, products, research papers, technical reports, news reports, books, presentations, teaching, patents, and other related intelligence activities.
+                            .single-btn-panel.reveal-latest
+                                a(href="http://www.cad.zju.edu.cn/home/vagblog/VAG_Work/echarts.pdf").pdf.reveal-later Visual Informatics, 2018 [PDF]
+                        .icon
+                            #paper-icon
+                    #end-line
+            section.normal#about-section.reveal-about
                 .container
-                    h3 Follow Us
-                    p You may follow Apache ECharts (incubating) to keep informed.
-                    .btn-panel
-                        a#btn-github(href='https://github.com/apache/incubator-echarts')
-                            .btn-content
-                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-github.png?_v_=#{cdnPayVersion}')
-                                span GitHub
-                            .btn-shadow
+                    h3 Follow
+                    hr
+                    p Follow us to get more updates in time.
+                    .btn-panel.row
+                        .col-lg-3.col-sm-6
+                            a#btn-github(href='https://github.com/apache/echarts')
+                                .btn-content
+                                    .btn-logo
+                                        include ../components/svg/github
+                                        +svgGithub('#081642')
+                                        span GitHub
+                                    .icon-v-right
 
-                        a#btn-weibo(href='https://weibo.com/echarts')
-                            .btn-content
-                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-weibo.png?_v_=#{cdnPayVersion}')
-                                span Weibo
-                            .btn-shadow
+                        .col-lg-3.col-sm-6
+                            a#btn-weixin
+                                .btn-content.zh
+                                    .btn-logo
+                                        include ../components/svg/wechart
+                                        span Wechat
+                                    .weixin-code
+                                        img(src="images/ercode.jpg")
 
-                        a#btn-twitter(href='https://twitter.com/echartsjs')
-                            .btn-content
-                                img.lazy(data-src='#{cdnPayRoot}/#{ecWWWLang}/images/icon-twitter.png?_v_=#{cdnPayVersion}')
-                                span Twitter
-                            .btn-shadow
+                        .col-lg-3.col-sm-6
+                            a#btn-weibo(href='https://weibo.com/echarts')
+                                .btn-content
+                                    .btn-logo
+                                        include ../components/svg/weibo
+                                        span Weibo
+                                    .icon-v-right
 
+                        .col-lg-3.col-sm-6
+                            a#btn-twitter(href='https://twitter.com/ApacheECharts')
+                                .btn-content
+                                    .btn-logo
+                                        include ../components/svg/twitter
+                                        span Twitter
+                                    .icon-v-right
         include ./footer
 
 block extra_js
-    script.
+    script(type='text/javascript').
         window.lazyLoadOptions = {
             elements_selector: ".lazy"
         };
     script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
     script(src='#{cdnPayRoot}/#{ecWWWLang}/js/index.js?_v_=#{homeVersion}')
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    //- <script async defer src="https://buttons.github.io/buttons.js"></script>

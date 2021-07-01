@@ -1,4 +1,4 @@
-mixin nav(hostParam, cdnPayRootParam)
+mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
     div(class='container-fluid')
         div(class='navbar-header')
             button(type="button", class="navbar-toggle collapsed", data-toggle="collapse", data-target="#navbar-collapse", aria-expanded="false")
@@ -30,6 +30,9 @@ mixin nav(hostParam, cdnPayRootParam)
                             a(href="#{hostParam}/en/changelog.html") Changelog
                         li
                             a(href='#{hostParam}/en/faq.html') FAQ
+                        li
+                            a(href='#{hostParam}/en/tutorial.html#ECharts%205%20Upgrade%20Guide') V5 Upgrade Guide
+                                span.new new
                 li#nav-download.dropdown
                     a(href='#', class="dropdown-toggle", data-toggle="dropdown") Download
                         b.caret
@@ -60,6 +63,8 @@ mixin nav(hostParam, cdnPayRootParam)
                         b.caret
                     ul.dropdown-menu
                         li
+                            a(href='#{hostParam}/en/events.html') Events
+                        li
                             a(href='#{hostParam}/en/committers.html') Committers
                         li
                             a(href='#{hostParam}/en/maillist.html') Mailing List
@@ -70,13 +75,13 @@ mixin nav(hostParam, cdnPayRootParam)
                         li
                             a(href='#{hostParam}/en/coding-standard.html') Code Standard
                         li
-                            a(href='https://github.com/apache/incubator-echarts', target='_blank') Source Code (GitHub)
+                            a(href='https://github.com/apache/echarts', target='_blank') Source Code (GitHub)
                                 include ../components/svg/external-link
                         li
-                            a(href='https://github.com/apache/incubator-echarts/issues', target='_blank') Issues (GitHub)
+                            a(href='https://github.com/apache/echarts/issues', target='_blank') Issues (GitHub)
                                 include ../components/svg/external-link
                 li#nav-others
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") Others
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") ASF
                         b.caret
                     ul.dropdown-menu
                         li
@@ -100,6 +105,3 @@ mixin nav(hostParam, cdnPayRootParam)
             ul(class='nav navbar-nav navbar-right')
                 li#nav-homeen
                     a(href='javascript:;', onclick="changeLang('zh')") 中文
-                li#nav-apache
-                    a(href="https://www.apache.org/" target="_blank")
-                        img(src="#{cdnPayRootParam}/en/images/apache-incubator-white.png", width="18")

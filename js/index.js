@@ -1,71 +1,120 @@
+window.lazyLoadOptions = {
+    elements_selector: '.lazy'
+};
+
 (function () {
     if ($('.lower-ie').length) {
         return;
     }
     document.getElementById('nav-index').className = 'active';
-    var defaultEle = $('.navbar-default');
-    defaultEle.addClass('navbar-bg');
 
-    $('#page-index').scroll(function () {
-        if ($('#page-index')[0].scrollTop > 600) {
-            defaultEle.removeClass('navbar-bg');
-        }
-        else {
-            defaultEle.addClass('navbar-bg');
-        }
-    });
+    var ua = navigator.userAgent;
+    var ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/);
+    var edge = ua.match(/Edge\/([\d.]+)/);
+    window.supportTouch = 'ontouchstart' in window && !ie && !edge;
 
-    var charts = null;
+    initAnimation();
 
-    resize();
-    $(window).resize(resize);
+    function initAnimation() {
+        ScrollReveal().reveal('.reveal', {
+            container: '#page-index',
+            delay: 300
+        });
+        ScrollReveal().reveal('.reveal-later', {
+            container: '#page-index',
+            delay: 600
+        });
+        ScrollReveal().reveal('.reveal-latest', {
+            container: '#page-index',
+            delay: 1200
+        });
+        ScrollReveal().reveal('.reveal-about', {
+            container: '#page-index',
+            delay: 600
+        });
 
-    function resize() {        // home video
-        var video = document.getElementById('video-index');
-        if (window.innerWidth / window.innerHeight < 16 / 9) {
-            video.style.height = window.innerHeight + 'px';
-            video.style.width = 'auto';
-            video.style.marginLeft = Math.floor((window.innerWidth
-                - window.innerHeight / 9 * 16) / 2) + 'px';
-            video.style.marginTop = 0;
-        }
-        else {
-            video.style.width = window.innerWidth + 'px';
-            video.style.height = 'auto';
-            video.style.marginTop = Math.floor((window.innerHeight
-                - window.innerWidth / 16 * 9)) + 'px';
-            video.style.marginLeft = 0;
-        }
-        if (charts) {
-            for (var i = charts.length - 1; i >= 0; --i) {
-                charts[i].resize();
+        var animationMap = {};
+        function setLottieAnimatiion(id, path) {
+            var container = id;
+            if (typeof id === 'string') {
+                container = document.getElementById(id);
             }
+
+            animationMap[id] = lottie.loadAnimation({
+                container: container, // the dom element that will contain the animation
+                renderer: 'svg',
+                loop: false,
+                autoplay: true,
+                path: path // the path to the animation json
+            });
         }
+        setLottieAnimatiion('icon-1', 'asset/lottie/json/chart.json');
+        setLottieAnimatiion('icon-2', 'asset/lottie/json/fly.json');
+        setLottieAnimatiion('icon-3', 'asset/lottie/json/analysis.json');
+        setLottieAnimatiion('icon-4', 'asset/lottie/json/compatible.json');
+        setLottieAnimatiion('icon-5', 'asset/lottie/json/grown.json');
+        setLottieAnimatiion('icon-6', 'asset/lottie/json/simple.json');
+
+        for(var i = 0; i < 6; i++) {
+            setLottieAnimatiion('bg-icon-' + (i + 1), 'asset/lottie/json/bg_0'+ (i + 1) + '.json');
+            (function (i) {
+                $('#index-feature-' + (i + 1)).mouseenter(function () {
+                    animationMap['icon-' + (i + 1)].goToAndPlay(0);
+                });
+            })(i);
+        }
+
+        var hasStartLineShow = false;
+        var hasEndLineShow = false;
+
+        setLottieAnimatiion('paper-icon', 'asset/lottie/json/paper.json');
+
+        $('#page-index').scroll(function () {
+            var startLine = $("#start-line").offset().top;
+            var endLine = $("#end-line").offset().top;
+
+            if (startLine >= $(window).scrollTop() && startLine < ($(window).scrollTop() + $(window).height() - 200)) {
+                if (!hasStartLineShow) {
+                    $('#publication').css('opacity', 1);
+                    if (animationMap['start-line']) {
+                        animationMap['start-line'].goToAndPlay(0);
+                    }
+                    else {
+                        setLottieAnimatiion('start-line', 'asset/lottie/json/start_line.json');
+                    }
+
+                    if (animationMap['paper-icon']) {
+                        animationMap['paper-icon'].goToAndPlay(0);
+                    }
+                    else {
+                        setLottieAnimatiion('paper-icon', 'asset/lottie/json/paper.json');
+                    }
+                    hasStartLineShow = true;
+                }
+            }
+            else {
+                if (!hasStartLineShow) {
+                    hasStartLineShow = false;
+                }
+            }
+
+            if (endLine <= 400) {
+                if (!hasEndLineShow) {
+                    if (animationMap['end-line']) {
+                        animationMap['end-line'].goToAndPlay(0);
+                    }
+                    else {
+                        setLottieAnimatiion('end-line', 'asset/lottie/json/end_line.json');
+                    }
+
+                    hasEndLineShow = true;
+                }
+            }
+            else {
+                if (!hasEndLineShow) {
+                    hasEndLineShow = false;
+                }
+            }
+        });
     }
 })();
-
-function renderHomepage3TouchDemo(echarts) {
-
-}
-
-function playVideo(id) {
-    var video = document.getElementById(id);
-    video && video.play();
-
-    var playBtn = document.getElementById(id + '-play');
-    playBtn && (playBtn.style.display = 'none');
-
-    var pauseBtn = document.getElementById(id + '-pause');
-    pauseBtn && (pauseBtn.style.display = 'block');
-}
-
-function pauseVideo(id) {
-    var video = document.getElementById(id);
-    video && video.pause();
-
-    var playBtn = document.getElementById(id + '-play');
-    playBtn && (playBtn.style.display = 'block');
-
-    var pauseBtn = document.getElementById(id + '-pause');
-    pauseBtn && (pauseBtn.style.display = 'none');
-}

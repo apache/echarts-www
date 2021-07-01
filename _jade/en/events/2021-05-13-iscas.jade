@@ -1,0 +1,131 @@
+extends ../../layouts/basic
+
+block variablesLang
+    include ./../_variablesLang.jade
+
+block variables
+    - var pageTitle = 'Events - Apache ECharts'
+
+block extra_head
+    title Events - Apache ECharts
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ../nav
+
+    .page-main
+        .page-info
+            .container
+                h1 Summer 2021 of Open Source Promotion Plan
+                p.page-info-echarts Apache ECharts<sup>TM</sup>
+
+        .page-content
+            .container
+                div
+                    a(href="../events.html") Back to the event list
+
+                .event.event-detail-img
+                    picture
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.webp?_v_=#{cdnPayVersion}", type="image/webp")
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
+                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas-en.jpeg?_v_=#{cdnPayVersion}", alt="Open Source Software Supply Chain Ignite Program - Summer 2021")
+
+                h3 Event Description
+                p <a href="https://summer.iscas.ac.cn/help/en/" target="_blank">Summer 2021 of Open Source Promotion Plan</a> is a summer program for college students jointly organized by Institute of Software Chinese Academy of Sciences and openEuler community. It aims to encourage college students to actively participate in the development and maintenance of open source software and promote the vigorous development of excellent open source software community.
+                p The organizer will fund projects with student applications, and the corresponding pre-tax prizes are high (RMB 12,000), medium (RMB 9,000), and low (RMB 6,000) depending on the difficulty (note: the prize amounts are pre-tax RMB amounts). Please refer to the official instructions of the Open Source Software Supply Chain Illumination Program for details.
+                p The community needs to designate a community mentor for each project, in the process, you can have a better understanding of the Apache ECharts project development with the help of the mentor.
+
+                h3 Event Registration
+                p Please go to the <a href="https://summer.iscas.ac.cn/help/en/student/" target="_blank">event website</a> to register or for more information.
+
+                h3 Project List
+                p Applicants can complete one project from the following list.
+
+                table
+                    tr
+                        th ID
+                        th Name
+                        th Difficulty
+                        th(style="width: 40%") Description
+                        th Delivery
+                        th Requirement
+                    tr
+                        td #1
+                        td Graph series support for dragging nodes
+                        td Easy
+                        td Support for dragging nodes in case of graph series with layout: none, see: <a href="https://github.com/apache/echarts/issues/14510" target="_blank">#14510</a>
+                        td Support for dragging nodes in case of graph series with layout: none
+                        td TypeScript
+                    tr
+                        td #2
+                        td Graph charts can be configured to not scaling automatically
+                        td Easy
+                        td With`layout: none`, the developer can turn off the adjustment of the node position through an option, ensuring that the position given by the developer is the coordinate of the final rendering. See: <a href="https://github.com/apache/echarts/issues/13516" target="_blank">#13516</a>
+                        td Implement using an option to turn off node position adjustment
+                        td TypeScript
+                    tr
+                        td #3
+                        td Apache ECharts Issue Helper
+                        td Medium
+                        td <a href="https://github.com/ecomfe/echarts-issue-helper" target="_blank">The Apache ECharts Issue Helper</a> is a form tool for generating GitHub issues, which is a better way to ensure that the questioner gives the necessary information by using a form rather than Markdown. The project currently has limited functionality and would like to enhance Markdown-related features.
+                        td
+                            ol
+                                li Support for Markdown format (including code) highlighting
+                                li Image upload support
+                                li Support for Markdown result preview
+                        td TypeScript; Vue.js (optional)
+                    tr
+                        td #4
+                        td Example website with third-party editors
+                        td Medium
+                        td The examples section of the official Apache ECharts website currently uses its own code editor, and the community would like to provide the same functionality for editing examples in major third-party online editors (StackBiz, JSFiddle, CodePen, CodeSandbox).
+                        td
+                            ol
+                                li Add the "Go to CodeSandbox (StackBlitz, jsfiddle, CodePen) Edit" button to the Apache ECharts website sample component
+                                li Call the API of a third-party online editor and pass the code used in the example in the jump
+                        td JavaScript
+                    tr
+                        td #5
+                        td Asymmetric rawing of theme river series
+                        td Medium
+                        td The Apache ECharts theme river is currently drawn using a symmetric drawing method (the overall pattern is symmetric along the x-axis), and it is hoped that the wiggle algorithm will enable an asymmetric drawing to increase the viewability of the river map. See: <a href="https://github.com/apache/echarts/issues/14643" target="_blank">#14643</a>
+                        td Implement the function to select the drawing mode of river map using wiggle configuration item in river map
+                        td TypeScript; a brief understanding of computer graphics (requires reading algorithm papers and implementing them)
+                    tr
+                        td #6
+                        td Extend the overlap anti-overlap of labels
+                        td High
+                        td Apache ECharts now provides an anti-overlap layout algorithm for labels on some specific graphs such as pie charts. Now we hope to add a more general layout algorithm, which can search for a better position by iteratively searching for the positions where labels can be placed, and solve the label overlap problem when there are more data in the scatterplots and other graphs. You can refer to the existing papers and implementations: 1. An Empirical Study of Algorithms for Point-Feature Label Placement 2. <a href="https://github.com/tinker10/D3- Labeler" target="_blank">https://github.com/tinker10/D3-Labeler</a> 3. <a href="https://cran.r-project.org/web/packages/ggrepel/ vignettes/ggrepel.html" target="_blank">https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html</a>
+                        td
+                            ol
+                                li Add a configuration item to enable only anti-overlap of tags when turned on
+                                li The anti-overlap algorithm can achieve a balance between performance, complexity (amount of code) and end result
+                        td TypeScript
+                    tr
+                        td #7
+                        td Interleaved coordinate axis labels to optimize label overlap
+                        td High
+                        td NAt present, the axis of Apache ECharts can only hide some of the overlapping labels when there are too many labels, but in some scenarios, the labels can be displayed staggered up and down without hiding them, so I would like to add a configuration that allows the user to intelligently move the overlapping labels up/down (or left/right in the case of the Y-axis).
+                        td Add an option to enable alternate display of axis labels when turned on
+                        td TypeScript; need to read the algorithm paper and implement it
+                    tr
+                        td #8
+                        td Circular references to the graph series
+                        td High
+                        td Supports graph nodes pointing to themselves. See: <a href="https://github.com/apache/echarts/issues/12951" target="_blank">#12951</a>
+                        td
+                            ol
+                                li Graph nodes can point to themselves
+                                li Configurable parameters to control the position of the connection
+                                li Support for multiple lines pointing to themselves
+                        td TypeScript
+
+
+        include ../../components/inner-footer
+block extra_js
+    script(type='text/javascript').
+        window.lazyLoadOptions = {
+            elements_selector: ".lazy"
+        };
+        document.getElementById('nav-contribute').className = 'active';
+    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')

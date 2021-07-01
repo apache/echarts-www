@@ -7,9 +7,11 @@ html
         meta(http-equiv='X-UA-Compatible', content='IE=edge')
 
         script(type='text/javascript').
-            var hash = (location.hash || '').replace('#', '');
-            var search = (location.search || '').replace('?', '');
-            var lang = navigator.language || navigator.userLanguage;
-            lang = lang.indexOf('zh') > -1 ? 'zh' : 'en';
-            location.href = '#{host}/' + lang + '/#{redirectTo}'
-                + (search ? '?' + search : '') + (hash ? '#' + hash : '');
+            (function () {
+                var hash = (location.hash || '').replace('#', '');
+                var search = (location.search || '').replace('?', '');
+                var lang = navigator.language || navigator.userLanguage;
+                lang = lang.indexOf('zh') > -1 ? 'zh' : 'en';
+                location.href = '#{host}/' + lang + '/#{redirectTo}'
+                    + (search ? '?' + search : '') + (hash ? '#' + hash : '');
+            })();

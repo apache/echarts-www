@@ -1,12 +1,13 @@
 $nav-height: 51px;
+$collapse-break-point: 768px;
 
 .navbar-default {
     border: none;
-    // border-bottom: 1px solid $clr-primary-darker;
-    background-color: $clr-primary;
+    background-color: $clr-nav-bg;
     z-index: 10000;
     transition: background-color 0.5s linear;
     height: 50px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 
     .navbar-nav {
         transition: background-color 0.5s linear;
@@ -14,7 +15,7 @@ $nav-height: 51px;
     .navbar-nav li {
         position: relative;
         a {
-            color: rgba(255, 255, 255, 0.45);
+            color: $clr-nav-link;
             background-color: none!important;
             padding: 15px 20px;
             transition: 0.5s background-color;
@@ -26,52 +27,55 @@ $nav-height: 51px;
                 left: 50%;
                 right: 50%;
                 top: 0;
-                background: $clr-secondary;
-                height: 4px;
+                background: $clr-nav-link;
+                height: 3px;
                 transition-property: 'left, right';
                 transition-duration: .3s;
                 transition-timing-function: ease-out;
             }
 
             &:hover, &:focus {
-                color: $clr-lightest;
-                background-color: $clr-primary-dark;
+                color: $clr-nav-link;
+                background-color: $clr-nav-bg-hover;
 
                 &:before {
                     left: 0;
                     right: 0;
                 }
             }
+
             .iconfont {
                 font-size: 12px;
             }
 
             .new {
                 display: inline-block;
-                padding: 2px 5px;
-                background-color: $clr-secondary;
+                padding: 0 5px;
+                background-color: #F72C5B;
                 color: #fff;
                 font-size: 12px;
                 border-radius: 3px;
-                transform: scale(0.65);
+                vertical-align: middle;
+                transform: scale(0.8);
             }
         }
         &.open {
-            background-color: $clr-primary-dark;
+            background-color: $clr-nav-bg-hover;
             color: #fff;
+
             &>a {
                 &:focus, &:hover {
-                    color: $clr-lighter;
-                    background-color: $clr-primary-dark;;
+                    color: $clr-nav-link;
+                    background-color: $clr-nav-bg-hover;
                 }
             }
         }
 
         &.active>a {
             padding-top: 11px;
-            border-top: 4px solid $clr-secondary;
-            color: #fff;
-            background-color: $clr-primary-darker;
+            border-top: 3px solid $clr-nav-link-active;
+            color: $clr-nav-link-active;
+            background-color: $clr-nav-bg;
             transition: 0.5s background-color;
 
             &:before {
@@ -79,38 +83,39 @@ $nav-height: 51px;
             }
 
             &:hover, &:focus {
-                color: $clr-lightest;
-                background-color: $clr-primary-dark;
+                color: $clr-nav-link-active-hover;
+                background-color: $clr-nav-bg-hover;
             }
         }
+
         .dropdown-menu {
-            // position: static;
-            // right: 0;
-            // top: 40px;
             width: 250px;
             padding: 0;
-            background-color: $clr-primary-dark;
+            border: none;
+
             li {
-                background-color: $clr-primary-dark;
+                background-color: $clr-nav-bg;
 
                 a {
-                    padding: 8px 20px;
+                    padding: 13px 20px;
                 }
 
                 &:hover, &:focus {
                     a {
-                        background-color: $clr-secondary;
+                        color: $clr-nav-link-hover;
+                        background-color: $clr-nav-bg-hover;
                     }
-                    background-color: $clr-secondary;
+                    background-color: $clr-nav-bg-hover;
                 }
                 border-top: none;
-                padding: 5px 0;
             }
-            box-shadow: none;
-            border: none;
         }
 
         ul {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 10px 10px;
+            overflow: hidden;
+
             a:before {
                 display: none;
             }
@@ -122,28 +127,34 @@ $nav-height: 51px;
         margin-left: -2px;
     }
 
-    .navbar-collapse {
+    #navbar-collapse {
         border-top: none;
+        background: $clr-nav-bg;
+        margin-left: -25px;
+        margin-right: -15px;
     }
+
     .navbar-toggle {
         padding: 1px 5px;
         margin: 7px 16px 0 0;
-        border-color: #384E6B;
-        background-color: #384E6B;
+        border-color: $clr-nav-border;
+        background-color: $clr-nav-bg;
+
         .icon-bar {
             margin: 7px 0!important;
             height: 1px;
-            background-color: #fff;
+            background-color: $clr-nav-border;
         }
+
         &:hover, &:focus {
-            border-color: #384E6B;
-            background-color: #384E6B;
+            border-color: $clr-nav-border;
+            background-color: $clr-nav-bg-hover;
         }
     }
 }
 
     .container-fluid {
-        padding-left: 25px;
+        padding: 0 25px;
     }
 
 
@@ -159,28 +170,21 @@ $nav-height: 51px;
 }
 
 .navbar-bg {
-    background-color: rgba(41, 60, 85, 0.3);
+    background-color: $clr-nav-bg;
     transition-duration: 0.3s;
     transition-property: background-color, opacity;
-
-    &:hover {
-        background-color: rgba(41, 60, 85, 0.8);
-    }
 
     .navbar-nav {
         li {
             a {
-                color: #fff;
+                color: $clr-nav-link;
             }
         }
         li.active {
             a {
-                color: #fff;
+                color: $clr-contrast;
                 background-color: transparent;
             }
-        }
-        #nav-apache {
-            opacity: 1;
         }
     }
 }
@@ -188,18 +192,48 @@ $nav-height: 51px;
 #nav-apache {
     margin-left: 10px;
     margin-right: 10px;
-    opacity: 0.6;
-
-    &:hover {
-        opacity: 1;
-    }
+    position: relative;
+    top: 1px;
 
     a {
         padding: 10px 15px;
 
         img {
-            width: 127px;
             height: 30px;
+        }
+    }
+}
+
+
+#nav-github {
+    height: 50px;
+    overflow: hidden;
+
+    a {
+        padding-top: 13px;
+    }
+}
+
+.nav-circle {
+    height: 50px;
+}
+
+.nav-circle-inner {
+    width: 22px;
+    height: 22px;
+    margin: 14px 20px;
+    text-align: center;
+    overflow: hidden;
+    border: 1px solid;
+    border-radius: 50%;
+
+    .navbar-default .navbar-nav li & a {
+        height: 100%;
+        padding: 0;
+        font-size: 12px;
+
+        &:hover {
+            text-decoration: none;
         }
     }
 }
@@ -211,22 +245,15 @@ $nav-height: 51px;
     opacity: 0.5;
 }
 
-@media (max-width: 768px) {
+@media (max-width: $collapse-break-point) {
     .navbar-default {
         .navbar-nav {
-            background-color: $clr-primary;
             transition: background-color 0.5s linear;
             margin-top: 0;
             margin-bottom: 0;
 
-            .open .dropdown-menu {
-                li a {
-                    color: #fff;
-                }
-                padding: 0;
-            }
             li.active>a {
-                border-left: 4px solid $clr-secondary;
+                border-left: 3px solid $clr-nav-link;
                 border-top: none;
                 padding: 10px 15px 10px 11px;
             }
@@ -238,12 +265,39 @@ $nav-height: 51px;
     #nav-download {
         display: none;
     }
+    .dropdown-menu {
+        width: 100% !important;
+    }
 }
 
-@media (max-width: 992px) and (min-width: 768px) {
+@media (max-width: 1280px) and (min-width: 1192px) {
     .navbar-default {
         .navbar-nav li a {
             padding: 15px 15px;
         }
     }
 }
+
+@media (max-width: 1192px) and (min-width: 900px) {
+    .navbar-default {
+        .navbar-nav li a {
+            padding: 15px 8px;
+        }
+    }
+}
+
+@media (max-width: 900px) and (min-width: $collapse-break-point)  {
+    .navbar-default {
+        .navbar-nav li a {
+            padding: 15px 3px;
+            font-size: 12px;
+        }
+    }
+}
+
+@media (max-width: 1065px) {
+    #nav-apache {
+        display: none;
+    }
+}
+

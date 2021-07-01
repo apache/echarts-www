@@ -13,6 +13,7 @@ const argv = require('yargs').argv;
 const assert = require('assert');
 const requirejs = require('requirejs');
 const readline = require('readline');
+const md5 = require('md5');
 
 const LANGUAGES = ['zh', 'en'];
 const projectDir = path.resolve(__dirname, '..');
@@ -74,14 +75,28 @@ function initEnv() {
 
     assert(path.isAbsolute(config.releaseDestDir));
 
+    config.getAssetUrl = function (cdnPayRoot, filePath) {
+        const fullFilePath = path.join(config.releaseDestDir, filePath);
+        let content;
+        try {
+            content = fs.readFileSync(fullFilePath, 'utf-8');
+        }
+        catch (e) {
+            throw new Error(`Unkown file ${fullFilePath}`);
+        }
+        const hash = md5(content);
+        return cdnPayRoot + '/' + filePath + '?_v_=' + hash.substr(-10);
+    };
     // Update home version each build.
     config.homeVersion = +new Date();
     // Temp: give a fixed version until need to update.
     config.cdnPayVersion = '20200710_1';
 
-    config.downloadVersion = '4.9.0';
+    config.downloadVersion = '5.0.0';
 
     config.envType = envType;
+
+    config.copyRightYear = new Date().getFullYear();
 
     return config;
 }
@@ -93,7 +108,8 @@ async function clean(config) {
 
     const srcRelativePathList = await globby([
         '**/*',
-        '!.*', // .git .gitignore .htaccess
+        '!.*', // .git .gitignore .htaccess .scripts .github
+        '!v4/**/*', // v4 website
         '!README.md'
     ], {
         cwd: destDir
@@ -145,6 +161,20 @@ async function buildSASS(config) {
     console.log('buildSASS done.');
 }
 
+async function getFolderHash(globPattern) {
+    const files = await globby(globPattern);
+    if (!files.length) {
+        throw new Error('No file exists for pattern ' + globPattern);
+    }
+    let concatedStr = '';
+    for (let file of files) {
+        const content = fs.readFileSync(file);
+        concatedStr += md5(content);
+    }
+    assert(concatedStr);
+    return md5(concatedStr).substr(-10);
+}
+
 async function buildJade(config) {
     const basePath = path.resolve(projectDir, '_jade');
     const srcPaths = await globby([
@@ -153,15 +183,36 @@ async function buildJade(config) {
         cwd: basePath
     });
 
-    for (let srcPath of srcPaths) {
-        let filePath = path.resolve(basePath, srcPath);
-        const lang = srcPath.indexOf('zh/') === 0 ? 'zh' : 'en';
+    const spaPageConfigs = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../config/spa-pages.json'), 'utf-8'));
 
-        const cfg = Object.assign({}, config);
+    const hashes = {};
+    for (let lang of ['zh', 'en']) {
+        hashes[lang] = {
+            docHash: await getFolderHash(path.resolve(config.releaseDestDir, lang, 'documents/**/*.js'))
+        };
+    }
+
+    function prepareConfig(srcPath) {
+        const lang = (srcPath.indexOf('zh/') === 0
+            || srcPath.indexOf('examples/zh/') === 0) ? 'zh' : 'en';
+
+        assert(hashes[lang]);
+
+        const cfg = Object.assign({}, config, hashes[lang]);
         cfg.cdnPayRoot = config.cdnPayRootMap[lang];
         cfg.cdnFreeRoot = config.cdnFreeRootMap[lang];
 
-        let destPath = path.resolve(cfg.releaseDestDir, srcPath.replace('.jade', '.html'));
+        const pageCfg = spaPageConfigs.find(pageCfg => srcPath.endsWith(pageCfg.entry));
+        if (pageCfg) {
+            cfg.pageConfig = Object.assign({}, pageCfg, {
+                // Because jade doesn't support dynamic include. we have to read HTML and insert it in jade manually.
+                bodyHtml: fs.readFileSync(path.resolve(__dirname, `../_generated/spa/${pageCfg.pageName}/_body.html`), 'utf-8')
+            });
+        }
+        else {
+            // Avoid error
+            cfg.pageConfig = {};
+        }
 
         // This props can be read in jade tpl, like: `#{cdnPayRoot}`
         assert(
@@ -170,11 +221,19 @@ async function buildJade(config) {
             && cfg.host
             && cfg.cdnThirdParty
             && cfg.galleryPath
-            && cfg.blogPath
             && cfg.releaseDestDir
             && cfg.homeVersion
             && cfg.cdnPayVersion
         );
+
+        return cfg;
+    }
+
+    for (let srcPath of srcPaths) {
+        const cfg = prepareConfig(srcPath);
+        const filePath = path.resolve(basePath, srcPath);
+
+        const destPath = path.resolve(cfg.releaseDestDir, srcPath.replace('.jade', '.html'));
 
         process.stdout.write(`generating: ${destPath} ...`);
 
@@ -227,32 +286,44 @@ async function buildJS(config) {
 }
 
 async function copyResource(config) {
-    const srcRelativePathList = await globby([
+
+    async function doCopy(pattern, cwd) {
+        const srcRelativePathList = await globby(pattern, {
+            cwd
+        });
+
+        for (let lang of LANGUAGES) {
+            for (let i = 0; i < srcRelativePathList.length; i++) {
+                let srcRelativePath = srcRelativePathList[i];
+                let srcAbsolutePath = path.resolve(cwd, srcRelativePath);
+                let destAbsolutePath = path.resolve(config.releaseDestDir, lang, srcRelativePath);
+
+
+                fse.ensureDirSync(path.dirname(destAbsolutePath));
+                fs.copyFileSync(srcAbsolutePath, destAbsolutePath);
+
+                replaceLog('(' + (i + 1) + '/' + srcRelativePathList.length + ') ' + chalk.green(`resource copied to: ${destAbsolutePath}`));
+            }
+        }
+    }
+
+    console.log();
+
+    await doCopy([
         'vendors/**/*',
         'images/**/*',
         'asset/map/**/*',
         'asset/theme/**/*',
+        'asset/lottie/**/*',
         'builder/**/*',
         'dist/**/*',
         'video/**/*'
-    ], {
-        cwd: projectDir
-    });
+    ], projectDir);
 
-    console.log();
-
-    for (let lang of LANGUAGES) {
-        for (let i = 0; i < srcRelativePathList.length; i++) {
-            let srcRelativePath = srcRelativePathList[i];
-            let srcAbsolutePath = path.resolve(projectDir, srcRelativePath);
-            let destAbsolutePath = path.resolve(config.releaseDestDir, lang, srcRelativePath);
-
-            fse.ensureDirSync(path.dirname(destAbsolutePath));
-            fs.copyFileSync(srcAbsolutePath, destAbsolutePath);
-
-            replaceLog('(' + (i + 1) + '/' + srcRelativePathList.length + ') ' + chalk.green(`resource copied to: ${destAbsolutePath}`));
-        }
-    }
+    await doCopy([
+        '**/*',
+        '!**/index.html',
+    ], path.resolve(__dirname, '../_generated/spa/'))
 
     console.log('\ncopyResources done.');
 }
@@ -469,13 +540,15 @@ async function run() {
     else {
         if (config.filter === 'all') {
             await buildSASS(config);
-            await buildJade(config);
             await buildJS(config);
             await copyResource(config);
             await updateSourceVersion(config);
 
             await buildLegacyDoc(config);
             await buildSpreadsheet(config);
+
+            // Build jade at last because it needs to read the resources.
+            await buildJade(config);
 
             await makeCDNChecker(config);
         }

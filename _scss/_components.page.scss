@@ -64,7 +64,7 @@ $info-height: 120px;
     line-height: 22px;
 
     h2 {
-        color: $clr-secondary;
+        color: $clr-contrast-dark;
         padding-bottom: 15px;
         border-bottom: 1px solid #ddd;
         margin-top: 40px;
@@ -96,22 +96,41 @@ $info-height: 120px;
         text-align: center;
     }
 
+    td, th {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+
+        ol {
+            padding-left: 1em;
+        }
+    }
+
     ul {
         padding-left: 30px;
+
+        li {
+            list-style: disc;
+        }
+    }
+
+    ol {
+        li {
+            list-style: decimal;
+        }
     }
 
         li {
             margin: 5px 0;
-            list-style: disc;
         }
 }
 
     .page-nav {
-        position: fixed;
+        position: sticky;
         overflow: auto;
+        float: left;
         width: $single-page-left-width;
-        top: 260px;
-        bottom: 0;
+        top: 20px;
+        height: calc(100vh - 100px);
         margin: 0 0 0 30px;
         padding: 0 0 20px 0;
 
@@ -209,7 +228,6 @@ $info-height: 120px;
             padding-left: 0;
 
             li {
-                padding-left: 20px;
                 margin: 5px 0;
             }
         }

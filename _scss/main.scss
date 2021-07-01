@@ -18,6 +18,20 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url(font/OpenSans-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: bold;
+    font-weight: 800;
+    src: url(font/OpenSans-Bold.ttf) format('truetype');
+}
+
 @mixin clearfix() {
     &:before,
     &:after {
@@ -34,7 +48,7 @@ html {
     height: 100%;
 }
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', "PingFang SC", Helvetica, Arial, sans-serif;
 }
 
 #lowie-main {
@@ -58,6 +72,17 @@ body {
     }
 }
 
+#v4-link {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 200px;
+    margin-left: -100px;
+    text-align: center;
+    z-index: 1000;
+    padding: 5px 30px;
+}
+
 // settings contains declaration of variables only
 @import 'settings.colors';
 
@@ -71,9 +96,8 @@ body {
 // styles only used in certain pages like index or examples
 @import 'pages.index';
 @import 'pages.index.feature';
-// @import 'pages.examples.nav';
-// @import 'pages.examples.charts';
-@import 'pages.examples.next';
+@import 'pages.examples';
+@import 'pages.doc';
 
 @import 'components.reset';
 @import 'pages.download';
@@ -88,6 +112,9 @@ body {
 @import 'pages.faq';
 @import 'pages.maillist';
 @import 'pages.cheatsheet';
+@import 'pages.events';
+@import 'pages.spa';
+
 
 #apache-banner {
     position: fixed;
@@ -298,18 +325,6 @@ body {
         background-color: #95CC81;
         color: white;
         box-shadow: 1px 3px 8px 0 rgba(76, 151, 47, 0.4);
-    }
-}
-
-.btn-index-home {
-    background-color: transparent;
-    border: 1px solid white;
-    color: white;
-
-    &:hover, &:focus {
-        background-color: white;
-        color: $clr-primary-home;
-        box-shadow: 6px 14px 31px 0 rgba(0, 0, 0, 0.3);
     }
 }
 

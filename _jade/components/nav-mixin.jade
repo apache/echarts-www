@@ -24,12 +24,13 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                             a(href="#{hostParam}/zh/api.html") API
                         li
                             a(href="#{hostParam}/zh/option.html") 配置项手册
-                        //- li
-                        //-     a(href="#{hostParam}/zh/option-gl.html") GL 配置项手册
                         li
                             a(href="#{hostParam}/zh/changelog.html") 版本记录
                         li
                             a(href='#{hostParam}/zh/faq.html') 常见问题
+                        li
+                            a(href='#{hostParam}/zh/tutorial.html#ECharts%205%20升级指南') v5 升级指南
+                                span.new new
                 li#nav-download.dropdown
                     a(href='#', class="dropdown-toggle", data-toggle="dropdown") 下载
                         b.caret
@@ -41,7 +42,7 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                         li
                             a(href="#{hostParam}/zh/download-extension.html") 扩展下载
                 li#nav-examples
-                    a(href='#{hostParam}/examples/zh/index.html') 实例
+                    a(href='#{hostParam}/examples/zh/index.html') 示例
                 li#nav-resources
                     a(href='#', class="dropdown-toggle", data-toggle="dropdown") 资源
                         b.caret
@@ -62,6 +63,8 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                         b.caret
                     ul.dropdown-menu
                         li
+                            a(href='#{hostParam}/zh/events.html') 活动
+                        li
                             a(href='#{hostParam}/zh/committers.html') 贡献者列表
                         li
                             a(href='#{hostParam}/zh/maillist.html') 邮件列表
@@ -72,13 +75,13 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
                         li
                             a(href='#{hostParam}/zh/coding-standard.html') 代码规范
                         li
-                            a(href='https://github.com/apache/incubator-echarts', target='_blank') 源码（GitHub）
+                            a(href='https://github.com/apache/echarts', target='_blank') 源码（GitHub）
                                 include ./svg/external-link
                         li
-                            a(href='https://github.com/apache/incubator-echarts/issues', target='_blank') Issues（GitHub）
+                            a(href='https://github.com/apache/echarts/issues', target='_blank') Issues（GitHub）
                                 include ./svg/external-link
                 li#nav-others
-                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") 其他
+                    a(href='#', class="dropdown-toggle", data-toggle="dropdown") ASF
                         b.caret
                     ul.dropdown-menu
                         li
@@ -102,6 +105,10 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
             ul(class='nav navbar-nav navbar-right')
                 li#nav-homeen
                     a(href='javascript:;', onclick="changeLang('en')") EN
-                li#nav-apache
-                    a(href="https://www.apache.org/" target="_blank")
-                        img(src="#{cdnPayRootParam}/zh/images/apache-incubator-white.png?_v_=#{cdnPayVersionParam}", width="18")
+                //- li#nav-github
+                //-     a(href='https://github.com/apache/incubator-echarts', target='_blank')
+                //-         include ./svg/github
+                //-         +svgGithub('#333')
+                //- li#nav-apache
+                //-     a(href="https://www.apache.org/" target="_blank")
+                //-         img(src="#{cdnPayRoot}/#{ecWWWLang}/images/asf_logo.png?_v_=#{cdnPayVersion}")

@@ -4,7 +4,7 @@ block variablesLang
     include ./_variablesLang.jade
 
 block extra_head
-    title Features - Apache ECharts (incubating)
+    title Features - Apache ECharts
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
@@ -14,14 +14,14 @@ block content
         .page-info
             .container
                 h1 Features
-                p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
+                p.page-info-echarts Apache ECharts<sup>TM</sup>
 
         .page-content.single-page
             .page-nav
                 h4 Features
                 ul
             .page-detail
-                p.page-detail-desc Apache ECharts (incubating)<sup>TM</sup> is an open-sourced JavaScript visualization tool, which can run fluently on PC and mobile devices. It is compatible with most modern Web Browsers, e.g., IE8/9/10/11, Chrome, Firefox, Safari and so on. ECharts depends on <a href="https://github.com/ecomfe/zrender" target="_blank">ZRender</a>, a graphic rendering engine, to create intuitive, interactive, and highly-customizable charts.
+                p.page-detail-desc Apache ECharts<sup>TM</sup> is an open-sourced JavaScript visualization tool, which can run fluently on PC and mobile devices. It is compatible with most modern Web Browsers, e.g., IE9/10/11, Chrome, Firefox, Safari and so on. ECharts depends on <a href="https://github.com/ecomfe/zrender" target="_blank">ZRender</a>, a graphic rendering engine, to create intuitive, interactive, and highly-customizable charts.
 
                 h2#chart-types Abundant Chart Types
                 p The basic chart types ECharts supports include <a href="option.html#series-line" target="_blank">line series</a>, <a href="option.html#series-line" target="_blank">bar series</a>, <a href="option.html#series-scatter" target="_blank">scatter series</a>, <a href="option.html#series-pie" target="_blank">pie charts</a>, <a href="option.html#series-candlestick" target="_blank">candle-stick series</a>, <a href="option.html#series-boxplot" target="_blank">boxplot series</a> for statistics, <a href="option.html#series-map" target="_blank">map series</a>, <a href="option.html#series-heatmap" target="_blank">heatmap series</a>, <a href="option.html#series-lines" target="_blank">lines series</a> for directional information, <a href="option.html#series-graph" target="_blank">graph series</a> for relationships, <a href="option.html#series-treemap" target="_blank">treemap series</a>, <a href="option.html#series-sunburst">sunburst series</a>, <a href="option.html#series-parallel" target="_blank">parallel series</a> for multi-dimensional data, <a href="option.html#series-funnel" target="_blank">funnel series</a>, <a href="option.html#series-gauge" target="_blank">gauge series</a>. And it's extremely easy to create a combinition of them with ECharts.
@@ -29,12 +29,12 @@ block content
                 p If the default package size is too large for you, you can choose the chart types and components you need and download in <a href="builder.html">the online builder</a>.
 
                 h2#dataset Multiple Data Format Ready-To-Use
-                p The built-in <code>dataset</code> attribute from ECharts v4.0 supports data formats including two-dimensional table, key-value object, and so on. The map from data to graphic can be easily set by the <code>encode</code> attribute. This is a more intuitive way to think when developing a chart, and it saves much time writing data-converting steps for developpers. Futhermore, it saves memory since different components can share on piece of data rather than copying.
-                p ECharts supports TypedArray, which occupies less memory than array and is more gabbage-collection-friendly. For big data visualization, it is suggested to use TypedArray to improve performance.
+                p The built-in <code>dataset</code> attribute from ECharts v4.0 supports data formats including two-dimensional table, key-value object, and so on. The map from data to graphic can be easily set by the <code>encode</code> attribute. This is a more intuitive way to think when developing a chart, and it saves much time writing data-converting steps for developers. Futhermore, it saves memory since different components can share on piece of data rather than copying.
+                p ECharts supports TypedArray, which occupies less memory than array and is more garbage-collection-friendly. For big data visualization, it is suggested to use TypedArray to improve performance.
 
                 h2#big-data Data Visualization of Tens of Millions on Web
-                p With the help of imcremental rendering technique since v4.0 and optimization of all ascpects, ECharts can display the visualization of tens of millions of data. What's more, interactions like scaling and transforming are fluent all the same.
-                p Tens of millions of data usually takes over hundreds of MB spaces. ECharts provide streaming data ability since v4.0 and makes it possible to render as much data as loaded from WebSocket. There is no need to wait for all data to be loaded to start rendering.
+                p With the help of incremental rendering technique since v4.0 and optimization of all aspects, ECharts can display the visualization of tens of millions of data. What's more, interactions like scaling and transforming are fluent all the same.
+                p Tens of millions of data usually takes over hundreds of MB in memory. ECharts provide streaming data ability since v4.0 and makes it possible to render as much data as loaded from WebSocket. There is no need to wait for all data to be loaded to start rendering.
 
                 img(src="#{cdnPayRoot}/#{ecWWWLang}/images/features/scatterGL.jpg?_v_=#{cdnPayVersion}", width="60%")
                 <br />
@@ -43,12 +43,12 @@ block content
 
                 h2#mobile Mobile Optimization
                 p ECharts has been carefully optimized for mobile interaction, such zooming and panning the coordinate system with your fingers on small screens. The PC users can also use the mouse wheel to do the same interaction.
-                p The fine-grained modularity and packaging mechanism allows ECharts to have a small package size on the mobile, and the optional SVG rendering engine makes the memory cost of the mobile much smaller.
+                p The fine-grained modularity and packaging mechanism allows ECharts to have a small package size on mobile, and the optional SVG rendering engine makes the memory cost of mobile much smaller.
                 iframe(data-src="#{host}/examples/en/view.html?c=area-simple&reset=1&edit=1&renderer=svg", width="60%", height="400")
 
                 h2#mult-platform Multi-Rendering Solutions and Cross-Platform Support
 
-                p ECharts supports rendering charts in the form of Canvas, SVG (v4.0+), and VML. VML is compatible with lower versions of IE; SVG reduces the memory cost on mobiles; and Canvas can easily handle large data visualization and special rendering effects. Different rendering methods provide more choices, making ECharts performs better in different scenarios.
+                p ECharts supports rendering charts in the form of Canvas, SVG (v4.0+), and VML. VML is compatible with lower versions of IE; SVG reduces the memory cost on mobiles; and Canvas can easily handle large data visualization and special rendering effects. Different rendering methods provide more choices, making ECharts perform better in different scenarios.
 
                 p In addition to PC and mobile browsers, ECharts can also be used with node-canvas on Node for efficient server-side rendering (SSR). And ECharts support Wechat Applet rendering since v4.0.
 
@@ -93,5 +93,10 @@ block content
 
 
 block extra_js
+    script.
+        window.lazyLoadOptions = {
+            elements_selector: 'iframe'
+        };
+    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
     script(type='text/javascript').
         document.getElementById('nav-doc').className = 'active';

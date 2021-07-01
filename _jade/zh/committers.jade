@@ -1,7 +1,7 @@
 extends ../layouts/basic
 
 block extra_head
-    title Committers - Apache ECharts (incubating)</title>
+    title Committers - Apache ECharts</title>
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top')
@@ -12,37 +12,10 @@ block content
             h1 贡献者列表
             p ECharts 的发展离不开其背后很多人的卓越贡献，他们有着不同的技能，甚至来自不同的岗位和公司
             p 感谢每一个人的帮助与支持，更希望以后能有更多的人助力 ECharts 的成长
-            p.page-info-echarts Apache ECharts (incubating)<sup>TM</sup>
+            p.page-info-echarts Apache ECharts<sup>TM</sup>
         #about-page
             section.container.contributor
-                h4.group.mentors Apache Mentors
-                .row
-                    .col-md-3.col-sm-4.col-xs-6
-                        .about-person
-                            //- a(href='https://whimsy.apache.org/roster/committer/wave', target='_blank')
-                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/dave.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name Dave Fisher
-                            .about-desc 美国 · 旧金山
-                    .col-md-3.col-sm-4.col-xs-6
-                        .about-person
-                            //- a(href='https://whimsy.apache.org/roster/committer/kmcgrail', target='_blank')
-                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/kevin.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name Kevin A. McGrail
-                            .about-desc 美国 · 华盛顿
-                    .col-md-3.col-sm-4.col-xs-6
-                        .about-person
-                            //- a(href='https://whimsy.apache.org/roster/committer/wusheng', target='_blank')
-                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/shengwu.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name 吴晟
-                            .about-desc 北京 · 中国
-                    .col-md-3.col-sm-4.col-xs-6
-                        .about-person
-                            //- a(href='https://whimsy.apache.org/roster/committer/tedliu', target='_blank')
-                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/tedliu.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name Ted Liu
-                            .about-desc 北京 · 中国
-
-                h4.group.code PPMC
+                h4.group.pmc PMC
                 .row
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
@@ -67,13 +40,6 @@ block content
                             .about-desc 中国 · 上海
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
-                            a(href='https://github.com/deqingli', target='_blank')
-                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/德清.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name 德清
-                            .about-desc 阿里巴巴
-                            .about-desc 中国 · 杭州
-                    .col-md-3.col-sm-4.col-xs-6
-                        .about-person
                             a(href='https://www.behance.net/wjtjiayouac8aa', target='_blank')
                                 img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/王俊婷.jpg')
                             h5.about-name 王俊婷
@@ -81,11 +47,56 @@ block content
                             .about-desc 中国 · 上海
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
+                            a(href='https://github.com/plainheart', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/plainheart.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name 王忠祥
+                            .about-desc 中国 · 河南
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
+                            a(href='https://github.com/susiwen8', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/苏思文.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name 苏思文
+                            .about-desc 蚂蚁集团
+                            .about-desc 中国 · 杭州
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
+                            a(href='https://github.com/wf123537200', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/zakwu.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name 巫枫
+                            .about-desc 腾讯
+                            .about-desc 中国 · 深圳
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
                             a(href='https://github.com/kener', target='_blank')
                                 img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/林峰.jpg?_v_=#{cdnPayVersion}')
                             h5.about-name 林峰
                             .about-desc 阿里巴巴
                             .about-desc 中国 · 杭州
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
+                            a(href='https://github.com/deqingli', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/德清.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name 德清
+                            .about-desc 阿里巴巴
+                            .about-desc 中国 · 杭州
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
+                            //- a(href='https://whimsy.apache.org/roster/committer/wave', target='_blank')
+                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/dave.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name Dave Fisher
+                            .about-desc 美国 · 旧金山
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
+                            //- a(href='https://whimsy.apache.org/roster/committer/kmcgrail', target='_blank')
+                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/kevin.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name Kevin A. McGrail
+                            .about-desc 美国 · 华盛顿
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
+                            //- a(href='https://whimsy.apache.org/roster/committer/wusheng', target='_blank')
+                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/shengwu.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name 吴晟
+                            .about-desc 中国 · 北京
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
                             a(href='https://github.com/erik168', target='_blank')
@@ -100,36 +111,49 @@ block content
                             h5.about-name 黄后锦
                             .about-desc 跟谁学
                             .about-desc 中国 · 北京
-                    .col-md-3.col-sm-4.col-xs-6
-                        .about-person
-                            a(href='https://github.com/susiwen8', target='_blank')
-                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/苏思文.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name 苏思文
-                            .about-desc 百度
-                            .about-desc 中国 · 北京
-                    .col-md-3.col-sm-4.col-xs-6
-                        .about-person
-                            a(href='https://github.com/plainheart', target='_blank')
-                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/plainheart.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name 王忠祥
-                            .about-desc 中国 · 河南
-                    .col-md-3.col-sm-4.col-xs-6
-                        .about-person
-                            a(href='https://github.com/wf123537200', target='_blank')
-                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/zakwu.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name 巫枫
-                            .about-desc 腾讯
-                            .about-desc 中国 · 深圳
 
-
-                h4.group.code Committers
+                h4.group.committer Committers
                 .row
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
+                            a(href='https://github.com/yufeng04', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/禹峰.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name 禹峰
+                            .about-desc 百度
+                            .about-desc 中国 · 上海
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
                             a(href='https://github.com/cuijian-dexter', target='_blank')
                                 img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/崔健.jpg?_v_=#{cdnPayVersion}')
                             h5.about-name 崔健
                             .about-desc 百度
+                            .about-desc 中国 · 北京
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
+                            a(href='https://github.com/quillblue', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/qiansheng.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name 钱晟
+                            .about-desc 陶氏化学
+                            .about-desc 中国 · 上海
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
+                            a(href='https://github.com/chfw', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/chfw.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name chfw
+                            .about-desc 英国
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
+                            a(href='https://github.com/alex2wong', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/黄益修.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name 黄益修
+                            .about-desc 字节跳动
+                            .about-desc 中国 · 上海
+                    .col-md-3.col-sm-4.col-xs-6
+                        .about-person
+                            a(href='https://github.com/SnailSword', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/韩天.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name 韩天
+                            .about-desc Merico
                             .about-desc 中国 · 北京
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
@@ -140,37 +164,14 @@ block content
                             .about-desc 美国 · 得克萨斯州
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
-                            a(href='https://github.com/yufeng04', target='_blank')
-                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/禹峰.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name 禹峰
-                            .about-desc 百度
-                            .about-desc 中国 · 上海
-                    .col-md-3.col-sm-4.col-xs-6
-                        .about-person
-                            a(href='https://github.com/SnailSword', target='_blank')
-                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/韩天.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name 韩天
-                            .about-desc 学生
+                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/tedliu.jpg?_v_=#{cdnPayVersion}')
+                            h5.about-name Ted Liu
                             .about-desc 中国 · 北京
-                    .col-md-3.col-sm-4.col-xs-6
-                        .about-person
-                            a(href='https://github.com/alex2wong', target='_blank')
-                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/黄益修.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name 黄益修
-                            .about-desc 字节跳动
-                            .about-desc 中国 · 上海
-                    .col-md-3.col-sm-4.col-xs-6
-                        .about-person
-                            a(href='https://github.com/chfw', target='_blank')
-                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/chfw.jpg?_v_=#{cdnPayVersion}')
-                            h5.about-name chfw
-                            .about-desc 英国
-
 
                 h4.group.contributor Contributors
                 .row
                     <p></p>
-                    p 在 <a href="https://github.com/apache/incubator-echarts/graphs/contributors">ECharts 贡献者列表</a>中，记录了更多为 ECharts 做出过贡献的人 。
+                    p 在 <a href="https://github.com/apache/echarts/graphs/contributors">ECharts 贡献者列表</a>中，记录了更多为 ECharts 做出过贡献的人 。
                     p 感谢所有贡献者，一起助力 ECharts 更好地成长。
 
             //- section.container.company

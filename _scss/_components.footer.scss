@@ -1,6 +1,6 @@
 footer {
-    min-height: 236px;
-    background-color: $clr-primary;
+    min-height: 190px;
+    background-color: $clr-dark-bg;
     color: #808795;
     font-size: 14px;
 
@@ -24,7 +24,7 @@ footer {
         }
 
         #footer-icon-panel {
-            text-align: left;
+            text-align: right;
 
             img {
                 margin-top: 20px;
@@ -50,13 +50,6 @@ footer {
         width: 300px;
         max-width: 80%;
         margin: 0 0 10px 0;
-    }
-
-    #efe-product {
-        li {
-            width: 50%;
-            display: inline-block;
-        }
     }
 
     #echarts-copyright {
@@ -95,10 +88,8 @@ footer {
         }
     }
 
-    #footer-icon-panel {
-        text-align: right;
-        font-weight: 300;
-        float: right;
+    .icon-panel {
+        margin-top: 20px;
     }
 
         .footer-icon {
@@ -106,29 +97,30 @@ footer {
             width: 40px;
             height: 40px;
             border-radius: 50px;
-            margin: 5px 0 5px 10px;
+            margin-right: 10px;
             padding: 8px 10px;
             border: 1px solid white;
+            opacity: 0.5;
+            transition: 0.5s;
+
+            &:hover {
+                opacity: 1;
+            }
         }
 }
 
 @media (max-width: 992px) {
     footer {
         .footer-apache-logo {
-            margin: 10px -30px 0 0;
+            transform: scale(0.7);
         }
         .icon-panel {
-            margin: -20px -50px 20px 0;
-            text-align: center;
+            margin: 20px 0;
         }
 
         #echarts-copyright {
             margin: 20px 0;
             text-align: center;
-        }
-
-        .footer-icon {
-            margin: 30px 5px 5px 5px;
         }
     }
 }

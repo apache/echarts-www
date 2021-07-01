@@ -1,4 +1,4 @@
-/* global BUILD_CONFIG, UglifyJS, ActiveXObject */
+/* global BUILD_CONFIG, UglifyJS */
 define(function (require) {
 
     // var mangleString = require('./mangleString');
@@ -13,15 +13,17 @@ define(function (require) {
 
     var $log = document.getElementById('log');
 
-    var version = BUILD_CONFIG.version;
-    var isVersion5 = (version + '').startsWith('5');
+    var version = BUILD_CONFIG.version + '';
+    var isVersion5 = version.startsWith('5');
     var jsDelivrBase = 'https://cdn.jsdelivr.net/npm';
 
     var urlArgs = '__v__=' + (+new Date());
 
     var topCode = [`export * from "echarts/src/echarts";`];
+    var srcFolder = version.startsWith('5.0.0') ? 'esm' // Only 5.0.0 has esm folder
+        : isVersion5 ? 'lib' : 'src';
 
-    if (BUILD_CONFIG.api) {
+    if (BUILD_CONFIG.api && (version.startsWith('5.0.0') || !isVersion5)) {
         topCode.push(`export * from "echarts/src/export";`);
     }
 
@@ -39,11 +41,11 @@ define(function (require) {
         component && topCode.push(`import "echarts/src/component/${component}";`);
     });
 
-    if (BUILD_CONFIG.vml) {
-        topCode.push(`import "zrender/src/vml/vml";`);
+    if (BUILD_CONFIG.vml && !isVersion5) {
+        topCode.push(`import "zrender/${srcFolder}/vml/vml";`);
     }
     if (BUILD_CONFIG.svg) {
-        topCode.push(`import "zrender/src/svg/svg";`);
+        topCode.push(`import "zrender/${srcFolder}/svg/svg";`);
     }
 
     // Always require log and time axis
@@ -52,22 +54,20 @@ define(function (require) {
         `import "echarts/src/scale/Log";`
     );
 
-    var srcFolder = isVersion5 ? 'esm' : 'src';
-
     var npmEntries = {};
     var pathsConfig = {
         'echarts/src': `/echarts@${version}/${srcFolder}`
     };
 
-    function resolveNpmDependencies(package, version) {
-        return fetch(`${jsDelivrBase}/${package}@${version}/package.json`, { mode: 'cors' })
+    function resolveNpmDependencies(pkg, version) {
+        return fetch(`${jsDelivrBase}/${pkg}@${version}/package.json`, { mode: 'cors' })
             .then(response => response.json())
             .then(pkgCfg => {
                 var entry = pkgCfg.module || pkgCfg.main || 'index.js';
                 if (!entry.endsWith('.js')) {
                     entry = entry + '.js';
                 }
-                npmEntries[package] = `/${package}@${version}/${entry}`;
+                npmEntries[pkg] = `/${pkg}@${version}/${entry}`;
 
                 var promises = [];
                 for (let pkgName in pkgCfg.dependencies) {
@@ -290,7 +290,8 @@ define(function (require) {
             if (p === '..') {
                 if (res.length && res[res.length - 1] !== '..') {
                     res.pop();
-                } else if (allowAboveRoot) {
+                }
+                else if (allowAboveRoot) {
                     res.push('..');
                 }
             } else {
