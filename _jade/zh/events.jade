@@ -19,13 +19,18 @@ block content
         .page-content
             .container
                 h2 进行中的活动
+                a.event(href='./events/2021-07-05-apachecon.html')
+                    picture
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210705-apachecon.webp?_v_=#{cdnPayVersion}", type="image/webp")
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210705-apachecon.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
+                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210705-apachecon.jpeg?_v_=#{cdnPayVersion}", alt="ApacheCon Asia 2021")
+
+                h2 过期的活动
                 a.event(href='./events/2021-05-13-iscas.html')
                     picture
                         source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.webp?_v_=#{cdnPayVersion}", type="image/webp")
                         source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
                         img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210513-iscas.jpeg?_v_=#{cdnPayVersion}", alt="开源软件供应链点亮计划 - 暑期 2021")
-
-                h2 过期的活动
                 a.event(href='https://echarts-5-live.bj.bcebos.com/echarts-5-event.html?ref=ec-event')
                     picture
                         source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20200128-apache-echarts-5.webp?_v_=#{cdnPayVersion}", type="image/webp")

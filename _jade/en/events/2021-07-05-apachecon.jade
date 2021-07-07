@@ -1,0 +1,83 @@
+extends ../../layouts/basic
+
+block variablesLang
+    include ./../_variablesLang.jade
+
+block variables
+    - var pageTitle = 'Events - Apache ECharts'
+
+block extra_head
+    title Events - Apache ECharts
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top')
+        include ../nav
+
+    .page-main
+        .page-info
+            .container
+                h1 ApacheCon Asia 2021
+                p.page-info-echarts Apache ECharts<sup>TM</sup>
+
+        .page-content
+            .container
+                div
+                    a(href="../events.html") Back to the event list
+
+                .event.event-detail-img
+                    picture
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210705-apachecon-en.webp?_v_=#{cdnPayVersion}", type="image/webp")
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210705-apachecon-en.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
+                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210705-apachecon-en.jpeg?_v_=#{cdnPayVersion}", alt="ApacheCon Asia 2021")
+
+                h3 Coming to your living room this August!
+                p Join us from the comfort of your own home for three days of Apache project content across dozens of categories, from Big Data to Fintech to Search to Tomcat and more.
+                p The <a href="https://apachecon.com/acasia2021/tracks/datavisualization.html">Data Visualization track</a> is on 2021.08.06 and the topics are:
+                table
+                    tr
+                        td 13:30 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/sessions/1090.html") Why Apache Superset is Betting on Apache ECharts
+                        td English Session
+                        td Ville Brofeldt
+                    tr
+                        td 14:10 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/sessions/1087.html") Dirty-rectangle Rendering with Apache ECharts
+                        td English Session
+                        td Wenli Zhang
+                    tr
+                        td 14:50 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/sessions/1093.html") The challenge of 16ms - Charting tool optimization
+                        td Chinese Session
+                        td Shuang Su
+                    tr
+                        td 15:30 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/sessions/1094.html") Fun with ECharts! - how we use it in Tesla!
+                        td Chinese Session
+                        td Fanchao Meng
+                    tr
+                        td 16:10 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/sessions/1092.html") Rendering charts using echarts to present community activity
+                        td Chinese Session
+                        td Sun Yi
+                    tr
+                        td 16:50 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/sessions/1091.html") echarts4r: ECharts integration with the R programming language
+                        td English Session
+                        td John Coene
+
+                h3 Event Registration
+                p Please go to the <a href="https://hopin.com/events/apachecon-asia-2021">Hopin platform</a> to register or check for more information at <a href="https://apachecon.com/acasia2021/index.html">the official Website</a>.
+        include ../footer
+block extra_js
+    script(type='text/javascript').
+        window.lazyLoadOptions = {
+            elements_selector: ".lazy"
+        };
+        document.getElementById('nav-contribute').className = 'active';
+    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')

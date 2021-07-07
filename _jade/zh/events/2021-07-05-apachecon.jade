@@ -1,0 +1,83 @@
+extends ../../layouts/basic
+
+block variables
+    - var pageTitle = 'Apache ECharts - 活动'
+
+block extra_head
+    title 活动 - Apache ECharts
+
+block content
+    nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
+        include ../../components/nav
+
+    .page-main
+        .page-info
+            .container
+                h1 ApacheCon Asia 2021
+                p.page-info-echarts Apache ECharts<sup>TM</sup>
+
+        .page-content
+            .container
+                div
+                    a(href="../events.html") 返回活动列表
+
+                .event.event-detail-img
+                    picture
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210705-apachecon.webp?_v_=#{cdnPayVersion}", type="image/webp")
+                        source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210705-apachecon.jpeg?_v_=#{cdnPayVersion}", type="image/jpeg")
+                        img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210705-apachecon.jpeg?_v_=#{cdnPayVersion}", alt="ApacheCon Asia 2021")
+
+                h3 今年八月 Apache 亚洲峰会来到您的客厅！
+                p 足不出户，就可以参加 Apache 技术盛宴，持续三天的 Apache 项目内容涵盖数十个类别，从大数据到金融科技再到搜索再到大家熟悉的 Tomcat 等。
+                p 其中，<a href="https://apachecon.com/acasia2021/zh/tracks/datavisualization.html">数据可视化论坛</a>在 2021.08.06，演讲主题包括：
+                table
+                    tr
+                        td 13:30 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/zh/sessions/1090.html") 为什么 Apache Superset 选择使用 Apache ECharts？
+                        td 英文演讲
+                        td Ville Brofeldt
+                    tr
+                        td 14:10 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/zh/sessions/1087.html") Apache ECharts 的脏矩形渲染实践
+                        td 英文演讲
+                        td Wenli Zhang
+                    tr
+                        td 14:50 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/zh/sessions/1093.html") 16 毫秒的挑战：图表库渲染优化
+                        td 中文演讲
+                        td Shuang Su
+                    tr
+                        td 15:30 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/zh/sessions/1094.html") ECharts 的乐趣：我们如何在特斯拉使用它！
+                        td 中文演讲
+                        td Fanchao Meng
+                    tr
+                        td 16:10 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/zh/sessions/1092.html") 使用 ECharts 呈现社区活动的渲染图
+                        td 中文演讲
+                        td Sun Yi
+                    tr
+                        td 16:50 GMT+8
+                        td
+                            a(href="https://apachecon.com/acasia2021/zh/sessions/1091.html") echarts4r：ECharts 与 R 编程语言的整合
+                        td 英文演讲
+                        td John Coene
+
+                h3 免费注册
+                p 请前往<a href="https://hopin.com/events/apachecon-asia-2021">Hopin 平台</a>注册，或在<a href="https://apachecon.com/acasia2021/index.html">官网</a>了解更多关于本次会议的介绍。
+
+        include ../../components/footer
+
+
+block extra_js
+    script.
+        window.lazyLoadOptions = {
+            elements_selector: ".lazy"
+        };
+        document.getElementById('nav-contribute').className = 'active';
+    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
