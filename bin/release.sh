@@ -30,7 +30,7 @@ docProjectDir="${wwwProjectDir}/../echarts-doc";
 examplesProjectDir="${wwwProjectDir}/../echarts-examples";
 handbookProjectDir="${wwwProjectDir}/../echarts-handbook";
 websiteTargetDir="${wwwProjectDir}/../echarts-website";
-themeProjectDir="${wwwProjectDir}/../ECharts-Theme-Builder";
+themeProjectDir="${wwwProjectDir}/../echarts-theme-builder";
 
 cd ${wwwProjectDir}
 
