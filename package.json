@@ -5,7 +5,7 @@
   "scripts": {
     "build": "bash bin/release.sh --env=localsite",
     "localsite": "bash bin/release.sh --env=localsite",
-    "release": "bash bin/release.sh --env asf",
+    "release": "bash -e -u -o pipefail bin/release.sh --env asf",
     "dev:all": "npm run localsite",
     "dev": "node bin/build.js --env=localsite",
     "jade": "node bin/build.js --env=localsite --filter=jade",
