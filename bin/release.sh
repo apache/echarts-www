@@ -28,6 +28,8 @@ thisScriptDir=$(cd `dirname $0`; pwd)
 wwwProjectDir="${thisScriptDir}/..";
 docProjectDir="${wwwProjectDir}/../echarts-doc";
 examplesProjectDir="${wwwProjectDir}/../echarts-examples";
+handbookProjectDir="${wwwProjectDir}/../echarts-handbook";
+websiteTargetDir="${wwwProjectDir}/../echarts-website";
 themeProjectDir="${wwwProjectDir}/../ECharts-Theme-Builder";
 
 cd ${wwwProjectDir}
@@ -71,6 +73,18 @@ cd ${examplesProjectDir}
 npm run release
 cd ${currWorkingDir}
 echo "Build examples done."
+
+# Build handbook
+echo "Build handbook ..."
+if [ ! -d "${handbookProjectDir}" ]; then
+    echo "Directory ${handbookProjectDir} DOES NOT exists."
+    exit 1
+fi
+cd ${handbookProjectDir}
+npm run build:${envType}
+rm -r ${websiteTargetDir}/handbook
+cp -R ${handbookProjectDir}/dist ${websiteTargetDir}/handbook
+echo "Build handbook done."
 
 # Build SPA pages.
 cd ${thisScriptDir}

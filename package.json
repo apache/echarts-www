@@ -6,7 +6,6 @@
     "build": "sh bin/release.sh --env=localsite",
     "localsite": "sh bin/release.sh --env=localsite",
     "release": "sh bin/release.sh --env asf",
-    "localsite:onlynext": "sh bin/release.sh --env=localsite --onlynext",
     "dev:all": "npm run localsite",
     "dev": "node bin/build.js --env=localsite",
     "jade": "node bin/build.js --env=localsite --filter=jade",
