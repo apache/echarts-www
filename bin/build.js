@@ -110,7 +110,8 @@ async function clean(config) {
         '**/*',
         '!.*', // .git .gitignore .htaccess .scripts .github
         '!v4/**/*', // v4 website
-        '!README.md'
+        '!README.md',
+        '!package.json'
     ], {
         cwd: destDir
     });
