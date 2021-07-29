@@ -528,8 +528,13 @@ async function buildSpreadsheet(config) {
 }
 
 function replaceLog(log) {
-    readline.cursorTo(process.stdout, 0);
-    process.stdout.write(log);
+    if (process.stdout.clearLine) {
+        readline.cursorTo(process.stdout, 0);
+        process.stdout.write(log);
+    }
+    else {
+        console.log(log);
+    }
 }
 
 async function run() {
