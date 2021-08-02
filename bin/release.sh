@@ -82,7 +82,7 @@ if [ ! -d "${handbookProjectDir}" ]; then
 fi
 cd ${handbookProjectDir}
 npm run build:${envType}
-rm -r ${websiteTargetDir}/handbook
+rm -rf ${websiteTargetDir}/handbook
 cp -R ${handbookProjectDir}/dist ${websiteTargetDir}/handbook
 echo "Build handbook done."
 
