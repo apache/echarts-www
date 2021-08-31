@@ -163,7 +163,7 @@ async function buildSASS(config) {
 }
 
 async function getFolderHash(globPattern) {
-    const files = await globby(globPattern);
+    const files = await globby(globPattern.replace(/\\/g, '/'));
     if (!files.length) {
         throw new Error('No file exists for pattern ' + globPattern);
     }

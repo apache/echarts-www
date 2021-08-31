@@ -116,6 +116,18 @@ body {
 @import 'pages.spa';
 
 
+.no-script {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 30px 40px;
+    z-index: 10001;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    text-align: center;
+}
+
 #apache-banner {
     position: fixed;
     left: 0;
@@ -172,6 +184,11 @@ body {
 }
 
 @media (max-width: 768px) {
+    .no-script {
+        text-align: left;
+        padding: 20px;
+    }
+
     #apache-banner {
         padding: 15px;
 

@@ -52,6 +52,12 @@ html(lang='#{htmlAttrLang}')
     <!--[if (gt IE 8)|!(IE)]>
     body(class="#{pageTitle}")
     <![endif]-->
+    noscript
+        div.no-script
+            if ecWWWLang == 'en'
+                strong We're sorry, but Apache ECharts website doesn't work properly without JavaScript enabled. Please enable it to continue.
+            else 
+                strong 很抱歉，Apache ECharts 网站需要启用 JavaScript 才能正常运行。
     #apache-banner
         .txt
             if ecWWWLang == 'en'
