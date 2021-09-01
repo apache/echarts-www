@@ -74,18 +74,6 @@ npm run release
 cd ${currWorkingDir}
 echo "Build examples done."
 
-# Build handbook
-echo "Build handbook ..."
-if [ ! -d "${handbookProjectDir}" ]; then
-    echo "Directory ${handbookProjectDir} DOES NOT exists."
-    exit 1
-fi
-cd ${handbookProjectDir}
-npm run build:${envType}
-rm -rf ${websiteTargetDir}/handbook
-cp -R ${handbookProjectDir}/dist ${websiteTargetDir}/handbook
-echo "Build handbook done."
-
 # Build SPA pages.
 cd ${thisScriptDir}
 node releasePages.js
@@ -97,16 +85,18 @@ node bin/build.js --env ${envType}
 cd ${currWorkingDir}
 echo "Build www done."
 
-
-if [[ "${envType}" = "echartsjs" ]]; then
-    cd ${wwwProjectDir}
-    echo "zip echarts-www.zip ..."
-    if [ -f echarts-www.zip ]; then
-        rm echarts-www.zip
-    fi
-    zip -r -q echarts-www.zip release
-    echo "zip echarts-www.zip done."
-    cd ${currWorkingDir}
+# Build handbook after www page build.
+# handbook needs fetch nav page.
+echo "Build handbook ..."
+if [ ! -d "${handbookProjectDir}" ]; then
+    echo "Directory ${handbookProjectDir} DOES NOT exists."
+    exit 1
 fi
+cd ${handbookProjectDir}
+npm run build:${envType}
+rm -rf ${websiteTargetDir}/handbook
+cp -R ${handbookProjectDir}/dist ${websiteTargetDir}/handbook
+echo "Build handbook done."
+
 
 echo "echarts-www release done for ${envType}"
