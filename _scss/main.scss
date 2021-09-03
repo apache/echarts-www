@@ -143,16 +143,16 @@ body {
         width: 80%;
         height: 100%;
         display: inline-block;
-    }
 
         p {
             margin: 5px 0;
-
-            a {
-                color: #fff;
-                text-decoration: underline;
-            }
         }
+
+        a {
+            color: #fff;
+            text-decoration: underline;
+        }
+    }
 
     .btn {
         position: relative;
