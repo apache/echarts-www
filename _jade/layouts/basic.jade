@@ -24,7 +24,7 @@ html(lang='#{htmlAttrLang}')
         script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
         <![endif]-->
 
-        link(rel='stylesheet', type='text/css', href="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/css/main.css')}")
+        link(rel='stylesheet', type='text/css', href="#{getAssetUrl(host, ecWWWLang + '/css/main.css')}")
 
         script.
             window.EC_WWW_LANG = '#{ecWWWLang}';
@@ -56,7 +56,7 @@ html(lang='#{htmlAttrLang}')
         div.no-script
             if ecWWWLang == 'en'
                 strong We're sorry, but Apache ECharts website doesn't work properly without JavaScript enabled. Please enable it to continue.
-            else 
+            else
                 strong 很抱歉，Apache ECharts 网站需要启用 JavaScript 才能正常运行。
     #apache-banner
         .txt
