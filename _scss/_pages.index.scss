@@ -127,6 +127,22 @@ body {
             }
         }
 
+    #new-version-section {
+        text-align: center;
+        font-size: 16px;
+        height: 20px;
+        margin-top: -120px;
+        margin-bottom: 120px;
+        position: relative;
+        z-index: 100;
+
+        color: black;
+
+        a {
+            font-weight: bold;
+        }
+    }
+
     #events-section {
         margin: 20px 0 60px 0;
     }
