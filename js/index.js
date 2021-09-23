@@ -117,4 +117,55 @@ window.lazyLoadOptions = {
             }
         });
     }
+
+    var isInited = false;
+
+    // Index animation
+    window.startMagic = function () {
+        function start() {
+            $('#main').addClass('cinematic-mode');
+
+            document.getElementById('home-feature-trailer-close-btn').onclick = function () {
+                featureTrailer.pause();
+                $('#main').removeClass('cinematic-mode');
+            }
+
+            if (isInited) {
+                featureTrailer.resume();
+            }
+            else {
+                featureTrailer.init(document.getElementById('home-feature-trailer-viewport'))
+                isInited = true;
+            }
+        }
+
+        if (typeof featureTrailer !== 'undefined') {
+            start();
+            return;
+        }
+
+        var indexAnimationURL = 'http://localhost/echarts-www-feature-trailer/'
+        // Load script.
+        var link = document.createElement('link');
+        var script = document.createElement('script');
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+
+        var loading = 2;
+
+        function onload() {
+            loading--;
+            if (!loading) {
+                start();
+            }
+        }
+
+        script.onload = onload;
+        link.onload = onload;
+
+        link.href = indexAnimationURL + 'dist/style.css';
+        script.src = indexAnimationURL + 'dist/echarts-www-feature-trailer.js';
+        document.head.appendChild(link);
+        document.head.appendChild(script);
+    }
 })();
