@@ -30,13 +30,12 @@ block content
                                 +svgGithub('#081642')
                     .home-feature-trailer
                         .home-feature-trailer-cover
-                            img(src="#{cdnPayRoot}/#{ecWWWLang}/images/index-home-pie.png?_v_=#{cdnPayVersion}")
+                            //- img(src="#{cdnPayRoot}/#{ecWWWLang}/images/index-home-pie.png?_v_=#{cdnPayVersion}")
+                            include ../components/svg/entry-pie.svg
                         #home-feature-trailer-container
                             #home-feature-trailer-viewport
                             #home-feature-trailer-close-btn
                                 include ../components/svg/close.svg
-
-
 
             section#new-version-section 📣 Apache ECharts 5.2 发布了! 查看<a href='#{host}/handbook/#{ecWWWLang}/basics/release-note/5-2-0?ref=banner' target='_blank'>新特性</a>
 

@@ -1,0 +1,28 @@
+<svg width="700" height="700" viewBox="0 0 510 510" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full">
+    <rect width="510" height="510" x="0" y="0" id="0" fill="none" fillOpacity="1"></rect>
+    <path fill="#5470c6" stroke="white" stroke-width="4" stroke-linejoin="round">
+        <animate attributeName="d" values="M255 225.4196A5 5 0 0 1 260.8333 220.4895A35 35 0 0 1 287.9732 243.2626A5 5 0 0 1 284.131 249.8634L279.6202 250.6588A25 25 0 0 0 255 230Z;M255 25.8712A20 20 0 0 1 276.7391 5.947A250 250 0 0 1 496.4944 190.3435A20 20 0 0 1 480.6478 215.2122L279.6202 250.6588A25 25 0 0 0 255 230Z" dur="0.5s" begin="0.5s" calcMode="spline" keySplines="0.33,1,0.68,1" fill="freeze"></animate>
+    </path>
+    <path fill="#91cc75" stroke="white" stroke-width="4" stroke-linejoin="round">
+        <animate attributeName="d" values="M284.131 249.8634A5 5 0 0 1 289.9991 254.752A35 35 0 0 1 280.004 279.4908A5 5 0 0 1 272.3869 278.931L269.6946 275.2254A25 25 0 0 0 279.6202 250.6588Z;M438.3039 222.6786A18 18 0 0 1 459.3747 239.0003A205 205 0 0 1 390.9005 408.4798A18 18 0 0 1 364.4055 405.5837L269.6946 275.2254A25 25 0 0 0 279.6202 250.6588Z" dur="0.5s" begin="0.4375s" calcMode="spline" keySplines="0.33,1,0.68,1" fill="freeze"></animate>
+    </path>
+    <path fill="#fac858" stroke="white" stroke-width="4" stroke-linejoin="round">
+        <animate attributeName="d" values="M272.3869 278.931A5 5 0 0 1 270.5655 286.3483A35 35 0 0 1 248.6783 289.4243A5 5 0 0 1 244.8829 282.7965L246.4495 278.4923A25 25 0 0 0 269.6946 275.2254Z;M352.4133 389.0779A16 16 0 0 1 347.5862 412.2706A182.5 182.5 0 0 1 209.3501 431.6984A16 16 0 0 1 198.3172 410.7347L246.4495 278.4923A25 25 0 0 0 269.6946 275.2254Z" dur="0.5s" begin="0.375s" calcMode="spline" keySplines="0.33,1,0.68,1" fill="freeze"></animate>
+    </path>
+    <path fill="#ee6666" stroke="white" stroke-width="4" stroke-linejoin="round">
+        <animate attributeName="d" values="M244.8829 282.7965A5 5 0 0 1 237.7152 285.4341A35 35 0 0 1 225.1877 273.3364A5 5 0 0 1 227.5735 266.081L231.8204 264.3652A25 25 0 0 0 246.4495 278.4923Z;M205.2952 391.5629A14 14 0 0 1 186.1117 399.4106A160 160 0 0 1 113.0816 328.8861A14 14 0 0 1 120.255 309.4405L231.8204 264.3652A25 25 0 0 0 246.4495 278.4923Z" dur="0.5s" begin="0.3125s" calcMode="spline" keySplines="0.33,1,0.68,1" fill="freeze"></animate>
+    </path>
+    <path fill="#73c0de" stroke="white" stroke-width="4" stroke-linejoin="round">
+        <animate attributeName="d" values="M227.5735 266.081A5 5 0 0 1 220.8172 262.5193A35 35 0 0 1 220.2185 251.095A5 5 0 0 1 226.5655 246.8465L230.9685 248.1091A25 25 0 0 0 231.8204 264.3652Z;M144.4121 299.6804A12 12 0 0 1 128.3965 291.9131A131.875 131.875 0 0 1 125.2316 231.5228A12 12 0 0 1 140.3476 222.1239L230.9685 248.1091A25 25 0 0 0 231.8204 264.3652Z" dur="0.5s" begin="0.25s" calcMode="spline" keySplines="0.33,1,0.68,1" fill="freeze"></animate>
+    </path>
+    <path fill="#3ba272" stroke="white" stroke-width="4" stroke-linejoin="round">
+        <animate attributeName="d" values="M226.5655 246.8465A5 5 0 0 1 223.4343 239.8803A35 35 0 0 1 226.8309 234.2274A5 5 0 0 1 234.4517 233.7216L237.6335 237.0165A25 25 0 0 0 230.9685 248.1091Z;M159.9595 227.7476A10 10 0 0 1 153.4294 214.4253A109.375 109.375 0 0 1 171.4901 184.3672A10 10 0 0 1 186.3187 183.8785L237.6335 237.0165A25 25 0 0 0 230.9685 248.1091Z" dur="0.5s" begin="0.1875s" calcMode="spline" keySplines="0.33,1,0.68,1" fill="freeze"></animate>
+    </path>
+    <path fill="#fc8452" stroke="white" stroke-width="4" stroke-linejoin="round">
+        <animate attributeName="d" values="M234.4517 233.7216A5 5 0 0 1 235.2232 226.1231A35 35 0 0 1 237.7152 224.5659A5 5 0 0 1 244.8829 227.2035L246.4495 231.5077A25 25 0 0 0 237.6335 237.0165Z;M196.565 194.4888A8 8 0 0 1 197.3323 182.6765A92.5 92.5 0 0 1 215.276 171.4641A8 8 0 0 1 226.2291 175.9526L246.4495 231.5077A25 25 0 0 0 237.6335 237.0165Z" dur="0.5s" begin="0.125s" calcMode="spline" keySplines="0.33,1,0.68,1" fill="freeze"></animate>
+    </path>
+    <path fill="#9a60b4" stroke="white" stroke-width="4" stroke-linejoin="round">
+        <animate attributeName="d" values="M244.8829 227.2035A5 5 0 0 1 248.6783 220.5757A35 35 0 0 1 249.1667 220.4895A5 5 0 0 1 255 225.4196L255 230A25 25 0 0 0 246.4495 231.5077Z;M229.3449 184.5133A6 6 0 0 1 233.387 176.6773A81.25 81.25 0 0 1 248.5216 174.0087A6 6 0 0 1 255 179.9896L255 230A25 25 0 0 0 246.4495 231.5077Z" dur="0.5s" begin="0.0625s" calcMode="spline" keySplines="0.33,1,0.68,1" fill="freeze"></animate>
+    </path>
+    <defs></defs>
+</svg>
