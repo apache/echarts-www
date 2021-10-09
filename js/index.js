@@ -123,6 +123,15 @@ window.lazyLoadOptions = {
     // Index animation
     window.startMagic = function () {
         function start() {
+            var svgBoundingRect = document.querySelector('.home-feature-trailer-cover svg').getBoundingClientRect();
+            var rect = {
+                left: svgBoundingRect.left,
+                top: svgBoundingRect.top,
+                width: svgBoundingRect.width,
+                height: svgBoundingRect.height,
+            };
+
+            // Get rect before hiding.
             $('#main').addClass('cinematic-mode');
 
             document.getElementById('home-feature-trailer-close-btn').onclick = function () {
@@ -134,7 +143,11 @@ window.lazyLoadOptions = {
                 featureTrailer.resume();
             }
             else {
-                featureTrailer.init(document.getElementById('home-feature-trailer-viewport'))
+                featureTrailer.init(document.getElementById('home-feature-trailer-viewport'), {
+                    initialPieLayout: rect,
+                    initialPieAnimation: false,
+                    updateURLHash: false
+                })
                 isInited = true;
             }
         }

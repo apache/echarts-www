@@ -148,6 +148,8 @@ body {
         z-index: -100;
 
         svg {
+            width: 700px;
+            height: 700px;
             max-width: 100%;
             max-height: 100%;
         }
@@ -554,6 +556,10 @@ body {
             svg {
                 height: 41px;
                 width: 41px;
+
+                path {
+                    vector-effect: non-scaling-stroke;
+                }
             }
 
         }
