@@ -81,8 +81,8 @@ block content
                             .about-desc 中国 · 杭州
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
-                            //- a(href='https://whimsy.apache.org/roster/committer/wave', target='_blank')
-                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/dave.jpg?_v_=#{cdnPayVersion}')
+                            a(href='https://github.com/dave2wave', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/dave.jpg?_v_=#{cdnPayVersion}')
                             h5.about-name Dave Fisher
                             .about-desc 美国 · 旧金山
                     .col-md-3.col-sm-4.col-xs-6
@@ -93,8 +93,8 @@ block content
                             .about-desc 美国 · 华盛顿
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
-                            //- a(href='https://whimsy.apache.org/roster/committer/wusheng', target='_blank')
-                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/shengwu.jpg?_v_=#{cdnPayVersion}')
+                            a(href='https://github.com/wu-sheng', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/shengwu.jpg?_v_=#{cdnPayVersion}')
                             h5.about-name 吴晟
                             .about-desc 中国 · 北京
                     .col-md-3.col-sm-4.col-xs-6
@@ -157,7 +157,8 @@ block content
                             .about-desc 中国 · 北京
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
-                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/nick.jpg?_v_=#{cdnPayVersion}')
+                            a(href='https://github.com/Nick22nd', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/nick.jpg?_v_=#{cdnPayVersion}')
                             h5.about-name 何亚雄
                             .about-desc 中国 · 深圳
                     .col-md-3.col-sm-4.col-xs-6
@@ -169,12 +170,14 @@ block content
                             .about-desc 美国 · 得克萨斯州
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
-                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/tedliu.jpg?_v_=#{cdnPayVersion}')
+                            a(href='https://github.com/tedliu1', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/tedliu.jpg?_v_=#{cdnPayVersion}')
                             h5.about-name Ted Liu
                             .about-desc 中国 · 北京
                     .col-md-3.col-sm-4.col-xs-6
                         .about-person
-                            img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/shenshuntian.jpg?_v_=#{cdnPayVersion}')
+                            a(href='https://github.com/ssthouse', target='_blank')
+                                img(src='#{cdnPayRoot}/#{ecWWWLang}/images/people/shenshuntian.jpg?_v_=#{cdnPayVersion}')
                             h5.about-name 沈顺天
                             .about-desc 腾讯
                             .about-desc 中国 · 深圳
@@ -203,24 +206,24 @@ block extra_js
     script(type='text/javascript').
         document.getElementById('nav-contribute').className = 'active';
 
-        var recommendId = 3;
-        setInterval(function () {
-            recommend(recommendId);
-            ++recommendId;
-            if (recommendId === $('.recommend').length) {
-                recommendId = 0;
-            }
-        }, 3000);
+        //- var recommendId = 3;
+        //- setInterval(function () {
+        //-     recommend(recommendId);
+        //-     ++recommendId;
+        //-     if (recommendId === $('.recommend').length) {
+        //-         recommendId = 0;
+        //-     }
+        //- }, 3000);
 
-        function recommend(id) {
-            recommendId = id;
+        //- function recommend(id) {
+        //-     recommendId = id;
 
-            var left = $('.people img').eq(0).remove();
-            $('.people').append(left);
-            $('.people img').removeClass('active');
-            $('.people img').eq(2).addClass('active');
+        //-     var left = $('.people img').eq(0).remove();
+        //-     $('.people').append(left);
+        //-     $('.people img').removeClass('active');
+        //-     $('.people img').eq(2).addClass('active');
 
-            $('.recommend').removeClass('active');
-            $('.recommend').eq(id).addClass('active');
-        }
+        //-     $('.recommend').removeClass('active');
+        //-     $('.recommend').eq(id).addClass('active');
+        //- }
 
