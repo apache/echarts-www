@@ -107,6 +107,17 @@ body {
         &:hover {
             opacity: 1;
         }
+
+        svg {
+            width: 700px;
+            height: 700px;
+            max-width: 100%;
+            max-height: 100%;
+
+            path {
+                vector-effect: non-scaling-stroke;
+            }
+        }
     }
 
     .index-home-svg {
