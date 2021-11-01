@@ -168,7 +168,8 @@ block content
 
 
 block extra_js
-    script(src="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/js/download.js')}")
+    //- Force use apache cdn to avoid jsdelivr not update immediately.
+    script(src="#{getAssetUrl('https://echarts.apache.org', ecWWWLang + '/js/download.js')}")
     script(type='text/javascript').
         document.getElementById('nav-download').className = 'active';
 
