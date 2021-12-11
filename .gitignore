@@ -2,7 +2,6 @@ node_modules
 css/*.css
 release
 *.zip
-package-lock.json
 */**/.DS_Store
 _generated
 .DS_Store
