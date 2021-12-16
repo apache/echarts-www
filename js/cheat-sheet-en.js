@@ -73,7 +73,7 @@ var baseOption = {
     visualMap: {
         inRange: {
             symbolSize: [5, 20],
-            color: ['#2F4554', '#C23431']
+            color: ['#91cc75', '#5470c6']
         },
         min: 0,
         max: 25,
@@ -87,7 +87,8 @@ var baseOption = {
     dataZoom: {
         type: 'slider',
         show: true,
-        yAxisIndex: 1
+        yAxisIndex: 1,
+        right: 15
     },
     legend: {
         data: ['Evaporation', 'Precipitation', 'Temperature'],
@@ -160,7 +161,7 @@ var baseOption = {
                 endAngle: Math.PI * 1.2
             },
             style: {
-                fill: '#C23431'
+                fill: '#5470c6'
             }
         }, {
             type: 'text',
@@ -216,18 +217,18 @@ var regions = [{
         desc: 'Series data item style. For different series type, this has different meanings.\n For example, for line series, this is the style of data points. As for bar series, this is the style of bars. It works for the whole series. To give a specific data point a different style, it should be set in <a href="option.html#series-line.data.itemStyle" target="_blank"><code>series.data.itemStyle</code></a>.'
     }
 }, {
-    left: 10,
+    left: 5,
     top: 5,
-    width: 100,
+    width: 105,
     height: 24,
     option: {
         id: 'title',
         desc: 'Chart title.'
     }
 }, {
-    left: 10,
+    left: 5,
     top: 35,
-    width: 350,
+    width: 335,
     height: 24,
     option: {
         id: 'legend',
@@ -414,10 +415,10 @@ var regions = [{
         desc: 'The x axis in cartesian (rectangular) coordinate. The second axis lies on the right side of the grid.'
     }
 }, {
-    left: width * 0.65 - 5,
-    top: height * 0.45 - 5,
-    width: 145,
-    height: 80,
+    left: width * 0.65 + 5,
+    top: height * 0.45 + 5,
+    width: 189,
+    height: 112,
     option: {
         id: 'tooltip',
         desc: 'Tooltip component.'
@@ -487,10 +488,10 @@ var regions = [{
         desc: 'Whether show handles, which can be dragged to adjust "selected range".'
     }
 }, {
-    right: 5,
+    right: 3,
     top: grid.top - 5,
-    height: grid.height + 12,
-    width: 34,
+    height: grid.height + 15,
+    width: 45,
     option: {
         id: 'dataZoom',
         desc: 'dataZoom component is used for zooming a specific area, which enables user to investigate data in detail, or get an overview of the data, or get rid of outlier points.'

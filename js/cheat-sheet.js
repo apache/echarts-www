@@ -73,7 +73,7 @@ var baseOption = {
     visualMap: {
         inRange: {
             symbolSize: [5, 20],
-            color: ['#2F4554', '#C23431']
+            color: ['#91cc75', '#5470c6']
         },
         min: 0,
         max: 25,
@@ -87,7 +87,8 @@ var baseOption = {
     dataZoom: {
         type: 'slider',
         show: true,
-        yAxisIndex: 1
+        yAxisIndex: 1,
+        right: 15
     },
     legend: {
         data: ['蒸发量', '降水量', '平均温度'],
@@ -160,7 +161,7 @@ var baseOption = {
                 endAngle: Math.PI * 1.2
             },
             style: {
-                fill: '#C23431'
+                fill: '#5470c6'
             }
         }, {
             type: 'text',
@@ -216,7 +217,7 @@ var regions = [{
         desc: '系列的图形样式，对不同类型的图表有不同的意义。\n对折线图而言，这个配置项用于设置拐点处图形的样式；对柱状图而言，用于设置柱子的样式。该配置项是对整个系列的图形做设置，如果要对其中的某一个特定数据点做设置，应使用 <a href="option.html#series-line.data.itemStyle" target="_blank"><code>series.data.itemStyle</code></a>。'
     }
 }, {
-    left: 10,
+    left: 5,
     top: 5,
     width: 100,
     height: 24,
@@ -225,7 +226,7 @@ var regions = [{
         desc: '图表的标题'
     }
 }, {
-    left: 10,
+    left: 5,
     top: 35,
     width: 238,
     height: 24,
@@ -414,10 +415,10 @@ var regions = [{
         desc: '坐标轴刻度'
     }
 }, {
-    left: width * 0.65 - 5,
-    top: height * 0.45 - 5,
-    width: 118,
-    height: 80,
+    left: width * 0.65 + 5,
+    top: height * 0.45 + 5,
+    width: 152,
+    height: 112,
     option: {
         id: 'tooltip',
         desc: '提示框'
@@ -487,10 +488,10 @@ var regions = [{
         desc: '是否显示拖拽用的手柄（手柄能拖拽调整选中范围）'
     }
 }, {
-    right: 5,
+    right: 3,
     top: grid.top - 5,
-    height: grid.height + 12,
-    width: 34,
+    height: grid.height + 15,
+    width: 45,
     option: {
         id: 'dataZoom',
         desc: '区域缩放，用来放大一部分的数据，以看清细节'
