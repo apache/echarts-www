@@ -122,7 +122,8 @@ window.lazyLoadOptions = {
 
     function loadLandingAnimationScripts() {
         return new Promise((resolve) => {
-            var indexAnimationURL = 'http://localhost/echarts-www-landing-animation/'
+            // var landingAnimationURL = 'http://localhost/echarts-www-landing-animation/'
+            var landingAnimationURL = 'https://cdn.jsdelivr.net/npm/echarts-www-landing-animation/';
             // Load script.
             var link = document.createElement('link');
             var script = document.createElement('script');
@@ -141,8 +142,8 @@ window.lazyLoadOptions = {
             script.onload = onload;
             link.onload = onload;
 
-            link.href = indexAnimationURL + 'dist/style.css';
-            script.src = indexAnimationURL + 'dist/echarts-www-landing-animation.js';
+            link.href = landingAnimationURL + 'dist/style.css';
+            script.src = landingAnimationURL + 'dist/echarts-www-landing-animation.js';
             document.head.appendChild(link);
             document.head.appendChild(script);
         });
@@ -152,7 +153,7 @@ window.lazyLoadOptions = {
     setTimeout(() => {
         // Auto load script after 3 seconds.
         landingAnimationPromise = loadLandingAnimationScripts();
-    }, 3000);
+    }, 2000);
 
     // Index animation
     window.startMagic = function () {
