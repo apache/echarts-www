@@ -120,10 +120,44 @@ window.lazyLoadOptions = {
 
     var isInited = false;
 
+    function loadLandingAnimationScripts() {
+        return new Promise((resolve) => {
+            var indexAnimationURL = 'http://localhost/echarts-www-landing-animation/'
+            // Load script.
+            var link = document.createElement('link');
+            var script = document.createElement('script');
+            link.setAttribute('rel', 'stylesheet');
+            link.setAttribute('type', 'text/css');
+
+            var loading = 2;
+
+            function onload() {
+                loading--;
+                if (!loading) {
+                    resolve();
+                }
+            }
+
+            script.onload = onload;
+            link.onload = onload;
+
+            link.href = indexAnimationURL + 'dist/style.css';
+            script.src = indexAnimationURL + 'dist/echarts-www-landing-animation.js';
+            document.head.appendChild(link);
+            document.head.appendChild(script);
+        });
+    }
+
+    var landingAnimationPromise;
+    setTimeout(() => {
+        // Auto load script after 3 seconds.
+        landingAnimationPromise = loadLandingAnimationScripts();
+    }, 3000);
+
     // Index animation
     window.startMagic = function () {
         function start() {
-            var svgBoundingRect = document.querySelector('.home-feature-trailer-cover svg').getBoundingClientRect();
+            var svgBoundingRect = document.querySelector('.home-landing-animation-cover svg').getBoundingClientRect();
             var rect = {
                 left: svgBoundingRect.left,
                 top: svgBoundingRect.top,
@@ -134,16 +168,16 @@ window.lazyLoadOptions = {
             // Get rect before hiding.
             $('#main').addClass('cinematic-mode');
 
-            document.getElementById('home-feature-trailer-close-btn').onclick = function () {
-                featureTrailer.pause();
+            document.getElementById('home-landing-animation-close-btn').onclick = function () {
+                landingAnimation.pause();
                 $('#main').removeClass('cinematic-mode');
             }
 
             if (isInited) {
-                featureTrailer.resume();
+                landingAnimation.resume();
             }
             else {
-                featureTrailer.init(document.getElementById('home-feature-trailer-viewport'), {
+                landingAnimation.init(document.getElementById('home-landing-animation-viewport'), {
                     initialPieLayout: rect,
                     initialPieAnimation: false,
                     updateURLHash: false
@@ -152,33 +186,18 @@ window.lazyLoadOptions = {
             }
         }
 
-        if (typeof featureTrailer !== 'undefined') {
+        if (typeof landingAnimation !== 'undefined') {
             start();
             return;
         }
 
-        var indexAnimationURL = 'http://localhost/echarts-www-feature-trailer/'
-        // Load script.
-        var link = document.createElement('link');
-        var script = document.createElement('script');
-        link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('type', 'text/css');
-
-        var loading = 2;
-
-        function onload() {
-            loading--;
-            if (!loading) {
-                start();
-            }
+        if (!landingAnimationPromise) {
+            landingAnimationPromise = loadLandingAnimationScripts();
         }
-
-        script.onload = onload;
-        link.onload = onload;
-
-        link.href = indexAnimationURL + 'dist/style.css';
-        script.src = indexAnimationURL + 'dist/echarts-www-feature-trailer.js';
-        document.head.appendChild(link);
-        document.head.appendChild(script);
+        landingAnimationPromise.then(function () {
+            start();
+        });
     }
+
+    document.getElementById('play-landing-animation').onclick = startMagic;
 })();
