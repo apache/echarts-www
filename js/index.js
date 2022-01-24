@@ -157,7 +157,10 @@ window.lazyLoadOptions = {
 
     // Index animation
     window.startMagic = function () {
+        $('#play-landing-animation .loading').show();
         function start() {
+            $('#play-landing-animation .loading').hide();
+
             var svgBoundingRect = document.querySelector('.home-landing-animation-cover svg').getBoundingClientRect();
             var rect = {
                 left: svgBoundingRect.left,
@@ -200,5 +203,5 @@ window.lazyLoadOptions = {
         });
     }
 
-    document.getElementById('play-landing-animation').onclick = startMagic;
+    $('#play-landing-animation').on('click', startMagic);
 })();

@@ -175,7 +175,7 @@ body {
             margin-left: -20px;
             border-radius: 100%;
 
-            color: $clr-text;
+            color: $clr-contrast;
 
             cursor: pointer;
             z-index: 100;
@@ -187,9 +187,9 @@ body {
 
             &:before {
                 animation: fx-plyr-play-button 1.5s ease-out infinite;
-                border: 4px solid $clr-text;
+                border: 4px solid $clr-contrast;
                 border-radius: 150%;
-                box-shadow: 0 0 10px $clr-text;
+                box-shadow: 0 0 10px $clr-contrast;
                 box-sizing: border-box;
                 content: "";
                 height: 120%;
@@ -197,6 +197,16 @@ body {
                 position: absolute;
                 top: -10%;
                 width: 120%;
+            }
+
+            .loading {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                transform: scale(1.3);
+                display: none;
             }
         }
     }
