@@ -9,6 +9,11 @@ $collapse-break-point: 768px;
     height: 50px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 
+    .navbar-header {
+        position: relative;
+        z-index: 10001;
+    }
+
     .navbar-nav {
         transition: background-color 0.5s linear;
     }

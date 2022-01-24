@@ -117,4 +117,88 @@ window.lazyLoadOptions = {
             }
         });
     }
+
+    var isInited = false;
+
+    function loadLandingAnimationScripts() {
+        return new Promise((resolve) => {
+            // var landingAnimationURL = 'http://localhost/echarts-www-landing-animation/'
+            var landingAnimationURL = 'https://cdn.jsdelivr.net/npm/echarts-www-landing-animation/';
+            // Load script.
+            var link = document.createElement('link');
+            var script = document.createElement('script');
+            link.setAttribute('rel', 'stylesheet');
+            link.setAttribute('type', 'text/css');
+
+            var loading = 2;
+
+            function onload() {
+                loading--;
+                if (!loading) {
+                    resolve();
+                }
+            }
+
+            script.onload = onload;
+            link.onload = onload;
+
+            link.href = landingAnimationURL + 'dist/style.css';
+            script.src = landingAnimationURL + 'dist/echarts-www-landing-animation.js';
+            document.head.appendChild(link);
+            document.head.appendChild(script);
+        });
+    }
+
+    var landingAnimationPromise;
+    setTimeout(() => {
+        // Auto load script after 3 seconds.
+        landingAnimationPromise = loadLandingAnimationScripts();
+    }, 2000);
+
+    // Index animation
+    window.startMagic = function () {
+        function start() {
+            var svgBoundingRect = document.querySelector('.home-landing-animation-cover svg').getBoundingClientRect();
+            var rect = {
+                left: svgBoundingRect.left,
+                top: svgBoundingRect.top,
+                width: svgBoundingRect.width,
+                height: svgBoundingRect.height,
+            };
+
+            // Get rect before hiding.
+            $('#main').addClass('cinematic-mode');
+
+            document.getElementById('home-landing-animation-close-btn').onclick = function () {
+                landingAnimation.pause();
+                $('#main').removeClass('cinematic-mode');
+            }
+
+            if (isInited) {
+                landingAnimation.resume();
+            }
+            else {
+                landingAnimation.init(document.getElementById('home-landing-animation-viewport'), {
+                    initialPieLayout: rect,
+                    initialPieAnimation: false,
+                    updateURLHash: false
+                })
+                isInited = true;
+            }
+        }
+
+        if (typeof landingAnimation !== 'undefined') {
+            start();
+            return;
+        }
+
+        if (!landingAnimationPromise) {
+            landingAnimationPromise = loadLandingAnimationScripts();
+        }
+        landingAnimationPromise.then(function () {
+            start();
+        });
+    }
+
+    document.getElementById('play-landing-animation').onclick = startMagic;
 })();

@@ -10,10 +10,12 @@
     "dev": "node bin/build.js --env=localsite",
     "jade": "node bin/build.js --env=localsite --filter=jade",
     "sass": "node bin/build.js --env=localsite --filter=sass",
-    "watch": "npm run watch:jade & npm run watch:sass",
+    "js": "node bin/build.js --env=localsite --filter=js",
+    "watch": "npm run watch:jade & npm run watch:sass & npm run watch:js",
     "create:page": "node bin/createPage.js",
     "watch:jade": "onchange '_jade/**/*' -- node bin/build.js --env=localsite --filter=jade --jade={{changed}}",
-    "watch:sass": "onchange '_scss/**/*' -- npm run sass"
+    "watch:sass": "onchange '_scss/**/*' -- npm run sass",
+    "watch:js": "onchange 'js/*.js' -- npm run js"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.31",
