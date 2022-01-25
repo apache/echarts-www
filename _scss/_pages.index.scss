@@ -171,10 +171,10 @@ body {
             left: 50%;
             top: calc(min(50%, 350px));
 
-            width: 40px;
-            height: 40px;
-            margin-top: -20px;
-            margin-left: -20px;
+            width: 60px;
+            height: 60px;
+            margin-top: -30px;
+            margin-left: -30px;
             border-radius: 100%;
 
             color: $clr-contrast;
@@ -194,11 +194,11 @@ body {
                 box-shadow: 0 0 10px $clr-contrast;
                 box-sizing: border-box;
                 content: "";
-                height: 120%;
-                left: -10%;
+                height: 140%;
+                left: -20%;
                 position: absolute;
-                top: -10%;
-                width: 120%;
+                top: -20%;
+                width: 140%;
             }
 
             .loading {
