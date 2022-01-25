@@ -77,6 +77,8 @@ body {
 
     .home-btn-panel {
         margin-top: 40px;
+        position: relative;
+        z-index: 10;
     }
 
     .btn-index-home {
@@ -155,10 +157,6 @@ body {
         position: absolute;
         right: 50px;
 
-        .home-landing-animation-svg-container {
-            position: relative;
-        }
-
         svg {
             width: 700px;
             height: 700px;
@@ -171,7 +169,7 @@ body {
         #play-landing-animation {
             position: absolute;
             left: 50%;
-            top: 50%;
+            top: calc(min(50%, 350px));
 
             width: 40px;
             height: 40px;
@@ -704,8 +702,15 @@ body {
     #main-content {
 
         .home-info {
-            margin-top: 5vh;
+            margin-top: 10vh;
         }
+
+
+        .home-landing-animation-cover {
+            height: 60%;
+            top: 30%;
+        }
+
         .home-brand {
             font-size: 48px;
         }
@@ -755,9 +760,18 @@ body {
         .home-brand-panel {
             text-align: center;
 
+
+            .home-brand {
+                font-size: 34px;
+            }
+
             .btn {
-                display: block;
-                margin: 10px auto;
+                display: inline-block;
+                margin: 10px;
+                width: 120px;
+                min-width: initial;
+                font-size: 14px;
+                padding: 10px 5px;
             }
         }
     }
