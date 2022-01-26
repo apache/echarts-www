@@ -29,8 +29,13 @@ block content
                             a.btn.btn-main.btn-index-home.btn-index-github(href='https://github.com/apache/echarts', target='_blank')
                                 include ../components/svg/github
                                 +svgGithub('#081642')
-                    .home-chart
-                        img(src="images/index-home-pie.png")
+                    .home-landing-animation
+                        .home-landing-animation-cover
+                            include ../components/svg/entry-pie.svg
+                            #play-landing-animation
+                                include ../components/svg/play.svg
+                                .loading
+                                    include ../components/svg/loading.svg
 
             section#new-version-section 📣 Apache ECharts 5.2 is out! See <a href='#{host}/handbook/#{ecWWWLang}/basics/release-note/5-2-0?ref=banner' target='_blank'>what's new</a>
 
