@@ -27,7 +27,7 @@ block content
                 h3 有技术问题怎么办？
                 p 1）建议您在提问前，大致阅读一下<a href="https://echarts.apache.org/zh/option.html">配置项手册</a>左侧导航，了解 ECharts 有哪些配置项，并且在相关的组件下查找是否有实现您需要功能的配置项；
                 p 2）查看本页常见问题的解答；
-                p 3）建议在 <a href="https://www.makeapie.com/editor.html">ECharts Gallery</a> 上添加图表，复现你的问题，如果无法使用代码描述需求，可以尝试提供设计稿或画个草图；
+                p 3）建议在 <a href="https://codesandbox.io/">CodeSandbox</a> 上添加图表，复现你的问题，如果无法使用代码描述需求，可以尝试提供设计稿或画个草图；
                 p 4）推荐在 <a href="https://stackoverflow.com">stackoverflow.com</a>、<a href="https://www.oschina.net/question/tag/echarts">开源中国</a> 或 <a href="https://segmentfault.com/t/echarts">segmentfault.com</a> 等问答平台上提问，附上图表链接。
 
                 h3 ECharts 可以免费商用吗？
@@ -43,7 +43,6 @@ block content
 
                 h3 如何强制显示坐标轴第一个/最后一个标签？
                 p ECharts 3.5.2 版本起，支持 <a href="https://echarts.apache.org/zh/option.html#xAxis.axisLabel.showMinLabel">axisLabel.showMinLabel</a> 以及 <a href="https://echarts.apache.org/zh/option.html#xAxis.axisLabel.showMaxLabel">axisLabel.showMaxLabel</a>，分别用来控制第一个/最后一个标签是否强制显示，设为 <code>true</code> 则强制显示。
-                p 如果不方便更新版本，可以参考<a href="https://www.makeapie.com/editor.html?c=xry06afSje">这个例子</a>实现同样的效果。
 
 
 
@@ -82,7 +81,6 @@ block content
                         | myChart.on('georoam', function (params) {
                         |    console.log(params);
                         | });
-                p 参见这个<a href="https://www.makeapie.com/editor.html?c=xHyqn_rQ6g">完整的例子</a>。
 
                 h3 如何制作自定义地图？
                 p ECharts 地图在地图坐标的基础上进行过<a href="https://github.com/apache/echarts/blob/8eeb7e5abe207d0536c62ce1f4ddecc6adfdf85e/src/util/mapData/rawData/encode.js">额外的编码</a>。可以使用 <a href="https://github.com/giscafer/mapshaper-plus">mapshaper-plus</a> 工具，上传自定义的 geojson 文件，生成 ECharts 可以使用的地图文件。
@@ -95,7 +93,6 @@ block content
                     li 引入 <code>echarts.js</code>、<code>bmap.js</code> 以及 <code>https://api.map.baidu.com/api?v=2.0&ak=这里填在百度开发平台注册得到的 access key</code>；
                     li 在 <code>option</code> 中设置 <code>bmap</code>，参考<a href="https://echarts.apache.org/examples/zh/editor.html?c=effectScatter-bmap">这个例子</a>；
                     li 如需获得百度地图实例，可以通过 <code>chart.getModel().getComponent('bmap').getBMap()</code>，然后根据<a href="https://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference.html">百度地图 API</a>做进一步设置。
-                p <a href="https://www.makeapie.com/explore.html">Gallery</a> 上有更多百度地图的例子，可作为参考。
 
 
 
@@ -120,7 +117,6 @@ block content
                     li 调用 <code>echarts.init</code> 的时候，DOM 容器是否有宽高。
 
                 h3 ECharts 有哪些学习资料？
-                p 官网是最好的学习平台。此外，在 <a href="https://www.makeapie.com">ECharts Gallery</a> 上学习别人的作品也是一个不错的选择。
                 p ECharts 相关项目及资源请参见 <a href="https://github.com/ecomfe/awesome-echarts">awesome-echarts</a>。
 
                 include ../components/inner-footer
