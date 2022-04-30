@@ -215,6 +215,16 @@ module.exports = {
             descEN: 'Krisk bring Echarts to Python, and helpful tools for statistical interactive visualization.'
         }, {
             image: '',
+            name: 'Rails Charts',
+            website: 'https://github.com/railsjazz/rails_charts',
+            authors: [{
+                name: 'Rails Charts',
+                website: 'https://github.com/railsjazz/rails_charts'
+            }],
+            desc: 'Rails Charts提供了一个Ruby gem，可以在Ruby on Rails应用程序中使用图表。',
+            descEN: 'Rails Charts provides a Ruby gem enabling use of ECharts in Ruby on Rails applications.'
+        }, {
+            image: '',
             name: 'recharts',
             website: 'https://github.com/taiyun/recharts',
             authors: [{
