@@ -44,10 +44,10 @@ block content
 
             section#events-section
                 .container
-                    a.event(href='https://apachecon.com/acasia2022/zh/?ref=echarts')
+                    a.event(href='https://apachecon.com/acasia2022/zh/?ref=echarts', style="width: 1000px; margin: 15px auto")
                         picture
                             source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20220509-acasia2022.webp?_v_=#{cdnPayVersion}", type="image/webp")
-                            source.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20220509-acasia2022.png?_v_=#{cdnPayVersion}", type="image/png")
+                            img.lazy(data-srcset="#{cdnPayRoot}/#{ecWWWLang}/images/event/20220509-acasia2022.png?_v_=#{cdnPayVersion}", type="image/png")
                             //- img.lazy(data-src="#{cdnPayRoot}/#{ecWWWLang}/images/event/20210705-apachecon.jpeg?_v_=#{cdnPayVersion}", alt="ApacheCon Asia 2021")
 
             section#feature-section
