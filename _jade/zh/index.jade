@@ -4,8 +4,8 @@ extends ../layouts/basic
 
 block extra_head
     title Apache ECharts
-    script(src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.7/dist/scrollreveal.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/lottie-web@5.7.6/build/player/lottie.min.js")
+    script(src="https://fastly.jsdelivr.net/npm/scrollreveal@4.0.7/dist/scrollreveal.min.js")
+    script(src="https://fastly.jsdelivr.net/npm/lottie-web@5.7.6/build/player/lottie.min.js")
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
@@ -159,7 +159,7 @@ block content
         include ../components/footer
 
 block extra_js
-    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
+    script(src='https://fastly.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
     script(src='#{cdnPayRoot}/#{ecWWWLang}/js/index.js?_v_=#{homeVersion}')
     //- <script async defer src="https://buttons.github.io/buttons.js"></script>
 
@@ -167,4 +167,4 @@ block extra_js
         window.lazyLoadOptions = {
             elements_selector: ".lazy"
         };
-    script(src='https://cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
+    script(src='https://fastly.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js')
