@@ -123,7 +123,7 @@ window.lazyLoadOptions = {
     function loadLandingAnimationScripts() {
         return new Promise((resolve) => {
             // var landingAnimationURL = 'http://localhost/echarts-www-landing-animation/'
-            var landingAnimationURL = 'https://cdn.jsdelivr.net/npm/echarts-www-landing-animation/';
+            var landingAnimationURL = 'https://fastly.jsdelivr.net/npm/echarts-www-landing-animation/';
             // Load script.
             var link = document.createElement('link');
             var script = document.createElement('script');
