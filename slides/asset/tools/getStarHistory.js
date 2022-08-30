@@ -73,7 +73,7 @@ async function getStarHistory(repo) {
   const getArray = sampleUrls.map(url => axiosGit.get(url));
 
   const resArray = await Promise.all(getArray).catch(res => {
-    throw 'Github api limit exceeded, Try in the new hour!'
+    throw 'GitHub api limit exceeded, Try in the new hour!'
   });
 
   const starHistory = pageIndexes.map((p, i) => {
