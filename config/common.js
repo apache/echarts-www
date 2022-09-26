@@ -363,7 +363,7 @@ module.exports = {
                 website: 'https://github.com/pissang'
             }],
             desc: '百度地图扩展，可以在百度地图上展现点图，线图，热力图等。',
-            descEN: 'With Baidu map extension, you can display scatter charts, line charts, heatmaps and so on.'
+            descEN: 'With Baidu map extension, you can display scatter charts, lines charts, heatmaps and so on.'
         }, {
             image: 'arcgis.jpg',
             name: 'ArcGIS 地图',
