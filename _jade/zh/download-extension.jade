@@ -7,17 +7,17 @@ mixin extension(ext)
         else
             - var website = '#'
         .extension-content
-            a.extension-head(href="#{website}")
+            a.extension-head(href="#{website}", target="_blank")
                 if ext.image
                     img.extension-img(src="#{cdnPayRoot}/#{ecWWWLang}/images/extensions/#{ext.image}?_v_=#{cdnPayVersion}")
                 else
                     img.extension-img(src="#{cdnPayRoot}/#{ecWWWLang}/images/extensions/default-extension.png?_v_=#{cdnPayVersion}")
             .extension-info
-                a.extension-name(href="#{website}") #{ext.name}
+                a.extension-name(href="#{website}", target="_blank") #{ext.name}
                 .extension-author
                     span 贡献者：
                     each author in ext.authors
-                        a.extension-author-name(href="#{author.website}") #{author.name}
+                        a.extension-author-name(href="#{author.website}", target="_blank") #{author.name}
                 .extension-desc #{ext.desc}
 
 block extra_head
