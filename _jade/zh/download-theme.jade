@@ -55,6 +55,30 @@ block extra_js
         $('pre').addClass('prettyprint');
         prettyPrint();
 
-        $('.download-theme').click(function () {
+        $('.download-theme').click(function (e) {
+            e.preventDefault();
+            var ctx = this;
+            function onload(res) {
+                var url = res && res instanceof Blob && URL.createObjectURL(res);
+                var a = document.createElement('a');
+                a.href = url || ctx.href;
+                a.download = ctx.download;
+                a.click();
+                url && URL.revokeObjectURL(url);
+            }
+            if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', ctx.href);
+                xhr.responseType = 'blob';
+                xhr.onload = function () {
+                    onload(this.status === 200 && this.response);
+                };
+                xhr.onerror = function (e) {
+                    console.error('failed to download theme', e);
+                };
+                xhr.send();
+            } else {
+                onload();
+            }
             _hmt.push(['_trackEvent', 'download-theme', 'download-theme', '']);
         });
