@@ -61,17 +61,35 @@ block extra_js
         prettyPrint();
 
         $('.download-theme').click(function (e) {
-            e.preventDefault();
             var ctx = this;
+            if (ctx.origin === location.origin) {
+                return;
+            }
+            // cross origin
+            e.preventDefault();
             function onload(res) {
-                var url = res && res instanceof Blob && URL.createObjectURL(res);
+                var download = ctx.getAttribute('download');
+                var url;
+                if (res && res instanceof Blob) {
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        if (window.navigator.msSaveOrOpenBlob(res, download)) {
+                            return;
+                        }
+                    } else {
+                        url = URL.createObjectURL(res);
+                    }
+                }
                 var a = document.createElement('a');
                 a.href = url || ctx.href;
-                a.download = ctx.download;
+                a.target = ctx.target;
+                a.setAttribute('download', download);
+                a.style.display = 'none';
+                document.body.appendChild(a);
                 a.click();
+                document.body.removeChild(a);
                 url && URL.revokeObjectURL(url);
             }
-            if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
+            if ((typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') || window.navigator.msSaveOrOpenBlob) {
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', ctx.href);
                 xhr.responseType = 'blob';
