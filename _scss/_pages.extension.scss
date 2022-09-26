@@ -47,9 +47,14 @@
         display: block;
     }
 
-        .extension-img {
-            width: 100%;
-        }
+    .extension-img {
+        width: 100%;
+    }
+
+    .extension-head,
+    .extension-img {
+        border-radius: 4px 4px 0 0;
+    }
 
     .extension-info {
         padding: 10px 15px;
