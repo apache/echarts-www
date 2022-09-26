@@ -56,6 +56,7 @@ block extra_js
         prettyPrint();
 
         $('.download-theme').click(function (e) {
+            typeof _hmt === 'object' && _hmt && _hmt.push(['_trackEvent', 'download-theme', 'download-theme', '']);
             var ctx = this;
             if (ctx.origin === location.origin) {
                 return;
@@ -98,5 +99,4 @@ block extra_js
             } else {
                 onload();
             }
-            _hmt.push(['_trackEvent', 'download-theme', 'download-theme', '']);
         });
