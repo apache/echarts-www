@@ -485,11 +485,11 @@ var EXAMPLES = [
         type: 'scatter'
     },  {
         id: 'scatter-polar-punchCard',
-        title: 'Punch Card of Github',
+        title: 'Punch Card of GitHub',
         type: 'scatter'
     },  {
         id: 'scatter-punchCard',
-        title: 'Punch Card of Github',
+        title: 'Punch Card of GitHub',
         type: 'scatter'
     },  {
         id: 'scatter-single-axis',
