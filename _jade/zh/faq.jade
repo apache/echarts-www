@@ -116,8 +116,15 @@ block content
                     li <code>echarts</code> 变量是否存在；
                     li 调用 <code>echarts.init</code> 的时候，DOM 容器是否有宽高。
 
+                h3 为什么在 Vue 中使用 ECharts 时图表显示异常？
+                p 如果你使用的是 Vue 3，请避免使用 `reactive` 及 `ref`。
+                p 如果你使用的是 Vue 2，请避免在 `data` 函数中声明 ECharts 的对象实例或使用 `Vue.observable` API。
+                p 上述均会导致 ECharts 的对象实例被代理成为响应式对象，影响 ECharts 对内部属性的访问，可能会导致图表无法正确显示等一系列意外问题，且会由于深度监听而极大地降低图表展示性能。
+                p 解决方案为：使用普通变量声明 ECharts 对象实例，或使用 `shallowRef`/`shallowReactive`/`markRaw` 等 API 防止 ECharts 对象实例被代理。
+                p 另请参见 <a href="https://github.com/apache/echarts/issues/17723#issuecomment-1268311307" target="blank">#17723</a> 及 <a href="https://cn.vuejs.org/api/reactivity-advanced.html#markraw" target="blank">Vue 文档中的相关使用警告</a>。
+
                 h3 ECharts 有哪些学习资料？
-                p ECharts 相关项目及资源请参见 <a href="https://github.com/ecomfe/awesome-echarts">awesome-echarts</a>。
+                p ECharts 相关项目及资源请参见 <a href="https://github.com/ecomfe/awesome-echarts" target="blank">awesome-echarts</a>。
 
                 include ../components/inner-footer
 
