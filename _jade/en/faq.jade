@@ -38,7 +38,7 @@ block content
                 p Yes, ECharts is open-sourced under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.
 
                 h2#axis Axis
-                h3 What should I do if the axis label don`t have enough space?
+                h3 What should I do if the axis label doesn't have enough space?
                 p You can use <a href="https://echarts.apache.org/en/option.html#xAxis.interval">interval</a> to control how many labels are displayed,  set it to <code>0</code> to display all labels.
                 p Or you can set <a href="https://echarts.apache.org/en/option.html#yAxis.axisLabel.rotate">axisLabel.rotate</a> to rotate the label a certain angle.
 
@@ -118,10 +118,11 @@ block content
                     li Whether the DOM container has a width or height when calling <code>echarts.init</code>.
 
                 h3 Why does the chart not work correctly when using ECharts in Vue?
-                p If you are using Vue 3, avoid using `reactive` and `ref`.
-                p If you are using Vue 2, avoid declaring the ECharts instance object in the `data` function or using the `Vue.observable` API.
-                p All of the above will cause the echarts instance object to be proxied as a reactive object, which may affect the access to the properties of inner models of ECharts and bring some unexpected issues and lousy performance.
-                p The suggestion is to declare the echarts instance object as a normal variable, or use `shallowRef`/`shallowReactive`/`markRaw` API to prevent the instance object from being proxied.
+                ul
+                    li If you are using Vue 3, avoid using <code>reactive</code> and <code>ref</code>.
+                    li If you are using Vue 2, avoid declaring the ECharts instance object in the <code>data</code> function or using the <code>Vue.observable</code> API.
+                p All of the above will cause the ECharts instance object to be proxied as a reactive object, which may affect the access to the properties of inner models of ECharts and bring some unexpected issues and lousy performance.
+                p The suggestion is to declare the ECharts instance object as a normal variable, or use <code>shallowRef</code> / <code>shallowReactive</code> / <code>markRaw</code> API to prevent the instance object from being proxied.
                 p See also <a href="https://github.com/apache/echarts/issues/17723#issuecomment-1268311307" target="blank">#17723</a> and <a href="https://vuejs.org/api/reactivity-advanced.html#markraw" target="_blank">the usage caution from Vue documentation</a>.
 
                 h3 Are there more resources for learning ECharts?
