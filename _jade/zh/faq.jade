@@ -121,7 +121,7 @@ block content
                     li 如果你使用的是 Vue 3，请避免使用 <code>reactive</code> 及 <code>ref</code>。
                     li 如果你使用的是 Vue 2，请避免在 <code>data</code> 函数中声明 ECharts 的对象实例或使用 <code>Vue.observable</code> API。
                 p 上述均会导致 ECharts 的对象实例被代理成为响应式对象，影响 ECharts 对内部属性的访问，可能会导致图表无法正确显示等一系列意外问题，且会由于深度监听而极大地降低图表展示性能。
-                p 解决方案为：使用普通变量声明 ECharts 对象实例，或使用 <code>shallowRef<code> / <code>shallowReactive</code> / <code>markRaw</code> 等 API 防止 ECharts 对象实例被代理。
+                p 解决方案为：使用普通变量声明 ECharts 对象实例，或使用 <code>shallowRef</code> / <code>shallowReactive</code> / <code>markRaw</code> 等 API 防止 ECharts 对象实例被代理。
                 p 另请参见 <a href="https://github.com/apache/echarts/issues/17723#issuecomment-1268311307" target="blank">#17723</a> 及 <a href="https://cn.vuejs.org/api/reactivity-advanced.html#markraw" target="blank">Vue 文档中的相关使用警告</a>。
 
                 h3 ECharts 有哪些学习资料？
