@@ -118,7 +118,7 @@ block content
 
                 h3 为什么在 Vue 中使用 ECharts 时图表显示异常？
                 ul
-                    li 如果你使用的是 Vue 3，请避免使用 <code>reactive</code> 及 `ref`。
+                    li 如果你使用的是 Vue 3，请避免使用 <code>reactive</code> 及 <code>ref</code>。
                     li 如果你使用的是 Vue 2，请避免在 <code>data</code> 函数中声明 ECharts 的对象实例或使用 <code>Vue.observable</code> API。
                 p 上述均会导致 ECharts 的对象实例被代理成为响应式对象，影响 ECharts 对内部属性的访问，可能会导致图表无法正确显示等一系列意外问题，且会由于深度监听而极大地降低图表展示性能。
                 p 解决方案为：使用普通变量声明 ECharts 对象实例，或使用 <code>shallowRef<code> / <code>shallowReactive</code> / <code>markRaw</code> 等 API 防止 ECharts 对象实例被代理。
