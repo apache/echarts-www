@@ -11,10 +11,14 @@ html(lang='#{htmlAttrLang}')
     head
         meta(charset='utf-8')
 
-        meta(http-equiv='X-UA-Compatible', content='IE=edge')
-        meta(name='viewport', content='width=device-width, initial-scale=1', user-scalable="no")
+        meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+        meta(name='viewport', content='width=device-width,initial-scale=1,user-scalable=no')
 
-        meta(name="description" content="ECharts, a powerful, interactive charting and visualization library for browser")
+        if ecWWWLang == 'zh'
+            meta(name="description" content="Apache ECharts，一款基于JavaScript的数据可视化图表库，提供直观，生动，可交互，可个性化定制的数据可视化图表。")
+        else
+            meta(name="description" content="Apache ECharts, a powerful, interactive charting and visualization library for browser")
+        meta(name="keywords" content="echarts,apache,charts,data-visualization,charting-library,visualization,data-viz,canvas,svg,plot,graph")
 
         link(rel='shortcut icon', href='#{cdnPayRoot}/#{ecWWWLang}/images/favicon.png?_v_=#{cdnPayVersion}')
         link(rel='stylesheet', type='text/css', href='#{cdnThirdParty.bootstrapCSS}')
