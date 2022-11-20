@@ -362,8 +362,8 @@ module.exports = {
                 name: '沈毅',
                 website: 'https://github.com/pissang'
             }],
-            desc: '百度地图扩展，可以在百度地图上展现点图，线图，热力图等。',
-            descEN: 'With Baidu map extension, you can display scatter charts, lines charts, heatmaps and so on.'
+            desc: '百度地图扩展，可以在百度地图上展现点图、线图、热力图及饼图等。',
+            descEN: 'With Baidu map extension, you can display scatter charts, lines charts, heatmaps, pie charts and so on.'
         }, {
             image: 'arcgis.jpg',
             name: 'ArcGIS 地图',
@@ -402,8 +402,8 @@ module.exports = {
                 name: 'plainheart',
                 website: 'https://github.com/plainheart'
             }],
-            desc: '高德地图扩展，可以在高德地图上展现点图，线图，热力图等。',
-            descEN: 'AMap extension for ECharts which is used to display visualizations such as Scatter, Lines, Heatmap.'
+            desc: '高德地图扩展，可以在高德地图上展现点图、线图、热力图及饼图等。',
+            descEN: 'AMap extension for ECharts which is used to display visualizations such as Scatter, Lines, Heatmap and Pie.'
         }],
         functional: [{
             image: 'modularity.jpg',
