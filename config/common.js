@@ -224,6 +224,16 @@ module.exports = {
             desc: 'Rails Charts提供了一个Ruby gem，可以在Ruby on Rails应用程序中使用图表。',
             descEN: 'Rails Charts provides a Ruby gem enabling use of ECharts in Ruby on Rails applications.'
         }, {
+            image: 'echarty.png',
+            name: 'echarty',
+            website: 'https://github.com/helgasoft/echarty',
+            authors: [{
+                name: 'helgasoft',
+                website: 'https://github.com/helgasoft'
+            }],
+            desc: 'echarty 提供了 ECharts 的 R 语言接口。',
+            descEN: 'A thin R/Shiny interface covers full functionality of ECharts.'
+        }, {
             image: '',
             name: 'recharts',
             website: 'https://github.com/taiyun/recharts',
