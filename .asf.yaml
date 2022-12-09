@@ -1,0 +1,12 @@
+github:
+  description: Source of Apache ECharts website
+  homepage: https://echarts.apache.org
+  labels:
+    - echarts
+    - apache
+    - website
+
+notifications:
+  commits: commits@echarts.apache.org
+  pullrequests: commits@echarts.apache.org
+  issues: commits@echarts.apache.org

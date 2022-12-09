@@ -384,13 +384,13 @@ async function buildLegacyDoc(config) {
         }
     };
 
-    await new Promise((reslove, reject) => {
+    await new Promise((resolve, reject) => {
         requirejs.optimize(
             docToolConfig,
             function () {
                 fse.ensureDirSync(path.dirname(jsDestPathEN));
                 fse.copyFileSync(jsDestPathZH, jsDestPathEN);
-                reslove();
+                resolve();
             },
             function (error) {
                 console.error(chalk.red(`buildLegacyDoc requirejs ${error.message}`));
