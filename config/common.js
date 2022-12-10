@@ -93,8 +93,8 @@ module.exports = {
                 name: 'wangshijun',
                 website: 'https://github.com/wangshijun'
             }],
-            desc: 'AngularJs bindings for Baidu ECharts.',
-            descEN: 'AngularJs bindings for Baidu ECharts.'
+            desc: 'AngularJs bindings for ECharts.',
+            descEN: 'AngularJs bindings for ECharts.'
         }, {
             image: '',
             name: 'echarts-ng',
@@ -113,18 +113,18 @@ module.exports = {
                 name: 'liekkas',
                 website: 'https://github.com/liekkas'
             }],
-            desc: 'AngularJs 版 ECharts，支持最新 ECharts3.x。',
-            descEN: 'AngularJs version ECharts, supports the latest ECharts3.x.'
+            desc: 'AngularJs 版 ECharts，支持 ECharts 3。',
+            descEN: 'AngularJs version for ECharts 3.'
         }, {
             image: '',
             name: 'vue-echarts',
-            website: 'https://github.com/Justineo/vue-echarts',
+            website: 'https://github.com/ecomfe/vue-echarts',
             authors: [{
                 name: 'Justineo',
                 website: 'https://github.com/Justineo'
             }],
-            desc: 'ECharts component for Vue.js.',
-            descEN: 'ECharts component for Vue.js.'
+            desc: 'Apache ECharts 的 Vue.js 组件。',
+            descEN: 'Vue.js component for Apache ECharts.'
         }, {
             image: '',
             name: 'vue-echarts',
@@ -133,8 +133,8 @@ module.exports = {
                 name: 'panteng',
                 website: 'https://github.com/panteng'
             }],
-            desc: 'A custom directive for using Echarts in Vue.js apps.',
-            descEN: 'A custom directive for using Echarts in Vue.js apps.'
+            desc: 'A custom directive for using ECharts in Vue.js apps.',
+            descEN: 'A custom directive for using ECharts in Vue.js apps.'
         }, {
             image: '',
             name: 'echarts-middleware',
@@ -153,8 +153,8 @@ module.exports = {
                 name: 'hustcc',
                 website: 'https://github.com/hustcc'
             }],
-            desc: '一个简单的 ECharts 的 react 封装。',
-            descEN: 'A simple ECharts react package.'
+            desc: '一个简单的 Apache ECharts 的 React 封装。',
+            descEN: 'Apache ECharts components for React wrapper.'
         }, {
             image: '',
             name: 'react-echarts',
@@ -163,8 +163,8 @@ module.exports = {
                 name: 'somonus',
                 website: 'https://github.com/somonus'
             }],
-            desc: 'ECharts + react.',
-            descEN: 'ECharts + react.'
+            desc: 'ECharts + React.',
+            descEN: 'ECharts + React.'
         }, {
             image: '',
             name: 're-echarts',
@@ -173,14 +173,14 @@ module.exports = {
                 name: 'liekkas',
                 website: 'https://github.com/liekkas'
             }],
-            desc: 'ECharts + react.',
-            descEN: 'ECharts + react.'
+            desc: 'ECharts + React.',
+            descEN: 'ECharts + React.'
         }],
 
         language: [{
             image: '',
             name: 'pyecharts',
-            website: 'https://github.com/pyecharts/pyecharts/',
+            website: 'https://github.com/pyecharts/pyecharts',
             authors: [{
                 name: 'chenjiandongx',
                 website: 'https://github.com/chenjiandongx'
@@ -191,8 +191,8 @@ module.exports = {
                 name: 'kinegratii',
                 website: 'https://github.com/kinegratii'
             }],
-            desc: 'Python Echarts Plotting Library.',
-            descEN: 'Python Echarts Plotting Library.'
+            desc: 'Python ECharts Plotting Library.',
+            descEN: 'Python ECharts Plotting Library.'
         }, {
             image: '',
             name: 'echarts-python',
@@ -201,8 +201,8 @@ module.exports = {
                 name: 'yufeiminds',
                 website: 'https://github.com/yufeiminds'
             }],
-            desc: 'Generate Echarts options with Python.',
-            descEN: 'Generate Echarts options with Python.'
+            desc: 'Generate ECharts options with Python.',
+            descEN: 'Generate ECharts options with Python.'
         }, {
             image: '',
             name: 'krisk',
@@ -211,8 +211,8 @@ module.exports = {
                 name: 'napjon',
                 website: 'https://github.com/napjon'
             }],
-            desc: 'Krisk bring Echarts to Python, and helpful tools for statistical interactive visualization.',
-            descEN: 'Krisk bring Echarts to Python, and helpful tools for statistical interactive visualization.'
+            desc: 'Krisk brings ECharts to Python, and helpful tools for statistical interactive visualization.',
+            descEN: 'Krisk brings ECharts to Python, and helpful tools for statistical interactive visualization.'
         }, {
             image: '',
             name: 'Rails Charts',
@@ -224,7 +224,7 @@ module.exports = {
             desc: 'Rails Charts提供了一个Ruby gem，可以在Ruby on Rails应用程序中使用图表。',
             descEN: 'Rails Charts provides a Ruby gem enabling use of ECharts in Ruby on Rails applications.'
         }, {
-            image: 'echarty.png',
+            image: 'echarty.jpg',
             name: 'echarty',
             website: 'https://github.com/helgasoft/echarty',
             authors: [{
@@ -276,23 +276,23 @@ module.exports = {
         }, {
             image: '',
             name: 'purescript-echarts',
-            website: 'https://github.com/slamdata/purescript-echarts/',
+            website: 'https://github.com/slamdata/purescript-echarts',
             authors: [{
                 name: 'slamdata',
                 website: 'https://github.com/slamdata'
             }],
-            desc: 'Purescript bindings for Echarts library.',
-            descEN: 'Purescript bindings for Echarts library.'
+            desc: 'Purescript bindings for ECharts library.',
+            descEN: 'Purescript bindings for ECharts library.'
         }, {
             image: '',
             name: 'iOS-Echarts',
             website: 'https://github.com/Pluto-Y/iOS-Echarts',
             authors: [{
                 name: 'Pluto-Y',
-                website: 'https://github.com/Pluto-Y/'
+                website: 'https://github.com/Pluto-Y'
             }],
-            desc: 'This is a highly custom chart control for iOS and Mac apps, which build with ECharts 2.',
-            descEN: 'This is a highly custom chart control for iOS and Mac apps, which build with ECharts 2.'
+            desc: 'This is a highly custom chart control for iOS and Mac apps, which builds with ECharts 2.',
+            descEN: 'This is a highly custom chart control for iOS and Mac apps, which builds with ECharts 2.'
         }, {
             image: '',
             name: 'ECharts-Java',
@@ -301,8 +301,8 @@ module.exports = {
                 name: 'abel533',
                 website: 'https://github.com/abel533'
             }],
-            desc: '这是一个针对 ECharts2.x 版本的 Java 类库，实现了所有 ECharts 中的 JSON 结构对应的 Java 对象。',
-            descEN: 'This is a Java version of the ECharts2.x version that implements the Java objects corresponding to the JSON structure in all ECharts.'
+            desc: '这是一个针对 ECharts 2 的 Java 类库，实现了所有 ECharts 中的 JSON 结构对应的 Java 对象。',
+            descEN: 'This is a Java version of the ECharts 2 that implements the Java objects corresponding to the JSON structure in all ECharts.'
         }, {
             image: '',
             name: 'EChartsSDK',
@@ -321,8 +321,8 @@ module.exports = {
                 name: 'hisune',
                 website: 'https://github.com/hisune'
             }],
-            desc: 'A PHP library that works as a wrapper for Echarts.',
-            descEN: 'A PHP library that works as a wrapper for Echarts.'
+            desc: 'A PHP library that works as a wrapper for ECharts.',
+            descEN: 'A PHP library that works as a wrapper for ECharts.'
         }, {
             image: '',
             name: 'flutter_echarts',
@@ -331,8 +331,8 @@ module.exports = {
                 name: 'entronad',
                 website: 'https://github.com/entronad'
             }],
-            desc: 'A Flutter widget to use Echarts in a reactive way.',
-            descEN: 'A Flutter widget to use Echarts in a reactive way.'
+            desc: 'A Flutter widget to use ECharts in a reactive way.',
+            descEN: 'A Flutter widget to use ECharts in a reactive way.'
         }],
         chartType: [{
             image: 'gl.png',
@@ -382,8 +382,8 @@ module.exports = {
                 name: 'wandergis',
                 website: 'https://github.com/wandergis'
             }],
-            desc: 'ArcGIS 地图和 ECharts 的结合。',
-            descEN: 'A combination of ArcGIS maps and ECharts.'
+            desc: 'ArcGIS 地图和 ECharts 3 的结合。',
+            descEN: 'A combination of ArcGIS maps and ECharts 3.'
         }, {
             image: 'leaflet-2.jpg',
             name: 'echarts-leaflet',
