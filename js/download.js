@@ -3,7 +3,7 @@
     var param = [{
         publishedAt: '2022-12-09T00:00:00Z',
         prerelease: false,
-        name: '5.4.1'
+        name: '5.4.2'
     }];
     var table = document.getElementById('download-table');
 
