@@ -19,8 +19,8 @@ module.exports = {
 
         // CDN for doc
         vueJS: 'https://fastly.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
-        elementUIJS: 'https://fastly.jsdelivr.net/npm/element-ui@2.13.2/lib/index.js',
-        elementUICSS: 'https://fastly.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css',
+        elementUIJS: 'https://fastly.jsdelivr.net/npm/element-ui@2.15.13/lib/index.js',
+        elementUICSS: 'https://fastly.jsdelivr.net/npm/element-ui@2.15.13/lib/theme-chalk/index.css',
         codeMirrorJS: 'https://fastly.jsdelivr.net/npm/codemirror@5.56.0/lib/codemirror.min.js',
         codeMirrorJSModeJS: 'https://fastly.jsdelivr.net/npm/codemirror@5.56.0/mode/javascript/javascript.js',
         beautifierJS: 'https://fastly.jsdelivr.net/npm/js-beautify@1.11.0/js/lib/beautifier.min.js',
