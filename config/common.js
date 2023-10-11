@@ -1,8 +1,7 @@
 module.exports = {
 
     cdnThirdParty: {
-        jquery: 'https://fastly.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js',
-        jquery_1_11_3: 'https://fastly.jsdelivr.net/npm/jquery@1.11.3/dist/jquery.min.js',
+        jquery: 'https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js',
         bootstrapCSS: 'https://fastly.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css',
         bootstrapJS: 'https://fastly.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js',
         lodash: 'https://fastly.jsdelivr.net/npm/lodash@3.10.1/index.min.js',
@@ -18,9 +17,9 @@ module.exports = {
         jqueryLazyloadJS: 'https://fastly.jsdelivr.net/npm/jquery-lazyload@1.9.7/jquery.lazyload.min.js',
 
         // CDN for doc
-        vueJS: 'https://fastly.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
-        elementUIJS: 'https://fastly.jsdelivr.net/npm/element-ui@2.15.13/lib/index.js',
-        elementUICSS: 'https://fastly.jsdelivr.net/npm/element-ui@2.15.13/lib/theme-chalk/index.css',
+        vueJS: 'https://fastly.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js',
+        elementUIJS: 'https://fastly.jsdelivr.net/npm/element-ui@2.15.14/lib/index.js',
+        elementUICSS: 'https://fastly.jsdelivr.net/npm/element-ui@2.15.14/lib/theme-chalk/index.css',
         codeMirrorJS: 'https://fastly.jsdelivr.net/npm/codemirror@5.56.0/lib/codemirror.min.js',
         codeMirrorJSModeJS: 'https://fastly.jsdelivr.net/npm/codemirror@5.56.0/mode/javascript/javascript.js',
         beautifierJS: 'https://fastly.jsdelivr.net/npm/js-beautify@1.11.0/js/lib/beautifier.min.js',
