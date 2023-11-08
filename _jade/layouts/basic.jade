@@ -32,6 +32,7 @@ html(lang='#{htmlAttrLang}')
 
         script.
             window.EC_WWW_LANG = '#{ecWWWLang}';
+            window.EC_WWW_HOST = '#{host}';
 
         script(type='text/javascript', src='#{cdnThirdParty.paceProgressBarJS}')
 
@@ -47,6 +48,7 @@ html(lang='#{htmlAttrLang}')
         block extra_head
 
         script(type='text/javascript', src='#{cdnThirdParty.jquery}')
+        script(type='text/javascript', src='#{host}/pwa.js')
 
     <!--[if lte IE 8]>
     body.lower-ie
