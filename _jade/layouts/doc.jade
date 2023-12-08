@@ -7,7 +7,7 @@ block extra_head
             /* position: sticky should not have overflow parents.*/
             overflow-x: hidden;
         }
-    link(rel="stylesheet", href="#{cdnThirdParty.elementUICSS}")
+    link(rel="stylesheet", href="#{cdn3rdRoot.elementUICSS}")
     link(rel="stylesheet", href="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/css/doc-bundle.css')}")
 
 block content
@@ -34,11 +34,11 @@ block content
 
 
 block extra_js
-    script(src="#{cdnThirdParty.vueJS}")
-    script(src="#{cdnThirdParty.elementUIJS}")
-    script(src="#{cdnThirdParty.codeMirrorJS}")
-    script(src="#{cdnThirdParty.codeMirrorJSModeJS}")
-    script(src="#{cdnThirdParty.beautifierJS}")
+    script(src="#{cdn3rdRoot.vueJS}")
+    script(src="#{cdn3rdRoot.elementUIJS}")
+    script(src="#{cdn3rdRoot.codeMirrorJS}")
+    script(src="#{cdn3rdRoot.codeMirrorJSModeJS}")
+    script(src="#{cdn3rdRoot.beautifierJS}")
     script(src="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/js/doc-bundle.js')}")
     script(type="text/javascript").
         document.getElementById('nav-doc').className = 'active';

@@ -7,7 +7,7 @@ block extra_head
             /* position: sticky should not have overflow parents.*/
             overflow-x: hidden;
         }
-    link(rel="stylesheet", href="#{cdnThirdParty.elementUICSS}")
+    link(rel="stylesheet", href="#{cdn3rdRoot.elementUICSS}")
     link(rel="stylesheet", href="#{getAssetUrl(cdnPayRoot, 'examples/css/example-bundle.css')}")
 
 block content
@@ -34,8 +34,8 @@ block content
 
 
 block extra_js
-    script(src="#{cdnThirdParty.vueJS}")
-    script(src="#{cdnThirdParty.elementUIJS}")
+    script(src="#{cdn3rdRoot.vueJS}")
+    script(src="#{cdn3rdRoot.elementUIJS}")
     script(src="#{getAssetUrl(cdnPayRoot, 'examples/js/example-bundle.js')}")
     script(type="text/javascript").
         document.getElementById('nav-examples').className = 'active';
