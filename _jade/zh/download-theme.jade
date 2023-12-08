@@ -48,8 +48,8 @@ block content
         include ../components/footer
 
 block extra_js
-    script(src="#{cdnThirdParty.prettifyJS}")
-    script(src="#{cdnThirdParty.prettifyCSSHandlerJS}")
+    script(src="#{cdn3rdRoot.prettifyJS}")
+    script(src="#{cdn3rdRoot.prettifyCSSHandlerJS}")
     script.
         document.getElementById('nav-download').className = 'active';
         $('pre').addClass('prettyprint');

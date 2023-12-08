@@ -5,16 +5,13 @@ module.exports = {
         bootstrapCSS: 'https://fastly.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css',
         bootstrapJS: 'https://fastly.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js',
         lodash: 'https://fastly.jsdelivr.net/npm/lodash@3.10.1/index.min.js',
-        perfectScrollbarJS: 'https://fastly.jsdelivr.net/npm/perfect-scrollbar@0.6.8/dist/js/min/perfect-scrollbar.min.js',
-        perfectScrollbarCSS: 'https://fastly.jsdelivr.net/npm/perfect-scrollbar@0.6.8/dist/css/perfect-scrollbar.min.css',
-        paceProgressBarJS: 'https://fastly.jsdelivr.net/npm/pace-progressbar@1.0.2/pace.min.js',
+        paceProgressBarJS: 'https://fastly.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js',
         sweetalertJS: 'https://fastly.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js',
         echartsMinJS_4_8_0: 'https://fastly.jsdelivr.net/npm/echarts@4.8.0/dist/echarts.min.js',
         prettifyJS: 'https://fastly.jsdelivr.net/npm/code-prettify@0.1.0/src/prettify.min.js',
         // Can not find good prettify css in jsdelivr.
         // prettifyCSS: 'https://fastly.jsdelivr.net/npm/code-prettify@0.1.0/styles/doxy.css',
         prettifyCSSHandlerJS: 'https://fastly.jsdelivr.net/npm/code-prettify@0.1.0/src/lang-css.js',
-        jqueryLazyloadJS: 'https://fastly.jsdelivr.net/npm/jquery-lazyload@1.9.7/jquery.lazyload.min.js',
 
         // CDN for doc
         vueJS: 'https://fastly.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js',
@@ -23,6 +20,26 @@ module.exports = {
         codeMirrorJS: 'https://fastly.jsdelivr.net/npm/codemirror@5.56.0/lib/codemirror.min.js',
         codeMirrorJSModeJS: 'https://fastly.jsdelivr.net/npm/codemirror@5.56.0/mode/javascript/javascript.js',
         beautifierJS: 'https://fastly.jsdelivr.net/npm/js-beautify@1.11.0/js/lib/beautifier.min.js',
+    },
+
+    cdnThirdPartyCN: {
+        jquery: 'https://cdn.staticfile.org/jquery/3.7.1/jquery.min.js',
+        bootstrapCSS: 'https://lib.baomitu.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css',
+        bootstrapJS: 'https://lib.baomitu.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js',
+        lodash: 'https://lib.baomitu.com/lodash.js/3.10.1/lodash.min.js',
+        paceProgressBarJS: 'https://lib.baomitu.com/pace/1.2.4/pace.min.js',
+        sweetalertJS: 'https://lib.baomitu.com/sweetalert/2.1.2/sweetalert.min.js',
+        echartsMinJS_4_8_0: 'https://lib.baomitu.com/echarts/4.8.0/echarts.min.js',
+        prettifyJS: 'https://registry.npmmirror.com/code-prettify/0.1.0/files/src/prettify.js',
+        prettifyCSSHandlerJS: 'https://registry.npmmirror.com/code-prettify/0.1.0/files/src/lang-css.js',
+
+        // CDN for doc
+        vueJS: 'https://lib.baomitu.com/vue/2.6.14/vue.min.js',
+        elementUIJS: 'https://lib.baomitu.com/element-ui/2.15.14/index.min.js',
+        elementUICSS: 'https://lib.baomitu.com/element-ui/2.15.14/theme-chalk/index.min.css',
+        codeMirrorJS: 'https://lib.baomitu.com/codemirror/5.56.0/codemirror.min.js',
+        codeMirrorJSModeJS: 'https://lib.baomitu.com/codemirror/5.56.0/mode/javascript/javascript.min.js',
+        beautifierJS: 'https://lib.baomitu.com/js-beautify/1.11.0/beautifier.min.js',
     },
 
     // Source folder of echarts
