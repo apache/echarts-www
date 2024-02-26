@@ -90,7 +90,7 @@ function initEnv() {
     // Update home version each build.
     config.homeVersion = +new Date();
     // Temp: give a fixed version until need to update.
-    config.cdnPayVersion = '20200710_1';
+    config.cdnPayVersion = '20240226';
 
     config.downloadVersion = '5.0.0';
 

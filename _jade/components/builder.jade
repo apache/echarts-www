@@ -204,7 +204,7 @@ block extra_js
             //- if (email) {
             //-     log += '&email=' + email;
             //- }
-            _hmt.push(['_trackEvent', 'builder', 'build', '#{downloadVersion}', log]);
+            _hmt.push(['_trackEvent', 'builder', 'build', $versionsDom.value || '5', log]);
 
             window.open('#{host}/#{ecWWWLang}/builder/echarts.html?' + parameters);
         });
