@@ -128,7 +128,7 @@ block extra_js
     if isCN 
         - var pkgVersionListAPI = 'https://registry.npmmirror.com/-/v1/search?text=echarts&size=1';
         - var npmVersionFetcher = 'json.objects[0].package.versions.sort((v1, v2) => compareVersions(v2, v1, \'>\'))';
-        - var npmTagFetcher     = 'json.objects[0].package.dist-tags'; 
+        - var npmTagFetcher     = 'json.objects[0].package[\'dist-tags\']'; 
         - var extraBuilderParam = '&cn=1';
     else 
         - var pkgVersionListAPI = 'https://data.jsdelivr.com/v1/package/npm/echarts';
