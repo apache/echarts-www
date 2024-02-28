@@ -142,7 +142,7 @@ block extra_js
     script.
         var $versionsDom = document.querySelector('#versions'); 
 
-        fetch('#{pkgVersionListAPI}').then(res => res.json()).then(json => {
+        fetch('!{pkgVersionListAPI}').then(res => res.json()).then(json => {
             var versions = !{npmVersionFetcher};
             versions.filter(version => compareVersions(version, '3.8.0', '>') >= 0).forEach(version => {
                 const $optionDom = document.createElement('option');
