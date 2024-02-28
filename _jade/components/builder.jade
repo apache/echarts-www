@@ -126,14 +126,14 @@ block content
 block extra_js
     - var isCN = ecWWWLang == 'zh';
     if isCN 
-        - var npmRegistryServer = 'https://registry.npmmirror.com';
-        - var npmVersionFetcher = 'Object.keys(json.versions).sort((v1, v2) => compareVersions(v2, v1, \'>\'))';
-        - var tagPropName       = 'dist-tags'; 
+        - var pkgVersionListAPI = 'https://registry.npmmirror.com/-/v1/search?text=echarts&size=1';
+        - var npmVersionFetcher = 'json.objects[0].package.versions.sort((v1, v2) => compareVersions(v2, v1, \'>\'))';
+        - var npmTagFetcher     = 'json.objects[0].package.dist-tags'; 
         - var extraBuilderParam = '&cn=1';
     else 
-        - var npmRegistryServer = 'https://data.jsdelivr.com/v1/package/npm';
+        - var pkgVersionListAPI = 'https://data.jsdelivr.com/v1/package/npm/echarts';
         - var npmVersionFetcher = 'json.versions';
-        - var tagPropName       = 'tags'; 
+        - var npmTagFetcher     = 'json.tags'; 
 
     if isCN
         script(src="https://registry.npmmirror.com/compare-versions/3.6.0/files/index.js")
@@ -142,7 +142,7 @@ block extra_js
     script.
         var $versionsDom = document.querySelector('#versions'); 
 
-        fetch('#{npmRegistryServer}/echarts', { mode: 'cors' }).then(res => res.json()).then(json => {
+        fetch('#{pkgVersionListAPI}').then(res => res.json()).then(json => {
             var versions = !{npmVersionFetcher};
             versions.filter(version => compareVersions(version, '3.8.0', '>') >= 0).forEach(version => {
                 const $optionDom = document.createElement('option');
@@ -150,7 +150,7 @@ block extra_js
                 $optionDom.innerHTML = version;
                 $versionsDom.appendChild($optionDom);
             });
-            $versionsDom.value = json['#{tagPropName}'].latest;
+            $versionsDom.value = !{npmTagFetcher}.latest;
         });
 
         function updateCheckbox() {
