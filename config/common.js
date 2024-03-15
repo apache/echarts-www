@@ -368,6 +368,9 @@ module.exports = {
             authors: [{
                 name: 'pissang',
                 website: 'https://github.com/pissang'
+            }, {
+                name: 'Ovilia',
+                website: 'https://github.com/Ovilia'
             }],
             desc: '字符云可以将文字根据不同的权重布局为大小、颜色各异的图，支持使用图片作为遮罩。',
             descEN: 'Cloud charts can layout text into different sizes and colors. You can also use images as masks.'
@@ -379,6 +382,9 @@ module.exports = {
             authors: [{
                 name: 'Ovilia',
                 website: 'https://github.com/Ovilia'
+            }, {
+                name: 'pissang',
+                website: 'https://github.com/pissang'
             }],
             desc: '水球图是一种适合于展现单个百分比数据的图表，支持多条水波和动画。',
             descEN: 'The liquid-fill chart is a chart suitable for presenting a single percentage of data, supporting multiple water waves and animations.'
@@ -389,6 +395,9 @@ module.exports = {
             authors: [{
                 name: 'pissang',
                 website: 'https://github.com/pissang'
+            }, {
+                name: 'plainheart',
+                website: 'https://github.com/plainheart'
             }],
             desc: '百度地图扩展，可以在百度地图上展现点图、线图、热力图及饼图等。',
             descEN: 'With Baidu map extension, you can display scatter charts, lines charts, heatmaps, pie charts and so on.',
