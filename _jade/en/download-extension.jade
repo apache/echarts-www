@@ -1,24 +1,29 @@
 extends ../layouts/basic
 
 mixin extension(ext)
-    .col-md-3.col-sm-6.extension
-        if ext.website
-            - var website = ext.website
-        else
-            - var website = '#'
-        .extension-content
-            a.extension-head(href="#{website}", target="_blank")
-                if ext.image
-                    img.extension-img(src="#{cdnPayRoot}/#{ecWWWLang}/images/extensions/#{ext.image}?_v_=#{cdnPayVersion}")
-                else
-                    img.extension-img(src="#{cdnPayRoot}/#{ecWWWLang}/images/extensions/default-extension.png?_v_=#{cdnPayVersion}")
-            .extension-info
-                a.extension-name(href="#{website}", target="_blank") #{ext.name}
-                .extension-author
-                    span Contributors: 
-                    each author in ext.authors
-                        a.extension-author-name(href="#{author.website}", target="_blank") #{author.name}
-                .extension-desc #{ext.descEN}
+    if !ext.onlyZH
+        .col-md-3.col-sm-6.extension
+            if ext.website
+                - var website = ext.website
+            else
+                - var website = '#'
+            if ext.nameEn
+                - var extName = ext.nameEn
+            else
+                - var extName = ext.name
+            .extension-content
+                a.extension-head(href="#{website}", target="_blank")
+                    if ext.image
+                        img.extension-img(src="#{cdnPayRoot}/#{ecWWWLang}/images/extensions/#{ext.image}?_v_=#{cdnPayVersion}")
+                    else
+                        img.extension-img(src="#{cdnPayRoot}/#{ecWWWLang}/images/extensions/default-extension.png?_v_=#{cdnPayVersion}")
+                .extension-info
+                    a.extension-name(href="#{website}", target="_blank") #{extName}
+                    .extension-author
+                        span Contributors: 
+                        each author in ext.authors
+                            a.extension-author-name(href="#{author.website}", target="_blank") #{author.name}
+                    .extension-desc #{ext.descEN}
 
 block variablesLang
     include ./_variablesLang.jade

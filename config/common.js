@@ -355,7 +355,7 @@ module.exports = {
             name: 'ECharts GL',
             website: 'https://github.com/ecomfe/echarts-gl',
             authors: [{
-                name: '沈毅',
+                name: 'pissang',
                 website: 'https://github.com/pissang'
             }],
             desc: '3D 图表、地理可视化、WebGL 加速渲染',
@@ -363,9 +363,10 @@ module.exports = {
         }, {
             image: 'word-cloud.jpg',
             name: '字符云',
+            nameEn: 'Wordcloud',
             website: 'https://github.com/ecomfe/echarts-wordcloud',
             authors: [{
-                name: '沈毅',
+                name: 'pissang',
                 website: 'https://github.com/pissang'
             }],
             desc: '字符云可以将文字根据不同的权重布局为大小、颜色各异的图，支持使用图片作为遮罩。',
@@ -373,9 +374,10 @@ module.exports = {
         }, {
             image: 'liquidfill.jpg',
             name: '水球图',
+            nameEn: 'Liquidfill',
             website: 'https://github.com/ecomfe/echarts-liquidfill',
             authors: [{
-                name: '羡辙',
+                name: 'Ovilia',
                 website: 'https://github.com/Ovilia'
             }],
             desc: '水球图是一种适合于展现单个百分比数据的图表，支持多条水波和动画。',
@@ -385,24 +387,38 @@ module.exports = {
             name: '百度地图',
             website: 'https://github.com/apache/echarts/tree/master/extension-src/bmap',
             authors: [{
-                name: '沈毅',
+                name: 'pissang',
                 website: 'https://github.com/pissang'
             }],
             desc: '百度地图扩展，可以在百度地图上展现点图、线图、热力图及饼图等。',
-            descEN: 'With Baidu map extension, you can display scatter charts, lines charts, heatmaps, pie charts and so on.'
+            descEN: 'With Baidu map extension, you can display scatter charts, lines charts, heatmaps, pie charts and so on.',
+            onlyZH: true
         }, {
-            image: 'arcgis.jpg',
-            name: 'ArcGIS 地图',
-            website: 'https://github.com/wandergis/arcgis-echarts3',
+            image: 'amap.jpg',
+            name: '高德地图',
+            website: 'https://github.com/plainheart/echarts-extension-amap',
             authors: [{
-                name: 'wandergis',
-                website: 'https://github.com/wandergis'
+                name: 'plainheart',
+                website: 'https://github.com/plainheart'
             }],
-            desc: 'ArcGIS 地图和 ECharts 3 的结合。',
-            descEN: 'A combination of ArcGIS maps and ECharts 3.'
+            desc: '高德地图扩展，可以在高德地图上展现点图、线图、热力图及饼图等。',
+            descEN: 'AMap extension for ECharts which is used to display visualizations such as Scatter, Lines, Heatmap and Pie.',
+            onlyZH: true
+        }, {
+            image: 'gmap.jpg',
+            name: '谷歌地图',
+            nameEn: 'Google Maps',
+            website: 'https://github.com/plainheart/echarts-extension-amap',
+            authors: [{
+                name: 'plainheart',
+                website: 'https://github.com/plainheart'
+            }],
+            desc: '谷歌地图扩展，可以在谷歌地图上展现点图、线图、热力图及饼图等。',
+            descEN: 'Google Maps extension for ECharts which is used to display visualizations such as Scatter, Lines, Heatmap and Pie.'
         }, {
             image: 'leaflet-2.jpg',
-            name: 'echarts-leaflet',
+            name: 'Leaflet 地图',
+            nameEn: 'Leaflet Maps',
             website: 'https://github.com/gnijuohz/echarts-leaflet',
             authors: [{
                 name: 'gnijuohz',
@@ -413,6 +429,7 @@ module.exports = {
         }, {
             image: 'mapbox.jpg',
             name: 'Mapbox 地图',
+            nameEn: 'Mapbox Maps',
             website: 'https://github.com/lzxue/echartsLayer',
             authors: [{
                 name: 'lzxue',
@@ -421,22 +438,24 @@ module.exports = {
             desc: 'Mapbox 地图和 ECharts 的结合。',
             descEN: 'A combination of Mapbox maps and ECharts.'
         }, {
-            image: 'amap.jpg',
-            name: '高德地图',
-            website: 'https://github.com/plainheart/echarts-extension-amap',
+            image: 'arcgis.jpg',
+            name: 'ArcGIS 地图',
+            nameEn: 'ArcGIS Maps',
+            website: 'https://github.com/wandergis/arcgis-echarts3',
             authors: [{
-                name: 'plainheart',
-                website: 'https://github.com/plainheart'
+                name: 'wandergis',
+                website: 'https://github.com/wandergis'
             }],
-            desc: '高德地图扩展，可以在高德地图上展现点图、线图、热力图及饼图等。',
-            descEN: 'AMap extension for ECharts which is used to display visualizations such as Scatter, Lines, Heatmap and Pie.'
+            desc: 'ArcGIS 地图和 ECharts 3 的结合。',
+            descEN: 'A combination of ArcGIS maps and ECharts 3.'
         }],
         functional: [{
             image: 'modularity.jpg',
             name: '图的模块化',
+            nameEn: 'Graph Modularity',
             website: 'https://github.com/ecomfe/echarts-graph-modularity',
             authors: [{
-                name: '沈毅',
+                name: 'pissang',
                 website: 'https://github.com/pissang'
             }],
             desc: '该插件可以对 ECharts Graph 图作社群检测，并将图中的顶点分成若干子集。',
@@ -444,10 +463,14 @@ module.exports = {
         }, {
             image: 'stat.jpg',
             name: '统计工具',
+            nameEn: 'Statistics Tool',
             website: 'https://github.com/ecomfe/echarts-stat',
             authors: [{
-                name: '李德清',
+                name: 'deqingli',
                 website: 'https://github.com/deqingli'
+            }, {
+                name: '100pah',
+                website: 'https://github.com/100pah'
             }],
             desc: '统计扩展是一个专门用来进行数据分析的工具。',
             descEN: 'The statistical extension is a tool for data analysis.'
