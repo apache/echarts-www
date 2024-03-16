@@ -23,7 +23,7 @@ module.exports = {
     },
 
     cdnThirdPartyCN: {
-        jquery: 'https://cdn.staticfile.org/jquery/3.7.1/jquery.min.js',
+        jquery: 'https://cdn.staticfile.net/jquery/3.7.1/jquery.min.js',
         bootstrapCSS: 'https://lib.baomitu.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css',
         bootstrapJS: 'https://lib.baomitu.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js',
         lodash: 'https://lib.baomitu.com/lodash.js/3.10.1/lodash.min.js',
