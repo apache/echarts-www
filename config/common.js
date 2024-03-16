@@ -417,7 +417,7 @@ module.exports = {
             image: 'gmap.jpg',
             name: '谷歌地图',
             nameEn: 'Google Maps',
-            website: 'https://github.com/plainheart/echarts-extension-amap',
+            website: 'https://github.com/plainheart/echarts-extension-gmap',
             authors: [{
                 name: 'plainheart',
                 website: 'https://github.com/plainheart'
