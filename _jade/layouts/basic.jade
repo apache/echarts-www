@@ -28,6 +28,14 @@ html(lang='#{htmlAttrLang}')
         meta(name="keywords" content="echarts,apache,charts,data-visualization,charting-library,visualization,data-viz,canvas,svg,plot,graph")
 
         link(rel='shortcut icon', href='#{cdnPayRoot}/#{ecWWWLang}/images/favicon.png?_v_=#{cdnPayVersion}')
+
+        if isCN
+            link(rel='dns-prefetch', href='https://lib.baomitu.com')
+            link(rel='dns-prefetch', href='https://registry.npmmirror.com')
+        else
+            link(rel='dns-prefetch', href='https://fastly.jsdelivr.net')
+            link(rel='dns-prefetch', href='https://cdn.jsdelivr.net')
+
         link(rel='stylesheet', type='text/css', href='#{cdn3rdRoot.bootstrapCSS}')
 
         link(rel='stylesheet', type='text/css', href="#{getAssetUrl(host, ecWWWLang + '/css/main.css')}")
