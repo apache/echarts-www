@@ -21,20 +21,20 @@ block content
                 h4 Features
                 ul
             .page-detail
-                p.page-detail-desc Apache ECharts<sup>TM</sup> is an open-sourced JavaScript visualization tool, which can run fluently on PC and mobile devices. It is compatible with most modern Web Browsers, e.g., IE9/10/11, Chrome, Firefox, Safari and so on. ECharts depends on <a href="https://github.com/ecomfe/zrender" target="_blank">ZRender</a>, a graphic rendering engine, to create intuitive, interactive, and highly-customizable charts.
+                p.page-detail-desc Apache ECharts<sup>TM</sup> is an open-source JavaScript visualization library, optimized for both PC and mobile devices. Compatible with most modern web browsers, including IE9/10/11, Chrome, Firefox and Safari, ECharts uses <a href="https://github.com/ecomfe/zrender" target="_blank">ZRender</a>, a graphic rendering engine, to create intuitive, interactive, and highly-customizable charts.
 
                 h2#chart-types Abundant Chart Types
-                p The basic chart types ECharts supports include <a href="option.html#series-line" target="_blank">line series</a>, <a href="option.html#series-bar" target="_blank">bar series</a>, <a href="option.html#series-scatter" target="_blank">scatter series</a>, <a href="option.html#series-pie" target="_blank">pie charts</a>, <a href="option.html#series-candlestick" target="_blank">candle-stick series</a>, <a href="option.html#series-boxplot" target="_blank">boxplot series</a> for statistics, <a href="option.html#series-map" target="_blank">map series</a>, <a href="option.html#series-heatmap" target="_blank">heatmap series</a>, <a href="option.html#series-lines" target="_blank">lines series</a> for directional information, <a href="option.html#series-graph" target="_blank">graph series</a> for relationships, <a href="option.html#series-treemap" target="_blank">treemap series</a>, <a href="option.html#series-sunburst" target="_blank">sunburst series</a>, <a href="option.html#series-parallel" target="_blank">parallel series</a> for multi-dimensional data, <a href="option.html#series-funnel" target="_blank">funnel series</a>, <a href="option.html#series-gauge" target="_blank">gauge series</a>. And it's extremely easy to create a combination of them with ECharts.
-                p Besides the built-in chart types, ECharts also provide the <a href="option.html#series-custom" target="_blank">custom series</a> for users to create a specific chart types. To use it, you should only pass in a callback function named <em>renderItem</em>, and return any graphic elements you wish to draw to according to the data. What makes it even better is that it can interact with the existing ECharts components and you don't have to worry about the interaction with them.
-                p If the default package size is too large for you, you can choose the chart types and components you need and download in <a href="builder.html" target="_blank">the online builder</a>.
+                p ECharts supports <a href="option.html#series-line" target="_blank">line series</a>, <a href="option.html#series-bar" target="_blank">bar series</a>, <a href="option.html#series-scatter" target="_blank">scatter series</a>, <a href="option.html#series-pie" target="_blank">pie charts</a>, <a href="option.html#series-candlestick" target="_blank">candle-stick series</a>, <a href="option.html#series-boxplot" target="_blank">boxplot series</a> for statistics, <a href="option.html#series-map" target="_blank">map series</a>, <a href="option.html#series-heatmap" target="_blank">heatmap series</a>, <a href="option.html#series-lines" target="_blank">lines series</a> for directional information, <a href="option.html#series-graph" target="_blank">graph series</a> for relationships, <a href="option.html#series-treemap" target="_blank">treemap series</a>, <a href="option.html#series-sunburst" target="_blank">sunburst series</a>, <a href="option.html#series-parallel" target="_blank">parallel series</a> for multi-dimensional data, <a href="option.html#series-funnel" target="_blank">funnel series</a> and <a href="option.html#series-gauge" target="_blank">gauge series</a>. It's easy to create combinations of these visualization types with ECharts.
+                p Besides the built-in chart types, ECharts also provides a <a href="option.html#series-custom" target="_blank">custom series</a> for users to create more specific chart types. To use it, just pass the <em>renderItem</em> callback function and return any graphic elements you wish to draw, according to the data. ECharts supports native interactivity and so there is no need for further configuration.
+                p ECharts is highly optimised, but if the default package size is too large for you, you can select the chart types and components you need and download them via <a href="builder.html" target="_blank">the online builder</a>.
 
                 h2#dataset Multiple Data Format Ready-To-Use
-                p The built-in <code>dataset</code> attribute from ECharts v4.0 supports data formats including two-dimensional table, key-value object, and so on. The map from data to graphic can be easily set by the <code>encode</code> attribute. This is a more intuitive way to think when developing a chart, and it saves much time writing data-converting steps for developers. Futhermore, it saves memory since different components can share on piece of data rather than copying.
-                p ECharts supports TypedArray, which occupies less memory than array and is more garbage-collection-friendly. For big data visualization, it is suggested to use TypedArray to improve performance.
+                p The built-in <code>dataset</code> attribute from ECharts v4.0 supports different data formats, including two-dimensional tables, key-value objects, and more. Data mapping structures can easily be modified with the <code>encode</code> attribute. This makes developing charts much more intuitive, saving time normally spent writing data conversion algorithms. It also saves memory as different components can rely on one dataset rather than multiple copies.
+                p ECharts supports <code>TypedArray</code>, which uses less memory than a standard array and works better with garbage collection. For larger data visualization, TypedArray significantly improves performance.
 
-                h2#big-data Data Visualization of Tens of Millions on Web
-                p With the help of incremental rendering technique since v4.0 and optimization of all aspects, ECharts can display the visualization of tens of millions of data. What's more, interactions like scaling and transforming are fluent all the same.
-                p Tens of millions of data usually takes over hundreds of MB in memory. ECharts provide streaming data ability since v4.0 and makes it possible to render as much data as loaded from WebSocket. There is no need to wait for all data to be loaded to start rendering.
+                h2#big-data Large-Scale Data Visualizations
+                p EChart v4.0's incremental rendering technique and other optimizations allows it to visualize millions of data points. Interactions like scaling and panning continue to work well even with these large-scale visualizations.
+                p Using this many data points is usually very memory intensive. ECharts supports streaming data since v4.0, allowing you to render as much data as possible using WebSocket. Data can be rendered even when the complete dataset has not yet loaded.
 
                 img(src="#{cdnPayRoot}/#{ecWWWLang}/images/features/scatterGL.jpg?_v_=#{cdnPayVersion}", width="60%")
                 <br />
@@ -42,41 +42,41 @@ block content
                 img(src="#{cdnPayRoot}/#{ecWWWLang}/images/features/scatterGL3.jpg?_v_=#{cdnPayVersion}", width="30%")
 
                 h2#mobile Mobile Optimization
-                p ECharts has been carefully optimized for mobile interaction, such zooming and panning the coordinate system with your fingers on small screens. The PC users can also use the mouse wheel to do the same interaction.
-                p The fine-grained modularity and packaging mechanism allows ECharts to have a small package size on mobile, and the optional SVG rendering engine makes the memory cost of mobile much smaller.
+                p ECharts has been carefully optimized for mobile interaction, such as zooming and panning on small screens. PC users can still use the mouse wheel to perform the same interactions.
+                p The packaging utility allows ECharts to have a small package size on mobile, with the optional SVG rendering engine further reducing memory usage.
                 iframe(data-src="#{host}/examples/en/view.html?c=area-simple&reset=1&edit=1&renderer=svg", width="60%", height="400")
 
-                h2#mult-platform Multi-Rendering Solutions and Cross-Platform Support
+                h2#mult-platform Multiple Rendering Methods and Cross-Platform Support
 
-                p ECharts supports rendering charts in the form of Canvas, SVG (v4.0+), and VML. VML is compatible with lower versions of IE; SVG reduces the memory cost on mobiles; and Canvas can easily handle large data visualization and special rendering effects. Different rendering methods provide more choices, making ECharts perform better in different scenarios.
+                p ECharts supports rendering with Canvas, SVG (v4.0+), and VML elements. VML is compatible with older versions of IE; SVG reduces the memory cost on mobiles; and Canvas can easily handle large data visualization and special rendering effects.
 
-                p In addition to PC and mobile browsers, ECharts can also be used with node-canvas on Node for efficient server-side rendering (SSR). And ECharts supports <a href="https://github.com/ecomfe/echarts-for-weixin" target="_blank">WeChat MiniProgram</a> since v4.0.
+                p In addition to PC and mobile browsers, ECharts can also be used with node-canvas on Node for efficient server-side rendering (SSR). It also supports <a href="https://github.com/ecomfe/echarts-for-weixin" target="_blank">WeChat MiniProgram</a> since v4.0.
 
-                p Community contributors also provide us with a lot of <a href="#{host}/en/download-extension.html" target="_blank">extensions for various languages</a>. For example, <a href="https://github.com/pyecharts/pyecharts" target="_blank">pyecharts</a> for Python, <a href="https://github.com/helgasoft/echarty" target="_blank">echarty</a> for R, <a href="https://github.com/randyzwitch/ECharts.jl" target="_blank">ECharts.jl</a> for Julia and so on.
+                p Community contributors also develop <a href="#{host}/en/download-extension.html" target="_blank">extensions for various programming languages</a>, such as <a href="https://github.com/pyecharts/pyecharts" target="_blank">pyecharts</a> for Python, <a href="https://github.com/helgasoft/echarty" target="_blank">echarty</a> for R and <a href="https://github.com/randyzwitch/ECharts.jl" target="_blank">ECharts.jl</a> for Julia.
 
-                p We hope that the platform and language will not be the limit for everyone to use ECharts for visualization!
+                p With our wide platform and programming language support, ECharts lets developers focus on the visualisation, rather than the technical details.
 
-                h2#interaction Interactive Data Exploration In-Depth
-                p Interaction is an important means of mining information from data. Overview first, zoom filtering to view details as needed is a basic requirement for data visualization interaction.
-                p ECharts has been on the road of <em>interaction</em>. We have provided <a href="option.html#legend" target="_blank">legend</a>, <a href="option.html#visualMap" target="_blank">visualMap</a>, <a href="option.html#dataZoom" target="_blank">dataZoom</a>, <a href="option.html#tooltip" target="_blank">tooltip</a>, <a href="option.html#brush" target="_blank">brush</a> and other ready-to-use interactive components, which can perform interactive operations such as multi-dimensional data screening, view zooming, and display details on the data.
+                h2#interaction Interactive Data Exploration
+                p Interaction is key to understanding data. On initial view, ECharts provides an overview that can be zoomed, panned and filtered to provide more granular information.
+                p Optional elements can be enabled to further interactivity. The <a href="option.html#legend" target="_blank">legend</a>, <a href="option.html#visualMap" target="_blank">visualMap</a>, <a href="option.html#dataZoom" target="_blank">dataZoom</a>, <a href="option.html#tooltip" target="_blank">tooltip</a>, <a href="option.html#brush" target="_blank">brush</a> and other ready-to-use components allow users to interact with data in multiple dimensions.
 
                 //- iframe(data-src="#{host}/examples/en/view.html?c=map-parallel-prices&reset=1&edit=1", width="60%", height="540")
                 iframe(data-src="#{host}/examples/en/view.html?c=scatter-matrix&reset=1&edit=1", width="60%", height="540")
 
-                h2#visual-mapping Multi-Dimensional Data Support and Rich Visual Coding
-                p ECharts 3 began to strengthen support for multi-dimensional data. In addition to the common multi-dimensional data visualization tools such as parallel coordinates, for traditional scatter plots, etc., the input data can also be multiple dimensions. With the rich visual coding provided by the visual mapping component <a href="option.html#visualMap" target="_blank">visualMap</a>, it is possible to map data of different dimensions to color, size, transparency, shading, etc. Different visual channels.
+                h2#visual-mapping Multi-Dimensional Data Support
+                p ECharts 3 strengthened support for multi-dimensional data. In addition to common multi-dimensional data visualization elements, such as parallel coordinates for traditional scatter plots, the input data can also be rendered in multiple dimensions. With the intuitive functions provided by the visual mapping component <a href="option.html#visualMap" target="_blank">visualMap</a>, different dimensions can be mapped to color, size, transparency, shading and more.
                 iframe(data-src="#{host}/examples/en/view.html?c=scatter-nutrients-matrix&reset=1&edit=1", width="60%", height="400")
 
                 h2#dynamic-data Dynamic Data
-                p ECharts is driven by data, and changes in data drive changes in the chart. So the implementation of dynamic data has become extremely simple, just need to get the data, fill in the data, ECharts will find the difference between the two sets of data and then use the appropriate animation to represent the data changes. The <a href="option.html#timeline" target="_blank">timeline</a> component can present data information in a higher time dimension.
+                p Changes in the underlying dataset will be reflected in real time on charts. Implementing dynamic data is simple, just import the data as normal and ECharts will automatically find the difference between the two sets of data and then use the appropriate animation to represent the data changes. The <a href="option.html#timeline" target="_blank">timeline</a> component can present data in other time dimensions as well.
                 iframe(data-src="#{host}/examples/en/view.html?c=scatter-life-expectancy-timeline&reset=1&edit=1", width="60%", height="400")
 
                 h2#fancy-effects Special Effects
-                p ECharts provides eye-catching effects for the visualization of geographic data such as line data and point data.
+                p ECharts provides eye-catching effects for the visualization of all data types, whether point, line or geographic.
                 iframe(data-src="#{host}/examples/en/view.html?c=lines-bmap-effect&reset=1&edit=1", width="60%", height="400")
 
-                h2#gl More Powerful and Beautiful 3D Visualization with GL
-                p Do you want to achieve 3D visualization in VR, large screen scenes? We provide WebGL-based ECharts GL. You can use ECharts GL to draw 3D Earth, buildings, and population distribution histograms as easily as ECharts common components. Furthermore, we also provide configuration items so that you can get artistic results with a few lines of configuration!
+                h2#gl More Powerful 3D Visualizations with GL
+                p ECharts even allows you to perform 3D visualizations in VR and other large screen scenes. The WebGL-based ECharts GL lets you render a 3D Earth, buildings, and population distribution histograms as easily as other ECharts components. To add, simple configuration items let you add effects with just a few lines of configuration changes.
 
                 img(src="#{cdnPayRoot}/#{ecWWWLang}/images/features/flowGL-line.jpg?_v_=#{cdnPayVersion}", width="40%")
                 img(src="#{cdnPayRoot}/#{ecWWWLang}/images/features/buildings-ny.jpg?_v_=#{cdnPayVersion}", width="40%")
@@ -86,8 +86,8 @@ block content
 
                 h2#aria Accessibility
 
-                p When we talk about visualization, we tend to naturally associate it with seeing, but it is one-sided. The W3C has developed the Accessible Rich Internet Applications Suite (WAI-ARIA), which aims to make web content and web applications accessible to more people with disabilities.
-                p ECharts 4.0 complies with this specification and supports automatic generation of descriptions based on chart configuration items, enabling people with visual disabilities to understand the chart content with the help of reading devices, so that charts can be accessed by more people!
+                p When thinking about a visualization, we naturally associate it with what you see, but there are other dimensions to viewing. The W3C has developed the Accessible Rich Internet Applications Suite (WAI-ARIA), which aims to make web content and web applications accessible to more people with disabilities.
+                p ECharts 4.0 complies with this specification and supports automatic generation of descriptions based on chart configuration items, enabling people with visual disabilities to understand the chart content with screenreaders, so that charts are accessible to all.
 
                 include ../components/inner-footer
 
