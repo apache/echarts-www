@@ -1,9 +1,9 @@
 // $.getJSON("https://api.github.com/repos/apache/echarts/releases").done(function (param) {
     // `yyyy-MM-dd` should be correct. `hh:mm:ss` doesn't matter.
     var param = [{
-        publishedAt: '2024-06-27T00:00:00Z',
+        publishedAt: '2024-12-28T00:00:00Z',
         prerelease: false,
-        name: '5.5.1'
+        name: '5.6.0'
     }];
     var table = document.getElementById('download-table');
 
