@@ -48,7 +48,7 @@ html(lang='#{htmlAttrLang}')
         script(id='font-hack', type='text/javascript').
             if (/windows/i.test(navigator.userAgent)) {
                 var el = document.createElement('style');
-                el.innerHTML = ''
+                el.innerText = ''
                     + '@font-face {font-family:"noto-thin";src:local("Microsoft Yahei");}'
                     + '@font-face {font-family:"noto-light";src:local("Microsoft Yahei");}';
                 document.head.insertBefore(el, document.getElementById('font-hack'));
