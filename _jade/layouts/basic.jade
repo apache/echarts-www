@@ -29,13 +29,6 @@ html(lang='#{htmlAttrLang}')
 
         link(rel='shortcut icon', href='#{cdnPayRoot}/#{ecWWWLang}/images/favicon.png?_v_=#{cdnPayVersion}')
 
-        if isCN
-            link(rel='dns-prefetch', href='https://lib.baomitu.com')
-            link(rel='dns-prefetch', href='https://registry.npmmirror.com')
-        else
-            link(rel='dns-prefetch', href='https://fastly.jsdelivr.net')
-            link(rel='dns-prefetch', href='https://cdn.jsdelivr.net')
-
         link(rel='stylesheet', type='text/css', href='#{cdn3rdRoot.bootstrapCSS}')
 
         link(rel='stylesheet', type='text/css', href="#{getAssetUrl(host, ecWWWLang + '/css/main.css')}")
@@ -92,7 +85,9 @@ html(lang='#{htmlAttrLang}')
 
     script(type='text/javascript', src='#{cdn3rdRoot.bootstrapJS}')
     script(type='text/javascript', src="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/js/common.js')}")
+    script(type='text/javascript').
+        window.ECHARTS_WWW_VENDORS_CDN_ROOT = '#{cdnPayRoot}/#{ecWWWLang}/js/vendors/';
 
     block extra_js
 
-    include ../components/analytics
+    //- include ../components/analytics

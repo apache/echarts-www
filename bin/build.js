@@ -14,6 +14,8 @@ const assert = require('assert');
 const requirejs = require('requirejs');
 const readline = require('readline');
 const md5 = require('md5');
+const tar = require('tar');
+const fetch = require('node-fetch');
 
 const LANGUAGES = ['zh', 'en'];
 const projectDir = path.resolve(__dirname, '..');
@@ -318,7 +320,9 @@ async function copyResource(config) {
         'asset/lottie/**/*',
         'builder/**/*',
         'dist/**/*',
-        'video/**/*'
+        'video/**/*',
+        'js/vendors/**/*',
+        'js/echarts-www-landing-animation/**/*'
     ], projectDir);
 
     await doCopy([
@@ -450,6 +454,40 @@ async function buildLegacyDoc(config) {
     console.log('\nBuild legacy doc done.');
 }
 
+async function dowloadLatestEChartsLibries(config) {
+    console.log('Downloading latest echarts libraries...');
+    const wwwDir = path.resolve(__dirname, '../');
+    const tmpDir = path.resolve(wwwDir, 'tmp');
+    fse.ensureDirSync(tmpDir);
+
+    return Promise.all(['echarts', 'echarts-stat', 'echarts-gl', 'echarts-graph-modularity'].map(async lib => {
+        // Get latest version from npm registry
+        const versionRes = await fetch(`https://registry.npmmirror.com/${lib}/latest`);
+        const versionData = await versionRes.json();
+        const version = versionData.version;
+        console.log(`Latest version of ${lib}: ${version}`);
+        
+        const res = await fetch(`https://registry.npmmirror.com/${lib}/-/${lib}-${version}.tgz`);
+        const buffer = await res.arrayBuffer();
+        fs.writeFileSync(`${tmpDir}/${lib}.tgz`, Buffer.from(buffer), {encoding: 'binary'});
+        
+        console.log(`Extracting ${lib}...`);
+        const targetDir = path.resolve(wwwDir, './js/vendors/', lib);
+        fse.removeSync(targetDir);
+        fse.ensureDirSync(targetDir);
+        
+        await tar.x({
+            file: `${tmpDir}/${lib}.tgz`,
+            cwd: targetDir,
+            sync: true,
+            // ignore package directory
+            strip: 1
+        });
+        
+        fs.unlinkSync(`${tmpDir}/${lib}.tgz`);
+    }));
+}
+
 async function buildSpreadsheet(config) {
     // Build JS
     let jsDestPathZH = path.resolve(config.releaseDestDir, './zh/js/spreadsheet/spreadsheet.js');
@@ -545,6 +583,8 @@ async function run() {
     }
     else {
         if (config.filter === 'all') {
+            await dowloadLatestEChartsLibries(config);
+            
             await buildSASS(config);
             await buildJS(config);
             await copyResource(config);

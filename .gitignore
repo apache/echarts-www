@@ -8,3 +8,8 @@ _generated
 
 doc-dist
 tmp
+
+js/vendors/echarts
+js/vendors/echarts-stat
+js/vendors/echarts-gl
+js/vendors/echarts-graph-modularity

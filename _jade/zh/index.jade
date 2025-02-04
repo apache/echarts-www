@@ -4,8 +4,8 @@ extends ../layouts/basic
 
 block extra_head
     title Apache ECharts
-    script(src="https://lib.baomitu.com/scrollReveal.js/4.0.7/scrollreveal.min.js")
-    script(src="https://lib.baomitu.com/lottie-web/5.7.6/lottie.min.js")
+    script(src="#{cdn3rdRoot.scrollRevealJS}")
+    script(src="#{cdn3rdRoot.lottieJS}")
 
 block content
     nav(class='navbar navbar-default navbar-fixed-top', role="navigation")
@@ -163,5 +163,5 @@ block extra_js
         window.lazyLoadOptions = {
             elements_selector: ".lazy"
         };
-    script(src='https://lib.baomitu.com/vanilla-lazyload/12.0.3/lazyload.min.js')
+    script(src='#{cdn3rdRoot.lazyloadJS}')
     script(src='#{cdnPayRoot}/#{ecWWWLang}/js/index.js?_v_=#{homeVersion}')

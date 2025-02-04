@@ -1,46 +1,90 @@
+
+
+// const exampleConfig = {
+//     datGUIMinJS: `https://fastly.jsdelivr.net/npm/dat.gui@0.6.5/build/dat.gui.min.js`,
+//     monacoDir: `https://fastly.jsdelivr.net/npm/monaco-editor@0.27.0/min/vs`,
+//     aceDir: `https://fastly.jsdelivr.net/npm/ace-builds@1.4.12/src-min-noconflict`,
+//     prettierDir: `https://fastly.jsdelivr.net/npm/prettier@2.3.2`,
+//     seedrandomJS: `https://fastly.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js`,
+//     jQueryJS: `https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+//     acornJS: `https://fastly.jsdelivr.net/npm/acorn@8.7.1/dist/acorn.min.js`,
+// };
+
+  
+const thirdPartyLinks = {
+    lazyloadJS: './js/vendors/vanilla-lazyload@12.0.3/lazyload.min.js',
+
+    jquery: './js/vendors/jquery@3.7.1/dist/jquery.min.js',
+    bootstrapCSS: './js/vendors/bootstrap@3.3.7/css/bootstrap.min.css',
+    bootstrapJS: './js/vendors/bootstrap@3.3.7/js/bootstrap.min.js',
+    lodash: './js/vendors/lodash@3.10.1/lodash.min.js',
+    paceProgressBarJS: './js/vendors/pace-js@1.2.4/pace.min.js',
+    sweetalertJS: './js/vendors/sweetalert@2.1.2/sweetalert.min.js',
+    echartsMinJS_4_8_0: './js/vendors/echarts@4.8.0/echarts.min.js',
+    prettifyJS: './js/vendors/code-prettify@0.1.0/prettify.min.js',
+    // Can not find good prettify css in jsdelivr.
+    // prettifyCSS: './js/vendors/code-prettify@0.1.0/styles/doxy.css',
+    prettifyCSSHandlerJS: './js/vendors/code-prettify@0.1.0/lang-css.js',
+
+    // CDN for doc
+    vueJS: './js/vendors/vue@2.6.14/vue.min.js',
+    elementUIJS: './js/vendors/element-ui@2.15.14/index.js',
+    elementUICSS: './js/vendors/element-ui@2.15.14/lib/theme-chalk/index.css',
+    codeMirrorJS: './js/vendors/codemirror@5.56.0/codemirror.min.js',
+    codeMirrorJSModeJS: './js/vendors/codemirror@5.56.0/mode/javascript/javascript.js',
+    beautifierJS: './js/vendors/js-beautify@1.11.0/beautifier.min.js',
+
+    scrollRevealJS: './js/vendors/scrollReveal.js@4.0.7/scrollreveal.min.js',
+    lottieJS: './js/vendors/lottie-web@5.7.6/lottie.min.js',
+}
+
+
 module.exports = {
 
-    cdnThirdParty: {
-        jquery: 'https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js',
-        bootstrapCSS: 'https://fastly.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css',
-        bootstrapJS: 'https://fastly.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js',
-        lodash: 'https://fastly.jsdelivr.net/npm/lodash@3.10.1/index.min.js',
-        paceProgressBarJS: 'https://fastly.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js',
-        sweetalertJS: 'https://fastly.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js',
-        echartsMinJS_4_8_0: 'https://fastly.jsdelivr.net/npm/echarts@4.8.0/dist/echarts.min.js',
-        prettifyJS: 'https://fastly.jsdelivr.net/npm/code-prettify@0.1.0/src/prettify.min.js',
-        // Can not find good prettify css in jsdelivr.
-        // prettifyCSS: 'https://fastly.jsdelivr.net/npm/code-prettify@0.1.0/styles/doxy.css',
-        prettifyCSSHandlerJS: 'https://fastly.jsdelivr.net/npm/code-prettify@0.1.0/src/lang-css.js',
+    // cdnThirdParty: {
+    //     jquery: 'https://fastly.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js',
+    //     bootstrapCSS: 'https://fastly.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css',
+    //     bootstrapJS: 'https://fastly.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js',
+    //     lodash: 'https://fastly.jsdelivr.net/npm/lodash@3.10.1/index.min.js',
+    //     paceProgressBarJS: 'https://fastly.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js',
+    //     sweetalertJS: 'https://fastly.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js',
+    //     echartsMinJS_4_8_0: 'https://fastly.jsdelivr.net/npm/echarts@4.8.0/dist/echarts.min.js',
+    //     prettifyJS: 'https://fastly.jsdelivr.net/npm/code-prettify@0.1.0/src/prettify.min.js',
+    //     // Can not find good prettify css in jsdelivr.
+    //     // prettifyCSS: 'https://fastly.jsdelivr.net/npm/code-prettify@0.1.0/styles/doxy.css',
+    //     prettifyCSSHandlerJS: 'https://fastly.jsdelivr.net/npm/code-prettify@0.1.0/src/lang-css.js',
 
-        // CDN for doc
-        vueJS: 'https://fastly.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js',
-        elementUIJS: 'https://fastly.jsdelivr.net/npm/element-ui@2.15.14/lib/index.js',
-        elementUICSS: 'https://fastly.jsdelivr.net/npm/element-ui@2.15.14/lib/theme-chalk/index.css',
-        codeMirrorJS: 'https://fastly.jsdelivr.net/npm/codemirror@5.56.0/lib/codemirror.min.js',
-        codeMirrorJSModeJS: 'https://fastly.jsdelivr.net/npm/codemirror@5.56.0/mode/javascript/javascript.js',
-        beautifierJS: 'https://fastly.jsdelivr.net/npm/js-beautify@1.11.0/js/lib/beautifier.min.js',
-    },
+    //     // CDN for doc
+    //     vueJS: 'https://fastly.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js',
+    //     elementUIJS: 'https://fastly.jsdelivr.net/npm/element-ui@2.15.14/lib/index.js',
+    //     elementUICSS: 'https://fastly.jsdelivr.net/npm/element-ui@2.15.14/lib/theme-chalk/index.css',
+    //     codeMirrorJS: 'https://fastly.jsdelivr.net/npm/codemirror@5.56.0/lib/codemirror.min.js',
+    //     codeMirrorJSModeJS: 'https://fastly.jsdelivr.net/npm/codemirror@5.56.0/mode/javascript/javascript.js',
+    //     beautifierJS: 'https://fastly.jsdelivr.net/npm/js-beautify@1.11.0/js/lib/beautifier.min.js',
+    // },
 
-    cdnThirdPartyCN: {
-        jquery: 'https://registry.npmmirror.com/jquery/3.7.1/files/dist/jquery.min.js',
-        bootstrapCSS: 'https://lib.baomitu.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css',
-        bootstrapJS: 'https://lib.baomitu.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js',
-        lodash: 'https://lib.baomitu.com/lodash.js/3.10.1/lodash.min.js',
-        paceProgressBarJS: 'https://lib.baomitu.com/pace/1.2.4/pace.min.js',
-        sweetalertJS: 'https://lib.baomitu.com/sweetalert/2.1.2/sweetalert.min.js',
-        echartsMinJS_4_8_0: 'https://lib.baomitu.com/echarts/4.8.0/echarts.min.js',
-        prettifyJS: 'https://registry.npmmirror.com/code-prettify/0.1.0/files/src/prettify.js',
-        prettifyCSSHandlerJS: 'https://registry.npmmirror.com/code-prettify/0.1.0/files/src/lang-css.js',
+    // cdnThirdPartyCN: {
+    //     jquery: 'https://registry.npmmirror.com/jquery/3.7.1/files/dist/jquery.min.js',
+    //     bootstrapCSS: 'https://lib.baomitu.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css',
+    //     bootstrapJS: 'https://lib.baomitu.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js',
+    //     lodash: 'https://lib.baomitu.com/lodash.js/3.10.1/lodash.min.js',
+    //     paceProgressBarJS: 'https://lib.baomitu.com/pace/1.2.4/pace.min.js',
+    //     sweetalertJS: 'https://lib.baomitu.com/sweetalert/2.1.2/sweetalert.min.js',
+    //     echartsMinJS_4_8_0: 'https://lib.baomitu.com/echarts/4.8.0/echarts.min.js',
+    //     prettifyJS: 'https://registry.npmmirror.com/code-prettify/0.1.0/files/src/prettify.js',
+    //     prettifyCSSHandlerJS: 'https://registry.npmmirror.com/code-prettify/0.1.0/files/src/lang-css.js',
 
-        // CDN for doc
-        vueJS: 'https://lib.baomitu.com/vue/2.6.14/vue.min.js',
-        elementUIJS: 'https://lib.baomitu.com/element-ui/2.15.14/index.min.js',
-        elementUICSS: 'https://lib.baomitu.com/element-ui/2.15.14/theme-chalk/index.min.css',
-        codeMirrorJS: 'https://lib.baomitu.com/codemirror/5.56.0/codemirror.min.js',
-        codeMirrorJSModeJS: 'https://lib.baomitu.com/codemirror/5.56.0/mode/javascript/javascript.min.js',
-        beautifierJS: 'https://lib.baomitu.com/js-beautify/1.11.0/beautifier.min.js',
-    },
+    //     // CDN for doc
+    //     vueJS: 'https://lib.baomitu.com/vue/2.6.14/vue.min.js',
+    //     elementUIJS: 'https://lib.baomitu.com/element-ui/2.15.14/index.min.js',
+    //     elementUICSS: 'https://lib.baomitu.com/element-ui/2.15.14/theme-chalk/index.min.css',
+    //     codeMirrorJS: 'https://lib.baomitu.com/codemirror/5.56.0/codemirror.min.js',
+    //     codeMirrorJSModeJS: 'https://lib.baomitu.com/codemirror/5.56.0/mode/javascript/javascript.min.js',
+    //     beautifierJS: 'https://lib.baomitu.com/js-beautify/1.11.0/beautifier.min.js',
+    // },
+
+    cdnThirdParty: thirdPartyLinks,
+    cdnThirdPartyCN: thirdPartyLinks,
 
     // Source folder of echarts
     echartsPath: '../echarts',

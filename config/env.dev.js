@@ -14,4 +14,15 @@ config.cdnFreeRootMap = {
 config.galleryPath = 'https://echarts.apache.org/examples/';
 config.releaseDestDir = path.resolve(__dirname, '../../echarts-website');
 
+// TODO put this in common.js
+function addHostToThirdPartyLinks(links, lang, host) {
+    const newLinks = {};
+    for (let key in links) {
+        newLinks[key] = `${host}/${lang}/${links[key]}`;
+    }
+    return newLinks;
+}
+config.cdnThirdPartyCN = addHostToThirdPartyLinks(config.cdnThirdPartyCN, 'zh', config.host);
+config.cdnThirdParty = addHostToThirdPartyLinks(config.cdnThirdParty, 'en', config.host);
+
 module.exports = config;

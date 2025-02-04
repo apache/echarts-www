@@ -122,11 +122,12 @@ window.lazyLoadOptions = {
 
     function loadLandingAnimationScripts() {
         return new Promise((resolve) => {
-            var landingAnimationURL = 
-                window.EC_WWW_LANG === 'zh'
-                    ? 'https://registry.npmmirror.com/echarts-www-landing-animation/latest/files/'
-                    : 'https://fastly.jsdelivr.net/npm/echarts-www-landing-animation/';
-            // Load script.
+            // var landingAnimationURL = 
+            //     window.EC_WWW_LANG === 'zh'
+            //         ? 'https://registry.npmmirror.com/echarts-www-landing-animation/latest/files/'
+            //         : 'https://fastly.jsdelivr.net/npm/echarts-www-landing-animation/';
+            // // Load script.
+            var landingAnimationURL = './js/echarts-www-landing-animation/';
             var link = document.createElement('link');
             var script = document.createElement('script');
             link.setAttribute('rel', 'stylesheet');
@@ -146,8 +147,8 @@ window.lazyLoadOptions = {
             script.onload = onload;
             link.onload = onload;
 
-            link.href = landingAnimationURL + 'dist/style.css';
-            script.src = landingAnimationURL + 'dist/echarts-www-landing-animation.js';
+            link.href = landingAnimationURL + 'style.css';
+            script.src = landingAnimationURL + 'echarts-www-landing-animation.js';
             document.head.appendChild(link);
             document.head.appendChild(script);
         });

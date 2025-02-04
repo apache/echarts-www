@@ -27,11 +27,13 @@
     "jade": "^1.11.0",
     "less": "^3.10.3",
     "md5": "^2.3.0",
+    "node-fetch": "^2.7.0",
     "node-sass": "^9.0.0",
     "onchange": "^6.1.0",
     "postcss": "^7.0.25",
     "requirejs": "^2.3.6",
     "shelljs": "^0.8.5",
+    "tar": "^7.4.3",
     "uglify-js": "^3.17.4",
     "yargs": "^13.2.4"
   }
