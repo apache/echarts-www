@@ -22,6 +22,7 @@ block extra_js
     block global_args_extra
 
     script(type="text/javascript").
+        window.EC_WWW_CDN_PAY_ROOT = '#{cdnPayRoot}';
         window.globalArgsExtra.version = '#{homeVersion}';
         window.globalArgsExtra.cdnRoot = window.EC_WWW_CDN_PAY_ROOT + '/examples';
         
