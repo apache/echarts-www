@@ -104,7 +104,6 @@ function closeApacheBanner(isManualClose) {
     banner && banner.remove();
 
     if (isManualClose) {
-        _hmt.push(['_trackEvent', 'apacheBanner', 'close']);
         Cookies.set('apache-banner-closed', 'true', {
             expires: 7
         });
@@ -112,7 +111,7 @@ function closeApacheBanner(isManualClose) {
 }
 
 function logApache() {
-    _hmt.push(['_trackEvent', 'apacheBanner', 'visit']);
+    // _hmt.push(['_trackEvent', 'apacheBanner', 'visit']);
 }
 
 // Modified from https://github.com/js-cookie/js-cookie

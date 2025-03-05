@@ -19,7 +19,7 @@ block content
             .row
                 each themeName, idx in theme
                     .col-sm-4.theme
-                        a(class="download-theme" href="https://registry.npmmirror.com/echarts/latest/files/theme/#{themeName}.js?_v_=#{cdnPayVersion}" download="#{themeName}.js" target="_blank")
+                        a(class="download-theme" href="#{cdnPayRoot}/#{ecWWWLang}/js/vendors/echarts/files/theme/#{themeName}.js?_v_=#{cdnPayVersion}" download="#{themeName}.js" target="_blank")
                             img(src="#{cdnPayRoot}/#{ecWWWLang}/asset/theme/thumb/#{themeName}.png?_v_=#{cdnPayVersion}" alt="")
                         p #{themeName}
 
@@ -56,7 +56,6 @@ block extra_js
         prettyPrint();
 
         $('.download-theme').click(function (e) {
-            typeof _hmt === 'object' && _hmt && _hmt.push(['_trackEvent', 'download-theme', 'download-theme', '']);
             var ctx = this;
             if (ctx.origin === location.origin) {
                 return;
