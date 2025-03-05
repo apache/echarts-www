@@ -454,28 +454,35 @@ async function buildLegacyDoc(config) {
     console.log('\nBuild legacy doc done.');
 }
 
-async function dowloadLatestEChartsLibries(config) {
+async function downloadLatestEChartsLibraries(config) {
     console.log('Downloading latest echarts libraries...');
     const wwwDir = path.resolve(__dirname, '../');
     const tmpDir = path.resolve(wwwDir, 'tmp');
     fse.ensureDirSync(tmpDir);
 
-    return Promise.all(['echarts', 'echarts-stat', 'echarts-gl', 'echarts-graph-modularity'].map(async lib => {
+    return Promise.all([
+        'echarts',
+        'echarts-stat',
+        'echarts-gl',
+        'echarts-graph-modularity',
+        'echarts-simple-transform',
+        'echarts-simple-option-player'
+    ].map(async lib => {
         // Get latest version from npm registry
         const versionRes = await fetch(`https://registry.npmmirror.com/${lib}/latest`);
         const versionData = await versionRes.json();
         const version = versionData.version;
         console.log(`Latest version of ${lib}: ${version}`);
-        
+
         const res = await fetch(`https://registry.npmmirror.com/${lib}/-/${lib}-${version}.tgz`);
         const buffer = await res.arrayBuffer();
         fs.writeFileSync(`${tmpDir}/${lib}.tgz`, Buffer.from(buffer), {encoding: 'binary'});
-        
+
         console.log(`Extracting ${lib}...`);
         const targetDir = path.resolve(wwwDir, './js/vendors/', lib);
         fse.removeSync(targetDir);
         fse.ensureDirSync(targetDir);
-        
+
         await tar.x({
             file: `${tmpDir}/${lib}.tgz`,
             cwd: targetDir,
@@ -583,7 +590,7 @@ async function run() {
     }
     else {
         if (config.filter === 'all') {
-            await dowloadLatestEChartsLibries(config);
+            await downloadLatestEChartsLibraries(config);
             
             await buildSASS(config);
             await buildJS(config);

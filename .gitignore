@@ -13,3 +13,5 @@ js/vendors/echarts
 js/vendors/echarts-stat
 js/vendors/echarts-gl
 js/vendors/echarts-graph-modularity
+js/vendors/echarts-simple-transform
+js/vendors/echarts-simple-option-player
