@@ -466,7 +466,8 @@ async function downloadLatestEChartsLibraries(config) {
         'echarts-gl',
         'echarts-graph-modularity',
         'echarts-simple-transform',
-        'echarts-simple-option-player'
+        'echarts-simple-option-player',
+        'zrender'
     ].map(async lib => {
         // Get latest version from npm registry
         const versionRes = await fetch(`https://registry.npmmirror.com/${lib}/latest`);

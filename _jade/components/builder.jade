@@ -26,12 +26,12 @@ block content
                     else
                         p Bundle and download the needed charts and components.
                         p NOTE: The bundler downloads sources from jsDelivr CDN, the built file isn't an official Apache source release or distribution.
-                    div.download-version
-                        if isCN
-                            span 选择版本
-                        else
-                            span Select a version
-                        select#versions
+                    //- div.download-version
+                    //-     if isCN
+                    //-         span 选择版本
+                    //-     else
+                    //-         span Select a version
+                    //-     select#versions
 
             .page-content
                 #configuration.container
@@ -124,35 +124,8 @@ block content
             include ../en/footer
 
 block extra_js
-    - var isCN = ecWWWLang == 'zh';
-    if isCN 
-        - var pkgVersionListAPI = 'https://registry.npmmirror.com/-/v1/search?text=echarts&size=1';
-        - var npmVersionFetcher = 'json.objects[0].package.versions.sort((v1, v2) => compareVersions(v2, v1, \'>\'))';
-        - var npmTagFetcher     = 'json.objects[0].package[\'dist-tags\']'; 
-        - var extraBuilderParam = '&cn=1';
-    else 
-        - var pkgVersionListAPI = 'https://data.jsdelivr.com/v1/package/npm/echarts';
-        - var npmVersionFetcher = 'json.versions';
-        - var npmTagFetcher     = 'json.tags'; 
-
-    if isCN
-        script(src="https://registry.npmmirror.com/compare-versions/3.6.0/files/index.js")
-    else
-        script(src="https://fastly.jsdelivr.net/npm/compare-versions@3.6.0/index.min.js")
+    script(src="#{cdnPayRoot}/#{ecWWWLang}/js/vendors/compare-versions@3.6.0/index.js")
     script.
-        var $versionsDom = document.querySelector('#versions'); 
-
-        fetch('!{pkgVersionListAPI}').then(res => res.json()).then(json => {
-            var versions = !{npmVersionFetcher};
-            versions.filter(version => compareVersions(version, '3.8.0', '>') >= 0).forEach(version => {
-                const $optionDom = document.createElement('option');
-                $optionDom.value = version;
-                $optionDom.innerHTML = version;
-                $versionsDom.appendChild($optionDom);
-            });
-            $versionsDom.value = !{npmTagFetcher}.latest;
-        });
-
         function updateCheckbox() {
             $('#charts input, #components input, #coords input').each(function () {
                 $(this).attr('checked', $(this).parent().hasClass('checked'));

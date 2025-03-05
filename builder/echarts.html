@@ -55,10 +55,6 @@
             });
         }
 
-        // avoid using 'latest' as it may fall back to previous version
-        // when a file doesn't exist in current main version
-        BUILD_CONFIG.version = BUILD_CONFIG.version || '5';
-
         require.config({
             paths: {
                 'rollup': 'lib/rollup.browser',
