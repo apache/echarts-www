@@ -126,6 +126,8 @@ block content
 block extra_js
     script(src="#{cdnPayRoot}/#{ecWWWLang}/js/vendors/compare-versions@3.6.0/index.js")
     script.
+        // var $versionsDom = document.querySelector('#versions');
+
         function updateCheckbox() {
             $('#charts input, #components input, #coords input').each(function () {
                 $(this).attr('checked', $(this).parent().hasClass('checked'));
@@ -170,13 +172,7 @@ block extra_js
                 parameters += '&api=true';
             }
 
-            parameters += `&version=${$versionsDom.value || ''}!{extraBuilderParam}`;
-
-            //- var email = $('#email').val();
-            var log = parameters;
-            //- if (email) {
-            //-     log += '&email=' + email;
-            //- }
+            // parameters += `&version=${$versionsDom.value || ''}!{extraBuilderParam}`;
 
             window.open('#{host}/#{ecWWWLang}/builder/echarts.html?' + parameters);
         });
