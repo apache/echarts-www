@@ -23,15 +23,6 @@ block content
 
         #ec-doc-main
 
-        #v4-link.alert.alert-info.alert-dismissible
-            if ecWWWLang == 'en'
-                a(href="#{host}/v4/#{ecWWWLang}/option.html") V4 Documentation
-            else
-                a(href="#{host}/v4/#{ecWWWLang}/option.html") 旧版本文档
-
-            button.close(type="button", data-dismiss="alert", aria-label="Close")
-                span(aria-hidden="true") &times;
-
 
 block extra_js
     script(src="#{cdn3rdRoot.vueJS}")
