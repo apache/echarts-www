@@ -15,3 +15,4 @@ js/vendors/echarts-gl
 js/vendors/echarts-graph-modularity
 js/vendors/echarts-simple-transform
 js/vendors/echarts-simple-option-player
+js/vendors/zrender
