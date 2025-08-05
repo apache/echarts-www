@@ -1,6 +1,6 @@
 const fs = require('fs');
 const fse = require('fs-extra');
-const sass = require('node-sass');
+const sass = require('sass');
 const less = require('less');
 const globby = require('globby');
 const chalk = require('chalk');
@@ -491,7 +491,7 @@ async function downloadLatestEChartsLibraries(config) {
             // ignore package directory
             strip: 1
         });
-        
+
         fs.unlinkSync(`${tmpDir}/${lib}.tgz`);
     }));
 }
@@ -592,7 +592,7 @@ async function run() {
     else {
         if (config.filter === 'all') {
             await downloadLatestEChartsLibraries(config);
-            
+
             await buildSASS(config);
             await buildJS(config);
             await copyResource(config);
