@@ -75,6 +75,12 @@ body {
         margin-top: 15px;
     }
 
+    .home-product-hunt {
+        position: absolute;
+        right: 0;
+        bottom: 100px;
+    }
+
     .home-btn-panel {
         margin-top: 40px;
         position: relative;
@@ -216,7 +222,7 @@ body {
     .home-new-version-huge {
         font-size: 22px;
         font-weight: 600;
-        background-color: $clr-contrast;
+        background-color: #ff6154;
         margin-bottom: 10px;
         color: #fff;
         padding: 4px 15px;
