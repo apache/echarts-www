@@ -59,7 +59,7 @@ body {
     }
 
     .home-info {
-        margin-top: 20vh;
+        margin-top: 15vh;
     }
 
     .home-brand {
@@ -86,13 +86,13 @@ body {
         padding: 15px 10px;
         border-radius: 30px;
         background-color: #fff;
-        border: 1px solid $clr-contrast;
-        color: $clr-contrast;
+        border: 2px solid $clr-brand;
+        color: $clr-brand;
         opacity: 0.8;
         font-size: 16px;
 
         &:first-child {
-            background-color: $clr-contrast;
+            background-color: $clr-brand;
             color: #fff;
             opacity: 1;
 
@@ -212,6 +212,23 @@ body {
             }
         }
     }
+
+    .home-new-version-huge {
+        font-size: 22px;
+        font-weight: 600;
+        background-color: $clr-contrast;
+        margin-bottom: 10px;
+        color: #fff;
+        padding: 4px 15px;
+        display: inline-block;
+        transition: .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+        &:hover {
+            text-decoration: none;
+            scale: 1.05;
+        }
+    }
+
     #new-version-section {
         text-align: center;
         font-size: 16px;

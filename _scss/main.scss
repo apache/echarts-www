@@ -74,17 +74,6 @@ body {
     }
 }
 
-#v4-link {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    width: 200px;
-    margin-left: -100px;
-    text-align: center;
-    z-index: 1000;
-    padding: 5px 30px;
-}
-
 // settings contains declaration of variables only
 @import 'settings.colors';
 
