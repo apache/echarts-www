@@ -76,9 +76,18 @@ body {
     }
 
     .home-product-hunt {
-        position: absolute;
-        right: 0;
-        bottom: 100px;
+        display: inline-block;
+        margin-left: 30px;
+        position: relative;
+        top: -4px;
+        z-index: 1000;
+        transition: .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+        &:hover {
+            text-decoration: none;
+            scale: 1.05;
+            filter: brightness(1.2);
+        }
     }
 
     .home-btn-panel {
@@ -224,6 +233,7 @@ body {
         font-weight: 600;
         background-color: #ff6154;
         margin-bottom: 10px;
+        height: 40px;
         color: #fff;
         padding: 4px 15px;
         display: inline-block;
@@ -232,6 +242,7 @@ body {
         &:hover {
             text-decoration: none;
             scale: 1.05;
+            filter: brightness(1.2);
         }
     }
 
