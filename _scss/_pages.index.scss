@@ -75,21 +75,6 @@ body {
         margin-top: 15px;
     }
 
-    .home-product-hunt {
-        display: inline-block;
-        margin-left: 30px;
-        position: relative;
-        top: -4px;
-        z-index: 1000;
-        transition: .5s cubic-bezier(0.075, 0.82, 0.165, 1);
-
-        &:hover {
-            text-decoration: none;
-            scale: 1.05;
-            filter: brightness(1.2);
-        }
-    }
-
     .home-btn-panel {
         margin-top: 40px;
         position: relative;
@@ -97,18 +82,19 @@ body {
     }
 
     .btn-index-home {
+        display: inline-block;
+        vertical-align: bottom;
         min-width: 150px;
+        height: 58px;
         padding: 15px 10px;
         border-radius: 30px;
-        background-color: #fff;
         border: 2px solid $clr-brand;
-        color: $clr-brand;
-        opacity: 0.8;
+        color: #fff;
         font-size: 16px;
 
         &:first-child {
-            background-color: $clr-brand;
-            color: #fff;
+            background-color: #505372;
+            border-color: #505372;
             opacity: 1;
 
             .index-home-svg {
@@ -117,8 +103,35 @@ body {
             }
         }
 
+        &:nth-child(2) {
+            background-color: $clr-brand;
+        }
+
+        &.home-product-hunt {
+            margin: 0 15px;
+            transition: .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+            border-radius: 29px;
+            overflow: hidden;
+            padding: 0;
+            border: 0;
+
+            img {
+                height: 58px;
+            }
+
+            &:hover {
+                text-decoration: none;
+            }
+
+            &:hover, &:focus {
+                box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.2);
+            }
+        }
+
         &:hover, &:focus {
             box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.2);
+            scale: 1.05;
+            filter: brightness(1.1);
         }
     }
 
@@ -127,7 +140,6 @@ body {
         height: 56px;
         background: transparent;
         border: none;
-        opacity: 0.5;
 
         &:hover {
             opacity: 1;
@@ -231,7 +243,7 @@ body {
     .home-new-version-huge {
         font-size: 22px;
         font-weight: 600;
-        background-color: #ff6154;
+        background-color: $clr-contrast;
         margin-bottom: 10px;
         height: 40px;
         color: #fff;
@@ -685,6 +697,13 @@ body {
     }
 }
 
+@media (max-width: 1200px) {
+    #main-content .home-btn-panel {
+        position: absolute;
+        bottom: 100px;
+    }
+}
+
 @media (max-width: 992px) {
     #main-content {
         .home-info {
@@ -750,7 +769,8 @@ body {
         }
 
         .home-btn-panel {
-            margin: 40px auto;
+            right: 0;
+            bottom: 70px;
         }
 
         .home-subtitle {
@@ -761,7 +781,7 @@ body {
         .btn-index-home {
             display: block;
             margin: 15px auto;
-            width: 220px;
+            width: 200px;
         }
 
         .feature-btn {
