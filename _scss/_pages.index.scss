@@ -697,6 +697,13 @@ body {
     }
 }
 
+@media (max-width: 1200px) {
+    #main-content .home-btn-panel {
+        position: absolute;
+        bottom: 100px;
+    }
+}
+
 @media (max-width: 992px) {
     #main-content {
         .home-info {
@@ -762,7 +769,8 @@ body {
         }
 
         .home-btn-panel {
-            margin: 40px auto;
+            right: 0;
+            bottom: 70px;
         }
 
         .home-subtitle {
@@ -773,7 +781,7 @@ body {
         .btn-index-home {
             display: block;
             margin: 15px auto;
-            width: 220px;
+            width: 200px;
         }
 
         .feature-btn {
