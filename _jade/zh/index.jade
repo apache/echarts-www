@@ -16,9 +16,8 @@ block content
             section#home-section
                 .home-brand-panel.description.container
                     .home-info
-                        a.home-new-version-huge(href='#{host}/handbook/#{ecWWWLang}/basics/release-note/v6-feature', target="_blank") v6.0.0 发布
-                        a.home-product-hunt(href="https://www.producthunt.com/products/apache-echarts?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-apache&#0045;echarts&#0045;6&#0045;0", target="_blank")
-                            img(src="#{cdnPayRoot}/#{ecWWWLang}/images/product-hunt-zh.svg")
+                        a.home-new-version-huge(href='#{host}/handbook/#{ecWWWLang}/basics/release-note/v6-feature', target="_blank") v6.0.0 新发布 · 12 项功能全面升级
+
                         .home-brand Apache ECharts
                         .home-subtitle 一个基于 JavaScript 的开源可视化图表库
                         .home-btn-panel
@@ -27,10 +26,12 @@ block content
                                 span 快速入门
                             a.btn.btn-main.btn-index-home(href='#{host}/examples/#{ecWWWLang}/index.html')
                                 include ../components/svg/index-example
-                                span 所有示例
-                            a.btn.btn-main.btn-index-home.btn-index-github(href='https://github.com/apache/echarts', target='_blank')
-                                include ../components/svg/github
-                                +svgGithub('#081642')
+                                span 查看示例
+                            a.btn-index-home.home-product-hunt(href="https://www.producthunt.com/products/apache-echarts?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-apache&#0045;echarts&#0045;6&#0045;0", target="_blank")
+                                img(src="#{cdnPayRoot}/#{ecWWWLang}/images/product-hunt-zh.png")
+                            //- a.btn.btn-main.btn-index-home.btn-index-github(href='https://github.com/apache/echarts', target='_blank')
+                            //-     include ../components/svg/github
+                            //-     +svgGithub('#081642')
                     .home-landing-animation
                         .home-landing-animation-cover
                             include ../components/svg/entry-pie.svg

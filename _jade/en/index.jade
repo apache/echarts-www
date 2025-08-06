@@ -17,9 +17,8 @@ block content
             section#home-section
                 .home-brand-panel.description.container
                     .home-info
-                        a.home-new-version-huge(href='#{host}/handbook/#{ecWWWLang}/basics/release-note/v6-feature', target="_blank") v6.0.0 Released
-                        a.home-product-hunt(href="https://www.producthunt.com/products/apache-echarts?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-apache&#0045;echarts&#0045;6&#0045;0", target="_blank")
-                            img(src="#{cdnPayRoot}/#{ecWWWLang}/images/product-hunt-en.svg")
+                        a.home-new-version-huge(href='#{host}/handbook/#{ecWWWLang}/basics/release-note/v6-feature', target="_blank") v6.0.0 Released · 12 Major Updates
+
                         .home-brand Apache ECharts
                         .home-subtitle An Open Source JavaScript Visualization Library
                         .home-btn-panel
@@ -29,9 +28,11 @@ block content
                             a.btn.btn-main.btn-index-home(href='#{host}/examples/#{ecWWWLang}/index.html')
                                 include ../components/svg/index-example
                                 span Demo
-                            a.btn.btn-main.btn-index-home.btn-index-github(href='https://github.com/apache/echarts', target='_blank')
-                                include ../components/svg/github
-                                +svgGithub('#081642')
+                            a.btn-index-home.home-product-hunt(href="https://www.producthunt.com/products/apache-echarts?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-apache&#0045;echarts&#0045;6&#0045;0", target="_blank")
+                                img(src="#{cdnPayRoot}/#{ecWWWLang}/images/product-hunt-en.png")
+                            //- a.btn.btn-main.btn-index-home.btn-index-github(href='https://github.com/apache/echarts', target='_blank')
+                            //-     include ../components/svg/github
+                            //-     +svgGithub('#081642')
                     .home-landing-animation
                         .home-landing-animation-cover
                             include ../components/svg/entry-pie.svg

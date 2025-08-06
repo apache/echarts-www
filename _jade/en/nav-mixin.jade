@@ -102,3 +102,7 @@ mixin nav(hostParam, cdnPayRootParam, cdnPayVersionParam)
             ul(class='nav navbar-nav navbar-right')
                 li#nav-homeen
                     a(href='javascript:;', onclick="changeLang('zh')") 中文
+                li#nav-github
+                    a(href='https://github.com/apache/echarts', target='_blank')
+                        include ./svg/github
+                        +svgGithub('#333')
