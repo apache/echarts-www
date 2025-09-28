@@ -49,7 +49,7 @@ if [ ! -d "${themeProjectDir}" ]; then
     exit 1
 fi
 cd ${themeProjectDir}
-node build.js --release
+npm run release
 
 # Build doc
 echo "Build doc ..."
