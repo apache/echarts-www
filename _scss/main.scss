@@ -49,7 +49,8 @@
 html {
     height: 100%;
 }
-body {
+/* raise font-family priority of body to prevent subpage overriding */
+html body {
     font-family: 'Open Sans', "PingFang SC", Helvetica, Arial, sans-serif;
 }
 
