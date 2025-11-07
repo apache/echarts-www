@@ -21,6 +21,7 @@ const thirdPartyLinks = {
     paceProgressBarJS: './js/vendors/pace-js@1.2.4/pace.min.js',
     sweetalertJS: './js/vendors/sweetalert@2.1.2/sweetalert.min.js',
     echartsMinJS_4_8_0: './js/vendors/echarts@4.8.0/echarts.min.js',
+    echartsMinJS_Latest: './js/vendors/echarts/dist/echarts.min.js',
     prettifyJS: './js/vendors/code-prettify@0.1.0/prettify.min.js',
     // Can not find good prettify css in jsdelivr.
     // prettifyCSS: './js/vendors/code-prettify@0.1.0/styles/doxy.css',
