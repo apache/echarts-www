@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.23.2",
-    "autoprefixer": "^9.7.3",
+    "autoprefixer": "^10.5.0",
     "chalk": "^3.0.0",
     "fs-extra": "^11.1.0",
     "globby": "^11.1.0",
@@ -29,7 +29,7 @@
     "md5": "^2.3.0",
     "node-fetch": "^2.7.0",
     "onchange": "^6.1.0",
-    "postcss": "^7.0.25",
+    "postcss": "^8.5.15",
     "requirejs": "^2.3.7",
     "sass": "^1.89.2",
     "shelljs": "^0.8.5",
