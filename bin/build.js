@@ -493,7 +493,20 @@ async function downloadLatestEChartsLibraries(config) {
         });
 
         fs.unlinkSync(`${tmpDir}/${lib}.tgz`);
+
+        if (lib === 'zrender') {
+            // Custom builder (https://echarts.apache.org/en/builder.html) require zrender
+            // with version specifier (e.g., require a `zrender@6.1.0` directory).
+            duplicateToVersionSpecifier(lib, version, targetDir)
+        }
     }));
+
+    function duplicateToVersionSpecifier(lib, version, libSrc) {
+        const targetDir = path.resolve(wwwDir, './js/vendors/', `${lib}@${version}`);
+        fse.removeSync(targetDir);
+        fse.ensureDirSync(targetDir);
+        fse.copySync(libSrc, targetDir);
+    }
 }
 
 async function buildSpreadsheet(config) {
