@@ -9,8 +9,18 @@ block extra_head
         }
     link(rel="stylesheet", href="#{cdn3rdRoot.elementUICSS}")
     link(rel="stylesheet", href="#{getAssetUrl(cdnPayRoot, ecWWWLang + '/css/doc-bundle.css')}")
+    link(rel="describedby", href="llms.txt")
 
 block content
+
+    //- Points agents that fetch the raw HTML to the Markdown docs (llms.txt).
+    //- Hidden via .sr-only, not display:none, so HTML-to-text tools keep it.
+    blockquote.sr-only(aria-hidden="true")
+        | Documentation Index
+        br
+        | Fetch the complete documentation index at: https://echarts.apache.org/#{ecWWWLang}/llms.txt
+        br
+        | Use this file to discover the available Markdown documentation before exploring further.
 
     nav(class='navbar navbar-default navbar-fixed-top doc-nav' id="ec-doc-nav")
         if ecWWWLang == 'en'
